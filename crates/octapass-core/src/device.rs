@@ -5,7 +5,7 @@
 //! extension, evaluated on [`PRF_INPUT_LABEL`] hashed with SHA-256.
 //!
 //! ```text
-//! device_key = HKDF-SHA256(ikm = prf_output, salt = device_salt (16 random bytes), info = "octapass/v1/device-unlock")
+//! device_key = HKDF-SHA256(ikm = prf_output, salt = device_salt (16 random bytes), info = "openpass/v1/device-unlock")
 //! wrappedAsk = AEAD(device_key, ASK, context "device-unlock")
 //! ```
 //!
@@ -21,7 +21,7 @@ use crate::keys::{SymmetricKey, hkdf_key};
 pub const PRF_OUTPUT_LEN: usize = 32;
 pub const DEVICE_SALT_LEN: usize = 16;
 /// The PRF is evaluated on `SHA-256` of this label (`extensions.prf.eval.first`).
-pub const PRF_INPUT_LABEL: &[u8] = b"octapass/v1/device-unlock";
+pub const PRF_INPUT_LABEL: &[u8] = b"openpass/v1/device-unlock";
 
 /// What a device stores to unlock later.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -31,7 +31,7 @@ pub struct DeviceUnlock {
     pub wrapped_ask: String,
 }
 
-/// `SHA-256("octapass/v1/device-unlock")`: the PRF input for every account and device.
+/// `SHA-256("openpass/v1/device-unlock")`: the PRF input for every account and device.
 pub fn prf_input() -> [u8; 32] {
     Sha256::digest(PRF_INPUT_LABEL).into()
 }
@@ -44,7 +44,7 @@ pub fn device_key(prf_output: &[u8], device_salt: &[u8]) -> Result<SymmetricKey>
     Ok(hkdf_key(
         prf_output,
         device_salt,
-        b"octapass/v1/device-unlock",
+        b"openpass/v1/device-unlock",
     ))
 }
 
@@ -62,7 +62,7 @@ mod tests {
     fn prf_input_is_the_hashed_label() {
         assert_eq!(
             prf_input().as_slice(),
-            Sha256::digest(b"octapass/v1/device-unlock").as_slice()
+            Sha256::digest(b"openpass/v1/device-unlock").as_slice()
         );
     }
 

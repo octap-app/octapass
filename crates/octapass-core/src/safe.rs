@@ -7,18 +7,18 @@
 //!
 //! ```text
 //! safe key (32 random bytes, in a vault item)
-//!  ├─ HKDF(salt = safe id, info = "octapass/v1/safe/records") ─► record key
-//!  └─ HKDF(salt = safe id, info = "octapass/v1/safe/state")   ─► state key
+//!  ├─ HKDF(salt = safe id, info = "openpass/v1/safe/records") ─► record key
+//!  └─ HKDF(salt = safe id, info = "openpass/v1/safe/state")   ─► state key
 //!
 //! record blob = envelope(record key, padded(JSON record),
-//!                        aad = "octapass/v1|saferecord:<safeId>:<blobId>")
+//!                        aad = "openpass/v1|saferecord:<safeId>:<blobId>")
 //! record      = { object, rev, prev, parent, name, kind, size, modified, content, fileKey }
 //! padded      = length (u32, big-endian) ‖ JSON ‖ zeros to a multiple of 512 bytes
 //!
 //! content blob = header ‖ chunk_0 ‖ … ‖ chunk_n, exactly as attachments
 //! header       = version (0x01) ‖ key_id (16) ‖ nonce_prefix (19 random bytes)
 //! chunk_i      = XChaCha20-Poly1305(file key, nonce = nonce_prefix ‖ i ‖ last,
-//!                  aad = "octapass/v1|safecontent:<safeId>:<objectId>:<blobId>")
+//!                  aad = "openpass/v1|safecontent:<safeId>:<objectId>:<blobId>")
 //! ```
 //!
 //! - **Every file and folder is one object**, whose current state is its newest record. A change
@@ -181,12 +181,12 @@ impl SafeKeys {
             record_key: hkdf_key(
                 safe_key.as_bytes(),
                 safe_id.as_bytes(),
-                b"octapass/v1/safe/records",
+                b"openpass/v1/safe/records",
             ),
             state_key: hkdf_key(
                 safe_key.as_bytes(),
                 safe_id.as_bytes(),
-                b"octapass/v1/safe/state",
+                b"openpass/v1/safe/state",
             ),
             safe_id,
         })

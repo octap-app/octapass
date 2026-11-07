@@ -17,7 +17,7 @@ pub const NONCE_LEN: usize = 24;
 pub const TAG_LEN: usize = 16;
 pub const HEADER_LEN: usize = 1 + KEY_ID_LEN + NONCE_LEN;
 
-/// What a ciphertext is for. It becomes the associated data `"octapass/v1|" + context`, so a
+/// What a ciphertext is for. It becomes the associated data `"openpass/v1|" + context`, so a
 /// ciphertext only opens in the place it was sealed for: the server can't move a vault key into
 /// another vault, or one item's details into another item.
 #[derive(Clone, PartialEq, Eq)]
@@ -150,7 +150,7 @@ impl fmt::Display for Context<'_> {
 
 impl Context<'_> {
     pub fn associated_data(&self) -> Vec<u8> {
-        format!("octapass/v1|{self}").into_bytes()
+        format!("openpass/v1|{self}").into_bytes()
     }
 }
 
@@ -316,7 +316,7 @@ mod tests {
         assert_eq!(Context::LocalVault.to_string(), "local-vault");
         assert_eq!(Context::BackupRecovery.to_string(), "backup-recovery");
         assert_eq!(Context::ChipSecret.to_string(), "chip-secret");
-        assert_eq!(Context::Ask.associated_data(), b"octapass/v1|ask");
+        assert_eq!(Context::Ask.associated_data(), b"openpass/v1|ask");
     }
 
     #[test]

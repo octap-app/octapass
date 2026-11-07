@@ -173,7 +173,7 @@ sidebar:
 4. `POST /v1/auth/recover/finish` مع `{ recoveryId, registrationUpload, account: { kdf, accountSalt, wrappedAsk, recoveryWrappedAsk }, signature }`. إعادة التعيين تستبدل رمز الاسترداد دائمًا، لذلك `recoveryWrappedAsk` مطلوب. التوقيع `signature` هو Ed25519 بمفتاح توقيع الحساب على:
 
    ```text
-   "octapass/v1/account-recovery" ‖ 0x00 ‖ for each field: len (u32 BE) ‖ UTF-8 bytes
+   "openpass/v1/account-recovery" ‖ 0x00 ‖ for each field: len (u32 BE) ‖ UTF-8 bytes
    fields = accountId, challenge, registrationUpload, accountSalt, wrappedAsk, recoveryWrappedAsk
    ```
 
@@ -509,7 +509,7 @@ Content-Type: application/json
 
 1. `GET …/{id}/release`، ثم افتح ASK وأنشئ بيانات اعتماد جديدة بمفتاح سري وملح ورمز استرداد جديدة.
 2. `POST …/{id}/takeover/registration` مع `{ registrationRequest }`. يشغّل OPAQUE تحت بريد المانح ولا يخزّن شيئًا.
-3. `POST …/{id}/takeover` مع `X-Reauth-Token` (رمز **الجهة** نفسها، بالغرض `emergency-takeover`) و`{ registrationUpload, account, signature }`. القيمة `account.recoveryWrappedAsk` مطلوبة. والتوقيع `signature` بمفتاح Ed25519 الخاص بالمانح، على `"octapass/v1/emergency-takeover" ‖ 0x00 ‖` متبوعًا بقيم UTF-8 مسبوقة بطولها (u32 big-endian): `recordId, grantorId, contactId, currentAccountSalt, registrationUpload, accountSalt, wrappedAsk, recoveryWrappedAsk`. راجع متجه الاختبار `emergencyTakeover` في `crates/octapass-core/tests/vectors/key-rotation.json`.
+3. `POST …/{id}/takeover` مع `X-Reauth-Token` (رمز **الجهة** نفسها، بالغرض `emergency-takeover`) و`{ registrationUpload, account, signature }`. القيمة `account.recoveryWrappedAsk` مطلوبة. والتوقيع `signature` بمفتاح Ed25519 الخاص بالمانح، على `"openpass/v1/emergency-takeover" ‖ 0x00 ‖` متبوعًا بقيم UTF-8 مسبوقة بطولها (u32 big-endian): `recordId, grantorId, contactId, currentAccountSalt, registrationUpload, accountSalt, wrappedAsk, recoveryWrappedAsk`. راجع متجه الاختبار `emergencyTakeover` في `crates/octapass-core/tests/vectors/key-rotation.json`.
 
 الاستجابة `204`، في معاملة واحدة: تُستبدل بيانات الاعتماد، ويُسجَّل خروج كل أجهزة المانح، ويُوقف تسجيل الدخول بخطوتين، ويُحذف السجل، ويُسجَّل `emergency-takeover` (مع `two-step-disabled` إن كان مفعّلًا). ويصل المانح بريد إلكتروني. أما السجل الذي رُفض أو أُزيل أولًا، أو سجل العرض، أو التوقيع الخاطئ، أو الملح الذي تغيّر منذ ذلك (أي تغيير في بيانات الاعتماد) فيجيب بـ `403`: اقرأ الإفراج من جديد. وإذا ضاعت الاستجابة، فإن اختفاء السجل من `GET /v1/emergency-contacts` يعني أن الطلب نجح: فالمجموعة الجديدة هي النسخة الوحيدة.
 

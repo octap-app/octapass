@@ -19,9 +19,9 @@ use zeroize::Zeroizing;
 
 use crate::error::{Result, VaultError};
 
-pub const WRAP_INFO: &[u8] = b"octapass/v1/native-messaging";
+pub const WRAP_INFO: &[u8] = b"openpass/v1/native-messaging";
 /// For the chip secret of the extension's own local vault, so the two keys never coincide.
-pub const CHIP_WRAP_INFO: &[u8] = b"octapass/v1/native-messaging-chip";
+pub const CHIP_WRAP_INFO: &[u8] = b"openpass/v1/native-messaging-chip";
 
 /// Both sides derive the wrapping key the same way.
 pub fn wrap_key(
@@ -88,7 +88,7 @@ mod tests {
         let key = wrap_key(&[1; 32], &[2; 32], &[3; 32], WRAP_INFO);
         let mut expected = [0u8; 32];
         Hkdf::<Sha256>::new(Some(&[[2u8; 32], [3u8; 32]].concat()), &[1; 32])
-            .expand(b"octapass/v1/native-messaging", &mut expected)
+            .expand(b"openpass/v1/native-messaging", &mut expected)
             .unwrap();
         assert_eq!(*key, expected);
     }

@@ -6,8 +6,8 @@
 import { base64UrlDecode, base64UrlEncode, isVaultError, VaultError, type VaultErrorCode } from '@octapass/vault-client';
 
 export const NATIVE_HOST = 'app.octap.desktop';
-const INFO = new TextEncoder().encode('octapass/v1/native-messaging');
-const CHIP_INFO = new TextEncoder().encode('octapass/v1/native-messaging-chip');
+const INFO = new TextEncoder().encode('openpass/v1/native-messaging');
+const CHIP_INFO = new TextEncoder().encode('openpass/v1/native-messaging-chip');
 
 export interface DesktopStatus {
   /** False when the app isn't running or isn't installed (no native messaging host), or refused this browser. */
@@ -61,7 +61,7 @@ const ERRORS: Record<string, VaultErrorCode> = {
 /** The error for a browser the app won't unlock through; `appNotRunning` is the other `deviceUnlockUnsupported`. */
 export const isBrowserNotTrusted = (error: unknown) => isVaultError(error, 'deviceUnlockUnsupported') && error.message === 'browserNotTrusted';
 
-/** HKDF-SHA256(X25519(our secret, their public), salt = their public ‖ our public, "octapass/v1/native-messaging"). */
+/** HKDF-SHA256(X25519(our secret, their public), salt = their public ‖ our public, "openpass/v1/native-messaging"). */
 export async function deriveWrapKey(ours: CryptoKeyPair, theirPublic: Uint8Array, info: Uint8Array<ArrayBuffer> = INFO): Promise<Uint8Array<ArrayBuffer>> {
   const peer = await crypto.subtle.importKey('raw', theirPublic as Uint8Array<ArrayBuffer>, { name: 'X25519' }, false, []);
   const shared = await crypto.subtle.deriveBits({ name: 'X25519', public: peer }, ours.privateKey, 256);

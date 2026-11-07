@@ -54,7 +54,7 @@ All types are in the generated `octapass_core.d.ts`. Binary values are base64url
 | `Session.recover(recoveryCode, account)` → `Session` | Opens the account with the recovery code |
 | `session.enableDeviceUnlock(prfOutput)` → `DeviceUnlock` | `{ deviceSalt, wrappedAsk }` for this device's IndexedDB (below) |
 | `Session.unlockWithDeviceKey(prfOutput, deviceSalt, wrappedAsk, account)` → `Session` | Device unlock: Touch ID, Windows Hello, device passcode |
-| `deviceUnlockPrfInput()` | The WebAuthn PRF input, `SHA-256("octapass/v1/device-unlock")` |
+| `deviceUnlockPrfInput()` | The WebAuthn PRF input, `SHA-256("openpass/v1/device-unlock")` |
 | `session.openVault(vaultId, wrappedVaultKey)` | Opens a vault from a `VaultRecord` |
 | `session.encryptItem(vaultId, itemId, item, existingEncryptedItemKey?)` → `EncryptedItem` | Body for `PUT /v1/vaults/{vaultId}/items/{itemId}` |
 | `session.decryptItem(vaultId, itemId, encrypted)` → `ItemPlaintext` | The whole item |
@@ -234,7 +234,7 @@ Lock: `session.free()`. Unlock with the master password, without the server: `De
 Unlock with the device's own lock (Touch ID, Face ID, Windows Hello PIN, device passcode) through a platform passkey and the WebAuthn **PRF** extension. The worker never sees the passkey, only its 32-byte PRF output, and nothing goes to the server.
 
 ```text
-device_key = HKDF-SHA256(ikm = prfOutput, salt = deviceSalt (16 random bytes), info = "octapass/v1/device-unlock")
+device_key = HKDF-SHA256(ikm = prfOutput, salt = deviceSalt (16 random bytes), info = "openpass/v1/device-unlock")
 wrappedAsk = XChaCha20-Poly1305 envelope of the ASK under device_key, context "device-unlock"
 ```
 

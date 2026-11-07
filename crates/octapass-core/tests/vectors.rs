@@ -403,7 +403,7 @@ fn device_unlock() {
     check(
         "device-unlock",
         json!({
-            "description": "Device unlock (passkey PRF) for the account in account.json: device_key = HKDF-SHA256(prfOutput, salt = deviceSalt, info = \"octapass/v1/device-unlock\"), wrappedAsk = AEAD(device_key, ASK, \"device-unlock\").",
+            "description": "Device unlock (passkey PRF) for the account in account.json: device_key = HKDF-SHA256(prfOutput, salt = deviceSalt, info = \"openpass/v1/device-unlock\"), wrappedAsk = AEAD(device_key, ASK, \"device-unlock\").",
             "prfInput": b64_encode(&device::prf_input()),
             "prfOutput": b64_encode(&prf_output),
             "deviceSalt": b64_encode(&device_salt),
@@ -426,7 +426,7 @@ fn chip_secret_for_the_extension() {
     check(
         "chip-secret",
         json!({
-            "description": "A device chip's secret sealed by the desktop app for the browser extension. key = HKDF-SHA256(X25519 shared secret, salt = app public key || extension public key, info = \"octapass/v1/native-messaging-chip\"); sealed = envelope(key, secret, context \"chip-secret\"). hardwareSecret itself is SHA-256(\"octapass/v1/chip-secret|\" || what the chip returned). Binary values are base64url without padding.",
+            "description": "A device chip's secret sealed by the desktop app for the browser extension. key = HKDF-SHA256(X25519 shared secret, salt = app public key || extension public key, info = \"openpass/v1/native-messaging-chip\"); sealed = envelope(key, secret, context \"chip-secret\"). hardwareSecret itself is SHA-256(\"openpass/v1/chip-secret|\" || what the chip returned). Binary values are base64url without padding.",
             "key": b64_encode(key.as_bytes()),
             "secret": b64_encode(&secret),
             "sealed": sealed,
@@ -468,7 +468,7 @@ fn local_vault_and_backup() {
     check(
         "local-vault",
         json!({
-            "description": "A local vault bound to a device chip, with one item, and a backup of it. pwKey = Argon2id(NFKD(password), salt); luk = HKDF-SHA256(pwKey || hardwareSecret, salt = \"\", info = \"octapass/v1/local-unlock\"); wrappedAsk = AEAD(luk, ASK, \"local-ask\"); body = AEAD(ASK, JSON, \"local-vault\"). backupKey = Argon2id(NFKD(password), backup salt, m = 256 MiB, t = 4, p = 1). The backup layout is in crates/octapass-core/src/backup/mod.rs. Binary values are base64url without padding.",
+            "description": "A local vault bound to a device chip, with one item, and a backup of it. pwKey = Argon2id(NFKD(password), salt); luk = HKDF-SHA256(pwKey || hardwareSecret, salt = \"\", info = \"openpass/v1/local-unlock\"); wrappedAsk = AEAD(luk, ASK, \"local-ask\"); body = AEAD(ASK, JSON, \"local-vault\"). backupKey = Argon2id(NFKD(password), backup salt, m = 256 MiB, t = 4, p = 1). The backup layout is in crates/octapass-core/src/backup/mod.rs. Binary values are base64url without padding.",
             "input": {
                 "password": password,
                 "hardwareSecret": b64_encode(&chip),

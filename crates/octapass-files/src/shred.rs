@@ -281,7 +281,10 @@ mod platform {
         let rotational = fs::metadata(existing)
             .ok()
             .and_then(|meta| rotational(meta.dev()));
-        classify(stats.f_type as i64, rotational)
+        // f_type is i64 on 64-bit glibc but narrower on other targets.
+        #[allow(clippy::unnecessary_cast)]
+        let fs_type = stats.f_type as i64;
+        classify(fs_type, rotational)
     }
 
     /// Whether the disk behind a device number spins, from sysfs. Partitions and device-mapper

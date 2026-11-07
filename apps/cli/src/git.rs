@@ -686,11 +686,11 @@ mod tests {
 
     #[test]
     fn requests_are_key_value_lines() {
-        let text = "protocol=https\nhost=github.com\npath=octapass/octapass.git\nusername=ada\nwwwauth[]=Basic\n\nignored=1\n";
+        let text = "protocol=https\nhost=github.com\npath=octap-app/octapass.git\nusername=ada\nwwwauth[]=Basic\n\nignored=1\n";
         let request = CredentialRequest::read(&mut text.as_bytes()).unwrap();
         assert_eq!(request.protocol, "https");
         assert_eq!(request.host, "github.com");
-        assert_eq!(request.path, "octapass/octapass.git");
+        assert_eq!(request.path, "octap-app/octapass.git");
         assert_eq!(request.username.as_deref(), Some("ada"));
         assert_eq!(request.password, None);
     }

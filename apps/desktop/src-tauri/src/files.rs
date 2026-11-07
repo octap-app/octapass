@@ -136,7 +136,7 @@ impl FilesState {
 }
 
 fn storage_failure(message: impl std::fmt::Display) -> VaultError {
-    VaultError::unexpected(&message.to_string())
+    VaultError::unexpected(message.to_string())
 }
 
 fn files_failure(error: FilesError) -> VaultError {
@@ -750,14 +750,13 @@ pub async fn safe_add_files(
 ) -> Result<()> {
     let paths = files.check(&paths)?;
     let safe = handle(&state.vault, &files, &item_id)?;
-    let added = tauri::async_runtime::spawn_blocking(move || {
+    tauri::async_runtime::spawn_blocking(move || {
         paths
             .iter()
             .try_for_each(|path| add_one(&safe, &folder, path))
     })
     .await
-    .map_err(storage_failure)?;
-    added
+    .map_err(storage_failure)?
 }
 
 #[tauri::command]

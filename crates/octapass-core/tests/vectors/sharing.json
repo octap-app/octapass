@@ -129,7 +129,7 @@
       ],
       "rootAt3": "7HBWrN1-d4yc7wApKq3brU9AM4OOenLSjifIBtQF-GA"
     },
-    "description": "The key log. Head and record signatures are Ed25519. Leaves are label ‖ record hash; the tree is RFC 9162. The label comes from the VOPRF seed below (RFC 9497, ristretto255-SHA512, info octapass/v1/key-log-oprf).",
+    "description": "The key log. Head and record signatures are Ed25519. Leaves are label ‖ record hash; the tree is RFC 9162. The label comes from the VOPRF seed below (RFC 9497, ristretto255-SHA512, info openpass/v1/key-log-oprf).",
     "email": "member@example.com",
     "head": {
       "rootHash": "IPBh4z1pxFtALPJa2NMYldnjPTwGRVsizkdWwFaYTIs",
@@ -173,17 +173,17 @@
   "sealedBox": {
     "cases": [
       {
-        "associatedData": "octapass/v1|vaultkey:0192f0c8-1c2d-7a00-8000-0000000000aa:0192f0c8-1c2d-7a00-8000-0000000000b1",
+        "associatedData": "openpass/v1|vaultkey:0192f0c8-1c2d-7a00-8000-0000000000aa:0192f0c8-1c2d-7a00-8000-0000000000b1",
         "context": "vaultkey:0192f0c8-1c2d-7a00-8000-0000000000aa:0192f0c8-1c2d-7a00-8000-0000000000b1",
         "sealed": "ASO3u4yRrgCHEfsShGeAvN8eBl-CG9_sSfV-fH3NTEgjoKGio6SlpqeoqaqrrK2ur7CxsrO0tba3JxShAwgiPqeAFC2wVWvhr7ftN5OnY-SkD-OhtDK1Qyul1UjiQFS6UVu-wR1aSFrR"
       },
       {
-        "associatedData": "octapass/v1|emergency:0192f0c8-1c2d-7a00-8000-0000000000a1:0192f0c8-1c2d-7a00-8000-0000000000b1:ask",
+        "associatedData": "openpass/v1|emergency:0192f0c8-1c2d-7a00-8000-0000000000a1:0192f0c8-1c2d-7a00-8000-0000000000b1:ask",
         "context": "emergency:0192f0c8-1c2d-7a00-8000-0000000000a1:0192f0c8-1c2d-7a00-8000-0000000000b1:ask",
         "sealed": "ASO3u4yRrgCHEfsShGeAvN8eBl-CG9_sSfV-fH3NTEgjoKGio6SlpqeoqaqrrK2ur7CxsrO0tba3JxShAwgiPqeAFC2wVWvhr7ftN5OnY-SkD-OhtDK1QyuyabbXXQACo0OCc_h7UWbd"
       },
       {
-        "associatedData": "octapass/v1|emergency:0192f0c8-1c2d-7a00-8000-0000000000a1:0192f0c8-1c2d-7a00-8000-0000000000b1:vault:0192f0c8-1c2d-7a00-8000-0000000000aa",
+        "associatedData": "openpass/v1|emergency:0192f0c8-1c2d-7a00-8000-0000000000a1:0192f0c8-1c2d-7a00-8000-0000000000b1:vault:0192f0c8-1c2d-7a00-8000-0000000000aa",
         "context": "emergency:0192f0c8-1c2d-7a00-8000-0000000000a1:0192f0c8-1c2d-7a00-8000-0000000000b1:vault:0192f0c8-1c2d-7a00-8000-0000000000aa",
         "sealed": "ASO3u4yRrgCHEfsShGeAvN8eBl-CG9_sSfV-fH3NTEgjoKGio6SlpqeoqaqrrK2ur7CxsrO0tba3JxShAwgiPqeAFC2wVWvhr7ftN5OnY-SkD-OhtDK1Qyv8gPhz5aD68JtBSbErHM0_"
       }

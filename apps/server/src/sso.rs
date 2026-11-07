@@ -373,7 +373,7 @@ pub fn verify_id_token(
 }
 
 fn seal_cipher(secrets: &ServerSecrets) -> XChaCha20Poly1305 {
-    let key = keyed_hash(&*secrets.hmac_key, "octapass/sso-client-secret", b"");
+    let key = keyed_hash(&*secrets.hmac_key, "openpass/sso-client-secret", b"");
     XChaCha20Poly1305::new((&key).into())
 }
 

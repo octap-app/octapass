@@ -31,7 +31,7 @@ use crate::extract::{ApiJson, ApiPath, ApiQuery, Authenticated, ClientIp};
 use crate::state::AppState;
 use crate::validate;
 
-const AUTH_LABEL: &[u8] = b"octapass/v1/service-account-auth\0";
+const AUTH_LABEL: &[u8] = b"openpass/v1/service-account-auth\0";
 const MAX_NAME: usize = 1024;
 const PUBLIC_KEY_LEN: usize = 32;
 const SESSION_MS: i64 = 15 * 60 * 1000;

@@ -94,7 +94,7 @@ pub struct ChipKey {
 /// `hw_secret` from what the chip returned, so its shape doesn't depend on the chip.
 pub(crate) fn chip_secret_from(raw: &[u8]) -> DeviceSecret {
     use sha2::{Digest, Sha256};
-    Zeroizing::new(Sha256::digest([b"octapass/v1/chip-secret|", raw].concat()).into())
+    Zeroizing::new(Sha256::digest([b"openpass/v1/chip-secret|", raw].concat()).into())
 }
 
 /// One account's device unlock on this device. `account` is a stable, non-secret key for the
@@ -202,7 +202,7 @@ impl DeviceUnlock for Unsupported {
 pub fn account_tag(account: &str) -> String {
     use sha2::{Digest, Sha256};
     let digest =
-        Sha256::digest([b"octapass/v1/desktop-device-unlock|", account.as_bytes()].concat());
+        Sha256::digest([b"openpass/v1/desktop-device-unlock|", account.as_bytes()].concat());
     digest[..16].iter().map(|b| format!("{b:02x}")).collect()
 }
 

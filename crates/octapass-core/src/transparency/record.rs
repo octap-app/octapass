@@ -1,9 +1,9 @@
 //! The key record: what an account says about its own public keys, signed by its Ed25519 key.
 //!
 //! ```text
-//! message     = "octapass/v1/key-record" ‖ 0x00 ‖ for each field: len (u32 BE) ‖ UTF-8 bytes
+//! message     = "openpass/v1/key-record" ‖ 0x00 ‖ for each field: len (u32 BE) ‖ UTF-8 bytes
 //! fields      = logId, accountId, label, publicEncKey, publicSignKey, publicPqKey, createdAt
-//! record_hash = SHA-256("octapass/v1/key-record-hash" ‖ 0x00 ‖ message ‖ signature)
+//! record_hash = SHA-256("openpass/v1/key-record-hash" ‖ 0x00 ‖ message ‖ signature)
 //! leaf        = label (32) ‖ record_hash (32)
 //! ```
 //!
@@ -22,7 +22,7 @@ use crate::transparency::merkle::{Hash, leaf_hash};
 
 pub const LEAF_LEN: usize = 64;
 
-const SIGNATURE_LABEL: &[u8] = b"octapass/v1/key-record\0";
+const SIGNATURE_LABEL: &[u8] = b"openpass/v1/key-record\0";
 
 /// The fields of a key record; every one is signed.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -118,7 +118,7 @@ impl KeyRecord {
 
     pub fn record_hash(&self) -> Hash {
         Sha256::new()
-            .chain_update(b"octapass/v1/key-record-hash\0")
+            .chain_update(b"openpass/v1/key-record-hash\0")
             .chain_update(self.message())
             .chain_update(self.signature.as_bytes())
             .finalize()

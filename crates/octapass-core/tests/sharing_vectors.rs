@@ -223,7 +223,7 @@ fn key_log() -> Value {
         ranges.into_iter().map(|r| b64_encode(&hash(r))).collect()
     };
     json!({
-        "description": "The key log. Head and record signatures are Ed25519. Leaves are label ‖ record hash; the tree is RFC 9162. The label comes from the VOPRF seed below (RFC 9497, ristretto255-SHA512, info octapass/v1/key-log-oprf).",
+        "description": "The key log. Head and record signatures are Ed25519. Leaves are label ‖ record hash; the tree is RFC 9162. The label comes from the VOPRF seed below (RFC 9497, ristretto255-SHA512, info openpass/v1/key-log-oprf).",
         "logSigningSeed": b64_encode(log_key.as_bytes()),
         "oprfSeed": b64_encode(&key32(0x22)),
         "log": identity,

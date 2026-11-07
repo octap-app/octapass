@@ -138,7 +138,7 @@ mod tests {
 
     // Made with OpenSSL 4.1 (`pkeyutl -sign`, `-pkeyopt rsa_padding_mode:pss -pkeyopt
     // rsa_pss_saltlen:32`), the public keys rewritten as CNG blobs: independent of the code here.
-    const MESSAGE: &[u8] = b"octapass windows plugin request vector";
+    const MESSAGE: &[u8] = b"openpass windows plugin request vector";
     const HASH: &str = "609f76419f612fb74e86f47bbc6c8f5ebd2188f30189ca9a76f96d5ce7baa53e";
     const P256_BLOB: &str = "4543533120000000fac5200d8b1310f7b6e3dcd56ecdf2ebcab2703c18a9ce4624c3861bf0b2f532f260adacf882350ad81767816367fa427321220bff2168ee6b3d7054c6ce45e3";
     const P256_SIG: &str = "01a834e37ec84d7a34f636e851a0235f0fd0b72baa60b171878eb23b32d41fcc47087ee1710e22d7ff6a4c04fa6b61120799cf1bcfbab56e2201ae190a69ec2b";

@@ -78,7 +78,7 @@ class ChipSecrets(private val context: Context) {
 
         /** As the desktop app's `chip_secret_from`: the shape doesn't depend on the chip. */
         fun hash(raw: ByteArray): ByteArray = MessageDigest.getInstance("SHA-256").run {
-            update("octapass/v1/chip-secret|".toByteArray())
+            update("openpass/v1/chip-secret|".toByteArray())
             digest(raw)
         }
     }

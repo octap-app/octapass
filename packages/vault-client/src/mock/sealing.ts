@@ -24,7 +24,7 @@ export function randomBytes(n: number): Uint8Array<ArrayBuffer> {
 }
 
 function aad(context: string): Uint8Array<ArrayBuffer> {
-  return encoder.encode(`octapass/v1|${context}`);
+  return encoder.encode(`openpass/v1|${context}`);
 }
 
 /** The key that wraps the ASK, from the master password and this account's Secret Key. */
@@ -39,11 +39,11 @@ export async function derivePasswordKey(password: string, secretKey: string, sal
   );
 }
 
-/** device_key = HKDF(ikm = prf_output, salt = device_salt, info = "octapass/v1/device-unlock") (plan 11). */
+/** device_key = HKDF(ikm = prf_output, salt = device_salt, info = "openpass/v1/device-unlock") (plan 11). */
 export async function deriveDeviceKey(prfOutput: Uint8Array<ArrayBuffer>, deviceSalt: Uint8Array<ArrayBuffer>): Promise<CryptoKey> {
   const material = await crypto.subtle.importKey('raw', prfOutput, 'HKDF', false, ['deriveKey']);
   return crypto.subtle.deriveKey(
-    { name: 'HKDF', hash: 'SHA-256', salt: deviceSalt, info: encoder.encode('octapass/v1/device-unlock') },
+    { name: 'HKDF', hash: 'SHA-256', salt: deviceSalt, info: encoder.encode('openpass/v1/device-unlock') },
     material,
     { name: 'AES-GCM', length: 256 },
     false,

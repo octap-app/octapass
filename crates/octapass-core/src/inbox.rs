@@ -21,7 +21,7 @@
 //! never from an account bundle the server sent: its X25519 half is the account's encryption key and
 //! its ML-KEM half is the account's ML-KEM key (checked against the signed key record at unlock).
 //! An account without an ML-KEM key yet, and a local vault, which has none, use one derived from the
-//! account key (ASK): `seed = HKDF-SHA256(ikm = ASK, salt = "", info = "octapass/v1/inbox-pq")`, 64
+//! account key (ASK): `seed = HKDF-SHA256(ikm = ASK, salt = "", info = "openpass/v1/inbox-pq")`, 64
 //! bytes. Nothing new is stored for it, and opening tries both, so entries sealed before the account
 //! got its own ML-KEM key still open. Every unlock pins the key again, so a substituted key lasts at
 //! most until then, and what was sealed to it doesn't open.
@@ -142,7 +142,7 @@ impl InboxKey {
 fn derived_pq(ask: &SymmetricKey) -> Result<PqKeyPair> {
     let mut seed = Zeroizing::new([0u8; SEED_LEN]);
     Hkdf::<Sha256>::new(None, ask.as_bytes())
-        .expand(b"octapass/v1/inbox-pq", seed.as_mut())
+        .expand(b"openpass/v1/inbox-pq", seed.as_mut())
         .map_err(|_| Error::InvalidKey)?;
     PqKeyPair::from_seed(seed.as_ref())
 }

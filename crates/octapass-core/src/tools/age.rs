@@ -9,7 +9,7 @@
 //! Two keys of an account work as age keys:
 //!
 //! - **The file identity** ("yourself"): an age key derived from the account's X25519 private key:
-//!   `HKDF-SHA256(ikm = private key, salt = "", info = "octapass/v1/age-identity")`. Every device
+//!   `HKDF-SHA256(ikm = private key, salt = "", info = "openpass/v1/age-identity")`. Every device
 //!   of the account derives the same one, and it can be exported for `age -d -i` without giving
 //!   away the account key, because HKDF can't be run backwards.
 //! - **The account's X25519 key**: an account's public key is already published to the people who
@@ -17,7 +17,7 @@
 //!   server. Its private key is never exported: it also opens shared vaults.
 //!
 //! age and our sealed box both run X25519 and HKDF, but under different `info` labels
-//! (`age-encryption.org/v1/X25519`, `octapass/v1/seal`), so neither can open the other's output.
+//! (`age-encryption.org/v1/X25519`, `openpass/v1/seal`), so neither can open the other's output.
 
 use std::io::{self, BufReader, Read, Write};
 use std::iter;
@@ -33,7 +33,7 @@ use zeroize::Zeroizing;
 use crate::account::AccountKeyPairs;
 use crate::keys::hkdf_key;
 
-const FILE_IDENTITY_INFO: &[u8] = b"octapass/v1/age-identity";
+const FILE_IDENTITY_INFO: &[u8] = b"openpass/v1/age-identity";
 /// The first line of every age file.
 pub const MAGIC: &[u8] = b"age-encryption.org/v1\n";
 /// The first line of an armored age file.

@@ -5,7 +5,7 @@
 //! file    = header ‖ chunk_0 ‖ … ‖ chunk_n
 //! header  = magic "OPEX" ‖ version (0x01) ‖ Argon2id memory KiB, iterations, parallelism
 //!           (u32 each, big-endian) ‖ salt (16) ‖ nonce_prefix (19)
-//! key     = HKDF-SHA256(ikm = Argon2id v1.3(NFKD(password), salt), salt = "", info = "octapass/v1/export")
+//! key     = HKDF-SHA256(ikm = Argon2id v1.3(NFKD(password), salt), salt = "", info = "openpass/v1/export")
 //! chunk_i = XChaCha20-Poly1305(key, nonce = nonce_prefix ‖ i (u32, big-endian) ‖ last, aad = header)
 //! ```
 //!
@@ -56,7 +56,7 @@ fn export_key(password: &str, salt: &[u8], params: &KdfParams) -> Result<Symmetr
     Ok(hkdf_key(
         password_key.as_bytes(),
         b"",
-        b"octapass/v1/export",
+        b"openpass/v1/export",
     ))
 }
 

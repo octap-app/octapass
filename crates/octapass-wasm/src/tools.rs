@@ -161,7 +161,7 @@ pub fn normalize_secret_key(text: String) -> Result<String, JsValue> {
 }
 
 /// The WebAuthn PRF input for device unlock (`extensions.prf.eval.first`):
-/// `SHA-256("octapass/v1/device-unlock")`.
+/// `SHA-256("openpass/v1/device-unlock")`.
 #[wasm_bindgen(js_name = deviceUnlockPrfInput)]
 pub fn device_unlock_prf_input() -> Vec<u8> {
     device::prf_input().to_vec()

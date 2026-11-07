@@ -51,11 +51,11 @@ Device Key (hardware-backed, biometric-gated)    wraps ASK (stored only on that 
 
 ```text
 account_salt = 16 random bytes, made at sign-up and returned by prelogin
-argon2_salt  = HKDF-SHA256(ikm = account_salt, salt = "octapass/v1", info = email)[0..16]
+argon2_salt  = HKDF-SHA256(ikm = account_salt, salt = "openpass/v1", info = email)[0..16]
 pw_key       = Argon2id(NFKD(password), argon2_salt, 64 MiB, 3 iterations, 1 lane) → 32 bytes
-sk_key       = HKDF-SHA256(ikm = Secret Key, salt = account_salt, info = "octapass/v1/secret-key")
-AUK          = HKDF-SHA256(ikm = pw_key ‖ sk_key, info = "octapass/v1/auk")
-auth_secret  = HKDF-SHA256(ikm = pw_key ‖ sk_key, info = "octapass/v1/auth")
+sk_key       = HKDF-SHA256(ikm = Secret Key, salt = account_salt, info = "openpass/v1/secret-key")
+AUK          = HKDF-SHA256(ikm = pw_key ‖ sk_key, info = "openpass/v1/auk")
+auth_secret  = HKDF-SHA256(ikm = pw_key ‖ sk_key, info = "openpass/v1/auth")
 ```
 
 تُزال المسافات من طرفي البريد الإلكتروني ويُحوَّل إلى أحرف صغيرة. وتخضع كلمة المرور لتسوية NFKD، بحيث تعطي كلمة المرور نفسها المكتوبة على لوحات مفاتيح مختلفة المفتاح نفسه، لكن لا تُزال المسافات من طرفيها. ولأن معاملات KDF تأتي من الخادم، ترفض التطبيقات أي قيم أضعف من القيم الافتراضية: لا يستطيع خادم خبيث أن يجعل تخمين كلمة مرورك أقل كلفة.
@@ -84,9 +84,9 @@ OP1-XXXXXX-XXXXXX-XXXXX-XXXXX-XXXX
 version (1 byte, 0x01) ‖ key_id (16 bytes) ‖ nonce (24 bytes) ‖ ciphertext ‖ tag (16 bytes)
 ```
 
-يُرمَّز بصيغة base64url دون حشو في JSON. قيمة `key_id` هي أول 16 بايت من `SHA-256("octapass/v1/keyid" ‖ key)`، بحيث يستطيع التطبيق معرفة المفتاح الذي يحتاج إليه النص المشفَّر دون محاولة فك تشفيره.
+يُرمَّز بصيغة base64url دون حشو في JSON. قيمة `key_id` هي أول 16 بايت من `SHA-256("openpass/v1/keyid" ‖ key)`، بحيث يستطيع التطبيق معرفة المفتاح الذي يحتاج إليه النص المشفَّر دون محاولة فك تشفيره.
 
-**البيانات المرتبطة** تربط كل نص مشفَّر بالمكان الذي ينتمي إليه: `"octapass/v1|"` متبوعة بسياق.
+**البيانات المرتبطة** تربط كل نص مشفَّر بالمكان الذي ينتمي إليه: `"openpass/v1|"` متبوعة بسياق.
 
 | السياق | ما بداخله | مشفَّر باستخدام |
 |---|---|---|
@@ -111,7 +111,7 @@ version (1 byte, 0x01) ‖ key_id (16 bytes) ‖ nonce (24 bytes) ‖ ciphertext
 ```text
 file    = header ‖ chunk_0 ‖ … ‖ chunk_n
 header  = version (0x01) ‖ key_id (16 bytes) ‖ nonce prefix (19 random bytes)
-chunk_i = XChaCha20-Poly1305(file key, nonce = prefix ‖ i (4 bytes) ‖ last (1 byte), associated data = "octapass/v1|attachment:…")
+chunk_i = XChaCha20-Poly1305(file key, nonce = prefix ‖ i (4 bytes) ‖ last (1 byte), associated data = "openpass/v1|attachment:…")
 ```
 
 يحمل كل جزء 64 KiB من الملف، باستثناء الجزء الأخير الذي يحمل الباقي، وهو الوحيد المعلَّم بأنه الأخير. يفشل فك تشفير أي ملف قُطع، أو أُسقطت منه أجزاء أو أُعيد ترتيبها أو أُضيفت إليه، أو نُقل إلى عنصر آخر، ولا تعرض التطبيقات جزءًا من ملف كهذا أبدًا. يضيف التشفير 52 بايت، إضافة إلى 16 بايت لكل 64 KiB. معرّفات الخزنات والعناصر هي UUID، لذلك لا يمكن أن تحتوي على الفاصل `:`. ويخزّن كل عنصر أيضًا `schemaVersion` داخل نظرته العامة وتفاصيله المشفَّرة.
@@ -121,26 +121,26 @@ chunk_i = XChaCha20-Poly1305(file key, nonce = prefix ‖ i (4 bytes) ‖ last (
 [حساب الخدمة](/ar/docs/features/service-accounts/) عضو في الخزنة ليس شخصًا. يحمل رمزه جذرًا عشوائيًا بطول 256 بت لا يُرسل إلى الخادم أبدًا. ويُشتق منه مفتاحان:
 
 ```text
-encryption key = X25519(HKDF-SHA256(root, salt = service account id, info = "octapass/v1/service-account/encryption"))
-signing key    = Ed25519(HKDF-SHA256(root, salt = service account id, info = "octapass/v1/service-account/signing"))
+encryption key = X25519(HKDF-SHA256(root, salt = service account id, info = "openpass/v1/service-account/encryption"))
+signing key    = Ed25519(HKDF-SHA256(root, salt = service account id, info = "openpass/v1/service-account/signing"))
 token          = "opsa1_" + base64url(0x01 ‖ id (16) ‖ vault id (16) ‖ root (32) ‖ creator's public signing key (32) ‖ URL length (2, big-endian) ‖ server URL ‖ checksum (4))
 ```
 
 يصله مفتاح الخزنة على هيئة منحة موقَّعة عادية، مختومة لمفتاح X25519، تمامًا كما يحدث للعضو. ويُتحقق من المنحة مقابل مفتاح المنشئ **الموجود في الرمز**، لا مقابل مفتاح يحدده الخادم أبدًا. ولتسجيل الدخول، يوقّع تحديًا يُستخدم مرة واحدة:
 
 ```text
-"octapass/v1/service-account-auth" ‖ 0x00 ‖ for each of id, challenge: length (4, big-endian) ‖ UTF-8 bytes
+"openpass/v1/service-account-auth" ‖ 0x00 ‖ for each of id, challenge: length (4, big-endian) ‖ UTF-8 bytes
 ```
 
 مجموع التحقق هو أول 4 بايت من SHA-256 لكل ما يسبقه. يكتشف النسخ التالفة ولا يحمي شيئًا.
 
 ## رمز الاسترداد
 
-رمز الاسترداد هو 256 بت عشوائية إضافة إلى مجموع تحقق بطول 16 بت، ويُعرض في 55 محرفًا موزعة على 11 مجموعة من 5 محارف. يكتشف مجموع التحقق الأخطاء المطبعية. يغلّف الرمز مفتاح الحساب عبر `HKDF-SHA256(ikm = code, info = "octapass/v1/recovery")`. راجع [استرداد الحساب](/ar/docs/security/account-recovery/).
+رمز الاسترداد هو 256 بت عشوائية إضافة إلى مجموع تحقق بطول 16 بت، ويُعرض في 55 محرفًا موزعة على 11 مجموعة من 5 محارف. يكتشف مجموع التحقق الأخطاء المطبعية. يغلّف الرمز مفتاح الحساب عبر `HKDF-SHA256(ikm = code, info = "openpass/v1/recovery")`. راجع [استرداد الحساب](/ar/docs/security/account-recovery/).
 
 ## فتح القفل بالجهاز في خزنة الويب
 
-يمكن لخزنة الويب فتح القفل باستخدام قفل جهازك نفسه (Touch ID أو Face ID أو Windows Hello أو رمز مرور الجهاز) عبر مفتاح مرور مع امتداد WebAuthn PRF. يعطي مفتاح المرور سرًا بطول 32 بايت لا يعمل إلا على ذلك الجهاز بعد أن يتحقق الجهاز من أنك أنت. تحوّله الخزنة إلى مفتاح جهاز باستخدام `HKDF-SHA256(ikm = PRF output, salt = 16 random bytes, info = "octapass/v1/device-unlock")` وتغلّف به مفتاح حسابك (السياق `device-unlock`). تبقى النسخة المغلَّفة في ذلك المتصفح ولا تُرسل إلى الخادم أبدًا. وتظل بحاجة إلى كلمة المرور الرئيسية مرة كل 14 يومًا على الأقل.
+يمكن لخزنة الويب فتح القفل باستخدام قفل جهازك نفسه (Touch ID أو Face ID أو Windows Hello أو رمز مرور الجهاز) عبر مفتاح مرور مع امتداد WebAuthn PRF. يعطي مفتاح المرور سرًا بطول 32 بايت لا يعمل إلا على ذلك الجهاز بعد أن يتحقق الجهاز من أنك أنت. تحوّله الخزنة إلى مفتاح جهاز باستخدام `HKDF-SHA256(ikm = PRF output, salt = 16 random bytes, info = "openpass/v1/device-unlock")` وتغلّف به مفتاح حسابك (السياق `device-unlock`). تبقى النسخة المغلَّفة في ذلك المتصفح ولا تُرسل إلى الخادم أبدًا. وتظل بحاجة إلى كلمة المرور الرئيسية مرة كل 14 يومًا على الأقل.
 
 ## البقاء مفتوحًا
 

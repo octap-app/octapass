@@ -14,7 +14,7 @@
 //! 146     …     XChaCha20-Poly1305 ciphertext ‖ tag, associated data = bytes 0..146
 //!
 //! backup_key   = Argon2id v1.3(NFKD(password), salt, m = 256 MiB, t = 4, p = 1)
-//! recovery_key = HKDF-SHA256(ikm = backup recovery code (32 bytes), salt = "", info = "octapass/v1/backup-recovery")
+//! recovery_key = HKDF-SHA256(ikm = backup recovery code (32 bytes), salt = "", info = "openpass/v1/backup-recovery")
 //! ```
 //!
 //! The whole header is authenticated, so changing the parameters or the salt makes the file fail
@@ -65,9 +65,9 @@ impl BackupKey {
     }
 }
 
-/// `HKDF(code, info = "octapass/v1/backup-recovery")`, separate from the account recovery key.
+/// `HKDF(code, info = "openpass/v1/backup-recovery")`, separate from the account recovery key.
 fn recovery_key(code: &RecoveryCode) -> SymmetricKey {
-    hkdf_key(code.as_bytes(), b"", b"octapass/v1/backup-recovery")
+    hkdf_key(code.as_bytes(), b"", b"openpass/v1/backup-recovery")
 }
 
 /// Encrypts `plaintext` into a backup file.

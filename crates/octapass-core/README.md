@@ -46,11 +46,11 @@ All binary values on the wire and in JSON are **base64url without padding**.
 
 ```text
 account_salt = 16 random bytes, generated at sign-up (AccountBundle.accountSalt)
-argon2_salt  = HKDF-SHA256(ikm = account_salt, salt = "octapass/v1", info = email)[0..16]
+argon2_salt  = HKDF-SHA256(ikm = account_salt, salt = "openpass/v1", info = email)[0..16]
 pw_key       = Argon2id v1.3(NFKD(password), argon2_salt, m = 65536 KiB, t = 3, p = 1, 32 bytes)
-sk_key       = HKDF-SHA256(ikm = secret_key (16 bytes), salt = account_salt, info = "octapass/v1/secret-key")
-AUK          = HKDF-SHA256(ikm = pw_key ‖ sk_key, salt = "", info = "octapass/v1/auk")
-auth_secret  = HKDF-SHA256(ikm = pw_key ‖ sk_key, salt = "", info = "octapass/v1/auth")
+sk_key       = HKDF-SHA256(ikm = secret_key (16 bytes), salt = account_salt, info = "openpass/v1/secret-key")
+AUK          = HKDF-SHA256(ikm = pw_key ‖ sk_key, salt = "", info = "openpass/v1/auk")
+auth_secret  = HKDF-SHA256(ikm = pw_key ‖ sk_key, salt = "", info = "openpass/v1/auth")
 ```
 
 HKDF outputs are 32 bytes unless noted. KDF parameters come from the server at prelogin, so clients check them before use: memory 64 MiB to 1 GiB, iterations 3 to 16, parallelism 1 to 4. Anything weaker than the defaults is refused (`unsupported_kdf`), so a malicious server can't make offline guessing cheaper; anything far larger is refused so it can't freeze the client.
@@ -67,13 +67,13 @@ Parsing ignores case, spaces and dashes, accepts the Crockford aliases (`O` → 
 
 ### Recovery code
 
-32 random bytes. Text form: the bytes followed by a 2-byte checksum, `SHA-256("octapass/v1/recovery-check" ‖ bytes)[0..2]`, encoded as 55 Crockford base32 characters in **11 groups of 5**:
+32 random bytes. Text form: the bytes followed by a 2-byte checksum, `SHA-256("openpass/v1/recovery-check" ‖ bytes)[0..2]`, encoded as 55 Crockford base32 characters in **11 groups of 5**:
 
 ```text
 000G4-0R40M-30E20-9185G-R38E1-W8124-GK2GA-HC5RR-34D1P-70X3R-FTJH8      (bytes 00 01 02 … 1f)
 ```
 
-The checksum catches typos before the user is told the code doesn't work. Parsing ignores case, spaces and dashes. The code's wrapping key is `HKDF-SHA256(ikm = bytes, salt = "", info = "octapass/v1/recovery")`, and `recoveryWrappedAsk = AEAD(wrapping key, ASK, context "recovery")`.
+The checksum catches typos before the user is told the code doesn't work. Parsing ignores case, spaces and dashes. The code's wrapping key is `HKDF-SHA256(ikm = bytes, salt = "", info = "openpass/v1/recovery")`, and `recoveryWrappedAsk = AEAD(wrapping key, ASK, context "recovery")`.
 
 ### Envelope
 
@@ -81,7 +81,7 @@ The checksum catches typos before the user is told the code doesn't work. Parsin
 version (0x01) ‖ key_id (16) ‖ nonce (24) ‖ ciphertext ‖ tag (16)
 ```
 
-XChaCha20-Poly1305 with a random 192-bit nonce. `key_id = SHA-256("octapass/v1/keyid" ‖ key)[0..16]`; opening checks it first and reports `wrong_key` without trying to decrypt. The associated data is the UTF-8 of `"octapass/v1|" + context`:
+XChaCha20-Poly1305 with a random 192-bit nonce. `key_id = SHA-256("openpass/v1/keyid" ‖ key)[0..16]`; opening checks it first and reports `wrong_key` without trying to decrypt. The associated data is the UTF-8 of `"openpass/v1|" + context`:
 
 | Context | Key | Plaintext |
 |---|---|---|
@@ -123,15 +123,15 @@ When a session opens, the private keys are checked against the public keys in th
 A reset with the recovery code has no session on the server, so `Session::sign_recovery` signs the update with the account's Ed25519 key:
 
 ```text
-message = "octapass/v1/account-recovery" ‖ 0x00 ‖ for each field: len (u32 BE) ‖ UTF-8 bytes
+message = "openpass/v1/account-recovery" ‖ 0x00 ‖ for each field: len (u32 BE) ‖ UTF-8 bytes
 fields  = accountId, challenge, registrationUpload, accountSalt, wrappedAsk, recoveryWrappedAsk
 ```
 
 ### Device unlock
 
 ```text
-prf_input  = SHA-256("octapass/v1/device-unlock")          (WebAuthn extensions.prf.eval.first)
-device_key = HKDF-SHA256(ikm = prf_output (32 bytes), salt = device_salt (16 random bytes), info = "octapass/v1/device-unlock")
+prf_input  = SHA-256("openpass/v1/device-unlock")          (WebAuthn extensions.prf.eval.first)
+device_key = HKDF-SHA256(ikm = prf_output (32 bytes), salt = device_salt (16 random bytes), info = "openpass/v1/device-unlock")
 wrappedAsk = AEAD(device_key, ASK, context "device-unlock")
 ```
 
@@ -166,7 +166,7 @@ The file is encrypted with the STREAM construction over XChaCha20-Poly1305, so i
 ```text
 file    = header ‖ chunk_0 ‖ … ‖ chunk_n
 header  = 0x01 ‖ key_id(file key) (16) ‖ nonce_prefix (19 random bytes)
-chunk_i = XChaCha20-Poly1305(file key, nonce = nonce_prefix ‖ u32_be(i) ‖ last, aad = "octapass/v1|attachment:<vaultId>:<itemId>:<attachmentId>")
+chunk_i = XChaCha20-Poly1305(file key, nonce = nonce_prefix ‖ u32_be(i) ‖ last, aad = "openpass/v1|attachment:<vaultId>:<itemId>:<attachmentId>")
 ```
 
 Every chunk holds exactly 65,536 bytes of plaintext except the last, which holds 0 to 65,536 and is the only one with `last = 0x01`. An empty file is one empty last chunk. The encrypted size is `36 + n + 16 × max(1, ⌈n / 65536⌉)` (`attachment::encrypted_len`). `Encryptor::push` returns whatever ciphertext is ready (it holds back the newest full chunk, since it can't know yet whether that one is last) and `finish` seals the rest. `Decryptor::push` returns verified plaintext of each complete chunk; only `finish` proves the file is whole, so callers must discard everything if it fails (`decryption_failed` for truncation, reordering, extra chunks or another item's file; `wrong_key` when the header's key id doesn't match). `Session::new_attachment` and `Session::open_attachment` unwrap the item key from its `encryptedItemKey` and wrap or unwrap the file key.
@@ -220,7 +220,7 @@ A local vault has no server account (plan 03, *Local mode keys*). Below the ASK 
 
 ```text
 pw_key     = Argon2id v1.3(NFKD(password), local_salt (16 random bytes), m = 256 MiB or 64 MiB, t = 3, p = 1)
-LUK        = HKDF-SHA256(ikm = pw_key ‖ hw_secret, salt = "", info = "octapass/v1/local-unlock")    (hw_secret: 32 bytes from the device chip, or nothing)
+LUK        = HKDF-SHA256(ikm = pw_key ‖ hw_secret, salt = "", info = "openpass/v1/local-unlock")    (hw_secret: 32 bytes from the device chip, or nothing)
 wrappedAsk = AEAD(LUK, ASK, context "local-ask")
 body       = AEAD(ASK, body JSON, context "local-vault")
 ```
@@ -245,7 +245,7 @@ A `.octapass-backup` file opens on any device, so it's keyed by the master passw
 
 ```text
 backup_key   = Argon2id v1.3(NFKD(password), backup_salt (16 random bytes), m = 256 MiB, t = 4, p = 1)
-recovery_key = HKDF-SHA256(ikm = backup recovery code (32 bytes), salt = "", info = "octapass/v1/backup-recovery")
+recovery_key = HKDF-SHA256(ikm = backup recovery code (32 bytes), salt = "", info = "openpass/v1/backup-recovery")
 ```
 
 | Offset | Size | Field |
@@ -308,8 +308,8 @@ Carries a 32-byte key to another account's X25519 public key.
 
 ```text
 shared   = X25519(ephemeral_secret, recipient_public)        fresh ephemeral key per seal; low-order keys refused
-wrap_key = HKDF-SHA256(ikm = shared, salt = ephemeral_public ‖ recipient_public, info = "octapass/v1/seal")
-sealed   = 0x01 ‖ ephemeral_public (32) ‖ nonce (24) ‖ XChaCha20-Poly1305(wrap_key, key, aad = "octapass/v1|" + context)
+wrap_key = HKDF-SHA256(ikm = shared, salt = ephemeral_public ‖ recipient_public, info = "openpass/v1/seal")
+sealed   = 0x01 ‖ ephemeral_public (32) ‖ nonce (24) ‖ XChaCha20-Poly1305(wrap_key, key, aad = "openpass/v1|" + context)
 ```
 
 Version 2 is hybrid, and is what accounts with a key record get. **Not yet reviewed by an outside cryptographer.**
@@ -317,9 +317,9 @@ Version 2 is hybrid, and is what accounts with a key record get. **Not yet revie
 ```text
 ss_x       = X25519(ephemeral_secret, recipient_public)
 ct_m, ss_m = ML-KEM-768.Encaps(recipient_pq_public)
-transcript = SHA-256("octapass/v2/seal-transcript" ‖ 0x00 ‖ ephemeral_public ‖ recipient_public ‖ ct_m ‖ recipient_pq_public)
-wrap_key   = HKDF-SHA256(ikm = ss_m ‖ ss_x, salt = transcript, info = "octapass/v2/seal")
-sealed     = 0x02 ‖ ephemeral_public (32) ‖ ct_m (1088) ‖ nonce (24) ‖ XChaCha20-Poly1305(wrap_key, key, aad = "octapass/v1|" + context)
+transcript = SHA-256("openpass/v2/seal-transcript" ‖ 0x00 ‖ ephemeral_public ‖ recipient_public ‖ ct_m ‖ recipient_pq_public)
+wrap_key   = HKDF-SHA256(ikm = ss_m ‖ ss_x, salt = transcript, info = "openpass/v2/seal")
+sealed     = 0x02 ‖ ephemeral_public (32) ‖ ct_m (1088) ‖ nonce (24) ‖ XChaCha20-Poly1305(wrap_key, key, aad = "openpass/v1|" + context)
 ```
 
 Version 1 is always 105 bytes and version 2 always 1,193. Both open with `open_key`. The ML-KEM private key is the 64-byte seed `d ‖ z`, in the bundle's `wrappedPqPrivateKey`, sealed by the ASK (context `pqprivkey`). Contexts: `vaultkey:<vaultId>:<recipientAccountId>` (a vault key in a grant), `emergency:<grantorId>:<contactId>:ask` and `emergency:<grantorId>:<contactId>:vault:<vaultId>` (emergency access).
@@ -329,7 +329,7 @@ Version 1 is always 105 bytes and version 2 always 1,193. Both open with `open_k
 `SignedGrant { vaultId, recipientAccountId, role, wrappedVaultKey, grantedBy, grantedAt, signature }`: the vault key sealed to the member, signed by the granter's Ed25519 key. `role` is `read`, `write`, `manage` or `owner`; `grantedAt` is Unix milliseconds.
 
 ```text
-message   = "octapass/v1/grant" ‖ 0x00 ‖ for each field: len (u32 BE) ‖ UTF-8
+message   = "openpass/v1/grant" ‖ 0x00 ‖ for each field: len (u32 BE) ‖ UTF-8
 fields    = vaultId, recipientAccountId, role, wrappedVaultKey (base64url text), grantedBy, grantedAt (decimal)
 signature = Ed25519(granter, message), checked with verify_strict
 ```
@@ -343,14 +343,14 @@ signature = Ed25519(granter, message), checked with verify_strict
 **Not yet reviewed by an outside cryptographer.** Design and limits: plan 03, "Key transparency".
 
 ```text
-record message = "octapass/v1/key-record" ‖ 0x00 ‖ for each field: len (u32 BE) ‖ UTF-8
+record message = "openpass/v1/key-record" ‖ 0x00 ‖ for each field: len (u32 BE) ‖ UTF-8
 fields         = logId, accountId, label, publicEncKey, publicSignKey, publicPqKey, createdAt (decimal ms)
-record_hash    = SHA-256("octapass/v1/key-record-hash" ‖ 0x00 ‖ message ‖ signature text)
+record_hash    = SHA-256("openpass/v1/key-record-hash" ‖ 0x00 ‖ message ‖ signature text)
 leaf           = label (32) ‖ record_hash (32)
 tree           = RFC 9162: SHA-256(0x00 ‖ leaf), SHA-256(0x01 ‖ left ‖ right)
-logId          = SHA-256("octapass/v1/key-log-id" ‖ 0x00 ‖ log_public_key ‖ oprf_public_key)
-head message   = "octapass/v1/key-log-head" ‖ 0x00 ‖ logId ‖ size (u64 BE) ‖ timestamp ms (u64 BE) ‖ root
-label          = SHA-256("octapass/v1/key-log-label" ‖ 0x00 ‖ VOPRF(oprf_key, normalised email))
+logId          = SHA-256("openpass/v1/key-log-id" ‖ 0x00 ‖ log_public_key ‖ oprf_public_key)
+head message   = "openpass/v1/key-log-head" ‖ 0x00 ‖ logId ‖ size (u64 BE) ‖ timestamp ms (u64 BE) ‖ root
+label          = SHA-256("openpass/v1/key-log-label" ‖ 0x00 ‖ VOPRF(oprf_key, normalised email))
 ```
 
 The VOPRF is RFC 9497, ristretto255-SHA512. `transparency::client::LogState` is what a device pins: `accept_head`, `verify_account`, `check_own`, `scan_range` and `apply_page` do the checks and record alerts, so callers fetch, and store the state after failures too.
@@ -358,7 +358,7 @@ The VOPRF is RFC 9497, ristretto255-SHA512. `transparency::client::LogState` is 
 ### Fingerprints
 
 ```text
-digest = SHA-256("octapass/v1/fingerprint" ‖ 0x00 ‖ public_enc_key ‖ public_sign_key)
+digest = SHA-256("openpass/v1/fingerprint" ‖ 0x00 ‖ public_enc_key ‖ public_sign_key)
 digits = for i in 0..6: (digest[5i..5i+5] as a 40-bit big-endian number) mod 10000, zero-padded, joined by spaces
 emoji  = for i in 0..8: EMOJI[bits 6i..6i+5 of digest[0..6]]
 ```
@@ -370,8 +370,8 @@ emoji  = for i in 0..8: EMOJI[bits 6i..6i+5 of digest[0..6]]
 ```text
 link_key    = 32 random bytes; the URL fragment is base64url(link_key)
 pass_key    = Argon2id(NFKD(passphrase), salt (16 random bytes), 64 MiB, t = 3, p = 1)      optional
-content_key = HKDF-SHA256(ikm = link_key [‖ pass_key], salt = "", info = "octapass/v1/share-link")
-ciphertext  = header ‖ nonce (24) ‖ XChaCha20-Poly1305(content_key, item JSON, aad = "octapass/v1|share-link|" ‖ header)
+content_key = HKDF-SHA256(ikm = link_key [‖ pass_key], salt = "", info = "openpass/v1/share-link")
+ciphertext  = header ‖ nonce (24) ‖ XChaCha20-Poly1305(content_key, item JSON, aad = "openpass/v1|share-link|" ‖ header)
 header      = 0x01 ‖ 0x00                                                   no passphrase
             | 0x01 ‖ 0x01 ‖ salt ‖ memory_kib ‖ iterations ‖ parallelism (u32 BE each)
 ```

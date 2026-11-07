@@ -7,12 +7,12 @@
 //! member's private key, generated on the creator's device and never sent to the server.
 //!
 //! ```text
-//! encryption key = X25519(HKDF-SHA256(root, salt = id bytes, info = "octapass/v1/service-account/encryption"))
-//! signing key    = Ed25519(HKDF-SHA256(root, salt = id bytes, info = "octapass/v1/service-account/signing"))
+//! encryption key = X25519(HKDF-SHA256(root, salt = id bytes, info = "openpass/v1/service-account/encryption"))
+//! signing key    = Ed25519(HKDF-SHA256(root, salt = id bytes, info = "openpass/v1/service-account/signing"))
 //! token          = "opsa1_" + base64url(0x01 ‖ id (16) ‖ vault id (16) ‖ root (32) ‖
 //!                                       creator's public signing key (32) ‖ url length (u16 BE) ‖
 //!                                       server URL ‖ SHA-256(everything before)[0..4])
-//! auth message   = "octapass/v1/service-account-auth" ‖ 0x00 ‖
+//! auth message   = "openpass/v1/service-account-auth" ‖ 0x00 ‖
 //!                  for each of id, challenge: len (u32 BE) ‖ UTF-8 bytes
 //! ```
 //!
@@ -41,9 +41,9 @@ use crate::sharing::grant::{Recipient, SignedGrant};
 
 pub const TOKEN_PREFIX: &str = "opsa1_";
 const TOKEN_VERSION: u8 = 0x01;
-const ENCRYPTION_INFO: &[u8] = b"octapass/v1/service-account/encryption";
-const SIGNING_INFO: &[u8] = b"octapass/v1/service-account/signing";
-const AUTH_LABEL: &[u8] = b"octapass/v1/service-account-auth\0";
+const ENCRYPTION_INFO: &[u8] = b"openpass/v1/service-account/encryption";
+const SIGNING_INFO: &[u8] = b"openpass/v1/service-account/signing";
+const AUTH_LABEL: &[u8] = b"openpass/v1/service-account-auth\0";
 const CHECKSUM_LEN: usize = 4;
 const FIXED_LEN: usize = 1 + 16 + 16 + 32 + 32 + 2; // 99
 /// The name a person gives one, sealed so the server never sees it.

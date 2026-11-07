@@ -9614,7 +9614,7 @@
           },
           "signature": {
             "type": "string",
-            "description": "base64url Ed25519 signature by the grantor's signing key over\n`\"octapass/v1/emergency-takeover\" ‖ 0x00 ‖` length-prefixed `recordId, grantorId,\ncontactId, currentAccountSalt, registrationUpload, accountSalt, wrappedAsk,\nrecoveryWrappedAsk`."
+            "description": "base64url Ed25519 signature by the grantor's signing key over\n`\"openpass/v1/emergency-takeover\" ‖ 0x00 ‖` length-prefixed `recordId, grantorId,\ncontactId, currentAccountSalt, registrationUpload, accountSalt, wrappedAsk,\nrecoveryWrappedAsk`."
           }
         }
       },
@@ -11464,7 +11464,7 @@
           },
           "signature": {
             "type": "string",
-            "description": "base64url Ed25519 signature by the account's signing key over\n`\"octapass/v1/account-recovery\" ‖ 0x00` and then, each as a u32 big-endian length and its\nUTF-8 bytes: accountId, challenge, registrationUpload, accountSalt, wrappedAsk,\nrecoveryWrappedAsk. Proves the device opened the account key."
+            "description": "base64url Ed25519 signature by the account's signing key over\n`\"openpass/v1/account-recovery\" ‖ 0x00` and then, each as a u32 big-endian length and its\nUTF-8 bytes: accountId, challenge, registrationUpload, accountSalt, wrappedAsk,\nrecoveryWrappedAsk. Proves the device opened the account key."
           }
         }
       },

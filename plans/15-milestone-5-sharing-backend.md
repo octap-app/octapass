@@ -7,7 +7,7 @@ The core and server side of plan 06: shared vaults, families, one-time share lin
 **Owns:** `crates/octapass-core/src/sharing/**` (new), additive exports in `crates/octapass-wasm`, `apps/server/**`, `crates/octapass-api/**`, `docs/developers/sync-api.md`, `docs/features/{sharing,emergency-access}.md`. Additive changes only to existing core session code.
 
 ### Core (`sharing/`)
-- **Sealed box:** seal a 32-byte key to an X25519 public key (ephemeral X25519 + HKDF-SHA256 `info = "octapass/v1/seal"` + XChaCha20-Poly1305, AAD binding `vaultkey:<vaultId>:<recipientAccountId>`), and open it with the account's private key.
+- **Sealed box:** seal a 32-byte key to an X25519 public key (ephemeral X25519 + HKDF-SHA256 `info = "openpass/v1/seal"` + XChaCha20-Poly1305, AAD binding `vaultkey:<vaultId>:<recipientAccountId>`), and open it with the account's private key.
 - **Signed grants:** `grant = { vaultId, recipientAccountId, role, wrappedVaultKey, grantedBy, grantedAt }` signed with the granter's Ed25519 key. Recipients verify the signature against the granter's public key before using a vault key.
 - **Key fingerprints:** a short, human-comparable fingerprint of an account's public keys (e.g. 6 groups of 4 digits, plus an emoji form) for out-of-band verification.
 - **Member removal:** a new vault key, every item key re-wrapped under it (item bodies untouched), and new grants for the remaining members.
@@ -28,8 +28,8 @@ The core and server side of plan 06: shared vaults, families, one-time share lin
 ## History
 - 2026-10-24: created (overnight build plan).
 - 2026-10-24: workstream N built (core `sharing/`, WASM exports, server, docs). Decisions and deviations:
-  - **Sealed box** is `0x01 ‖ ephemeral public ‖ nonce ‖ ciphertext ‖ tag` (105 bytes); the version byte leaves room for hybrid ML-KEM. Its associated data uses the envelope convention, `"octapass/v1|" + context`, with contexts `vaultkey:<vaultId>:<recipientAccountId>`, `emergency:<grantor>:<contact>:ask` and `emergency:<grantor>:<contact>:vault:<vaultId>`.
-  - **Grants** are signed over a length-prefixed encoding of every field (`octapass/v1/grant`, see the core README); `grantedAt` is Unix ms. The server checks shape and who may grant what, not the signature; clients verify before using a key. The granter's signing key is stored with each grant so it stays verifiable.
+  - **Sealed box** is `0x01 ‖ ephemeral public ‖ nonce ‖ ciphertext ‖ tag` (105 bytes); the version byte leaves room for hybrid ML-KEM. Its associated data uses the envelope convention, `"openpass/v1|" + context`, with contexts `vaultkey:<vaultId>:<recipientAccountId>`, `emergency:<grantor>:<contact>:ask` and `emergency:<grantor>:<contact>:vault:<vaultId>`.
+  - **Grants** are signed over a length-prefixed encoding of every field (`openpass/v1/grant`, see the core README); `grantedAt` is Unix ms. The server checks shape and who may grant what, not the signature; clients verify before using a key. The granter's signing key is stored with each grant so it stays verifiable.
   - **Roles**: `owner` sits above `manage` (only owners grant or remove owners; the last owner can't leave). `VaultRole` gained `manage` and `VaultType` gained `family`. `VaultRecord` gained `keyId` and `grant`.
   - **Rotation** is its own call after `DELETE …/members/{id}`. It must name the synced revision (`409 vault-changed` otherwise) and cover exactly the members and items. Added: the server stores each shared vault's key id and refuses item keys wrapped under another key (`409 vault-key-changed`), so a member on the old key can't write items others can't open.
   - **Enumeration**: `POST …/members` and family invites answer `202` whatever the email. `GET /v1/accounts/lookup` has to return real keys (a key can't be sealed without them), so it answers `404` for unknown emails; it and invites share one per-account budget (20, then one per 30 s). Emergency contacts are named by account id from lookup.

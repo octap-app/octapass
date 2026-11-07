@@ -1,8 +1,8 @@
 //! Signed tree heads and the log's identity.
 //!
 //! ```text
-//! logId   = SHA-256("octapass/v1/key-log-id" ‖ 0x00 ‖ log_public_key ‖ oprf_public_key)
-//! message = "octapass/v1/key-log-head" ‖ 0x00 ‖ logId ‖ size (u64 BE) ‖ timestamp ms (u64 BE) ‖ root
+//! logId   = SHA-256("openpass/v1/key-log-id" ‖ 0x00 ‖ log_public_key ‖ oprf_public_key)
+//! message = "openpass/v1/key-log-head" ‖ 0x00 ‖ logId ‖ size (u64 BE) ‖ timestamp ms (u64 BE) ‖ root
 //! ```
 
 use ed25519_dalek::{Signature, Signer, SigningKey, VerifyingKey};
@@ -28,7 +28,7 @@ impl LogIdentity {
         let sign: [u8; 32] = b64_decode_array(&self.sign_key)?;
         let oprf: [u8; 32] = b64_decode_array(&self.oprf_key)?;
         Ok(Sha256::new()
-            .chain_update(b"octapass/v1/key-log-id\0")
+            .chain_update(b"openpass/v1/key-log-id\0")
             .chain_update(sign)
             .chain_update(oprf)
             .finalize()
@@ -53,7 +53,7 @@ pub struct SignedHead {
 }
 
 fn message(log_id: &[u8; 32], size: u64, timestamp: u64, root: &Hash) -> Vec<u8> {
-    let mut message = b"octapass/v1/key-log-head\0".to_vec();
+    let mut message = b"openpass/v1/key-log-head\0".to_vec();
     message.extend_from_slice(log_id);
     message.extend_from_slice(&size.to_be_bytes());
     message.extend_from_slice(&timestamp.to_be_bytes());

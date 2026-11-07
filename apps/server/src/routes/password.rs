@@ -36,12 +36,12 @@ use crate::routes::auth::{
 use crate::state::AppState;
 use crate::validate::{self, ACCOUNT_SALT_LEN};
 
-const RECOVERY_LABEL: &[u8] = b"octapass/v1/account-recovery\0";
+const RECOVERY_LABEL: &[u8] = b"openpass/v1/account-recovery\0";
 
 fn reset_code_hash(state: &AppState, email: &str, code: &str) -> [u8; 32] {
     keyed_hash(
         &*state.secrets.hmac_key,
-        "octapass/reset-code",
+        "openpass/reset-code",
         format!("{email}\0{code}").as_bytes(),
     )
 }

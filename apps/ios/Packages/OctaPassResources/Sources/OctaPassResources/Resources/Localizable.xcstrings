@@ -16626,6 +16626,23 @@
         }
       }
     },
+    "import.help.octapass" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ملف تصدير من Octa Pass: الملف المشفّر ‎.octapass (مع كلمة مروره) يعيد كل شيء، والمرفقات معه. أما ملف ‎.json غير المشفّر فيعيد العناصر دون الملفات."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An Octa Pass export: the encrypted .octapass file (with its password) brings back everything, attachments included. The plaintext .json brings back items without files."
+          }
+        }
+      }
+    },
     "import.help.onepassword-1pux" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -16656,23 +16673,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "In 1Password 8, choose File → Export, then pick CSV."
-          }
-        }
-      }
-    },
-    "import.help.octapass" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "ملف تصدير من Octa Pass: الملف المشفّر ‎.octapass (مع كلمة مروره) يعيد كل شيء، والمرفقات معه. أما ملف ‎.json غير المشفّر فيعيد العناصر دون الملفات."
-          }
-        },
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "An Octa Pass export: the encrypted .octapass file (with its password) brings back everything, attachments included. The plaintext .json brings back items without files."
           }
         }
       }

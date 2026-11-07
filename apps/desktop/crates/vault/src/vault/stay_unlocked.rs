@@ -32,7 +32,7 @@ use crate::model::{now, rfc3339};
 use crate::store::{AccountKey, WrappedAsk};
 
 /// Asked of the key store to see whether it works at all; never written.
-const PROBE: &str = "octapass/stay-unlocked/probe";
+const PROBE: &str = "openpass/stay-unlocked/probe";
 
 /// What Settings shows under the switch.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize)]

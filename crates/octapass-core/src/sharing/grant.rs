@@ -6,7 +6,7 @@
 //! before they use the vault key.
 //!
 //! ```text
-//! message = "octapass/v1/grant" ‖ 0x00 ‖ for each field: len (u32 BE) ‖ UTF-8 bytes
+//! message = "openpass/v1/grant" ‖ 0x00 ‖ for each field: len (u32 BE) ‖ UTF-8 bytes
 //! fields  = vaultId, recipientAccountId, role, wrappedVaultKey, grantedBy, grantedAt (decimal ms)
 //! ```
 
@@ -22,7 +22,7 @@ use crate::sharing::Role;
 use crate::sharing::pq::PqPublicKey;
 use crate::sharing::seal::{Opener, SealContext, open_key, seal_for};
 
-const SIGNATURE_LABEL: &[u8] = b"octapass/v1/grant\0";
+const SIGNATURE_LABEL: &[u8] = b"openpass/v1/grant\0";
 
 /// A grant as sent to and returned by the server.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -313,7 +313,7 @@ mod tests {
     fn message_layout() {
         let f = fixture();
         let message = f.grant.message();
-        assert!(message.starts_with(b"octapass/v1/grant\0\0\0\0\x24"));
+        assert!(message.starts_with(b"openpass/v1/grant\0\0\0\0\x24"));
         assert!(message.ends_with(b"\0\0\0\x041000"));
     }
 

@@ -2,7 +2,7 @@
 //! password or Secret Key is lost.
 //!
 //! Text form: the 32 bytes followed by a 2-byte checksum
-//! (`SHA-256("octapass/v1/recovery-check" ‖ bytes)[0..2]`), as 55 Crockford base32 characters in
+//! (`SHA-256("openpass/v1/recovery-check" ‖ bytes)[0..2]`), as 55 Crockford base32 characters in
 //! 11 groups of 5. The checksum catches typos before the user is told the code is wrong.
 
 use core::fmt;
@@ -60,15 +60,15 @@ impl RecoveryCode {
         Zeroizing::new(group(&body, &GROUPS))
     }
 
-    /// `HKDF-SHA256(ikm = code, salt = "", info = "octapass/v1/recovery")`: wraps the ASK as
+    /// `HKDF-SHA256(ikm = code, salt = "", info = "openpass/v1/recovery")`: wraps the ASK as
     /// `recoveryWrappedAsk`.
     pub fn wrapping_key(&self) -> SymmetricKey {
-        hkdf_key(&self.0, b"", b"octapass/v1/recovery")
+        hkdf_key(&self.0, b"", b"openpass/v1/recovery")
     }
 
     fn checksum(&self) -> [u8; CHECKSUM_LEN] {
         let digest = Sha256::new()
-            .chain_update(b"octapass/v1/recovery-check")
+            .chain_update(b"openpass/v1/recovery-check")
             .chain_update(self.0)
             .finalize();
         [digest[0], digest[1]]

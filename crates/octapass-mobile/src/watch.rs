@@ -66,7 +66,7 @@ pub(crate) struct WatchBundle {
 
 /// A stable name for an item that doesn't repeat its id off the phone.
 fn opaque_id(item_id: &str) -> String {
-    let digest = Sha256::digest(format!("octapass/watch/v1:{item_id}").as_bytes());
+    let digest = Sha256::digest(format!("openpass/watch/v1:{item_id}").as_bytes());
     digest[..16].iter().map(|b| format!("{b:02x}")).collect()
 }
 

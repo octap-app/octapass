@@ -13,7 +13,7 @@
 //! file    = header ‖ chunk_0 ‖ … ‖ chunk_n
 //! header  = version (0x01) ‖ key_id (16) ‖ nonce_prefix (19 random bytes)
 //! chunk_i = XChaCha20-Poly1305(file key, nonce = nonce_prefix ‖ i (u32, big-endian) ‖ last,
-//!                              aad = "octapass/v1|attachment:<vaultId>:<itemId>:<attachmentId>")
+//!                              aad = "openpass/v1|attachment:<vaultId>:<itemId>:<attachmentId>")
 //! ```
 //!
 //! Every chunk holds [`CHUNK_LEN`] bytes of plaintext except the last, which holds 0 to

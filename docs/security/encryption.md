@@ -51,11 +51,11 @@ Device Key (hardware-backed, biometric-gated)    wraps ASK (stored only on that 
 
 ```text
 account_salt = 16 random bytes, made at sign-up and returned by prelogin
-argon2_salt  = HKDF-SHA256(ikm = account_salt, salt = "octapass/v1", info = email)[0..16]
+argon2_salt  = HKDF-SHA256(ikm = account_salt, salt = "openpass/v1", info = email)[0..16]
 pw_key       = Argon2id(NFKD(password), argon2_salt, 64 MiB, 3 iterations, 1 lane) → 32 bytes
-sk_key       = HKDF-SHA256(ikm = Secret Key, salt = account_salt, info = "octapass/v1/secret-key")
-AUK          = HKDF-SHA256(ikm = pw_key ‖ sk_key, info = "octapass/v1/auk")
-auth_secret  = HKDF-SHA256(ikm = pw_key ‖ sk_key, info = "octapass/v1/auth")
+sk_key       = HKDF-SHA256(ikm = Secret Key, salt = account_salt, info = "openpass/v1/secret-key")
+AUK          = HKDF-SHA256(ikm = pw_key ‖ sk_key, info = "openpass/v1/auk")
+auth_secret  = HKDF-SHA256(ikm = pw_key ‖ sk_key, info = "openpass/v1/auth")
 ```
 
 The email is trimmed and lower-cased. The password is NFKD-normalised, so the same password typed on different keyboards gives the same key, but it isn't trimmed. Because the KDF parameters come from the server, apps refuse anything weaker than the defaults: a malicious server can't make your password cheaper to guess.
@@ -84,9 +84,9 @@ Attachments hang off the item key in the same way: each file has its own random 
 version (1 byte, 0x01) ‖ key_id (16 bytes) ‖ nonce (24 bytes) ‖ ciphertext ‖ tag (16 bytes)
 ```
 
-Encoded as base64url without padding in JSON. `key_id` is the first 16 bytes of `SHA-256("octapass/v1/keyid" ‖ key)`, so an app can tell which key a ciphertext needs without trying to decrypt it.
+Encoded as base64url without padding in JSON. `key_id` is the first 16 bytes of `SHA-256("openpass/v1/keyid" ‖ key)`, so an app can tell which key a ciphertext needs without trying to decrypt it.
 
-**Associated data** binds every ciphertext to where it belongs: `"octapass/v1|"` followed by a context.
+**Associated data** binds every ciphertext to where it belongs: `"openpass/v1|"` followed by a context.
 
 | Context | What's inside | Encrypted with |
 |---|---|---|
@@ -111,7 +111,7 @@ Attachments are encrypted a chunk at a time, so neither the app nor the server n
 ```text
 file    = header ‖ chunk_0 ‖ … ‖ chunk_n
 header  = version (0x01) ‖ key_id (16 bytes) ‖ nonce prefix (19 random bytes)
-chunk_i = XChaCha20-Poly1305(file key, nonce = prefix ‖ i (4 bytes) ‖ last (1 byte), associated data = "octapass/v1|attachment:…")
+chunk_i = XChaCha20-Poly1305(file key, nonce = prefix ‖ i (4 bytes) ‖ last (1 byte), associated data = "openpass/v1|attachment:…")
 ```
 
 Each chunk holds 64 KiB of the file, except the last, which holds the rest and is the only one marked as last. A file that was cut short, had chunks dropped, reordered or added, or was moved to another item fails to decrypt, and the apps never show part of one. Encryption adds 52 bytes plus 16 per 64 KiB. Vault and item ids are UUIDs, so they can't contain the `:` separator. Each item also stores a `schemaVersion` inside its encrypted overview and details.
@@ -120,24 +120,24 @@ Each chunk holds 64 KiB of the file, except the last, which holds the rest and i
 
 `octapass encrypt` writes the [age v1 format](https://age-encryption.org/v1), through the `age` crate. Recipients are X25519 keys (`age1…`); passphrases use age's scrypt recipient. Folders are a tar archive inside age, and a file is only trusted to the end of the last chunk that checked out, so output takes its name only when it's whole.
 
-- **Your file key** is an age key derived from your account's X25519 private key: `HKDF-SHA256(ikm = private key, salt = "", info = "octapass/v1/age-identity")`. Every device derives the same one. HKDF can't be run backwards, so exporting it doesn't reveal the account key.
+- **Your file key** is an age key derived from your account's X25519 private key: `HKDF-SHA256(ikm = private key, salt = "", info = "openpass/v1/age-identity")`. Every device derives the same one. HKDF can't be run backwards, so exporting it doesn't reveal the account key.
 - **Another user's key** is their published account X25519 key, in age's encoding. It needs nothing new from the server. As with sharing, it's as trustworthy as the fingerprint you compared. Their private key opens shared vaults too, so it's never exported.
-- age's X25519 stanza and our sealed box use different HKDF `info` labels (`age-encryption.org/v1/X25519`, `octapass/v1/seal`), so neither can open the other's output.
+- age's X25519 stanza and our sealed box use different HKDF `info` labels (`age-encryption.org/v1/X25519`, `openpass/v1/seal`), so neither can open the other's output.
 
 ### Octa Pass Safe
 
 ```text
 safe key (32 random bytes, in a vault item)
- ├─ HKDF(salt = safe id, info = "octapass/v1/safe/records") ─► record key
- └─ HKDF(salt = safe id, info = "octapass/v1/safe/state")   ─► state key
+ ├─ HKDF(salt = safe id, info = "openpass/v1/safe/records") ─► record key
+ └─ HKDF(salt = safe id, info = "openpass/v1/safe/state")   ─► state key
 
 record blob  = envelope(record key, padded(JSON record),
-                        aad = "octapass/v1|saferecord:<safeId>:<blobId>")
+                        aad = "openpass/v1|saferecord:<safeId>:<blobId>")
 record       = { object, rev, prev, parent, name, kind, size, modified, content, fileKey }
 padded       = length (u32) ‖ JSON ‖ zeros to a multiple of 512 bytes
 
 content blob = header ‖ chunk_0 ‖ … ‖ chunk_n, the attachment format above, with
-               aad = "octapass/v1|safecontent:<safeId>:<objectId>:<blobId>"
+               aad = "openpass/v1|safecontent:<safeId>:<objectId>:<blobId>"
 ```
 
 Blobs are named by random UUIDs and never rewritten: a change writes new blobs under a new file key and nonce prefix, so no nonce is reused. A record names its content blob, and that blob's associated data names the object, so a record can't be paired with another file's content or an old one. Record blob ids start with `0x4d`, content ids with `0x43`, so a device can fetch records first.
@@ -151,26 +151,26 @@ A synced Safe's blobs are stored as attachments of its vault item, which that it
 A [service account](/docs/features/service-accounts/) is a vault member that isn't a person. Its token holds a random 256-bit root that's never sent to the server. Two keys come from it:
 
 ```text
-encryption key = X25519(HKDF-SHA256(root, salt = service account id, info = "octapass/v1/service-account/encryption"))
-signing key    = Ed25519(HKDF-SHA256(root, salt = service account id, info = "octapass/v1/service-account/signing"))
+encryption key = X25519(HKDF-SHA256(root, salt = service account id, info = "openpass/v1/service-account/encryption"))
+signing key    = Ed25519(HKDF-SHA256(root, salt = service account id, info = "openpass/v1/service-account/signing"))
 token          = "opsa1_" + base64url(0x01 ‖ id (16) ‖ vault id (16) ‖ root (32) ‖ creator's public signing key (32) ‖ URL length (2, big-endian) ‖ server URL ‖ checksum (4))
 ```
 
 The vault key reaches it as an ordinary signed grant, sealed to the X25519 key, exactly as for a member. The grant is checked against the creator's key **in the token**, never one the server names. To sign in, it signs a single-use challenge:
 
 ```text
-"octapass/v1/service-account-auth" ‖ 0x00 ‖ for each of id, challenge: length (4, big-endian) ‖ UTF-8 bytes
+"openpass/v1/service-account-auth" ‖ 0x00 ‖ for each of id, challenge: length (4, big-endian) ‖ UTF-8 bytes
 ```
 
 The checksum is the first 4 bytes of SHA-256 over everything before it. It catches damaged copies and protects nothing.
 
 ## Recovery code
 
-The recovery code is 256 random bits plus a 16-bit checksum, shown as 55 characters in 11 groups of 5. The checksum catches typos. It wraps the account key through `HKDF-SHA256(ikm = code, info = "octapass/v1/recovery")`. See [account recovery](/docs/security/account-recovery/).
+The recovery code is 256 random bits plus a 16-bit checksum, shown as 55 characters in 11 groups of 5. The checksum catches typos. It wraps the account key through `HKDF-SHA256(ikm = code, info = "openpass/v1/recovery")`. See [account recovery](/docs/security/account-recovery/).
 
 ## Device unlock in the web vault
 
-The web vault can unlock with your device's own lock (Touch ID, Face ID, Windows Hello or the device passcode) through a passkey with the WebAuthn PRF extension. The passkey gives a 32-byte secret that only works on that device after it checks it's you. The vault turns it into a device key with `HKDF-SHA256(ikm = PRF output, salt = 16 random bytes, info = "octapass/v1/device-unlock")` and wraps your account key with it (context `device-unlock`). The wrapped copy stays in that browser and is never sent to the server. You still need your master password at least every 14 days.
+The web vault can unlock with your device's own lock (Touch ID, Face ID, Windows Hello or the device passcode) through a passkey with the WebAuthn PRF extension. The passkey gives a 32-byte secret that only works on that device after it checks it's you. The vault turns it into a device key with `HKDF-SHA256(ikm = PRF output, salt = 16 random bytes, info = "openpass/v1/device-unlock")` and wraps your account key with it (context `device-unlock`). The wrapped copy stays in that browser and is never sent to the server. You still need your master password at least every 14 days.
 
 ## Stay unlocked
 

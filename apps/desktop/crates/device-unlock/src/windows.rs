@@ -73,7 +73,7 @@ pub fn key_name(account: &str) -> String {
 fn challenge(account: &str) -> [u8; 32] {
     Sha256::digest(
         [
-            b"octapass/v1/windows-hello|",
+            b"openpass/v1/windows-hello|",
             account_tag(account).as_bytes(),
         ]
         .concat(),
@@ -83,7 +83,7 @@ fn challenge(account: &str) -> [u8; 32] {
 
 /// What the TPM signs for a chip key: the vault's own random context.
 fn chip_digest(context: &[u8]) -> [u8; 32] {
-    Sha256::digest([b"octapass/v1/tpm-chip|", context].concat()).into()
+    Sha256::digest([b"openpass/v1/tpm-chip|", context].concat()).into()
 }
 
 fn secret_from_signature(signature: &[u8]) -> Result<DeviceSecret> {
@@ -93,7 +93,7 @@ fn secret_from_signature(signature: &[u8]) -> Result<DeviceSecret> {
         ));
     }
     let mut hash = Sha256::new();
-    hash.update(b"octapass/v1/windows-hello-secret");
+    hash.update(b"openpass/v1/windows-hello-secret");
     hash.update(signature);
     Ok(Zeroizing::new(hash.finalize().into()))
 }

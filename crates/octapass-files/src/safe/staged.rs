@@ -51,6 +51,7 @@ impl Staged {
     }
 
     /// Whether this chunk's bytes are still the content blob's.
+    #[allow(clippy::wrong_self_convention)] // "from" the base blob, not a constructor
     pub fn from_base(&self, index: u64) -> bool {
         index < self.base_chunks
     }
@@ -65,7 +66,7 @@ impl Staged {
         let cut = len.div_ceil(chunk);
         self.held.retain(|index| *index < cut);
         self.base_chunks = self.base_chunks.min(cut);
-        if len % chunk != 0 && len < self.len && self.held.contains(&(len / chunk)) {
+        if !len.is_multiple_of(chunk) && len < self.len && self.held.contains(&(len / chunk)) {
             let index = len / chunk;
             let mut plain = self.read_chunk(index)?;
             plain.truncate((len % chunk) as usize);

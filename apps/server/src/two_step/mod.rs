@@ -35,12 +35,12 @@ pub struct SecondFactorLogin {
 }
 
 fn seal_cipher(secrets: &ServerSecrets) -> XChaCha20Poly1305 {
-    let key = keyed_hash(&*secrets.hmac_key, "octapass/two-step-seal", b"");
+    let key = keyed_hash(&*secrets.hmac_key, "openpass/two-step-seal", b"");
     XChaCha20Poly1305::new((&key).into())
 }
 
 fn seal_aad(account_id: &str) -> Vec<u8> {
-    [b"octapass/two-step\0".as_slice(), account_id.as_bytes()].concat()
+    [b"openpass/two-step\0".as_slice(), account_id.as_bytes()].concat()
 }
 
 /// Seals a secret the server must read back (an authenticator secret) under a
@@ -114,7 +114,7 @@ pub fn recovery_code_hash(secrets: &ServerSecrets, account_id: &str, code: &str)
     let normalized = normalize_recovery_code(code).unwrap_or_default();
     base64url(keyed_hash(
         &*secrets.hmac_key,
-        "octapass/recovery-code",
+        "openpass/recovery-code",
         format!("{account_id}\0{normalized}").as_bytes(),
     ))
 }
@@ -124,7 +124,7 @@ pub fn webauthn_user_id(secrets: &ServerSecrets, account_id: &str) -> String {
     base64url(
         &keyed_hash(
             &*secrets.hmac_key,
-            "octapass/webauthn-user",
+            "openpass/webauthn-user",
             account_id.as_bytes(),
         )[..16],
     )

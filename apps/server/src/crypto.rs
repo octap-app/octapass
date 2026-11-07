@@ -55,7 +55,7 @@ pub fn keyed_hash(secret: &[u8], label: &str, data: &[u8]) -> [u8; 32] {
 pub fn fingerprint(public_enc_key: &str, public_sign_key: &str) -> String {
     let decode = |key: &str| URL_SAFE_NO_PAD.decode(key).unwrap_or_default();
     let digest = Sha256::new()
-        .chain_update(b"octapass/v1/fingerprint\0")
+        .chain_update(b"openpass/v1/fingerprint\0")
         .chain_update(decode(public_enc_key))
         .chain_update(decode(public_sign_key))
         .finalize();

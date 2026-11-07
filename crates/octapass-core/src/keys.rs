@@ -37,10 +37,10 @@ impl SymmetricKey {
         &self.0
     }
 
-    /// `SHA-256("octapass/v1/keyid" ‖ key)[0..16]`: identifies a key without revealing it.
+    /// `SHA-256("openpass/v1/keyid" ‖ key)[0..16]`: identifies a key without revealing it.
     pub fn key_id(&self) -> [u8; KEY_ID_LEN] {
         let digest = Sha256::new()
-            .chain_update(b"octapass/v1/keyid")
+            .chain_update(b"openpass/v1/keyid")
             .chain_update(self.0)
             .finalize();
         let mut id = [0u8; KEY_ID_LEN];

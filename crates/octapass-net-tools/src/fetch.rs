@@ -13,7 +13,7 @@ pub(crate) fn agent() -> ureq::Agent {
     ureq::Agent::config_builder()
         .timeout_global(Some(Duration::from_secs(30)))
         .http_status_as_error(false)
-        .user_agent(concat!("octapass/", env!("CARGO_PKG_VERSION")))
+        .user_agent(concat!("openpass/", env!("CARGO_PKG_VERSION")))
         .build()
         .new_agent()
 }

@@ -122,7 +122,7 @@ impl AppState {
         std::fs::create_dir_all(&uploads_dir)?;
         storage::clean_spool(&uploads_dir);
         let icons = if config.icons.enabled {
-            let name_key = keyed_hash(&*secrets.hmac_key, "octapass/icon-cache-key", &[]);
+            let name_key = keyed_hash(&*secrets.hmac_key, "openpass/icon-cache-key", &[]);
             Some(Icons::new(
                 config.data_dir.join("icons"),
                 name_key,
@@ -225,7 +225,7 @@ impl AppState {
     pub fn recovery_counter_key(&self, email: &str) -> String {
         base64url(keyed_hash(
             &*self.secrets.hmac_key,
-            "octapass/recovery-counter",
+            "openpass/recovery-counter",
             email.as_bytes(),
         ))
     }
@@ -235,7 +235,7 @@ impl AppState {
     pub fn signup_counter_key(&self, email: &str) -> String {
         base64url(keyed_hash(
             &*self.secrets.hmac_key,
-            "octapass/signup-counter",
+            "openpass/signup-counter",
             email.as_bytes(),
         ))
     }

@@ -2,10 +2,10 @@
 //! input (`auth_secret`).
 //!
 //! ```text
-//! pw_key      = Argon2id(NFKD(password), salt = HKDF(account_salt, "octapass/v1", email)[0..16])
-//! sk_key      = HKDF(ikm = secret_key, salt = account_salt, info = "octapass/v1/secret-key")
-//! AUK         = HKDF(ikm = pw_key ‖ sk_key, salt = "", info = "octapass/v1/auk")
-//! auth_secret = HKDF(ikm = pw_key ‖ sk_key, salt = "", info = "octapass/v1/auth")
+//! pw_key      = Argon2id(NFKD(password), salt = HKDF(account_salt, "openpass/v1", email)[0..16])
+//! sk_key      = HKDF(ikm = secret_key, salt = account_salt, info = "openpass/v1/secret-key")
+//! AUK         = HKDF(ikm = pw_key ‖ sk_key, salt = "", info = "openpass/v1/auk")
+//! auth_secret = HKDF(ikm = pw_key ‖ sk_key, salt = "", info = "openpass/v1/auth")
 //! ```
 
 use argon2::{Algorithm, Argon2, Params, Version};
@@ -83,10 +83,10 @@ pub fn generate_account_salt(rng: &mut impl CryptoRngCore) -> [u8; ACCOUNT_SALT_
     salt
 }
 
-/// `HKDF-SHA256(ikm = account_salt, salt = "octapass/v1", info = email)[0..16]`.
+/// `HKDF-SHA256(ikm = account_salt, salt = "openpass/v1", info = email)[0..16]`.
 pub fn argon2_salt(account_salt: &[u8], email: &str) -> [u8; ARGON2_SALT_LEN] {
     let mut salt = [0u8; ARGON2_SALT_LEN];
-    Hkdf::<Sha256>::new(Some(b"octapass/v1"), account_salt)
+    Hkdf::<Sha256>::new(Some(b"openpass/v1"), account_salt)
         .expand(normalize_email(email).as_bytes(), &mut salt)
         .expect("16 bytes is a valid HKDF-SHA256 output length");
     salt
@@ -131,7 +131,7 @@ pub fn secret_key_key(secret_key: &SecretKey, account_salt: &[u8]) -> SymmetricK
     hkdf_key(
         secret_key.as_bytes(),
         account_salt,
-        b"octapass/v1/secret-key",
+        b"openpass/v1/secret-key",
     )
 }
 
@@ -163,8 +163,8 @@ impl AccountKeys {
         combined[..KEY_LEN].copy_from_slice(pw_key.as_bytes());
         combined[KEY_LEN..].copy_from_slice(sk_key.as_bytes());
         Self {
-            auk: hkdf_key(combined.as_ref(), b"", b"octapass/v1/auk"),
-            auth_secret: hkdf_key(combined.as_ref(), b"", b"octapass/v1/auth"),
+            auk: hkdf_key(combined.as_ref(), b"", b"openpass/v1/auk"),
+            auth_secret: hkdf_key(combined.as_ref(), b"", b"openpass/v1/auth"),
         }
     }
 }

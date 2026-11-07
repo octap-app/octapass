@@ -131,7 +131,7 @@ pub(crate) fn icon_answer(
 }
 
 fn hash_key(text: &str) -> String {
-    let digest = Sha256::digest(format!("octapass/icon:{text}").as_bytes());
+    let digest = Sha256::digest(format!("openpass/icon:{text}").as_bytes());
     digest.iter().map(|b| format!("{b:02x}")).collect()
 }
 

@@ -2,7 +2,7 @@
 //! know the public keys the server gave them are really each other's.
 //!
 //! ```text
-//! digest = SHA-256("octapass/v1/fingerprint" ‖ 0x00 ‖ public_enc_key ‖ public_sign_key)
+//! digest = SHA-256("openpass/v1/fingerprint" ‖ 0x00 ‖ public_enc_key ‖ public_sign_key)
 //! digits = for i in 0..6: (digest[5i..5i+5] as a big-endian 40-bit number) mod 10000, 4 digits each
 //! emoji  = for i in 0..8: EMOJI[bits 6i..6i+6 of digest] (64 emoji, each with a name)
 //! ```
@@ -52,7 +52,7 @@ const EMOJI: [(&str, &str); 64] = [
 
 pub fn fingerprint(public_enc_key: &[u8; 32], public_sign_key: &[u8; 32]) -> Fingerprint {
     let digest = Sha256::new()
-        .chain_update(b"octapass/v1/fingerprint\0")
+        .chain_update(b"openpass/v1/fingerprint\0")
         .chain_update(public_enc_key)
         .chain_update(public_sign_key)
         .finalize();

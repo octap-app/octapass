@@ -3,7 +3,7 @@
 //!
 //! ```text
 //! pw_key = Argon2id v1.3(NFKD(password), local_salt (16 bytes), m = 256 MiB (or 64 MiB), t = 3, p = 1)
-//! LUK    = HKDF-SHA256(ikm = pw_key ‖ hw_secret (32 bytes, if the device has a chip), salt = "", info = "octapass/v1/local-unlock")
+//! LUK    = HKDF-SHA256(ikm = pw_key ‖ hw_secret (32 bytes, if the device has a chip), salt = "", info = "openpass/v1/local-unlock")
 //! ```
 //!
 //! The browser extension has no chip of its own. With the desktop app installed it borrows the
@@ -53,7 +53,7 @@ pub fn local_unlock_key(
         }
         ikm.extend_from_slice(secret);
     }
-    Ok(hkdf_key(&ikm, b"", b"octapass/v1/local-unlock"))
+    Ok(hkdf_key(&ikm, b"", b"openpass/v1/local-unlock"))
 }
 
 /// A chip's secret for the trip from the desktop app to the extension, under the key both sides

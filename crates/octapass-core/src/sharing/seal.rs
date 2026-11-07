@@ -6,18 +6,18 @@
 //! ```text
 //! ephemeral   = fresh X25519 key pair
 //! ss_x        = X25519(ephemeral_secret, recipient_public)
-//! aad         = "octapass/v1|" + context
+//! aad         = "openpass/v1|" + context
 //!
 //! version 1
 //! wrap_key    = HKDF-SHA256(ikm = ss_x, salt = ephemeral_public ‖ recipient_public,
-//!                           info = "octapass/v1/seal")
+//!                           info = "openpass/v1/seal")
 //! sealed      = 0x01 ‖ ephemeral_public (32) ‖ nonce (24) ‖ XChaCha20-Poly1305(wrap_key, key, aad)
 //!
 //! version 2
 //! ct_m, ss_m  = ML-KEM-768.Encaps(recipient_pq_public)
-//! transcript  = SHA-256("octapass/v2/seal-transcript" ‖ 0x00 ‖ ephemeral_public ‖ recipient_public
+//! transcript  = SHA-256("openpass/v2/seal-transcript" ‖ 0x00 ‖ ephemeral_public ‖ recipient_public
 //!                       ‖ ct_m ‖ recipient_pq_public)
-//! wrap_key    = HKDF-SHA256(ikm = ss_m ‖ ss_x, salt = transcript, info = "octapass/v2/seal")
+//! wrap_key    = HKDF-SHA256(ikm = ss_m ‖ ss_x, salt = transcript, info = "openpass/v2/seal")
 //! sealed      = 0x02 ‖ ephemeral_public (32) ‖ ct_m (1088) ‖ nonce (24)
 //!               ‖ XChaCha20-Poly1305(wrap_key, key, aad)
 //! ```
@@ -102,7 +102,7 @@ impl fmt::Display for SealContext<'_> {
 
 impl SealContext<'_> {
     pub fn associated_data(&self) -> Vec<u8> {
-        format!("octapass/v1|{self}").into_bytes()
+        format!("openpass/v1|{self}").into_bytes()
     }
 }
 
@@ -315,7 +315,7 @@ fn hybrid_wrap_key(
     recipient_pq: &PqPublicKey,
 ) -> SymmetricKey {
     let transcript = Sha256::new()
-        .chain_update(b"octapass/v2/seal-transcript\0")
+        .chain_update(b"openpass/v2/seal-transcript\0")
         .chain_update(ephemeral.as_bytes())
         .chain_update(recipient.as_bytes())
         .chain_update(ciphertext)
@@ -324,14 +324,14 @@ fn hybrid_wrap_key(
     let mut secret = Zeroizing::new([0u8; 2 * KEY_LEN]);
     secret[..KEY_LEN].copy_from_slice(pq_shared);
     secret[KEY_LEN..].copy_from_slice(shared);
-    hkdf_key(secret.as_ref(), &transcript, b"octapass/v2/seal")
+    hkdf_key(secret.as_ref(), &transcript, b"openpass/v2/seal")
 }
 
 fn wrap_key(shared: &[u8; 32], ephemeral: &PublicKey, recipient: &PublicKey) -> SymmetricKey {
     let mut salt = [0u8; 2 * PUBLIC_KEY_LEN];
     salt[..PUBLIC_KEY_LEN].copy_from_slice(ephemeral.as_bytes());
     salt[PUBLIC_KEY_LEN..].copy_from_slice(recipient.as_bytes());
-    hkdf_key(shared, &salt, b"octapass/v1/seal")
+    hkdf_key(shared, &salt, b"openpass/v1/seal")
 }
 
 #[cfg(test)]
@@ -376,7 +376,7 @@ mod tests {
         assert_eq!(vault.to_string(), format!("emergency:{A}:{B}:vault:{V}"));
         assert_eq!(
             vault_key(A).associated_data(),
-            format!("octapass/v1|vaultkey:{V}:{A}").into_bytes()
+            format!("openpass/v1|vaultkey:{V}:{A}").into_bytes()
         );
     }
 

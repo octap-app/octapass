@@ -73,7 +73,7 @@ fn vectors() -> Value {
             "fileIdentity": file_keys.file_identity.as_str(),
             "fileRecipient": file_keys.file_recipient,
             "accountRecipient": file_keys.account_recipient,
-            "derivation": "HKDF-SHA256(ikm = private key, salt = empty, info = \"octapass/v1/age-identity\"), then age bech32",
+            "derivation": "HKDF-SHA256(ikm = private key, salt = empty, info = \"openpass/v1/age-identity\"), then age bech32",
         },
     })
 }

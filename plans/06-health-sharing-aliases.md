@@ -84,7 +84,7 @@ Recorded before coding, at the maintainer's request. It builds on the release fl
 **What the server checks, in one transaction:** the contact's reauth token; the record is still released, takeover, account scope (a denial that landed first wins); and the signature, over:
 
 ```text
-message = "octapass/v1/emergency-takeover" ‖ 0x00 ‖ for each field: len (u32 BE) ‖ UTF-8 bytes
+message = "openpass/v1/emergency-takeover" ‖ 0x00 ‖ for each field: len (u32 BE) ‖ UTF-8 bytes
 fields  = recordId, grantorId, contactId, currentAccountSalt,
           registrationUpload, accountSalt, wrappedAsk, recoveryWrappedAsk
 ```

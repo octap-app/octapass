@@ -29,8 +29,8 @@ describe('device credentials', () => {
     expect(publicKey!.extensions).toEqual({ prf: { eval: { first: DEVICE_UNLOCK_SALT } } });
   });
 
-  it('uses SHA-256("octapass/v1/device-unlock") as the salt', async () => {
-    const expected = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode('octapass/v1/device-unlock')));
+  it('uses SHA-256("openpass/v1/device-unlock") as the salt', async () => {
+    const expected = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode('openpass/v1/device-unlock')));
     expect(DEVICE_UNLOCK_SALT).toEqual(expected);
   });
 
@@ -42,12 +42,12 @@ describe('device credentials', () => {
     expect(await evaluatePrf(id)).toEqual(first);
   });
 
-  it('evaluates PRF with SHA-256("octapass/v1/device-unlock") and the stored credential only', async () => {
+  it('evaluates PRF with SHA-256("openpass/v1/device-unlock") and the stored credential only', async () => {
     const auth = installFakeAuthenticator();
     const { id } = await createDeviceCredential('maya@example.com');
     await evaluatePrf(id);
     const { publicKey } = auth.get.mock.calls[0]![0] as CredentialRequestOptions;
-    const expected = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode('octapass/v1/device-unlock')));
+    const expected = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode('openpass/v1/device-unlock')));
     expect(new Uint8Array((publicKey!.extensions as { prf: { eval: { first: Uint8Array } } }).prf.eval.first)).toEqual(expected);
     expect(publicKey!.userVerification).toBe('required');
     expect(new Uint8Array(publicKey!.allowCredentials![0]!.id as Uint8Array)).toEqual(id);

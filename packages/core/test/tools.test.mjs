@@ -46,8 +46,8 @@ test('parseOtpMigration rejects non-migration URIs', () => {
   assert.throws(() => core.parseOtpMigration('otpauth://totp/x?secret=A'), { code: 'invalid_totp' });
 });
 
-test('deviceUnlockPrfInput is SHA-256("octapass/v1/device-unlock")', async () => {
-  const expected = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode('octapass/v1/device-unlock')));
+test('deviceUnlockPrfInput is SHA-256("openpass/v1/device-unlock")', async () => {
+  const expected = new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode('openpass/v1/device-unlock')));
   assert.deepEqual(core.deviceUnlockPrfInput(), expected);
 });
 

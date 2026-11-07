@@ -173,7 +173,7 @@ Someone who forgot the master password, or lost the Secret Key too, resets it wi
 4. `POST /v1/auth/recover/finish` with `{ recoveryId, registrationUpload, account: { kdf, accountSalt, wrappedAsk, recoveryWrappedAsk }, signature }`. A reset always replaces the recovery code, so `recoveryWrappedAsk` is required. `signature` is Ed25519 by the account's signing key over:
 
    ```text
-   "octapass/v1/account-recovery" ‖ 0x00 ‖ for each field: len (u32 BE) ‖ UTF-8 bytes
+   "openpass/v1/account-recovery" ‖ 0x00 ‖ for each field: len (u32 BE) ‖ UTF-8 bytes
    fields = accountId, challenge, registrationUpload, accountSalt, wrappedAsk, recoveryWrappedAsk
    ```
 
@@ -509,7 +509,7 @@ Every step is recorded in the grantor's security log.
 
 1. `GET …/{id}/release`, open the ASK and make new credentials with a fresh Secret Key, salt and recovery code.
 2. `POST …/{id}/takeover/registration` with `{ registrationRequest }`. It runs OPAQUE under the grantor's email and stores nothing.
-3. `POST …/{id}/takeover` with `X-Reauth-Token` (the **contact's** own, purpose `emergency-takeover`) and `{ registrationUpload, account, signature }`. `account.recoveryWrappedAsk` is required. `signature` is by the grantor's Ed25519 key, over `"octapass/v1/emergency-takeover" ‖ 0x00 ‖` length-prefixed (u32 big-endian) UTF-8 `recordId, grantorId, contactId, currentAccountSalt, registrationUpload, accountSalt, wrappedAsk, recoveryWrappedAsk`. See the `emergencyTakeover` test vector in `crates/octapass-core/tests/vectors/key-rotation.json`.
+3. `POST …/{id}/takeover` with `X-Reauth-Token` (the **contact's** own, purpose `emergency-takeover`) and `{ registrationUpload, account, signature }`. `account.recoveryWrappedAsk` is required. `signature` is by the grantor's Ed25519 key, over `"openpass/v1/emergency-takeover" ‖ 0x00 ‖` length-prefixed (u32 big-endian) UTF-8 `recordId, grantorId, contactId, currentAccountSalt, registrationUpload, accountSalt, wrappedAsk, recoveryWrappedAsk`. See the `emergencyTakeover` test vector in `crates/octapass-core/tests/vectors/key-rotation.json`.
 
 `204`, in one transaction: the credentials are replaced, every device of the grantor is signed out, two-step sign-in is turned off, the record is deleted, and `emergency-takeover` is logged (with `two-step-disabled` if it was on). The grantor is emailed. A record that was denied or removed first, a view record, a wrong signature, or a salt that changed since (any credentials change) answers `403`: read the release again. If the answer is lost, the record being gone from `GET /v1/emergency-contacts` means it landed: the new kit is the only copy.
 

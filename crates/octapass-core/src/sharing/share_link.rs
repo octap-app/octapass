@@ -4,9 +4,9 @@
 //! ```text
 //! link_key    = 32 random bytes, the fragment (base64url)
 //! pass_key    = Argon2id(NFKD(passphrase), salt, params)            only with a passphrase
-//! content_key = HKDF-SHA256(ikm = link_key [‖ pass_key], salt = "", info = "octapass/v1/share-link")
+//! content_key = HKDF-SHA256(ikm = link_key [‖ pass_key], salt = "", info = "openpass/v1/share-link")
 //! ciphertext  = header ‖ nonce (24) ‖ XChaCha20-Poly1305(content_key, item JSON,
-//!                                                       aad = "octapass/v1|share-link|" ‖ header)
+//!                                                       aad = "openpass/v1|share-link|" ‖ header)
 //! header      = 0x01 ‖ flags (1)                                    no passphrase: flags = 0
 //!             | 0x01 ‖ 0x01 ‖ salt (16) ‖ memory_kib ‖ iterations ‖ parallelism (u32 BE each)
 //! ```
@@ -199,7 +199,7 @@ fn content_key(
     if let Some((passphrase, salt, params)) = passphrase {
         ikm.extend_from_slice(passphrase_key(passphrase, &salt, &params)?.as_bytes());
     }
-    Ok(hkdf_key(&ikm, b"", b"octapass/v1/share-link"))
+    Ok(hkdf_key(&ikm, b"", b"openpass/v1/share-link"))
 }
 
 fn passphrase_key(passphrase: &str, salt: &[u8], params: &KdfParams) -> Result<SymmetricKey> {
@@ -226,7 +226,7 @@ fn passphrase_key(passphrase: &str, salt: &[u8], params: &KdfParams) -> Result<S
 }
 
 fn associated_data(header: &[u8]) -> Vec<u8> {
-    [b"octapass/v1|share-link|".as_slice(), header].concat()
+    [b"openpass/v1|share-link|".as_slice(), header].concat()
 }
 
 #[cfg(test)]

@@ -36,7 +36,7 @@ use crate::state::AppState;
 use crate::validate;
 
 pub const MAX_WAIT_DAYS: u32 = 30;
-const TAKEOVER_LABEL: &[u8] = b"octapass/v1/emergency-takeover\0";
+const TAKEOVER_LABEL: &[u8] = b"openpass/v1/emergency-takeover\0";
 
 #[derive(PartialEq, Eq)]
 enum Side {

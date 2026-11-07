@@ -2,7 +2,7 @@
   "fileIdentity": {
     "accountEncryptionPrivateKey": "zcpK6NL51V_ZT6lbA45-MvAK3yVMH_QxnGJ-l-_9EIk",
     "accountRecipient": "age1jyvup8jazh3lnv7f9yu88jq4t0uv85r6fuq9vdj97erlewmuxqdq7r8u9a",
-    "derivation": "HKDF-SHA256(ikm = private key, salt = empty, info = \"octapass/v1/age-identity\"), then age bech32",
+    "derivation": "HKDF-SHA256(ikm = private key, salt = empty, info = \"openpass/v1/age-identity\"), then age bech32",
     "fileIdentity": "AGE-SECRET-KEY-13SMN2K06SNXS0JTUVRV8VQHCEAUAYPADWMYPCLJRQERS0P4GVLES9K6G0R",
     "fileRecipient": "age16d7rw2znh0d7grdghvdjz88n7zdtlw62zm492fs6a5c8xftuzf6s2fur4w"
   },

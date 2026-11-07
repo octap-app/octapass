@@ -533,7 +533,7 @@ pub struct EmergencyTakeoverRequest {
     /// `recoveryWrappedAsk` is required: a takeover always replaces the recovery code.
     pub account: CredentialsUpdate,
     /// base64url Ed25519 signature by the grantor's signing key over
-    /// `"octapass/v1/emergency-takeover" ‖ 0x00 ‖` length-prefixed `recordId, grantorId,
+    /// `"openpass/v1/emergency-takeover" ‖ 0x00 ‖` length-prefixed `recordId, grantorId,
     /// contactId, currentAccountSalt, registrationUpload, accountSalt, wrappedAsk,
     /// recoveryWrappedAsk`.
     pub signature: String,
@@ -600,7 +600,7 @@ pub struct RecoverFinishRequest {
     /// Must include `recoveryWrappedAsk`.
     pub account: CredentialsUpdate,
     /// base64url Ed25519 signature by the account's signing key over
-    /// `"octapass/v1/account-recovery" ‖ 0x00` and then, each as a u32 big-endian length and its
+    /// `"openpass/v1/account-recovery" ‖ 0x00` and then, each as a u32 big-endian length and its
     /// UTF-8 bytes: accountId, challenge, registrationUpload, accountSalt, wrappedAsk,
     /// recoveryWrappedAsk. Proves the device opened the account key.
     pub signature: String,

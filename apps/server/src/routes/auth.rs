@@ -97,7 +97,7 @@ pub(crate) fn opaque_message<T, E>(
 fn verification_code_hash(state: &AppState, email: &str, code: &str) -> [u8; 32] {
     keyed_hash(
         &*state.secrets.hmac_key,
-        "octapass/verification-code",
+        "openpass/verification-code",
         format!("{email}\0{code}").as_bytes(),
     )
 }
@@ -127,7 +127,7 @@ pub async fn prelogin(
             // so the response doesn't reveal whether the account exists.
             let fake = keyed_hash(
                 &*state.secrets.hmac_key,
-                "octapass/prelogin-salt",
+                "openpass/prelogin-salt",
                 email.as_bytes(),
             );
             PreloginResponse {

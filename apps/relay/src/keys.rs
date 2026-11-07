@@ -62,9 +62,9 @@ impl Keys {
     pub fn derive(secret: &[u8]) -> Self {
         let derive = |label| Zeroizing::new(hmac(secret, label, &[]));
         Self {
-            lookup: derive("octapass/relay/v1/lookup"),
-            seal: derive("octapass/relay/v1/seal"),
-            srs: derive("octapass/relay/v1/srs"),
+            lookup: derive("openpass/relay/v1/lookup"),
+            seal: derive("openpass/relay/v1/seal"),
+            srs: derive("openpass/relay/v1/srs"),
         }
     }
 

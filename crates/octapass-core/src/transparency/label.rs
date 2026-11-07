@@ -1,7 +1,7 @@
 //! Log labels: an email as the key log files it.
 //!
 //! ```text
-//! label = SHA-256("octapass/v1/key-log-label" ‖ 0x00 ‖ VOPRF(oprf_key, normalised email))
+//! label = SHA-256("openpass/v1/key-log-label" ‖ 0x00 ‖ VOPRF(oprf_key, normalised email))
 //! ```
 //!
 //! RFC 9497's VOPRF, ristretto255-SHA512. The email is blinded on the device and the server proves
@@ -19,7 +19,7 @@ use crate::kdf::normalize_email;
 
 type Suite = voprf::Ristretto255;
 
-const SEED_INFO: &[u8] = b"octapass/v1/key-log-oprf";
+const SEED_INFO: &[u8] = b"openpass/v1/key-log-oprf";
 
 /// A blinded email, ready for `POST /v1/transparency/label`.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -44,7 +44,7 @@ fn mismatch<T>(_: T) -> Error {
 
 fn output_to_label(output: &[u8]) -> [u8; 32] {
     Sha256::new()
-        .chain_update(b"octapass/v1/key-log-label\0")
+        .chain_update(b"openpass/v1/key-log-label\0")
         .chain_update(output)
         .finalize()
         .into()

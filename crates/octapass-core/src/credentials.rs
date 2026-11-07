@@ -9,7 +9,7 @@
 //! signing the new credentials with the account's Ed25519 key (which only the ASK unwraps):
 //!
 //! ```text
-//! message = "octapass/v1/account-recovery" ‖ 0x00 ‖ for each field: len (u32 BE) ‖ UTF-8 bytes
+//! message = "openpass/v1/account-recovery" ‖ 0x00 ‖ for each field: len (u32 BE) ‖ UTF-8 bytes
 //! fields  = accountId, challenge, registrationUpload, accountSalt, wrappedAsk, recoveryWrappedAsk
 //! ```
 //!
@@ -17,7 +17,7 @@
 //! record it uses and the salt the account has now, which makes each signature good only once:
 //!
 //! ```text
-//! message = "octapass/v1/emergency-takeover" ‖ 0x00 ‖ for each field: len (u32 BE) ‖ UTF-8 bytes
+//! message = "openpass/v1/emergency-takeover" ‖ 0x00 ‖ for each field: len (u32 BE) ‖ UTF-8 bytes
 //! fields  = recordId, grantorId, contactId, currentAccountSalt,
 //!           registrationUpload, accountSalt, wrappedAsk, recoveryWrappedAsk
 //! ```
@@ -35,8 +35,8 @@ use crate::recovery::RecoveryCode;
 use crate::secret_key::SecretKey;
 use crate::session::Session;
 
-const RECOVERY_LABEL: &[u8] = b"octapass/v1/account-recovery\0";
-const TAKEOVER_LABEL: &[u8] = b"octapass/v1/emergency-takeover\0";
+const RECOVERY_LABEL: &[u8] = b"openpass/v1/account-recovery\0";
+const TAKEOVER_LABEL: &[u8] = b"openpass/v1/emergency-takeover\0";
 
 /// What replaces the password-dependent parts of the [`AccountBundle`] on the server.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -323,7 +323,7 @@ mod tests {
             recovery_wrapped_ask: Some("rec".into()),
         };
         let message = recovery_message(ACCOUNT_ID, "c", "u", &update).unwrap();
-        assert!(message.starts_with(b"octapass/v1/account-recovery\0\0\0\0\x24"));
+        assert!(message.starts_with(b"openpass/v1/account-recovery\0\0\0\0\x24"));
         assert!(message.ends_with(b"\0\0\0\x03ask\0\0\0\x03rec"));
         let without = CredentialsUpdate {
             recovery_wrapped_ask: None,
@@ -440,7 +440,7 @@ mod tests {
         };
         let message =
             takeover_message(RECORD, ACCOUNT_ID, ACCOUNT_ID, "was", "u", &update).unwrap();
-        assert!(message.starts_with(b"octapass/v1/emergency-takeover\0\0\0\0\x24"));
+        assert!(message.starts_with(b"openpass/v1/emergency-takeover\0\0\0\0\x24"));
         assert!(
             message.ends_with(b"\0\0\0\x03was\0\0\0\x01u\0\0\0\x04salt\0\0\0\x03ask\0\0\0\x03rec")
         );

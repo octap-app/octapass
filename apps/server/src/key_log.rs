@@ -20,9 +20,9 @@ pub struct KeyLog {
 impl KeyLog {
     pub fn new(server_secret: &[u8]) -> Self {
         let sign_key =
-            SigningKey::from_bytes(&keyed_hash(server_secret, "octapass/key-log-sign", &[]));
+            SigningKey::from_bytes(&keyed_hash(server_secret, "openpass/key-log-sign", &[]));
         let label_key =
-            LabelKey::from_seed(&keyed_hash(server_secret, "octapass/key-log-oprf", &[]))
+            LabelKey::from_seed(&keyed_hash(server_secret, "openpass/key-log-oprf", &[]))
                 .expect("a 32-byte seed always gives a key");
         let identity = LogIdentity {
             sign_key: crate::crypto::base64url(sign_key.verifying_key().as_bytes()),

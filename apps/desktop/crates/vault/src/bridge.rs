@@ -8,7 +8,7 @@
 //! ```text
 //! shared    = X25519(app_ephemeral, extension_public)
 //! wrap_key  = HKDF-SHA256(ikm = shared, salt = app_ephemeral_public ‖ extension_public,
-//!                         info = "octapass/v1/native-messaging")
+//!                         info = "openpass/v1/native-messaging")
 //! ```
 //!
 //! as the 32-byte device secret. The extension derives the same key and calls the WASM
@@ -30,9 +30,9 @@ use crate::error::{ErrorCode, Result, VaultError};
 use crate::model::{SessionStatus, require};
 use crate::vault::{Vault, blocking};
 
-pub const WRAP_INFO: &[u8] = b"octapass/v1/native-messaging";
+pub const WRAP_INFO: &[u8] = b"openpass/v1/native-messaging";
 /// For the chip secret of the extension's own local vault, so the two keys never coincide.
-pub const CHIP_WRAP_INFO: &[u8] = b"octapass/v1/native-messaging-chip";
+pub const CHIP_WRAP_INFO: &[u8] = b"openpass/v1/native-messaging-chip";
 
 #[derive(Debug, Clone, Serialize)]
 #[serde(rename_all = "camelCase")]

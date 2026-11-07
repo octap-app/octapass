@@ -54,6 +54,6 @@ extension Keychain {
 
     /// As the desktop app's `chip_secret_from`: the shape doesn't depend on the chip.
     static func chipSecret(raw: Data) -> Data {
-        Data(SHA256.hash(data: Data("octapass/v1/chip-secret|".utf8) + raw))
+        Data(SHA256.hash(data: Data("openpass/v1/chip-secret|".utf8) + raw))
     }
 }

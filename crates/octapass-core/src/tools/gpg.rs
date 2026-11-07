@@ -122,7 +122,7 @@ pub fn read_private_key(armored: &str, passphrase: Option<&str>) -> Result<GpgKe
     };
     if info.can_sign {
         // Trying it is the only way to learn whether the passphrase is right.
-        sign_with(&key, passphrase, b"octapass")?;
+        sign_with(&key, passphrase, b"openpass")?;
     }
     Ok(info)
 }

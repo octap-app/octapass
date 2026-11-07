@@ -90,7 +90,7 @@ impl Icons {
 
     fn path(&self, domain: &str) -> PathBuf {
         let name =
-            crate::crypto::keyed_hash(&self.name_key, "octapass/icon-cache", domain.as_bytes());
+            crate::crypto::keyed_hash(&self.name_key, "openpass/icon-cache", domain.as_bytes());
         let hex: String = name.iter().map(|b| format!("{b:02x}")).collect();
         self.dir.join(format!("{hex}.icon"))
     }

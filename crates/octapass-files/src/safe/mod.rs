@@ -785,7 +785,7 @@ impl Open {
     fn truncate(&mut self, root: &Path, id: &str, size: u64) -> Result<()> {
         let chunk = CONTENT_CHUNK_LEN as u64;
         let current = self.entry(id)?.size;
-        if size < current && size % chunk != 0 {
+        if size < current && !size.is_multiple_of(chunk) {
             // The chunk that's cut keeps its head, in staging.
             self.stage_chunk(root, id, size / chunk)?;
         }

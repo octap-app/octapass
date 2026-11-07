@@ -4,7 +4,7 @@ Files other systems consume. Each one is a thin wrapper over the `octapass` CLI;
 
 | Path | What it is |
 |---|---|
-| [`github-action/`](github-action/) | A composite GitHub Action that loads secrets with a service account token |
+| [`github-action/`](github-action/) | A composite GitHub Action that loads secrets with a service account token. Published as [`octap-app/octapass-action`](https://github.com/octap-app/octapass-action) (`uses: octap-app/octapass-action@v0`) |
 | [`gitlab/`](gitlab/) | A GitLab CI template to `include` |
 
 See [Service accounts](../docs/features/service-accounts.md).

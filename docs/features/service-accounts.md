@@ -44,7 +44,7 @@ octapass run --env shop-api:production -- ./deploy.sh
 ### GitHub Actions
 
 ```yaml
-- uses: ./integrations/github-action
+- uses: octap-app/octapass-action@v0
   with:
     token: ${{ secrets.OCTAPASS_SERVICE_ACCOUNT_TOKEN }}
     secrets: |

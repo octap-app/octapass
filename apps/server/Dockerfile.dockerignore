@@ -1,16 +1,48 @@
-**/target
-**/node_modules
-**/dist
-data
-apps/server/data
-.git
-apps/website
-apps/android
-apps/ios
-apps/safari
-brand
-deploy
+# The build context for apps/server/Dockerfile (built from the repository root). BuildKit reads this
+# file instead of a root .dockerignore. Keep it in step with the .gitignore files: a working copy
+# should send no more than a fresh clone, and never local settings or secrets.
+#
+# The last matching line wins, so the exceptions for apps/desktop come first and the build output and
+# secrets lines below still apply inside apps/desktop/crates.
+
 # The Rust workspace reaches into this app for crates; the rest of it isn't needed.
 apps/desktop
 !apps/desktop/crates
 !apps/desktop/Cargo.toml
+
+# Build output and caches, at any depth.
+**/target
+**/node_modules
+**/dist
+**/.astro
+**/__pycache__
+**/.DS_Store
+**/*.log
+
+# Local settings and secrets: .env.local holds sign-up and server settings, .claude agent state.
+**/.env
+**/.env.*
+!**/.env.example
+.claude
+
+data
+apps/server/data
+.git
+
+# Apps the image doesn't build. apps/macos alone can be several GB of Xcode build output.
+apps/website
+apps/android
+apps/ios
+apps/macos
+apps/safari
+apps/jetbrains
+brand
+deploy
+# A pnpm workspace package, so it stays; its test output doesn't.
+apps/extension/**/test-results
+apps/extension/**/playwright-report
+
+# Fuzzing workspaces (apps/relay/fuzz, crates/octapass-core/fuzz).
+**/fuzz/**/corpus
+**/fuzz/**/artifacts
+**/fuzz/**/coverage

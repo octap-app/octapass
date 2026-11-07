@@ -29,7 +29,7 @@ services:
       OCTAPASS_WEB_ORIGINS: https://vault.octap.app
       OCTAPASS_DATABASE_URL: postgres://octapass:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}@db:5432/octapass
       # Public alpha: anyone can create an account (email verification required).
-      OCTAPASS_SIGNUPS: open
+      OCTAPASS_SIGNUPS: ${OCTAPASS_SIGNUPS:-open}
       OCTAPASS_DEV_MODE: "false"
       OCTAPASS_RATE_LIMITS: "on"
       OCTAPASS_ICONS: "on"

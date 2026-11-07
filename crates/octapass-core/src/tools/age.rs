@@ -344,7 +344,7 @@ mod tests {
         let plaintext = vec![7u8; 200_000];
         for armor in [false, true] {
             let file = seal(
-                &Target::Recipients(&[keys.file_recipient.clone()]),
+                &Target::Recipients(std::slice::from_ref(&keys.file_recipient)),
                 armor,
                 &plaintext,
             );
@@ -361,7 +361,7 @@ mod tests {
         let alice = AccountFileKeys::derive(&pairs(1)).unwrap();
         let bob = AccountFileKeys::derive(&pairs(2)).unwrap();
         let file = seal(
-            &Target::Recipients(&[bob.account_recipient.clone()]),
+            &Target::Recipients(std::slice::from_ref(&bob.account_recipient)),
             false,
             b"hello",
         );
@@ -426,7 +426,7 @@ mod tests {
     fn a_passphrase_file_refuses_identities_and_vice_versa() {
         let keys = AccountFileKeys::derive(&pairs(1)).unwrap();
         let file = seal(
-            &Target::Recipients(&[keys.file_recipient.clone()]),
+            &Target::Recipients(std::slice::from_ref(&keys.file_recipient)),
             false,
             b"hi",
         );
@@ -447,7 +447,7 @@ mod tests {
         let keys = AccountFileKeys::derive(&pairs(1)).unwrap();
         let identity = identity_keys(&keys.file_identity);
         let file = seal(
-            &Target::Recipients(&[keys.file_recipient.clone()]),
+            &Target::Recipients(std::slice::from_ref(&keys.file_recipient)),
             false,
             &vec![1u8; 100_000],
         );

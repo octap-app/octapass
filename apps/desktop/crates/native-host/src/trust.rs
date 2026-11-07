@@ -276,6 +276,7 @@ mod tests {
         }
     }
 
+    #[cfg(any(target_os = "macos", windows))]
     fn signed_browser() -> &'static KnownBrowser {
         KNOWN
             .iter()
@@ -333,6 +334,8 @@ mod tests {
         ));
     }
 
+    // Needs a browser with a code signer, which only macOS and Windows have.
+    #[cfg(any(target_os = "macos", windows))]
     #[test]
     fn release_builds_need_the_vendors_signature() {
         let browser = signed_browser();
@@ -408,6 +411,8 @@ mod tests {
         );
     }
 
+    // Needs a browser with a code signer, which only macOS and Windows have.
+    #[cfg(any(target_os = "macos", windows))]
     #[test]
     fn the_app_answers_only_its_own_host() {
         let browser = signed_browser();
@@ -430,6 +435,8 @@ mod tests {
         );
     }
 
+    // Needs a browser with a code signer, which only macOS and Windows have.
+    #[cfg(any(target_os = "macos", windows))]
     #[test]
     fn the_host_must_carry_the_apps_signature_when_it_has_one() {
         let browser = signed_browser();

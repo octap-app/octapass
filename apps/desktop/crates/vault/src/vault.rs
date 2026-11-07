@@ -46,8 +46,8 @@ mod gates;
 mod key_log;
 mod local;
 mod master_password;
-pub(crate) mod service_accounts;
 pub mod safes;
+pub(crate) mod service_accounts;
 mod share_links;
 mod sharing;
 mod stay_unlocked;
@@ -393,7 +393,12 @@ impl Vault {
     }
 
     /// `confirmed`: the user opened it (false only for stay unlocked).
-    pub(crate) fn install_as(&self, key: AccountKey, session: Session, confirmed: bool) -> Result<()> {
+    pub(crate) fn install_as(
+        &self,
+        key: AccountKey,
+        session: Session,
+        confirmed: bool,
+    ) -> Result<()> {
         let cache = self.store.load_cache(&key)?;
         let mut unlocked = Unlocked::new(key.clone(), session, cache);
         unlocked.confirmed = confirmed;

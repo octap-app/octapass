@@ -248,8 +248,7 @@ impl Safe {
             }
             Err(error) => return Err(error.into()),
         };
-        let manifest: Manifest =
-            serde_json::from_slice(&bytes).map_err(|_| SafeError::NotASafe)?;
+        let manifest: Manifest = serde_json::from_slice(&bytes).map_err(|_| SafeError::NotASafe)?;
         if manifest.format > FORMAT {
             return Err(SafeError::UnsupportedFormat);
         }
@@ -291,7 +290,9 @@ impl Safe {
     }
 
     pub(crate) fn state(&self) -> MutexGuard<'_, Option<Open>> {
-        self.open.lock().unwrap_or_else(|poisoned| poisoned.into_inner())
+        self.open
+            .lock()
+            .unwrap_or_else(|poisoned| poisoned.into_inner())
     }
 
     fn with<T>(&self, run: impl FnOnce(&mut Open) -> Result<T>) -> Result<T> {
@@ -665,7 +666,13 @@ impl Open {
         Ok(reader.open_chunk(index, &sealed)?)
     }
 
-    fn read(&mut self, root: &Path, id: &str, offset: u64, size: usize) -> Result<Zeroizing<Vec<u8>>> {
+    fn read(
+        &mut self,
+        root: &Path,
+        id: &str,
+        offset: u64,
+        size: usize,
+    ) -> Result<Zeroizing<Vec<u8>>> {
         let record = self.record(id)?.clone();
         if record.kind != ObjectKind::File {
             return Err(SafeError::IsFolder);
@@ -934,7 +941,8 @@ impl Open {
         let mut file = tempfile::NamedTempFile::new_in(root.join(TEMPORARY))?;
         file.write_all(&sealed)?;
         file.as_file().sync_all()?;
-        file.persist(root.join(NOTES)).map_err(|error| error.error)?;
+        file.persist(root.join(NOTES))
+            .map_err(|error| error.error)?;
         self.notes_dirty = false;
         Ok(())
     }

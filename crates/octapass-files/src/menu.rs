@@ -136,7 +136,12 @@ fn shell_quote(text: &str) -> String {
 
 fn shell_command(launcher: &Launcher, action: Action) -> String {
     let mut parts = vec![shell_quote(&launcher.program().display().to_string())];
-    parts.extend(launcher.arguments(action).iter().map(|part| (*part).to_owned()));
+    parts.extend(
+        launcher
+            .arguments(action)
+            .iter()
+            .map(|part| (*part).to_owned()),
+    );
     parts.join(" ")
 }
 
@@ -418,7 +423,12 @@ fn dolphin_files(launcher: &Launcher, locations: &Locations) -> Vec<MenuFile> {
     );
     for action in [Action::Encrypt, Action::Decrypt] {
         let mut command = vec![desktop_quote(&launcher.program().display().to_string())];
-        command.extend(launcher.arguments(action).iter().map(|part| (*part).to_owned()));
+        command.extend(
+            launcher
+                .arguments(action)
+                .iter()
+                .map(|part| (*part).to_owned()),
+        );
         command.push("%F".into());
         contents.push_str(&format!(
             "\n[Desktop Action octapass{id}]\nName={en}\nName[ar]={ar}\nIcon=octapass\nExec={exec}\n",
@@ -447,7 +457,10 @@ pub struct RegistryValue {
 }
 
 const REGISTRY_ROOTS: [(&str, Action); 3] = [
-    (r"Software\Classes\*\shell\OctaPass.Encrypt", Action::Encrypt),
+    (
+        r"Software\Classes\*\shell\OctaPass.Encrypt",
+        Action::Encrypt,
+    ),
     (
         r"Software\Classes\Directory\shell\OctaPass.Encrypt",
         Action::Encrypt,
@@ -469,7 +482,12 @@ pub fn explorer_values(launcher: &Launcher, language: Language) -> Vec<RegistryV
     let mut values = Vec::new();
     for (key, action) in REGISTRY_ROOTS {
         let mut command = vec![windows_quote(&program)];
-        command.extend(launcher.arguments(action).iter().map(|part| (*part).to_owned()));
+        command.extend(
+            launcher
+                .arguments(action)
+                .iter()
+                .map(|part| (*part).to_owned()),
+        );
         command.push("\"%1\"".to_owned());
         values.push(RegistryValue {
             key: key.to_owned(),
@@ -626,11 +644,7 @@ pub fn remove(surfaces: &[Surface], locations: &Locations) -> io::Result<()> {
         #[cfg(windows)]
         if *surface == Surface::Explorer {
             for (key, _) in REGISTRY_ROOTS {
-                let _ = run_reg(&[
-                    "delete".to_owned(),
-                    format!(r"HKCU\{key}"),
-                    "/f".to_owned(),
-                ]);
+                let _ = run_reg(&["delete".to_owned(), format!(r"HKCU\{key}"), "/f".to_owned()]);
             }
         }
     }
@@ -642,7 +656,9 @@ mod tests {
     use super::*;
 
     fn app() -> Launcher {
-        Launcher::Desktop(PathBuf::from("/Applications/Octa Pass.app/Contents/MacOS/it's"))
+        Launcher::Desktop(PathBuf::from(
+            "/Applications/Octa Pass.app/Contents/MacOS/it's",
+        ))
     }
 
     #[test]
@@ -667,7 +683,11 @@ mod tests {
         // Runs the script's shell lines with `printf` in the program's place.
         let dir = tempfile::tempdir().unwrap();
         let printer = dir.path().join("print args");
-        fs::write(&printer, "#!/bin/sh\nfor a in \"$@\"; do echo \"[$a]\"; done\n").unwrap();
+        fs::write(
+            &printer,
+            "#!/bin/sh\nfor a in \"$@\"; do echo \"[$a]\"; done\n",
+        )
+        .unwrap();
         use std::os::unix::fs::PermissionsExt;
         fs::set_permissions(&printer, fs::Permissions::from_mode(0o755)).unwrap();
         let locations = Locations::under(dir.path());
@@ -714,10 +734,15 @@ mod tests {
         let locations = Locations::under(Path::new("/Users/u"));
         let files = planned_files(Surface::Finder, &app(), &locations, Language::English);
         assert_eq!(files.len(), 4);
-        assert!(files[0].path.ends_with(
-            "Library/Services/Encrypt with Octa Pass.workflow/Contents/Info.plist"
-        ));
-        assert!(files[1].contents.contains("--files encrypt &quot;$@&quot;") || files[1].contents.contains("--files encrypt \"$@\""));
+        assert!(
+            files[0]
+                .path
+                .ends_with("Library/Services/Encrypt with Octa Pass.workflow/Contents/Info.plist")
+        );
+        assert!(
+            files[1].contents.contains("--files encrypt &quot;$@&quot;")
+                || files[1].contents.contains("--files encrypt \"$@\"")
+        );
     }
 
     #[test]
@@ -749,7 +774,14 @@ mod tests {
         );
         assert!(values[6].key.contains(r"SystemFileAssociations\.age"));
         let commands = explorer_commands(&values);
-        assert_eq!(commands[0][..3], ["add".to_owned(), format!(r"HKCU\{}", values[0].key), "/ve".to_owned()]);
+        assert_eq!(
+            commands[0][..3],
+            [
+                "add".to_owned(),
+                format!(r"HKCU\{}", values[0].key),
+                "/ve".to_owned()
+            ]
+        );
         assert_eq!(commands[1][2..4], ["/v".to_owned(), "Icon".to_owned()]);
     }
 

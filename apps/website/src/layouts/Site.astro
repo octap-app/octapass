@@ -20,9 +20,11 @@ interface Props {
   ogImage?: string;
   /** The page's path without a language, when it exists in every language. Adds hreflang links and the language switch. */
   alternatePath?: string;
+  /** This page's Markdown copy for AI agents, e.g. `/index.md`. */
+  markdownHref?: string;
 }
 
-const { title, description, jsonLd = [], ogType = 'website', locale = 'en', ogImage: ogPath = '/og.png', alternatePath } = Astro.props;
+const { title, description, jsonLd = [], ogType = 'website', locale = 'en', ogImage: ogPath = '/og.png', alternatePath, markdownHref } = Astro.props;
 const t = stringsFor(locale).site;
 const to = (path: string) => localePath(locale, path);
 const otherLocale: Locale = locale === 'en' ? 'ar' : 'en';
@@ -51,6 +53,7 @@ const current = Astro.url.pathname;
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="alternate" type="application/rss+xml" title={`${SITE_NAME} changelog`} href="/changelog/rss.xml" />
+    {markdownHref && <link rel="alternate" type="text/markdown" href={markdownHref} title="This page as Markdown" />}
     <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-readable index (llms.txt)" />
     <meta name="theme-color" content="#fbfbfd" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />

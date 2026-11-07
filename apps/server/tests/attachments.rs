@@ -193,10 +193,7 @@ async fn uploads_are_checked_before_and_after_the_body() {
 
     let (status, body) = put_file(&server, token, &file_path, file.clone(), None).await;
     assert_eq!(status, StatusCode::LENGTH_REQUIRED);
-    assert_eq!(
-        body["type"],
-        "https://octap.app/problems/length-required"
-    );
+    assert_eq!(body["type"], "https://octap.app/problems/length-required");
 
     let (status, _) = put_file(&server, token, &file_path, vec![1; 1001], Some(1001)).await;
     assert_eq!(status, StatusCode::PAYLOAD_TOO_LARGE);
@@ -310,10 +307,7 @@ async fn the_quota_counts_against_the_vault_owner() {
     )
     .await;
     assert_eq!(status, StatusCode::FORBIDDEN);
-    assert_eq!(
-        body["type"],
-        "https://octap.app/problems/quota-exceeded"
-    );
+    assert_eq!(body["type"], "https://octap.app/problems/quota-exceeded");
     // The writer's own vault has its own quota.
     let own = writer.personal_vault.clone();
     let own_item = new_item(&server, &writer, &own).await;

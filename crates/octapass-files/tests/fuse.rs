@@ -59,7 +59,9 @@ fn everything_under(folder: &Path) -> Vec<u8> {
 }
 
 fn contains(haystack: &[u8], needle: &[u8]) -> bool {
-    haystack.windows(needle.len()).any(|window| window == needle)
+    haystack
+        .windows(needle.len())
+        .any(|window| window == needle)
 }
 
 #[test]
@@ -69,7 +71,10 @@ fn it_behaves_like_a_folder() {
 
     fs::create_dir(point.join("Taxes")).unwrap();
     fs::write(point.join("Taxes/SECRETNAME.txt"), b"SECRETBODY one").unwrap();
-    assert_eq!(fs::read(point.join("Taxes/SECRETNAME.txt")).unwrap(), b"SECRETBODY one");
+    assert_eq!(
+        fs::read(point.join("Taxes/SECRETNAME.txt")).unwrap(),
+        b"SECRETBODY one"
+    );
 
     // Listing, sizes, permissions for this user alone.
     let names: Vec<String> = fs::read_dir(point.join("Taxes"))
@@ -97,7 +102,10 @@ fn it_behaves_like_a_folder() {
     drop(file);
 
     // Patch the middle in place, then cut.
-    let mut file = fs::OpenOptions::new().write(true).open(point.join("big.bin")).unwrap();
+    let mut file = fs::OpenOptions::new()
+        .write(true)
+        .open(point.join("big.bin"))
+        .unwrap();
     file.seek(SeekFrom::Start(500_000)).unwrap();
     file.write_all(b"PATCHED").unwrap();
     file.set_len(600_000).unwrap();
@@ -121,13 +129,18 @@ fn it_behaves_like_a_folder() {
         .status()
         .unwrap();
     assert!(status.success());
-    assert_eq!(fs::read(point.join("Copy/SECRETNAME.txt")).unwrap(), b"SECRETBODY one");
+    assert_eq!(
+        fs::read(point.join("Copy/SECRETNAME.txt")).unwrap(),
+        b"SECRETBODY one"
+    );
     fs::remove_dir_all(point.join("Copy")).unwrap();
     assert!(!point.join("Copy").exists());
 
     // Refusals the right way.
     assert_eq!(
-        fs::remove_dir(point.join("Taxes")).unwrap_err().raw_os_error(),
+        fs::remove_dir(point.join("Taxes"))
+            .unwrap_err()
+            .raw_os_error(),
         Some(39) // ENOTEMPTY
     );
     assert_eq!(
@@ -137,7 +150,12 @@ fn it_behaves_like_a_folder() {
 
     // The store holds nothing readable, even while mounted.
     let disk = everything_under(&drive.store);
-    for needle in [b"SECRETNAME".as_slice(), b"SECRETBODY", b"PATCHED", b"Taxes"] {
+    for needle in [
+        b"SECRETNAME".as_slice(),
+        b"SECRETBODY",
+        b"PATCHED",
+        b"Taxes",
+    ] {
         assert!(!contains(&disk, needle));
     }
 }
@@ -167,7 +185,12 @@ fn an_outside_unmount_is_noticed() {
         .arg("-u")
         .arg(&drive.point)
         .status()
-        .or_else(|_| Command::new("fusermount").arg("-u").arg(&drive.point).status())
+        .or_else(|_| {
+            Command::new("fusermount")
+                .arg("-u")
+                .arg(&drive.point)
+                .status()
+        })
         .unwrap();
     assert!(status.success());
     std::thread::sleep(Duration::from_millis(500));

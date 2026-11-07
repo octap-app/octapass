@@ -293,7 +293,8 @@ mod tests {
 
     #[test]
     fn lists_preferred_networks_as_they_are_named() {
-        let output = "Preferred networks on en0:\n\tlilas5\n\tHomeNet_5G\n\tCafé Lumen \n\tOffice-wifi\n";
+        let output =
+            "Preferred networks on en0:\n\tlilas5\n\tHomeNet_5G\n\tCafé Lumen \n\tOffice-wifi\n";
         assert_eq!(
             parse_preferred_networks(output),
             ["lilas5", "HomeNet_5G", "Café Lumen ", "Office-wifi"]

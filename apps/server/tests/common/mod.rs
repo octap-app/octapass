@@ -19,11 +19,11 @@ use axum::http::{HeaderMap, Method, Request, StatusCode};
 use base64::Engine;
 use base64::engine::general_purpose::URL_SAFE_NO_PAD;
 use http_body_util::BodyExt;
+use octapass_server::{AppState, Config};
 use opaque_ke::{
     CipherSuite, ClientLogin, ClientLoginFinishParameters, ClientRegistration,
     ClientRegistrationFinishParameters, CredentialResponse, RegistrationResponse,
 };
-use octapass_server::{AppState, Config};
 use rand_core::{OsRng, RngCore};
 use serde_json::{Value, json};
 use sqlx::{Connection, Executor, PgConnection};

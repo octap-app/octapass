@@ -14,11 +14,14 @@ Hosted-first: the landing page sells the **free Octa Pass service** (hero, "See 
 | `/docs/…`, `/ar/docs/…` | Open-source documentation (Starlight) | Repo-root `docs/` and `docs/ar/` |
 | `/og/<language>/….png` | Per-page social images, drawn at build time | `src/pages/og`, `src/lib/og-image.ts` |
 | `/docs/….md` | **Raw Markdown of every docs page**, for AI agents and tools | Generated endpoint |
+| `/index.md`, `/ar/index.md` | The landing page as Markdown | `src/lib/landing-markdown.ts`, from the same strings as the page |
+| `/changelog/index.md`, `/changelog/<slug>.md` | The changelog and each entry as Markdown | Generated endpoints |
 | `/changelog/` + `/changelog/<slug>/` | Project changelog | Repo-root `changelog/` folder |
 | `/changelog/rss.xml` | RSS feed of the changelog | Generated |
 | `/llms.txt`, `/llms-full.txt`, `/llms-small.txt` | AI-readable indexes and full-text docs (llmstxt.org convention) | `starlight-llms-txt` plugin |
 | `/skills/octapass-docs/SKILL.md` | The agent skill, downloadable | Repo-root `skills/` folder |
 | `/robots.txt`, `/sitemap-index.xml` | Crawling | Generated |
+| `/.well-known/security.txt` | RFC 9116 contacts from `SECURITY.md`, with `Expires` a year after the build | Generated endpoint |
 | Later: `/download`, `/security`, `/privacy`, `/terms`, `/status` link, `/s/<id>` (share-link viewer), `/app` (web vault) | | |
 
 ## Tech
@@ -37,8 +40,11 @@ Hosted-first: the landing page sells the **free Octa Pass service** (hero, "See 
 - [x] Static, server-rendered HTML for every page
 - [x] Unique `<title>` and meta description per page (docs pages *require* `description` in front matter)
 - [x] Canonical URLs, `sitemap-index.xml`, `robots.txt` pointing at the sitemap
+- [x] Sitemap `<lastmod>` per URL and `xhtml:link` alternates (en, ar, x-default) for pages in both languages
 - [x] Open Graph + Twitter card tags; default social image
-- [x] JSON-LD: `SoftwareApplication` + `Organization` + `WebSite` on the landing page, `FAQPage` for the FAQ section, `TechArticle` + `BreadcrumbList` on docs pages
+- [x] JSON-LD: `SoftwareApplication` + `Organization` + `WebSite` on the landing page, `FAQPage` for the FAQ section, `TechArticle` (with `dateModified`) + `BreadcrumbList` on docs pages, `BlogPosting` + `BreadcrumbList` on changelog entries
+- [x] One of each social tag: our tags replace Starlight's in its head list rather than repeating them
+- [x] `/.well-known/security.txt`
 - [x] Semantic headings (one `h1`), descriptive link text, `lang`/`dir` attributes
 - [x] Fast: no client JS on content pages except search; fonts subset and preloaded
 - [x] Accessible: contrast AA, focus styles, reduced motion respected
@@ -52,7 +58,7 @@ Hosted-first: the landing page sells the **free Octa Pass service** (hero, "See 
 ## AI-friendliness
 
 1. **`/llms.txt`**: index of all docs with one-line descriptions. **`/llms-full.txt`**: all docs in one file. **`/llms-small.txt`**: compact version.
-2. **Markdown twins:** every docs page is available at the same path + `.md` (e.g. `/docs/security/encryption.md`). Each HTML page advertises its twin with `<link rel="alternate" type="text/markdown">`.
+2. **Markdown twins:** every docs page is available at the same path + `.md` (e.g. `/docs/security/encryption.md`), and so are the landing page (`/index.md`, `/ar/index.md`), the changelog (`/changelog/index.md`) and each entry. Each HTML page advertises its twin with `<link rel="alternate" type="text/markdown">`, and `llms.txt` lists the site pages and the newest changelog entries next to the docs.
 3. **`robots.txt` explicitly allows** AI crawlers (GPTBot, ClaudeBot, Claude-SearchBot, PerplexityBot, Google-Extended, Applebot-Extended, CCBot) on docs. Being cited by AI assistants is a goal for an open-source project.
 4. **Agent skill** (`skills/octapass-docs/SKILL.md`): teaches Claude Code, Codex and other agents how to search the docs, locally in the repo or remotely through `llms.txt` and the `.md` twins, and how to answer with citations. It includes a zero-dependency search script.
 5. **Stable structure:** front matter (`title`, `description`, `status`) on every page, and one topic per page, so retrieval stays precise.
@@ -88,3 +94,7 @@ Every page carries a `status` (`planned` / `in-progress` / `beta` / `stable`), s
   - **One 404 file** says it in both languages, because a static host serves one 404.
   - **`hreflang`:** Starlight adds it to docs pages, `Site.astro` to the landing page, both with `x-default`. English-only pages have none.
   - The landing page's phase numbers and "Phase N" badges are gone: they stopped making sense once phases 7 and 8 moved before phase 6. Its roadmap shows state instead.
+- 2026-11-08: sitemap dates, Markdown for every content page, security.txt. Decisions:
+  - **`@astrojs/sitemap` is configured in `astro.config.mjs`** instead of the copy Starlight adds, for `serialize`. `<lastmod>` is the last commit to the page's source file (`src/lib/lastmod.mjs`, one `git log` per build); a changelog entry uses its `date`; anything unknown gets the build date. The Docker build has no `.git`, so `deploy/octap.app/deploy.sh` writes the same `git log` to `apps/website/.git-dates.txt` (ignored by git) before `docker build`.
+  - **The landing page's Markdown is built from `src/i18n/landing/*.json`**, with headings taken from the page's own strings, so it is translated whenever the page is and can't say something the page doesn't.
+  - **Arabic fallback docs pages stay in the sitemap**, with the same `<title>` as the English page. They are real pages that hreflang points to; giving them an English canonical instead is open.

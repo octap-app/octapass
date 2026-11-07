@@ -278,7 +278,9 @@ mod platform {
         }
         // SAFETY: statfs returned 0, so it filled the struct.
         let stats = unsafe { stats.assume_init() };
-        let rotational = fs::metadata(existing).ok().and_then(|meta| rotational(meta.dev()));
+        let rotational = fs::metadata(existing)
+            .ok()
+            .and_then(|meta| rotational(meta.dev()));
         classify(stats.f_type as i64, rotational)
     }
 
@@ -357,7 +359,10 @@ mod tests {
             Storage::Unknown,
         ] {
             assert_eq!(storage.guarantee(), Guarantee::BestEffort);
-            assert!(storage.note().to_lowercase().contains("copies") || storage.note().contains("copy-on-write"));
+            assert!(
+                storage.note().to_lowercase().contains("copies")
+                    || storage.note().contains("copy-on-write")
+            );
         }
         assert_eq!(Storage::InPlaceDisk.guarantee(), Guarantee::Overwritten);
     }

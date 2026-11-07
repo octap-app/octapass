@@ -16,8 +16,11 @@ The Octa Pass docs are written to be easy for AI assistants and coding agents to
 | `https://octap.app/llms-full.txt` | All docs in one Markdown file |
 | `https://octap.app/llms-small.txt` | A compact version for small context windows |
 | `https://octap.app/docs/<page>.md` | The **Markdown twin** of any page, for example `/docs/security/encryption.md` |
+| `https://octap.app/index.md`, `/ar/index.md` | The home page as Markdown: what Octa Pass is, features, the free plan, platforms and whether each is available, open source links, FAQ |
+| `https://octap.app/changelog/index.md` | The changelog, newest first, linking to each entry's Markdown at `/changelog/<slug>.md` |
+| `https://octap.app/sitemap-index.xml` | Every page, with its last-change date and its English and Arabic versions |
 
-Every HTML docs page advertises its twin:
+Every HTML page with a Markdown version advertises it:
 
 ```html
 <link rel="alternate" type="text/markdown" href="/docs/security/encryption.md">

@@ -73,12 +73,15 @@ fn day_of(ms: u64) -> String {
     let days = (ms / 86_400_000) as i64 + 719_468;
     let era = days.div_euclid(146_097);
     let of_era = days.rem_euclid(146_097);
-    let year_of_era =
-        (of_era - of_era / 1460 + of_era / 36_524 - of_era / 146_096) / 365;
+    let year_of_era = (of_era - of_era / 1460 + of_era / 36_524 - of_era / 146_096) / 365;
     let of_year = of_era - (365 * year_of_era + year_of_era / 4 - year_of_era / 100);
     let shifted = (5 * of_year + 2) / 153;
     let day = of_year - (153 * shifted + 2) / 5 + 1;
-    let month = if shifted < 10 { shifted + 3 } else { shifted - 9 };
+    let month = if shifted < 10 {
+        shifted + 3
+    } else {
+        shifted - 9
+    };
     let year = year_of_era + era * 400 + i64::from(month <= 2);
     format!("{year:04}-{month:02}-{day:02}")
 }
@@ -298,14 +301,16 @@ impl Safe {
             .map(|blob| (blob.id, blob.size))
             .collect();
         let local: HashSet<String> = local_blobs(self.root())?.into_iter().collect();
-        let synced = self
-            .with(|open| Ok(open.notes.synced.clone()))?;
+        let synced = self.with(|open| Ok(open.notes.synced.clone()))?;
 
         // What's new over there. Blobs this device had and let go of aren't: those get deleted
         // below.
         let mut incoming = Vec::new();
         let mut wanted_content = Vec::new();
-        for id in remote_blobs.keys().filter(|id| !local.contains(*id) && !synced.contains(*id)) {
+        for id in remote_blobs
+            .keys()
+            .filter(|id| !local.contains(*id) && !synced.contains(*id))
+        {
             if blob_kind(id) != Some(BlobKind::Record) {
                 continue;
             }
@@ -313,7 +318,8 @@ impl Safe {
             let opened = self.with(|open| Ok(open.keys.open_record(id, &sealed).ok()))?;
             let Some(record) = opened else {
                 self.with(|open| {
-                    open.warnings.push(Warning::DamagedBlob { blob: id.clone() });
+                    open.warnings
+                        .push(Warning::DamagedBlob { blob: id.clone() });
                     Ok(())
                 })?;
                 continue;
@@ -389,7 +395,9 @@ impl Safe {
                 }
                 continue;
             }
-            remote.put(blob, fs::read(blob_path(self.root(), blob))?).await?;
+            remote
+                .put(blob, fs::read(blob_path(self.root(), blob))?)
+                .await?;
             report.uploaded += 1;
             uploaded_or_there.insert(blob.clone());
         }

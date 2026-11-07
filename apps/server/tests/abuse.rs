@@ -7,8 +7,8 @@ use std::time::Duration;
 
 use axum::http::{Method, StatusCode};
 use common::*;
-use opaque_ke::{ClientLogin, ClientRegistration, ClientRegistrationFinishParameters};
 use octapass_server::config::{Bucket, RateLimits};
+use opaque_ke::{ClientLogin, ClientRegistration, ClientRegistrationFinishParameters};
 use rand_core::OsRng;
 use serde_json::json;
 

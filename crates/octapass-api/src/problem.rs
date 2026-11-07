@@ -12,12 +12,10 @@ pub mod types {
     pub const LOGIN_FAILED: &str = "https://octap.app/problems/login-failed";
     /// The password was right, and the account asks for a second step on new devices. The body's
     /// `secondFactor` says how; finish with `POST /v1/auth/login/second-factor`.
-    pub const SECOND_FACTOR_REQUIRED: &str =
-        "https://octap.app/problems/second-factor-required";
+    pub const SECOND_FACTOR_REQUIRED: &str = "https://octap.app/problems/second-factor-required";
     /// A wrong or reused second-step code or security key. The challenge stays usable for a few
     /// more tries.
-    pub const INVALID_SECOND_FACTOR: &str =
-        "https://octap.app/problems/invalid-second-factor";
+    pub const INVALID_SECOND_FACTOR: &str = "https://octap.app/problems/invalid-second-factor";
     /// The account was deleted. Clients must wipe their local data for it.
     pub const ACCOUNT_DELETED: &str = "https://octap.app/problems/account-deleted";
     /// A dangerous action needs a valid `X-Reauth-Token` for its purpose.
@@ -40,8 +38,7 @@ pub mod types {
     pub const PAYLOAD_TOO_LARGE: &str = "https://octap.app/problems/payload-too-large";
     /// The vault owner's item count or storage quota would be exceeded.
     pub const QUOTA_EXCEEDED: &str = "https://octap.app/problems/quota-exceeded";
-    pub const PRECONDITION_REQUIRED: &str =
-        "https://octap.app/problems/precondition-required";
+    pub const PRECONDITION_REQUIRED: &str = "https://octap.app/problems/precondition-required";
     pub const INVALID_VERIFICATION_CODE: &str =
         "https://octap.app/problems/invalid-verification-code";
     /// A master password reset that's unknown, expired, or was already finished: start again.

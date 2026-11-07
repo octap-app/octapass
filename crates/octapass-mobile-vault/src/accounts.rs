@@ -187,10 +187,7 @@ mod tests {
     #[test]
     fn tags_are_stable_and_hide_the_email() {
         let a = Account::new("https://vault.octap.app/", "a@example.com");
-        assert_eq!(
-            a,
-            Account::new("https://vault.octap.app/", "a@example.com")
-        );
+        assert_eq!(a, Account::new("https://vault.octap.app/", "a@example.com"));
         assert_ne!(
             a.tag,
             Account::new("http://localhost:8080/", "a@example.com").tag

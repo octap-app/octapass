@@ -10,8 +10,8 @@ use std::sync::{Arc, Mutex};
 use axum::body::Body;
 use axum::http::{Method, Request, StatusCode};
 use common::*;
-use opaque_ke::{ClientRegistration, ClientRegistrationFinishParameters, RegistrationResponse};
 use octapass_server::{Config, StorageConfig, admin};
+use opaque_ke::{ClientRegistration, ClientRegistrationFinishParameters, RegistrationResponse};
 use rand_core::OsRng;
 use serde_json::json;
 

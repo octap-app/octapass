@@ -251,7 +251,12 @@ pub fn decrypt_stream(keys: &Keys, input: impl Read, output: &mut impl Write) ->
 }
 
 /// Decrypts a file to `output`.
-pub fn decrypt_file(source: &Path, keys: &Keys, output: &Path, overwrite: bool) -> Result<Decrypted> {
+pub fn decrypt_file(
+    source: &Path,
+    keys: &Keys,
+    output: &Path,
+    overwrite: bool,
+) -> Result<Decrypted> {
     check_free(output, overwrite)?;
     let mut reader = reader(source, keys)?;
     let mut temporary = temporary_beside(output)?;
@@ -391,7 +396,14 @@ mod tests {
         let source = dir.path().join("a");
         fs::write(&source, vec![1u8; 200_000]).unwrap();
         let output = dir.path().join("a.age");
-        encrypt_path(&source, &Target::Recipients(&recipients), false, &output, false).unwrap();
+        encrypt_path(
+            &source,
+            &Target::Recipients(&recipients),
+            false,
+            &output,
+            false,
+        )
+        .unwrap();
         let mut bytes = fs::read(&output).unwrap();
         let end = bytes.len() - 100;
         bytes[end] ^= 1;
@@ -415,10 +427,20 @@ mod tests {
         let source = dir.path().join("a");
         fs::write(&source, b"x").unwrap();
         let output = dir.path().join("a.age");
-        encrypt_path(&source, &Target::Recipients(&recipients), false, &output, false).unwrap();
+        encrypt_path(
+            &source,
+            &Target::Recipients(&recipients),
+            false,
+            &output,
+            false,
+        )
+        .unwrap();
         let back = dir.path().join("back");
         decrypt_file(&output, &keys, &back, false).unwrap();
-        assert_eq!(fs::metadata(&back).unwrap().permissions().mode() & 0o777, 0o600);
+        assert_eq!(
+            fs::metadata(&back).unwrap().permissions().mode() & 0o777,
+            0o600
+        );
     }
 
     #[test]
@@ -433,8 +455,14 @@ mod tests {
         std::os::unix::fs::symlink("/etc/hosts", source.join("link")).unwrap();
 
         let output = encrypted_name(&source, true);
-        let done =
-            encrypt_path(&source, &Target::Recipients(&recipients), false, &output, false).unwrap();
+        let done = encrypt_path(
+            &source,
+            &Target::Recipients(&recipients),
+            false,
+            &output,
+            false,
+        )
+        .unwrap();
         assert!(done.folder);
         #[cfg(unix)]
         assert_eq!(done.skipped, vec![source.join("link")]);
@@ -447,12 +475,21 @@ mod tests {
         assert!(!back.join("link").exists());
     }
 
-    fn sealed_tar(build: impl FnOnce(&mut tar::Builder<Vec<u8>>), recipients: &[String]) -> Vec<u8> {
+    fn sealed_tar(
+        build: impl FnOnce(&mut tar::Builder<Vec<u8>>),
+        recipients: &[String],
+    ) -> Vec<u8> {
         let mut archive = tar::Builder::new(Vec::new());
         build(&mut archive);
         let tar = archive.into_inner().unwrap();
         let mut out = Vec::new();
-        encrypt_stream(&Target::Recipients(recipients), false, &mut &tar[..], &mut out).unwrap();
+        encrypt_stream(
+            &Target::Recipients(recipients),
+            false,
+            &mut &tar[..],
+            &mut out,
+        )
+        .unwrap();
         out
     }
 

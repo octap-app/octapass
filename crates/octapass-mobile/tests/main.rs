@@ -16,9 +16,10 @@ fn every_test_file_is_built() {
     let manifest = std::fs::read_to_string(dir.join("Cargo.toml")).unwrap();
     for entry in std::fs::read_dir(dir.join("tests")).unwrap() {
         let path = entry.unwrap().path();
-        let (Some(stem), Some("rs")) =
-            (path.file_stem().and_then(|s| s.to_str()), path.extension().and_then(|s| s.to_str()))
-        else {
+        let (Some(stem), Some("rs")) = (
+            path.file_stem().and_then(|s| s.to_str()),
+            path.extension().and_then(|s| s.to_str()),
+        ) else {
             continue;
         };
         if stem == "main" {

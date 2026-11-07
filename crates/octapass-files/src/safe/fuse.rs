@@ -119,11 +119,7 @@ impl SafeFs {
         self.inodes.id(inode).ok_or(ENOENT)
     }
 
-    fn named(
-        &self,
-        parent: u64,
-        name: &OsStr,
-    ) -> std::result::Result<(String, String), i32> {
+    fn named(&self, parent: u64, name: &OsStr) -> std::result::Result<(String, String), i32> {
         let folder = self.id(parent)?;
         let name = name_of(name).ok_or(EINVAL)?;
         Ok((folder, name.to_owned()))
@@ -144,11 +140,11 @@ impl Filesystem for SafeFs {
     }
 
     fn lookup(&mut self, req: &Request<'_>, parent: u64, name: &OsStr, reply: ReplyEntry) {
-        let found = self
-            .named(parent, name)
-            .and_then(|(folder, name)| {
-                self.safe.lookup(&folder, &name).map_err(|error| errno(&error))
-            });
+        let found = self.named(parent, name).and_then(|(folder, name)| {
+            self.safe
+                .lookup(&folder, &name)
+                .map_err(|error| errno(&error))
+        });
         match found {
             Ok(entry) => reply.entry(&TTL, &self.attr(req, &entry), 0),
             Err(code) => reply.error(code),
@@ -295,13 +291,11 @@ impl Filesystem for SafeFs {
         offset: i64,
         mut reply: ReplyDirectory,
     ) {
-        let listed = self
-            .id(ino)
-            .and_then(|id| {
-                let entry = self.safe.entry(&id).map_err(|error| errno(&error))?;
-                let list = self.safe.list(&id).map_err(|error| errno(&error))?;
-                Ok((entry, list))
-            });
+        let listed = self.id(ino).and_then(|id| {
+            let entry = self.safe.entry(&id).map_err(|error| errno(&error))?;
+            let list = self.safe.list(&id).map_err(|error| errno(&error))?;
+            Ok((entry, list))
+        });
         let (folder, entries) = match listed {
             Ok(listed) => listed,
             Err(code) => return reply.error(code),
@@ -401,7 +395,16 @@ impl Filesystem for SafeFs {
 
     fn statfs(&mut self, _req: &Request<'_>, _ino: u64, reply: ReplyStatfs) {
         // A Safe grows with the disk under it; these only need to look roomy.
-        reply.statfs(1 << 40, 1 << 39, 1 << 39, 1 << 32, 1 << 31, BLOCK, 255, BLOCK);
+        reply.statfs(
+            1 << 40,
+            1 << 39,
+            1 << 39,
+            1 << 32,
+            1 << 31,
+            BLOCK,
+            255,
+            BLOCK,
+        );
     }
 }
 

@@ -239,7 +239,12 @@ async fn a_folder_deleted_elsewhere_does_not_take_its_new_file() {
     a.sync(&server).await.unwrap();
     b.sync(&server).await.unwrap();
     assert_eq!(body(&b, "new.txt"), b"new");
-    assert!(b.warnings().unwrap().iter().any(|warning| matches!(warning, Warning::Orphaned { .. })));
+    assert!(
+        b.warnings()
+            .unwrap()
+            .iter()
+            .any(|warning| matches!(warning, Warning::Orphaned { .. }))
+    );
 }
 
 #[tokio::test]
@@ -324,6 +329,9 @@ fn dates_and_names() {
     assert_eq!(day_of(0), "1970-01-01");
     assert_eq!(day_of(1_793_577_600_000), "2026-11-02");
     assert_eq!(day_of(951_782_400_000), "2000-02-29");
-    assert_eq!(conflict_name("a.pdf", "2026-11-02"), "a (conflict 2026-11-02).pdf");
+    assert_eq!(
+        conflict_name("a.pdf", "2026-11-02"),
+        "a (conflict 2026-11-02).pdf"
+    );
     assert_eq!(conflict_name("a", "2026-11-02"), "a (conflict 2026-11-02)");
 }

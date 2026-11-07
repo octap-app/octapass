@@ -294,7 +294,10 @@ mod tests {
             !older.show_codes_on_watch,
             "nothing reaches a watch until it's turned on"
         );
-        assert!(!older.stay_unlocked, "settings saved before plan 18 keep their lock");
+        assert!(
+            !older.stay_unlocked,
+            "settings saved before plan 18 keep their lock"
+        );
         std::fs::write(dir.path().join(SETTINGS_FILE), "{ broken").unwrap();
         assert_eq!(
             load_settings(dir.path()),
@@ -317,7 +320,9 @@ mod tests {
         )
         .unwrap();
         let picked = load_settings(dir.path());
-        assert!(!picked.stay_unlocked && picked.auto_lock_minutes == 1 && picked.lock_on_background);
+        assert!(
+            !picked.stay_unlocked && picked.auto_lock_minutes == 1 && picked.lock_on_background
+        );
         // At the defaults, it can't be told from a picked lock: kept too.
         std::fs::write(
             dir.path().join(SETTINGS_FILE),

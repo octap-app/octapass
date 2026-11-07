@@ -8,7 +8,7 @@ use std::io::{Read, Seek, SeekFrom, Write};
 use std::path::Path;
 
 use octapass_core::keys::SymmetricKey;
-use octapass_core::safe::{CONTENT_CHUNK_LEN, STAGING_SLOT_LEN, seal_staging, open_staging};
+use octapass_core::safe::{CONTENT_CHUNK_LEN, STAGING_SLOT_LEN, open_staging, seal_staging};
 use rand_core::OsRng;
 use zeroize::Zeroizing;
 
@@ -65,10 +65,7 @@ impl Staged {
         let cut = len.div_ceil(chunk);
         self.held.retain(|index| *index < cut);
         self.base_chunks = self.base_chunks.min(cut);
-        if len % chunk != 0
-            && len < self.len
-            && self.held.contains(&(len / chunk))
-        {
+        if len % chunk != 0 && len < self.len && self.held.contains(&(len / chunk)) {
             let index = len / chunk;
             let mut plain = self.read_chunk(index)?;
             plain.truncate((len % chunk) as usize);

@@ -351,12 +351,7 @@ fn login(item: &Item) -> &LoginDetails {
 
 #[test]
 fn cxf_export_follows_the_spec() {
-    let export = cxf::export(
-        &document(true),
-        &account(),
-        "octap.app",
-        1_792_800_000,
-    );
+    let export = cxf::export(&document(true), &account(), "octap.app", 1_792_800_000);
     let header: Value = serde_json::from_str(&export.json).unwrap();
     assert_eq!(header["version"], json!({ "major": 1, "minor": 0 }));
     assert_eq!(header["exporterRpId"], "octap.app");

@@ -138,10 +138,7 @@ async fn sites_without_icons_and_bad_names() {
     assert_eq!(headers["cache-control"], "public, max-age=86400");
     assert_eq!(headers["access-control-allow-origin"], "*");
     let problem: serde_json::Value = serde_json::from_slice(&body).unwrap();
-    assert_eq!(
-        problem["type"],
-        "https://octap.app/problems/not-found"
-    );
+    assert_eq!(problem["type"], "https://octap.app/problems/not-found");
 
     let before = site.hits.load(Ordering::SeqCst);
     for bad in [
@@ -197,10 +194,7 @@ async fn the_proxy_can_be_turned_off() {
     let (status, _, body) = icon(&server, "shop.example.com", &[]).await;
     assert_eq!(status, StatusCode::NOT_FOUND);
     let problem: serde_json::Value = serde_json::from_slice(&body).unwrap();
-    assert_eq!(
-        problem["type"],
-        "https://octap.app/problems/icons-off"
-    );
+    assert_eq!(problem["type"], "https://octap.app/problems/icons-off");
     assert_eq!(site.hits.load(Ordering::SeqCst), 0);
     assert!(!server.dir.path().join("icons").exists());
 }

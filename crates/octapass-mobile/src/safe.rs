@@ -18,9 +18,12 @@ fn failure(error: SafeError) -> VaultError {
     match error {
         SafeError::Locked => VaultError::from(ErrorCode::Locked),
         SafeError::NotFound => ErrorCode::NotFound.into(),
-        SafeError::Exists | SafeError::IsFolder | SafeError::NotFolder | SafeError::NotEmpty | SafeError::InvalidName | SafeError::InvalidMove => {
-            ErrorCode::NotAllowed.into()
-        }
+        SafeError::Exists
+        | SafeError::IsFolder
+        | SafeError::NotFolder
+        | SafeError::NotEmpty
+        | SafeError::InvalidName
+        | SafeError::InvalidMove => ErrorCode::NotAllowed.into(),
         other => VaultError::unexpected(other.to_string()),
     }
 }
@@ -125,7 +128,13 @@ impl SafeDrive {
     }
 
     pub fn warnings(&self) -> Result<Vec<SafeWarning>> {
-        Ok(self.safe.warnings().map_err(failure)?.into_iter().map(Into::into).collect())
+        Ok(self
+            .safe
+            .warnings()
+            .map_err(failure)?
+            .into_iter()
+            .map(Into::into)
+            .collect())
     }
 
     pub fn entry(&self, id: String) -> Result<SafeEntry> {
@@ -133,15 +142,29 @@ impl SafeDrive {
     }
 
     pub fn list(&self, folder: String) -> Result<Vec<SafeEntry>> {
-        Ok(self.safe.list(&folder).map_err(failure)?.into_iter().map(Into::into).collect())
+        Ok(self
+            .safe
+            .list(&folder)
+            .map_err(failure)?
+            .into_iter()
+            .map(Into::into)
+            .collect())
     }
 
     pub fn create_file(&self, folder: String, name: String) -> Result<SafeEntry> {
-        Ok(self.safe.create_file(&folder, &name).map_err(failure)?.into())
+        Ok(self
+            .safe
+            .create_file(&folder, &name)
+            .map_err(failure)?
+            .into())
     }
 
     pub fn create_folder(&self, folder: String, name: String) -> Result<SafeEntry> {
-        Ok(self.safe.create_folder(&folder, &name).map_err(failure)?.into())
+        Ok(self
+            .safe
+            .create_folder(&folder, &name)
+            .map_err(failure)?
+            .into())
     }
 
     pub fn rename(&self, id: String, folder: String, name: String) -> Result<()> {
@@ -156,7 +179,8 @@ impl SafeDrive {
     /// Replaces a file's contents with those of the file at `path`, as one new revision.
     pub async fn import_file(self: Arc<Self>, id: String, path: String) -> Result<u64> {
         background(move || {
-            let mut input = fs::File::open(&path).map_err(|error| VaultError::unexpected(error.to_string()))?;
+            let mut input =
+                fs::File::open(&path).map_err(|error| VaultError::unexpected(error.to_string()))?;
             self.safe.import(&id, &mut input).map_err(failure)
         })
         .await
@@ -165,7 +189,8 @@ impl SafeDrive {
     /// Decrypts a file to `path`. The caller owns that plaintext and removes it when it's done.
     pub async fn export_file(self: Arc<Self>, id: String, path: String) -> Result<u64> {
         background(move || {
-            let mut output = fs::File::create(&path).map_err(|error| VaultError::unexpected(error.to_string()))?;
+            let mut output = fs::File::create(&path)
+                .map_err(|error| VaultError::unexpected(error.to_string()))?;
             self.safe.export(&id, &mut output).map_err(failure)
         })
         .await
@@ -173,7 +198,11 @@ impl SafeDrive {
 
     /// Part of a file, decrypted, for streaming.
     pub fn read(&self, id: String, offset: u64, size: u32) -> Result<Vec<u8>> {
-        Ok(self.safe.read(&id, offset, size as usize).map_err(failure)?.to_vec())
+        Ok(self
+            .safe
+            .read(&id, offset, size as usize)
+            .map_err(failure)?
+            .to_vec())
     }
 
     /// Changes part of a file. What's written waits in the engine's staging file, sealed under a
@@ -206,11 +235,20 @@ fn item(info: octapass_mobile_vault::vault::safes::SafeInfo) -> SafeItem {
 /// A Safe's id names its folder, and it comes from an item, which in a shared vault someone else
 /// wrote: nothing in it may lead out of the folder the app picked.
 fn folder_name(safe_id: &str) -> Result<&str> {
-    let plain = !safe_id.is_empty() && safe_id.chars().all(|c| c.is_ascii_alphanumeric() || c == '-');
-    plain.then_some(safe_id).ok_or_else(|| ErrorCode::NotFound.into())
+    let plain = !safe_id.is_empty()
+        && safe_id
+            .chars()
+            .all(|c| c.is_ascii_alphanumeric() || c == '-');
+    plain
+        .then_some(safe_id)
+        .ok_or_else(|| ErrorCode::NotFound.into())
 }
 
-fn open_at(folder: &Path, safe_id: &str, key: &octapass_core::keys::SymmetricKey) -> Result<Arc<Safe>> {
+fn open_at(
+    folder: &Path,
+    safe_id: &str,
+    key: &octapass_core::keys::SymmetricKey,
+) -> Result<Arc<Safe>> {
     let safe = if folder.join("safe.json").exists() {
         Safe::open(folder, key)
     } else {
@@ -230,7 +268,12 @@ impl OctaPassVault {
     pub async fn list_safes(self: Arc<Self>, folder: Option<String>) -> Result<Vec<SafeItem>> {
         self.run(move |this| {
             let folder = folder.map(PathBuf::from);
-            Ok(this.vault.list_safes(folder.as_deref())?.into_iter().map(item).collect())
+            Ok(this
+                .vault
+                .list_safes(folder.as_deref())?
+                .into_iter()
+                .map(item)
+                .collect())
         })
         .await
     }
@@ -242,11 +285,18 @@ impl OctaPassVault {
 
     /// Opens a Safe kept under `folder`, which the app picks (its own private storage), making it
     /// on first use.
-    pub async fn open_safe(self: Arc<Self>, item_id: String, folder: String) -> Result<Arc<SafeDrive>> {
+    pub async fn open_safe(
+        self: Arc<Self>,
+        item_id: String,
+        folder: String,
+    ) -> Result<Arc<SafeDrive>> {
         self.run(move |this| {
             let vault = &this.vault;
             let safes = vault.list_safes(Some(Path::new(&folder)))?;
-            let info = safes.iter().find(|safe| safe.item_id == item_id).ok_or(ErrorCode::NotFound)?;
+            let info = safes
+                .iter()
+                .find(|safe| safe.item_id == item_id)
+                .ok_or(ErrorCode::NotFound)?;
             let key = vault.safe_key(&item_id)?;
             let path = PathBuf::from(&folder).join(folder_name(&info.safe_id)?);
             Ok(Arc::new(SafeDrive {
@@ -276,7 +326,8 @@ impl OctaPassVault {
             this.vault.delete_safe(&item_id)?;
             let path = PathBuf::from(&folder).join(folder_name(&info.safe_id)?);
             if path.exists() {
-                fs::remove_dir_all(&path).map_err(|error| VaultError::unexpected(error.to_string()))?;
+                fs::remove_dir_all(&path)
+                    .map_err(|error| VaultError::unexpected(error.to_string()))?;
             }
             Ok(())
         })
@@ -284,7 +335,11 @@ impl OctaPassVault {
     }
 
     /// Sends and fetches a synced Safe's changes through the server.
-    pub async fn sync_safe(self: Arc<Self>, item_id: String, drive: Arc<SafeDrive>) -> Result<SafeSyncSummary> {
+    pub async fn sync_safe(
+        self: Arc<Self>,
+        item_id: String,
+        drive: Arc<SafeDrive>,
+    ) -> Result<SafeSyncSummary> {
         self.run(move |this| {
             let remote = this.vault.safe_remote(&item_id)?;
             let report = block_on_ready(drive.safe.sync(&remote)).map_err(failure)?;
@@ -347,7 +402,9 @@ mod tests {
             safe: open_at(&folder, safe_id, &key).unwrap(),
         };
         let file = drive.create_file(safe_root_id(), "a.txt".into()).unwrap();
-        drive.write(file.id.clone(), 0, b"hello world".to_vec()).unwrap();
+        drive
+            .write(file.id.clone(), 0, b"hello world".to_vec())
+            .unwrap();
         assert_eq!(drive.read(file.id.clone(), 6, 100).unwrap(), b"world");
         drive.truncate(file.id.clone(), 5).unwrap();
         drive.flush(file.id.clone()).unwrap();

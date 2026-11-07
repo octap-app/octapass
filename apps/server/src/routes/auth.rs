@@ -4,10 +4,6 @@
 use axum::Json;
 use axum::extract::State;
 use axum::http::StatusCode;
-use opaque_ke::{
-    CredentialFinalization, CredentialRequest, RegistrationRequest, RegistrationUpload,
-    ServerLogin, ServerLoginParameters, ServerRegistration,
-};
 use octapass_api::problem::Problem;
 use octapass_api::{
     KdfAlgorithm, KdfParams, LoginFinishRequest, LoginFinishResponse, LoginStartRequest,
@@ -16,6 +12,10 @@ use octapass_api::{
     RegisterFinishRequest, RegisterFinishResponse, RegisterStartRequest, RegisterStartResponse,
     SecondFactorChallenge, SecondFactorMethod, SecondFactorRequest, SecurityEventType, SignupMode,
     SsoChallenge, SsoLoginRequest, WebAuthnAssertion, WebAuthnRequestOptions,
+};
+use opaque_ke::{
+    CredentialFinalization, CredentialRequest, RegistrationRequest, RegistrationUpload,
+    ServerLogin, ServerLoginParameters, ServerRegistration,
 };
 use rand_core::OsRng;
 use std::time::Duration;

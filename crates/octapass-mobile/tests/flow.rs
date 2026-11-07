@@ -1030,8 +1030,7 @@ fn sharing_families_links_and_emergency_access() {
         },
     ));
     assert!(link.url.starts_with("https://vault.octap.app/s/"));
-    let address =
-        parse_share_link_url(link.url.clone(), "https://vault.octap.app".into()).unwrap();
+    let address = parse_share_link_url(link.url.clone(), "https://vault.octap.app".into()).unwrap();
     assert_eq!(address.key, link.key);
     assert_eq!(
         address.server_url, server.url,

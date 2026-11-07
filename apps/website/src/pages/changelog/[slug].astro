@@ -1,6 +1,7 @@
 ---
 import { getCollection, render, type CollectionEntry } from 'astro:content';
 import Site from '../../layouts/Site.astro';
+import { entryDate, newest } from '../../lib/lastmod.mjs';
 import { SITE_NAME, SITE_URL } from '../../site.config';
 
 export async function getStaticPaths() {
@@ -12,6 +13,9 @@ const { entry } = Astro.props as { entry: CollectionEntry<'changelog'> };
 const { Content } = await render(entry);
 const fmt = new Intl.DateTimeFormat('en', { dateStyle: 'long', timeZone: 'UTC' });
 const isoDate = entry.data.date.toISOString().slice(0, 10);
+const url = new URL(`/changelog/${entry.id}/`, SITE_URL).href;
+const ogImage = `/og/en/changelog/${entry.id}.png`;
+const publisher = { '@type': 'Organization', name: SITE_NAME, url: SITE_URL, logo: new URL('/icon-512.png', SITE_URL).href };
 const jsonLd = [
   {
     '@context': 'https://schema.org',
@@ -19,13 +23,30 @@ const jsonLd = [
     headline: entry.data.title,
     description: entry.data.summary,
     datePublished: isoDate,
-    url: new URL(`/changelog/${entry.id}/`, SITE_URL).href,
-    publisher: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+    // Edits after the day it was published, from git; otherwise the publication date.
+    dateModified: newest(isoDate, entryDate(entry.filePath)),
+    url,
+    mainEntityOfPage: url,
+    image: new URL(ogImage, SITE_URL).href,
+    inLanguage: 'en',
+    keywords: entry.data.tags.join(', ') || undefined,
+    author: publisher,
+    publisher,
+    isPartOf: { '@type': 'Blog', name: `${SITE_NAME} changelog`, url: new URL('/changelog/', SITE_URL).href },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: SITE_NAME, item: new URL('/', SITE_URL).href },
+      { '@type': 'ListItem', position: 2, name: 'Changelog', item: new URL('/changelog/', SITE_URL).href },
+      { '@type': 'ListItem', position: 3, name: entry.data.title, item: url },
+    ],
   },
 ];
 ---
 
-<Site title={`${entry.data.title} | ${SITE_NAME} changelog`} description={entry.data.summary} jsonLd={jsonLd} ogType="article" ogImage={`/og/en/changelog/${entry.id}.png`}>
+<Site title={`${entry.data.title} | ${SITE_NAME} changelog`} description={entry.data.summary} jsonLd={jsonLd} ogType="article" ogImage={ogImage} markdownHref={`/changelog/${entry.id}.md`}>
   <article class="page">
     <p class="back"><a href="/changelog/">All changes</a></p>
     <time datetime={isoDate}>{fmt.format(entry.data.date)}</time>

@@ -87,7 +87,11 @@ impl Vault {
         let account = self.lookup_account(email).await?;
         check_fingerprint(&account)?;
         let key = self.account_key()?;
-        let verified = self.store.load_notes(&key)?.verified.get(&account.account_id)
+        let verified = self
+            .store
+            .load_notes(&key)?
+            .verified
+            .get(&account.account_id)
             == Some(&account.fingerprint.digits);
         Ok(FileRecipient {
             recipient: account_recipient(&b64_decode_array(&account.public_enc_key)?),
@@ -229,9 +233,7 @@ impl Vault {
         let len = bytes.len() as u64;
         self.authed(&key, |api, token| {
             let bytes = bytes.clone();
-            async move {
-                api.upload_attachment(&token, ids, len, bytes.into()).await
-            }
+            async move { api.upload_attachment(&token, ids, len, bytes.into()).await }
         })
         .await??;
         Ok(())
@@ -281,7 +283,10 @@ impl Remote for SafeRemote {
     }
 
     async fn get(&self, id: &str) -> octapass_files::safe::Result<Vec<u8>> {
-        self.vault.get_blob(self.ids(id)).await.map_err(remote_error)
+        self.vault
+            .get_blob(self.ids(id))
+            .await
+            .map_err(remote_error)
     }
 
     async fn put(&self, id: &str, bytes: Vec<u8>) -> octapass_files::safe::Result<()> {
@@ -292,7 +297,10 @@ impl Remote for SafeRemote {
     }
 
     async fn delete(&self, id: &str) -> octapass_files::safe::Result<()> {
-        self.vault.delete_blob(self.ids(id)).await.map_err(remote_error)
+        self.vault
+            .delete_blob(self.ids(id))
+            .await
+            .map_err(remote_error)
     }
 
     fn max_blob(&self) -> u64 {

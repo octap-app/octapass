@@ -36,12 +36,16 @@ impl Open {
         let blobs = local_blobs(root)?;
         let mut best: HashMap<String, (String, ObjectRecord)> = HashMap::new();
         let mut losers = Vec::new();
-        for blob in blobs.iter().filter(|b| blob_kind(b) == Some(BlobKind::Record)) {
+        for blob in blobs
+            .iter()
+            .filter(|b| blob_kind(b) == Some(BlobKind::Record))
+        {
             let opened = fs::read(blob_path(root, blob))
                 .ok()
                 .and_then(|sealed| self.keys.open_record(blob, &sealed).ok());
             let Some(record) = opened else {
-                self.warnings.push(Warning::DamagedBlob { blob: blob.clone() });
+                self.warnings
+                    .push(Warning::DamagedBlob { blob: blob.clone() });
                 continue;
             };
             match best.get(&record.object) {
@@ -49,7 +53,8 @@ impl Open {
                     losers.push(blob.clone());
                 }
                 _ => {
-                    if let Some((held, _)) = best.insert(record.object.clone(), (blob.clone(), record))
+                    if let Some((held, _)) =
+                        best.insert(record.object.clone(), (blob.clone(), record))
                     {
                         losers.push(held);
                     }
@@ -68,7 +73,10 @@ impl Open {
             .values()
             .filter_map(|node| node.record.content.as_deref())
             .collect();
-        for blob in blobs.iter().filter(|b| blob_kind(b) == Some(BlobKind::Content)) {
+        for blob in blobs
+            .iter()
+            .filter(|b| blob_kind(b) == Some(BlobKind::Content))
+        {
             if !wanted.contains(blob.as_str()) {
                 remove_blob(root, blob)?;
             }
@@ -101,7 +109,9 @@ impl Open {
         for node in self.nodes.values() {
             let seen = self.notes.seen.get(&node.record.object).copied();
             if seen.is_none_or(|seen| seen < node.record.rev) {
-                self.notes.seen.insert(node.record.object.clone(), node.record.rev);
+                self.notes
+                    .seen
+                    .insert(node.record.object.clone(), node.record.rev);
                 self.notes_dirty = true;
             }
         }
@@ -136,7 +146,10 @@ impl Open {
             if parent != node.record.parent {
                 node.record.parent.clone_from(&parent);
                 let name = node.record.name.clone();
-                if !self.warnings.contains(&Warning::Orphaned { name: name.clone() }) {
+                if !self
+                    .warnings
+                    .contains(&Warning::Orphaned { name: name.clone() })
+                {
                     self.warnings.push(Warning::Orphaned { name });
                 }
             }

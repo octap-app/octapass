@@ -49,7 +49,9 @@ fn on_disk(root: &Path) -> Vec<u8> {
 }
 
 fn contains(haystack: &[u8], needle: &[u8]) -> bool {
-    haystack.windows(needle.len()).any(|window| window == needle)
+    haystack
+        .windows(needle.len())
+        .any(|window| window == needle)
 }
 
 #[test]
@@ -246,7 +248,10 @@ fn big_files_read_and_rewrite_in_the_middle() {
     let mut body: Vec<u8> = (0..1_000_000u32).map(|i| (i % 251) as u8).collect();
     let id = file(&safe, ROOT, "big", &body);
     assert_eq!(read_whole(&safe, &id), body);
-    assert_eq!(*safe.read(&id, 123_456, 70_000).unwrap(), body[123_456..193_456]);
+    assert_eq!(
+        *safe.read(&id, 123_456, 70_000).unwrap(),
+        body[123_456..193_456]
+    );
 
     let patch = vec![0xAB; 100_000];
     safe.write(&id, 300_000, &patch).unwrap();
@@ -343,7 +348,10 @@ fn a_lock_during_an_import_leaves_the_old_file_whole() {
         safe: &safe,
         pieces: vec![vec![1u8; 1000], vec![2u8; 1000]],
     };
-    assert!(matches!(safe.import(&id, &mut reader), Err(SafeError::Locked)));
+    assert!(matches!(
+        safe.import(&id, &mut reader),
+        Err(SafeError::Locked)
+    ));
     let safe = Safe::open(&root, &key()).unwrap();
     assert_eq!(read_whole(&safe, &id), b"the original");
 }

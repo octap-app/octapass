@@ -72,7 +72,14 @@ async fn encrypting_for_yourself_needs_no_unlock_once_the_key_is_known() {
     cli.run(&["encrypt", "--self", path(&source)]).await.ok();
 
     // Decrypting does need the keys.
-    let locked = cli.run(&["decrypt", path(&dir.path().join("a.age")), "-o", path(&dir.path().join("b"))]).await;
+    let locked = cli
+        .run(&[
+            "decrypt",
+            path(&dir.path().join("a.age")),
+            "-o",
+            path(&dir.path().join("b")),
+        ])
+        .await;
     assert_eq!(locked.code, 4);
 }
 
@@ -175,17 +182,38 @@ async fn a_passphrase_file_needs_only_the_passphrase() {
     let source = dir.path().join("a");
     fs::write(&source, b"pp").unwrap();
     stranger
-        .run_stdin(&["--password-stdin", "encrypt", "--passphrase", path(&source)], "open sesame\n")
+        .run_stdin(
+            &["--password-stdin", "encrypt", "--passphrase", path(&source)],
+            "open sesame\n",
+        )
         .await
         .ok();
     let sealed = dir.path().join("a.age");
     let wrong = stranger
-        .run_stdin(&["--password-stdin", "decrypt", "-o", path(&dir.path().join("w")), path(&sealed)], "nope\n")
+        .run_stdin(
+            &[
+                "--password-stdin",
+                "decrypt",
+                "-o",
+                path(&dir.path().join("w")),
+                path(&sealed),
+            ],
+            "nope\n",
+        )
         .await;
     assert_eq!(wrong.code, 5);
     assert!(!dir.path().join("w").exists());
     stranger
-        .run_stdin(&["--password-stdin", "decrypt", "-o", path(&dir.path().join("r")), path(&sealed)], "open sesame\n")
+        .run_stdin(
+            &[
+                "--password-stdin",
+                "decrypt",
+                "-o",
+                path(&dir.path().join("r")),
+                path(&sealed),
+            ],
+            "open sesame\n",
+        )
         .await
         .ok();
     assert_eq!(fs::read(dir.path().join("r")).unwrap(), b"pp");
@@ -268,16 +296,33 @@ async fn a_safe_keeps_files_and_hides_from_lists() {
     assert_eq!(listed[0]["size"], 7);
 
     let out = dir.path().join("copy.pdf");
-    cli.run(&["safe", "get", "Taxes", "2026/q1/return.pdf", "-o", path(&out)])
-        .await
-        .ok();
+    cli.run(&[
+        "safe",
+        "get",
+        "Taxes",
+        "2026/q1/return.pdf",
+        "-o",
+        path(&out),
+    ])
+    .await
+    .ok();
     assert_eq!(fs::read(&out).unwrap(), b"numbers");
 
-    cli.run(&["safe", "mv", "Taxes", "2026/q1/return.pdf", "2026/final.pdf"])
-        .await
-        .ok();
+    cli.run(&[
+        "safe",
+        "mv",
+        "Taxes",
+        "2026/q1/return.pdf",
+        "2026/final.pdf",
+    ])
+    .await
+    .ok();
     cli.run(&["safe", "rm", "Taxes", "2026/q1"]).await.ok();
-    let top = cli.run(&["--json", "safe", "ls", "Taxes", "2026"]).await.ok().json();
+    let top = cli
+        .run(&["--json", "safe", "ls", "Taxes", "2026"])
+        .await
+        .ok()
+        .json();
     assert_eq!(top.as_array().unwrap().len(), 1);
 
     // The Safe's key item doesn't clutter the item list, and nothing readable sits on disk.
@@ -298,7 +343,9 @@ async fn a_safe_syncs_between_devices_through_the_server() {
     let dir = tempfile::tempdir().unwrap();
     let source = dir.path().join("note.txt");
     fs::write(&source, b"from one").unwrap();
-    cli.run(&["safe", "add", "Shared", path(&source)]).await.ok();
+    cli.run(&["safe", "add", "Shared", path(&source)])
+        .await
+        .ok();
 
     let out = dir.path().join("got.txt");
     second
@@ -308,10 +355,21 @@ async fn a_safe_syncs_between_devices_through_the_server() {
     assert_eq!(fs::read(&out).unwrap(), b"from one");
 
     fs::write(&source, b"from two").unwrap();
-    second.run(&["safe", "add", "Shared", path(&source)]).await.ok();
-    cli.run(&["safe", "get", "Shared", "note.txt", "-o", path(&out), "--force"])
+    second
+        .run(&["safe", "add", "Shared", path(&source)])
         .await
         .ok();
+    cli.run(&[
+        "safe",
+        "get",
+        "Shared",
+        "note.txt",
+        "-o",
+        path(&out),
+        "--force",
+    ])
+    .await
+    .ok();
     assert_eq!(fs::read(&out).unwrap(), b"from two");
 }
 
@@ -358,7 +416,13 @@ async fn a_deleted_safe_is_gone_here_and_elsewhere() {
     cli.run(&["safe", "delete", "Old", "--yes"]).await.ok();
     let listed = cli.run(&["--json", "safe", "list"]).await.ok().json();
     assert!(listed.as_array().unwrap().is_empty());
-    assert!(!cli.data_dir().join("safes").read_dir().unwrap().any(|_| true));
+    assert!(
+        !cli.data_dir()
+            .join("safes")
+            .read_dir()
+            .unwrap()
+            .any(|_| true)
+    );
 
     let second = Cli::new(&server);
     second.login(&other.secret_key).await.ok();

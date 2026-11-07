@@ -314,7 +314,12 @@ mod tests {
         save("https://shop.example/login", "maya", "new", None);
         save("https://shop.example/login", "maya", "old", None);
         let sealed = fs::read_to_string(format!("{path}.inbox")).unwrap();
-        for secret in ["app-password-17", "samuel-rivers", "shop.example", "com.example.app"] {
+        for secret in [
+            "app-password-17",
+            "samuel-rivers",
+            "shop.example",
+            "com.example.app",
+        ] {
             assert!(!sealed.contains(secret), "{secret} is readable");
         }
 
@@ -342,7 +347,10 @@ mod tests {
             .unwrap();
         assert_eq!(added.title, "Example App");
         assert_eq!(added.tags, vec![UNCONFIRMED_TAG.to_string()]);
-        assert_eq!(added.login.unwrap().password.as_deref(), Some("app-password-17"));
+        assert_eq!(
+            added.login.unwrap().password.as_deref(),
+            Some("app-password-17")
+        );
         assert!(store.read_inbox().unwrap().entries.is_empty());
         assert_eq!(
             store.clone().merge_inbox(session).unwrap(),

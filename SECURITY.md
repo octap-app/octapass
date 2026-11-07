@@ -4,7 +4,7 @@ Octa Pass is a password manager, so security reports are our highest priority.
 
 ## Project status
 
-Octa Pass is **built but not released**: the code is in this repository, no public service or store listing exists, and nothing has had its external audit. Reviews of the security design and the code are very welcome now, while changes are cheap:
+Octa Pass is in **public alpha**: the hosted service at [vault.octap.app](https://vault.octap.app) is open for sign-ups, the apps aren't in any store yet, and nothing has had its external audit. Reviews of the security design and the code are very welcome now, while changes are cheap:
 
 - [Security model plan](plans/03-security-model.md)
 - [Security docs](docs/security/overview.md)
@@ -16,7 +16,7 @@ Open a regular GitHub issue (label `security-design`) for design feedback that d
 **Don't open public issues for vulnerabilities.** Report privately:
 
 - GitHub: **Security → Report a vulnerability** on this repository (private advisory), or
-- Email: `security@octap.app` (placeholder until the project domain is chosen; a PGP/age key will be published here)
+- Email: not available yet. Use a GitHub private security advisory (above) until a security mailbox and key are published here.
 
 Please include affected component and version, reproduction steps, and impact.
 

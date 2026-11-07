@@ -16,8 +16,11 @@ sidebar:
 | `https://octap.app/llms-full.txt` | كل التوثيق في ملف Markdown واحد |
 | `https://octap.app/llms-small.txt` | نسخة مختصرة لنوافذ السياق الصغيرة |
 | `https://octap.app/docs/<page>.md` | **نسخة Markdown المقابلة** لأي صفحة، مثل `/docs/security/encryption.md` |
+| `https://octap.app/index.md` و`/ar/index.md` | الصفحة الرئيسية بصيغة Markdown: ما هو Octa Pass، والميزات، والخطة المجانية، والمنصات ومدى توفر كل منها، وروابط المصدر المفتوح، والأسئلة الشائعة |
+| `https://octap.app/changelog/index.md` | سجل التغييرات، الأحدث أولًا، مع رابط إلى نسخة Markdown لكل مدخل على `/changelog/<slug>.md` |
+| `https://octap.app/sitemap-index.xml` | كل الصفحات، مع تاريخ آخر تغيير لكل منها ونسختيها الإنجليزية والعربية |
 
-كل صفحة توثيق بصيغة HTML تعلن عن نسختها المقابلة:
+كل صفحة HTML لها نسخة Markdown تعلن عنها:
 
 ```html
 <link rel="alternate" type="text/markdown" href="/docs/security/encryption.md">

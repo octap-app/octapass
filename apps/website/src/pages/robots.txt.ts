@@ -16,6 +16,7 @@ export const GET: APIRoute = () => {
     `Sitemap: ${new URL('/sitemap-index.xml', SITE_URL).href}`,
     '',
     '# LLM-readable docs: /llms.txt, /llms-full.txt, /llms-small.txt',
+    '# Every docs page, the home page and each changelog entry also has a Markdown copy at its path + .md, e.g. /index.md',
     '',
   ].join('\n');
   return new Response(body, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });

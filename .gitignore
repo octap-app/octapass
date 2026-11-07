@@ -1,6 +1,8 @@
 node_modules/
 dist/
 .astro/
+# Page dates for Docker builds of the website, written by deploy/octap.app/deploy.sh
+apps/website/.git-dates.txt
 .DS_Store
 *.log
 .env

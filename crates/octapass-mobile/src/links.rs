@@ -342,10 +342,7 @@ mod tests {
             DEFAULT,
         )
         .unwrap();
-        assert_eq!(
-            url,
-            "https://vault.octap.app/s/AbC_d-e#k3y-in_the-fragment"
-        );
+        assert_eq!(url, "https://vault.octap.app/s/AbC_d-e#k3y-in_the-fragment");
         assert_eq!(
             parse_share_link_url(url, DEFAULT.into()),
             Some(ShareLinkAddress {

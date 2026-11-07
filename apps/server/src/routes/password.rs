@@ -12,7 +12,6 @@ use axum::Json;
 use axum::extract::State;
 use axum::http::{HeaderMap, StatusCode};
 use ed25519_dalek::{Signature, VerifyingKey};
-use opaque_ke::{RegistrationRequest, RegistrationUpload, ServerRegistration};
 use octapass_api::problem::Problem;
 use octapass_api::{
     ChangePasswordRequest, CredentialsUpdate, PasswordRegistrationRequest,
@@ -20,6 +19,7 @@ use octapass_api::{
     RecoverStartRequest, RecoverStartResponse, RecoverVerifyRequest, RecoverVerifyResponse,
     SecurityEventType,
 };
+use opaque_ke::{RegistrationRequest, RegistrationUpload, ServerRegistration};
 
 use crate::crypto::{
     Suite, base64url, constant_time_eq, keyed_hash, random_bytes, random_token, six_digit_code,

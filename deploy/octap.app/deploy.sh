@@ -23,6 +23,10 @@ if [[ -z "${SKIP_BUILD:-}" ]]; then
   echo "==> building octapass-server:$TAG"
   docker build --platform "$PLATFORM" -f "$ROOT/apps/server/Dockerfile" -t "octapass-server:$TAG" "$ROOT"
   echo "==> building octapass-website:$TAG"
+  # The image has no .git, so hand the website each page's last commit date (sitemap <lastmod>, JSON-LD).
+  # Same command as GIT_LOG_ARGS in apps/website/src/lib/lastmod.mjs.
+  git -C "$ROOT" -c core.quotePath=false log --format=@@%cI --name-only -- docs changelog apps/website/src \
+    > "$ROOT/apps/website/.git-dates.txt"
   docker build --platform "$PLATFORM" -f "$ROOT/apps/website/Dockerfile" -t "octapass-website:$TAG" "$ROOT"
 fi
 

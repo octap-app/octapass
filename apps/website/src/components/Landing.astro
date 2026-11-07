@@ -58,24 +58,51 @@ const items = [
   { name: d.awsRoot, sub: d.apiCredential, hue: 40 },
 ];
 
+// One graph for both language pages: the app, the project behind it and the site, linked by @id.
+const pageUrl = new URL(to('/'), SITE_URL).href;
+const orgId = new URL('/#organization', SITE_URL).href;
+const githubOrg = REPO_URL.replace(/\/[^/]+\/?$/, '');
 const jsonLd = [
   {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
+    '@id': new URL('/#app', SITE_URL).href,
     name: SITE_NAME,
     description,
-    url: new URL(to('/'), SITE_URL).href,
+    url: pageUrl,
+    image: new URL('/icon-512.png', SITE_URL).href,
     inLanguage: locale,
     applicationCategory: 'SecurityApplication',
-    operatingSystem: 'Windows, macOS, Linux, iOS, Android, Chrome, Firefox, Safari, Edge',
+    applicationSubCategory: 'Password manager',
+    operatingSystem: 'Web, Windows, macOS, Linux, iOS, iPadOS, Android, Chrome, Edge, Brave, Firefox, Safari',
+    downloadUrl: VAULT_URL,
     isAccessibleForFree: true,
     license: 'https://opensource.org/license/mit',
     offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-    codeRepository: REPO_URL,
+    publisher: { '@id': orgId },
+    sameAs: [REPO_URL],
+    softwareHelp: { '@type': 'CreativeWork', url: new URL(to('/docs/'), SITE_URL).href },
     featureList: 'Passwords, Passkeys, TOTP codes, Autofill, Cards, Identities, Recovery info, Masked email, Security dashboard, Sharing, Import and export',
   },
-  { '@context': 'https://schema.org', '@type': 'Organization', name: SITE_NAME, url: SITE_URL, logo: new URL('/icon-512.png', SITE_URL).href, sameAs: [REPO_URL] },
-  { '@context': 'https://schema.org', '@type': 'WebSite', name: SITE_NAME, url: SITE_URL, inLanguage: locale },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': orgId,
+    name: SITE_NAME,
+    url: SITE_URL,
+    logo: new URL('/icon-512.png', SITE_URL).href,
+    sameAs: [githubOrg, REPO_URL],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': new URL('/#website', SITE_URL).href,
+    name: SITE_NAME,
+    url: SITE_URL,
+    description,
+    inLanguage: locale,
+    publisher: { '@id': orgId },
+  },
   {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
@@ -86,7 +113,7 @@ const jsonLd = [
 ---
 
 
-<Site locale={locale} title={title} description={description} jsonLd={jsonLd} ogImage={`/og/${locale}/home.png`} alternatePath="/">
+<Site locale={locale} title={title} description={description} jsonLd={jsonLd} ogImage={`/og/${locale}/home.png`} alternatePath="/" markdownHref={to('/index.md')}>
   <!-- Hero -->
   <section class="hero">
     <div class="hero-copy">

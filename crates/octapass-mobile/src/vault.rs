@@ -55,8 +55,8 @@ use crate::tools::{StrengthEstimate, estimate};
 use crate::transfer::{
     self, CodeLink, ExportFormat, ImportReview, ImportSource, ImportSummary, ReceivedPreview,
 };
-use crate::watch::{self, WatchSource};
 use crate::usage::{ItemUse, SmartList, USAGE_SAVE_DELAY, Usage, add_uses};
+use crate::watch::{self, WatchSource};
 
 /// How often the auto-lock timer looks at the clock.
 const AUTO_LOCK_TICK: Duration = Duration::from_secs(5);
@@ -796,8 +796,8 @@ impl OctaPassVault {
             Box::new(move |event| match event {
                 Event::Session(state) => {
                     let unlocked = state.session.status == VaultStatus::Unlocked;
-                    let opened = unlocked
-                        && !was_unlocked.swap(true, std::sync::atomic::Ordering::SeqCst);
+                    let opened =
+                        unlocked && !was_unlocked.swap(true, std::sync::atomic::Ordering::SeqCst);
                     if !unlocked {
                         was_unlocked.store(false, std::sync::atomic::Ordering::SeqCst);
                     }

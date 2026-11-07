@@ -1,25 +1,46 @@
 ---
-// Extends Starlight's <head> with structured data, a pointer to each page's Markdown twin, the
+// Extends Starlight's <head> with structured data, a pointer to each page's Markdown twin and the
 // page's own social image. Starlight adds the hreflang links, x-default included, itself.
+// Tags go into Starlight's own head list rather than after it, so one that Starlight also sets
+// (twitter:card) appears once.
 import Default from '@astrojs/starlight/components/Head.astro';
+import { stringsFor } from '../i18n/landing';
+import { BUILD_DATE, entryDate } from '../lib/lastmod.mjs';
 import { SITE_NAME, SITE_URL } from '../site.config';
 
-const { entry, id, lang, isFallback } = Astro.locals.starlightRoute;
+const route = Astro.locals.starlightRoute;
+const { entry, id, isFallback, sidebar } = route;
+type HeadConfig = typeof route.head;
 const pageUrl = new URL(Astro.url.pathname, SITE_URL).href;
 const isDoc = id === 'docs' || id.startsWith('docs/') || id.startsWith('ar/docs');
-const locale = lang === 'ar' ? 'ar' : 'en';
+const locale = route.locale === 'ar' ? 'ar' : 'en';
 const englishId = id.replace(/^ar\//, '');
 const markdownHref = `/${isFallback ? englishId : id}.md`;
 const ogImage = new URL(`/og/${isFallback ? 'en' : locale}/${englishId}.png`, SITE_URL).href;
+const abs = (path: string) => new URL(path, SITE_URL).href;
 
-// Breadcrumbs from the URL path: /docs/security/encryption/ → Docs › Security › Encryption
-const segments = id.split('/');
-const crumbs = segments.map((segment, i) => ({
-  '@type': 'ListItem',
-  position: i + 1,
-  name: i === segments.length - 1 ? entry.data.title : segment.replace(/-/g, ' ').replace(/^./, (c) => c.toUpperCase()),
-  item: new URL(`/${segments.slice(0, i + 1).join('/')}/`, SITE_URL).href,
-}));
+// Breadcrumbs: Octa Pass › Documentation › <sidebar group> › <page>. The group links to its first page,
+// because section folders like /docs/security/ have no page of their own.
+type SidebarEntry = (typeof sidebar)[number];
+type SidebarGroup = Extract<SidebarEntry, { type: 'group' }>;
+const findGroup = (entries: SidebarEntry[]): SidebarGroup | undefined => {
+  for (const item of entries) {
+    if (item.type !== 'group') continue;
+    if (item.entries.some((e) => e.type === 'link' && e.isCurrent)) return item;
+    const inner = findGroup(item.entries);
+    if (inner) return inner;
+  }
+  return undefined;
+};
+const group = findGroup(sidebar);
+const groupFirst = group?.entries.find((e) => e.type === 'link');
+const docsHome = abs(locale === 'ar' ? '/ar/docs/' : '/docs/');
+const trail = [
+  { name: SITE_NAME, item: abs(locale === 'ar' ? '/ar/' : '/') },
+  ...(pageUrl === docsHome ? [] : [{ name: stringsFor(locale).site.documentation, item: docsHome }]),
+  ...(group && groupFirst?.type === 'link' && abs(groupFirst.href) !== pageUrl ? [{ name: group.label, item: abs(groupFirst.href) }] : []),
+  { name: entry.data.title, item: pageUrl },
+];
 
 const jsonLd = isDoc
   ? [
@@ -29,23 +50,36 @@ const jsonLd = isDoc
         headline: entry.data.title,
         description: entry.data.description,
         url: pageUrl,
+        mainEntityOfPage: pageUrl,
         image: ogImage,
         inLanguage: isFallback ? 'en' : locale,
-        isPartOf: { '@type': 'WebSite', name: `${SITE_NAME} docs`, url: new URL(locale === 'ar' ? '/ar/docs/' : '/docs/', SITE_URL).href },
-        publisher: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+        dateModified: entryDate(entry.filePath) ?? BUILD_DATE,
+        isPartOf: { '@type': 'WebSite', name: `${SITE_NAME} docs`, url: docsHome },
+        publisher: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL, logo: abs('/icon-512.png') },
         license: 'https://opensource.org/license/mit',
       },
-      { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: crumbs },
+      {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: trail.map((crumb, i) => ({ '@type': 'ListItem', position: i + 1, ...crumb })),
+      },
     ]
   : [];
+
+const extra: HeadConfig = [
+  ...(isDoc ? [{ tag: 'link' as const, attrs: { rel: 'alternate', type: 'text/markdown', href: markdownHref, title: 'This page as Markdown' } }] : []),
+  { tag: 'link', attrs: { rel: 'alternate', type: 'text/plain', href: '/llms.txt', title: 'LLM-readable index (llms.txt)' } },
+  { tag: 'meta', attrs: { property: 'og:image', content: ogImage } },
+  { tag: 'meta', attrs: { property: 'og:image:width', content: '1200' } },
+  { tag: 'meta', attrs: { property: 'og:image:height', content: '630' } },
+  { tag: 'meta', attrs: { name: 'twitter:card', content: 'summary_large_image' } },
+  { tag: 'meta', attrs: { name: 'twitter:image', content: ogImage } },
+  ...jsonLd.map((data) => ({ tag: 'script' as const, attrs: { type: 'application/ld+json' }, content: JSON.stringify(data) })),
+];
+// A meta tag Starlight (or a page's front matter) already set with the same name or property is replaced, not repeated.
+const metaKey = ({ tag, attrs }: HeadConfig[number]) => (tag === 'meta' ? String(attrs?.name ?? attrs?.property ?? '') : '');
+const replaced = new Set(extra.map(metaKey).filter(Boolean));
+route.head = [...route.head.filter((t) => !replaced.has(metaKey(t))), ...extra];
 ---
 
 <Default />
-{isDoc && <link rel="alternate" type="text/markdown" href={markdownHref} title="This page as Markdown" />}
-<link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-readable index (llms.txt)" />
-<meta property="og:image" content={ogImage} />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:image" content={ogImage} />
-{jsonLd.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}

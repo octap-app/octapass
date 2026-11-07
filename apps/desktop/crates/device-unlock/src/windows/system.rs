@@ -35,9 +35,7 @@ impl SystemApi {
     pub fn new() -> Self {
         let base = std::env::var_os("LOCALAPPDATA").map_or_else(std::env::temp_dir, PathBuf::from);
         Self {
-            dpapi_dir: base
-                .join("app.octap.desktop")
-                .join("stay-unlocked"),
+            dpapi_dir: base.join("app.octap.desktop").join("stay-unlocked"),
         }
     }
 

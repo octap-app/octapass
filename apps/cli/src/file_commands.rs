@@ -46,9 +46,10 @@ fn file_error(error: FilesError) -> CliError {
 
 fn age_error(error: AgeError) -> CliError {
     match error {
-        AgeError::WrongPassphrase => {
-            CliError::new(Exit::InvalidCredentials, "That passphrase doesn't open this file.")
-        }
+        AgeError::WrongPassphrase => CliError::new(
+            Exit::InvalidCredentials,
+            "That passphrase doesn't open this file.",
+        ),
         AgeError::NoMatchingKey => CliError::new(
             Exit::InvalidCredentials,
             "Your keys can't open this file. It was encrypted for someone else.",
@@ -234,12 +235,20 @@ impl App {
                     .stdin
                     .read_to_end(&mut input)
                     .map_err(|error| CliError::usage(error.to_string()))?;
-                files::encrypt_stream(&target, args.armor, &mut &input[..], &mut self.context.stdout)
-                    .map_err(file_error)?;
+                files::encrypt_stream(
+                    &target,
+                    args.armor,
+                    &mut &input[..],
+                    &mut self.context.stdout,
+                )
+                .map_err(file_error)?;
             } else if let Some(path) = output {
-                let mut temporary =
-                    tempfile::NamedTempFile::new_in(path.parent().filter(|p| !p.as_os_str().is_empty()).unwrap_or(Path::new(".")))
-                        .map_err(|error| CliError::other(error.to_string()))?;
+                let mut temporary = tempfile::NamedTempFile::new_in(
+                    path.parent()
+                        .filter(|p| !p.as_os_str().is_empty())
+                        .unwrap_or(Path::new(".")),
+                )
+                .map_err(|error| CliError::other(error.to_string()))?;
                 let stdin = &mut self.context.stdin;
                 files::encrypt_stream(&target, args.armor, stdin, temporary.as_file_mut())
                     .map_err(file_error)?;
@@ -324,7 +333,11 @@ impl App {
 
     /// The keys for one file: a passphrase if that's what it needs, otherwise identity files, or
     /// the account's keys.
-    async fn keys_for(&mut self, needs_passphrase: bool, identity_files: &[PathBuf]) -> Result<Keys> {
+    async fn keys_for(
+        &mut self,
+        needs_passphrase: bool,
+        identity_files: &[PathBuf],
+    ) -> Result<Keys> {
         if needs_passphrase {
             let passphrase = self.file_password("Passphrase: ", false)?;
             return Ok(Keys {
@@ -335,9 +348,10 @@ impl App {
         if !identity_files.is_empty() {
             let mut identities = Vec::new();
             for path in identity_files {
-                let text = Zeroizing::new(fs::read_to_string(self.context.cwd.join(path)).map_err(
-                    |error| CliError::usage(format!("{}: {error}", path.display())),
-                )?);
+                let text = Zeroizing::new(
+                    fs::read_to_string(self.context.cwd.join(path))
+                        .map_err(|error| CliError::usage(format!("{}: {error}", path.display())))?,
+                );
                 identities.extend(age::parse_identity_file(&text).map_err(age_error)?);
             }
             return Ok(Keys {
@@ -362,15 +376,20 @@ impl App {
                 .stdin
                 .read_to_end(&mut input)
                 .map_err(|error| CliError::usage(error.to_string()))?;
-            let needs = age::Opening::new(&input[..]).map_err(age_error)?.needs_passphrase();
+            let needs = age::Opening::new(&input[..])
+                .map_err(age_error)?
+                .needs_passphrase();
             let keys = self.keys_for(needs, &args.identity).await?;
-            match args.output.as_deref().filter(|path| *path != Path::new("-")) {
+            match args
+                .output
+                .as_deref()
+                .filter(|path| *path != Path::new("-"))
+            {
                 Some(path) => {
                     let path = self.context.cwd.join(path);
-                    let mut temporary = tempfile::NamedTempFile::new_in(
-                        path.parent().unwrap_or(Path::new(".")),
-                    )
-                    .map_err(|error| CliError::other(error.to_string()))?;
+                    let mut temporary =
+                        tempfile::NamedTempFile::new_in(path.parent().unwrap_or(Path::new(".")))
+                            .map_err(|error| CliError::other(error.to_string()))?;
                     files::decrypt_stream(&keys, &input[..], temporary.as_file_mut())
                         .map_err(file_error)?;
                     temporary
@@ -400,7 +419,8 @@ impl App {
             if args.output.as_deref() == Some(Path::new("-")) {
                 let input =
                     fs::File::open(&source).map_err(|error| CliError::other(error.to_string()))?;
-                files::decrypt_stream(&keys, input, &mut self.context.stdout).map_err(file_error)?;
+                files::decrypt_stream(&keys, input, &mut self.context.stdout)
+                    .map_err(file_error)?;
                 continue;
             }
             let named = files::decrypted_name(&source);
@@ -439,8 +459,14 @@ impl App {
     }
 
     pub(crate) fn shred(&mut self, paths: Vec<PathBuf>, yes: bool) -> Result<Option<i32>> {
-        let paths: Vec<PathBuf> = paths.iter().map(|path| self.context.cwd.join(path)).collect();
-        if let Some(missing) = paths.iter().find(|path| fs::symlink_metadata(path).is_err()) {
+        let paths: Vec<PathBuf> = paths
+            .iter()
+            .map(|path| self.context.cwd.join(path))
+            .collect();
+        if let Some(missing) = paths
+            .iter()
+            .find(|path| fs::symlink_metadata(path).is_err())
+        {
             return Err(CliError::not_found(format!(
                 "{} doesn't exist.",
                 missing.display()
@@ -467,9 +493,8 @@ impl App {
         }
         let mut reports = Vec::new();
         for path in &paths {
-            let report = shred::shred(path).map_err(|error| {
-                CliError::other(format!("{}: {error}", path.display()))
-            })?;
+            let report = shred::shred(path)
+                .map_err(|error| CliError::other(format!("{}: {error}", path.display())))?;
             if !report.hard_linked.is_empty() {
                 self.note(&format!(
                     "{} has other hard links, so its data stays under those names.",
@@ -544,7 +569,9 @@ impl App {
         let mut matching: Vec<SafeInfo> = safes
             .into_iter()
             .filter(|safe| {
-                safe.safe_id == query || safe.item_id == query || safe.name.to_lowercase() == lowered
+                safe.safe_id == query
+                    || safe.item_id == query
+                    || safe.name.to_lowercase() == lowered
             })
             .collect();
         match matching.len() {
@@ -601,7 +628,9 @@ impl App {
             .await?;
         let report = safe.sync(&remote).await.map_err(safe_error)?;
         for name in &report.conflicts {
-            self.note(&format!("Changed on two devices, so a copy was kept: {name}"));
+            self.note(&format!(
+                "Changed on two devices, so a copy was kept: {name}"
+            ));
         }
         for name in &report.too_big {
             self.note(&format!(
@@ -662,13 +691,18 @@ impl App {
                 .map_err(safe_error)?;
             let mut count = 0;
             for entry in fs::read_dir(source).map_err(|error| CliError::other(error.to_string()))? {
-                let path = entry.map_err(|error| CliError::other(error.to_string()))?.path();
+                let path = entry
+                    .map_err(|error| CliError::other(error.to_string()))?
+                    .path();
                 count += self.add_to_safe(safe, &inner.id, &path)?;
             }
             return Ok(count);
         }
         if !metadata.is_file() {
-            self.note(&format!("Left out {}: it's a link or special file.", source.display()));
+            self.note(&format!(
+                "Left out {}: it's a link or special file.",
+                source.display()
+            ));
             return Ok(0);
         }
         let entry = match safe.lookup(folder, &name) {
@@ -676,7 +710,8 @@ impl App {
             Err(SafeError::NotFound) => safe.create_file(folder, &name).map_err(safe_error)?,
             Err(error) => return Err(safe_error(error)),
         };
-        let mut input = fs::File::open(source).map_err(|error| CliError::other(error.to_string()))?;
+        let mut input =
+            fs::File::open(source).map_err(|error| CliError::other(error.to_string()))?;
         safe.import(&entry.id, &mut input).map_err(safe_error)?;
         Ok(1)
     }
@@ -951,14 +986,19 @@ impl App {
             .map(|(_, value)| PathBuf::from(value))
             .ok_or_else(|| CliError::other("This user has no home folder."))?;
         let mut locations = menu::Locations::under(&home);
-        if let Some((_, data)) = self.context.env.iter().find(|(key, _)| key == "XDG_DATA_HOME") {
+        if let Some((_, data)) = self
+            .context
+            .env
+            .iter()
+            .find(|(key, _)| key == "XDG_DATA_HOME")
+        {
             locations.data = PathBuf::from(data);
         }
         let surfaces = menu::surfaces();
         match command {
             ContextMenuCommand::Install => {
-                let program = std::env::current_exe()
-                    .map_err(|error| CliError::other(error.to_string()))?;
+                let program =
+                    std::env::current_exe().map_err(|error| CliError::other(error.to_string()))?;
                 menu::install(
                     surfaces,
                     &menu::Launcher::Cli(program),

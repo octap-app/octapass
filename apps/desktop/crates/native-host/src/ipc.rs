@@ -253,8 +253,7 @@ mod tests {
     #[cfg(target_os = "macos")]
     #[test]
     fn the_mac_apps_socket_is_in_its_container() {
-        let container =
-            Path::new("/Users/someone/Library/Group Containers/ABCDE12345.app.octap");
+        let container = Path::new("/Users/someone/Library/Group Containers/ABCDE12345.app.octap");
         assert_eq!(endpoint(container), container.join("native-host.sock"));
         let long = Path::new("/Users").join("x".repeat(120));
         assert_eq!(endpoint(&long), long.join("native-host.sock"));

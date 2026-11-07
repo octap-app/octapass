@@ -1,0 +1,93 @@
+---
+import { getCollection } from 'astro:content';
+import Site from '../../layouts/Site.astro';
+import { SITE_NAME } from '../../site.config';
+
+const entries = (await getCollection('changelog')).sort((a, b) => +b.data.date - +a.data.date);
+const fmt = new Intl.DateTimeFormat('en', { dateStyle: 'long', timeZone: 'UTC' });
+---
+
+<Site
+  title={`Changelog | ${SITE_NAME}`}
+  description={`Every notable change to ${SITE_NAME}: decisions, documentation, and releases, newest first.`}
+  ogImage="/og/en/changelog.png"
+>
+  <div class="page">
+    <h1>Changelog</h1>
+    <p class="intro">
+      Notable changes to {SITE_NAME}, newest first. Subscribe with the <a href="/changelog/rss.xml">RSS feed</a>.
+    </p>
+    <ol class="entries">
+      {entries.map((entry) => (
+        <li>
+          <time datetime={entry.data.date.toISOString().slice(0, 10)}>{fmt.format(entry.data.date)}</time>
+          <div>
+            <h2><a href={`/changelog/${entry.id}/`}>{entry.data.title}</a></h2>
+            <p>{entry.data.summary}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</Site>
+
+<style>
+  .page {
+    max-width: 52rem;
+    margin: 0 auto;
+    padding: clamp(2rem, 6vw, 4rem) var(--gutter) 0;
+  }
+  h1 {
+    font-size: var(--step-3);
+    font-weight: 720;
+    font-stretch: 112%;
+    letter-spacing: -0.04em;
+    margin: 0 0 0.5rem;
+  }
+  .intro {
+    color: var(--mist);
+    margin: 0 0 2.5rem;
+  }
+  .entries {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--line);
+  }
+  .entries li {
+    display: grid;
+    grid-template-columns: 10rem minmax(0, 1fr);
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+  time {
+    color: var(--mist);
+    font-size: var(--step--1);
+    padding-top: 0.2rem;
+    font-variant-numeric: tabular-nums;
+  }
+  h2 {
+    font-size: var(--step-1);
+    margin: 0 0 0.35rem;
+    letter-spacing: -0.01em;
+  }
+  h2 a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  h2 a:hover {
+    text-decoration: underline;
+  }
+  .entries p {
+    margin: 0;
+    color: var(--mist);
+    max-width: 60ch;
+  }
+  @media (max-width: 40rem) {
+    .entries li {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+  }
+</style>

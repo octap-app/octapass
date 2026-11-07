@@ -1,0 +1,19 @@
+{
+  "description": "The user types credentials and toggles \"Show password\" (a type=button that flips the input to type=text) but never submits: nothing may be reported",
+  "fields": {
+    "#email": "username",
+    "#password": "current-password"
+  },
+  "forms": [{ "field": "#email", "type": "login" }],
+  "saves": [
+    {
+      "steps": [
+        { "type": ["#email", "sam@example.test"] },
+        { "type": ["#password", "Typed-pass-99"] },
+        { "click": "#toggle" },
+        { "wait": 1500 }
+      ],
+      "expect": "none"
+    }
+  ]
+}

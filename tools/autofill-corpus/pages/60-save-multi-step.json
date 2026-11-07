@@ -1,0 +1,19 @@
+{
+  "description": "Two-step sign-in in two separate forms: the identifier is submitted first (form hidden afterwards), then the password. The save must pair the step-1 username with the step-2 password.",
+  "fields": {
+    "#email": "username"
+  },
+  "forms": [{ "field": "#email", "type": "identifier" }],
+  "saves": [
+    {
+      "steps": [
+        { "type": ["#email", "sam@example.test"] },
+        { "click": "#next" },
+        { "wait": 200 },
+        { "type": ["#password", "Typed-pass-99"] },
+        { "click": "#signin" }
+      ],
+      "expect": { "username": "sam@example.test", "password": "Typed-pass-99", "formType": "login" }
+    }
+  ]
+}

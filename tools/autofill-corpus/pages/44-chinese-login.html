@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>登录 - 青竹云盘</title>
+<style>
+  body { margin: 0; font: 14px/1.6 "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0fdf4; color: #14532d; }
+  .panel { width: 360px; margin: 80px auto; background: #fff; border-radius: 8px; padding: 26px 30px; box-shadow: 0 2px 12px rgba(20,83,45,.1); }
+  .tabs { display: flex; gap: 22px; border-bottom: 1px solid #dcfce7; margin-bottom: 14px; }
+  .tabs span { padding-bottom: 8px; }
+  .tabs .on { border-bottom: 2px solid #16a34a; color: #16a34a; font-weight: bold; }
+  .item { margin-top: 12px; }
+  .item label { display: block; margin-bottom: 4px; }
+  .item input { width: 100%; box-sizing: border-box; padding: 9px 10px; border: 1px solid #bbf7d0; border-radius: 4px; font: inherit; }
+  button { width: 100%; margin-top: 18px; padding: 10px; border: 0; border-radius: 4px; background: #16a34a; color: #fff; font: inherit; }
+</style>
+</head>
+<body>
+<div class="panel">
+  <div class="tabs"><span class="on">密码登录</span><span>扫码登录</span></div>
+  <form id="loginForm" action="/passport/login" method="post">
+    <div class="item"><label for="f1">手机号/邮箱</label><input id="f1" name="f1" type="text" placeholder="请输入手机号或邮箱"></div>
+    <div class="item"><label for="f2">密码</label><input id="f2" name="f2" type="password" placeholder="请输入密码"></div>
+    <button type="submit">登录</button>
+  </form>
+  <p style="text-align:center;font-size:13px"><a href="#forget">忘记密码</a> | <a href="#reg">免费注册</a></p>
+</div>
+<script>document.getElementById('loginForm').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

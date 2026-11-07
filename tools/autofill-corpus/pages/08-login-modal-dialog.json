@@ -1,0 +1,15 @@
+{
+  "description": "Login inside a modal <dialog> opened with showModal() (the dialog is in the top layer)",
+  "fields": {
+    "#player": "username",
+    "#player-pass": "current-password"
+  },
+  "forms": [{ "field": "#player", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#player",
+      "pick": "login",
+      "expect": { "#player": "alex@example.test", "#player-pass": "correct-horse-42!" }
+    }
+  ]
+}

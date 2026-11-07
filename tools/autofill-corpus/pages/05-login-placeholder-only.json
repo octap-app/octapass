@@ -1,0 +1,15 @@
+{
+  "description": "Login with placeholders only (no labels, no autocomplete)",
+  "fields": {
+    "#ident": "username",
+    "#pw": "current-password"
+  },
+  "forms": [{ "field": "#ident", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#ident",
+      "pick": "login",
+      "expect": { "#ident": "alex@example.test", "#pw": "correct-horse-42!" }
+    }
+  ]
+}

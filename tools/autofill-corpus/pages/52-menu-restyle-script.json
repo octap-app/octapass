@@ -1,0 +1,16 @@
+{
+  "description": "Page script watches for any element added after load (MutationObserver on <html>, subtree), forces opacity:0 / pointer-events:none on it and keeps raising an invisible full-viewport popover above everything. The engine's menu is covered, so the fill must be refused.",
+  "fields": {
+    "#user": "username",
+    "#pass": "current-password"
+  },
+  "forms": [{ "field": "#user", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#user",
+      "pick": "login",
+      "refused": true,
+      "expect": { "#user": "", "#pass": "" }
+    }
+  ]
+}

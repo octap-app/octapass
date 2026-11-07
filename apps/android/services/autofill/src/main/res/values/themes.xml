@@ -1,0 +1,9 @@
+<resources>
+    <!-- No window of its own: only the device-lock prompt and dialogs show. -->
+    <style name="Theme.OctaPass.Unlock" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+</resources>

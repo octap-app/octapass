@@ -1,0 +1,20 @@
+{
+  "description": "Vue-style v-model login (inline emulation: model updated on `input`, re-render writes model back to the DOM)",
+  "fields": {
+    "#login-user": "username",
+    "#login-pass": "current-password"
+  },
+  "forms": [{ "field": "#login-user", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#login-user",
+      "pick": "login",
+      "expect": {
+        "#login-user": "alex@example.test",
+        "#login-pass": "correct-horse-42!",
+        "#vm-user": "alex@example.test",
+        "#vm-pass": "correct-horse-42!"
+      }
+    }
+  ]
+}

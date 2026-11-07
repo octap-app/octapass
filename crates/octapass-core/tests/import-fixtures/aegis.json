@@ -1,0 +1,173 @@
+{
+    "version": 1,
+    "header": {
+        "slots": null,
+        "params": null
+    },
+    "db": {
+        "version": 3,
+        "entries": [
+            {
+                "type": "totp",
+                "uuid": "0b1e2c3d-0000-4000-8000-000000000001",
+                "name": "octo",
+                "issuer": "GitHub",
+                "note": "Recovery codes are in the blue folder.\nSecond line, with \"quotes\".",
+                "favorite": false,
+                "icon": null,
+                "icon_mime": null,
+                "icon_hash": null,
+                "info": {
+                    "secret": "JBSWY3DPEHPK3PXP",
+                    "algo": "SHA1",
+                    "digits": 6,
+                    "period": 30
+                },
+                "groups": [
+                    "6a7b8c9d-0000-4000-8000-0000000000a1"
+                ]
+            },
+            {
+                "type": "totp",
+                "uuid": "0b1e2c3d-0000-4000-8000-000000000002",
+                "name": "مستخدم",
+                "issuer": "بنك الأمل",
+                "note": "ملاحظة بالعربية\nسطر ثاني",
+                "favorite": true,
+                "icon": null,
+                "icon_mime": null,
+                "icon_hash": null,
+                "info": {
+                    "secret": "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
+                    "algo": "SHA256",
+                    "digits": 8,
+                    "period": 60
+                },
+                "groups": [
+                    "6a7b8c9d-0000-4000-8000-0000000000a2",
+                    "6a7b8c9d-0000-4000-8000-0000000000a1"
+                ]
+            },
+            {
+                "type": "totp",
+                "uuid": "0b1e2c3d-0000-4000-8000-000000000003",
+                "name": "jane@example.com",
+                "issuer": "Emoji 🔐 Mail",
+                "note": "",
+                "favorite": false,
+                "icon": "iVBORw0KGgo=",
+                "icon_mime": "image/png",
+                "icon_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+                "info": {
+                    "secret": "KRSXG5CTMVRXEZLUKN2XAZLSKNSWG4TFOQ",
+                    "algo": "SHA512",
+                    "digits": 7,
+                    "period": 30
+                },
+                "groups": []
+            },
+            {
+                "type": "hotp",
+                "uuid": "0b1e2c3d-0000-4000-8000-000000000004",
+                "name": "counter-user",
+                "issuer": "Counter Corp",
+                "note": "",
+                "favorite": false,
+                "icon": null,
+                "icon_mime": null,
+                "icon_hash": null,
+                "info": {
+                    "secret": "MFRGGZDFMZTWQ2LK",
+                    "algo": "SHA1",
+                    "digits": 6,
+                    "counter": 42
+                },
+                "groups": []
+            },
+            {
+                "type": "steam",
+                "uuid": "0b1e2c3d-0000-4000-8000-000000000005",
+                "name": "gamer",
+                "issuer": "Steam",
+                "note": "",
+                "favorite": false,
+                "icon": null,
+                "icon_mime": null,
+                "icon_hash": null,
+                "info": {
+                    "secret": "ONSWG4TFOQYTEMZU",
+                    "algo": "SHA1",
+                    "digits": 5,
+                    "period": 30
+                },
+                "groups": []
+            },
+            {
+                "type": "motp",
+                "uuid": "0b1e2c3d-0000-4000-8000-000000000006",
+                "name": "vpn-user",
+                "issuer": "Office VPN",
+                "note": "",
+                "favorite": false,
+                "icon": null,
+                "icon_mime": null,
+                "icon_hash": null,
+                "info": {
+                    "secret": "GEZDGNBVGY3TQOJQ",
+                    "algo": "MD5",
+                    "digits": 6,
+                    "period": 10,
+                    "pin": "1234"
+                },
+                "groups": []
+            },
+            {
+                "type": "yandex",
+                "uuid": "0b1e2c3d-0000-4000-8000-000000000007",
+                "name": "ivan",
+                "issuer": "Yandex",
+                "note": "",
+                "favorite": false,
+                "icon": null,
+                "icon_mime": null,
+                "icon_hash": null,
+                "info": {
+                    "secret": "MFRGGZDFMZTWQ2LKNNWG23TPOBYXE43U",
+                    "algo": "SHA256",
+                    "digits": 8,
+                    "period": 30,
+                    "pin": "56789"
+                },
+                "groups": []
+            },
+            {
+                "type": "totp",
+                "uuid": "0b1e2c3d-0000-4000-8000-000000000008",
+                "name": "nobody",
+                "issuer": "No Secret Inc",
+                "note": "",
+                "favorite": false,
+                "icon": null,
+                "icon_mime": null,
+                "icon_hash": null,
+                "info": {
+                    "secret": "",
+                    "algo": "SHA1",
+                    "digits": 6,
+                    "period": 30
+                },
+                "groups": []
+            }
+        ],
+        "groups": [
+            {
+                "uuid": "6a7b8c9d-0000-4000-8000-0000000000a1",
+                "name": "Work"
+            },
+            {
+                "uuid": "6a7b8c9d-0000-4000-8000-0000000000a2",
+                "name": "شخصي"
+            }
+        ]
+    }
+}

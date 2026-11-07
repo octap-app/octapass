@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Create your account · Acme Notes</title>
+<style>
+  body { margin: 0; font: 15px/1.4 system-ui, sans-serif; background: #f4f1ea; color: #222; }
+  header { padding: 14px 32px; background: #fff; border-bottom: 1px solid #e3ddd0; font-weight: 700; }
+  form { width: 380px; margin: 36px auto; background: #fff; padding: 26px; border-radius: 10px; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+  h1 { font-size: 22px; margin: 0 0 8px; }
+  label { display: block; margin: 12px 0 4px; font-weight: 600; }
+  input { width: 100%; box-sizing: border-box; padding: 9px 10px; border: 1px solid #c9c2b4; border-radius: 6px; font: inherit; }
+  .hint { font-size: 12px; color: #6b6458; margin: 4px 0 0; }
+  button { margin-top: 18px; width: 100%; padding: 10px; border: 0; border-radius: 6px; background: #c2410c; color: #fff; font: inherit; font-weight: 600; }
+</style>
+</head>
+<body>
+<header>Acme Notes</header>
+<form id="register" action="/register" method="post">
+  <h1>Create your account</h1>
+  <label for="full-name">Full name</label>
+  <input id="full-name" name="name" autocomplete="name">
+  <label for="reg-email">Email</label>
+  <input id="reg-email" name="email" type="email" autocomplete="email">
+  <label for="new-password">Password</label>
+  <input id="new-password" name="password" type="password" autocomplete="new-password" minlength="12">
+  <p class="hint">At least 12 characters.</p>
+  <label for="confirm-password">Confirm password</label>
+  <input id="confirm-password" name="password_confirmation" type="password" autocomplete="new-password">
+  <button type="submit">Create account</button>
+</form>
+<script>document.getElementById('register').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

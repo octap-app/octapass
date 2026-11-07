@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "types": [
+      "vitest/globals",
+      "node"
+    ]
+  },
+  "include": [
+    "src/remote/testing",
+    "src/**/*.server.test.ts",
+    "src/tools/transfer.test.ts",
+    "src/itemFields.test.ts",
+    "vitest.server.config.ts"
+  ],
+  "exclude": []
+}

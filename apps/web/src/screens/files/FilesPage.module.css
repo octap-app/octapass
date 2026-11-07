@@ -1,0 +1,167 @@
+.tool {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2rem 1.25rem;
+  text-align: center;
+  background: var(--tile);
+  border: 1px dashed var(--line);
+  border-radius: 1rem;
+  color: var(--mist);
+}
+
+.drop strong {
+  color: var(--ink);
+  font-weight: 650;
+}
+
+.drop p {
+  font-size: var(--text-sm);
+  max-inline-size: 48ch;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.drop .buttons {
+  margin-block-start: 0.5rem;
+  justify-content: center;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 0.75rem;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-block-size: 2.75rem;
+  padding: 0.35rem 0.75rem;
+}
+
+.row + .row {
+  border-block-start: 1px solid var(--line);
+}
+
+.name,
+.link {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link {
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: var(--trust-text);
+  text-align: start;
+  cursor: pointer;
+}
+
+.meta {
+  flex: none;
+  font-size: var(--text-sm);
+  color: var(--mist);
+}
+
+.sealed {
+  flex: none;
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--freedom-text);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.inline {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.inline > :first-child {
+  flex: 1;
+}
+
+.person {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
+}
+
+.person p {
+  grid-column: 1 / -1;
+}
+
+.note,
+.caution {
+  font-size: var(--text-sm);
+  max-inline-size: 64ch;
+}
+
+.note {
+  color: var(--mist);
+}
+
+.caution {
+  color: var(--ink);
+  padding-inline-start: 0.75rem;
+  border-inline-start: 3px solid var(--warning, var(--trust));
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow-wrap: anywhere;
+}
+
+.padded {
+  padding: 0.85rem 1rem;
+}
+
+.key {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  overflow-wrap: anywhere;
+}
+
+.browserHead {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.safeName {
+  flex: 1;
+  min-inline-size: 0;
+  font-size: var(--text-lg);
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

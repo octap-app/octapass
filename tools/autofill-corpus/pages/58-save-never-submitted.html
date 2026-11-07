@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in · Gale Weather Pro</title>
+<style>
+  body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: #f8fafc; color: #0f172a; }
+  .card { width: 360px; margin: 90px auto; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 26px; }
+  label { display: block; font-size: 13px; font-weight: 600; margin: 12px 0 4px; }
+  .pw { display: flex; gap: 6px; }
+  input { width: 100%; box-sizing: border-box; padding: 9px 11px; border: 1px solid #cbd5e1; border-radius: 8px; font: inherit; }
+  #toggle { padding: 0 10px; border: 1px solid #cbd5e1; border-radius: 8px; background: #f1f5f9; font: 13px system-ui, sans-serif; }
+  #submit { width: 100%; margin-top: 18px; padding: 10px; border: 0; border-radius: 8px; background: #4f46e5; color: #fff; font: inherit; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1 style="font-size:21px;margin:0">Sign in</h1>
+  <form id="login" action="/login" method="post">
+    <label for="email">Email</label>
+    <input id="email" name="email" type="email" autocomplete="username">
+    <label for="password">Password</label>
+    <div class="pw">
+      <input id="password" name="password" type="password" autocomplete="current-password">
+      <button id="toggle" type="button" aria-label="Show password">Show</button>
+    </div>
+    <button id="submit" type="submit">Sign in</button>
+  </form>
+</div>
+<script>
+  document.getElementById('toggle').addEventListener('click', function () {
+    var p = document.getElementById('password');
+    p.type = p.type === 'password' ? 'text' : 'password';
+    this.textContent = p.type === 'password' ? 'Show' : 'Hide';
+  });
+  document.getElementById('login').onsubmit = function (e) { e.preventDefault(); };
+</script>
+</body>
+</html>

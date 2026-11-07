@@ -1,0 +1,18 @@
+{
+  "description": "Formless card fields labelled with aria-labelledby, no autocomplete; month select with values 1-12 (month names), year select with 4-digit values",
+  "fields": {
+    "#f-num": "cc-number",
+    "#f-name": "cc-name",
+    "#f-month": "cc-exp-month",
+    "#f-year": "cc-exp-year",
+    "#f-sec": "cc-csc"
+  },
+  "forms": [{ "field": "#f-num", "type": "card" }],
+  "fills": [
+    {
+      "focus": "#f-num",
+      "pick": "card",
+      "expect": { "#f-num": "4111111111111111", "#f-name": "Alex Doe", "#f-month": "9", "#f-year": "2029", "#f-sec": "123" }
+    }
+  ]
+}

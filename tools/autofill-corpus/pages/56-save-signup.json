@@ -1,0 +1,22 @@
+{
+  "description": "Sign-up save: the report carries the email as username and the new password, form type signup",
+  "fields": {
+    "#su-name": "name",
+    "#su-email": "email",
+    "#su-password": "new-password",
+    "#su-password2": "confirm-password"
+  },
+  "forms": [{ "field": "#su-password", "type": "signup" }],
+  "saves": [
+    {
+      "steps": [
+        { "type": ["#su-name", "Sam Rivera"] },
+        { "type": ["#su-email", "sam@example.test"] },
+        { "type": ["#su-password", "Fresh-pass-2026!"] },
+        { "type": ["#su-password2", "Fresh-pass-2026!"] },
+        { "click": "#create" }
+      ],
+      "expect": { "username": "sam@example.test", "password": "Fresh-pass-2026!", "formType": "signup" }
+    }
+  ]
+}

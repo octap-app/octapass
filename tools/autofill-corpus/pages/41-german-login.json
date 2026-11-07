@@ -1,0 +1,16 @@
+{
+  "description": "German utility customer portal login (E-Mail-Adresse oder Kundennummer / Passwort), German ids, no autocomplete",
+  "fields": {
+    "#benutzer": "username",
+    "#kennwort": "current-password",
+    "#angemeldet": "none"
+  },
+  "forms": [{ "field": "#benutzer", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#kennwort",
+      "pick": "login",
+      "expect": { "#benutzer": "alex@example.test", "#kennwort": "correct-horse-42!" }
+    }
+  ]
+}

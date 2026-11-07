@@ -1,0 +1,86 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import Site from '../../layouts/Site.astro';
+import { SITE_NAME, SITE_URL } from '../../site.config';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('changelog');
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props as { entry: CollectionEntry<'changelog'> };
+const { Content } = await render(entry);
+const fmt = new Intl.DateTimeFormat('en', { dateStyle: 'long', timeZone: 'UTC' });
+const isoDate = entry.data.date.toISOString().slice(0, 10);
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: entry.data.title,
+    description: entry.data.summary,
+    datePublished: isoDate,
+    url: new URL(`/changelog/${entry.id}/`, SITE_URL).href,
+    publisher: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+  },
+];
+---
+
+<Site title={`${entry.data.title} | ${SITE_NAME} changelog`} description={entry.data.summary} jsonLd={jsonLd} ogType="article" ogImage={`/og/en/changelog/${entry.id}.png`}>
+  <article class="page">
+    <p class="back"><a href="/changelog/">All changes</a></p>
+    <time datetime={isoDate}>{fmt.format(entry.data.date)}</time>
+    <h1>{entry.data.title}</h1>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</Site>
+
+<style>
+  .page {
+    max-width: 46rem;
+    margin: 0 auto;
+    padding: clamp(2rem, 6vw, 4rem) var(--gutter) 0;
+  }
+  .back {
+    margin: 0 0 2rem;
+    font-size: var(--step--1);
+  }
+  time {
+    color: var(--mist);
+    font-size: var(--step--1);
+  }
+  h1 {
+    font-size: var(--step-3);
+    font-weight: 720;
+    font-stretch: 112%;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    margin: 0.3rem 0 1.5rem;
+  }
+  .prose :global(h2) {
+    font-size: var(--step-1);
+    margin: 2rem 0 0.6rem;
+  }
+  .prose :global(p),
+  .prose :global(li) {
+    max-width: var(--measure);
+  }
+  .prose :global(code) {
+    font-size: 0.9em;
+    background: var(--tile);
+    padding: 0.1em 0.35em;
+    border-radius: 0.3em;
+  }
+  .prose :global(table) {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.95rem;
+  }
+  .prose :global(th),
+  .prose :global(td) {
+    text-align: start;
+    padding: 0.5rem 0.75rem 0.5rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+</style>

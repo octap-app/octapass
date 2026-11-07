@@ -1,0 +1,68 @@
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-block-size: 2.75rem;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.label {
+  font-weight: 500;
+}
+
+.description {
+  font-size: var(--text-sm);
+  color: var(--mist);
+}
+
+.track {
+  position: relative;
+  flex: none;
+  inline-size: 2.75rem;
+  block-size: 1.625rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--line-strong);
+  transition: background-color var(--medium) var(--ease-out);
+}
+
+.track[aria-checked='true'] {
+  background: var(--free);
+}
+
+.thumb {
+  position: absolute;
+  inset-block-start: 0.1875rem;
+  inset-inline-start: 0.1875rem;
+  inline-size: 1.25rem;
+  block-size: 1.25rem;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
+  transition: transform var(--medium) var(--ease-spring);
+}
+
+.track[aria-checked='true'] .thumb {
+  transform: translateX(1.125rem);
+}
+
+:dir(rtl) .track[aria-checked='true'] .thumb {
+  transform: translateX(-1.125rem);
+}
+
+/* Disabled (a setting that doesn't apply right now): greyed out, so it doesn't read as live. */
+.track:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.row:has(.track:disabled) .text {
+  opacity: 0.55;
+}

@@ -1,0 +1,14 @@
+{
+  "displayName": "Octa Pass",
+  "description": "Browse Octa Pass references, insert octapass:// links, and run commands with secrets injected.",
+  "container.title": "Octa Pass",
+  "view.references": "References",
+  "view.welcome": "Connect to Octa Pass to browse your references. You approve this once, and only names are shown here.\n[Connect](command:octapass.connect)",
+  "command.connect": "Connect",
+  "command.disconnect": "Disconnect",
+  "command.insertReference": "Insert Reference",
+  "command.runWithSecrets": "Run with Secrets",
+  "command.refresh": "Refresh",
+  "setting.cliPath": "The Octa Pass CLI that Run with Secrets uses: a name on your PATH or a full path. Only your user settings can change it, so a project can't swap the program.",
+  "untrusted.description": "Run with Secrets needs a trusted workspace."
+}

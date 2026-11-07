@@ -1,0 +1,25 @@
+{
+  "description": "Newsletter signup with first name + email and no password: personal details (identity), not a login or sign-up form",
+  "fields": {
+    "#nl-first": "given-name",
+    "#nl-email": "email"
+  },
+  "forms": [{ "field": "#nl-email", "type": "identity" }],
+  "fills": [
+    {
+      "focus": "#nl-first",
+      "pick": "identity",
+      "expect": { "#nl-first": "Alex", "#nl-email": "alex@example.test" }
+    }
+  ],
+  "saves": [
+    {
+      "steps": [
+        { "type": ["#nl-first", "Sam"] },
+        { "type": ["#nl-email", "sam@example.test"] },
+        { "click": "#newsletter button[type=submit]" }
+      ],
+      "expect": "none"
+    }
+  ]
+}

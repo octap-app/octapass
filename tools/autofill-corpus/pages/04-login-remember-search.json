@@ -1,0 +1,17 @@
+{
+  "description": "Shop sign-in with a remember-me checkbox; the header search box must be left alone. The login email uses autocomplete=email.",
+  "fields": {
+    "#q": "none",
+    "#signin-email": "username",
+    "#signin-password": "current-password",
+    "#remember": "none"
+  },
+  "forms": [{ "field": "#signin-email", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#signin-email",
+      "pick": "login",
+      "expect": { "#q": "", "#signin-email": "alex@example.test", "#signin-password": "correct-horse-42!" }
+    }
+  ]
+}

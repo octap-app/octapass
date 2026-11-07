@@ -1,0 +1,78 @@
+{
+  "$comment": "What the Weblate project should contain. Weblate keeps this in its own settings, so a maintainer applies it once; see translations/README.md.",
+  "project": {
+    "name": "Octa Pass",
+    "slug": "octapass",
+    "web": "https://github.com/octap-app/octapass",
+    "source_language": "en"
+  },
+  "repository": {
+    "vcs": "github",
+    "repo": "https://github.com/octap-app/octapass.git",
+    "branch": "main",
+    "push_branch": "weblate"
+  },
+  "defaults": {
+    "license": "MIT",
+    "commit_message": "translations: update {{ language_name }} for {{ component_name }}"
+  },
+  "components": [
+    {
+      "name": "Web vault",
+      "slug": "web",
+      "file_format": "i18nextv4",
+      "filemask": "translations/web/*.json",
+      "template": "translations/web/en.json",
+      "check_flags": "python-brace-format"
+    },
+    {
+      "name": "Browser extension",
+      "slug": "extension",
+      "file_format": "i18nextv4",
+      "filemask": "translations/extension/*.json",
+      "template": "translations/extension/en.json",
+      "check_flags": "python-brace-format"
+    },
+    {
+      "name": "Desktop app",
+      "slug": "desktop",
+      "file_format": "i18nextv4",
+      "filemask": "translations/desktop/*.json",
+      "template": "translations/desktop/en.json",
+      "check_flags": "python-brace-format"
+    },
+    {
+      "name": "Phone apps",
+      "slug": "phone",
+      "file_format": "i18nextv4",
+      "filemask": "translations/phone/*.json",
+      "template": "translations/phone/en.json",
+      "check_flags": "python-brace-format"
+    },
+    {
+      "name": "Website",
+      "slug": "website",
+      "file_format": "json-nested",
+      "filemask": "apps/website/src/i18n/landing/*.json",
+      "template": "apps/website/src/i18n/landing/en.json",
+      "check_flags": "safe-html"
+    },
+    {
+      "name": "Docs interface",
+      "slug": "docs-interface",
+      "file_format": "json-nested",
+      "filemask": "apps/website/src/content/i18n/*.json",
+      "template": "apps/website/src/content/i18n/en.json"
+    }
+  ],
+  "docs_discovery": {
+    "$comment": "Weblate component discovery add-on (weblate.discovery.discovery) on any one component: one Markdown component per docs page. Turn on 'Translate front matter values' in the file format parameters, and tell translators to leave status and sidebar alone: check-docs.mjs fails if they change.",
+    "match": "docs/(?!ar/)(?P<component>.+)\\.md",
+    "file_format": "markdown",
+    "name_template": "Docs: {{ component }}",
+    "base_file_template": "docs/{{ component }}.md",
+    "filemask_template": "docs/*/{{ component }}.md",
+    "copy_addons": true,
+    "remove": true
+  }
+}

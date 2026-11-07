@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Upgrade to Pro · Meadow Tasks</title>
+<style>
+  body { margin: 0; font: 15px/1.5 "Avenir Next", system-ui, sans-serif; background: #ecfdf5; color: #064e3b; }
+  .box { width: 460px; margin: 40px auto; background: #fff; border-radius: 14px; padding: 26px 30px; }
+  .line { display: flex; align-items: center; gap: 10px; margin-top: 12px; }
+  .line > span { width: 130px; font-size: 13px; }
+  .line input, .line select { padding: 8px; border: 1px solid #a7f3d0; border-radius: 8px; font: inherit; }
+  .line input.grow { flex: 1; }
+  button { margin-top: 20px; width: 100%; padding: 11px; border: 0; border-radius: 8px; background: #10b981; color: #fff; font: inherit; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h1 style="font-size:22px;margin:0">Meadow Pro · $6/month</h1>
+  <div id="pay-area">
+    <div class="line"><span id="l-num">Card number</span><input class="grow" id="f-num" name="number" aria-labelledby="l-num"></div>
+    <div class="line"><span id="l-name">Name on card</span><input class="grow" id="f-name" name="name_on_card" aria-labelledby="l-name"></div>
+    <div class="line"><span>Expires</span>
+      <select id="f-month" name="month" aria-label="Month">
+        <option value="" selected>MM</option>
+        <option value="1">January</option><option value="2">February</option><option value="3">March</option>
+        <option value="4">April</option><option value="5">May</option><option value="6">June</option>
+        <option value="7">July</option><option value="8">August</option><option value="9">September</option>
+        <option value="10">October</option><option value="11">November</option><option value="12">December</option>
+      </select>
+      <select id="f-year" name="year" aria-label="Year">
+        <option value="" selected>YYYY</option>
+        <option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option>
+        <option value="2029">2029</option><option value="2030">2030</option><option value="2031">2031</option>
+        <option value="2032">2032</option><option value="2033">2033</option><option value="2034">2034</option>
+        <option value="2035">2035</option>
+      </select>
+    </div>
+    <div class="line"><span id="l-sec">Security code</span><input id="f-sec" name="security" size="5" aria-labelledby="l-sec"></div>
+    <button type="button" id="upgrade">Upgrade now</button>
+  </div>
+</div>
+</body>
+</html>

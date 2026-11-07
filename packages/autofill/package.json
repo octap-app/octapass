@@ -1,0 +1,24 @@
+{
+  "name": "@octapass/autofill",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "description": "The Octa Pass autofill engine: form detection, the inline menu and safe filling for the browser extension.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "corpus": "node ../../tools/autofill-corpus/run.mjs"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "jsdom": "^30.1.3",
+    "playwright-core": "^1.55.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
+  }
+}

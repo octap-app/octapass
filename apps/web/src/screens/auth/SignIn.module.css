@@ -1,0 +1,42 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.server {
+  font-size: var(--text-sm);
+  color: var(--mist);
+  text-align: center;
+}
+
+.link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--trust-text);
+  font-weight: 600;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.alternatives {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--text-sm);
+}
+
+.link:disabled {
+  opacity: 0.5;
+  text-decoration: none;
+}
+
+.forgot {
+  margin-block-start: -0.6rem;
+  font-size: var(--text-sm);
+  text-align: end;
+}

@@ -1,0 +1,33 @@
+[package]
+name = "octapass-wifi"
+description = "The device's Wi-Fi for the Octa Pass desktop app: the current network, networks in range, and saved networks with their passwords where the system gives them."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[features]
+# An in-memory Wi-Fi for tests of code that uses it.
+fake = []
+
+[dependencies]
+serde.workspace = true
+thiserror.workspace = true
+zeroize = { workspace = true, features = ["serde"] }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+objc2 = "0.6"
+objc2-foundation = { version = "0.3", features = ["NSString", "NSSet", "NSEnumerator", "NSError", "NSOrderedSet"] }
+objc2-core-wlan = { version = "0.3", features = ["CWWiFiClient", "CWInterface", "CWNetwork", "CWConfiguration", "CWNetworkProfile", "CoreWLANTypes"] }
+objc2-core-location = { version = "0.3", features = ["CLLocationManager"] }
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.62", features = ["Win32_Foundation", "Win32_NetworkManagement_WiFi"] }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+zbus = { version = "5", features = ["blocking-api"] }
+
+[dev-dependencies]
+octapass-wifi = { path = ".", features = ["fake"] }
+serde_json.workspace = true

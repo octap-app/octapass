@@ -1,0 +1,2103 @@
+---
+// The landing page, shared by / and /ar/. Its words are in src/i18n/landing.
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import Site from '../layouts/Site.astro';
+import { localePath, stringsFor, type Locale } from '../i18n/landing';
+import { isPlatformId, platformLink, REPO_URL, repoFile, repoTree, SITE_NAME, SITE_URL, SOURCE_PATHS, VAULT_URL, type PlatformId } from '../site.config';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = stringsFor(locale);
+const d = t.demo;
+const to = (path: string) => localePath(locale, path);
+const { title, description } = t.meta;
+const named = (text: string, name: string) => text.replace('{name}', name);
+
+// Each platform item in the strings names a platform in site.config.ts, which holds its store link and source folder.
+const platforms = t.platforms.items.map((p) => {
+  if (!isPlatformId(p.id)) throw new Error(`Unknown platform id "${p.id}" in src/i18n/landing/${locale}.json`);
+  return { ...p, id: p.id as PlatformId, link: platformLink(p.id), source: repoTree(SOURCE_PATHS[p.id]) };
+});
+const missing = Object.keys(SOURCE_PATHS).filter((id) => !platforms.some((p) => p.id === id));
+if (missing.length) throw new Error(`src/i18n/landing/${locale}.json has no platform item for: ${missing.join(', ')}`);
+
+const projectLinks = [
+  { href: REPO_URL, label: t.open.repo, icon: 'github', primary: true },
+  { href: repoFile('LICENSE'), label: t.open.licence, icon: 'licence' },
+  { href: repoFile('CONTRIBUTING.md'), label: t.open.contributing, icon: 'contributing' },
+  { href: repoFile('SECURITY.md'), label: t.open.security, icon: 'security' },
+  { href: `${REPO_URL}/issues`, label: t.open.issues, icon: 'issues' },
+  { href: to('/docs/self-hosting/overview/'), label: t.open.selfHost, icon: 'server' },
+] as const;
+
+const sidebar = [
+  { label: d.allItems, count: 248, active: true },
+  { label: d.favourites, count: 12 },
+  { label: d.personal, count: 201 },
+  { label: d.family, count: 35, shared: true },
+];
+const categories = [
+  { label: d.logins, count: 186 },
+  { label: d.passkeys, count: 23 },
+  { label: d.cards, count: 4 },
+  { label: d.identities, count: 3 },
+  { label: d.notes, count: 32 },
+];
+const items = [
+  { name: 'GitHub', sub: 'maya.rahman@example.com', hue: 222, active: true },
+  { name: 'Figma', sub: 'maya@studio.example', hue: 280 },
+  { name: 'Netflix', sub: d.familyVault, hue: 2 },
+  { name: d.travelCard, sub: d.cardSub, hue: 205 },
+  { name: 'Proton Mail', sub: 'maya.r@proton.example', hue: 258 },
+  { name: d.homeWifi, sub: 'Rahman-5G', hue: 160 },
+  { name: d.passport, sub: d.passportSub, hue: 32 },
+  { name: d.awsRoot, sub: d.apiCredential, hue: 40 },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: SITE_NAME,
+    description,
+    url: new URL(to('/'), SITE_URL).href,
+    inLanguage: locale,
+    applicationCategory: 'SecurityApplication',
+    operatingSystem: 'Windows, macOS, Linux, iOS, Android, Chrome, Firefox, Safari, Edge',
+    isAccessibleForFree: true,
+    license: 'https://opensource.org/license/mit',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    codeRepository: REPO_URL,
+    featureList: 'Passwords, Passkeys, TOTP codes, Autofill, Cards, Identities, Recovery info, Masked email, Security dashboard, Sharing, Import and export',
+  },
+  { '@context': 'https://schema.org', '@type': 'Organization', name: SITE_NAME, url: SITE_URL, logo: new URL('/icon-512.png', SITE_URL).href, sameAs: [REPO_URL] },
+  { '@context': 'https://schema.org', '@type': 'WebSite', name: SITE_NAME, url: SITE_URL, inLanguage: locale },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    inLanguage: locale,
+    mainEntity: t.faq.items.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+---
+
+
+<Site locale={locale} title={title} description={description} jsonLd={jsonLd} ogImage={`/og/${locale}/home.png`} alternatePath="/">
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-copy">
+      <Logo id="hero" variant="tile" size={84} class="hero-mark" />
+      <h1>{t.hero.title}</h1>
+      <p class="hero-sub">{t.hero.sub}</p>
+      <div class="hero-actions">
+        <a class="pill" href={VAULT_URL}>{t.hero.primary}</a>
+        <a class="pill ghost" href={to('/docs/security/overview/')}>{t.hero.secondary}</a>
+      </div>
+      <p class="hero-status"><span class="dot" aria-hidden="true"></span>{t.hero.status}{' '}<a href="/changelog/">{t.hero.follow}</a></p>
+    </div>
+
+    <figure class="shot" aria-label={d.shotLabel}>
+      <div class="glow" aria-hidden="true"></div>
+      <div class="stage" aria-hidden="true">
+        <div class="win">
+          <div class="win-bar">
+            <span class="lights"><i></i><i></i><i></i></span>
+            <span class="win-title">Octa Pass</span>
+          </div>
+          <div class="win-body">
+            <aside class="side">
+              <div class="search">{d.search}</div>
+              <p class="side-h">{d.vaultsHeading}</p>
+              {sidebar.map((s) => (
+                <div class:list={['side-row', { on: s.active }]}>
+                  <span>{s.label}{s.shared && <em> {d.shared}</em>}</span><b>{s.count}</b>
+                </div>
+              ))}
+              <p class="side-h">{d.categoriesHeading}</p>
+              {categories.map((c) => (
+                <div class="side-row"><span>{c.label}</span><b>{c.count}</b></div>
+              ))}
+              <div class="health">
+                <svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" class="h-track" /><circle cx="18" cy="18" r="15" class="h-fill" pathLength="100" /></svg>
+                <span><b>92</b> {d.health}</span>
+              </div>
+            </aside>
+            <div class="list">
+              <div class="list-h">{d.allItems}</div>
+              {items.map((it) => (
+                <div class:list={['row', { on: it.active }]}>
+                  <span class="av" style={`--h:${it.hue}`}>{it.name[0]}</span>
+                  <span class="row-t"><b>{it.name}</b><small>{it.sub}</small></span>
+                </div>
+              ))}
+            </div>
+            <div class="detail">
+              <div class="d-head">
+                <span class="av big" style="--h:222">G</span>
+                <div><b>GitHub</b><small>github.com</small></div>
+                <span class="sealed-badge">{d.encrypted}</span>
+              </div>
+              <div class="d-field"><small>{d.username}</small><span>maya.rahman@example.com</span></div>
+              <div class="d-field"><small>{d.password}</small><span class="mono">••••••••••••••••••••</span><i class="copy">{d.copy}</i></div>
+              <div class="d-field">
+                <small>{d.oneTimeCode}</small>
+                <span class="mono code"><span data-totp>––– –––</span><svg class="ring" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" pathLength="30" data-ring /></svg></span>
+              </div>
+              <div class="d-field"><small>{d.passkey}</small><span>{d.passkeySaved}</span></div>
+              <div class="d-field"><small>{d.recovery}</small><span>{d.recoverySub}</span></div>
+              <div class="tags"><i>{d.tagWork}</i><i>{d.tagDeveloper}</i></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="phone">
+          <div class="screen">
+            <div class="status"><b>9:41</b><span></span></div>
+            <div class="site">
+              <div class="site-logo"></div>
+              <p>{d.phoneSignIn}</p>
+              <div class="site-field"></div>
+              <div class="site-field"></div>
+              <div class="site-btn"></div>
+            </div>
+            <div class="sheet">
+              <div class="sheet-top"><Logo id="phone" variant="tile" size={22} /><span>Octa Pass</span></div>
+              <p class="sheet-q">{d.phoneQuestion}</p>
+              <div class="sheet-acct"><span class="av sm" style="--h:222">M</span><span>maya.rahman<small>{d.passkey}</small></span></div>
+              <svg class="faceid" viewBox="0 0 48 48"><path d="M4 14V9a5 5 0 0 1 5-5h5M34 4h5a5 5 0 0 1 5 5v5M44 34v5a5 5 0 0 1-5 5h-5M14 44H9a5 5 0 0 1-5-5v-5M17 17v4M31 17v4M24 17v9h-2M17 32s2.5 3 7 3 7-3 7-3" /></svg>
+              <div class="sheet-btn">{d.continue}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </figure>
+  </section>
+
+  <!-- Statement: the live encryption demo -->
+  <section class="night statement" aria-labelledby="statement-title">
+    <div class="wrap center">
+      <h2 id="statement-title" class="gradient-text">{t.statement.titleLine1}<br />{t.statement.titleLine2}</h2>
+      <p class="lead">{t.statement.lead}</p>
+    </div>
+    <figure class="vault" aria-labelledby="vault-caption">
+      <div class="seg" role="tablist" aria-label={t.statement.tabsLabel}>
+        <button role="tab" id="tab-device" aria-selected="true" aria-controls="panel-device">{t.statement.tabDevice}</button>
+        <button role="tab" id="tab-server" aria-selected="false" aria-controls="panel-server" tabindex="-1">{t.statement.tabServer}</button>
+      </div>
+      <div class="vault-panel" role="tabpanel" id="panel-device" aria-labelledby="tab-device">
+        <dl>
+          <div><dt>{t.statement.website}</dt><dd>github.com</dd></div>
+          <div><dt>{d.username}</dt><dd>maya.rahman@example.com</dd></div>
+          <div><dt>{d.password}</dt><dd class="mono">Lantern-ruby-T7#qv-42</dd></div>
+          <div><dt>{d.oneTimeCode}</dt><dd class="mono"><span data-totp>––– –––</span></dd></div>
+          <div><dt>{d.passkey}</dt><dd>{t.statement.passkeyValue}</dd></div>
+        </dl>
+      </div>
+      <div class="vault-panel" role="tabpanel" id="panel-server" aria-labelledby="tab-server" hidden>
+        <dl class="server">
+          <div><dt>id</dt><dd class="mono">itm_7f3c9a1e52b84d60</dd></div>
+          <div><dt>revision</dt><dd class="mono">41</dd></div>
+          <div><dt>item_key</dt><dd class="mono cipher" data-cipher="key">AXnq0v3Kc2HcWmZ8yN1pQe7rT4uB0aLsFgD9kJ5xVhR6oI2tYwE</dd></div>
+          <div><dt>overview</dt><dd class="mono cipher" data-cipher="overview">AQtR8pW3mZ0yLc5vN2bXh7KdF4sJ9gE1aU6oTqYi3rVwHn8eMx</dd></div>
+          <div><dt>details</dt><dd class="mono cipher" data-cipher="details">AWk2fH9sQ4zR7xLm1cV8bN3pT6yG0dJ5aE2uKoWi9tYhSr4nMe</dd></div>
+        </dl>
+      </div>
+      <figcaption id="vault-caption" data-caption={t.statement.captionLive}>{t.statement.caption}</figcaption>
+    </figure>
+  </section>
+
+  <!-- Bento -->
+  <section class="bento-section" aria-labelledby="bento-title">
+    <div class="wrap">
+      <h2 id="bento-title" class="section-title">{t.bento.titleLine1}<br /><span class="soft">{t.bento.titleLine2}</span></h2>
+      <div class="bento">
+        <article class="tile t-passkey">
+          <div class="tile-copy">
+            <h3>{t.bento.passkeysTitle}</h3>
+            <p>{t.bento.passkeysBody}</p>
+          </div>
+          <div class="pk-visual" aria-hidden="true">
+            <svg class="pk-face" viewBox="0 0 48 48"><path d="M4 14V9a5 5 0 0 1 5-5h5M34 4h5a5 5 0 0 1 5 5v5M44 34v5a5 5 0 0 1-5 5h-5M14 44H9a5 5 0 0 1-5-5v-5M17 17v4M31 17v4M24 17v9h-2M17 32s2.5 3 7 3 7-3 7-3" /></svg>
+            <div class="pk-chip"><b>github.com</b><span>maya.rahman</span></div>
+          </div>
+        </article>
+
+        <article class="tile t-otp">
+          <h3>{t.bento.otpTitle}</h3>
+          <p class="otp-big mono"><span data-totp>––– –––</span></p>
+          <p>{t.bento.otpBody}</p>
+        </article>
+
+        <article class="tile t-fill">
+          <h3>{t.bento.fillTitle}</h3>
+          <div class="fill-visual" aria-hidden="true">
+            <div class="fill-input">{t.bento.fillEmail}</div>
+            <div class="fill-pop"><span class="av sm" style="--h:222">G</span><span>maya.rahman@example.com<small>GitHub</small></span></div>
+          </div>
+          <p>{t.bento.fillBody}</p>
+        </article>
+
+        <article class="tile t-health">
+          <div class="health-big" aria-hidden="true">
+            <svg viewBox="0 0 36 36"><defs><linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2456f0" /><stop offset="1" stop-color="#10b77f" /></linearGradient></defs><circle cx="18" cy="18" r="15" class="h-track" /><circle cx="18" cy="18" r="15" class="h-fill g" pathLength="100" /></svg>
+            <b>92</b>
+          </div>
+          <h3>{t.bento.breachTitle}</h3>
+          <p>{t.bento.breachBody} <a href={to('/docs/security/breach-checks/')}>{t.bento.breachLink}</a></p>
+        </article>
+
+        <article class="tile t-alias">
+          <h3>{t.bento.aliasTitle}</h3>
+          <p class="alias mono">gh-k7x2@alias.example</p>
+          <p>{t.bento.aliasBody}</p>
+        </article>
+
+        <article class="tile t-recovery">
+          <div class="tile-copy">
+            <h3>{t.bento.recoveryTitle}</h3>
+            <p>{t.bento.recoveryBody}</p>
+          </div>
+          <svg class="rec-map" viewBox="0 0 420 180" aria-hidden="true">
+            <g class="rec-lines">
+              <path d="M210 90 C150 90 120 30 60 30" /><path d="M210 90 C150 90 120 150 60 150" />
+              <path d="M210 90 C270 90 300 30 360 30" /><path d="M210 90 C270 90 300 150 360 150" />
+              <path d="M210 90 H60" /><path d="M210 90 H360" />
+            </g>
+            <g class="rec-nodes">
+              <rect x="20" y="16" width="80" height="28" rx="14" /><text x="60" y="35">GitHub</text>
+              <rect x="20" y="76" width="80" height="28" rx="14" /><text x="60" y="95">Figma</text>
+              <rect x="20" y="136" width="80" height="28" rx="14" /><text x="60" y="155">{t.bento.bank}</text>
+              <rect x="320" y="16" width="80" height="28" rx="14" /><text x="360" y="35">Netflix</text>
+              <rect x="320" y="76" width="80" height="28" rx="14" /><text x="360" y="95">Apple ID</text>
+              <rect x="320" y="136" width="80" height="28" rx="14" /><text x="360" y="155">AWS</text>
+            </g>
+            <rect class="rec-hub" x="130" y="72" width="160" height="36" rx="18" /><text class="rec-hub-t" x="210" y="95">maya.rahman@…</text>
+          </svg>
+        </article>
+
+        <article class="tile t-card">
+          <div class="card-visual" aria-hidden="true">
+            <span class="chip"></span><span class="mono">•••• 4242</span><small>MAYA RAHMAN</small>
+          </div>
+          <h3>{t.bento.cardsTitle}</h3>
+          <p>{t.bento.cardsBody}</p>
+        </article>
+
+        <article class="tile t-import">
+          <h3>{t.bento.importTitle}</h3>
+          <p class="import-list" aria-label={t.bento.importLabel}>1Password Bitwarden LastPass Chrome Safari Firefox Proton&nbsp;Pass Dashlane KeePass {t.bento.importAuthenticators}</p>
+          <p>{t.bento.importBody}</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- The free hosted service -->
+  <section class="free" id="free" aria-labelledby="free-title">
+    <div class="wrap">
+      <h2 id="free-title" class="section-title">{t.free.titleLine1}<br /><span class="soft">{t.free.titleLine2}</span></h2>
+      <div class="free-grid">
+        <div class="plan">
+          <div class="plan-head">
+            <Logo id="plan" variant="tile" size={48} />
+            <div>
+              <h3>Octa Pass</h3>
+              <p class="price"><b>$0</b> {t.free.forever}</p>
+            </div>
+          </div>
+          <ul class="plan-list">
+            {t.free.features.map((f) => <li>{f}</li>)}
+          </ul>
+          <p class="plan-note">{t.free.note}</p>
+        </div>
+        <div class="how-free">
+          <h3>{t.free.howTitle}</h3>
+          <p set:html={t.free.howTiny} />
+          <p set:html={t.free.howNoAds} />
+          <p set:html={t.free.howFunded} />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it's sealed -->
+  <section class="sealed" aria-labelledby="sealed-title">
+    <div class="wrap">
+      <h2 id="sealed-title" class="section-title">{t.sealed.title}</h2>
+      <ol class="steps">
+        {t.sealed.steps.map((s, i) => (
+          <li>
+            <span class="step-n">{i + 1}</span>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </li>
+        ))}
+      </ol>
+      <div class="sees">
+        <div>
+          <h3>{t.sealed.seesTitle}</h3>
+          <ul>{t.sealed.sees.map((s) => <li>{s}</li>)}</ul>
+        </div>
+        <div class="never">
+          <h3>{t.sealed.neverTitle}</h3>
+          <ul>{t.sealed.never.map((s) => <li>{s}</li>)}</ul>
+        </div>
+      </div>
+      <p class="more"><a href={to('/docs/security/what-the-server-sees/')}>{t.sealed.more}</a></p>
+    </div>
+  </section>
+
+  <!-- Platforms -->
+  <section class="platforms" aria-labelledby="platforms-title">
+    <div class="wrap">
+      <h2 id="platforms-title" class="section-title">{t.platforms.title}</h2>
+      <p class="section-lede">{t.platforms.lede}</p>
+      <ul class="plat-grid">
+        {platforms.map((p) => (
+          <li>
+            <svg class="plat-icon" viewBox="0 0 32 32" aria-hidden="true">
+              {p.icon === 'browser' && <><rect x="3" y="6" width="26" height="20" rx="3" /><path d="M3 11h26" /></>}
+              {p.icon === 'laptop' && <><rect x="6" y="7" width="20" height="14" rx="2" /><path d="M3 25h26" /></>}
+              {p.icon === 'desktop' && <><rect x="3" y="5" width="26" height="17" rx="2" /><path d="M12 27h8M16 22v5" /></>}
+              {p.icon === 'phone' && <><rect x="9" y="3" width="14" height="26" rx="3" /><path d="M14 25h4" /></>}
+              {p.icon === 'terminal' && <><rect x="3" y="6" width="26" height="20" rx="3" /><path d="M8 13l4 3-4 3M15 20h7" /></>}
+              {p.icon === 'globe' && <><circle cx="16" cy="16" r="12" /><ellipse cx="16" cy="16" rx="5" ry="12" /><path d="M4 16h24" /></>}
+              {p.icon === 'code' && <><rect x="3" y="6" width="26" height="20" rx="3" /><path d="M12 12l-4 4 4 4M20 12l4 4-4 4" /></>}
+            </svg>
+            <h3>{p.name}</h3>
+            <p>{p.detail}</p>
+            <div class="plat-foot">
+              {p.link?.kind === 'open' && <a class="plat-get now" href={p.link.href}>{t.platforms.openVault}</a>}
+              {p.link?.kind === 'store' && <a class="plat-get" href={p.link.href} aria-label={named(t.platforms.getLabel, p.name)}>{t.platforms.getIt}</a>}
+              {!p.link && <span class="soon">{t.platforms.soon}</span>}
+              <a class="plat-src" href={p.source} aria-label={named(t.platforms.sourceLabel, p.name)}><Icon name="code" size={14} />{t.platforms.source}</a>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <p class="more"><a href={to('/docs/platforms/support-matrix/')}>{t.platforms.more}</a></p>
+    </div>
+  </section>
+
+  <!-- Open source -->
+  <section class="night open" aria-labelledby="open-title">
+    <div class="open-glow" aria-hidden="true"></div>
+    <div class="wrap open-grid">
+      <div>
+        <h2 id="open-title" class="section-title">{t.open.titleLine1}<br /><span class="gradient-text">{t.open.titleLine2}</span></h2>
+        <div class="open-points">
+          <p set:html={t.open.code} />
+          <p set:html={t.open.server} />
+          <p set:html={t.open.noAds} />
+        </div>
+        <nav class="open-links" aria-label={t.open.linksLabel}>
+          <ul>
+            {projectLinks.map((l) => (
+              <li><a class:list={{ primary: 'primary' in l }} href={l.href}><Icon name={l.icon} />{l.label}</a></li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+      <figure class="term" dir="ltr">
+        <div class="term-bar"><span class="lights"><i></i><i></i><i></i></span><span>{t.open.terminal}</span></div>
+        <pre><code><span class="prompt">$</span> docker build -f apps/server/Dockerfile -t octapass-server .
+<span class="prompt">$</span> docker run -d -p 8080:8080 \
+    -v octapass-data:/data \
+    -e OCTAPASS_PUBLIC_URL=https://vault.example.com \
+    octapass-server</code></pre>
+        <figcaption dir={locale === 'ar' ? 'rtl' : 'ltr'}><a href={to('/docs/self-hosting/connect-apps/')}>{t.open.connect}</a></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Roadmap -->
+  <section class="roadmap" aria-labelledby="roadmap-title">
+    <div class="wrap">
+      <h2 id="roadmap-title" class="section-title">{t.roadmap.title}</h2>
+      <ol class="track">
+        {t.roadmap.phases.map((p) => (
+          <li class={p.step} aria-current={p.step === 'now' ? 'step' : undefined}>
+            <span class="node" aria-hidden="true"></span>
+            <span class="track-n">{p.state}</span>
+            <span class="track-t">{p.title}</span>
+          </li>
+        ))}
+      </ol>
+      <p class="more"><a href={to('/docs/reference/roadmap/')}>{t.roadmap.more}</a></p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section" aria-labelledby="faq-title">
+    <div class="wrap narrow">
+      <h2 id="faq-title" class="section-title">{t.faq.title}</h2>
+      <div class="faq">
+        {t.faq.items.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</Site>
+
+<script>
+  // Live, real data in the demo: RFC 6238 codes for a demo secret, and ciphertext made in the browser.
+  const enc = new TextEncoder();
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const b64url = (bytes: Uint8Array) =>
+    btoa(String.fromCharCode(...bytes)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+
+  async function seal(key: CryptoKey, plaintext: string) {
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const ct = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, enc.encode(plaintext)));
+    const out = new Uint8Array(1 + iv.length + ct.length);
+    out.set([1]);
+    out.set(iv, 1);
+    out.set(ct, 1 + iv.length);
+    return b64url(out);
+  }
+
+  async function fillCiphertext() {
+    if (!crypto?.subtle) return;
+    const itemKey = await crypto.subtle.generateKey({ name: 'AES-GCM', length: 256 }, true, ['encrypt']);
+    const vaultKey = await crypto.subtle.generateKey({ name: 'AES-GCM', length: 256 }, false, ['encrypt']);
+    const rawItemKey = b64url(new Uint8Array(await crypto.subtle.exportKey('raw', itemKey)));
+    const values: Record<string, string> = {
+      key: await seal(vaultKey, rawItemKey),
+      overview: await seal(itemKey, JSON.stringify({ title: 'GitHub', urls: ['https://github.com'] })),
+      details: await seal(
+        itemKey,
+        JSON.stringify({
+          username: 'maya.rahman@example.com',
+          password: 'Lantern-ruby-T7#qv-42',
+          totp: 'otpauth://totp/GitHub?secret=JBSWY3DPEHPK3PXP',
+          passkey: { rpId: 'github.com', created: '2026-10-12' },
+        }),
+      ),
+    };
+    document.querySelectorAll<HTMLElement>('[data-cipher]').forEach((el) => {
+      el.dataset.value = values[el.dataset.cipher!];
+      el.textContent = values[el.dataset.cipher!];
+    });
+    // The finished sentence is on the element, in the page's language.
+    const caption = document.querySelector<HTMLElement>('[data-caption]');
+    if (caption?.dataset.caption) caption.textContent = caption.dataset.caption;
+  }
+
+  function scramble(el: HTMLElement) {
+    const target = el.dataset.value ?? el.textContent ?? '';
+    if (reduceMotion) return;
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
+    const start = performance.now();
+    const frame = (now: number) => {
+      const settled = Math.floor(((now - start) / 650) * target.length);
+      let text = target.slice(0, settled);
+      for (let i = settled; i < target.length; i++) text += alphabet[(Math.random() * alphabet.length) | 0];
+      el.textContent = text;
+      if (settled < target.length) requestAnimationFrame(frame);
+      else el.textContent = target;
+    };
+    requestAnimationFrame(frame);
+  }
+
+  const tabs = Array.from(document.querySelectorAll<HTMLButtonElement>('.vault [role="tab"]'));
+  function select(tab: HTMLButtonElement) {
+    for (const t of tabs) {
+      const on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')!)!.hidden = !on;
+    }
+    document.querySelector('.seg')?.setAttribute('data-active', tab.id);
+    if (tab.id === 'tab-server') document.querySelectorAll<HTMLElement>('[data-cipher]').forEach(scramble);
+  }
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => select(tab));
+    tab.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      // Tabs run right to left on Arabic pages, so the arrows swap with them.
+      const forward = e.key === (document.documentElement.dir === 'rtl' ? 'ArrowLeft' : 'ArrowRight');
+      const next = tabs[(i + (forward ? 1 : tabs.length - 1)) % tabs.length];
+      next.focus();
+      select(next);
+    });
+  });
+
+  // The one scroll moment: when the demo comes into view, seal the login once.
+  const vault = document.querySelector('.vault');
+  if (vault && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        io.disconnect();
+        setTimeout(() => select(tabs[1]), 1100);
+      },
+      { threshold: 0.65 },
+    );
+    io.observe(vault);
+  }
+
+  function base32Decode(input: string) {
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+    let bits = '';
+    for (const c of input.replace(/=+$/, '')) bits += alphabet.indexOf(c).toString(2).padStart(5, '0');
+    const bytes = new Uint8Array(Math.floor(bits.length / 8));
+    for (let i = 0; i < bytes.length; i++) bytes[i] = parseInt(bits.slice(i * 8, i * 8 + 8), 2);
+    return bytes;
+  }
+
+  async function totp(secret: string, step = 30) {
+    const counter = Math.floor(Date.now() / 1000 / step);
+    const msg = new DataView(new ArrayBuffer(8));
+    msg.setUint32(4, counter);
+    msg.setUint32(0, Math.floor(counter / 2 ** 32));
+    const key = await crypto.subtle.importKey('raw', base32Decode(secret), { name: 'HMAC', hash: 'SHA-1' }, false, ['sign']);
+    const mac = new Uint8Array(await crypto.subtle.sign('HMAC', key, msg.buffer));
+    const offset = mac[mac.length - 1] & 0xf;
+    const code =
+      (((mac[offset] & 0x7f) << 24) | (mac[offset + 1] << 16) | (mac[offset + 2] << 8) | mac[offset + 3]) % 1_000_000;
+    return code.toString().padStart(6, '0');
+  }
+
+  async function tick() {
+    if (!crypto?.subtle) return;
+    const code = await totp('JBSWY3DPEHPK3PXP');
+    const remaining = 30 - (Math.floor(Date.now() / 1000) % 30);
+    document.querySelectorAll<HTMLElement>('[data-totp]').forEach((el) => {
+      el.textContent = `${code.slice(0, 3)} ${code.slice(3)}`;
+    });
+    document.querySelectorAll<SVGCircleElement>('[data-ring]').forEach((ring) => {
+      ring.style.setProperty('stroke-dashoffset', String(30 - remaining));
+    });
+  }
+
+  fillCiphertext();
+  tick();
+  setInterval(tick, 1000);
+</script>
+
+<style>
+  .wrap {
+    max-width: var(--page);
+    margin: 0 auto;
+    padding-inline: var(--gutter);
+  }
+  .narrow {
+    max-width: 52rem;
+  }
+  .center {
+    text-align: center;
+  }
+  .section-title {
+    font-size: var(--step-3);
+    font-weight: 720;
+    font-stretch: 112%;
+    letter-spacing: -0.04em;
+    line-height: 1.02;
+    margin: 0 0 clamp(2rem, 5vw, 3.5rem);
+    text-wrap: balance;
+  }
+  .soft {
+    color: var(--mist);
+  }
+  .section-lede {
+    max-width: var(--measure);
+    color: var(--mist);
+    font-size: var(--step-1);
+    line-height: 1.4;
+    margin: calc(-1 * clamp(1rem, 3vw, 2rem)) 0 clamp(2rem, 5vw, 3rem);
+  }
+  .more {
+    margin: 2rem 0 0;
+  }
+  .gradient-text {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .mono {
+    font-family: var(--font-mono);
+  }
+  /* Passwords, codes and ciphertext read left to right on Arabic pages too. */
+  :global([dir='rtl']) .mono {
+    direction: ltr;
+    unicode-bidi: isolate;
+    text-align: end;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(3.5rem, 9vw, 6.5rem) var(--gutter) 0;
+    text-align: center;
+  }
+  .hero-copy {
+    max-width: 62rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hero-copy > * {
+    animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  .hero-copy > :nth-child(2) {
+    animation-delay: 0.08s;
+  }
+  .hero-copy > :nth-child(3) {
+    animation-delay: 0.16s;
+  }
+  .hero-copy > :nth-child(4),
+  .hero-copy > :nth-child(5) {
+    animation-delay: 0.24s;
+  }
+  .hero-mark {
+    margin-bottom: 1.75rem;
+  }
+  h1 {
+    font-size: var(--step-4);
+    font-weight: 760;
+    font-stretch: 112%;
+    letter-spacing: -0.05em;
+    line-height: 1.02;
+    margin: 0 0 1.5rem;
+    max-width: 13ch;
+    text-wrap: balance;
+  }
+  .hero-sub {
+    font-size: var(--step-1);
+    line-height: 1.4;
+    color: var(--mist);
+    max-width: 40ch;
+    margin: 0 0 2.25rem;
+    text-wrap: pretty;
+  }
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 3rem;
+    padding: 0 1.5rem;
+    border-radius: 999px;
+    background: #2456f0;
+    color: #fff;
+    font-weight: 600;
+    transition: transform 0.15s ease, filter 0.15s ease;
+  }
+  .pill:hover {
+    text-decoration: none;
+    filter: brightness(1.08);
+  }
+  .pill:active {
+    transform: scale(0.98);
+  }
+  .pill.ghost {
+    background: transparent;
+    color: var(--trust-text);
+    box-shadow: inset 0 0 0 1.5px var(--trust);
+  }
+  .hero-status {
+    margin: 1.5rem 0 0;
+    font-size: var(--step--1);
+    color: var(--mist);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--free);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--free) 22%, transparent);
+  }
+
+  /* Product shot: everything inside .stage is sized in em, and 1em = 1% of the stage width. */
+  .shot {
+    position: relative;
+    max-width: 72rem;
+    margin: clamp(3rem, 7vw, 5rem) auto 0;
+    container-type: inline-size;
+    animation: rise-shot 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) 0.3s both;
+  }
+  .glow {
+    position: absolute;
+    inset: 10% 5% -10%;
+    background: radial-gradient(50% 50% at 35% 50%, color-mix(in srgb, var(--trust) 45%, transparent), transparent 70%),
+      radial-gradient(45% 50% at 70% 60%, color-mix(in srgb, var(--free) 40%, transparent), transparent 70%);
+    filter: blur(60px);
+    opacity: 0.55;
+  }
+  .stage {
+    position: relative;
+    font-size: 1cqw;
+    height: 62em;
+    text-align: start;
+    color: var(--ink);
+  }
+  .win {
+    position: absolute;
+    inset-inline-start: 0;
+    top: 0;
+    width: 84em;
+    height: 56em;
+    background: var(--surface);
+    border-radius: 1.4em;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .win-bar {
+    height: 3.6em;
+    display: flex;
+    align-items: center;
+    padding: 0 1.4em;
+    border-bottom: 1px solid var(--line);
+    position: relative;
+  }
+  .lights {
+    display: inline-flex;
+    gap: 0.6em;
+  }
+  .lights i {
+    width: 1.05em;
+    height: 1.05em;
+    border-radius: 50%;
+    background: #ff5f57;
+  }
+  .lights i:nth-child(2) {
+    background: #febc2e;
+  }
+  .lights i:nth-child(3) {
+    background: #28c840;
+  }
+  .win-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.15em;
+    font-weight: 600;
+    color: var(--mist);
+  }
+  .win-body {
+    display: grid;
+    grid-template-columns: 17em 26em 1fr;
+    height: calc(100% - 3.6em);
+  }
+  .side {
+    background: var(--tile);
+    padding: 1.3em 1.1em;
+    font-size: 1.12em;
+    display: flex;
+    flex-direction: column;
+  }
+  .search {
+    background: var(--surface);
+    border-radius: 0.6em;
+    padding: 0.55em 0.8em;
+    color: var(--mist);
+    margin-bottom: 1.2em;
+    border: 1px solid var(--line);
+  }
+  .side-h {
+    margin: 0.9em 0 0.35em 0.5em;
+    color: var(--mist);
+    font-size: 0.85em;
+    font-weight: 600;
+  }
+  .side-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.42em 0.6em;
+    border-radius: 0.5em;
+  }
+  .side-row b {
+    color: var(--mist);
+    font-weight: 500;
+  }
+  .side-row em {
+    font-style: normal;
+    color: var(--free-text);
+    font-size: 0.85em;
+  }
+  .side-row.on {
+    background: var(--trust);
+    color: #fff;
+  }
+  .side-row.on b {
+    color: #ffffffcc;
+  }
+  .health {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.7em;
+    padding: 0.6em;
+    background: var(--surface);
+    border-radius: 0.7em;
+    border: 1px solid var(--line);
+  }
+  .health svg {
+    width: 2.6em;
+    height: 2.6em;
+    transform: rotate(-90deg);
+  }
+  .h-track {
+    fill: none;
+    stroke: var(--line);
+    stroke-width: 4;
+  }
+  .h-fill {
+    fill: none;
+    stroke: var(--free);
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 92 100;
+  }
+  .h-fill.g {
+    stroke: url(#hg);
+  }
+  .list {
+    border-inline-end: 1px solid var(--line);
+    padding: 1.3em 0.9em;
+    font-size: 1.12em;
+  }
+  .list-h {
+    font-weight: 700;
+    font-size: 1.25em;
+    margin: 0 0.4em 0.7em;
+  }
+  .row {
+    display: flex;
+    gap: 0.8em;
+    align-items: center;
+    padding: 0.55em 0.6em;
+    border-radius: 0.7em;
+  }
+  .row.on {
+    background: color-mix(in srgb, var(--trust) 12%, transparent);
+  }
+  .row-t {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .row-t b {
+    font-weight: 620;
+  }
+  .row-t small,
+  .d-head small {
+    color: var(--mist);
+    font-size: 0.85em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .av {
+    --h: 222;
+    flex: none;
+    width: 2.4em;
+    height: 2.4em;
+    border-radius: 0.65em;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, hsl(var(--h) 75% 58%), hsl(calc(var(--h) + 30) 70% 45%));
+  }
+  .av.big {
+    width: 4.2em;
+    height: 4.2em;
+    border-radius: 1em;
+    font-size: 1.3em;
+  }
+  .av.sm {
+    width: 2em;
+    height: 2em;
+    font-size: 0.85em;
+  }
+  .detail {
+    padding: 2em 2.4em;
+    font-size: 1.15em;
+  }
+  .d-head {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    margin-bottom: 1.6em;
+  }
+  .d-head > div {
+    display: flex;
+    flex-direction: column;
+  }
+  .d-head b {
+    font-size: 1.6em;
+    letter-spacing: -0.02em;
+  }
+  .d-head > div + .sealed-badge {
+    margin-inline-start: 0.5em;
+  }
+  .sealed-badge {
+    font-size: 0.8em;
+    font-weight: 600;
+    color: var(--free-text);
+    background: color-mix(in srgb, var(--free) 14%, transparent);
+    padding: 0.35em 0.8em;
+    border-radius: 999px;
+  }
+  .d-field {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    padding: 0.75em 0;
+    border-top: 1px solid var(--line);
+  }
+  .d-field small {
+    grid-column: 1 / -1;
+    color: var(--mist);
+    font-size: 0.8em;
+  }
+  .copy {
+    font-style: normal;
+    font-size: 0.8em;
+    color: var(--trust-text);
+    font-weight: 600;
+  }
+  .code {
+    display: inline-flex;
+    gap: 0.6em;
+    align-items: center;
+    font-size: 1.3em;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .ring {
+    width: 0.9em;
+    height: 0.9em;
+    transform: rotate(-90deg);
+  }
+  .ring circle {
+    fill: none;
+    stroke: var(--free);
+    stroke-width: 3.5;
+    stroke-dasharray: 30;
+    transition: stroke-dashoffset 0.9s linear;
+  }
+  .tags {
+    display: flex;
+    gap: 0.5em;
+    margin-top: 1em;
+  }
+  .tags i {
+    font-style: normal;
+    font-size: 0.8em;
+    padding: 0.25em 0.8em;
+    border-radius: 999px;
+    background: var(--tile);
+    color: var(--mist);
+  }
+
+  .phone {
+    position: absolute;
+    inset-inline-end: 0;
+    top: 9em;
+    width: 25em;
+    height: 52em;
+    border-radius: 4.4em;
+    background: #0a0a0c;
+    padding: 0.7em;
+    box-shadow: 0 0 0 0.25em #2a2d35, 0 40px 80px -30px rgb(0 0 0 / 0.6);
+  }
+  .screen {
+    position: relative;
+    height: 100%;
+    border-radius: 3.8em;
+    overflow: hidden;
+    background: linear-gradient(180deg, #f4f6fb, #e9edf5);
+    color: #0b1220;
+  }
+  .status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.6em 2.4em 0;
+    font-size: 1.15em;
+  }
+  .status span {
+    width: 7em;
+    height: 2em;
+    border-radius: 2em;
+    background: #0a0a0c;
+    position: absolute;
+    left: 50%;
+    top: 1.2em;
+    transform: translateX(-50%);
+  }
+  .site {
+    padding: 4em 2.2em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    filter: blur(1.5px);
+    opacity: 0.6;
+  }
+  .site-logo {
+    width: 4em;
+    height: 4em;
+    border-radius: 50%;
+    background: #0b1220;
+  }
+  .site p {
+    margin: 0.4em 0;
+    font-weight: 600;
+    font-size: 1.3em;
+  }
+  .site-field {
+    width: 100%;
+    height: 3.2em;
+    border-radius: 0.7em;
+    background: #fff;
+    border: 1px solid #d5dae4;
+  }
+  .site-btn {
+    width: 100%;
+    height: 3.2em;
+    border-radius: 0.7em;
+    background: #1f883d;
+  }
+  .sheet {
+    position: absolute;
+    left: 0.9em;
+    right: 0.9em;
+    bottom: 0.9em;
+    padding: 1.8em 1.8em 1.6em;
+    border-radius: 3em;
+    background: rgb(255 255 255 / 0.96);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 -10px 40px -10px rgb(11 18 32 / 0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-size: 1.1em;
+  }
+  .sheet-top {
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    font-weight: 650;
+    font-size: 0.95em;
+    align-self: flex-start;
+  }
+  .sheet-top :global(svg) {
+    width: 1.8em;
+    height: 1.8em;
+  }
+  .sheet-q {
+    font-weight: 700;
+    font-size: 1.35em;
+    line-height: 1.2;
+    margin: 1em 0 0.9em;
+    letter-spacing: -0.02em;
+  }
+  .sheet-acct {
+    display: flex;
+    gap: 0.7em;
+    align-items: center;
+    background: #fff;
+    border-radius: 1em;
+    padding: 0.6em 1em;
+    width: 100%;
+    text-align: start;
+  }
+  .sheet-acct > span:last-child {
+    display: flex;
+    flex-direction: column;
+    font-weight: 600;
+  }
+  .sheet-acct small {
+    color: #5e6576;
+    font-weight: 400;
+  }
+  .faceid {
+    width: 4.6em;
+    height: 4.6em;
+    margin: 1.3em 0;
+    fill: none;
+    stroke: #2456f0;
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .sheet-btn {
+    width: 100%;
+    padding: 0.9em;
+    border-radius: 1.2em;
+    background: #2456f0;
+    color: #fff;
+    font-weight: 650;
+  }
+
+  /* Narrow screens: drop the Mac window and show the phone, scaled up with the whole stage. */
+  @container (max-width: 44rem) {
+    .stage {
+      font-size: 2.6cqw;
+      height: 54em;
+    }
+    .win {
+      display: none;
+    }
+    .phone {
+      inset-inline: auto;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+    }
+  }
+  @keyframes rise-shot {
+    from {
+      opacity: 0;
+      transform: translateY(60px) scale(0.97);
+    }
+  }
+
+  /* ---------- Night bands ---------- */
+  .night {
+    background: var(--night);
+    color: var(--night-ink);
+    --mist: var(--night-mist);
+    --line: var(--night-line);
+    --trust: #5c86ff;
+    --free: #2fd394;
+    --trust-text: #86a6ff;
+    --free-text: #4fe0a8;
+  }
+  .statement {
+    padding: clamp(5rem, 12vw, 9rem) 0 clamp(5rem, 10vw, 8rem);
+    position: relative;
+  }
+  .statement h2 {
+    font-size: var(--step-4);
+    font-weight: 760;
+    font-stretch: 112%;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    margin: 0 0 1.5rem;
+    padding-bottom: 0.08em;
+  }
+  .lead {
+    font-size: var(--step-1);
+    line-height: 1.45;
+    color: var(--night-mist);
+    max-width: 42ch;
+    margin: 0 auto;
+  }
+  .vault {
+    max-width: 40rem;
+    margin: clamp(3rem, 6vw, 4.5rem) auto 0;
+    padding: 0 var(--gutter);
+  }
+  .seg {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    background: var(--night-tile);
+    border-radius: 999px;
+    padding: 0.3rem;
+    margin: 0 auto 1.5rem;
+    max-width: 22rem;
+  }
+  .seg::before {
+    content: '';
+    position: absolute;
+    top: 0.3rem;
+    bottom: 0.3rem;
+    inset-inline-start: 0.3rem;
+    width: calc(50% - 0.3rem);
+    border-radius: 999px;
+    background: #2b3142;
+    transition: transform 0.35s cubic-bezier(0.3, 0.7, 0.2, 1);
+  }
+  .seg[data-active='tab-server']::before {
+    transform: translateX(100%);
+  }
+  :global([dir='rtl']) .seg[data-active='tab-server']::before {
+    transform: translateX(-100%);
+  }
+  .seg button {
+    position: relative;
+    font: inherit;
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--night-mist);
+    background: none;
+    border: 0;
+    padding: 0.6rem 0.75rem;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .seg button[aria-selected='true'] {
+    color: #fff;
+  }
+  .vault-panel {
+    background: var(--night-surface);
+    border: 1px solid var(--night-line);
+    border-radius: var(--radius-xl);
+    padding: 0.75rem 1.75rem;
+    min-height: 21rem;
+  }
+  .vault dl {
+    margin: 0;
+  }
+  .vault dl > div {
+    padding: 0.85rem 0;
+    border-top: 1px solid var(--night-line);
+  }
+  .vault dl > div:first-child {
+    border-top: 0;
+  }
+  .vault dt {
+    font-size: 0.8rem;
+    color: var(--night-mist);
+  }
+  .vault dd {
+    margin: 0.15rem 0 0;
+    overflow-wrap: anywhere;
+  }
+  .server dt {
+    font-family: var(--font-mono);
+  }
+  .cipher {
+    color: var(--free-text);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .vault figcaption {
+    text-align: center;
+    margin-top: 1.25rem;
+    font-size: var(--step--1);
+    color: var(--night-mist);
+  }
+
+  /* ---------- Bento ---------- */
+  .bento-section {
+    padding: clamp(5rem, 10vw, 8rem) 0;
+  }
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: minmax(15rem, auto);
+    gap: 1rem;
+  }
+  .tile {
+    background: var(--tile);
+    border-radius: var(--radius-xl);
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    overflow: hidden;
+    position: relative;
+  }
+  .tile h3 {
+    font-size: var(--step-1);
+    font-weight: 700;
+    font-stretch: 106%;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    margin: 0;
+  }
+  .tile p {
+    margin: 0;
+    color: var(--mist);
+  }
+  .t-passkey {
+    grid-column: span 2;
+    grid-row: span 2;
+    background: radial-gradient(120% 90% at 100% 100%, color-mix(in srgb, var(--trust) 20%, var(--tile)), var(--tile) 60%);
+    justify-content: space-between;
+  }
+  .t-passkey .tile-copy {
+    max-width: 30ch;
+    display: grid;
+    gap: 0.6rem;
+  }
+  .t-passkey h3 {
+    font-size: var(--step-2);
+  }
+  .pk-visual {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1rem 0 0.5rem;
+  }
+  .pk-face {
+    width: clamp(6rem, 14vw, 9rem);
+    height: auto;
+    fill: none;
+    stroke: var(--trust);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .pk-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--surface);
+    border-radius: 1.1rem;
+    padding: 0.8rem 1.5rem;
+    box-shadow: var(--shadow);
+  }
+  .pk-chip span {
+    color: var(--mist);
+    font-size: var(--step--1);
+  }
+  .tile .otp-big {
+    white-space: nowrap;
+    font-size: clamp(1.9rem, 2.9vw, 2.7rem);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    margin: auto 0;
+  }
+  .fill-visual {
+    margin: auto 0;
+    display: grid;
+    gap: 0.4rem;
+  }
+  .fill-input {
+    background: var(--surface);
+    border: 1.5px solid var(--trust);
+    border-radius: 0.7rem;
+    padding: 0.55rem 0.8rem;
+    color: var(--mist);
+    font-size: var(--step--1);
+  }
+  .fill-pop {
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+    background: var(--surface);
+    border-radius: 0.8rem;
+    padding: 0.55rem 0.7rem;
+    box-shadow: var(--shadow);
+    font-size: 0.8rem;
+    font-weight: 600;
+    min-width: 0;
+  }
+  .fill-pop > span:last-child {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .fill-pop small {
+    color: var(--mist);
+    font-weight: 400;
+  }
+  .fill-pop .av {
+    font-size: 0.9rem;
+  }
+  .health-big {
+    position: relative;
+    width: 5.5rem;
+    height: 5.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .health-big svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+  .health-big b {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 1.6rem;
+    font-weight: 720;
+  }
+  .tile .alias {
+    margin: auto 0;
+    font-size: 0.95rem;
+    color: var(--free-text);
+    background: color-mix(in srgb, var(--free) 12%, transparent);
+    padding: 0.5rem 0.8rem;
+    border-radius: 0.7rem;
+    white-space: nowrap;
+    font-size: 0.85rem;
+  }
+  .t-recovery {
+    grid-column: span 2;
+    gap: 1.25rem;
+  }
+  .t-recovery .tile-copy {
+    display: grid;
+    gap: 0.6rem;
+    max-width: 46ch;
+  }
+  .rec-map {
+    width: 100%;
+    height: auto;
+    margin-top: auto;
+  }
+  .rec-lines path {
+    fill: none;
+    stroke: color-mix(in srgb, var(--trust) 45%, transparent);
+    stroke-width: 1.5;
+  }
+  .rec-nodes rect {
+    fill: var(--surface);
+    stroke: var(--line);
+  }
+  .rec-nodes text,
+  .rec-hub-t {
+    font: 600 12px var(--font-sans);
+    text-anchor: middle;
+    fill: var(--ink);
+  }
+  .rec-hub {
+    fill: var(--trust);
+  }
+  .rec-hub-t {
+    fill: #fff;
+  }
+  .card-visual {
+    aspect-ratio: 1.586;
+    width: 100%;
+    max-width: 14rem;
+    border-radius: 0.9rem;
+    background: var(--gradient);
+    color: #fff;
+    padding: 0.9rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.2rem;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 16px 30px -18px color-mix(in srgb, var(--trust) 80%, transparent);
+  }
+  .card-visual .chip {
+    width: 1.8rem;
+    height: 1.3rem;
+    border-radius: 0.3rem;
+    background: rgb(255 255 255 / 0.55);
+    margin-bottom: auto;
+  }
+  .card-visual small {
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    opacity: 0.85;
+  }
+  .tile .import-list {
+    margin: auto 0 0.5rem;
+    font-size: 1.05rem;
+    font-weight: 650;
+    line-height: 1.3;
+    word-spacing: 0.35em;
+    color: var(--ink);
+    -webkit-mask-image: linear-gradient(90deg, #000 60%, transparent);
+    mask-image: linear-gradient(90deg, #000 60%, transparent);
+  }
+  :global([dir='rtl']) .tile .import-list {
+    -webkit-mask-image: linear-gradient(270deg, #000 60%, transparent);
+    mask-image: linear-gradient(270deg, #000 60%, transparent);
+  }
+
+  @media (max-width: 64rem) {
+    .bento {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 40rem) {
+    .bento {
+      grid-template-columns: 1fr;
+    }
+    .t-passkey,
+    .t-recovery {
+      grid-column: auto;
+      grid-row: auto;
+    }
+  }
+
+  /* ---------- Free plan ---------- */
+  .free {
+    padding: 0 0 clamp(5rem, 10vw, 8rem);
+  }
+  .free-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 1rem;
+  }
+  .plan {
+    position: relative;
+    border-radius: var(--radius-xl);
+    padding: clamp(1.75rem, 4vw, 2.75rem);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    isolation: isolate;
+  }
+  .plan::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: var(--gradient);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    z-index: -1;
+  }
+  .plan-head {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1.75rem;
+  }
+  .plan-head h3 {
+    margin: 0;
+    font-size: var(--step-1);
+    font-stretch: 108%;
+    letter-spacing: -0.02em;
+  }
+  .price {
+    margin: 0;
+    color: var(--mist);
+  }
+  .price b {
+    font-size: var(--step-3);
+    font-weight: 760;
+    font-stretch: 112%;
+    letter-spacing: -0.04em;
+    color: var(--ink);
+    margin-inline-end: 0.35rem;
+  }
+  .plan-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem 1.5rem;
+  }
+  .plan-list li {
+    display: flex;
+    gap: 0.6rem;
+  }
+  .plan-list li::before {
+    content: '';
+    flex: none;
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-top: 0.15rem;
+    border-radius: 50%;
+    background: var(--free)
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.2l2.3 2.3 4.7-4.9' fill='none' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+      center / 100% no-repeat;
+  }
+  .plan-note {
+    margin: 1.75rem 0 0;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+    color: var(--mist);
+  }
+  .how-free {
+    background: var(--tile);
+    border-radius: var(--radius-xl);
+    padding: clamp(1.75rem, 4vw, 2.75rem);
+  }
+  .how-free h3 {
+    margin: 0 0 1rem;
+    font-size: var(--step-1);
+    letter-spacing: -0.02em;
+  }
+  .how-free p {
+    margin: 0 0 1rem;
+    color: var(--mist);
+  }
+  .how-free b {
+    color: var(--ink);
+  }
+  @media (max-width: 56rem) {
+    .free-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 36rem) {
+    .plan-list {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ---------- Sealed ---------- */
+  .sealed {
+    padding: clamp(4rem, 9vw, 7rem) 0;
+    background: var(--tile);
+  }
+  .steps {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 clamp(3rem, 6vw, 4.5rem);
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2rem;
+    position: relative;
+  }
+  .steps::before {
+    content: '';
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    right: 1.25rem;
+    height: 2px;
+    background: var(--gradient);
+    opacity: 0.5;
+  }
+  .steps li {
+    position: relative;
+  }
+  .step-n {
+    position: relative;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--surface);
+    box-shadow: inset 0 0 0 2px var(--trust);
+    color: var(--trust-text);
+    font-weight: 700;
+    margin-bottom: 1.1rem;
+  }
+  .steps li:last-child .step-n {
+    box-shadow: inset 0 0 0 2px var(--free);
+    color: var(--free-text);
+  }
+  .steps h3 {
+    margin: 0 0 0.4rem;
+    font-size: var(--step-1);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .steps p {
+    margin: 0;
+    color: var(--mist);
+  }
+  .sees {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  .sees > div {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    padding: 1.75rem 2rem;
+  }
+  .sees h3 {
+    margin: 0 0 0.8rem;
+    font-size: var(--step-1);
+    letter-spacing: -0.02em;
+  }
+  .sees ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.5rem;
+    color: var(--mist);
+  }
+  .sees li {
+    display: flex;
+    gap: 0.6rem;
+  }
+  .sees li::before {
+    content: '';
+    flex: none;
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-top: 0.2rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--trust) 18%, transparent);
+  }
+  .never li::before {
+    background: var(--free)
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M5 5l6 6M11 5l-6 6' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E")
+      center / 100% no-repeat;
+  }
+  @media (max-width: 56rem) {
+    .steps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .steps::before {
+      display: none;
+    }
+    .sees {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 36rem) {
+    .steps {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ---------- Platforms ---------- */
+  .platforms {
+    padding: clamp(5rem, 10vw, 8rem) 0;
+  }
+  .plat-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2.5rem 2rem;
+  }
+  .plat-icon {
+    width: 2.4rem;
+    height: 2.4rem;
+    fill: none;
+    stroke: var(--trust);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    margin-bottom: 0.9rem;
+  }
+  .plat-grid h3 {
+    margin: 0 0 0.3rem;
+    font-size: var(--step-0);
+    font-weight: 700;
+  }
+  .plat-grid p {
+    margin: 0 0 0.6rem;
+    color: var(--mist);
+    font-size: 0.95rem;
+  }
+  .plat-grid li {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  /* Where to get each app: a store link once it's published (site.config.ts), "Coming soon" until then. */
+  .plat-foot {
+    margin-top: auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 0.9rem;
+    font-size: 0.8rem;
+  }
+  .plat-get,
+  .soon {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.9rem;
+    padding: 0 0.8rem;
+    border-radius: 999px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .plat-get {
+    background: #2456f0;
+    color: #fff;
+  }
+  .plat-get:hover {
+    text-decoration: none;
+    filter: brightness(1.08);
+  }
+  .plat-get.now {
+    gap: 0.45rem;
+  }
+  .plat-get.now::before {
+    content: '';
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: #2fd394;
+  }
+  .soon {
+    color: var(--mist);
+    background: var(--tile);
+    box-shadow: inset 0 0 0 1px var(--line);
+  }
+  .plat-src {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    min-height: 1.9rem;
+    color: var(--mist);
+  }
+  .plat-src:hover {
+    color: var(--ink);
+  }
+  @media (max-width: 56rem) {
+    .plat-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* ---------- Open source ---------- */
+  .open {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(5rem, 11vw, 9rem) 0;
+  }
+  .open-glow {
+    position: absolute;
+    width: 60rem;
+    height: 40rem;
+    right: -20rem;
+    top: -10rem;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--free) 35%, transparent), transparent),
+      radial-gradient(closest-side at 30% 70%, color-mix(in srgb, var(--trust) 35%, transparent), transparent);
+    filter: blur(40px);
+    opacity: 0.6;
+  }
+  .open-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    gap: clamp(2.5rem, 6vw, 5rem);
+    align-items: center;
+  }
+  .open-points p {
+    margin: 0 0 1.1rem;
+    color: var(--night-mist);
+    max-width: 44ch;
+  }
+  .open-points b {
+    color: var(--night-ink);
+  }
+  .open-links ul {
+    list-style: none;
+    margin: 2rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .open-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.5rem;
+    padding: 0 1rem;
+    border-radius: 999px;
+    color: var(--night-ink);
+    background: var(--night-tile);
+    box-shadow: inset 0 0 0 1px var(--night-line);
+    font-size: var(--step--1);
+    font-weight: 600;
+    transition: box-shadow 0.15s ease;
+  }
+  .open-links a:hover {
+    text-decoration: none;
+    box-shadow: inset 0 0 0 1px var(--night-mist);
+  }
+  .open-links a.primary {
+    background: #2456f0;
+    color: #fff;
+    box-shadow: none;
+  }
+  .open-links a.primary:hover {
+    filter: brightness(1.08);
+  }
+  .term {
+    margin: 0;
+    background: #0d1017;
+    border: 1px solid var(--night-line);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 40px 80px -40px rgb(0 0 0 / 0.9);
+  }
+  .term-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--night-line);
+    font-size: 0.8rem;
+    color: var(--night-mist);
+  }
+  .term .lights i {
+    width: 0.7rem;
+    height: 0.7rem;
+  }
+  .term .lights {
+    gap: 0.4rem;
+  }
+  .term pre {
+    margin: 0;
+    padding: 1.4rem 1.4rem 1.2rem;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: #dfe5f1;
+  }
+  .prompt {
+    color: var(--free);
+  }
+  .term figcaption {
+    padding: 0 1.4rem 1.2rem;
+    font-size: var(--step--1);
+  }
+  @media (max-width: 56rem) {
+    .open-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ---------- Roadmap ---------- */
+  .roadmap {
+    padding: clamp(5rem, 10vw, 8rem) 0 clamp(3rem, 6vw, 4rem);
+  }
+  .track {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+    position: relative;
+  }
+  .track::before {
+    content: '';
+    position: absolute;
+    top: 0.55rem;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--line);
+  }
+  .track li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-inline-end: 1rem;
+  }
+  .node {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    background: var(--paper);
+    box-shadow: inset 0 0 0 2px var(--line);
+    margin-bottom: 0.9rem;
+    position: relative;
+  }
+  .track .now .node {
+    background: var(--free);
+    box-shadow: 0 0 0 5px color-mix(in srgb, var(--free) 25%, transparent);
+  }
+  .track-n {
+    font-size: 0.8rem;
+    color: var(--mist);
+  }
+  .track-t {
+    font-weight: 650;
+  }
+  .track .done .node {
+    background: var(--free);
+    box-shadow: none;
+  }
+  .track .now .track-n {
+    color: var(--free-text);
+    font-weight: 600;
+  }
+  @media (max-width: 56rem) {
+    .track {
+      grid-template-columns: 1fr;
+      gap: 1.2rem;
+    }
+    .track::before {
+      top: 0;
+      bottom: 0;
+      inset-inline: 0.55rem auto;
+      width: 2px;
+      height: auto;
+    }
+    .track li {
+      flex-direction: row;
+      align-items: center;
+      gap: 1rem;
+    }
+    .node {
+      margin: 0;
+    }
+  }
+
+  /* ---------- FAQ ---------- */
+  .faq-section {
+    padding: clamp(3rem, 6vw, 5rem) 0 clamp(5rem, 10vw, 8rem);
+  }
+  .faq {
+    border-top: 1px solid var(--line);
+  }
+  details {
+    border-bottom: 1px solid var(--line);
+  }
+  summary {
+    cursor: pointer;
+    padding: 1.3rem 0;
+    font-size: var(--step-1);
+    font-weight: 650;
+    letter-spacing: -0.015em;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary::after {
+    content: '';
+    flex: none;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    background: var(--tile)
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 4v8M4 8h8' stroke='%232456f0' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E")
+      center / 60% no-repeat;
+    transition: transform 0.25s ease;
+  }
+  details[open] summary::after {
+    transform: rotate(45deg);
+  }
+  details p {
+    margin: 0 0 1.4rem;
+    color: var(--mist);
+    max-width: 62ch;
+  }
+</style>

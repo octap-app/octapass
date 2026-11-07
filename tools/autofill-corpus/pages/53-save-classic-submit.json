@@ -1,0 +1,18 @@
+{
+  "description": "Save on a classic form submit (submit button click; the page cancels navigation and shows a signed-in message)",
+  "fields": {
+    "#login-email": "username",
+    "#login-password": "current-password"
+  },
+  "forms": [{ "field": "#login-email", "type": "login" }],
+  "saves": [
+    {
+      "steps": [
+        { "type": ["#login-email", "sam@example.test"] },
+        { "type": ["#login-password", "Typed-pass-99"] },
+        { "click": "#submit" }
+      ],
+      "expect": { "username": "sam@example.test", "password": "Typed-pass-99", "formType": "login" }
+    }
+  ]
+}

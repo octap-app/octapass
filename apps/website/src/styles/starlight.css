@@ -1,0 +1,83 @@
+/* Starlight theme mapped onto the Octa Pass tokens (trust blue + freedom green).
+   Starlight's default is dark in :root, light under [data-theme='light']. */
+
+:root {
+  --sl-font: 'Mona Sans Variable', 'Noto Sans Arabic Variable', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --sl-font-mono: 'Monaspace Neon', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --sl-color-accent-low: #0f1d47;
+  --sl-color-accent: #5c86ff;
+  --sl-color-accent-high: #c4d3ff;
+  --sl-color-white: #ffffff;
+  --sl-color-gray-1: #eceef3;
+  --sl-color-gray-2: #c5cad6;
+  --sl-color-gray-3: #9ba3b4;
+  --sl-color-gray-4: #5f6779;
+  --sl-color-gray-5: #2c3242;
+  --sl-color-gray-6: #161a24;
+  --sl-color-black: #000000;
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #dfe7ff;
+  --sl-color-accent: #1d47d6;
+  --sl-color-accent-high: #0f2a8a;
+  --sl-color-white: #0b1220;
+  --sl-color-gray-1: #1b2233;
+  --sl-color-gray-2: #353d50;
+  --sl-color-gray-3: #5e6576;
+  --sl-color-gray-4: #8b92a3;
+  --sl-color-gray-5: #c9cdd8;
+  --sl-color-gray-6: #eceef3;
+  --sl-color-gray-7: #f5f6f9;
+  --sl-color-black: #fbfbfd;
+}
+
+h1,
+h2,
+.sl-markdown-content h2,
+.sl-markdown-content h3 {
+  font-stretch: 108%;
+  letter-spacing: -0.025em;
+}
+
+.site-title {
+  font-stretch: 110%;
+  letter-spacing: -0.02em;
+  font-weight: 680;
+}
+.site-title img {
+  height: 1.75rem;
+  width: auto;
+}
+
+/* Arabic letters join, so tracking breaks them. */
+:root[lang='ar'] :is(h1, h2, h3, .site-title) {
+  font-stretch: 100%;
+  letter-spacing: 0;
+}
+
+/* Status badge rendered under each docs page title (see components/PageTitle.astro). */
+.op-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  font-size: var(--sl-text-xs);
+  font-weight: 600;
+  color: var(--sl-color-gray-2);
+  background: var(--sl-color-gray-6);
+}
+.op-status::before {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--op-status-color, var(--sl-color-gray-3));
+}
+.op-status[data-status='planned'] { --op-status-color: #8b92a3; }
+.op-status[data-status='in-progress'] { --op-status-color: #f5a524; }
+.op-status[data-status='beta'] { --op-status-color: #5c86ff; }
+.op-status[data-status='stable'] { --op-status-color: #10b77f; }

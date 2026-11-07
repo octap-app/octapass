@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Créer un compte – Boulangerie Lavande</title>
+<style>
+  body { margin: 0; font: 14px/1.5 "Helvetica Neue", Arial, sans-serif; background: #f5f3ff; color: #2e1065; }
+  .box { width: 500px; margin: 30px auto; background: #fff; border-radius: 12px; padding: 22px 28px; }
+  .two { display: flex; gap: 14px; } .two > div { flex: 1; }
+  label { display: block; font-weight: bold; margin: 10px 0 3px; }
+  input[type=text], input[type=email], input[type=password] { width: 100%; box-sizing: border-box; padding: 8px; border: 1px solid #c4b5fd; border-radius: 6px; font: inherit; }
+  .cgu { margin-top: 12px; font-size: 13px; }
+  button { margin-top: 14px; width: 100%; padding: 10px; border: 0; border-radius: 6px; background: #7c3aed; color: #fff; font: inherit; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h1 style="font-size:22px;margin:0">Créer mon compte</h1>
+  <form id="inscription" action="/inscription" method="post">
+    <div class="two">
+      <div><label for="prenom">Prénom</label><input type="text" id="prenom" name="prenom"></div>
+      <div><label for="nom">Nom</label><input type="text" id="nom" name="nom"></div>
+    </div>
+    <label for="courriel">Adresse e-mail</label>
+    <input type="email" id="courriel" name="courriel">
+    <label for="mdp">Mot de passe</label>
+    <input type="password" id="mdp" name="mdp">
+    <label for="mdp_confirmation">Confirmer le mot de passe</label>
+    <input type="password" id="mdp_confirmation" name="mdp_confirmation">
+    <div class="cgu"><label style="font-weight:normal"><input type="checkbox" id="cgu" name="cgu"> J'accepte les conditions générales d'utilisation</label></div>
+    <button type="submit">Créer mon compte</button>
+  </form>
+</div>
+<script>document.getElementById('inscription').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

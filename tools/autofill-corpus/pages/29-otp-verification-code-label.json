@@ -1,0 +1,14 @@
+{
+  "description": "One-time code field identified only by its label \"Verification code\" (no autocomplete, no maxlength, generic id/name)",
+  "fields": {
+    "#vc": "one-time-code"
+  },
+  "forms": [{ "field": "#vc", "type": "one-time-code" }],
+  "fills": [
+    {
+      "focus": "#vc",
+      "pick": "one-time-code",
+      "expect": { "#vc": "123456" }
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "description": "Save when the user submits with the Enter key (implicit submission); the identifier is a member number",
+  "fields": {
+    "#member_no": "username",
+    "#member_pin": "current-password"
+  },
+  "forms": [{ "field": "#member_no", "type": "login" }],
+  "saves": [
+    {
+      "steps": [
+        { "type": ["#member_no", "A-20417"] },
+        { "type": ["#member_pin", "Typed-pass-99"] },
+        { "press": "Enter" }
+      ],
+      "expect": { "username": "A-20417", "password": "Typed-pass-99", "formType": "login" }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "description": "React-style controlled login (inline emulation of inputValueTracking + controlled restore); state shown in <output>s must follow the fill",
+  "fields": {
+    "#email": "username",
+    "#password": "current-password"
+  },
+  "forms": [{ "field": "#email", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#email",
+      "pick": "login",
+      "expect": {
+        "#email": "alex@example.test",
+        "#password": "correct-horse-42!",
+        "#state-email": "alex@example.test",
+        "#state-password": "correct-horse-42!"
+      }
+    }
+  ],
+  "saves": [
+    {
+      "steps": [
+        { "type": ["#email", "sam@example.test"] },
+        { "type": ["#password", "Typed-pass-99"] },
+        { "click": "#submit" }
+      ],
+      "expect": { "username": "sam@example.test", "password": "Typed-pass-99", "formType": "login" }
+    }
+  ]
+}

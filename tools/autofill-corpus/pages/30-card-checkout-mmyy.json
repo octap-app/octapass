@@ -1,0 +1,29 @@
+{
+  "description": "Card form with autocomplete attributes and a single MM/YY expiry field",
+  "fields": {
+    "#cc-name": "cc-name",
+    "#cc-number": "cc-number",
+    "#cc-exp": "cc-exp",
+    "#cc-csc": "cc-csc"
+  },
+  "forms": [{ "field": "#cc-number", "type": "card" }],
+  "fills": [
+    {
+      "focus": "#cc-number",
+      "pick": "card",
+      "expect": { "#cc-name": "Alex Doe", "#cc-number": "4111111111111111", "#cc-exp": "09/29", "#cc-csc": "123" }
+    }
+  ],
+  "saves": [
+    {
+      "steps": [
+        { "type": ["#cc-name", "Sam Rivera"] },
+        { "type": ["#cc-number", "4111 1111 1111 1111"] },
+        { "type": ["#cc-exp", "07/28"] },
+        { "type": ["#cc-csc", "321"] },
+        { "click": "#pay button[type=submit]" }
+      ],
+      "expect": { "kind": "card", "values": { "cc-name": "Sam Rivera", "cc-number": "4111111111111111", "cc-exp": "07/28", "cc-csc": "321" } }
+    }
+  ]
+}

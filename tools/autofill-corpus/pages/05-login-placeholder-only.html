@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kite Chat</title>
+<style>
+  body { margin: 0; height: 100vh; display: flex; align-items: center; justify-content: center; font: 15px system-ui, sans-serif; background: #111827; color: #e5e7eb; }
+  .box { width: 320px; text-align: center; }
+  .logo { font-size: 30px; font-weight: 800; color: #38bdf8; margin-bottom: 26px; }
+  input { display: block; width: 100%; box-sizing: border-box; margin-bottom: 12px; padding: 12px 14px; border-radius: 999px; border: 1px solid #374151; background: #1f2937; color: #fff; font: inherit; }
+  button { width: 100%; padding: 12px; border-radius: 999px; border: 0; background: #38bdf8; color: #0c1726; font: inherit; font-weight: 700; }
+  small { display: block; margin-top: 16px; color: #9ca3af; }
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="logo">kite</div>
+  <form id="f" method="post" action="/auth">
+    <input id="ident" name="ident" type="text" placeholder="Email or phone">
+    <input id="pw" name="pw" type="password" placeholder="Password">
+    <button>Continue</button>
+  </form>
+  <small>No account? <a href="#join" style="color:#38bdf8">Join Kite</a></small>
+</div>
+<script>document.getElementById('f').addEventListener('submit', function (e) { e.preventDefault(); });</script>
+</body>
+</html>

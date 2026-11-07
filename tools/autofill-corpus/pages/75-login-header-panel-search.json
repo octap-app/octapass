@@ -1,0 +1,16 @@
+{
+  "description": "Header with a recipe search box (type=text, role=search form) next to a compact \"Sign in\" dropdown panel (open <details>) holding an email + password login form; the search box must be left alone",
+  "fields": {
+    "#q": "none",
+    "#hdr-email": "username",
+    "#hdr-pass": "current-password"
+  },
+  "forms": [{ "field": "#hdr-email", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#hdr-email",
+      "pick": "login",
+      "expect": { "#q": "", "#hdr-email": "alex@example.test", "#hdr-pass": "correct-horse-42!" }
+    }
+  ]
+}

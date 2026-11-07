@@ -1,0 +1,86 @@
+[package]
+name = "octapass-cli"
+version = "0.1.0"
+description = "The Octa Pass command-line tool: items, one-time codes, the generator, secrets for scripts, import and export."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+# Integration tests are one binary (tests/main.rs); see the [[test]] tables at the end.
+autotests = false
+
+[features]
+# `octapass safe mount`: FUSE on Linux. macOS and Windows show a Safe through the desktop app.
+fuse = ["octapass-files/fuse"]
+
+[[bin]]
+name = "octapass"
+path = "src/main.rs"
+
+[[bin]]
+name = "docker-credential-octapass"
+path = "src/bin/docker_credential.rs"
+
+# The name Git looks for after `credential.helper = octapass`.
+[[bin]]
+name = "git-credential-octapass"
+path = "src/bin/git-credential-octapass.rs"
+
+# What `gpg.ssh.program` and `gpg.program` point to: one program, because Git runs it without
+# arguments of ours.
+[[bin]]
+name = "octapass-git-sign"
+path = "src/bin/octapass-git-sign.rs"
+
+[dependencies]
+octapass-core = { path = "../../crates/octapass-core", features = ["ssh-sign", "age-files"] }
+octapass-files = { path = "../../crates/octapass-files" }
+octapass-api = { path = "../../crates/octapass-api" }
+# The toolkit's live certificates, JWKS, ACME and system trust store.
+octapass-net-tools = { path = "../../crates/octapass-net-tools" }
+# The desktop app's vault: the sync client and the encrypted local copy. The CLI plugs in its own
+# device unlock (the OS keyring).
+octapass-desktop-vault = { path = "../desktop/crates/vault" }
+octapass-device-unlock = { path = "../desktop/crates/device-unlock" }
+octapass-connect = { path = "../desktop/crates/connect" }
+serde.workspace = true
+serde_json.workspace = true
+base64.workspace = true
+thiserror.workspace = true
+rand_core.workspace = true
+zeroize.workspace = true
+clap = { version = "4.6", features = ["derive", "env"] }
+keyring = "4.2"
+rpassword = "7.5"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+tokio = { version = "1", features = ["rt", "rt-multi-thread", "net", "time", "sync"] }
+time = "0.3"
+dirs = "6"
+# Environments: octapass.toml project files, the shell hook's allow list, and deleting
+# --env-file-out files when the command is interrupted.
+toml = { version = "1", default-features = false, features = ["parse", "serde"] }
+sha2 = "0.10"
+ctrlc = { version = "3.5", features = ["termination"] }
+# Decrypted output only takes its name once it's whole.
+tempfile = "3"
+
+# On macOS, where the native Mac app listens for the CLI (its App Group container).
+[target.'cfg(target_os = "macos")'.dependencies]
+octapass-native-host = { path = "../desktop/crates/native-host" }
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+# `octapass run` passes termination signals on while it filters a command's output.
+signal-hook = "0.3"
+
+[dev-dependencies]
+octapass-server = { path = "../server" }
+# `Vault::with_keys`, to see a vault's key rotate.
+octapass-desktop-vault = { path = "../desktop/crates/vault", features = ["testing"] }
+octapass-device-unlock = { path = "../desktop/crates/device-unlock", features = ["fake"] }
+axum = "0.8"
+tokio = { version = "1", features = ["full"] }
+
+[[test]]
+name = "integration"
+path = "tests/main.rs"

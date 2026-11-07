@@ -1,0 +1,325 @@
+{
+  "version": "1.31.2",
+  "userId": "c3ludGhldGljLXVzZXItaWQ=",
+  "encrypted": false,
+  "vaults": {
+    "c2hhcmUtcGVyc29uYWw=": {
+      "name": "Personal",
+      "description": "Personal vault",
+      "display": { "color": 0, "icon": 0 },
+      "folders": [
+        { "folderId": "Zm9sZGVyLWNsaWVudHM=", "parentFolderId": "Zm9sZGVyLXdvcms=", "name": "Clients" },
+        { "folderId": "Zm9sZGVyLXdvcms=", "parentFolderId": null, "name": "Work" }
+      ],
+      "items": [
+        {
+          "itemId": "aXRlbS0x",
+          "shareId": "c2hhcmUtcGVyc29uYWw=",
+          "folderId": "Zm9sZGVyLWNsaWVudHM=",
+          "data": {
+            "metadata": { "name": "GitHub", "note": "Work account.\nSecond line, with \"quotes\".", "itemUuid": "1a2b3c4d" },
+            "extraFields": [
+              { "fieldName": "Recovery PIN", "type": "hidden", "data": { "content": "8642" } },
+              { "fieldName": "Team", "type": "text", "data": { "content": "Platform" } },
+              { "fieldName": "Backup authenticator", "type": "totp", "data": { "totpUri": "otpauth://totp/Backup:octo?secret=GEZDGNBVGY3TQOJQ&issuer=Backup" } }
+            ],
+            "type": "login",
+            "content": {
+              "itemEmail": "octo@example.com",
+              "itemUsername": "octo-cat",
+              "password": "pa,ss\"word 1",
+              "urls": ["https://github.com/login"],
+              "autofillUrls": [
+                { "url": "https://github.com/login", "mode": 0 },
+                { "url": "https://github.example.com/", "mode": 2 }
+              ],
+              "totpUri": "otpauth://totp/GitHub:octo-cat?secret=JBSWY3DPEHPK3PXP&issuer=GitHub&algorithm=SHA1&digits=6&period=30",
+              "passkeys": []
+            }
+          },
+          "state": 1,
+          "aliasEmail": null,
+          "contentFormatVersion": 8,
+          "createTime": 1761177600,
+          "modifyTime": 1761177600,
+          "pinned": true,
+          "shareCount": 0,
+          "files": []
+        },
+        {
+          "itemId": "aXRlbS0y",
+          "shareId": "c2hhcmUtcGVyc29uYWw=",
+          "folderId": null,
+          "data": {
+            "metadata": { "name": "بنك الأمل", "note": "ملاحظة بالعربية\nسطر ثاني", "itemUuid": "2b3c4d5e" },
+            "extraFields": [],
+            "type": "login",
+            "content": {
+              "itemEmail": "مستخدم@example.com",
+              "itemUsername": "",
+              "password": "سر,مع\"علامات",
+              "urls": ["https://bank.example.jo/"],
+              "totpUri": "",
+              "passkeys": [
+                {
+                  "keyId": "a2V5LWlk",
+                  "content": "c3ludGhldGljLXBhc3NrZXktbm90LWEtcmVhbC1rZXk=",
+                  "domain": "bank.example.jo",
+                  "rpId": "bank.example.jo",
+                  "rpName": "Bank",
+                  "userName": "مستخدم",
+                  "userDisplayName": "مستخدم",
+                  "userId": "dXNlci1pZA==",
+                  "createTime": 1761177600,
+                  "note": "",
+                  "credentialId": "Y3JlZGVudGlhbA==",
+                  "userHandle": "dXNlci1oYW5kbGU="
+                }
+              ]
+            }
+          },
+          "state": 1,
+          "aliasEmail": null,
+          "contentFormatVersion": 6,
+          "createTime": 1761177600,
+          "modifyTime": 1761177600,
+          "pinned": false
+        },
+        {
+          "itemId": "aXRlbS0z",
+          "shareId": "c2hhcmUtcGVyc29uYWw=",
+          "folderId": "Zm9sZGVyLXdvcms=",
+          "data": {
+            "metadata": { "name": "Newsletters", "note": "For mailing lists.", "itemUuid": "3c4d5e6f" },
+            "extraFields": [],
+            "type": "alias",
+            "content": {}
+          },
+          "state": 1,
+          "aliasEmail": "news.k7q2@passmail.net",
+          "contentFormatVersion": 6,
+          "createTime": 1761177600,
+          "modifyTime": 1761177600,
+          "pinned": false
+        },
+        {
+          "itemId": "aXRlbS00",
+          "shareId": "c2hhcmUtcGVyc29uYWw=",
+          "folderId": null,
+          "data": {
+            "metadata": { "name": "Ideas 💡", "note": "Line one\nLine two — with a dash\n\nAfter a blank line", "itemUuid": "4d5e6f70" },
+            "extraFields": [],
+            "type": "note",
+            "content": {}
+          },
+          "state": 1,
+          "aliasEmail": null,
+          "contentFormatVersion": 6,
+          "createTime": 1761177600,
+          "modifyTime": 1761177600,
+          "pinned": false
+        },
+        {
+          "itemId": "aXRlbS01",
+          "shareId": "c2hhcmUtcGVyc29uYWw=",
+          "folderId": null,
+          "data": {
+            "metadata": { "name": "Old forum", "note": "", "itemUuid": "5e6f7081" },
+            "extraFields": [],
+            "type": "login",
+            "content": { "itemEmail": "old@example.com", "itemUsername": "", "password": "gone", "urls": [], "totpUri": "", "passkeys": [] }
+          },
+          "state": 2,
+          "aliasEmail": null,
+          "contentFormatVersion": 6,
+          "createTime": 1761177600,
+          "modifyTime": 1761177600,
+          "pinned": false
+        },
+        {
+          "itemId": "aXRlbS02",
+          "shareId": "c2hhcmUtcGVyc29uYWw=",
+          "folderId": null,
+          "data": {
+            "metadata": { "name": "Lease scan", "note": "Signed copy attached.", "itemUuid": "6f708192" },
+            "extraFields": [],
+            "type": "login",
+            "content": { "itemEmail": "", "itemUsername": "tenant", "password": "", "urls": ["https://rent.example.com"], "totpUri": "", "passkeys": [] }
+          },
+          "state": 1,
+          "aliasEmail": null,
+          "contentFormatVersion": 8,
+          "createTime": 1761177600,
+          "modifyTime": 1761177600,
+          "pinned": false,
+          "files": ["ZmlsZS0x"]
+        },
+        {
+          "itemId": "aXRlbS03",
+          "shareId": "c2hhcmUtcGVyc29uYWw=",
+          "folderId": null,
+          "data": {
+            "metadata": { "name": "", "note": "", "itemUuid": "708192a3" },
+            "extraFields": [],
+            "type": "login",
+            "content": { "itemEmail": "", "itemUsername": "", "password": "", "urls": [], "totpUri": "", "passkeys": [] }
+          },
+          "state": 1,
+          "aliasEmail": null,
+          "contentFormatVersion": 6,
+          "createTime": 1761177600,
+          "modifyTime": 1761177600,
+          "pinned": false
+        }
+      ]
+    },
+    "c2hhcmUtZmFtaWx5": {
+      "name": "Family",
+      "description": "",
+      "display": { "color": 2, "icon": 2 },
+      "items": [
+        {
+          "itemId": "aXRlbS04",
+          "shareId": "c2hhcmUtZmFtaWx5",
+          "data": {
+            "metadata": { "name": "Visa", "note": "Travel card", "itemUuid": "8192a3b4" },
+            "extraFields": [{ "fieldName": "Issuer phone", "type": "text", "data": { "content": "+962 6 000 0000" } }],
+            "type": "creditCard",
+            "content": {
+              "cardholderName": "Jane Q. Doe",
+              "cardType": 2,
+              "number": "4111111111111111",
+              "verificationNumber": "123",
+              "expirationDate": "2029-08",
+              "pin": "4321"
+            }
+          },
+          "state": 1,
+          "aliasEmail": null,
+          "contentFormatVersion": 6,
+          "createTime": 1761177600,
+          "modifyTime": 1761177600,
+          "pinned": false
+        },
+        {
+          "itemId": "aXRlbS05",
+          "shareId": "c2hhcmUtZmFtaWx5",
+          "data": {
+            "metadata": { "name": "عمر", "note": "", "itemUuid": "92a3b4c5" },
+            "extraFields": [],
+            "type": "identity",
+            "content": {
+              "fullName": "عمر خالد حداد",
+              "email": "omar@example.com",
+              "phoneNumber": "+962 79 000 0000",
+              "firstName": "",
+              "middleName": "",
+              "lastName": "",
+              "birthdate": "1990-05-17",
+              "gender": "",
+              "extraPersonalDetails": [{ "fieldName": "Nickname", "type": "text", "data": { "content": "أبو خالد" } }],
+              "organization": "",
+              "streetAddress": "12 شارع الرينبو",
+              "zipOrPostalCode": "11118",
+              "city": "عمّان",
+              "stateOrProvince": "",
+              "countryOrRegion": "JO",
+              "floor": "3",
+              "county": "",
+              "extraAddressDetails": [],
+              "socialSecurityNumber": "",
+              "passportNumber": "N0000000",
+              "licenseNumber": "",
+              "website": "",
+              "xHandle": "",
+              "secondPhoneNumber": "",
+              "linkedin": "",
+              "reddit": "",
+              "facebook": "",
+              "yahoo": "",
+              "instagram": "",
+              "extraContactDetails": [],
+              "company": "Example Co",
+              "jobTitle": "Engineer",
+              "personalWebsite": "",
+              "workPhoneNumber": "",
+              "workEmail": "",
+              "extraWorkDetails": [],
+              "extraSections": [
+                { "sectionName": "Health", "sectionFields": [{ "fieldName": "Blood type", "type": "text", "data": { "content": "O+" } }] }
+              ]
+            }
+          },
+          "state": 1,
+          "aliasEmail": null,
+          "contentFormatVersion": 6,
+          "createTime": 1761177600,
+          "modifyTime": 1761177600,
+          "pinned": false
+        },
+        {
+          "itemId": "aXRlbS0xMA==",
+          "shareId": "c2hhcmUtZmFtaWx5",
+          "data": {
+            "metadata": { "name": "Home Wi-Fi", "note": "", "itemUuid": "a3b4c5d6" },
+            "extraFields": [],
+            "type": "wifi",
+            "content": { "ssid": "home-5g", "password": "correct horse", "security": 3, "sections": [] }
+          },
+          "state": 1,
+          "aliasEmail": null,
+          "contentFormatVersion": 7,
+          "createTime": 1761177600,
+          "modifyTime": 1761177600,
+          "pinned": false
+        },
+        {
+          "itemId": "aXRlbS0xMQ==",
+          "shareId": "c2hhcmUtZmFtaWx5",
+          "data": {
+            "metadata": { "name": "Deploy key", "note": "", "itemUuid": "b4c5d6e7" },
+            "extraFields": [],
+            "type": "sshKey",
+            "content": {
+              "privateKey": "-----BEGIN OPENSSH PRIVATE KEY-----\nc3ludGhldGljLW5vdC1hLXJlYWwta2V5\n-----END OPENSSH PRIVATE KEY-----",
+              "publicKey": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHN5bnRoZXRpYw deploy@example",
+              "sections": []
+            }
+          },
+          "state": 1,
+          "aliasEmail": null,
+          "contentFormatVersion": 7,
+          "createTime": 1761177600,
+          "modifyTime": 1761177600,
+          "pinned": false
+        },
+        {
+          "itemId": "aXRlbS0xMg==",
+          "shareId": "c2hhcmUtZmFtaWx5",
+          "data": {
+            "metadata": { "name": "Gym locker", "note": "Blue door", "itemUuid": "c5d6e7f8" },
+            "extraFields": [],
+            "type": "custom",
+            "content": {
+              "sections": [
+                {
+                  "sectionName": "Locker",
+                  "sectionFields": [
+                    { "fieldName": "Combination", "type": "hidden", "data": { "content": "12-34-56" } },
+                    { "fieldName": "Renewal", "type": "timestamp", "data": { "timestamp": "2026-12-31" } }
+                  ]
+                }
+              ]
+            }
+          },
+          "state": 1,
+          "aliasEmail": null,
+          "contentFormatVersion": 7,
+          "createTime": 1761177600,
+          "modifyTime": 1761177600,
+          "pinned": false
+        }
+      ]
+    }
+  }
+}

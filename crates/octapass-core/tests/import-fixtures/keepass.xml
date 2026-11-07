@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<KeePassFile>
+	<Meta>
+		<Generator>KeePass</Generator>
+		<DatabaseName>Fixture</DatabaseName>
+		<DatabaseNameChanged>2025-10-01T08:00:00Z</DatabaseNameChanged>
+		<DatabaseDescription />
+		<DefaultUserName />
+		<MaintenanceHistoryDays>365</MaintenanceHistoryDays>
+		<Color />
+		<MasterKeyChanged>2025-10-01T08:00:00Z</MasterKeyChanged>
+		<MasterKeyChangeRec>-1</MasterKeyChangeRec>
+		<MasterKeyChangeForce>-1</MasterKeyChangeForce>
+		<MemoryProtection>
+			<ProtectTitle>False</ProtectTitle>
+			<ProtectUserName>False</ProtectUserName>
+			<ProtectPassword>True</ProtectPassword>
+			<ProtectURL>False</ProtectURL>
+			<ProtectNotes>False</ProtectNotes>
+		</MemoryProtection>
+		<RecycleBinEnabled>True</RecycleBinEnabled>
+		<RecycleBinUUID>BQUFBQUFBQUFBQUFBQUFBQ==</RecycleBinUUID>
+		<RecycleBinChanged>2025-10-01T08:00:00Z</RecycleBinChanged>
+		<EntryTemplatesGroup>AAAAAAAAAAAAAAAAAAAAAA==</EntryTemplatesGroup>
+		<HistoryMaxItems>10</HistoryMaxItems>
+		<HistoryMaxSize>6291456</HistoryMaxSize>
+		<Binaries>
+			<Binary ID="0">cmVjb3ZlcnkgY29kZXMgZmlsZQo=</Binary>
+		</Binaries>
+		<CustomData />
+	</Meta>
+	<Root>
+		<Group>
+			<UUID>AQEBAQEBAQEBAQEBAQEBAQ==</UUID>
+			<Name>Fixture</Name>
+			<Notes />
+			<IconID>49</IconID>
+			<Times>
+				<CreationTime>2025-10-01T08:00:00Z</CreationTime>
+				<LastModificationTime>2025-10-01T08:00:00Z</LastModificationTime>
+				<LastAccessTime>2025-10-01T08:00:00Z</LastAccessTime>
+				<ExpiryTime>2025-10-01T08:00:00Z</ExpiryTime>
+				<Expires>False</Expires>
+				<UsageCount>0</UsageCount>
+				<LocationChanged>2025-10-01T08:00:00Z</LocationChanged>
+			</Times>
+			<IsExpanded>True</IsExpanded>
+			<DefaultAutoTypeSequence />
+			<EnableAutoType>null</EnableAutoType>
+			<EnableSearching>null</EnableSearching>
+			<LastTopVisibleEntry>AAAAAAAAAAAAAAAAAAAAAA==</LastTopVisibleEntry>
+			<Entry>
+				<UUID>CAgICAgICAgICAgICAgICA==</UUID>
+				<IconID>0</IconID>
+				<ForegroundColor />
+				<BackgroundColor />
+				<OverrideURL />
+				<Tags />
+				<Times>
+					<CreationTime>2025-10-01T08:00:00Z</CreationTime>
+					<LastModificationTime>2025-10-01T08:00:00Z</LastModificationTime>
+					<LastAccessTime>2025-10-01T08:00:00Z</LastAccessTime>
+					<ExpiryTime>2025-10-01T08:00:00Z</ExpiryTime>
+					<Expires>False</Expires>
+					<UsageCount>0</UsageCount>
+					<LocationChanged>2025-10-01T08:00:00Z</LocationChanged>
+				</Times>
+				<String>
+					<Key>Notes</Key>
+					<Value>SSID: Home
+The router password is on the sticker.</Value>
+				</String>
+				<String>
+					<Key>Password</Key>
+					<Value ProtectedInMemory="True" />
+				</String>
+				<String>
+					<Key>Title</Key>
+					<Value>Wi-Fi at home 🏠</Value>
+				</String>
+				<String>
+					<Key>URL</Key>
+					<Value />
+				</String>
+				<String>
+					<Key>UserName</Key>
+					<Value />
+				</String>
+				<AutoType>
+					<Enabled>True</Enabled>
+					<DataTransferObfuscation>0</DataTransferObfuscation>
+				</AutoType>
+				<History />
+			</Entry>
+			<Entry>
+				<UUID>CQkJCQkJCQkJCQkJCQkJCQ==</UUID>
+				<IconID>0</IconID>
+				<Tags />
+				<Times>
+					<LastModificationTime>2025-10-01T08:00:00Z</LastModificationTime>
+					<ExpiryTime>2025-10-01T08:00:00Z</ExpiryTime>
+					<Expires>False</Expires>
+				</Times>
+				<String>
+					<Key>Notes</Key>
+					<Value />
+				</String>
+				<String>
+					<Key>Password</Key>
+					<Value ProtectedInMemory="True" />
+				</String>
+				<String>
+					<Key>Title</Key>
+					<Value>Empty entry</Value>
+				</String>
+				<String>
+					<Key>URL</Key>
+					<Value />
+				</String>
+				<String>
+					<Key>UserName</Key>
+					<Value />
+				</String>
+				<History />
+			</Entry>
+			<Entry>
+				<UUID>DAwMDAwMDAwMDAwMDAwMDA==</UUID>
+				<IconID>0</IconID>
+				<Tags />
+				<Times>
+					<LastModificationTime>2025-10-01T08:00:00Z</LastModificationTime>
+					<ExpiryTime>2025-10-01T08:00:00Z</ExpiryTime>
+					<Expires>False</Expires>
+				</Times>
+				<String>
+					<Key>Password</Key>
+					<Value ProtectedInMemory="True">tray-pass</Value>
+				</String>
+				<String>
+					<Key>Title</Key>
+					<Value>Tray TOTP</Value>
+				</String>
+				<String>
+					<Key>TOTP Seed</Key>
+					<Value ProtectedInMemory="True">JBSWY3DPEHPK3PXP</Value>
+				</String>
+				<String>
+					<Key>TOTP Settings</Key>
+					<Value>30;6</Value>
+				</String>
+				<String>
+					<Key>URL</Key>
+					<Value>https://tray.example</Value>
+				</String>
+				<String>
+					<Key>UserName</Key>
+					<Value>tray</Value>
+				</String>
+				<History />
+			</Entry>
+			<Group>
+				<UUID>AgICAgICAgICAgICAgICAg==</UUID>
+				<Name>Work</Name>
+				<Notes />
+				<IconID>48</IconID>
+				<Times>
+					<LastModificationTime>2025-10-01T08:00:00Z</LastModificationTime>
+					<ExpiryTime>2025-10-01T08:00:00Z</ExpiryTime>
+					<Expires>False</Expires>
+				</Times>
+				<IsExpanded>True</IsExpanded>
+				<Entry>
+					<UUID>CgoKCgoKCgoKCgoKCgoKCg==</UUID>
+					<IconID>0</IconID>
+					<Tags />
+					<Times>
+						<LastModificationTime>2025-10-01T08:00:00Z</LastModificationTime>
+						<ExpiryTime>2025-10-01T08:00:00Z</ExpiryTime>
+						<Expires>False</Expires>
+					</Times>
+					<String>
+						<Key>Notes</Key>
+						<Value />
+					</String>
+					<String>
+						<Key>otp</Key>
+						<Value ProtectedInMemory="True">otpauth://totp/Steam:gamer?secret=STEAMSECRETBASE32&amp;period=30&amp;digits=5&amp;issuer=Steam&amp;encoder=steam</Value>
+					</String>
+					<String>
+						<Key>Password</Key>
+						<Value ProtectedInMemory="True">steam-pass</Value>
+					</String>
+					<String>
+						<Key>Title</Key>
+						<Value>Steam</Value>
+					</String>
+					<String>
+						<Key>URL</Key>
+						<Value>https://store.steampowered.com</Value>
+					</String>
+					<String>
+						<Key>UserName</Key>
+						<Value>gamer</Value>
+					</String>
+					<History />
+				</Entry>
+				<Entry>
+					<UUID>CwsLCwsLCwsLCwsLCwsLCw==</UUID>
+					<IconID>0</IconID>
+					<Tags>legacy</Tags>
+					<Times>
+						<LastModificationTime>2025-10-01T08:00:00Z</LastModificationTime>
+						<ExpiryTime>2030-01-01T00:00:00Z</ExpiryTime>
+						<Expires>True</Expires>
+					</Times>
+					<String>
+						<Key>Notes</Key>
+						<Value />
+					</String>
+					<String>
+						<Key>otp</Key>
+						<Value ProtectedInMemory="True">key=JBSWY3DPEHPK3PXP&amp;size=6&amp;step=30</Value>
+					</String>
+					<String>
+						<Key>Password</Key>
+						<Value ProtectedInMemory="True">  spaced password  </Value>
+					</String>
+					<String>
+						<Key>Title</Key>
+						<Value>Legacy OTP</Value>
+					</String>
+					<String>
+						<Key>URL</Key>
+						<Value>https://legacy.example</Value>
+					</String>
+					<String>
+						<Key>UserName</Key>
+						<Value>legacy</Value>
+					</String>
+					<History />
+				</Entry>
+				<Group>
+					<UUID>AwMDAwMDAwMDAwMDAwMDAw==</UUID>
+					<Name>Dev</Name>
+					<Notes />
+					<IconID>48</IconID>
+					<Times>
+						<LastModificationTime>2025-10-01T08:00:00Z</LastModificationTime>
+						<ExpiryTime>2025-10-01T08:00:00Z</ExpiryTime>
+						<Expires>False</Expires>
+					</Times>
+					<IsExpanded>True</IsExpanded>
+					<Entry>
+						<UUID>BgYGBgYGBgYGBgYGBgYGBg==</UUID>
+						<IconID>0</IconID>
+						<Tags>dev;code</Tags>
+						<Times>
+							<CreationTime>2024-01-01T00:00:00Z</CreationTime>
+							<LastModificationTime>2025-10-01T08:00:00Z</LastModificationTime>
+							<LastAccessTime>2025-10-01T08:00:00Z</LastAccessTime>
+							<ExpiryTime>2025-10-01T08:00:00Z</ExpiryTime>
+							<Expires>False</Expires>
+							<UsageCount>3</UsageCount>
+							<LocationChanged>2024-01-01T00:00:00Z</LocationChanged>
+						</Times>
+						<String>
+							<Key>Account ID</Key>
+							<Value>12345</Value>
+						</String>
+						<String>
+							<Key>KP2A_URL_1</Key>
+							<Value>https://gist.github.com</Value>
+						</String>
+						<String>
+							<Key>Notes</Key>
+							<Value>Work account, "quoted", with &lt;angle brackets&gt; &amp; ampersands.
+Second line.</Value>
+						</String>
+						<String>
+							<Key>otp</Key>
+							<Value ProtectedInMemory="True">otpauth://totp/GitHub:octocat?secret=JBSWY3DPEHPK3PXP&amp;period=30&amp;digits=6&amp;issuer=GitHub</Value>
+						</String>
+						<String>
+							<Key>Password</Key>
+							<Value ProtectedInMemory="True">gh-Pa55 "quoted" &amp; &lt;angled&gt;</Value>
+						</String>
+						<String>
+							<Key>Recovery codes</Key>
+							<Value ProtectedInMemory="True">1111-2222
+3333-4444</Value>
+						</String>
+						<String>
+							<Key>Title</Key>
+							<Value>GitHub</Value>
+						</String>
+						<String>
+							<Key>URL</Key>
+							<Value>https://github.com/login</Value>
+						</String>
+						<String>
+							<Key>UserName</Key>
+							<Value>octocat</Value>
+						</String>
+						<Binary>
+							<Key>recovery.txt</Key>
+							<Value Ref="0" />
+						</Binary>
+						<AutoType>
+							<Enabled>True</Enabled>
+							<DataTransferObfuscation>0</DataTransferObfuscation>
+						</AutoType>
+						<History>
+							<Entry>
+								<UUID>BgYGBgYGBgYGBgYGBgYGBg==</UUID>
+								<IconID>0</IconID>
+								<Tags />
+								<Times>
+									<LastModificationTime>2024-01-01T00:00:00Z</LastModificationTime>
+									<ExpiryTime>2024-01-01T00:00:00Z</ExpiryTime>
+									<Expires>False</Expires>
+								</Times>
+								<String>
+									<Key>Password</Key>
+									<Value ProtectedInMemory="True">first-password</Value>
+								</String>
+								<String>
+									<Key>Title</Key>
+									<Value>GitHub</Value>
+								</String>
+								<String>
+									<Key>UserName</Key>
+									<Value>octocat</Value>
+								</String>
+							</Entry>
+							<Entry>
+								<UUID>BgYGBgYGBgYGBgYGBgYGBg==</UUID>
+								<IconID>0</IconID>
+								<Tags />
+								<Times>
+									<LastModificationTime>2025-03-01T00:00:00Z</LastModificationTime>
+									<ExpiryTime>2025-03-01T00:00:00Z</ExpiryTime>
+									<Expires>False</Expires>
+								</Times>
+								<String>
+									<Key>Password</Key>
+									<Value ProtectedInMemory="True">second-password</Value>
+								</String>
+								<String>
+									<Key>Title</Key>
+									<Value>GitHub</Value>
+								</String>
+								<String>
+									<Key>UserName</Key>
+									<Value>octocat</Value>
+								</String>
+								<Binary>
+									<Key>recovery.txt</Key>
+									<Value Ref="0" />
+								</Binary>
+							</Entry>
+							<Entry>
+								<UUID>BgYGBgYGBgYGBgYGBgYGBg==</UUID>
+								<IconID>0</IconID>
+								<Tags />
+								<Times>
+									<LastModificationTime>2025-06-01T00:00:00Z</LastModificationTime>
+									<ExpiryTime>2025-06-01T00:00:00Z</ExpiryTime>
+									<Expires>False</Expires>
+								</Times>
+								<String>
+									<Key>Password</Key>
+									<Value ProtectedInMemory="True">second-password</Value>
+								</String>
+								<String>
+									<Key>Title</Key>
+									<Value>GitHub (old title)</Value>
+								</String>
+								<String>
+									<Key>UserName</Key>
+									<Value>octocat</Value>
+								</String>
+							</Entry>
+						</History>
+					</Entry>
+				</Group>
+			</Group>
+			<Group>
+				<UUID>BAQEBAQEBAQEBAQEBAQEBA==</UUID>
+				<Name>مالية</Name>
+				<Notes />
+				<IconID>48</IconID>
+				<Times>
+					<LastModificationTime>2025-10-01T08:00:00Z</LastModificationTime>
+					<ExpiryTime>2025-10-01T08:00:00Z</ExpiryTime>
+					<Expires>False</Expires>
+				</Times>
+				<IsExpanded>True</IsExpanded>
+				<Entry>
+					<UUID>BwcHBwcHBwcHBwcHBwcHBw==</UUID>
+					<IconID>0</IconID>
+					<Tags />
+					<Times>
+						<LastModificationTime>2025-10-01T08:00:00Z</LastModificationTime>
+						<ExpiryTime>2025-10-01T08:00:00Z</ExpiryTime>
+						<Expires>False</Expires>
+					</Times>
+					<String>
+						<Key>Notes</Key>
+						<Value>ملاحظة بالعربية
+سطر ثاني</Value>
+					</String>
+					<String>
+						<Key>Password</Key>
+						<Value ProtectedInMemory="True">كلمة-سر-٢٠٢٥</Value>
+					</String>
+					<String>
+						<Key>TimeOtp-Algorithm</Key>
+						<Value>HMAC-SHA-256</Value>
+					</String>
+					<String>
+						<Key>TimeOtp-Length</Key>
+						<Value>8</Value>
+					</String>
+					<String>
+						<Key>TimeOtp-Period</Key>
+						<Value>60</Value>
+					</String>
+					<String>
+						<Key>TimeOtp-Secret-Base32</Key>
+						<Value ProtectedInMemory="True">GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ</Value>
+					</String>
+					<String>
+						<Key>Title</Key>
+						<Value>بنك الأمل</Value>
+					</String>
+					<String>
+						<Key>URL</Key>
+						<Value>https://bank.example.jo</Value>
+					</String>
+					<String>
+						<Key>UserName</Key>
+						<Value>مستخدم</Value>
+					</String>
+					<History />
+				</Entry>
+			</Group>
+			<Group>
+				<UUID>BQUFBQUFBQUFBQUFBQUFBQ==</UUID>
+				<Name>Recycle Bin</Name>
+				<Notes />
+				<IconID>43</IconID>
+				<Times>
+					<LastModificationTime>2025-10-01T08:00:00Z</LastModificationTime>
+					<ExpiryTime>2025-10-01T08:00:00Z</ExpiryTime>
+					<Expires>False</Expires>
+				</Times>
+				<IsExpanded>False</IsExpanded>
+				<EnableAutoType>false</EnableAutoType>
+				<EnableSearching>false</EnableSearching>
+				<Entry>
+					<UUID>DQ0NDQ0NDQ0NDQ0NDQ0NDQ==</UUID>
+					<IconID>0</IconID>
+					<Tags />
+					<Times>
+						<LastModificationTime>2025-10-01T08:00:00Z</LastModificationTime>
+						<ExpiryTime>2025-10-01T08:00:00Z</ExpiryTime>
+						<Expires>False</Expires>
+					</Times>
+					<String>
+						<Key>Password</Key>
+						<Value ProtectedInMemory="True">gone</Value>
+					</String>
+					<String>
+						<Key>Title</Key>
+						<Value>Deleted login</Value>
+					</String>
+					<String>
+						<Key>UserName</Key>
+						<Value>old</Value>
+					</String>
+					<History />
+				</Entry>
+			</Group>
+		</Group>
+		<DeletedObjects />
+	</Root>
+</KeePassFile>

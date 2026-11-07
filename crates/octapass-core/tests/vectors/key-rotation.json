@@ -1,0 +1,99 @@
+{
+  "emergencyTakeover": {
+    "contactId": "0192f0c8-1c2d-7a00-8000-0000000000b1",
+    "currentAccountSalt": "sLGys7S1tre4ubq7vL2-vw",
+    "grantorId": "0192f0c8-1c2d-7a00-8000-0000000000a1",
+    "message": "6f70656e706173732f76312f656d657267656e63792d74616b656f766572000000002430313932663063382d316332642d376130302d383030302d3030303030303030303063310000002430313932663063382d316332642d376130302d383030302d3030303030303030303061310000002430313932663063382d316332642d376130302d383030302d30303030303030303030623100000016734c4779733753317472653475627137764c322d76770000000675706c6f61640000001651554a44524556475230684a536b744d5455355055410000000f6e65772d777261707065642d61736b000000186e65772d7265636f766572792d777261707065642d61736b",
+    "publicSignKey": "P3cI1fXMK8YztZ0rOi7ZLnR5IgxvCK3iCL682FgKuTs",
+    "recordId": "0192f0c8-1c2d-7a00-8000-0000000000c1",
+    "registrationUpload": "upload",
+    "signature": "wp91ulMboke7XgohZKeLOB0DAV2QSXOX9t_mS5hBDcKhnAsSPlIZYqod23HHLs_-l2HHi6g4gk1Blw-HGgZPCA",
+    "update": {
+      "accountSalt": "QUJDREVGR0hJSktMTU5PUA",
+      "kdf": {
+        "algorithm": "argon2id",
+        "iterations": 3,
+        "memoryKib": 65536,
+        "parallelism": 1
+      },
+      "recoveryWrappedAsk": "new-recovery-wrapped-ask",
+      "wrappedAsk": "new-wrapped-ask"
+    }
+  },
+  "pendingChange": {
+    "encryptedItemKey": "AcEiylgAuf8XVNYCBg4ze3ESExQVFhcYGRobHB0eHyAhIiMkJSYnKCnbwUaYbWfHq3ZMqsXapDwF2eWBK9eU4E_eCU10G9J0xmLH9-apkN_NUMzySX6OZZo",
+    "itemKeyNonce": "161718191a1b1c1d1e1f202122232425262728292a2b2c2d",
+    "moved": [
+      {
+        "encryptedItemKey": "AXhLLx0BKvmU92hzcyt2sFgWFxgZGhscHR4fICEiIyQlJicoKSorLC1ryFLCBXYvIet-rvT5S9XnU5d0qDOic_MAsJTc5hjIYWkuc7zvXQLpLiAEqnOQinU",
+        "itemId": "0192f0c8-1c2d-7a00-8000-0000000000d1"
+      }
+    ],
+    "newWrappedVaultKey": "AWFnIu4l2mhABkxMiVMsA4oVFhcYGRobHB0eHyAhIiMkJSYnKCkqKywzMdWF1zRNFGbKGgGPvB8jeeZ3RAD_XdzMBoGGW-A0KpKTGMVRTUyY9-fpiYlxtXQ"
+  },
+  "personalVaultRotation": {
+    "accountKey": "MDEyMzQ1Njc4OTo7PD0-P0BBQkNERUZHSElKS0xNTk8",
+    "encryptedItemKey": "AcEiylgAuf8XVNYCBg4ze3ESExQVFhcYGRobHB0eHyAhIiMkJSYnKCnbwUaYbWfHq3ZMqsXapDwF2eWBK9eU4E_eCU10G9J0xmLH9-apkN_NUMzySX6OZZo",
+    "itemId": "0192f0c8-1c2d-7a00-8000-0000000000d1",
+    "rotation": {
+      "grants": [],
+      "items": [
+        {
+          "encryptedItemKey": "AbkmB_Bv-_KY550H3Bdu0m0TFBUWFxgZGhscHR4fICEiIyQlJicoKSp_v7bvMujLjao8UFvkQIGuVQYM5NRQGfPi96tR9fLZ0RGYIlcbR7td-llMBfgv2lo",
+          "itemId": "0192f0c8-1c2d-7a00-8000-0000000000d1"
+        }
+      ],
+      "keyId": "uSYH8G_78pjnnQfcF27SbQ",
+      "wrappedVaultKey": "AWFnIu4l2mhABkxMiVMsA4oUFRYXGBkaGxwdHh8gISIjJCUmJygpKitq4Wg4eNuY44z5ftLVaBGH9tgISEPmuXNr7325uKknKKNbFWVh-8QpjbfpFnmJq9M"
+    },
+    "tape": {
+      "itemKeyNonce": "131415161718191a1b1c1d1e1f202122232425262728292a",
+      "newVaultKey": "MzQ1Njc4OTo7PD0-P0BBQkNERUZHSElKS0xNTk9QUVI",
+      "vaultKeyNonce": "1415161718191a1b1c1d1e1f202122232425262728292a2b"
+    },
+    "vaultId": "0192f0c8-1c2d-7a00-8000-0000000000aa",
+    "vaultKey": "MTIzNDU2Nzg5Ojs8PT4_QEFCQ0RFRkdISUpLTE1OT1A",
+    "wrappedVaultKey": "AWFnIu4l2mhABkxMiVMsA4oREhMUFRYXGBkaGxwdHh8gISIjJCUmJyjZeihEDqctpmzongi6PnT92MMO6xJuJZ0gM8QivZ2w-57pjq_-qbMspD5VjMvBEdY"
+  },
+  "renewedEmergencyKey": {
+    "contactId": "0192f0c8-1c2d-7a00-8000-0000000000b1",
+    "contactPublicKey": "3CzKMejkO72R3_fkdcyjNH60eBB9W9dlq6SuSjDDXUQ",
+    "context": "emergency:0192f0c8-1c2d-7a00-8000-0000000000a1:0192f0c8-1c2d-7a00-8000-0000000000b1:vault:0192f0c8-1c2d-7a00-8000-0000000000aa",
+    "grantorId": "0192f0c8-1c2d-7a00-8000-0000000000a1",
+    "sealedKey": "AWs-5nRjWDy-PcCP6dB2XCZm_1IQ3VJ8nYcF5EknyA1V8PHy8_T19vf4-fr7_P3-_wABAgMEBQYHTAzk4X42PiIHnZb9WePpIsp3nTedXYcfcei73JdB8OvhG9upufhWxJ_rVN9LgVST",
+    "tape": {
+      "ephemeralSecret": "d0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeef",
+      "nonce": "f0f1f2f3f4f5f6f7f8f9fafbfcfdfeff0001020304050607"
+    },
+    "vaultId": "0192f0c8-1c2d-7a00-8000-0000000000aa"
+  },
+  "secretKeyRotation": {
+    "ask": "MDEyMzQ1Njc4OTo7PD0-P0BBQkNERUZHSElKS0xNTk8",
+    "email": "grantor@example.com",
+    "kdf": {
+      "algorithm": "argon2id",
+      "iterations": 3,
+      "memoryKib": 65536,
+      "parallelism": 1
+    },
+    "newAuk": "4x0QG2cxWJ4SlRvQMLOiIuohbD1A98LBBC2EFaSURlo",
+    "newAuthSecret": "JD6041yr3vtaFn546VExbAIMxiicSZSmwuUVyt7SRl8",
+    "newSecretKey": "OP1-44H269-154RKJ-GA9A5-CP2TB-HF60",
+    "password": "correct horse battery staple",
+    "tape": {
+      "accountSalt": "22232425262728292a2b2c2d2e2f3031",
+      "secretKey": "2122232425262728292a2b2c2d2e2f30",
+      "wrappedAskNonce": "232425262728292a2b2c2d2e2f303132333435363738393a"
+    },
+    "update": {
+      "accountSalt": "IiMkJSYnKCkqKywtLi8wMQ",
+      "kdf": {
+        "algorithm": "argon2id",
+        "iterations": 3,
+        "memoryKib": 65536,
+        "parallelism": 1
+      },
+      "wrappedAsk": "ATYKVRqmYm5cQo_mLJLUcZojJCUmJygpKissLS4vMDEyMzQ1Njc4OToi9-Qu5MSB20UFDXn6SfgemENNbwzGjCa-ONb7C_RORa-K7rBz3t1FaoD6N30FvJQ"
+    }
+  }
+}

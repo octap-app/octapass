@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Decrypted attachments, picked files, photos and exports: the app's cache, shared with another
+     app only through a content URI, for one file, while it needs it. -->
+<paths>
+    <cache-path name="cache" path="." />
+</paths>

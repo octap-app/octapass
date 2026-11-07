@@ -1,0 +1,6 @@
+Title,URL,Username,Password,Notes,OTPAuth
+example.com (jane),https://example.com/,jane,s3cret!,"Two
+lines",otpauth://totp/Example:jane?secret=JBSWY3DPEHPK3PXP&issuer=Example
+متجر,https://shop.example.ae/,زبون,كلمة,,
+Empty fields,,,,,
+Wi-Fi notes only,,,,"Router is in the hall",

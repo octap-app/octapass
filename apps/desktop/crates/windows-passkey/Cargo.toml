@@ -1,0 +1,24 @@
+[package]
+name = "octapass-windows-passkey"
+description = "The Octa Pass passkey provider for Windows 11: CTAP2 messages, the request signature check and the COM server."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[dependencies]
+ciborium = "0.2"
+p256 = { version = "0.13", default-features = false, features = ["ecdsa", "std"] }
+p384 = { version = "0.13", default-features = false, features = ["ecdsa", "std"] }
+rsa = { version = "0.9", default-features = false, features = ["std", "sha2"] }
+sha2.workspace = true
+thiserror.workspace = true
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.62", features = ["Win32_Foundation", "Win32_Security", "Win32_Security_Cryptography", "Win32_Storage_Packaging_Appx", "Win32_System_Com", "Win32_System_LibraryLoader", "Win32_System_Rpc", "Win32_UI_Controls", "Win32_UI_Shell", "Win32_UI_WindowsAndMessaging"] }
+windows-core = "0.62"
+base64.workspace = true
+
+[dev-dependencies]
+proptest = "1"

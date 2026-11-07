@@ -1,0 +1,5 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": { "types": ["vitest/globals", "node"], "lib": ["ES2023", "DOM", "DOM.Iterable"] },
+  "include": [".", "../vitest.e2e.config.ts"]
+}

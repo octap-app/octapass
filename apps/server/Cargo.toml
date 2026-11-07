@@ -1,0 +1,69 @@
+[package]
+name = "octapass-server"
+version = "0.1.0"
+description = "The Octa Pass sync server. It stores ciphertext only."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+# Integration tests are one binary (tests/main.rs); see the [[test]] tables at the end.
+autotests = false
+
+[dependencies]
+# The key log: one implementation of its Merkle tree, labels and records with the clients.
+octapass-core = { path = "../../crates/octapass-core", default-features = false }
+octapass-api = { path = "../../crates/octapass-api", features = ["openapi"] }
+opaque-ke.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+base64.workspace = true
+thiserror.workspace = true
+rand_core.workspace = true
+zeroize.workspace = true
+axum = { version = "0.8", features = ["macros", "ws"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "net", "signal", "time", "fs"] }
+tower = "0.5"
+tower-http = { version = "0.6", features = ["cors", "trace", "timeout", "set-header", "fs"] }
+sqlx = { version = "0.9", default-features = false, features = ["runtime-tokio", "any", "sqlite", "postgres", "migrate", "macros"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+utoipa = "5"
+sha2 = "0.10"
+hmac = "0.12"
+subtle = "2.6"
+uuid = { version = "1", features = ["v7"] }
+time = { version = "0.3", features = ["formatting", "parsing", "macros"] }
+# Attachments: streaming file bodies, and the S3-compatible storage client.
+tokio-util = { version = "0.7", features = ["io"] }
+http-body-util = "0.1"
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "stream", "gzip", "deflate"] }
+# Website icons: page and redirect URLs, and every icon decoded and encoded again as a PNG (SVG
+# drawn to pixels), never passed through as the site sent it.
+url = "2"
+image = { version = "0.25", default-features = false, features = ["png", "ico", "gif", "jpeg", "webp", "bmp"] }
+resvg = { version = "0.47", default-features = false }
+# Two-step sign-in: authenticator codes (HMAC-SHA-1), sealed authenticator secrets, and WebAuthn
+# security keys (CBOR attestation, ES256 and Ed25519 signatures).
+sha1 = "0.10"
+chacha20poly1305 = { version = "0.10", default-features = false, features = ["alloc"] }
+ciborium = "0.2"
+p256 = { version = "0.13", default-features = false, features = ["ecdsa", "std"] }
+ed25519-dalek = { version = "2", default-features = false, features = ["std"] }
+lettre = { version = "0.11", default-features = false, features = ["builder", "smtp-transport", "tokio1", "tokio1-rustls", "ring", "webpki-roots"] }
+
+[dev-dependencies]
+# Real sealed keys and signed grants in the integration tests, and a cross-check of fingerprints.
+ed25519-dalek = { version = "2", features = ["rand_core"] }
+x25519-dalek = { version = "2", features = ["static_secrets"] }
+tempfile = "3"
+http-body-util = "0.1"
+tower = { version = "0.5", features = ["util"] }
+tokio = { version = "1", features = ["io-util"] }
+tokio-tungstenite = "0.29"
+# Compressed test responses for the icon fetcher.
+flate2 = "1"
+futures-util = { version = "0.3", default-features = false, features = ["sink", "alloc"] }
+
+[[test]]
+name = "integration"
+path = "tests/main.rs"

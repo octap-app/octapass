@@ -1,0 +1,16 @@
+**/target
+**/node_modules
+**/dist
+data
+apps/server/data
+.git
+apps/website
+apps/android
+apps/ios
+apps/safari
+brand
+deploy
+# The Rust workspace reaches into this app for crates; the rest of it isn't needed.
+apps/desktop
+!apps/desktop/crates
+!apps/desktop/Cargo.toml

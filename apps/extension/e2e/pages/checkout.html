@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Checkout</title>
+    <style>
+      body { font: 16px system-ui; margin: 3rem; }
+      form { display: grid; gap: 0.75rem; max-width: 20rem; margin-block-end: 2rem; }
+      input, select { font: inherit; padding: 0.5rem; }
+    </style>
+  </head>
+  <body>
+    <h1>Checkout</h1>
+    <!-- Step one: the delivery address. Sending it shows step two, as a single-page checkout would. -->
+    <form id="address" onsubmit="event.preventDefault(); this.hidden = true; document.getElementById('card').hidden = false">
+      <label>Full name <input id="name" autocomplete="name" /></label>
+      <label>Email <input id="email" type="email" autocomplete="email" /></label>
+      <label>Address <input id="line1" autocomplete="address-line1" /></label>
+      <label>City <input id="city" autocomplete="address-level2" /></label>
+      <label>Postcode <input id="zip" autocomplete="postal-code" /></label>
+      <label>Country
+        <select id="country" autocomplete="country">
+          <option value="">Choose</option>
+          <option value="GB">United Kingdom</option>
+          <option value="US">United States</option>
+        </select>
+      </label>
+      <label>Delivery notes <input id="notes" name="notes" /></label>
+      <button type="submit">Continue</button>
+    </form>
+    <form id="card" hidden onsubmit="event.preventDefault(); location.hash = 'paid'; document.getElementById('done').hidden = false">
+      <label>Name on card <input id="holder" autocomplete="cc-name" /></label>
+      <label>Card number <input id="number" autocomplete="cc-number" inputmode="numeric" /></label>
+      <label>Expiry (MM/YY) <input id="exp" autocomplete="cc-exp" /></label>
+      <label>Security code <input id="cvc" autocomplete="cc-csc" inputmode="numeric" /></label>
+      <button type="submit">Pay</button>
+    </form>
+    <p id="done" hidden>Thank you!</p>
+  </body>
+</html>

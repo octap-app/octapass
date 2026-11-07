@@ -1,0 +1,11 @@
+type,name,url,autofillUrls,email,username,password,note,totp,createTime,modifyTime,vault
+login,GitHub,"https://github.com/login, https://gist.github.com/","[{""url"":""https://github.com/login"",""mode"":0},{""url"":""https://gist.github.com/"",""mode"":3}]",octo@example.com,octo-cat,"pa,ss""word 1","Work account.
+Second line, with ""quotes"".",otpauth://totp/GitHub:octo-cat?secret=JBSWY3DPEHPK3PXP&issuer=GitHub,1761177600,1761177600,Personal
+login,بنك الأمل,https://bank.example.jo/,,مستخدم@example.com,,"سر,مع""علامات","ملاحظة بالعربية
+سطر ثاني",,1761177600,1761177600,Personal
+alias,Newsletters,,,news.k7q2@passmail.net,,,For mailing lists.,,1761177600,1761177600,Personal
+note,Ideas 💡,,,,,,"Line one
+Line two — with a dash",,1761177600,1761177600,Personal
+creditCard,Visa,,,,,,"{""cardholderName"":""Jane Q. Doe"",""cardType"":2,""number"":""4111111111111111"",""verificationNumber"":""123"",""expirationDate"":""2029-08"",""pin"":""4321"",""note"":""Travel card""}",,1761177600,1761177600,Family
+identity,عمر,,,,,,"{""fullName"":""عمر خالد حداد"",""email"":""omar@example.com"",""phoneNumber"":"""",""birthdate"":""1990-05-17"",""city"":""عمّان"",""countryOrRegion"":""JO"",""extraPersonalDetails"":[],""extraSections"":[],""note"":""""}",,1761177600,1761177600,Family
+login,,,,,,,,,1761177600,1761177600,Family

@@ -1,0 +1,9 @@
+.banner {
+  margin: 0 0.75rem 0.4rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-inline-start: auto;
+}

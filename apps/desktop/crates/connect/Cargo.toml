@@ -1,0 +1,36 @@
+[package]
+name = "octapass-connect"
+description = "Octa Pass Connect: a local, authenticated helper that hands secrets to tools by octapass:// reference, one approved client at a time."
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+repository = "https://github.com/octapass/octapass"
+publish = false
+
+[dependencies]
+octapass-core = { path = "../../../../crates/octapass-core" }
+octapass-desktop-vault = { path = "../vault" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+rand_core = { version = "0.6", features = ["getrandom"] }
+sha2 = "0.10"
+base64 = "0.22"
+zeroize = { version = "1", features = ["derive"] }
+time = { version = "0.3", features = ["formatting", "parsing"] }
+tokio = { version = "1", features = ["macros", "rt", "sync", "time", "net", "io-util"] }
+axum = { version = "0.8", default-features = false, features = ["http1", "json", "tokio"] }
+# OAuth2 token endpoints. Never follows redirects.
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+url = "2"
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
+[dev-dependencies]
+octapass-api = { path = "../../../../crates/octapass-api" }
+octapass-device-unlock = { path = "../device-unlock" }
+octapass-server = { path = "../../../server" }
+axum = "0.8"
+tempfile = "3"
+tokio = { version = "1", features = ["full"] }

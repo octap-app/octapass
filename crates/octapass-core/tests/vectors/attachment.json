@@ -1,0 +1,34 @@
+{
+  "associatedData": "octapass/v1|attachment:0192f0c8-1c2d-7a00-8000-0000000000aa:0192f0c8-1c2d-7a00-8000-0000000000bb:0192f0c8-1c2d-7a00-8000-0000000000cc",
+  "cases": [
+    {
+      "encrypted": "AZVr82Gdp4oq2wLNXnuGFd_yp2mA38ekkksyahKennx-44H_g5CPpvEu__1f1Wkxd1_5FA",
+      "encryptedLength": 52,
+      "encryptedSha256": "749559d9c1c27032ba380319961f3e98790579cac35f079c24d8ce67f189d000",
+      "header": "AZVr82Gdp4oq2wLNXnuGFd_yp2mA38ekkksyahKennx-44H_",
+      "plaintextLength": 0
+    },
+    {
+      "encrypted": "AZVr82Gdp4oq2wLNXnuGFd-qLk_R7naWb9GwGQl4l73XrRiK4wfQnGhHHgtf7pGa_VUUvnTupk7f2-TCrN3atFemuslp5rHSu4KRquYQWpM7cOOeuHNdKD5iGyNc5tGaKbYVj6DmmLHhWm4Tgi_tQmIK3W1Z_hG-wh4lmXT9aboDpiYmWKqX6B7Yv5xAoHh95uXjv95I7CQ",
+      "encryptedLength": 152,
+      "encryptedSha256": "3bf32dd0bfa3938971afe180b47af8233ffe85e02ab2ea8e6d09b3db3e5d0f18",
+      "header": "AZVr82Gdp4oq2wLNXnuGFd-qLk_R7naWb9GwGQl4l73XrRiK",
+      "plaintextLength": 100
+    },
+    {
+      "encryptedLength": 65588,
+      "encryptedSha256": "27f462f204f2c8b5e6780264dc16e1ebce29c16097d84cbf22c4fc1ac8abcbb2",
+      "header": "AZVr82Gdp4oq2wLNXnuGFd884LvSFez9VY_bp40lnEUffXK0",
+      "plaintextLength": 65536
+    },
+    {
+      "encryptedLength": 65605,
+      "encryptedSha256": "960e778b7da3c48c65e6539a28583da973f960f059605ff64e5bff2660e9e798",
+      "header": "AZVr82Gdp4oq2wLNXnuGFd97A6ZSngS--JPaVER19LutvDJ9",
+      "plaintextLength": 65537
+    }
+  ],
+  "chunkLength": 65536,
+  "description": "Attachment files: header (version 0x01 || keyId (16) || noncePrefix (19)) then 64 KiB chunks, each XChaCha20-Poly1305 with nonce noncePrefix || index (u32 big-endian) || last (0x00 or 0x01). The plaintext of each case is byte i = i mod 251.",
+  "fileKey": "QEFCQ0RFRkdISUpLTE1OT1BRUlNUVVZXWFlaW1xdXl8"
+}

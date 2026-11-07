@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Two-step verification · Pebble Bank</title>
+<style>
+  body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: #0f2a3d; color: #10202c; }
+  .card { width: 440px; margin: 90px auto; background: #fff; padding: 30px; text-align: center; border-top: 5px solid #2f8f83; }
+  .boxes { display: flex; justify-content: center; gap: 10px; margin: 22px 0; }
+  .boxes input { width: 46px; height: 56px; text-align: center; font-size: 24px; border: 1px solid #94a9b5; border-radius: 6px; }
+  button { padding: 10px 28px; background: #2f8f83; color: #fff; border: 0; font: inherit; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1 style="font-size:21px;margin-top:0">Enter the 6-digit code</h1>
+  <p>We sent a code to the phone number ending in 0100.</p>
+  <form id="otp-form" action="/verify" method="post">
+    <div class="boxes" role="group" aria-label="Security code">
+      <input id="d1" name="code1" type="text" inputmode="numeric" maxlength="1" autocomplete="one-time-code" aria-label="Digit 1">
+      <input id="d2" name="code2" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2">
+      <input id="d3" name="code3" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 3">
+      <input id="d4" name="code4" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 4">
+      <input id="d5" name="code5" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 5">
+      <input id="d6" name="code6" type="text" inputmode="numeric" maxlength="1" aria-label="Digit 6">
+    </div>
+    <button type="submit">Verify</button>
+  </form>
+  <p style="font-size:13px"><a href="#resend">Resend code</a></p>
+</div>
+<script>
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('.boxes input'));
+  boxes.forEach(function (box, i) {
+    box.addEventListener('input', function () {
+      box.value = box.value.replace(/\D/g, '').slice(-1);
+      if (box.value && boxes[i + 1]) boxes[i + 1].focus();
+    });
+    box.addEventListener('keydown', function (e) {
+      if (e.key === 'Backspace' && !box.value && boxes[i - 1]) boxes[i - 1].focus();
+    });
+  });
+  document.getElementById('otp-form').onsubmit = function (e) { e.preventDefault(); };
+</script>
+</body>
+</html>

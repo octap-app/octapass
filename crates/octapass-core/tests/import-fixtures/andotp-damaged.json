@@ -1,0 +1,17 @@
+[
+  {
+    "secret": "JBSWY3DPEHPK3PXP",
+    "issuer": "GitHub",
+    "label": "octo",
+    "digits": 6,
+    "type": "TOTP",
+    "algorithm": "SHA1",
+    "thumbnail": "Github",
+    "last_used": 1767225600000,
+    "used_frequency": 12,
+    "period": 30,
+    "tags": ["Work"]
+  },
+  {
+    "secret": "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
+    "issuer": "Ø

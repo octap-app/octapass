@@ -1,0 +1,10 @@
+{
+  "description": "SMS verification with four single-digit type=tel boxes (maxlength=1, no labels, no autocomplete, name=\"pin[]\"); the boxes are a one-time code, not phone numbers",
+  "fields": {
+    "#pin-1": "one-time-code",
+    "#pin-2": "one-time-code",
+    "#pin-3": "one-time-code",
+    "#pin-4": "one-time-code"
+  },
+  "forms": [{ "field": "#pin-1", "type": "one-time-code" }]
+}

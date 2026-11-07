@@ -1,0 +1,96 @@
+{
+  "name": "@octapass/vscode",
+  "displayName": "%displayName%",
+  "description": "%description%",
+  "version": "0.1.0",
+  "private": true,
+  "publisher": "octapass",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/octap-app/octapass.git",
+    "directory": "apps/vscode"
+  },
+  "icon": "media/icon.png",
+  "main": "./dist/extension.js",
+  "l10n": "./l10n",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "extensionKind": ["ui"],
+  "capabilities": {
+    "virtualWorkspaces": true,
+    "untrustedWorkspaces": {
+      "supported": "limited",
+      "description": "%untrusted.description%",
+      "restrictedConfigurations": ["octapass.cliPath"]
+    }
+  },
+  "activationEvents": [],
+  "contributes": {
+    "commands": [
+      { "command": "octapass.connect", "title": "%command.connect%", "category": "Octa Pass" },
+      { "command": "octapass.disconnect", "title": "%command.disconnect%", "category": "Octa Pass" },
+      { "command": "octapass.insertReference", "title": "%command.insertReference%", "category": "Octa Pass" },
+      { "command": "octapass.insertField", "title": "%command.insertReference%", "category": "Octa Pass", "icon": "$(insert)" },
+      {
+        "command": "octapass.runWithSecrets",
+        "title": "%command.runWithSecrets%",
+        "category": "Octa Pass",
+        "enablement": "isWorkspaceTrusted"
+      },
+      { "command": "octapass.refresh", "title": "%command.refresh%", "category": "Octa Pass", "icon": "$(refresh)" }
+    ],
+    "viewsContainers": {
+      "activitybar": [{ "id": "octapass", "title": "%container.title%", "icon": "media/octapass.svg" }]
+    },
+    "views": {
+      "octapass": [{ "id": "octapass.references", "name": "%view.references%" }]
+    },
+    "viewsWelcome": [
+      { "view": "octapass.references", "contents": "%view.welcome%", "when": "!octapass.connected" }
+    ],
+    "menus": {
+      "commandPalette": [
+        { "command": "octapass.insertField", "when": "false" },
+        { "command": "octapass.disconnect", "when": "octapass.connected" }
+      ],
+      "view/title": [
+        { "command": "octapass.refresh", "when": "view == octapass.references", "group": "navigation" },
+        { "command": "octapass.connect", "when": "view == octapass.references && !octapass.connected" },
+        { "command": "octapass.disconnect", "when": "view == octapass.references && octapass.connected" }
+      ],
+      "view/item/context": [
+        {
+          "command": "octapass.insertField",
+          "when": "view == octapass.references && viewItem == field",
+          "group": "inline"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "%container.title%",
+      "properties": {
+        "octapass.cliPath": {
+          "type": "string",
+          "default": "octapass",
+          "scope": "machine",
+          "description": "%setting.cliPath%"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "stage": "pnpm build && node scripts/stage.mts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "@types/vscode": "1.85.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5"
+  }
+}

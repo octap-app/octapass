@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The Octa Pass mark (brand/logo-mark-mono.svg) in white, inside the adaptive icon's safe zone. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="0.8"
+        android:scaleY="0.8"
+        android:translateX="28.4"
+        android:translateY="28.4">
+        <path
+            android:pathData="M19.25,51.58A25.5,25.5 0,1 1,37.74 54.35"
+            android:strokeWidth="5.2"
+            android:strokeColor="#FFFFFF"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+        <path
+            android:pathData="M19.2,36.31A14.5,14.5 0,1 1,28.4 43.55L28.4,61.5"
+            android:strokeWidth="5.2"
+            android:strokeColor="#FFFFFF"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+        <path
+            android:fillColor="#FFFFFF"
+            android:pathData="M32,23.4a3.9,3.9 0,0 1,2.2 7.1l1.1,5.4h-6.6l1.1,-5.4A3.9,3.9 0,0 1,32 23.4Z" />
+    </group>
+</vector>

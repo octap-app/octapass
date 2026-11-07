@@ -1,0 +1,82 @@
+/* Octa Pass design tokens.
+   Trust blue + freedom green (open source), meeting in one signature gradient.
+   Shared by the landing page, changelog and (through starlight.css) the docs. */
+
+:root {
+  /* Brand */
+  --trust: #2456f0;
+  --free: #10b77f;
+  --trust-text: #1d47d6; /* AA on paper */
+  --free-text: #077a54; /* AA on paper */
+  --gradient: linear-gradient(120deg, var(--trust) 0%, #1a86c8 50%, var(--free) 100%);
+
+  /* Neutrals (light) */
+  --paper: #fbfbfd;
+  --surface: #ffffff;
+  --tile: #f2f3f7;
+  --ink: #0b1220;
+  --mist: #5e6576;
+  --line: #e3e5ec;
+  --focus: #2456f0;
+  --shadow: 0 2px 6px rgb(11 18 32 / 0.06), 0 30px 80px -30px rgb(11 18 32 / 0.35);
+
+  /* Always-dark bands (statement, open source) */
+  --night: #000000;
+  --night-surface: #0d1017;
+  --night-tile: #141824;
+  --night-ink: #f5f6f8;
+  --night-mist: #9ba3b4;
+  --night-line: #232838;
+
+  --font-sans: 'Mona Sans Variable', 'Mona Sans', 'Noto Sans Arabic Variable', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'Monaspace Neon', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  /* Type scale (17px body, Apple-like) */
+  --step--1: 0.875rem;
+  --step-0: 1.0625rem;
+  --step-1: clamp(1.2rem, 1.1rem + 0.5vw, 1.45rem);
+  --step-2: clamp(1.6rem, 1.3rem + 1.4vw, 2.3rem);
+  --step-3: clamp(2.2rem, 1.5rem + 3vw, 3.9rem);
+  --step-4: clamp(2.9rem, 1.6rem + 5.8vw, 6.6rem);
+
+  --measure: 62ch;
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+  --page: 75rem;
+  --radius-xl: 1.75rem;
+  --radius-lg: 1.25rem;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --trust: #5c86ff;
+    --free: #2fd394;
+    --trust-text: #86a6ff;
+    --free-text: #4fe0a8;
+    --paper: #000000;
+    --surface: #0d1017;
+    --tile: #12151e;
+    --ink: #f5f6f8;
+    --mist: #9ba3b4;
+    --line: #232838;
+    --focus: #86a6ff;
+    --shadow: 0 0 0 1px rgb(255 255 255 / 0.06), 0 30px 80px -30px rgb(0 0 0 / 0.9);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme='dark'] {
+  --trust: #5c86ff;
+  --free: #2fd394;
+  --trust-text: #86a6ff;
+  --free-text: #4fe0a8;
+  --paper: #000000;
+  --surface: #0d1017;
+  --tile: #12151e;
+  --ink: #f5f6f8;
+  --mist: #9ba3b4;
+  --line: #232838;
+  --focus: #86a6ff;
+  --shadow: 0 0 0 1px rgb(255 255 255 / 0.06), 0 30px 80px -30px rgb(0 0 0 / 0.9);
+  color-scheme: dark;
+}

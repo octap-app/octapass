@@ -1,0 +1,28 @@
+{
+  "description": "Delivery address with a textarea street address, a separate apartment input, a US state select (two-letter values, full-name text) and ZIP; a delivery-instructions textarea must stay empty",
+  "fields": {
+    "#recipient": "name",
+    "#street": "address-line1",
+    "#unit": "address-line2",
+    "#town": "address-level2",
+    "#state": "address-level1",
+    "#zip": "postal-code",
+    "#notes": "none"
+  },
+  "forms": [{ "field": "#street", "type": "identity" }],
+  "fills": [
+    {
+      "focus": "#recipient",
+      "pick": "identity",
+      "expect": {
+        "#recipient": "Alex Doe",
+        "#street": "1 Test Street",
+        "#unit": "Apt 2",
+        "#town": "Springfield",
+        "#state": "CA",
+        "#zip": "90210",
+        "#notes": ""
+      }
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accedi · Banca Corvetto</title>
+<style>
+  body { margin: 0; font: 15px/1.5 "Segoe UI", sans-serif; background: #f3f1ec; color: #2b2118; }
+  header { background: #7a1f2b; color: #fff; padding: 16px 36px; font-size: 19px; letter-spacing: .3px; }
+  .card { width: 400px; margin: 56px auto; background: #fff; padding: 28px 30px; border-radius: 4px; box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+  h1 { margin: 0 0 18px; font-size: 22px; font-weight: 600; }
+  .campo { margin-bottom: 14px; }
+  .campo label { display: block; font-size: 13px; margin-bottom: 4px; color: #5c4a3a; }
+  .campo input[type=text], .campo input[type=password] { width: 100%; box-sizing: border-box; padding: 9px; border: 1px solid #b8a99a; border-radius: 3px; font: inherit; }
+  .trap { display: none; }
+  button { width: 100%; padding: 11px; border: 0; background: #7a1f2b; color: #fff; font: inherit; border-radius: 3px; }
+  .aiuto { font-size: 13px; margin-top: 14px; }
+</style>
+</head>
+<body>
+<header>Banca Corvetto</header>
+<div class="card">
+  <h1>Accedi all'home banking</h1>
+  <form id="form-accesso" action="/accesso" method="post">
+    <input type="hidden" name="csrf" id="csrf" value="8f3a1c9e2b7d4f60a5e1c3b9d7f2a4e6">
+    <div class="trap" aria-hidden="true">
+      <label for="hp-email">Lascia vuoto questo campo email</label>
+      <input type="email" name="email" id="hp-email" tabindex="-1">
+    </div>
+    <div class="campo">
+      <label for="utente">Nome utente o email</label>
+      <input type="text" id="utente" name="utente">
+    </div>
+    <div class="campo">
+      <label for="parola">Password</label>
+      <input type="password" id="parola" name="parola">
+    </div>
+    <div class="campo">
+      <label><input type="checkbox" id="ricordami" name="ricordami"> Ricordami su questo dispositivo</label>
+    </div>
+    <button type="submit">Accedi</button>
+  </form>
+  <p class="aiuto"><a href="#recupero">Hai dimenticato la password?</a></p>
+</div>
+<script>document.getElementById('form-accesso').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

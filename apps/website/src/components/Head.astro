@@ -1,0 +1,51 @@
+---
+// Extends Starlight's <head> with structured data, a pointer to each page's Markdown twin, the
+// page's own social image. Starlight adds the hreflang links, x-default included, itself.
+import Default from '@astrojs/starlight/components/Head.astro';
+import { SITE_NAME, SITE_URL } from '../site.config';
+
+const { entry, id, lang, isFallback } = Astro.locals.starlightRoute;
+const pageUrl = new URL(Astro.url.pathname, SITE_URL).href;
+const isDoc = id === 'docs' || id.startsWith('docs/') || id.startsWith('ar/docs');
+const locale = lang === 'ar' ? 'ar' : 'en';
+const englishId = id.replace(/^ar\//, '');
+const markdownHref = `/${isFallback ? englishId : id}.md`;
+const ogImage = new URL(`/og/${isFallback ? 'en' : locale}/${englishId}.png`, SITE_URL).href;
+
+// Breadcrumbs from the URL path: /docs/security/encryption/ → Docs › Security › Encryption
+const segments = id.split('/');
+const crumbs = segments.map((segment, i) => ({
+  '@type': 'ListItem',
+  position: i + 1,
+  name: i === segments.length - 1 ? entry.data.title : segment.replace(/-/g, ' ').replace(/^./, (c) => c.toUpperCase()),
+  item: new URL(`/${segments.slice(0, i + 1).join('/')}/`, SITE_URL).href,
+}));
+
+const jsonLd = isDoc
+  ? [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'TechArticle',
+        headline: entry.data.title,
+        description: entry.data.description,
+        url: pageUrl,
+        image: ogImage,
+        inLanguage: isFallback ? 'en' : locale,
+        isPartOf: { '@type': 'WebSite', name: `${SITE_NAME} docs`, url: new URL(locale === 'ar' ? '/ar/docs/' : '/docs/', SITE_URL).href },
+        publisher: { '@type': 'Organization', name: SITE_NAME, url: SITE_URL },
+        license: 'https://opensource.org/license/mit',
+      },
+      { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: crumbs },
+    ]
+  : [];
+---
+
+<Default />
+{isDoc && <link rel="alternate" type="text/markdown" href={markdownHref} title="This page as Markdown" />}
+<link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-readable index (llms.txt)" />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content={ogImage} />
+{jsonLd.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}

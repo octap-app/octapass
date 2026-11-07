@@ -1,0 +1,15 @@
+{
+  "description": "Floating labels placed after the input (label for=), placeholder is a single space",
+  "fields": {
+    "#fl-user": "username",
+    "#fl-pass": "current-password"
+  },
+  "forms": [{ "field": "#fl-user", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#fl-user",
+      "pick": "login",
+      "expect": { "#fl-user": "alex@example.test", "#fl-pass": "correct-horse-42!" }
+    }
+  ]
+}

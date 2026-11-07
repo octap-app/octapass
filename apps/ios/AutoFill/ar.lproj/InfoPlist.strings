@@ -1,0 +1,3 @@
+/* The system's permission prompt in Arabic: the purpose string in AutoFill/Info.plist. */
+
+"NSFaceIDUsageDescription" = "افتح قفل Octa Pass لتعبئة كلمات المرور ومفاتيح المرور.";

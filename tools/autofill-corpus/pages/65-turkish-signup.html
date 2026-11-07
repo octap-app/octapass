@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Üye ol · Lale Pazar</title>
+<style>
+  body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: #fff1f2; color: #3f0d12; }
+  .kutu { width: 440px; margin: 46px auto; background: #fff; border-radius: 12px; padding: 26px 30px; box-shadow: 0 6px 20px rgba(159,18,57,.1); }
+  h1 { margin: 0 0 4px; font-size: 23px; color: #9f1239; }
+  .alt { margin: 0 0 18px; color: #881337; font-size: 14px; }
+  .satir { display: flex; gap: 12px; }
+  .alan { flex: 1; margin-bottom: 12px; }
+  .alan label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .alan input { width: 100%; box-sizing: border-box; padding: 9px; border: 1px solid #fda4af; border-radius: 8px; font: inherit; }
+  .onay { font-size: 13px; margin: 6px 0 16px; }
+  button { width: 100%; padding: 11px; border: 0; border-radius: 8px; background: #be123c; color: #fff; font: inherit; font-weight: 600; }
+  #durum { margin-top: 12px; color: #15803d; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="kutu">
+  <h1>Hesap oluştur</h1>
+  <p class="alt">Lale Pazar'a ücretsiz üye olun.</p>
+  <form id="uyelik" action="/uye-ol" method="post">
+    <div class="satir">
+      <div class="alan"><label for="ad">Ad</label><input id="ad" name="ad"></div>
+      <div class="alan"><label for="soyad">Soyad</label><input id="soyad" name="soyad"></div>
+    </div>
+    <div class="alan"><label for="eposta">E-posta adresi</label><input id="eposta" name="eposta" type="email"></div>
+    <div class="alan"><label for="sifre">Şifre</label><input id="sifre" name="sifre" type="password" minlength="8"></div>
+    <div class="alan"><label for="sifre2">Şifre (tekrar)</label><input id="sifre2" name="sifre_tekrar" type="password"></div>
+    <div class="onay"><label><input type="checkbox" id="kvkk" name="kvkk"> Üyelik sözleşmesini ve KVKK aydınlatma metnini okudum, kabul ediyorum.</label></div>
+    <button type="submit" id="olustur">Üye ol</button>
+  </form>
+  <div id="durum" role="status"></div>
+</div>
+<script>
+  document.getElementById('uyelik').addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('durum').textContent = 'Hesabınız oluşturuldu.';
+  });
+</script>
+</body>
+</html>

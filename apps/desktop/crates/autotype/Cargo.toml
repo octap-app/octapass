@@ -1,0 +1,33 @@
+[package]
+name = "octapass-autotype"
+description = "Auto-type for the Octa Pass desktop app: typing a login into the focused window after checking that the window belongs to it."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[features]
+# A recording platform for tests of code that uses auto-type.
+fake = []
+
+[dependencies]
+octapass-core.workspace = true
+serde.workspace = true
+zeroize.workspace = true
+
+[target.'cfg(target_os = "macos")'.dependencies]
+core-foundation = "0.10"
+libc = "0.2"
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.62", features = ["Win32_Foundation", "Win32_System_StationsAndDesktops", "Win32_System_Threading", "Win32_UI_Input_KeyboardAndMouse", "Win32_UI_WindowsAndMessaging"] }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+x11rb = { version = "0.13", features = ["xtest"] }
+zbus = { version = "5", features = ["blocking-api"] }
+
+[dev-dependencies]
+octapass-autotype = { path = ".", features = ["fake"] }
+serde_json.workspace = true
+tempfile.workspace = true

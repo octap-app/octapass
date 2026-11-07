@@ -1,0 +1,9 @@
+Format,Version,Product,Product Version,Exported Date
+CSV,1,Norton Password Manager (Extension),8.2.2.529,2025-02-11
+Item Type,User Name,Password,Site Name,Login URL,Notes,Secure,Favorite
+Login,jane@example.com,"nor,ton ""pw"" ",GitHub,https://github.com/login,"Deploy notes
+second line",true,true
+Login,جميلة,كلمة-سر-١٢٣,بنك الأمل,https://bank.example.sa,ملاحظة,false,false
+Note,,,Diary,,"Dear diary,
+emoji 🔐",false,false
+Login,,,Nothing here,,,false,false

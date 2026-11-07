@@ -1,0 +1,28 @@
+/* App-wide pieces that don't belong to a single screen. */
+
+#root {
+  min-block-size: 100dvh;
+}
+
+/* Section headings inside panes and settings. */
+.eyebrow {
+  font-size: var(--text-xs);
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--mist);
+}
+
+.page-title {
+  font-size: var(--text-2xl);
+  font-weight: 740;
+  font-stretch: 112%;
+  letter-spacing: -0.04em;
+}
+
+.gradient-text {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

@@ -1,0 +1,23 @@
+{
+  "description": "Forum registration in a table layout: username, email, password, confirm; labels only, email is a type=text input",
+  "fields": {
+    "#username": "username",
+    "#email": "email",
+    "#new_password": "new-password",
+    "#password_confirm": "confirm-password",
+    "#agree": "none"
+  },
+  "forms": [{ "field": "#new_password", "type": "signup" }],
+  "fills": [
+    {
+      "focus": "#new_password",
+      "pick": "generated-password",
+      "expect": {
+        "#username": "",
+        "#email": "",
+        "#new_password": "Lantern-ruby-T7#qv-42",
+        "#password_confirm": "Lantern-ruby-T7#qv-42"
+      }
+    }
+  ]
+}

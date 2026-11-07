@@ -1,0 +1,386 @@
+---
+// Layout for non-docs pages (landing, changelog, 404). Docs pages use Starlight's own layout.
+import '@fontsource-variable/mona-sans/wdth.css';
+import '@fontsource/monaspace-neon/400.css';
+import '@fontsource/monaspace-neon/600.css';
+import '@fontsource-variable/noto-sans-arabic/wght.css';
+import '../styles/tokens.css';
+import Icon from '../components/Icon.astro';
+import Logo from '../components/Logo.astro';
+import { dirFor, localePath, LOCALES, stringsFor, type Locale } from '../i18n/landing';
+import { REPO_URL, repoFile, SITE_NAME, SITE_URL } from '../site.config';
+
+interface Props {
+  title: string;
+  description: string;
+  jsonLd?: object[];
+  ogType?: 'website' | 'article';
+  locale?: Locale;
+  /** This page's social image, from the /og routes. */
+  ogImage?: string;
+  /** The page's path without a language, when it exists in every language. Adds hreflang links and the language switch. */
+  alternatePath?: string;
+}
+
+const { title, description, jsonLd = [], ogType = 'website', locale = 'en', ogImage: ogPath = '/og.png', alternatePath } = Astro.props;
+const t = stringsFor(locale).site;
+const to = (path: string) => localePath(locale, path);
+const otherLocale: Locale = locale === 'en' ? 'ar' : 'en';
+const canonical = new URL(Astro.url.pathname, SITE_URL).href;
+const ogImage = new URL(ogPath, SITE_URL).href;
+const nav = [
+  { href: to('/#free'), label: t.navFree },
+  { href: to('/docs/security/overview/'), label: t.navSecurity },
+  { href: to('/docs/platforms/support-matrix/'), label: t.navPlatforms },
+  { href: to('/docs/'), label: t.navHelp },
+];
+const current = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang={locale} dir={dirFor(locale)}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {alternatePath && LOCALES.map((lang) => <link rel="alternate" hreflang={lang} href={new URL(localePath(lang, alternatePath), SITE_URL).href} />)}
+    {alternatePath && <link rel="alternate" hreflang="x-default" href={new URL(alternatePath, SITE_URL).href} />}
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title={`${SITE_NAME} changelog`} href="/changelog/rss.xml" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="LLM-readable index (llms.txt)" />
+    <meta name="theme-color" content="#fbfbfd" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:locale" content={locale === 'ar' ? 'ar_AR' : 'en_US'} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    {jsonLd.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}
+    <script is:inline>
+      // Follow the theme chosen in the docs (Starlight stores it under this key).
+      try {
+        const t = localStorage.getItem('starlight-theme');
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">{t.skip}</a>
+    <header class="nav">
+      <div class="nav-inner">
+        <a class="brand" href={to('/')} aria-label={t.home}>
+          <Logo id="nav" size={26} />
+          <span>{SITE_NAME}</span>
+        </a>
+        <nav aria-label={t.mainNav}>
+          {nav.map((item) => (
+            <a href={item.href} aria-current={current.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>
+          ))}
+        </nav>
+        {alternatePath && (
+          <a class="nav-lang" href={localePath(otherLocale, alternatePath)} hreflang={otherLocale} lang={otherLocale}>{t.otherLanguage}</a>
+        )}
+        <a class="nav-src" href={REPO_URL} aria-label={t.sourceOnGitHub}><Icon name="github" size={18} /><span>GitHub</span></a>
+        <a class="nav-cta" href="/changelog/">{t.getUpdates}</a>
+      </div>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+    <footer class="foot">
+      <div class="foot-inner">
+        <div class="foot-brand">
+          <Logo id="foot" size={32} />
+          <p set:html={t.footer} />
+        </div>
+        <div class="foot-cols">
+          <div>
+            <h2>{t.learn}</h2>
+            <ul>
+              <li><a href={to('/docs/')}>{t.documentation}</a></li>
+              <li><a href={to('/docs/security/overview/')}>{t.securityDesign}</a></li>
+              <li><a href={to('/docs/reference/faq/')}>{t.faq}</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2>{t.project}</h2>
+            <ul>
+              <li><a href="/changelog/">{t.changelog}</a></li>
+              <li><a href={to('/docs/reference/roadmap/')}>{t.roadmap}</a></li>
+              <li><a href={REPO_URL}>{t.sourceCode}</a></li>
+              <li><a href={repoFile('LICENSE')}>{t.licence}</a></li>
+              <li><a href={repoFile('CONTRIBUTING.md')}>{t.contributing}</a></li>
+              <li><a href={to('/docs/self-hosting/overview/')}>{t.selfHosting}</a></li>
+            </ul>
+          </div>
+          <div>
+            <h2>{t.forMachines}</h2>
+            <ul>
+              <li><a href="/llms.txt">llms.txt</a></li>
+              <li><a href={to('/docs/contributing/ai-agents/')}>{t.agentSkill}</a></li>
+              <li><a href="/changelog/rss.xml">{t.rss}</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 4rem;
+  }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: var(--step-0);
+    line-height: 1.5;
+    letter-spacing: -0.005em;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  a {
+    color: var(--trust-text);
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+  :focus-visible {
+    outline: 2.5px solid var(--focus);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  code,
+  pre,
+  .mono {
+    font-family: var(--font-mono);
+  }
+  .skip {
+    position: absolute;
+    /* Logical, or on Arabic pages this would add 999px of sideways scrolling. */
+    inset-inline-start: -999px;
+    top: 0.5rem;
+    background: var(--surface);
+    padding: 0.5rem 1rem;
+    z-index: 100;
+  }
+  .skip:focus {
+    inset-inline-start: 0.5rem;
+  }
+  /* Arabic letters join, so tracking breaks them, and tight line-height clips their marks. */
+  html[lang='ar'] * {
+    letter-spacing: 0 !important;
+  }
+  html[lang='ar'] :is(h1, h2, h3) {
+    font-stretch: 100% !important;
+    line-height: 1.3 !important;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-delay: 0ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+</style>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--paper) 72%, transparent);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+  }
+  .nav-inner {
+    max-width: var(--page);
+    margin: 0 auto;
+    height: 3.25rem;
+    padding: 0 var(--gutter);
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--ink);
+    font-weight: 680;
+    font-stretch: 110%;
+    letter-spacing: -0.02em;
+    font-size: 1.05rem;
+  }
+  .brand:hover {
+    text-decoration: none;
+  }
+  nav {
+    display: flex;
+    gap: 1.75rem;
+    margin-inline-start: auto;
+  }
+  nav a {
+    color: var(--mist);
+    font-size: 0.875rem;
+  }
+  nav a:hover,
+  nav a[aria-current='page'] {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-lang {
+    color: var(--mist);
+    font-size: 0.875rem;
+  }
+  .nav-lang:hover {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-src {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--mist);
+    font-size: 0.875rem;
+  }
+  .nav-src:hover {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  /* Just the mark when space is short; its name is in the aria-label. */
+  @media (max-width: 64rem) {
+    .nav-src span {
+      display: none;
+    }
+  }
+  .nav-cta {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    background: #2456f0;
+    padding: 0.4rem 0.95rem;
+    border-radius: 999px;
+  }
+  .nav-cta:hover {
+    text-decoration: none;
+    filter: brightness(1.08);
+  }
+  .brand,
+  nav a,
+  .nav-lang,
+  .nav-cta {
+    white-space: nowrap;
+  }
+  @media (max-width: 64rem) {
+    .nav-inner,
+    nav {
+      gap: 1.25rem;
+    }
+  }
+  /* Below a tablet's width the bar keeps only the language, source and updates links. */
+  @media (max-width: 47.5rem) {
+    nav {
+      display: none;
+    }
+    .nav-lang {
+      margin-inline-start: auto;
+    }
+    nav + .nav-src {
+      margin-inline-start: auto;
+    }
+    .nav-cta {
+      margin-inline-start: 0;
+    }
+    .nav-inner {
+      gap: 1rem;
+    }
+  }
+  /* The narrowest phones: the logo alone carries the brand (the link has an aria-label). */
+  @media (max-width: 24rem) {
+    .brand span {
+      display: none;
+    }
+  }
+
+  .foot {
+    background: var(--tile);
+    color: var(--mist);
+    font-size: var(--step--1);
+  }
+  .foot-inner {
+    max-width: var(--page);
+    margin: 0 auto;
+    padding: 3.5rem var(--gutter) 4rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 2.5rem 4rem;
+  }
+  .foot-brand {
+    display: flex;
+    gap: 0.9rem;
+    align-items: flex-start;
+    max-width: 30rem;
+  }
+  .foot-brand p {
+    margin: 0;
+  }
+  .foot-cols {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 1.5rem 3.5rem;
+  }
+  .foot h2 {
+    font-size: var(--step--1);
+    color: var(--ink);
+    font-weight: 620;
+    margin: 0 0 0.6rem;
+  }
+  .foot ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.45rem;
+  }
+  .foot ul a {
+    color: var(--mist);
+  }
+  .foot ul a:hover {
+    color: var(--ink);
+  }
+  @media (max-width: 52rem) {
+    .foot-inner {
+      grid-template-columns: 1fr;
+    }
+    .foot-cols {
+      grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+    }
+  }
+</style>

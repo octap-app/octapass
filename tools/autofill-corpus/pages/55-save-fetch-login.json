@@ -1,0 +1,19 @@
+{
+  "description": "fetch-based login: submit is cancelled, the page calls fetch() and on completion removes the form and shows \"Signed in\"",
+  "fields": {
+    "#email": "username",
+    "#password": "current-password"
+  },
+  "forms": [{ "field": "#email", "type": "login" }],
+  "saves": [
+    {
+      "steps": [
+        { "type": ["#email", "sam@example.test"] },
+        { "type": ["#password", "Typed-pass-99"] },
+        { "click": "#submit" },
+        { "wait": 500 }
+      ],
+      "expect": { "username": "sam@example.test", "password": "Typed-pass-99", "formType": "login" }
+    }
+  ]
+}

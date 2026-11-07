@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The test app (app.octap.android.test): the forms Octa Pass fills in the smoke tests, and
+     another password manager that hands its items to Octa Pass. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <queries>
+        <package android:name="app.octap.android" />
+        <!-- Its version decides whether credential transfer can run here. -->
+        <package android:name="com.google.android.gms" />
+    </queries>
+
+    <application android:label="Octa Pass test app">
+        <activity
+            android:name="app.octap.android.uitests.FormActivity"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name="app.octap.android.uitests.OtherManagerActivity"
+            android:exported="true"
+            android:requireContentUriPermissionFromCaller="write"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            tools:targetApi="35">
+            <intent-filter>
+                <action android:name="androidx.identitycredentials.action.IMPORT_CREDENTIALS" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/octet-stream" android:scheme="content" />
+            </intent-filter>
+        </activity>
+
+        <service
+            android:name="app.octap.android.uitests.PlainKeyboard"
+            android:exported="true"
+            android:label="Plain keyboard (tests)"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/plain_keyboard" />
+        </service>
+    </application>
+</manifest>

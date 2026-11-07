@@ -1,0 +1,76 @@
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  inline-size: 100%;
+  padding: 0.55rem 0.6rem;
+  border: 0;
+  border-radius: 0.8rem;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color var(--fast) ease;
+}
+
+.row:hover {
+  background: var(--hover);
+}
+
+.row:focus-visible {
+  outline-offset: -2px;
+}
+
+.rowOn,
+.rowOn:hover {
+  background: var(--selected);
+}
+
+.text {
+  flex: 1;
+  min-inline-size: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.title,
+.sub {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.title {
+  font-weight: 600;
+}
+
+.sub {
+  font-size: var(--text-sm);
+  color: var(--mist);
+}
+
+.chevron {
+  flex: none;
+  color: var(--mist);
+  transition: transform var(--fast) var(--ease-out);
+}
+
+.row[aria-expanded='true'] .chevron {
+  transform: rotate(180deg);
+}
+
+/* The logins sit under the site row, indented past its avatar, with a line tying them to it. Two
+   classes, so the list's own margin and padding (passed in as listClassName) don't undo it. */
+.group > .logins {
+  margin-inline-start: 1.65rem;
+  padding-inline-start: 0.45rem;
+  border-inline-start: 2px solid var(--line);
+}

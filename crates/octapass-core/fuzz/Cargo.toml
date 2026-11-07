@@ -1,0 +1,278 @@
+# Fuzz targets for every parser in octapass-core: importers, CSV preview, URL matching, password
+# rules, backup files, share links, sealed keys, passkey requests, otpauth links, QR code images,
+# and the Secret Key, recovery code and item formats. Needs nightly and cargo-fuzz; not run in CI.
+#
+#   cargo install cargo-fuzz
+#   cd crates/octapass-core/fuzz && cargo +nightly fuzz run import_chrome
+[package]
+name = "octapass-core-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2024"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+rand_core = { version = "0.6", features = ["getrandom"] }
+serde_json = "1"
+x25519-dalek = { version = "2", default-features = false, features = ["static_secrets"] }
+octapass-core = { path = ".." }
+
+# Not part of the main workspace.
+[workspace]
+members = ["."]
+
+[[bin]]
+name = "import_chrome"
+path = "fuzz_targets/import_chrome.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "import_firefox"
+path = "fuzz_targets/import_firefox.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "import_safari"
+path = "fuzz_targets/import_safari.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "import_bitwarden"
+path = "fuzz_targets/import_bitwarden.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "import_onepassword_1pux"
+path = "fuzz_targets/import_onepassword_1pux.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "import_onepassword_csv"
+path = "fuzz_targets/import_onepassword_csv.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "import_lastpass"
+path = "fuzz_targets/import_lastpass.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "import_generic_csv"
+path = "fuzz_targets/import_generic_csv.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "import_otpauth"
+path = "fuzz_targets/import_otpauth.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "preview_csv"
+path = "fuzz_targets/preview_csv.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "match_items"
+path = "fuzz_targets/match_items.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "password_rules"
+path = "fuzz_targets/password_rules.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "backup_file"
+path = "fuzz_targets/backup_file.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "share_link"
+path = "fuzz_targets/share_link.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "sealed_key"
+path = "fuzz_targets/sealed_key.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "passkey_request"
+path = "fuzz_targets/passkey_request.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "otpauth_uri"
+path = "fuzz_targets/otpauth_uri.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "secrets_and_items"
+path = "fuzz_targets/secrets_and_items.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "import_cxf"
+path = "fuzz_targets/import_cxf.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "import_octapass"
+path = "fuzz_targets/import_octapass.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "export_archive"
+path = "fuzz_targets/export_archive.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "import_aegis"
+path = "fuzz_targets/import_aegis.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "import_2fas"
+path = "fuzz_targets/import_2fas.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "import_andotp"
+path = "fuzz_targets/import_andotp.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "import_keeper"
+path = "fuzz_targets/import_keeper.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "import_nordpass"
+path = "fuzz_targets/import_nordpass.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "import_roboform"
+path = "fuzz_targets/import_roboform.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "import_protonpass"
+path = "fuzz_targets/import_protonpass.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "import_dashlane"
+path = "fuzz_targets/import_dashlane.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "import_enpass"
+path = "fuzz_targets/import_enpass.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "import_keepass"
+path = "fuzz_targets/import_keepass.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "qr_image"
+path = "fuzz_targets/qr_image.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "import_bitwarden_csv"
+path = "fuzz_targets/import_bitwarden_csv.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "import_raivo"
+path = "fuzz_targets/import_raivo.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "import_ente_auth"
+path = "fuzz_targets/import_ente_auth.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "import_zoho_vault"
+path = "fuzz_targets/import_zoho_vault.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "import_avira"
+path = "fuzz_targets/import_avira.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "import_norton"
+path = "fuzz_targets/import_norton.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "import_mcafee"
+path = "fuzz_targets/import_mcafee.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "import_kaspersky"
+path = "fuzz_targets/import_kaspersky.rs"
+test = false
+doc = false

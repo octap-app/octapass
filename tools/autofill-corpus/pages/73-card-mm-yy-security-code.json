@@ -1,0 +1,26 @@
+{
+  "description": "Card form with separate expiry month and year text inputs (placeholders MM and YY, maxlength 2), a \"Security code\" label that is the card CSC (not a one-time code), and a billing postcode the card fill must leave empty",
+  "fields": {
+    "#number": "cc-number",
+    "#nameoncard": "cc-name",
+    "#expmonth": "cc-exp-month",
+    "#expyear": "cc-exp-year",
+    "#seccode": "cc-csc",
+    "#billzip": "postal-code"
+  },
+  "forms": [{ "field": "#number", "type": "card" }],
+  "fills": [
+    {
+      "focus": "#number",
+      "pick": "card",
+      "expect": {
+        "#number": "4111111111111111",
+        "#nameoncard": "Alex Doe",
+        "#expmonth": "09",
+        "#expyear": "29",
+        "#seccode": "123",
+        "#billzip": ""
+      }
+    }
+  ]
+}

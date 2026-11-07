@@ -1,0 +1,4 @@
+type,account_name,account_holder,cc_number,code,expiration_month,expiration_year,routing_number,account_number,country,issuing_bank,note,name
+payment_card,JANE Q DOE,,4111111111111111,123,08,2029,,,US,Example Bank,"Travel card
+Call before trips",Visa
+bank,Checking,Jane Q. Doe,,,,,021000021,000123456789,US,Example Bank,,

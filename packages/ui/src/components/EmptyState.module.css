@@ -1,0 +1,36 @@
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  min-block-size: 100%;
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  inline-size: 3.5rem;
+  block-size: 3.5rem;
+  margin-block-end: 0.5rem;
+  border-radius: 1.1rem;
+  background: var(--tile);
+  color: var(--mist);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.title {
+  font-size: var(--text-lg);
+  font-weight: 680;
+}
+
+.body {
+  max-inline-size: 34ch;
+  color: var(--mist);
+}
+
+.action {
+  margin-block-start: 0.75rem;
+}

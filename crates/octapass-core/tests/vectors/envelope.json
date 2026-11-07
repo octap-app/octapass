@@ -1,0 +1,42 @@
+{
+  "cases": [
+    {
+      "associatedData": "octapass/v1|ask",
+      "context": "ask",
+      "envelope": "ATvTBGLP6dXkFbkT0j7SCcn2oSyo_8MKZsoUDMxydjNhFYGTYRhtP1PypmjJkZDhpS6fNwuTOa4y",
+      "nonce": "9qEsqP_DCmbKFAzMcnYzYRWBk2EYbT9T",
+      "plaintext": ""
+    },
+    {
+      "associatedData": "octapass/v1|vaultkey:0192f0c8-1c2d-7a00-8000-0000000000aa",
+      "context": "vaultkey:0192f0c8-1c2d-7a00-8000-0000000000aa",
+      "envelope": "ATvTBGLP6dXkFbkT0j7SCcld2Z-OqsqPzn-C3WP091wz2kRLcjcr46redTsRKuXzFjtpmT0oFLMuj5BITcJtS0E3wRdFITQivyTK5m3M-k8EWw_2MVOWHWs",
+      "nonce": "XdmfjqrKj85_gt1j9PdcM9pES3I3K-Oq",
+      "plaintext": "QkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkI"
+    },
+    {
+      "associatedData": "octapass/v1|itemkey:0192f0c8-1c2d-7a00-8000-0000000000aa:0192f0c8-1c2d-7a00-8000-0000000000bb",
+      "context": "itemkey:0192f0c8-1c2d-7a00-8000-0000000000aa:0192f0c8-1c2d-7a00-8000-0000000000bb",
+      "envelope": "ATvTBGLP6dXkFbkT0j7SCclDwAJ6B2v5Z163kyaV0SekSsozcU2US-F8nle-4yMJXvPrv_1FR2yPjZyCd8WWPD1l80wPOij93TxYRLxAwCfwJNY5Ye8sJEA",
+      "nonce": "Q8ACegdr-Wdet5MmldEnpErKM3FNlEvh",
+      "plaintext": "Q0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0NDQ0M"
+    },
+    {
+      "associatedData": "octapass/v1|item:0192f0c8-1c2d-7a00-8000-0000000000aa:0192f0c8-1c2d-7a00-8000-0000000000bb:overview",
+      "context": "item:0192f0c8-1c2d-7a00-8000-0000000000aa:0192f0c8-1c2d-7a00-8000-0000000000bb:overview",
+      "envelope": "ATvTBGLP6dXkFbkT0j7SCcluimbiVehWrvdWC0SgfZLLx64SYYtU1epsiBfNg5R8A2-ymDoepADyYXS8xpTWZdtQBsK6VKDjb9XckmrsYw4mXRm3XR2oAGkDtTNj6F8yjXSD_RwfT8rrnMtZ",
+      "nonce": "bopm4lXoVq73VgtEoH2Sy8euEmGLVNXq",
+      "plaintext": "eyJzY2hlbWFWZXJzaW9uIjoxLCJ0aXRsZSI6IkdpdEh1YiIsInR5cGUiOiJsb2dpbiJ9"
+    },
+    {
+      "associatedData": "octapass/v1|item:0192f0c8-1c2d-7a00-8000-0000000000aa:0192f0c8-1c2d-7a00-8000-0000000000bb:details",
+      "context": "item:0192f0c8-1c2d-7a00-8000-0000000000aa:0192f0c8-1c2d-7a00-8000-0000000000bb:details",
+      "envelope": "ATvTBGLP6dXkFbkT0j7SCcmIkuGwWMGjyzVKWNLzN-e5_2ZHSEtNwY1RmXKbEFQjUIKMWrJ1H49vBBTfPSlDEvCUDWSAMJDkzdFIcXwZUdIuajhVu-F5FMNkATdBMpw7_Q",
+      "nonce": "iJLhsFjBo8s1SljS8zfnuf9mR0hLTcGN",
+      "plaintext": "eyJzY2hlbWFWZXJzaW9uIjoxLCJwYXNzd29yZCI6Imh1bnRlcjIifQ"
+    }
+  ],
+  "description": "XChaCha20-Poly1305 envelopes: version (0x01) || keyId (16) || nonce (24) || ciphertext || tag (16).",
+  "key": "gIGCg4SFhoeIiYqLjI2Oj5CRkpOUlZaXmJmam5ydnp8",
+  "keyId": "O9MEYs_p1eQVuRPSPtIJyQ"
+}

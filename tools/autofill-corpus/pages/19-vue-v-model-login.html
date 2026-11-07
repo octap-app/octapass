@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Log in — Meadow Tasks</title>
+<style>
+  body { margin: 0; font: 15px/1.5 "Avenir Next", system-ui, sans-serif; background: #ecfdf5; color: #064e3b; }
+  #app { width: 360px; margin: 70px auto; background: #fff; border-radius: 14px; padding: 28px; box-shadow: 0 4px 18px rgba(6,78,59,.12); }
+  label { display: block; font-size: 13px; margin: 12px 0 4px; }
+  input { width: 100%; box-sizing: border-box; padding: 9px 11px; border: 1px solid #a7f3d0; border-radius: 8px; font: inherit; }
+  button { width: 100%; margin-top: 18px; padding: 10px; border: 0; border-radius: 8px; background: #10b981; color: #fff; font: inherit; font-weight: 600; }
+  button:disabled { opacity: .5; }
+  .state { margin-top: 14px; font: 12px ui-monospace, monospace; color: #047857; }
+</style>
+</head>
+<body>
+<div id="app">
+  <h1 style="font-size:22px;margin:0">Meadow Tasks</h1>
+  <form id="vue-login">
+    <label for="login-user">Email or username</label>
+    <input id="login-user" name="user" type="text">
+    <label for="login-pass">Password</label>
+    <input id="login-pass" name="pass" type="password">
+    <button id="login-submit" type="submit" disabled>Log in</button>
+  </form>
+  <div class="state">form.user: <output id="vm-user"></output><br>form.pass: <output id="vm-pass"></output></div>
+</div>
+<script>
+/* Inline emulation of Vue 3 `v-model` on text inputs (vModelText): listens to `input`
+ * (ignored while composing) and assigns el.value to the model; every re-render writes the
+ * model back into any input whose DOM value differs. A `.value` write without an `input`
+ * event never reaches the model and is overwritten by the next render. */
+(function () {
+  var model = { user: '', pass: '' };
+  var els = { user: document.getElementById('login-user'), pass: document.getElementById('login-pass') };
+  function render() {
+    Object.keys(els).forEach(function (k) { var el = els[k]; if (!el.composing && el.value !== model[k]) el.value = model[k]; });
+    document.getElementById('vm-user').textContent = model.user;
+    document.getElementById('vm-pass').textContent = model.pass;
+    document.getElementById('login-submit').disabled = !(model.user && model.pass);
+  }
+  var scheduled = false;
+  function queueRender() { if (!scheduled) { scheduled = true; Promise.resolve().then(function () { scheduled = false; render(); }); } }
+  Object.keys(els).forEach(function (k) {
+    var el = els[k];
+    el.addEventListener('compositionstart', function () { el.composing = true; });
+    el.addEventListener('compositionend', function () { el.composing = false; el.dispatchEvent(new Event('input')); });
+    el.addEventListener('input', function (e) { if (e.target.composing) return; model[k] = el.value; queueRender(); });
+  });
+  document.getElementById('vue-login').addEventListener('submit', function (e) { e.preventDefault(); });
+  render();
+})();
+</script>
+</body>
+</html>

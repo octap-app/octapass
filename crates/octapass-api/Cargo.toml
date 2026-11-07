@@ -1,0 +1,18 @@
+[package]
+name = "octapass-api"
+version = "0.1.0"
+description = "Request and response types for the Octa Pass sync API v1"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[features]
+# Derives OpenAPI schemas with utoipa. Off by default so clients don't pull it in.
+openapi = ["dep:utoipa"]
+
+[dependencies]
+serde.workspace = true
+utoipa = { version = "5", optional = true }
+
+[dev-dependencies]
+serde_json.workspace = true

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in · Beacon Analytics</title>
+<style>
+  body { margin: 0; font: 14px/1.5 Roboto, Arial, sans-serif; background: #fafafa; color: #212121; }
+  .toolbar { background: #3f51b5; color: #fff; padding: 16px 24px; font-size: 18px; }
+  .mat-card { width: 380px; margin: 50px auto; background: #fff; padding: 24px; border-radius: 4px; box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 3px rgba(0,0,0,.12); }
+  .mat-form-field { margin-bottom: 16px; }
+  .mat-form-field label { display: block; font-size: 12px; color: rgba(0,0,0,.6); }
+  .mat-form-field input { width: 100%; box-sizing: border-box; border: 0; border-bottom: 1px solid rgba(0,0,0,.42); padding: 6px 0; font: inherit; outline: none; }
+  input.ng-touched.ng-invalid { border-bottom-color: #f44336; }
+  button { background: #3f51b5; color: #fff; border: 0; border-radius: 4px; padding: 8px 18px; font: inherit; text-transform: uppercase; }
+  button:disabled { background: rgba(0,0,0,.12); color: rgba(0,0,0,.38); }
+  .debug { font: 12px monospace; color: #555; margin-top: 16px; }
+</style>
+</head>
+<body>
+<div class="toolbar">Beacon Analytics</div>
+<div class="mat-card">
+  <h2 style="margin-top:0;font-weight:500">Sign in</h2>
+  <form id="ng-form" novalidate class="ng-untouched ng-pristine ng-invalid">
+    <div class="mat-form-field">
+      <label for="mat-input-0">Email</label>
+      <input id="mat-input-0" formcontrolname="email" type="email" class="ng-untouched ng-pristine ng-invalid">
+    </div>
+    <div class="mat-form-field">
+      <label for="mat-input-1">Password</label>
+      <input id="mat-input-1" formcontrolname="password" type="password" class="ng-untouched ng-pristine ng-invalid">
+    </div>
+    <button id="ng-submit" type="submit" disabled>Sign in</button>
+  </form>
+  <div class="debug">
+    value: {"email":"<output id="ng-email"></output>","password":"<output id="ng-password"></output>"}<br>
+    status: <output id="ng-status"></output> · <output id="ng-dirty"></output>
+  </div>
+</div>
+<script>
+/* Inline emulation of an Angular reactive form with DefaultValueAccessor:
+ * (input) -> control.setValue(el.value) + markAsDirty, (blur) -> markAsTouched.
+ * Validators: email required + email pattern, password required + minlength 8.
+ * Model -> view only happens on programmatic setValue, so a `.value` write without an
+ * `input` event leaves the model empty and the form INVALID. */
+(function () {
+  var form = document.getElementById('ng-form');
+  var controls = {
+    email: { el: document.getElementById('mat-input-0'), value: '', dirty: false, touched: false,
+      validate: function (v) { return !!v && /^[^@\s]+@[^@\s]+$/.test(v); } },
+    password: { el: document.getElementById('mat-input-1'), value: '', dirty: false, touched: false,
+      validate: function (v) { return !!v && v.length >= 8; } }
+  };
+  function cls(el, valid, dirty, touched) {
+    el.className = [touched ? 'ng-touched' : 'ng-untouched', dirty ? 'ng-dirty' : 'ng-pristine', valid ? 'ng-valid' : 'ng-invalid'].join(' ');
+  }
+  function update() {
+    var valid = true, dirty = false, touched = false;
+    Object.keys(controls).forEach(function (k) {
+      var c = controls[k], v = c.validate(c.value);
+      valid = valid && v; dirty = dirty || c.dirty; touched = touched || c.touched;
+      cls(c.el, v, c.dirty, c.touched);
+    });
+    cls(form, valid, dirty, touched);
+    document.getElementById('ng-email').textContent = controls.email.value;
+    document.getElementById('ng-password').textContent = controls.password.value;
+    document.getElementById('ng-status').textContent = valid ? 'VALID' : 'INVALID';
+    document.getElementById('ng-dirty').textContent = dirty ? 'dirty' : 'pristine';
+    document.getElementById('ng-submit').disabled = !valid;
+  }
+  Object.keys(controls).forEach(function (k) {
+    var c = controls[k];
+    var composing = false;
+    c.el.addEventListener('compositionstart', function () { composing = true; });
+    c.el.addEventListener('compositionend', function () { composing = false; c.value = c.el.value; c.dirty = true; update(); });
+    c.el.addEventListener('input', function () { if (composing) return; c.value = c.el.value; c.dirty = true; update(); });
+    c.el.addEventListener('blur', function () { c.touched = true; update(); });
+  });
+  form.addEventListener('submit', function (e) { e.preventDefault(); });
+  update();
+})();
+</script>
+</body>
+</html>

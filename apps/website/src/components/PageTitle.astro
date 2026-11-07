@@ -1,0 +1,25 @@
+---
+import Default from '@astrojs/starlight/components/PageTitle.astro';
+
+const { entry, lang } = Astro.locals.starlightRoute;
+const status = (entry.data as { status?: string }).status;
+const labels: Record<string, Record<string, string>> = {
+  en: {
+    planned: 'Planned: design only, not built yet',
+    'in-progress': 'In progress',
+    beta: 'Beta',
+    stable: 'Stable',
+  },
+  ar: {
+    planned: 'مخطط له: تصميم فقط، لم يُبنَ بعد',
+    'in-progress': 'قيد التطوير',
+    beta: 'تجريبي',
+    stable: 'مستقر',
+  },
+};
+---
+
+<Default />
+{status && status !== 'stable' && (
+  <p class="op-status" data-status={status}>{(labels[lang] ?? labels.en)[status]}</p>
+)}

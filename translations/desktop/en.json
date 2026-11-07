@@ -1,0 +1,56 @@
+{
+  "passkeyProvider": {
+    "title": "Passkeys in Windows",
+    "help": "Let Windows and your browsers save and use passkeys from Octa Pass.",
+    "switch": "Use Octa Pass as a passkey provider",
+    "switchHelp": "Off by default, and only for this device. Each use asks for Windows Hello.",
+    "enable": "Turn on Octa Pass in Windows Settings",
+    "enableHelp": "One more step: Windows asks you to turn it on under Accounts → Passkeys → Advanced options.",
+    "openSettings": "Open Windows Settings",
+    "enabled": "Windows is using Octa Pass for passkeys.",
+    "failed": "Windows didn’t accept the change. Try again."
+  },
+  "quick": {
+    "search": "Search logins",
+    "results": "Logins",
+    "empty": "No logins yet.",
+    "noMatch": "Nothing matches “{query}”.",
+    "copied": "{what} for {title} copied. The clipboard clears in {count} s.",
+    "nothingToCopy": "{title} has no {what} to copy.",
+    "fields": {
+      "username": "username",
+      "password": "password",
+      "code": "one-time code"
+    },
+    "keys": {
+      "password": "password",
+      "username": "username",
+      "code": "code",
+      "type": "type",
+      "close": "close"
+    },
+    "autoType": {
+      "action": "Type into the window",
+      "typing": "Typing {title}…",
+      "copied": "Auto-type isn’t available here, so the password for {title} was copied. The clipboard clears in {count} s.",
+      "permission": "To type, Octa Pass needs the Accessibility permission: System Settings → Privacy & Security → Accessibility.",
+      "openSettings": "Open System Settings",
+      "screenLocked": "The screen is locked, so nothing was typed.",
+      "noWindow": "There’s no window to type into.",
+      "ownWindow": "Octa Pass doesn’t type into its own windows.",
+      "focusChanged": "{window} took focus, so typing stopped.",
+      "noMatch": "{window} isn’t a window for {title}. Add its title to the login’s auto-type windows in Octa Pass.",
+      "keysHeld": "Let go of the keys, then try again.",
+      "missingField": "{title} has no {what} to type.",
+      "invalidSequence": "The auto-type sequence of {title} has a mistake. Fix it in Octa Pass.",
+      "failed": "Couldn’t type. Try again.",
+      "into": "Type into {window}",
+      "noLogin": "No login is set up for {window}. Pick one, or add the window to a login’s auto-type windows.",
+      "pick": "Pick a login to type."
+    },
+    "locked": "Octa Pass is locked",
+    "signedOut": "Sign in to Octa Pass first",
+    "unlockFailed": "Not unlocked. Try again, or open Octa Pass and use your master password.",
+    "openApp": "Open Octa Pass"
+  }
+}

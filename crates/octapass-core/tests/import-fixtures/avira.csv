@@ -1,0 +1,6 @@
+name,website,username,secondary_username,password
+GitHub,https://github.com/login,jane,jane@example.com,"av,ira ""pw"""
+,https://mail.example.com,,jane@mail.example.com,mail-pass
+بنك الأمل,https://bank.example.sa,جميلة,,كلمة-سر-١٢٣
+,,,,
+No fields,,,,

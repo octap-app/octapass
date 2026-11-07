@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Create your account</title>
+    <style>
+      body { font: 16px system-ui; margin: 3rem; }
+      form { display: grid; gap: 0.75rem; max-width: 20rem; }
+      input { font: inherit; padding: 0.5rem; }
+    </style>
+  </head>
+  <body>
+    <h1>Create an account</h1>
+    <form id="signup" onsubmit="event.preventDefault(); document.getElementById('done').hidden = false">
+      <label>Email <input id="email" type="email" name="email" autocomplete="username" /></label>
+      <label>Password <input id="new" type="password" name="password" autocomplete="new-password" minlength="12" /></label>
+      <label>Confirm password <input id="confirm" type="password" name="confirm" autocomplete="new-password" /></label>
+      <button type="submit">Create account</button>
+    </form>
+    <p id="done" hidden>Welcome!</p>
+  </body>
+</html>

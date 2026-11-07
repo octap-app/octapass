@@ -1,0 +1,43 @@
+[package]
+name = "octapass-wasm"
+version = "0.1.0"
+description = "WebAssembly bindings of octapass-core for the Octa Pass web vault (built into @octapass/core)."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[features]
+default = ["strength", "qr-images", "pgp", "toolkit"]
+# `estimateStrength` (zxcvbn, about 2.5 MB of the module). The web vault's build leaves it out.
+strength = ["octapass-core/strength"]
+# `readQrImage` (PNG, JPEG, WebP and GIF decoders, about 400 KB). The web vault's build leaves it out
+# and decodes images with the browser for `readQrPixels`.
+qr-images = ["octapass-core/qr-images"]
+# Proton Pass's PGP-encrypted export (rPGP, about 1.1 MB). The web vault's build leaves it out: its
+# worker loads the full build to read such a file.
+pgp = ["octapass-core/pgp"]
+# The developer toolkit (`toolRun`, `StreamHasher`). The web vault's own build leaves it out; its worker
+# loads the small tools build (`dist/tools`) when the Tools section opens.
+toolkit = ["octapass-core/toolkit"]
+# Adds `TestOpaqueServer`, an in-WASM OPAQUE server for tests. Only the Node.js build enables it.
+test-server = ["octapass-core/opaque-server"]
+
+[dependencies]
+octapass-core = { path = "../octapass-core", default-features = false }
+rand_core.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+zeroize.workspace = true
+js-sys = "0.3"
+serde-wasm-bindgen = "0.6"
+wasm-bindgen = "0.2"
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+# OsRng → crypto.getRandomValues
+getrandom = { version = "0.2", features = ["js"] }
+
+[package.metadata.wasm-pack.profile.release]
+wasm-opt = ["-O3"]

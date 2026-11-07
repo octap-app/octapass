@@ -1,0 +1,55 @@
+[package]
+name = "octapass-desktop"
+description = "The Octa Pass desktop app for Windows and Linux (the Mac app is apps/macos)."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+default-run = "octapass-desktop"
+
+[features]
+# Mounting a Safe as a folder on Linux.
+fuse = ["octapass-files/fuse"]
+
+[lib]
+name = "octapass_desktop_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+octapass-desktop-vault.workspace = true
+octapass-device-unlock.workspace = true
+octapass-native-host.workspace = true
+octapass-autotype.workspace = true
+octapass-wifi.workspace = true
+octapass-windows-passkey.workspace = true
+octapass-connect.workspace = true
+octapass-ssh-agent.workspace = true
+octapass-login-item.workspace = true
+octapass-api.workspace = true
+octapass-core = { workspace = true, features = ["age-files"] }
+octapass-files = { workspace = true, features = ["age-files"] }
+octapass-net-tools.workspace = true
+base64.workspace = true
+rand_core.workspace = true
+tempfile.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+zeroize = { workspace = true, features = ["serde"] }
+tokio.workspace = true
+tauri = { version = "2", features = ["tray-icon"] }
+tauri-plugin-global-shortcut = "2"
+# Opening the app again (or at login while it runs) shows the running one instead of a second copy.
+tauri-plugin-single-instance = "2"
+tauri-plugin-dialog = "2"
+arboard = "3"
+# Attachment names and types travel in IPC headers, percent-encoded.
+percent-encoding = "2"
+
+[dev-dependencies]
+octapass-device-unlock = { workspace = true, features = ["fake"] }
+octapass-native-host = { workspace = true, features = ["testing"] }
+tempfile.workspace = true

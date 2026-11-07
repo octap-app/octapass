@@ -1,0 +1,376 @@
+{
+  "types": {
+    "bankAccount": [
+      {
+        "key": "bankName",
+        "kind": "text",
+        "choices": []
+      },
+      {
+        "key": "accountHolder",
+        "kind": "text",
+        "choices": []
+      },
+      {
+        "key": "accountType",
+        "kind": "choice",
+        "choices": [
+          "checking",
+          "savings",
+          "business",
+          "other"
+        ]
+      },
+      {
+        "key": "iban",
+        "kind": "code",
+        "choices": []
+      },
+      {
+        "key": "accountNumber",
+        "kind": "code",
+        "choices": []
+      },
+      {
+        "key": "routingNumber",
+        "kind": "code",
+        "choices": []
+      },
+      {
+        "key": "swift",
+        "kind": "code",
+        "choices": []
+      },
+      {
+        "key": "branch",
+        "kind": "text",
+        "choices": []
+      },
+      {
+        "key": "pin",
+        "kind": "secret",
+        "choices": []
+      }
+    ],
+    "apiCredential": [
+      {
+        "key": "credentialType",
+        "kind": "choice",
+        "choices": [
+          "apiKey",
+          "bearerToken",
+          "oauth",
+          "jwt",
+          "basicAuth",
+          "other"
+        ]
+      },
+      {
+        "key": "username",
+        "kind": "text",
+        "choices": []
+      },
+      {
+        "key": "key",
+        "kind": "secretLong",
+        "choices": []
+      },
+      {
+        "key": "secret",
+        "kind": "secretLong",
+        "choices": []
+      },
+      {
+        "key": "host",
+        "kind": "code",
+        "choices": []
+      },
+      {
+        "key": "expiryDate",
+        "kind": "date",
+        "choices": []
+      }
+    ],
+    "softwareLicense": [
+      {
+        "key": "product",
+        "kind": "text",
+        "choices": []
+      },
+      {
+        "key": "version",
+        "kind": "text",
+        "choices": []
+      },
+      {
+        "key": "licenseKey",
+        "kind": "secretLong",
+        "choices": []
+      },
+      {
+        "key": "licensedTo",
+        "kind": "text",
+        "choices": []
+      },
+      {
+        "key": "email",
+        "kind": "email",
+        "choices": []
+      },
+      {
+        "key": "publisher",
+        "kind": "text",
+        "choices": []
+      },
+      {
+        "key": "orderNumber",
+        "kind": "code",
+        "choices": []
+      },
+      {
+        "key": "purchaseDate",
+        "kind": "date",
+        "choices": []
+      },
+      {
+        "key": "expiryDate",
+        "kind": "date",
+        "choices": []
+      }
+    ],
+    "idDocument": [
+      {
+        "key": "documentType",
+        "kind": "choice",
+        "choices": [
+          "passport",
+          "driverLicense",
+          "nationalId",
+          "other"
+        ]
+      },
+      {
+        "key": "number",
+        "kind": "secret",
+        "choices": []
+      },
+      {
+        "key": "fullName",
+        "kind": "text",
+        "choices": []
+      },
+      {
+        "key": "birthDate",
+        "kind": "date",
+        "choices": []
+      },
+      {
+        "key": "issuer",
+        "kind": "text",
+        "choices": []
+      },
+      {
+        "key": "country",
+        "kind": "text",
+        "choices": []
+      },
+      {
+        "key": "issueDate",
+        "kind": "date",
+        "choices": []
+      },
+      {
+        "key": "expiryDate",
+        "kind": "date",
+        "choices": []
+      }
+    ],
+    "cryptoWallet": [
+      {
+        "key": "walletName",
+        "kind": "text",
+        "choices": []
+      },
+      {
+        "key": "seedPhrase",
+        "kind": "secretLong",
+        "choices": []
+      },
+      {
+        "key": "passphrase",
+        "kind": "secret",
+        "choices": []
+      }
+    ],
+    "database": [
+      {
+        "key": "databaseType",
+        "kind": "choice",
+        "choices": [
+          "postgresql",
+          "mysql",
+          "sqlServer",
+          "oracle",
+          "mongodb",
+          "redis",
+          "sqlite",
+          "server",
+          "other"
+        ]
+      },
+      {
+        "key": "host",
+        "kind": "code",
+        "choices": []
+      },
+      {
+        "key": "port",
+        "kind": "port",
+        "choices": []
+      },
+      {
+        "key": "database",
+        "kind": "code",
+        "choices": []
+      },
+      {
+        "key": "username",
+        "kind": "text",
+        "choices": []
+      },
+      {
+        "key": "password",
+        "kind": "secret",
+        "choices": []
+      },
+      {
+        "key": "connectionString",
+        "kind": "secretLong",
+        "choices": []
+      }
+    ]
+  },
+  "customKinds": [
+    "text",
+    "hidden",
+    "multiline",
+    "url",
+    "date",
+    "email",
+    "phone",
+    "totp"
+  ],
+  "validate": [
+    {
+      "type": "bankAccount",
+      "details": {
+        "iban": "DE89 3704 0044 0532 0130 00",
+        "swift": "COBADEFFXXX"
+      },
+      "errors": []
+    },
+    {
+      "type": "bankAccount",
+      "details": {
+        "iban": "DE89370400440532013001",
+        "swift": "nope"
+      },
+      "errors": [
+        [
+          "iban",
+          "iban"
+        ],
+        [
+          "swift",
+          "swift"
+        ]
+      ]
+    },
+    {
+      "type": "apiCredential",
+      "details": {
+        "expiryDate": "31/01/2030"
+      },
+      "errors": [
+        [
+          "expiryDate",
+          "date"
+        ]
+      ]
+    },
+    {
+      "type": "softwareLicense",
+      "details": {
+        "email": "not an email",
+        "purchaseDate": "2024-02-30"
+      },
+      "errors": [
+        [
+          "email",
+          "email"
+        ],
+        [
+          "purchaseDate",
+          "date"
+        ]
+      ]
+    },
+    {
+      "type": "idDocument",
+      "details": {
+        "issueDate": "2020-02-29",
+        "expiryDate": "2030-13-01"
+      },
+      "errors": [
+        [
+          "expiryDate",
+          "date"
+        ]
+      ]
+    },
+    {
+      "type": "database",
+      "details": {
+        "port": "70000"
+      },
+      "errors": [
+        [
+          "port",
+          "port"
+        ]
+      ]
+    },
+    {
+      "type": "database",
+      "details": {
+        "port": " 5432 "
+      },
+      "errors": []
+    },
+    {
+      "type": "cryptoWallet",
+      "details": {
+        "addresses": [
+          {
+            "network": "bitcoin",
+            "address": "bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq"
+          },
+          {
+            "network": "bitcoin",
+            "address": "legal winner thank year wave sausage worth useful"
+          },
+          {
+            "network": "x",
+            "address": ""
+          }
+        ]
+      },
+      "errors": [
+        [
+          "addresses.1",
+          "walletAddress"
+        ]
+      ]
+    }
+  ]
+}

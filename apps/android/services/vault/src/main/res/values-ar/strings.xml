@@ -1,0 +1,7 @@
+<resources>
+    <string name="octapass_use_screen_lock">استخدام قفل الشاشة</string>
+    <string name="octapass_lock_screen_lock">قفل الشاشة</string>
+    <string name="octapass_lock_fingerprint">بصمة الإصبع</string>
+    <string name="octapass_lock_face">فتح القفل بالوجه</string>
+    <string name="octapass_lock_biometrics">القياسات الحيوية</string>
+</resources>

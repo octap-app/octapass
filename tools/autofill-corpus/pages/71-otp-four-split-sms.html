@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Confirm your number · Bramble Delivery</title>
+<style>
+  body { margin: 0; font: 16px/1.5 system-ui, sans-serif; background: #fefce8; color: #422006; }
+  .card { width: 380px; margin: 90px auto; background: #fff; border-radius: 18px; padding: 30px; text-align: center; box-shadow: 0 6px 24px rgba(66,32,6,.1); }
+  h1 { font-size: 22px; margin: 0 0 8px; }
+  .pins { display: flex; justify-content: center; gap: 14px; margin: 24px 0; }
+  .pins input { width: 54px; height: 62px; text-align: center; font-size: 28px; border: 2px solid #fde047; border-radius: 12px; }
+  button { padding: 11px 30px; border: 0; border-radius: 999px; background: #ca8a04; color: #fff; font: inherit; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Enter the 4-digit code</h1>
+  <p>We sent an SMS to +44 7700 900123.</p>
+  <form id="sms-verify" action="/verify-phone" method="post">
+    <div class="pins">
+      <input id="pin-1" name="pin[]" type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]">
+      <input id="pin-2" name="pin[]" type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]">
+      <input id="pin-3" name="pin[]" type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]">
+      <input id="pin-4" name="pin[]" type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]">
+    </div>
+    <button type="submit">Confirm</button>
+  </form>
+  <p style="font-size:14px">Didn't get it? <a href="#resend">Send a new code</a></p>
+</div>
+<script>
+  var pins = Array.prototype.slice.call(document.querySelectorAll('.pins input'));
+  pins.forEach(function (pin, i) {
+    pin.addEventListener('input', function () {
+      pin.value = pin.value.replace(/\D/g, '').slice(-1);
+      if (pin.value && pins[i + 1]) pins[i + 1].focus();
+    });
+  });
+  document.getElementById('sms-verify').onsubmit = function (e) { e.preventDefault(); };
+</script>
+</body>
+</html>

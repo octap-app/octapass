@@ -1,0 +1,10 @@
+﻿Name,Url,MatchUrl,Login,Pwd,Note,Folder,RfFieldsV2
+GitHub,https://github.com/login,https://github.com/,octo@example.com,"rf-pass,with ""quotes""","Deploy notes
+second line",/Work/Dev,"User ID$,,,txt,octo@example.com","Password$,,,pwd,""rf-pass,with """"quotes""""""","TOTP KEY$,,,txt,JBSWY3DPEHPK3PXP","Account ID,acct,,txt,12345","Old Password$,,,pwd,older-pass"
+بنك الأمل,https://bank.example.jo/login,https://bank.example.jo/login,مستخدم,كلمة-سر-١٢٣,"ملاحظة بالعربية
+سطر ثاني",/عائلة,"User ID$,,,txt,مستخدم","Password$,,,pwd,كلمة-سر-١٢٣"
+Twitter,https://twitter.com/login,https://twitter.com/login,'@handle,''quote-first,,/Social,"User ID$,,,txt,'@handle","Password$,,,pwd,''quote-first","-no-name-,remember_me,,chk,*"
+Diary,,,,,"Dear diary,
+emoji 🔐 and ""quotes""",/Personal
+News,https://news.example.com,,,,,/Bookmarks
+Empty row,,,,,,

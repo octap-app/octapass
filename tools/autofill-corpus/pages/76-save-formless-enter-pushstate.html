@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Larkspur Analytics</title>
+<style>
+  body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: #f5f3ff; color: #2e1065; }
+  #app { min-height: 100vh; }
+  .login { width: 340px; margin: 100px auto; background: #fff; border-radius: 12px; padding: 26px; box-shadow: 0 4px 18px rgba(46,16,101,.1); }
+  .login h1 { margin: 0 0 16px; font-size: 20px; }
+  .login .in { margin-bottom: 12px; }
+  .login .in span { display: block; font-size: 13px; margin-bottom: 4px; }
+  .login input { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #ddd6fe; border-radius: 8px; font: inherit; }
+  .login .tip { font-size: 12px; color: #7c3aed; }
+  .dash { padding: 30px 40px; }
+  .kpis { display: flex; gap: 16px; }
+  .kpi { background: #fff; border-radius: 10px; padding: 16px 20px; min-width: 140px; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="login">
+    <h1>Sign in to Larkspur</h1>
+    <div class="in"><span>Workspace email</span><input id="ws-email" type="email" aria-label="Workspace email"></div>
+    <div class="in"><span>Password</span><input id="ws-pass" type="password" aria-label="Password"></div>
+    <div class="tip">Press Enter to sign in</div>
+  </div>
+</div>
+<script>
+  /* Formless SPA: Enter in the password field signs in. The whole login view is
+   * replaced by the dashboard markup and a new history entry is pushed. */
+  document.getElementById('ws-pass').addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter') return;
+    var email = document.getElementById('ws-email').value;
+    if (!email || !e.target.value) return;
+    setTimeout(function () {
+      history.pushState({ page: 'dashboard' }, '', '/dashboard');
+      document.getElementById('app').innerHTML =
+        '<div class="dash"><h1 id="hello"></h1><div class="kpis">' +
+        '<div class="kpi"><b>12,408</b><br>visits</div><div class="kpi"><b>3.2%</b><br>conversion</div></div></div>';
+      document.getElementById('hello').textContent = 'Dashboard · ' + email;
+    }, 50);
+  });
+</script>
+</body>
+</html>

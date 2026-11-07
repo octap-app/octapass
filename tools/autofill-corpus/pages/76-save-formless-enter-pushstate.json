@@ -1,0 +1,26 @@
+{
+  "description": "Formless SPA login with no button: Enter in the password field signs in, the login markup is removed (innerHTML replaced by a dashboard) and history.pushState moves to /dashboard",
+  "fields": {
+    "#ws-email": "username",
+    "#ws-pass": "current-password"
+  },
+  "forms": [{ "field": "#ws-email", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#ws-email",
+      "pick": "login",
+      "expect": { "#ws-email": "alex@example.test", "#ws-pass": "correct-horse-42!" }
+    }
+  ],
+  "saves": [
+    {
+      "steps": [
+        { "type": ["#ws-email", "sam@example.test"] },
+        { "type": ["#ws-pass", "Typed-pass-99"] },
+        { "press": "Enter" },
+        { "wait": 300 }
+      ],
+      "expect": { "username": "sam@example.test", "password": "Typed-pass-99", "formType": "login" }
+    }
+  ]
+}

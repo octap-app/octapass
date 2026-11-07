@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Sparrow Letter</title>
+<style>
+  body { margin: 0; font: 16px/1.6 Georgia, serif; background: #fff1f2; color: #4c0519; }
+  article { width: 640px; margin: 40px auto; }
+  .signup { background: #fff; border: 2px solid #fecdd3; border-radius: 14px; padding: 22px 26px; }
+  .signup .row { display: flex; gap: 10px; margin-top: 10px; }
+  .signup input { flex: 1; padding: 10px 12px; border: 1px solid #fda4af; border-radius: 8px; font: 15px system-ui, sans-serif; }
+  .signup button { padding: 10px 18px; border: 0; border-radius: 8px; background: #e11d48; color: #fff; font: 15px system-ui, sans-serif; }
+</style>
+</head>
+<body>
+<article>
+  <h1>The Sparrow Letter</h1>
+  <p>One seasonal recipe, one kitchen trick, every Sunday morning. No spam, unsubscribe any time.</p>
+  <form class="signup" id="newsletter" action="/subscribe" method="post">
+    <b>Get the letter</b>
+    <div class="row">
+      <input id="nl-first" name="FNAME" type="text" placeholder="First name" aria-label="First name">
+      <input id="nl-email" name="EMAIL" type="email" placeholder="Email address" aria-label="Email address">
+      <button type="submit">Subscribe</button>
+    </div>
+  </form>
+</article>
+<script>document.getElementById('newsletter').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

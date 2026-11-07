@@ -1,0 +1,22 @@
+{
+  "description": "Sign-up with name, email, new password and confirm, all with autocomplete attributes",
+  "fields": {
+    "#full-name": "name",
+    "#reg-email": "email",
+    "#new-password": "new-password",
+    "#confirm-password": "confirm-password"
+  },
+  "forms": [{ "field": "#new-password", "type": "signup" }],
+  "fills": [
+    {
+      "focus": "#new-password",
+      "pick": "generated-password",
+      "expect": {
+        "#full-name": "",
+        "#reg-email": "",
+        "#new-password": "Lantern-ruby-T7#qv-42",
+        "#confirm-password": "Lantern-ruby-T7#qv-42"
+      }
+    }
+  ]
+}

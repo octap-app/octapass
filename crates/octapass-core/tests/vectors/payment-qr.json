@@ -1,0 +1,178 @@
+{
+  "epc": [
+    {
+      "name": "Red Cross",
+      "iban": "BE72 0000 0000 1616",
+      "bic": "",
+      "amount": "",
+      "reference": "",
+      "text": "BCD\n002\n1\nSCT\n\nRed Cross\nBE72000000001616"
+    },
+    {
+      "name": "Ada Lovelace",
+      "iban": "de89370400440532013000",
+      "bic": "cobadeffxxx",
+      "amount": "12.5",
+      "reference": "Invoice 7",
+      "text": "BCD\n002\n1\nSCT\nCOBADEFFXXX\nAda Lovelace\nDE89370400440532013000\nEUR12.50\n\n\nInvoice 7"
+    },
+    {
+      "name": "Ada",
+      "iban": "DE89370400440532013000",
+      "bic": "",
+      "amount": "100",
+      "reference": "",
+      "text": "BCD\n002\n1\nSCT\n\nAda\nDE89370400440532013000\nEUR100.00"
+    },
+    {
+      "name": "Ada",
+      "iban": "DE89370400440532013000",
+      "bic": "",
+      "amount": "0.10",
+      "reference": "line\nbreak",
+      "text": "BCD\n002\n1\nSCT\n\nAda\nDE89370400440532013000\nEUR0.10\n\n\nline break"
+    },
+    {
+      "name": "Ada",
+      "iban": "JO94CBJO0010000000000131000302",
+      "bic": "",
+      "amount": "",
+      "reference": "",
+      "text": null
+    },
+    {
+      "name": "Ada",
+      "iban": "DE89370400440532013001",
+      "bic": "",
+      "amount": "",
+      "reference": "",
+      "text": null
+    },
+    {
+      "name": "",
+      "iban": "DE89370400440532013000",
+      "bic": "",
+      "amount": "",
+      "reference": "",
+      "text": null
+    },
+    {
+      "name": "Ada",
+      "iban": "DE89370400440532013000",
+      "bic": "",
+      "amount": "0",
+      "reference": "",
+      "text": null
+    },
+    {
+      "name": "Ada",
+      "iban": "DE89370400440532013000",
+      "bic": "",
+      "amount": "1.234",
+      "reference": "",
+      "text": null
+    },
+    {
+      "name": "Ada",
+      "iban": "DE89370400440532013000",
+      "bic": "",
+      "amount": "1000000000",
+      "reference": "",
+      "text": null
+    },
+    {
+      "name": "Ada",
+      "iban": "DE89370400440532013000",
+      "bic": "nope",
+      "amount": "",
+      "reference": "",
+      "text": null
+    },
+    {
+      "name": "Ada",
+      "iban": "DE89370400440532013000",
+      "bic": "",
+      "amount": "",
+      "reference": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "text": null
+    },
+    {
+      "name": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "iban": "DE89370400440532013000",
+      "bic": "",
+      "amount": "",
+      "reference": "",
+      "text": null
+    }
+  ],
+  "address": [
+    {
+      "network": "bitcoin",
+      "address": "bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq",
+      "uri": "bitcoin:bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq"
+    },
+    {
+      "network": "Bitcoin",
+      "address": "1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2",
+      "uri": "bitcoin:1BvBMSEYstWetqTFn5Au4m4GFg7xJaNVN2"
+    },
+    {
+      "network": "btc",
+      "address": "3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy",
+      "uri": "bitcoin:3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy"
+    },
+    {
+      "network": "ethereum",
+      "address": "0xfB6916095ca1df60bB79Ce92cE3Ea74c37c5d359",
+      "uri": "ethereum:0xfB6916095ca1df60bB79Ce92cE3Ea74c37c5d359"
+    },
+    {
+      "network": "eth",
+      "address": " 0xfB6916095ca1df60bB79Ce92cE3Ea74c37c5d359 ",
+      "uri": "ethereum:0xfB6916095ca1df60bB79Ce92cE3Ea74c37c5d359"
+    },
+    {
+      "network": "ethereum",
+      "address": "0x123",
+      "uri": null
+    },
+    {
+      "network": "bitcoin",
+      "address": "0xfB6916095ca1df60bB79Ce92cE3Ea74c37c5d359",
+      "uri": null
+    },
+    {
+      "network": "solana",
+      "address": "9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin",
+      "uri": null
+    },
+    {
+      "network": "bitcoin",
+      "address": "legal winner thank year wave sausage worth useful legal winner thank yellow",
+      "uri": null
+    },
+    {
+      "network": "ethereum",
+      "address": "legal winner thank year wave sausage worth useful legal winner thank yellow",
+      "uri": null
+    }
+  ],
+  "looksLikeAddress": [
+    {
+      "address": "bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq",
+      "ok": true
+    },
+    {
+      "address": "9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin",
+      "ok": true
+    },
+    {
+      "address": "legal winner thank year wave sausage worth useful",
+      "ok": false
+    },
+    {
+      "address": "short",
+      "ok": false
+    }
+  ]
+}

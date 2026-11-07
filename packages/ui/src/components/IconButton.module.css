@@ -1,0 +1,46 @@
+.button {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--mist);
+  transition:
+    background-color var(--fast) ease,
+    color var(--fast) ease,
+    transform var(--fast) ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.button:hover:not(:disabled) {
+  background: var(--hover);
+  color: var(--ink);
+}
+
+.button:active:not(:disabled) {
+  background: var(--press);
+  transform: scale(0.94);
+}
+
+.button:disabled {
+  opacity: 0.4;
+}
+
+.sm {
+  inline-size: 2rem;
+  block-size: 2rem;
+}
+
+.md {
+  inline-size: 2.5rem;
+  block-size: 2.5rem;
+}
+
+.active {
+  color: var(--trust-text);
+}
+
+.danger:hover:not(:disabled) {
+  color: var(--danger-text);
+}

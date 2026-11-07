@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- Browsers answer https links; seeing them lets the Autofill service check a browser's
+         signature before it trusts the web domain it reports. -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="https" />
+        </intent>
+        <!-- Other password managers that hand over their items: their names, for the import. -->
+        <intent>
+            <action android:name="androidx.identitycredentials.action.IMPORT_CREDENTIALS" />
+        </intent>
+    </queries>
+
+    <application>
+        <service
+            android:name="app.octap.android.autofill.OctaPassAutofillService"
+            android:exported="true"
+            android:label="@string/octapass_service_name"
+            android:permission="android.permission.BIND_AUTOFILL_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.autofill.AutofillService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.autofill"
+                android:resource="@xml/octapass_autofill_service" />
+        </service>
+
+        <service
+            android:name="app.octap.android.autofill.OctaPassCredentialService"
+            android:enabled="@bool/octapass_credential_provider"
+            android:exported="true"
+            android:icon="@drawable/octapass_icon"
+            android:label="@string/octapass_service_name"
+            android:permission="android.permission.BIND_CREDENTIAL_PROVIDER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.credentials.CredentialProviderService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.credentials.provider"
+                android:resource="@xml/octapass_credential_provider" />
+        </service>
+
+        <activity
+            android:name="app.octap.android.autofill.FillActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:theme="@style/Theme.OctaPass.Unlock" />
+        <activity
+            android:name="app.octap.android.autofill.SaveActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:theme="@style/Theme.OctaPass.Unlock" />
+        <activity
+            android:name="app.octap.android.autofill.CredentialActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:theme="@style/Theme.OctaPass.Unlock" />
+
+        <!-- Another password manager imports from Octa Pass: Google Play services opens this
+             with a file the items go into, which it must let Octa Pass write (Android 15+). The
+             file's type is application/octet-stream: without it in the filter the intent doesn't
+             resolve (the guide's sample leaves it out; Google Password Manager's filter has it). -->
+        <activity
+            android:name="app.octap.android.autofill.ExportActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:label="@string/octapass_service_name"
+            android:requireContentUriPermissionFromCaller="write"
+            android:theme="@style/Theme.OctaPass.Unlock"
+            tools:targetApi="35">
+            <intent-filter>
+                <action android:name="androidx.identitycredentials.action.IMPORT_CREDENTIALS" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/octet-stream" android:scheme="content" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>

@@ -1,0 +1,119 @@
+.files {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.title {
+  padding-inline: 0.1rem;
+  font-size: var(--text-xs);
+  font-weight: 650;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--mist);
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+  overflow: hidden;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 0.75rem;
+  padding: 0.65rem 0.75rem 0.65rem 1.1rem;
+}
+
+.row + .row,
+.row + .empty {
+  border-block-start: 1px solid var(--line);
+}
+
+.muted .text {
+  opacity: 0.6;
+}
+
+.icon {
+  color: var(--mist);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.name {
+  font-weight: 550;
+  overflow-wrap: anywhere;
+}
+
+.meta {
+  font-size: var(--text-sm);
+  color: var(--mist);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+}
+
+.empty {
+  padding: 0.9rem 1.1rem;
+  color: var(--mist);
+}
+
+/* The phone's pickers, under the list. */
+.sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding-block-start: 0.2rem;
+}
+
+.hint {
+  padding-inline: 0.1rem;
+  font-size: var(--text-sm);
+  color: var(--mist);
+}
+
+.error {
+  padding-inline: 0.1rem;
+  font-size: var(--text-sm);
+  color: var(--danger-text);
+}
+
+.dragging .list {
+  box-shadow: inset 0 0 0 2px var(--focus);
+}
+
+.dropHere {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  box-shadow: inset 0 0 0 2px var(--focus);
+  color: var(--focus);
+  font-weight: 600;
+  pointer-events: none;
+}

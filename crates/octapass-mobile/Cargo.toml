@@ -1,0 +1,67 @@
+[package]
+name = "octapass-mobile"
+version = "0.1.0"
+description = "OctaPassVault: the UniFFI API the native iPhone and Android apps are built on, over the mobile vault."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+# Integration tests are one binary (tests/main.rs); see the [[test]] tables at the end.
+autotests = false
+
+[lib]
+name = "octapass_mobile"
+crate-type = ["lib", "staticlib", "cdylib"]
+
+[features]
+# The `uniffi-bindgen` and `uniffi-bindgen-swift` binaries used by `scripts/`.
+bindgen = ["uniffi/cli"]
+
+[[bin]]
+name = "uniffi-bindgen"
+required-features = ["bindgen"]
+
+[[bin]]
+name = "uniffi-bindgen-swift"
+required-features = ["bindgen"]
+
+[dependencies]
+octapass-mobile-vault = { path = "../octapass-mobile-vault" }
+octapass-api = { path = "../octapass-api" }
+octapass-core = { path = "../octapass-core" }
+octapass-ffi = { path = "../octapass-ffi" }
+octapass-files = { path = "../octapass-files", default-features = false }
+base64.workspace = true
+futures-channel = "0.3"
+rand_core.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2 = "0.10"
+thiserror.workspace = true
+time = { version = "0.3", features = ["formatting", "parsing"] }
+unicode-normalization = "0.1"
+uniffi = "0.32"
+ureq = { version = "3", default-features = false, features = ["rustls", "platform-verifier"] }
+url = "2"
+zeroize.workspace = true
+
+# The desktop services (plan 19, phase 3) in the Mac app's library: the browser extension's
+# bridge, the CLI session and the SSH agent (`src/desktop.rs`). The exported API is the same
+# everywhere; the phones' library has no services behind it.
+[target.'cfg(target_os = "macos")'.dependencies]
+octapass-mobile-vault = { path = "../octapass-mobile-vault", features = ["desktop"] }
+
+# Android's certificate verifier for the HTTPS clients; the app hands it its context first.
+[target.'cfg(target_os = "android")'.dependencies]
+jni = "0.22"
+rustls-platform-verifier = "0.7"
+
+[dev-dependencies]
+octapass-mobile-vault = { path = "../octapass-mobile-vault", features = ["fake"] }
+octapass-server = { path = "../../apps/server" }
+axum = "0.8"
+tokio = { version = "1", features = ["full"] }
+tempfile = "3"
+
+[[test]]
+name = "integration"
+path = "tests/main.rs"

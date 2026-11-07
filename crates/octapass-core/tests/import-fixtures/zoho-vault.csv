@@ -1,0 +1,14 @@
+Secret Name,Description,Secret URL,SecretData,Notes,CustomData,Tags,Classification,Favorite,TOTP,Folder Name
+GitHub,Work account,https://github.com/login,"SecretType:Web Account
+User Name:jane@example.com
+Password:zoho:pass,word
+Recovery PIN:4821",Deploy notes,"API host:api.github.example
+Token:tok-123
+second token line","work,dev",P,1,JBSWY3DPEHPK3PXP,Work
+بنك الأمل,,https://bank.example.sa,"SecretType:Bank Account
+User Name:جميلة
+Password:كلمة-سر-١٢٣",ملاحظة بالعربية,,,P,0,,عائلة
+Wi-Fi notes,,,SecretType:Note,"Router in the hall
+second line",,,P,0,,
+,,https://no-name.example.com,User Name:x,,,,P,0,,
+Empty row,,,,,,,P,0,,

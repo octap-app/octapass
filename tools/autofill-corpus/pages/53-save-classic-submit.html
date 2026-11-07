@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Log in · Copperleaf CRM</title>
+<style>
+  body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: #fff7ed; color: #431407; }
+  .card { width: 360px; margin: 90px auto; background: #fff; border: 1px solid #fed7aa; border-radius: 10px; padding: 26px; }
+  label { display: block; margin: 12px 0 4px; font-weight: 600; }
+  input { width: 100%; box-sizing: border-box; padding: 9px; border: 1px solid #fdba74; border-radius: 6px; font: inherit; }
+  button { margin-top: 18px; width: 100%; padding: 10px; border: 0; border-radius: 6px; background: #c2410c; color: #fff; font: inherit; }
+  #status { margin-top: 12px; font-weight: 600; color: #15803d; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1 style="font-size:21px;margin:0">Copperleaf CRM</h1>
+  <form id="login" action="/session" method="post">
+    <label for="login-email">Email</label>
+    <input id="login-email" name="email" type="email" autocomplete="username">
+    <label for="login-password">Password</label>
+    <input id="login-password" name="password" type="password" autocomplete="current-password">
+    <button id="submit" type="submit">Log in</button>
+  </form>
+  <div id="status" role="status"></div>
+</div>
+<script>
+  document.getElementById('login').addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('status').textContent = 'Signed in as ' + document.getElementById('login-email').value;
+  });
+</script>
+</body>
+</html>

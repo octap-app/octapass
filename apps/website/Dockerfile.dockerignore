@@ -1,0 +1,12 @@
+**/target
+**/node_modules
+**/dist
+**/.astro
+.git
+data
+deploy
+apps/android
+apps/ios
+apps/safari
+apps/macos
+apps/desktop/src-tauri/target

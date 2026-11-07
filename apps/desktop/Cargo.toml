@@ -1,0 +1,55 @@
+# The desktop app is its own Cargo workspace: Tauri's dependency tree (and the system WebView
+# libraries it needs on Linux) stays out of the root workspace's `cargo test --workspace`.
+[workspace]
+resolver = "3"
+members = ["src-tauri", "crates/*"]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+repository = "https://github.com/octapass/octapass"
+publish = false
+
+[workspace.dependencies]
+octapass-core = { path = "../../crates/octapass-core" }
+octapass-api = { path = "../../crates/octapass-api" }
+octapass-net-tools = { path = "../../crates/octapass-net-tools" }
+octapass-files = { path = "../../crates/octapass-files", default-features = false }
+octapass-device-unlock = { path = "crates/device-unlock" }
+octapass-desktop-vault = { path = "crates/vault" }
+octapass-native-host = { path = "crates/native-host" }
+octapass-autotype = { path = "crates/autotype" }
+octapass-wifi = { path = "crates/wifi" }
+octapass-windows-passkey = { path = "crates/windows-passkey" }
+octapass-connect = { path = "crates/connect" }
+octapass-ssh-agent = { path = "crates/ssh-agent" }
+octapass-login-item = { path = "crates/login-item" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"
+zeroize = { version = "1", features = ["derive"] }
+rand_core = { version = "0.6", features = ["getrandom"] }
+sha2 = "0.10"
+base64 = "0.22"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "sync", "time", "net", "io-util"] }
+tempfile = "3"
+
+# Same as the root workspace: file and line numbers for our code, no debug info for dependencies.
+[profile.dev]
+debug = "line-tables-only"
+[profile.dev.package."*"]
+debug = false
+
+# Argon2id runs on every unlock; unoptimised it takes seconds even in a debug build.
+[profile.dev.package.argon2]
+opt-level = 3
+[profile.dev.package.blake2]
+opt-level = 3
+# SSH keys: RSA generation and bcrypt-pbkdf take minutes unoptimised.
+[profile.dev.package.num-bigint-dig]
+opt-level = 3
+[profile.dev.package.bcrypt-pbkdf]
+opt-level = 3
+[profile.dev.package.blowfish]
+opt-level = 3

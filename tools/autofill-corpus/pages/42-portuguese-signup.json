@@ -1,0 +1,17 @@
+{
+  "description": "Brazilian Portuguese sign-up (Nome completo / E-mail / Senha / Confirme a senha), generic ids f1-f4, no autocomplete",
+  "fields": {
+    "#f1": "name",
+    "#f2": "email",
+    "#f3": "new-password",
+    "#f4": "confirm-password"
+  },
+  "forms": [{ "field": "#f3", "type": "signup" }],
+  "fills": [
+    {
+      "focus": "#f3",
+      "pick": "generated-password",
+      "expect": { "#f1": "", "#f2": "", "#f3": "Lantern-ruby-T7#qv-42", "#f4": "Lantern-ruby-T7#qv-42" }
+    }
+  ]
+}

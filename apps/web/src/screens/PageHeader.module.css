@@ -1,0 +1,44 @@
+.header {
+  max-inline-size: 52rem;
+  margin-inline: auto;
+  padding: clamp(1.25rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem) 1.5rem;
+}
+
+.narrow {
+  max-inline-size: 36rem;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.menu {
+  display: none;
+  margin-inline-start: -0.5rem;
+}
+
+.title {
+  flex: 1;
+  min-inline-size: 0;
+  overflow-wrap: anywhere;
+  font-size: var(--text-3xl);
+  font-weight: 760;
+  font-stretch: 112%;
+  letter-spacing: -0.045em;
+  line-height: 1.05;
+}
+
+.subtitle {
+  margin-block-start: 0.6rem;
+  color: var(--mist);
+  font-size: var(--text-lg);
+  max-inline-size: 46ch;
+}
+
+@media (max-width: 1099px) {
+  .menu {
+    display: inline-grid;
+  }
+}

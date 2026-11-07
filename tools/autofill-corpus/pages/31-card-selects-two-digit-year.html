@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Billing — Atlas Travel</title>
+<style>
+  body { margin: 0; font: 14px "Trebuchet MS", sans-serif; background: #e0f2fe; color: #0c4a6e; }
+  .bar { background: #0369a1; color: #fff; padding: 14px 30px; font-size: 17px; }
+  .card { width: 480px; margin: 34px auto; background: #fff; border-radius: 10px; padding: 24px 28px; }
+  .f { margin-top: 12px; }
+  .f label { display: block; font-size: 12px; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+  .f input, .f select { padding: 8px; border: 1px solid #7dd3fc; border-radius: 6px; font: inherit; }
+  .f input.wide { width: 100%; box-sizing: border-box; }
+  button { margin-top: 18px; padding: 10px 24px; border: 0; border-radius: 6px; background: #0369a1; color: #fff; font: inherit; }
+</style>
+</head>
+<body>
+<div class="bar">Atlas Travel</div>
+<div class="card">
+  <h2 style="margin-top:0">Pay for your booking</h2>
+  <form id="booking-pay" action="/book/pay" method="post">
+    <div class="f"><label for="holder">Cardholder name</label><input class="wide" id="holder" name="holder"></div>
+    <div class="f"><label for="pan">Card number</label><input class="wide" id="pan" name="pan" inputmode="numeric"></div>
+    <div class="f">
+      <label for="exp-m">Expiry date</label>
+      <select id="exp-m" name="exp_month" aria-label="Expiry month">
+        <option value="">Month</option>
+        <option value="01">01</option><option value="02">02</option><option value="03">03</option>
+        <option value="04">04</option><option value="05">05</option><option value="06">06</option>
+        <option value="07">07</option><option value="08">08</option><option value="09">09</option>
+        <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+      </select>
+      /
+      <select id="exp-y" name="exp_year" aria-label="Expiry year">
+        <option value="">Year</option>
+        <option value="26">2026</option><option value="27">2027</option><option value="28">2028</option>
+        <option value="29">2029</option><option value="30">2030</option><option value="31">2031</option>
+        <option value="32">2032</option><option value="33">2033</option><option value="34">2034</option>
+      </select>
+    </div>
+    <div class="f"><label for="cvv">CVV</label><input id="cvv" name="cvv" size="4" maxlength="4" inputmode="numeric"></div>
+    <button type="submit">Pay €312.00</button>
+  </form>
+</div>
+<script>document.getElementById('booking-pay').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+{
+  "backup": "T1BCSwEABAAAAAAABAAAAAGQRlHC0vOiZWZQ6M5XyCc3AQVJEMtdQGR_t3UuNE42et4E2M9_xhsgUjQblNdS2zXWqQdFWTkgaDvmqFyZTNzNg4Ksvaqct1eTV_Kazt61EDoKUdzhF7IHjUob4AhnCS4qXC7PEHIrb5KB8sFyxI2HEx49Q6XBYV9I5A5gao96wOcOPycfTmrn-yGsQ4FykqcXJ1YRtvbl9k4LTTEUNSKk59bbTPYtwoxzIcDsRSESHNgHkoW6iUQK8kLQiXsvMHwHne3G-scVQq9FytESLX1UFLsYWDaN0Txy_WzdVlK974fipU4uLf3_pyk9d48PFkjPjBJKpWPtvK-z43y6zbByfcDjoExlFOZsh4cPa70NShtw2BpEJAEjIvoy6N7XWdHwguoNC0PXxG5cvvinXXMGAKeUSjWw_NhNga-6a_F1kowLJC5KdLWf2YxdTQSLGSGosxJSjqkaRSAhI9dvj-UsZ31RZxi8k-DqHelrlqEWichTW5Bms-siW69OB8naAWW0SRpHDzJ3JD2VBoMu0V3PJkyeAJzkvffZGxHLnWF8etUHN4K6hOvfjGSqVbHVA78Zzk8hYcDEFTHjnbV4ddKVjkl4pSI_kxAGLKSqj3JlTuUx_TU6WaDdDWnPrtfb3L6ve1Do4oTG45W9WjnQSASq4lJdBpeusVF5KacV6NgGTLJ9Kswr6jJg_bxXOtBcPABZFP9GkpQ8FtSfw0hnbr8BzueUQEBl2XJcIBpysivHMuj4Xo_tc3eToH8PEIjnYSojeN5bpFHwazU6WfLd2rtrrg7dLJWSxvGeQd6Ke6pSjICO4zbdnEXxgFWe9iV4vLXNZ1ncDMpYHg8TM1B6VQnwMudpOhP4TmJO8fLaj7uxWCAcNC2mUNWbroxnngDRhkQdzrED6zvHAJB-9IHov0CT_Q5Dy0FrQ-z1rOenmcyfh_Kpbo6AHr6xA7loA1ywQGB3gqgh6vevpUFwho4ctDPotX2Eh4ExdQ-DPjjPX6XfB-uQfL4WiZFRfjS6GB7hG8XYG4xLhQxcpodYTZWJAk4v8VyQdyN9-9Jq36MgeQPDUXcicq24WVzRcOEE8lv9QyU-z3bevT2R_z4NI3RGiqtmJxrWkFa5Afe6_0pRZ3NPEUZm5MyLGru5S_ahX6jPxS9VALMK8iV8MLsTRVhKt9jC7JHEyXN-_5vd0NIpvaLIagoz8rXP6zkrerJ3qALqCQOsxdZJrRbTHPep7FxU_AFR0wyGAfU_8jYNCD20A3clM4aURiYLKIWgAl5A_sC19l-xPqP_oS-PiCxom67DkzLKJ8CR2RWi32ryxdfdPy8qLns0MGH2kOncmx6V1Azr5Dn8nEszt9ZPK_4EXf7_KnaQ9-TzYTeqpv-9D4xeb2uWgB2iH45vnNPr6ucVNPIim2-eqgKM37W3RajNqMuWVLMrOx2MTEbcO_eGri5Fyoc7c3wtiAkchxKGx-p8lm281a4ZcUnNc3uJ_DuEOHOU7TBzolNZ18Uv6morCNs-YkDgyoPO_AFmDseb3ENbvz6WoL0aaEze7vKCHZyr6BeeNMuBzU4HWeovy9Ok6K6kce-28X7HC1IZ9rzTPbzzr1pKVd-VmotuAtUoO3dLounw2WxbQBbFtyOnqI4y9OLtop5kKI979R45QSgBxn1krpG35YcZyMwE9c8DRpYKvf9iZfykTGrP907Ii_WYwzyhx2LJW01QqcejsdvbAPt49yZnB1lxinS0HMgohoaJbSxoFMasNH9_fMbdCnRuZejSrtg_F3UFSww4vPgLmS851Oi2LiiBz1ywO1P4Q8cMyHXncmWlTvjlvS0SpFdO5aE-dmg5-BrqbtbrErTDRjXoRvur6pEZiJA4D7V-F4n2CZp7Lfg1mMjGGU35YjwLepR3zisRihwhv3uGIvmLG7ClPkEs181ehjPtI2GHkSMZ78WYIU5-x-XC8rtujbSf8SkRY3EXcs3BzC84WkUjiUu_5NRFU1d3jCwn5_MErcNTKfgoKLKgK0M9rUr9xVmtImAXcQOJMUT3JfwqLPr8Yw9W4iXYjF1ZOdv1DudLRdFA0Da2CWjB-txf_ESBFYJc6RB8YjUndxqIhWbBMzCPAwBtV2TBxabd1rH0",
+  "backupKey": "-Yxmg99V9HZo8Y818bUlrADpWh5wBSxXfxRpDfgACfI",
+  "backupRecoveryCode": "SG63M-0FSNR-FFDXC-AGDC2-TE9V2-QRB78-7PYP0-4PJW4-KVH0W-AZYZM-PC2QR",
+  "description": "A local vault bound to a device chip, with one item, and a backup of it. pwKey = Argon2id(NFKD(password), salt); luk = HKDF-SHA256(pwKey || hardwareSecret, salt = \"\", info = \"octapass/v1/local-unlock\"); wrappedAsk = AEAD(luk, ASK, \"local-ask\"); body = AEAD(ASK, JSON, \"local-vault\"). backupKey = Argon2id(NFKD(password), backup salt, m = 256 MiB, t = 4, p = 1). The backup layout is in crates/octapass-core/src/backup/mod.rs. Binary values are base64url without padding.",
+  "input": {
+    "hardwareSecret": "QEFCQ0RFRkdISUpLTE1OT1BRUlNUVVZXWFlaW1xdXl8",
+    "item": {
+      "details": {
+        "password": "hunter2",
+        "schemaVersion": 1,
+        "username": "alice"
+      },
+      "overview": {
+        "schemaVersion": 1,
+        "title": "Example",
+        "type": "login",
+        "urls": [
+          "https://example.com"
+        ]
+      }
+    },
+    "kdf": {
+      "algorithm": "argon2id",
+      "iterations": 3,
+      "memoryKib": 65536,
+      "parallelism": 1
+    },
+    "nowMs": 1792713600000,
+    "password": "vexed-kiwi-trumpet-galaxy-oboe"
+  },
+  "itemId": "01a1660e-ac01-766b-b4e8-40ea9681130d",
+  "luk": "oT_Nv-Iz9RYff3I4rtbPqvCRzmIXbk94LhrxbVV3qk8",
+  "pwKey": "5dBMXhWuMFeu9X9oTBJCN7QraCAD9nZx85rWFChrGI4",
+  "vault": {
+    "body": "ASbk6rhUnlJ7VW0hpduRFfRUuEi0rLkg9x5pxOjhIYUcPZ4FLTe49WEQ7NcBx39HVzi2cdLD6GIB2oBu3lH9x9B3nglVMmOLN-4eMPt6JXPgCtJw8oltDWAauOFycoD7eYqTEngp4AprcPDXF32kFeps8pOM-jn3Ga7dsJtjzxRODWDuOCZuYWoGdHu6h46lN9WAwzbH-SJRS2cDk3NdhLpP2Ki0VjhPx2RDXTQS6FHdDQb8x5CjwZwDBR3Cjho4ge-XfviaKbJUzsJrBZDVC9kBqnFhPiMGX6ZFH-q42OSsgj_IkKnriePo5H15ZUuczcJfwPYqzHYfe2kN9llZ-8YlSWhOVfj3ocD5AjLKavYmYkC32Bz9HUif_u4CSjf_i3IA0o7h4y8BR0yX6HCy95H9QYp-fnm_r291bUzUHXluo4tlXFRoaRWbBkr6RsBrtnYMszP1Ewl-yB6zSpVdmIcJ7AiwWRVKBW6xHeSQqo0nRX6n2norwOuZH4oOYPVbJSKTfulN93n2IU4ik8CfolJpmI2QHiuGcps-58pG23iKSK5h5E3Hu5kYhXYqhDzYl8RMUnc4GvsZV631QkXvJBXHUNbL7H5QzAka5-YOpiwjnbv_HbbzihD6D6kJXWvIJkIXFVcOPwvC-_RcD4Vt8ODbvtoyNWo82soF8eGIXGDVctK8mJIJoV3EjI16FFumC_TV1spaQorIG35LRqAwHVUwxHc8ymKOAWNPV_hKiJEPQaGygcq1HonGkV56r3msUxItbrDoxQSiamwhMnV6Rdxq_FDEikKpzPahasaoYp3M9R2KOcRIEWhQ6s9iu1iiTtc-1mBAImzwIQYMsdlGyJViCOXPcbjMCxfHjUAjK_gNHouFACE2GskdiKQz9AIZNxM2Ng7Io9f7unbt79AoLlVnrO5QUodvt1opZZfjmOOfan65uj_xk06ss1UV5NE-V9XJIAJ2KKImrj5fmLC1-ND7yIvldc0JeCp5huj6LmmiMZPKH0g23tu3_010ABedkYIDcIom5noXL1dfS4B3UcitFOev3LxPXO1RR0cH-qUhDlO9j6ARPRNRpaPkxK_48vk7T9o34mWPx2V3OOBumoU-yEs0fMwzztxhc49aPdBMn5OSkBW5p_MRHolGC-bcOWpZOlKhlzL6AhTtx2pXAQIJ7IUGm6LVb566OlQrNX6Hx7MIwgXV4JmERLvHFNyzzxl1B6oZ_DRO_clNXfSv1kPVU0Q5XH0OD5mLpnipfooqFi8AMFIgrIk43t6xhzb4bDu9kw6NGSFkgACPzYUtyhveDvlqdZX8RiAjb146rILmEneTY9levbv5yMDp3lFnJDiYWcCaWwOt9Dalij28gNecrC175eAe4fVa5_NG744E_R0d_PT2KWUNqC_4nNqXCeE4ipxMmFG7mRNameUCRy9tPUSYbQxQc7q7yPw1GhQmkEpY0RMVKWB-fGXav0GPv7EDpInPZxvqZKHk7uNiHWzqqD5eUbEYQQBVC5zpYVgD_qEdtyr_GY7YR3JCvbahkgwpkuz8gcnCM7NmKxsRKVULHz-bgTeprQzfEv7uAaGSMRr8XaWTp3hRCjeEcvhcITJt_X4ghHt0gdipbQRM-upA5vKU_8d2-ISuMqIx9zajQ7NjYss0CgV-iafnQHfsnakCDXJCZekxgy5Ixq-pJyg2K0_-xbW6eHqvfUR-O5HC-u2m01gGJ8PvItAjm2iT_P0JPq_NLTqu9uhBmcwp7anLugLxeb-ylvZA47QVMXHPaKS-H6GHRITTRkMzd2X4lJ6ObMjZo0V4nCCkKSciQYHxGs3fjTc9TZnRniyn-x4NObMdYziqCDA2HKY-yX-MDvptIg9Vks3gfBKzcYS20uvMj2xQ0iT9rEmjs5_GaIdzx9n8sa-1ftjV1mqxPg",
+    "format": "octapass-local-vault",
+    "hardwareBound": true,
+    "kdf": {
+      "algorithm": "argon2id",
+      "iterations": 3,
+      "memoryKib": 65536,
+      "parallelism": 1
+    },
+    "salt": "mFwPvp3Zkll9Mg1Hgx4NDg",
+    "version": 1,
+    "wrappedAsk": "ATVI_FHbBOasTVnmxH5Sfkr9M-ExE6gwSUf2nCSCrh2DIKc6wRRw0xcegdGw6mor1Ak1b1pXpK4-smi3xlQ_tnA7ZcveABx8P3l2JEAr5HHODQTAq3-8bXw"
+  }
+}

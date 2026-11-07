@@ -1,0 +1,15 @@
+{
+  "description": "Login form inside the open shadow root of a custom element (attachShadow from script)",
+  "fields": {
+    "prism-login >>> #user": "username",
+    "prism-login >>> #pass": "current-password"
+  },
+  "forms": [{ "field": "prism-login >>> #user", "type": "login" }],
+  "fills": [
+    {
+      "focus": "prism-login >>> #user",
+      "pick": "login",
+      "expect": { "prism-login >>> #user": "alex@example.test", "prism-login >>> #pass": "correct-horse-42!" }
+    }
+  ]
+}

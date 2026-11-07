@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Two-factor authentication · Sablecloud</title>
+<style>
+  body { margin: 0; font: 15px/1.5 ui-sans-serif, system-ui, sans-serif; background: #0b1120; color: #e2e8f0; }
+  .panel { width: 380px; margin: 100px auto; background: #111827; border: 1px solid #1f2937; border-radius: 10px; padding: 26px; }
+  h1 { font-size: 20px; margin: 0 0 8px; }
+  p { color: #94a3b8; font-size: 14px; margin: 0 0 18px; }
+  label.main { display: block; font-size: 13px; margin-bottom: 6px; }
+  #code { width: 100%; box-sizing: border-box; padding: 11px; font: 20px ui-monospace, monospace; letter-spacing: 6px; background: #0b1120; color: #e2e8f0; border: 1px solid #374151; border-radius: 8px; }
+  .trust { font-size: 13px; color: #94a3b8; margin: 12px 0 18px; }
+  button { width: 100%; padding: 11px; border: 0; border-radius: 8px; background: #22d3ee; color: #0b1120; font: inherit; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="panel">
+  <h1>Two-factor authentication</h1>
+  <p>Open your authenticator app and enter the code it shows for Sablecloud.</p>
+  <form id="mfa" action="/session/mfa" method="post">
+    <label class="main" for="code">Authentication code</label>
+    <input id="code" name="code" type="text" inputmode="numeric" maxlength="6" placeholder="XXXXXX">
+    <div class="trust"><label><input type="checkbox" id="trust" name="trust_device"> Don't ask again on this device for 30 days</label></div>
+    <button type="submit">Verify</button>
+  </form>
+  <p style="margin-top:16px"><a href="#recovery" style="color:#67e8f9">Use a recovery code instead</a></p>
+</div>
+<script>document.getElementById('mfa').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+.row {
+  display: grid;
+  gap: 0.5rem;
+  padding-block: 0.75rem;
+  border-block-end: 1px solid var(--border);
+}
+
+.row:last-of-type {
+  border-block-end: 0;
+}
+
+.rowFields {
+  display: grid;
+  grid-template-columns: minmax(8rem, 1fr) minmax(10rem, 2fr);
+  gap: 0.75rem;
+}
+
+.rowActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.up {
+  transform: rotate(180deg);
+}
+
+.fileButton {
+  display: inline-flex;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-block-end: 1rem;
+}
+
+.missing,
+.production {
+  margin-block: 0 1rem;
+  padding: 0.65rem 0.8rem;
+  border-radius: 0.5rem;
+  background: var(--surface-2, #f5f3ef);
+  font-size: 0.9rem;
+}
+
+.production {
+  border-inline-start: 3px solid var(--warning, #b45309);
+}
+
+@media (max-width: 40rem) {
+  .rowFields {
+    grid-template-columns: 1fr;
+  }
+}

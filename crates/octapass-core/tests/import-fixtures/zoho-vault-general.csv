@@ -1,0 +1,2 @@
+"Password Name","Password URL","Username","Password","Notes","Tags","Favorite","Folder Name","login_totp"
+"Mail","https://mail.example.com","jane","p,w ","Line one","personal","1","Home","otpauth://totp/Mail:jane?secret=JBSWY3DPEHPK3PXP&issuer=Mail"

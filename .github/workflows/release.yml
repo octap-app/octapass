@@ -1,0 +1,113 @@
+# Builds the Tauri desktop app (Windows installer, Linux packages) and the browser extension
+# packages when a version tag is pushed, or by hand from the Actions tab. Unsigned: signing needs
+# the publisher's certificates, which stay off GitHub for now. The Mac app is the native one
+# (apps/macos, plan 19), built with pnpm build:macos; it has no job here until its Developer ID
+# signing and notarization are set up.
+#
+# Repository variables (Settings → Secrets and variables → Actions → Variables), all optional:
+#   OCTAPASS_SERVER_URL            the "Octa Pass" server choice in these builds (e.g. https://vault.octap.app)
+#   OCTAPASS_EXTRA_EXTENSION_IDS   extension IDs the desktop app accepts besides the store IDs
+#                                  (e.g. oojckfebkmiogiahdggohbdnndbfcjnm,extension@octap.app)
+name: Release builds
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+  CARGO_INCREMENTAL: 0
+  VITE_SERVER_URL: ${{ vars.OCTAPASS_SERVER_URL }}
+  OCTAPASS_EXTRA_EXTENSION_IDS: ${{ vars.OCTAPASS_EXTRA_EXTENSION_IDS }}
+
+jobs:
+  desktop:
+    name: Desktop (${{ matrix.name }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Windows
+            os: windows-latest
+            bundles: nsis
+          - name: Linux
+            os: ubuntu-22.04
+            bundles: deb,rpm,appimage
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - run: corepack enable
+      - name: Tauri build dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/bin
+            target
+            apps/desktop/target
+          key: release-${{ runner.os }}-${{ hashFiles('Cargo.lock', 'apps/desktop/Cargo.lock', 'rust-toolchain.toml') }}
+      - run: command -v wasm-pack || cargo install wasm-pack --locked --version 0.15.0
+        shell: bash
+      - run: cargo tauri --version || cargo install tauri-cli --locked --version 2.12.4
+        shell: bash
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @octapass/core build
+      - name: Build
+        working-directory: apps/desktop
+        run: cargo tauri build --bundles ${{ matrix.bundles }}
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: desktop-${{ matrix.name }}
+          path: |
+            apps/desktop/target/release/bundle/nsis/*.exe
+            apps/desktop/target/release/bundle/deb/*.deb
+            apps/desktop/target/release/bundle/rpm/*.rpm
+            apps/desktop/target/release/bundle/appimage/*.AppImage
+          if-no-files-found: error
+
+  extension:
+    name: Browser extension
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - run: corepack enable
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/bin/wasm-pack
+            target
+          key: release-ext-${{ runner.os }}-${{ hashFiles('Cargo.lock', 'rust-toolchain.toml') }}
+      - run: command -v wasm-pack || cargo install wasm-pack --locked --version 0.15.0
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @octapass/core build
+      - name: Build and pack
+        working-directory: apps/extension
+        run: |
+          mkdir -p ../../packages-out
+          node scripts/build.ts --target chrome --store
+          (cd dist/chrome && zip -qr -X ../../../../packages-out/octapass-chrome-edge-store.zip .)
+          node scripts/build.ts --target chrome
+          (cd dist/chrome && zip -qr -X ../../../../packages-out/octapass-chrome-edge-sideload.zip .)
+          node scripts/build.ts --target firefox
+          (cd dist/firefox && zip -qr -X ../../../../packages-out/octapass-firefox.zip .)
+          (cd ../../packages-out && sha256sum -- *.zip > SHA256SUMS)
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: extension
+          path: packages-out/
+          if-no-files-found: error

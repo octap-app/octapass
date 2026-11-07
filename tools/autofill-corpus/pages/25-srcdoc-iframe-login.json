@@ -1,0 +1,19 @@
+{
+  "description": "Login widget in a srcdoc iframe (same origin as the page)",
+  "fields": {
+    "iframe#widget >>> #member-email": "username",
+    "iframe#widget >>> #member-password": "current-password"
+  },
+  "forms": [{ "field": "iframe#widget >>> #member-email", "type": "login" }],
+  "frames": [{ "selector": "iframe#widget", "crossOrigin": false }],
+  "fills": [
+    {
+      "focus": "iframe#widget >>> #member-password",
+      "pick": "login",
+      "expect": {
+        "iframe#widget >>> #member-email": "alex@example.test",
+        "iframe#widget >>> #member-password": "correct-horse-42!"
+      }
+    }
+  ]
+}

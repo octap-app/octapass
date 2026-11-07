@@ -1,0 +1,202 @@
+[package]
+name = "octapass-core"
+version = "0.1.0"
+description = "The Octa Pass crypto core: key derivation, encryption, OPAQUE client flows, items and tools."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+# Integration tests are one binary (tests/main.rs); see the [[test]] tables at the end.
+autotests = false
+
+[features]
+default = ["strength", "qr-images", "pgp", "toolkit"]
+# Password strength with zxcvbn. Most of the WASM size: the web vault estimates strength in
+# TypeScript and builds without it.
+strength = ["dep:zxcvbn"]
+# Reading QR codes from PNG, JPEG, WebP and GIF bytes (`tools::qr::read_image`): about 400 KB of
+# WASM. The web vault's build decodes images with the browser and passes pixels instead.
+qr-images = ["dep:image"]
+# Proton Pass's PGP-encrypted export (rPGP): about 1.1 MB of WASM (400 KB compressed). The web
+# vault's build leaves it out and loads the full build only to read such a file.
+pgp = ["dep:pgp"]
+# Signing with SSH keys (the desktop app's SSH agent, Git commit signing in the CLI). Needs `ring`
+# for RSA, so the web vault's and the server's builds leave it out.
+ssh-sign = ["dep:ring"]
+
+# The developer toolkit (plan 16, `tools::toolkit`): certificates, JOSE, hashes, encodings, key
+# conversion. The web vault's own build leaves it out and loads a separate tools build when the Tools
+# section opens, so signing in stays a small download.
+toolkit = [
+    "dep:aes-kw",
+    "dep:bcrypt",
+    "dep:bech32",
+    "dep:blake2",
+    "dep:blake3",
+    "dep:cms",
+    "dep:concat-kdf",
+    "dep:crc32fast",
+    "dep:der",
+    "dep:des",
+    "dep:pkcs12",
+    "dep:rc2",
+    "dep:sec1",
+    "dep:sha3",
+    "dep:x509-cert",
+    "argon2/password-hash",
+    "cbc/alloc",
+    "p384/ecdsa",
+    "p521/ecdsa",
+    "pbkdf2/simple",
+    "rsa/sha2",
+    "scrypt/simple",
+]
+# File encryption in the age format (`tools::age`, plan 16): the CLI and desktop app. Left out of
+# the WASM and phone builds, which don't encrypt files with it.
+age-files = ["dep:age", "dep:bech32"]
+# Server half of OPAQUE: used by tests, test fixtures and servers that want the exact same ciphersuite.
+opaque-server = []
+
+[dependencies]
+opaque-ke.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+base64.workspace = true
+thiserror.workspace = true
+rand_core.workspace = true
+# `serde` for zeroized secrets inside serialized local vaults and import options.
+zeroize = { workspace = true, features = ["serde"] }
+argon2 = { version = "0.5", default-features = false, features = ["alloc", "zeroize"] }
+chacha20poly1305 = { version = "0.10", default-features = false, features = ["alloc"] }
+ed25519-dalek = { version = "2", default-features = false, features = ["alloc", "pkcs8", "zeroize"] }
+hkdf = "0.12"
+hmac = "0.12"
+p256 = { version = "0.13", default-features = false, features = ["ecdsa", "pem", "std"] }
+sha1 = "0.10"
+sha2 = "0.10"
+unicode-normalization = "0.1"
+uuid = { version = "1", default-features = false }
+x25519-dalek = { version = "2", default-features = false, features = ["static_secrets", "zeroize"] }
+# The hybrid sealed box (plan 03). `hazmat` only for `encapsulate_deterministic`: it takes the 32
+# random bytes of FIPS 203 from our own RNG, because this crate is on a newer `rand_core`.
+ml-kem = { version = "0.3", default-features = false, features = ["hazmat", "zeroize"] }
+# Key log labels (plan 03): the RFC 9497 VOPRF that `opaque-ke` already brings in.
+voprf = { version = "0.5", default-features = false, features = ["ristretto255-ciphersuite"] }
+zxcvbn = { version = "3", default-features = false, optional = true }
+# Importers, URL matching and password rules.
+aes = "0.8"
+# Aegis, 2FAS and andOTP backups.
+aes-gcm = { version = "0.10", default-features = false, features = ["aes", "alloc"] }
+cbc = "0.1"
+# Proton Pass's PGP-encrypted export (passphrase only). No bzip2: it's C, and OpenPGP.js never
+# compresses with it.
+pgp = { version = "0.21", default-features = false, optional = true }
+# Raivo's WinZip AES ZIPs (the `ctr` that AES-GCM already uses).
+ctr = "0.9"
+# KeePass databases: the outer ChaCha20 and Twofish ciphers and the inner Salsa20 stream (the
+# RustCrypto versions the AES and ChaCha20-Poly1305 crates already use), and their XML.
+chacha20 = "0.9"
+# Ente Auth's encrypted export (libsodium's secretstream, with the ChaCha20 above).
+poly1305 = "0.8"
+quick-xml = { version = "0.42", default-features = false }
+salsa20 = "0.10"
+twofish = "0.7"
+csv = "1"
+flate2 = { version = "1", default-features = false, features = ["rust_backend"] }
+idna = "1"
+pbkdf2 = { version = "0.12", default-features = false, features = ["hmac"] }
+# Saved-URL rules are short and run on one URL, so the speed features and the rarely used \p{…} tables are left out (about 500 KB of WASM).
+regex = { version = "1", default-features = false, features = ["std", "unicode-perl", "unicode-case"] }
+# Aegis backups.
+scrypt = { version = "0.11", default-features = false }
+url = "2"
+zip = { version = "9", default-features = false, features = ["deflate-flate2"] }
+# QR codes in screenshots and photos.
+rqrr = { version = "0.11", default-features = false }
+image = { version = "0.25", default-features = false, features = ["png", "jpeg", "webp", "gif"], optional = true }
+# SSH keys: OpenSSH private keys (and their bcrypt-pbkdf passphrases), generation, public keys and
+# fingerprints. PEM keys (PKCS#1 RSA, SEC1 EC) and PKCS#8, plain or passphrase-protected, are read
+# with the RustCrypto crates below; legacy encrypted PEM uses MD5 to turn the passphrase into a key.
+ssh-key = { version = "0.6.7", default-features = false, features = ["alloc", "ecdsa", "ed25519", "p256", "p384", "p521", "rsa", "encryption", "rand_core"] }
+# RUSTSEC-2023-0071 (Marvin: a timing side channel in RSA private-key operations, unfixed in 0.9 and
+# in 0.10.0-rc.19; re-checked 2026-11-02, plan 16). Acceptable here: rsa only generates, parses and
+# serialises keys on the device, and never decrypts or signs. RSA signatures go through ring below.
+rsa = { version = "0.9", default-features = false }
+# RSA signatures for SSH: constant-time, and already in the tree through rustls.
+ring = { version = "0.17", default-features = false, features = ["alloc"], optional = true }
+p384 = { version = "0.13", default-features = false, features = ["arithmetic", "pkcs8"] }
+p521 = { version = "0.13.3", default-features = false, features = ["arithmetic", "pkcs8"] }
+pkcs8 = { version = "0.10", default-features = false, features = ["alloc", "encryption"] }
+# OpenSSL and LibreSSL protect PKCS#8 keys with PBKDF2-HMAC-SHA1 by default: only read, never written.
+pkcs5 = { version = "0.7", default-features = false, features = ["sha1-insecure"] }
+ssh-encoding = { version = "0.2", default-features = false, features = ["alloc"] }
+md-5 = "0.10"
+# Developer toolkit (the `toolkit` feature). The RustCrypto crates fit the ones above; nothing here
+# calls C. `bcrypt` is used for its raw function only: its helpers need `getrandom`, and the core
+# takes randomness from its caller.
+aes-kw = { version = "0.2", default-features = false, features = ["alloc"], optional = true }
+bcrypt = { version = "0.17", default-features = false, optional = true }
+bech32 = { version = "0.9", optional = true }
+blake2 = { version = "0.10", default-features = false, optional = true }
+blake3 = { version = "1", default-features = false, features = ["pure"], optional = true }
+concat-kdf = { version = "0.1", optional = true }
+cms = { version = "0.2", default-features = false, optional = true }
+crc32fast = { version = "1", default-features = false, optional = true }
+der = { version = "0.7", default-features = false, features = ["alloc", "derive", "oid", "pem"], optional = true }
+# DES and RC2 only read old PKCS#12 files; nothing is written with them.
+des = { version = "0.8", optional = true }
+pkcs12 = { version = "=0.1.0", features = ["kdf"], optional = true }
+rc2 = { version = "0.8", optional = true }
+sec1 = { version = "0.7", default-features = false, features = ["der"], optional = true }
+sha3 = { version = "0.10", default-features = false, optional = true }
+x509-cert = { version = "0.2.5", default-features = false, features = ["pem", "std"], optional = true }
+
+# `age` is the Rust implementation of the age format, by its co-designer's project (rage). Its keys'
+# bech32 encoding is `tools::age_keys`, shared with the toolkit: the crate can't name a key from its
+# 32 bytes. 0.11, not 0.12: 0.12's post-quantum recipient needs an `ml-kem` that can't share the
+# lockfile with the one post-quantum sharing uses, and file encryption uses X25519 and passphrases.
+age = { version = "0.11", default-features = false, features = ["armor"], optional = true }
+
+# Generating OpenPGP keys reads the clock inside rPGP: in the browser, through `web-time`.
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+pgp = { version = "0.21", default-features = false, features = ["wasm"], optional = true }
+
+
+[dev-dependencies]
+# Only to check matching::psl against it.
+psl = "2"
+octapass-core = { path = ".", features = ["opaque-server", "ssh-sign", "age-files"] }
+ciborium = "0.2"
+coset = "0.4"
+proptest = "1"
+rand_chacha = "0.3"
+tempfile = "3"
+qrcode = { version = "0.14", default-features = false }
+
+[[test]]
+name = "integration"
+path = "tests/main.rs"
+
+[[test]]
+name = "key_rotation_vectors"
+path = "tests/key_rotation_vectors.rs"
+
+[[test]]
+name = "passkey"
+path = "tests/passkey.rs"
+
+[[test]]
+name = "safe_vectors"
+path = "tests/safe_vectors.rs"
+
+[[test]]
+name = "service_account_vectors"
+path = "tests/service_account_vectors.rs"
+
+[[test]]
+name = "sharing_vectors"
+path = "tests/sharing_vectors.rs"
+
+[[test]]
+name = "vectors"
+path = "tests/vectors.rs"

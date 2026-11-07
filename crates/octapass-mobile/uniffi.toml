@@ -1,0 +1,8 @@
+[bindings.swift]
+module_name = "OctaPassVault"
+ffi_module_name = "OctaPassVaultFFI"
+ffi_module_filename = "OctaPassVaultFFI"
+
+[bindings.kotlin]
+package_name = "app.octap.vault"
+cdylib_name = "octapass_mobile"

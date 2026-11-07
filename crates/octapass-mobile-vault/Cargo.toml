@@ -1,0 +1,65 @@
+[package]
+name = "octapass-mobile-vault"
+description = "The mobile apps' vault: the shared local store, sync and device unlock over octapass-ffi. No UI."
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+# Integration tests are one binary (tests/main.rs); see the [[test]] tables at the end.
+autotests = false
+
+[features]
+# `FakeNative`, an in-memory Keychain and device lock for tests.
+fake = []
+# The desktop services (plan 19, phase 3): the browser extension's bridge, the CLI session and
+# the SSH agent, for the Mac app. The phones leave it off.
+desktop = [
+    "dep:octapass-native-host",
+    "dep:octapass-ssh-agent",
+    "dep:x25519-dalek",
+    "dep:hkdf",
+    "dep:libc",
+    "dep:tokio",
+    "octapass-core/ssh-sign",
+]
+
+[dependencies]
+octapass-core = { path = "../octapass-core" }
+octapass-api = { path = "../octapass-api" }
+octapass-ffi = { path = "../octapass-ffi" }
+# Octa Pass Safe: its sync through this account's attachments.
+octapass-files = { path = "../octapass-files", default-features = false }
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+zeroize.workspace = true
+sha2 = "0.10"
+rand_core.workspace = true
+time = { version = "0.3", features = ["formatting", "parsing"] }
+ureq = { version = "3", default-features = false, features = ["rustls", "platform-verifier"] }
+# The desktop services: the browser's native messaging protocol and its checks on who connects
+# (shared with the Tauri app), and the key exchange that hands the account key over.
+octapass-native-host = { path = "../../apps/desktop/crates/native-host", optional = true }
+# The SSH agent's protocol and listener (shared with the Tauri app), which run on tokio.
+octapass-ssh-agent = { path = "../../apps/desktop/crates/ssh-agent", optional = true }
+tokio = { version = "1", features = ["rt-multi-thread", "net", "sync", "io-util"], optional = true }
+x25519-dalek = { version = "2", features = ["static_secrets", "zeroize"], optional = true }
+hkdf = { version = "0.12", optional = true }
+# Waiting on a service's socket and its stop signal at once.
+libc = { version = "0.2", optional = true }
+
+[dev-dependencies]
+octapass-mobile-vault = { path = ".", features = ["fake", "desktop"] }
+octapass-native-host = { path = "../../apps/desktop/crates/native-host", features = ["testing"] }
+octapass-server = { path = "../../apps/server" }
+axum = "0.8"
+tokio = { version = "1", features = ["full"] }
+tempfile = "3"
+# Draws the QR codes the photo tests pick.
+qrcode = { version = "0.14", default-features = false }
+image = { version = "0.25", default-features = false, features = ["png"] }
+
+[[test]]
+name = "integration"
+path = "tests/main.rs"

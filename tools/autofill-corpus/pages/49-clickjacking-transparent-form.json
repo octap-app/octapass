@@ -1,0 +1,18 @@
+{
+  "description": "Clickjacking: a login form wrapped in a container with opacity 0.01 sits on top of a visible \"Claim prize\" button. Filling must be refused. (Field types are deliberately not asserted.)",
+  "fields": {},
+  "fills": [
+    {
+      "focus": "#cj-user",
+      "pick": "login",
+      "refused": true,
+      "expect": { "#cj-user": "", "#cj-pass": "" }
+    },
+    {
+      "focus": "#cj-pass",
+      "pick": "login",
+      "refused": true,
+      "expect": { "#cj-user": "", "#cj-pass": "" }
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+<resources>
+    <string name="octapass_use_screen_lock">Use screen lock</string>
+    <string name="octapass_lock_screen_lock">Screen lock</string>
+    <string name="octapass_lock_fingerprint">Fingerprint</string>
+    <string name="octapass_lock_face">Face unlock</string>
+    <string name="octapass_lock_biometrics">Biometrics</string>
+</resources>

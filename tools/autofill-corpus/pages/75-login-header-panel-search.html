@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saffron Table · Recipes</title>
+<style>
+  body { margin: 0; font: 14px/1.5 system-ui, sans-serif; background: #fff; color: #27272a; }
+  header { display: flex; align-items: center; gap: 18px; padding: 10px 24px; background: #9a3412; color: #fff; }
+  .brand { font-size: 20px; font-weight: 800; margin-right: auto; }
+  .search input { width: 240px; padding: 7px 10px; border: 0; border-radius: 4px; font: inherit; }
+  .acct { position: relative; }
+  .acct summary { list-style: none; cursor: pointer; padding: 6px 12px; border: 1px solid rgba(255,255,255,.5); border-radius: 4px; }
+  .acct summary::-webkit-details-marker { display: none; }
+  .acct .drop { position: absolute; right: 0; top: 40px; width: 260px; background: #fff; color: #27272a; border-radius: 6px; padding: 14px; box-shadow: 0 8px 24px rgba(0,0,0,.18); z-index: 5; }
+  .drop input { display: block; width: 100%; box-sizing: border-box; padding: 7px; margin-bottom: 8px; border: 1px solid #d4d4d8; border-radius: 4px; font: inherit; }
+  .drop button { width: 100%; padding: 8px; border: 0; border-radius: 4px; background: #9a3412; color: #fff; font: inherit; }
+  main { padding: 30px 24px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .tile { height: 140px; background: #fed7aa; border-radius: 8px; padding: 12px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Saffron Table</div>
+  <form class="search" action="/search" method="get" role="search">
+    <input id="q" name="q" type="text" placeholder="Search 12,000 recipes" aria-label="Search recipes">
+  </form>
+  <details class="acct" open>
+    <summary>Sign in &#9662;</summary>
+    <div class="drop">
+      <form id="hdr-login" action="/login" method="post">
+        <input id="hdr-email" name="login" type="text" placeholder="Email" aria-label="Email">
+        <input id="hdr-pass" name="pass" type="password" placeholder="Password" aria-label="Password">
+        <button type="submit">Sign in</button>
+      </form>
+    </div>
+  </details>
+</header>
+<main>
+  <h1>This week's favourites</h1>
+  <div class="grid">
+    <div class="tile">Smoky chickpea stew</div>
+    <div class="tile">Lemon ricotta pasta</div>
+    <div class="tile">Charred corn salad</div>
+  </div>
+</main>
+<script>
+  document.getElementById('hdr-login').onsubmit = function (e) { e.preventDefault(); };
+  document.querySelector('.search').onsubmit = function (e) { e.preventDefault(); };
+</script>
+</body>
+</html>

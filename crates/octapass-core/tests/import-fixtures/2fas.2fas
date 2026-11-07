@@ -1,0 +1,143 @@
+{
+  "services": [
+    {
+      "name": "GitHub",
+      "secret": "JBSWY3DPEHPK3PXP",
+      "updatedAt": 1767225600000,
+      "serviceTypeID": "4f0a3c8e-0000-4000-8000-000000000001",
+      "otp": {
+        "label": "GitHub:octo",
+        "account": "octo",
+        "issuer": "GitHub",
+        "digits": 6,
+        "period": 30,
+        "algorithm": "SHA1",
+        "tokenType": "TOTP",
+        "source": "Link"
+      },
+      "order": { "position": 0 },
+      "icon": { "selected": "IconCollection", "label": { "text": "GI", "backgroundColor": "Orange" }, "iconCollection": { "id": "a5b3fb65-0000-4000-8000-000000000001" } },
+      "groupId": "9d2f6b1a-0000-4000-8000-0000000000b1"
+    },
+    {
+      "name": "بنك الأمل",
+      "secret": "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
+      "updatedAt": 1767225600000,
+      "serviceTypeID": null,
+      "otp": {
+        "label": "بنك الأمل:مستخدم",
+        "account": "مستخدم",
+        "issuer": "بنك الأمل",
+        "digits": 8,
+        "period": 60,
+        "algorithm": "SHA256",
+        "tokenType": "TOTP",
+        "source": "Manual"
+      },
+      "order": { "position": 1 },
+      "badge": { "color": "Green" },
+      "icon": { "selected": "Label", "label": { "text": "بن", "backgroundColor": "Green" }, "iconCollection": { "id": "a5b3fb65-0000-4000-8000-000000000002" } },
+      "groupId": "9d2f6b1a-0000-4000-8000-0000000000b2"
+    },
+    {
+      "name": "Emoji 🔐 Mail",
+      "secret": "KRSXG5CTMVRXEZLUKN2XAZLSKNSWG4TFOQ",
+      "updatedAt": 1767225600000,
+      "serviceTypeID": null,
+      "otp": {
+        "label": "Emoji 🔐 Mail:jane@example.com",
+        "issuer": "Emoji 🔐 Mail",
+        "digits": 7,
+        "period": 30,
+        "algorithm": "SHA512",
+        "tokenType": "TOTP",
+        "source": "Link"
+      },
+      "order": { "position": 2 },
+      "icon": { "selected": "IconCollection", "label": { "text": "EM", "backgroundColor": "Purple" }, "iconCollection": { "id": "a5b3fb65-0000-4000-8000-000000000003" } },
+      "groupId": null
+    },
+    {
+      "name": "Counter Corp",
+      "secret": "MFRGGZDFMZTWQ2LK",
+      "updatedAt": 1767225600000,
+      "serviceTypeID": null,
+      "otp": {
+        "label": "Counter Corp:counter-user",
+        "account": "counter-user",
+        "issuer": "Counter Corp",
+        "digits": 6,
+        "algorithm": "SHA1",
+        "counter": 42,
+        "tokenType": "HOTP",
+        "source": "Manual"
+      },
+      "order": { "position": 3 },
+      "icon": { "selected": "Label", "label": { "text": "CC", "backgroundColor": "Red" }, "iconCollection": { "id": "a5b3fb65-0000-4000-8000-000000000004" } },
+      "groupId": null
+    },
+    {
+      "name": "Steam",
+      "secret": "ONSWG4TFOQYTEMZU",
+      "updatedAt": 1767225600000,
+      "serviceTypeID": "4f0a3c8e-0000-4000-8000-000000000005",
+      "otp": {
+        "account": "gamer",
+        "issuer": "Steam",
+        "digits": 5,
+        "period": 30,
+        "algorithm": "SHA1",
+        "tokenType": "STEAM",
+        "source": "Manual"
+      },
+      "order": { "position": 4 },
+      "icon": { "selected": "IconCollection", "label": { "text": "ST", "backgroundColor": "Indigo" }, "iconCollection": { "id": "a5b3fb65-0000-4000-8000-000000000005" } },
+      "groupId": "9d2f6b1a-0000-4000-8000-0000000000b1"
+    },
+    {
+      "name": "Old Shop",
+      "secret": "MFRGGZDFMZTWQ2LKNNWG23TPOBYXE43U",
+      "updatedAt": 1767225600000,
+      "serviceTypeID": null,
+      "otp": {
+        "account": "buyer",
+        "issuer": "Old Shop",
+        "digits": 6,
+        "period": 30,
+        "algorithm": "SHA224",
+        "tokenType": "TOTP",
+        "source": "Manual"
+      },
+      "order": { "position": 5 },
+      "icon": { "selected": "Label", "label": { "text": "OS", "backgroundColor": "Yellow" }, "iconCollection": { "id": "a5b3fb65-0000-4000-8000-000000000006" } },
+      "groupId": null
+    },
+    {
+      "name": "No Secret Inc",
+      "secret": "",
+      "updatedAt": 1767225600000,
+      "serviceTypeID": null,
+      "otp": {
+        "account": "nobody",
+        "issuer": "No Secret Inc",
+        "digits": 6,
+        "period": 30,
+        "algorithm": "SHA1",
+        "tokenType": "TOTP",
+        "source": "Manual"
+      },
+      "order": { "position": 6 },
+      "icon": null,
+      "groupId": null
+    }
+  ],
+  "groups": [
+    { "id": "9d2f6b1a-0000-4000-8000-0000000000b1", "name": "Work", "isExpanded": true, "updatedAt": 1767225600000 },
+    { "id": "9d2f6b1a-0000-4000-8000-0000000000b2", "name": "شخصي", "isExpanded": false, "updatedAt": 1767225600000 }
+  ],
+  "updatedAt": 1767225600000,
+  "schemaVersion": 4,
+  "appVersionCode": 5000020,
+  "appVersionName": "5.0.2",
+  "appOrigin": "android"
+}

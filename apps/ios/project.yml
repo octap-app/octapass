@@ -1,0 +1,224 @@
+name: OctaPass
+# The native iPhone and iPad app (plan 17). Generate the Xcode project with `xcodegen generate`
+# in this folder after changing this file, and commit both.
+options:
+  bundleIdPrefix: app.octap.ios
+  deploymentTarget:
+    iOS: "17.0"
+  developmentLanguage: en
+  createIntermediateGroups: true
+# The signing team for every target comes from the gitignored Signing.local.xcconfig (see
+# Signing.xcconfig), so no team ID is committed. Simulator builds need none.
+configFiles:
+  Debug: Signing.xcconfig
+  Release: Signing.xcconfig
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    # The App Group and Keychain group the app shares with its AutoFill extension, as the Tauri
+    # app named them, so both apps open the same vault. Without a team, $(AppIdentifierPrefix)
+    # is empty.
+    OCTAPASS_APP_GROUP: group.app.octap
+    OCTAPASS_KEYCHAIN_GROUP: $(AppIdentifierPrefix)app.octap.shared
+    # The "Octa Pass" server choice; a development build can name a test server instead.
+    OCTAPASS_SERVER_URL: https://vault.octap.app
+packages:
+  OctaPassVault:
+    path: Packages/OctaPassVault
+  OctaPassResources:
+    path: Packages/OctaPassResources
+  OctaPassKeychain:
+    path: Packages/Keychain
+  OctaPassWifi:
+    path: Packages/Wifi
+  OctaPassAutoFillKit:
+    path: Packages/AutoFillKit
+  OctaPassWatchCodes:
+    path: Packages/WatchCodes
+targets:
+  OctaPass:
+    type: application
+    platform: iOS
+    sources:
+      - path: OctaPass
+    settings:
+      base:
+        PRODUCT_NAME: Octa Pass
+        PRODUCT_MODULE_NAME: OctaPass
+        PRODUCT_BUNDLE_IDENTIFIER: app.octap.ios
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        INFOPLIST_KEY_UILaunchScreen_Generation: true
+        CODE_SIGN_ENTITLEMENTS: OctaPass/OctaPass.entitlements
+        ENABLE_PREVIEWS: true
+    info:
+      path: OctaPass/Info.plist
+      properties:
+        CFBundleDisplayName: Octa Pass
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleLocalizations: [en, ar]
+        LSRequiresIPhoneOS: true
+        UILaunchScreen:
+          UIColorName: ""
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        NSFaceIDUsageDescription: Unlock Octa Pass with Face ID.
+        # Only a self-hosted server on the same network (a LAN address) asks for this.
+        NSLocalNetworkUsageDescription: Octa Pass uses the local network only to reach a sync server you run on it.
+        NSCameraUsageDescription: Scan QR codes to add Wi-Fi networks, one-time codes and contacts, and take photos to attach to items.
+        # iOS tells apps the Wi-Fi network's name only with location access (and the Access
+        # Wi-Fi Information entitlement): asked when the user opens Wi-Fi, never at start.
+        NSLocationWhenInUseUsageDescription: Octa Pass uses this only to see the name of the Wi-Fi network you’re on, to mark it in your vault. It never finds where you are.
+        ITSAppUsesNonExemptEncryption: false
+        # One-time code setup links: listing otpauth puts Octa Pass under Settings → General →
+        # AutoFill & Passwords → Set Up Codes In; otpauth-migration is a Google Authenticator export.
+        CFBundleURLTypes:
+          - CFBundleURLName: app.octap.ios.otpauth
+            CFBundleTypeRole: Editor
+            CFBundleURLSchemes: [otpauth, otpauth-migration]
+        # Credential Exchange (iOS 26): other apps' exports launch Octa Pass with this activity.
+        # Its type is "ASCredentialExchangeActivity"; Apple's docs name the constant instead.
+        NSUserActivityTypes: [ASCredentialExchangeActivity, ASCredentialExchangeActivityType]
+        # A Safe's file or folder dragged within the app, from one Safe or folder to another
+        # (SafeEntryRef). Dropped anywhere else, it's a decrypted copy instead.
+        UTExportedTypeDeclarations:
+          - UTTypeIdentifier: app.octap.safe-entry
+            UTTypeDescription: Octa Pass Safe item
+            UTTypeConformsTo: [public.data]
+        OctaPassAppGroup: $(OCTAPASS_APP_GROUP)
+        OctaPassKeychainGroup: $(OCTAPASS_KEYCHAIN_GROUP)
+        OctaPassServerURL: $(OCTAPASS_SERVER_URL)
+    entitlements:
+      path: OctaPass/OctaPass.entitlements
+      properties:
+        com.apple.developer.authentication-services.autofill-credential-provider: true
+        com.apple.developer.networking.HotspotConfiguration: true
+        com.apple.developer.networking.wifi-info: true
+        com.apple.security.application-groups: [$(OCTAPASS_APP_GROUP)]
+        keychain-access-groups: [$(OCTAPASS_KEYCHAIN_GROUP)]
+    dependencies:
+      - target: OctaPassAutoFill
+        embed: true
+      - target: OctaPassSafeProvider
+        embed: true
+      - package: OctaPassVault
+      - package: OctaPassResources
+      - package: OctaPassKeychain
+      - package: OctaPassWifi
+      - package: OctaPassWatchCodes
+    scheme:
+      testTargets:
+        - OctaPassTests
+        - OctaPassUITests
+      gatherCoverageData: false
+  # The AutoFill Credential Provider extension, moved from the Tauri app unchanged. It links the
+  # small octapass-ffi (`OctaPassCore`, built by crates/octapass-ffi/scripts/build-ios.sh), not
+  # the app's vault: it runs with a tight memory limit and only unlocks and fills.
+  OctaPassAutoFill:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: AutoFill
+        excludes: ["Info.plist", "*.entitlements"]
+    settings:
+      base:
+        PRODUCT_NAME: OctaPassAutoFill
+        PRODUCT_BUNDLE_IDENTIFIER: app.octap.ios.autofill
+        INFOPLIST_FILE: AutoFill/Info.plist
+        CODE_SIGN_ENTITLEMENTS: AutoFill/AutoFill.entitlements
+        APPLICATION_EXTENSION_API_ONLY: true
+        TARGETED_DEVICE_FAMILY: "1,2"
+    dependencies:
+      - package: OctaPassAutoFillKit
+        product: OctaPassAutoFillKit
+  # Octa Pass Safe in the Files app (plan 03 History, 2026-11-04): a File Provider extension, one
+  # domain per Safe while the vault is unlocked. It has no vault: it opens each Safe with the key the
+  # app leaves in the shared Keychain (OctaPassKeychain's SafeKeyRecords), on the App Group's
+  # `safes` folder the app uses too. It links the app's vault library for `SafeDrive` only.
+  OctaPassSafeProvider:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: SafeProvider
+        excludes: ["Info.plist", "*.entitlements"]
+    settings:
+      base:
+        PRODUCT_NAME: OctaPassSafeProvider
+        PRODUCT_BUNDLE_IDENTIFIER: app.octap.ios.safes
+        INFOPLIST_FILE: SafeProvider/Info.plist
+        CODE_SIGN_ENTITLEMENTS: SafeProvider/SafeProvider.entitlements
+        APPLICATION_EXTENSION_API_ONLY: true
+        TARGETED_DEVICE_FAMILY: "1,2"
+    dependencies:
+      - package: OctaPassVault
+      - package: OctaPassKeychain
+      - package: OctaPassResources
+  # The Apple Watch app (plan 05 History, 2026-11-02): shows the codes the phone sends. It holds no
+  # seed and doesn't link the vault. Not a dependency of the iPhone app: Xcode can't build the
+  # iPhone app with it on a Mac without the watchOS platform. It has its own scheme; shipping it
+  # inside the iPhone app (`- target: OctaPassWatch` with `embed: true` under OctaPass) needs the
+  # watchOS platform on the build Mac (plan 17 History, 2026-11-02).
+  OctaPassWatch:
+    type: application
+    platform: watchOS
+    deploymentTarget: "10.0"
+    sources:
+      - path: Watch
+    settings:
+      base:
+        PRODUCT_NAME: OctaPassWatch
+        PRODUCT_MODULE_NAME: OctaPassWatch
+        PRODUCT_BUNDLE_IDENTIFIER: app.octap.ios.watch
+        TARGETED_DEVICE_FAMILY: "4"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        SKIP_INSTALL: true
+    info:
+      path: Watch/Info.plist
+      properties:
+        CFBundleDisplayName: Octa Pass
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleLocalizations: [en, ar]
+        WKApplication: true
+        WKCompanionAppBundleIdentifier: app.octap.ios
+        ITSAppUsesNonExemptEncryption: false
+    dependencies:
+      - package: OctaPassWatchCodes
+      - package: OctaPassResources
+    scheme: {}
+  OctaPassTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: OctaPassTests
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.octap.ios.tests
+        GENERATE_INFOPLIST_FILE: true
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/Octa Pass.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Octa Pass
+        BUNDLE_LOADER: $(TEST_HOST)
+    dependencies:
+      - target: OctaPass
+  OctaPassUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: OctaPassUITests
+        excludes: ["Fixtures"]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.octap.ios.uitests
+        GENERATE_INFOPLIST_FILE: true
+        TEST_TARGET_NAME: OctaPass
+    dependencies:
+      - target: OctaPass

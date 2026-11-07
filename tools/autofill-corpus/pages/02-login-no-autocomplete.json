@@ -1,0 +1,15 @@
+{
+  "description": "Bank login with no autocomplete attributes (form has autocomplete=off); User ID + Password labels only",
+  "fields": {
+    "#uid": "username",
+    "#pwd": "current-password"
+  },
+  "forms": [{ "field": "#uid", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#uid",
+      "pick": "login",
+      "expect": { "#uid": "alex@example.test", "#pwd": "correct-horse-42!" }
+    }
+  ]
+}

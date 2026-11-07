@@ -1,0 +1,18 @@
+{
+  "description": "Formless login two shadow roots deep: declarative shadow root (app-shell) containing a custom element (auth-panel) with its own open shadow root; no autocomplete",
+  "fields": {
+    "app-shell >>> auth-panel >>> #username": "username",
+    "app-shell >>> auth-panel >>> #password": "current-password"
+  },
+  "forms": [{ "field": "app-shell >>> auth-panel >>> #username", "type": "login" }],
+  "fills": [
+    {
+      "focus": "app-shell >>> auth-panel >>> #password",
+      "pick": "login",
+      "expect": {
+        "app-shell >>> auth-panel >>> #username": "alex@example.test",
+        "app-shell >>> auth-panel >>> #password": "correct-horse-42!"
+      }
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Orchard Boards</title>
+<style>
+  body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: #f0f9ff; color: #0c4a6e; }
+  #login-view { width: 360px; margin: 90px auto; background: #fff; border-radius: 12px; padding: 26px; box-shadow: 0 4px 16px rgba(12,74,110,.12); }
+  .fld { margin-top: 12px; }
+  .fld input { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #bae6fd; border-radius: 8px; font: inherit; }
+  #signin-btn { margin-top: 18px; width: 100%; padding: 10px; border: 0; border-radius: 8px; background: #0284c7; color: #fff; font: inherit; cursor: pointer; }
+  #home-view { padding: 40px; }
+</style>
+</head>
+<body>
+<div id="login-view">
+  <h1 style="font-size:21px;margin:0">Orchard Boards</h1>
+  <div class="fld"><input id="username" type="text" placeholder="Username" aria-label="Username"></div>
+  <div class="fld"><input id="password" type="password" placeholder="Password" aria-label="Password"></div>
+  <div id="signin-btn" role="button" tabindex="0">Sign in</div>
+</div>
+<div id="home-view" hidden>
+  <h1 id="welcome"></h1>
+  <p>3 boards · 12 open cards</p>
+</div>
+<script>
+  /* Single-page app: no <form>; the button handler reads the fields, clears them,
+   * swaps the view and pushes a new history entry instead of navigating. */
+  function signIn() {
+    var u = document.getElementById('username'), p = document.getElementById('password');
+    if (!u.value || !p.value) return;
+    var name = u.value;
+    u.value = '';
+    p.value = '';
+    history.pushState({ view: 'home' }, '', '?view=home');
+    document.getElementById('login-view').hidden = true;
+    document.getElementById('home-view').hidden = false;
+    document.getElementById('welcome').textContent = 'Welcome back, ' + name;
+  }
+  document.getElementById('signin-btn').addEventListener('click', signIn);
+  document.getElementById('password').addEventListener('keydown', function (e) { if (e.key === 'Enter') signIn(); });
+</script>
+</body>
+</html>

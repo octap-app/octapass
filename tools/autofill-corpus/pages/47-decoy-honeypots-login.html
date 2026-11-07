@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in · Quarry Outfitters</title>
+<style>
+  body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: #f5f5f4; color: #292524; }
+  header { background: #44403c; color: #fff; padding: 14px 32px; font-weight: 700; }
+  form { position: relative; width: 380px; margin: 60px auto; background: #fff; border: 1px solid #d6d3d1; border-radius: 8px; padding: 26px 26px 60px; }
+  label { display: block; margin: 12px 0 4px; font-weight: 600; }
+  .vis { width: 100%; box-sizing: border-box; padding: 9px; border: 1px solid #a8a29e; border-radius: 6px; font: inherit; }
+  button { margin-top: 18px; width: 100%; padding: 10px; border: 0; border-radius: 6px; background: #b45309; color: #fff; font: inherit; }
+  .sr-trap { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); border: 0; }
+</style>
+</head>
+<body>
+<header>Quarry Outfitters</header>
+<form id="login" action="/login" method="post">
+  <h1 style="font-size:21px;margin:0">Sign in</h1>
+  <label for="username">Username or email</label>
+  <input class="vis" id="username" name="login_name" type="text">
+  <label for="password">Password</label>
+  <input class="vis" id="password" name="login_pass" type="password">
+  <button type="submit">Sign in</button>
+
+  <!-- bot traps: real users never see or reach these -->
+  <input id="hp-display" name="email" type="email" style="display:none">
+  <input id="hp-visibility" name="password" type="password" style="visibility:hidden;position:absolute;left:26px;bottom:14px">
+  <input id="hp-zero" name="user" type="text" style="width:0;height:0;padding:0;border:0;margin:0">
+  <input id="hp-offscreen" name="username" type="text" tabindex="-1" style="position:absolute;left:-9999px;top:0">
+  <input id="hp-opacity" name="pass" type="password" tabindex="-1" style="opacity:0;position:absolute;right:26px;bottom:14px;width:140px;pointer-events:none">
+  <input id="hp-tiny" class="sr-trap" name="email_confirm" type="text" aria-hidden="true" tabindex="-1">
+  <input id="hp-hidden" name="user_name" type="hidden" value="">
+</form>
+<script>document.getElementById('login').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

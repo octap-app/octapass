@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in</title>
+<style>
+  body { margin: 0; padding: 20px; font: 14px system-ui, sans-serif; background: #fff; }
+  label { display: block; margin: 10px 0 4px; font-weight: 600; }
+  input { width: 100%; box-sizing: border-box; padding: 8px; border: 1px solid #bbb; border-radius: 5px; font: inherit; }
+  button { margin-top: 14px; padding: 8px 18px; border: 0; border-radius: 5px; background: #0d9488; color: #fff; font: inherit; }
+</style>
+</head>
+<body>
+<form id="frame-login" action="/sso/login" method="post">
+  <label for="user">Email</label>
+  <input id="user" name="user" type="email">
+  <label for="pass">Password</label>
+  <input id="pass" name="pass" type="password">
+  <button type="submit">Sign in</button>
+</form>
+<script>document.getElementById('frame-login').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

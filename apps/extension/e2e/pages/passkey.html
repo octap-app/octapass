@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>WebAuthn test page</title>
+    <style>
+      body { font: 16px system-ui; margin: 3rem; }
+      pre { white-space: pre-wrap; }
+    </style>
+  </head>
+  <body>
+    <h1>Passkeys</h1>
+    <button id="register">Register</button>
+    <button id="signin">Sign in</button>
+    <pre id="result"></pre>
+    <script>
+      // A tiny relying party: just enough to check what the page gets back, not a verifier.
+      const b64 = (buffer) => btoa(String.fromCharCode(...new Uint8Array(buffer))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+      const random = (n) => crypto.getRandomValues(new Uint8Array(n));
+      const show = (value) => (document.getElementById('result').textContent = JSON.stringify(value));
+      let registered;
+
+      document.getElementById('register').onclick = async () => {
+        try {
+          const credential = await navigator.credentials.create({
+            publicKey: {
+              rp: { name: 'Passkey test' },
+              user: { id: new TextEncoder().encode('user-1'), name: 'maya@example.test', displayName: 'Maya' },
+              challenge: random(32),
+              pubKeyCredParams: [{ type: 'public-key', alg: -7 }],
+              authenticatorSelection: { residentKey: 'required', userVerification: 'required' },
+            },
+          });
+          registered = credential.id;
+          const client = JSON.parse(new TextDecoder().decode(credential.response.clientDataJSON));
+          show({ step: 'registered', id: credential.id, isCredential: credential instanceof PublicKeyCredential, type: client.type, origin: client.origin, algorithm: credential.response.getPublicKeyAlgorithm() });
+        } catch (error) {
+          show({ step: 'error', name: error.name, message: error.message });
+        }
+      };
+
+      document.getElementById('signin').onclick = async () => {
+        try {
+          const credential = await navigator.credentials.get({ publicKey: { challenge: random(32), userVerification: 'required' } });
+          const client = JSON.parse(new TextDecoder().decode(credential.response.clientDataJSON));
+          show({ step: 'signed-in', id: credential.id, sameCredential: credential.id === registered, type: client.type, origin: client.origin, signature: b64(credential.response.signature).length > 0 });
+        } catch (error) {
+          show({ step: 'error', name: error.name, message: error.message });
+        }
+      };
+    </script>
+  </body>
+</html>

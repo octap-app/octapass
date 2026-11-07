@@ -1,0 +1,11 @@
+"Group","Title","Username","Password","URL","Notes","TOTP","Icon","Last Modified","Created"
+"Root","GitHub","octocat","pa,ss""word","https://github.com/login","Line one
+line two","otpauth://totp/GitHub:octocat?secret=JBSWY3DPEHPK3PXP&period=30&digits=6&issuer=GitHub","0","2025-10-01T08:00:00Z","2024-01-01T00:00:00Z"
+"Root/مالية","بنك الأمل","مستخدم","كلمة-سر-٢٠٢٥","https://bank.example.jo","ملاحظة بالعربية
+سطر ثاني","","0","2025-10-01T08:00:00Z","2025-10-01T08:00:00Z"
+"Root/Work/Email","Mail 📧","me@example.com","  spaced  ","https://mail.example","","","1","2025-10-01T08:00:00Z","2025-10-01T08:00:00Z"
+"Root","Wi-Fi at home","","","","Only a note, with ""quotes"", commas, and
+three
+lines","","0","2025-10-01T08:00:00Z","2025-10-01T08:00:00Z"
+"Root","Empty entry","","","","","","0","2025-10-01T08:00:00Z","2025-10-01T08:00:00Z"
+"Root/Recycle Bin","Deleted login","old","gone","","","","0","2025-10-01T08:00:00Z","2025-10-01T08:00:00Z"

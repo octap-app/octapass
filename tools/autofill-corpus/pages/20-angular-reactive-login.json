@@ -1,0 +1,22 @@
+{
+  "description": "Angular-style reactive form (inline emulation: model updates on `input`, dirty on input, touched on blur); form must become VALID and dirty after the fill",
+  "fields": {
+    "#mat-input-0": "username",
+    "#mat-input-1": "current-password"
+  },
+  "forms": [{ "field": "#mat-input-0", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#mat-input-0",
+      "pick": "login",
+      "expect": {
+        "#mat-input-0": "alex@example.test",
+        "#mat-input-1": "correct-horse-42!",
+        "#ng-email": "alex@example.test",
+        "#ng-password": "correct-horse-42!",
+        "#ng-status": "VALID",
+        "#ng-dirty": "dirty"
+      }
+    }
+  ]
+}

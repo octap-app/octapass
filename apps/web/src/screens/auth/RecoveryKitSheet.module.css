@@ -1,0 +1,132 @@
+.sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  padding: 1.4rem;
+  border-radius: var(--radius-lg);
+  background: #fff;
+  color: #0b1220;
+  box-shadow: 0 0 0 1px #e3e5ec, 0 18px 40px -24px rgb(11 18 32 / 0.45);
+  text-align: start;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 720;
+  font-stretch: 108%;
+  letter-spacing: -0.02em;
+}
+
+.meta,
+.small {
+  font-size: var(--text-sm);
+  color: #5e6576;
+}
+
+.fields {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.fields div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-inline-size: 0;
+}
+
+.fields dt {
+  font-size: var(--text-xs);
+  font-weight: 650;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #5e6576;
+}
+
+.fields dd {
+  margin: 0;
+  font-weight: 550;
+  overflow-wrap: anywhere;
+}
+
+.secret dd {
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #1d47d6;
+}
+
+.blank {
+  display: block;
+  block-size: 1.6rem;
+  border-block-end: 1.5px dashed #cfd3de;
+}
+
+.qrRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: var(--text-sm);
+  color: #5e6576;
+}
+
+.qrRow svg {
+  flex: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0 1px #e3e5ec;
+}
+
+.recovery {
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius);
+  background: #f2f3f7;
+}
+
+.recovery h3 {
+  font-size: var(--text-xs);
+  font-weight: 650;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #5e6576;
+}
+
+.code {
+  margin-block: 0.35rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+/* Print only the kit, on a clean white page. */
+@media print {
+  :global(body *) {
+    visibility: hidden;
+  }
+
+  .sheet,
+  .sheet * {
+    visibility: visible;
+  }
+
+  .sheet {
+    position: absolute;
+    inset: 0 0 auto;
+    padding: 12mm;
+    box-shadow: none;
+    font-size: 12pt;
+    gap: 7mm;
+  }
+
+  .recovery {
+    background: none;
+    border: 1px solid #cfd3de;
+  }
+}

@@ -1,0 +1,67 @@
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-block-start: 0.5rem;
+}
+
+.hint {
+  font-size: var(--text-sm);
+  color: var(--mist);
+}
+
+.qr {
+  display: grid;
+  place-items: center;
+  padding: 0.75rem;
+  border-radius: var(--radius);
+  background: var(--tile);
+}
+
+.qr svg {
+  border-radius: 0.5rem;
+}
+
+.setupKey {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: var(--text-sm);
+  color: var(--mist);
+}
+
+.secret {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--ink);
+  font-size: var(--text-md);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  overflow-wrap: anywhere;
+}
+
+.codes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr));
+  gap: 0.5rem 1rem;
+  margin: 0;
+  padding: 1rem 1.1rem;
+  list-style: none;
+  border-radius: var(--radius);
+  background: var(--tile);
+  font-size: var(--text-md);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.keys {
+  padding-inline-start: 1.1rem;
+}

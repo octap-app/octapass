@@ -1,0 +1,80 @@
+[workspace]
+resolver = "3"
+members = ["crates/*", "apps/server", "apps/relay", "apps/cli"]
+exclude = ["apps/desktop"]
+
+[workspace.package]
+edition = "2024"
+license = "MIT"
+repository = "https://github.com/octapass/octapass"
+
+[workspace.dependencies]
+opaque-ke = { version = "=4.0.1", default-features = false, features = ["ristretto255", "serde"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+base64 = "0.22"
+thiserror = "2"
+rand_core = { version = "0.6", features = ["getrandom"] }
+zeroize = { version = "1", features = ["derive"] }
+
+# Debug builds keep file and line numbers for our own code (backtraces still point at the right
+# line) and drop debug info for dependencies. Full debug info made `target/` tens of GB and
+# linking each test binary slow.
+[profile.dev]
+debug = "line-tables-only"
+[profile.dev.package."*"]
+debug = false
+
+# Argon2id runs on every unlock; unoptimised it takes seconds in debug builds and tests (the CLI's).
+[profile.dev.package.argon2]
+opt-level = 3
+# scrypt opens Aegis backups; unoptimised it takes seconds per try.
+[profile.dev.package.scrypt]
+opt-level = 3
+[profile.dev.package.salsa20]
+opt-level = 3
+# Proton Pass's encrypted export: OpenPGP's iterated S2K hashes 65 MB; unoptimised that takes
+# seconds per try.
+[profile.dev.package.sha2]
+opt-level = 3
+[profile.dev.package.pgp]
+opt-level = 3
+
+# Safe tests seal many 64 KiB chunks; unoptimised that's most of their run time.
+[profile.dev.package.chacha20]
+opt-level = 3
+[profile.dev.package.poly1305]
+opt-level = 3
+
+# The browser's WASM core (packages/core): smaller code, but the password-hashing crates stay at full
+# speed because unlock time depends on them.
+[profile.wasm-release]
+inherits = "release"
+opt-level = "s"
+lto = true
+codegen-units = 1
+[profile.wasm-release.package.argon2]
+opt-level = 3
+[profile.wasm-release.package.scrypt]
+opt-level = 3
+[profile.wasm-release.package.salsa20]
+opt-level = 3
+# SSH keys: RSA key generation and the bcrypt-pbkdf passphrase on OpenSSH keys take seconds
+# unoptimised.
+[profile.dev.package.num-bigint-dig]
+opt-level = 3
+[profile.dev.package.bcrypt-pbkdf]
+opt-level = 3
+[profile.dev.package.blowfish]
+opt-level = 3
+[profile.wasm-release.package.num-bigint-dig]
+opt-level = 3
+[profile.wasm-release.package.bcrypt-pbkdf]
+opt-level = 3
+[profile.wasm-release.package.blowfish]
+opt-level = 3
+# Reading QR codes from screenshots: unoptimised, a big image takes seconds in tests.
+[profile.dev.package.rqrr]
+opt-level = 3
+[profile.dev.package.image]
+opt-level = 3

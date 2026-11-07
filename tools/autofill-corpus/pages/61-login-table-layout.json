@@ -1,0 +1,20 @@
+{
+  "description": "Old intranet login laid out in a table: the label text is in a <td> and the input (no id, no label, no autocomplete) in the next <td>; a branch select must be left alone",
+  "fields": {
+    "input[name=j_username]": "username",
+    "input[name=j_password]": "current-password",
+    "select[name=branch]": "none"
+  },
+  "forms": [{ "field": "input[name=j_username]", "type": "login" }],
+  "fills": [
+    {
+      "focus": "input[name=j_username]",
+      "pick": "login",
+      "expect": {
+        "input[name=j_username]": "alex@example.test",
+        "input[name=j_password]": "correct-horse-42!",
+        "select[name=branch]": "main"
+      }
+    }
+  ]
+}

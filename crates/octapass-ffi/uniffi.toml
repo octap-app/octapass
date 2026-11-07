@@ -1,0 +1,8 @@
+[bindings.swift]
+module_name = "OctaPassCore"
+ffi_module_name = "OctaPassCoreFFI"
+ffi_module_filename = "OctaPassCoreFFI"
+
+[bindings.kotlin]
+package_name = "app.octap.core"
+cdylib_name = "octapass_ffi"

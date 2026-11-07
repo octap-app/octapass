@@ -1,0 +1,20 @@
+{
+  "description": "Classic email + password login with good autocomplete attributes",
+  "fields": {
+    "#email": "username",
+    "#password": "current-password"
+  },
+  "forms": [{ "field": "#email", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#email",
+      "pick": "login",
+      "expect": { "#email": "alex@example.test", "#password": "correct-horse-42!" }
+    },
+    {
+      "focus": "#password",
+      "pick": "login",
+      "expect": { "#email": "alex@example.test", "#password": "correct-horse-42!" }
+    }
+  ]
+}

@@ -1,0 +1,51 @@
+name: Octa Pass secrets
+description: Load secrets from one Octa Pass vault into a job, with a read-only service account token. Decrypted on the runner; the server only sees ciphertext.
+branding:
+  icon: lock
+  color: gray-dark
+
+inputs:
+  token:
+    description: The service account token. Keep it in your repository's or environment's secrets.
+    required: true
+  secrets:
+    description: One NAME=octapass://<vault>/<item>/<field> per line. Each value is masked in the logs and exported to later steps.
+    required: false
+    default: ""
+  cli:
+    description: Path to an octapass binary already on the runner. It's the only way this action gets one until releases are published.
+    required: false
+    default: octapass
+
+runs:
+  using: composite
+  steps:
+    - name: Load secrets
+      shell: bash
+      env:
+        OCTAPASS_SERVICE_ACCOUNT_TOKEN: ${{ inputs.token }}
+        OCTAPASS_SECRETS: ${{ inputs.secrets }}
+        OCTAPASS_CLI: ${{ inputs.cli }}
+      run: |
+        set -euo pipefail
+        echo "::add-mask::$OCTAPASS_SERVICE_ACCOUNT_TOKEN"
+        while IFS= read -r line; do
+          line="${line#"${line%%[![:space:]]*}"}"
+          [ -z "$line" ] && continue
+          name="${line%%=*}"
+          reference="${line#*=}"
+          if ! [[ "$name" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]] || [ "$reference" = "$line" ]; then
+            echo "::error::Write each line as NAME=octapass://<vault>/<item>/<field>."
+            exit 1
+          fi
+          value="$("$OCTAPASS_CLI" read --no-newline "$reference")"
+          while IFS= read -r part; do
+            [ -n "$part" ] && echo "::add-mask::$part"
+          done <<< "$value"
+          delimiter="octapass_$(openssl rand -hex 16)"
+          {
+            echo "$name<<$delimiter"
+            printf '%s\n' "$value"
+            echo "$delimiter"
+          } >> "$GITHUB_ENV"
+        done <<< "$OCTAPASS_SECRETS"

@@ -1,0 +1,25 @@
+{
+  "description": "French sign-up: Prénom / Nom / Adresse e-mail / Mot de passe / Confirmer le mot de passe, French ids, no autocomplete",
+  "fields": {
+    "#prenom": "given-name",
+    "#nom": "family-name",
+    "#courriel": "email",
+    "#mdp": "new-password",
+    "#mdp_confirmation": "confirm-password",
+    "#cgu": "none"
+  },
+  "forms": [{ "field": "#mdp", "type": "signup" }],
+  "fills": [
+    {
+      "focus": "#mdp",
+      "pick": "generated-password",
+      "expect": {
+        "#prenom": "",
+        "#nom": "",
+        "#courriel": "",
+        "#mdp": "Lantern-ruby-T7#qv-42",
+        "#mdp_confirmation": "Lantern-ruby-T7#qv-42"
+      }
+    }
+  ]
+}

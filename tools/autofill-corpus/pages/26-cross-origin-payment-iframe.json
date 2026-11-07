@@ -1,0 +1,25 @@
+{
+  "description": "Checkout with shipping fields in the page and card fields in a cross-origin iframe, which must be reported to the host (its inner fields are not handled here)",
+  "fields": {
+    "#contact-email": "email",
+    "#ship-name": "name",
+    "#ship-address": "address-line1",
+    "#ship-city": "address-level2",
+    "#ship-zip": "postal-code"
+  },
+  "forms": [{ "field": "#ship-name", "type": "identity" }],
+  "frames": [{ "selector": "iframe#card-frame", "crossOrigin": true }],
+  "fills": [
+    {
+      "focus": "#ship-name",
+      "pick": "identity",
+      "expect": {
+        "#contact-email": "alex@example.test",
+        "#ship-name": "Alex Doe",
+        "#ship-address": "1 Test Street",
+        "#ship-city": "Springfield",
+        "#ship-zip": "90210"
+      }
+    }
+  ]
+}

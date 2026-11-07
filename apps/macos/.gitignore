@@ -1,0 +1,7 @@
+build/
+xcuserdata/
+Signing.local.xcconfig
+device.env
+screenshots/raw/
+# SwiftPM build output of the local packages (swift test).
+.build/

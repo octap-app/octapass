@@ -1,0 +1,4 @@
+// The team that signs device builds, for every target. It lives in the gitignored
+// Signing.local.xcconfig, which scripts/device.sh writes from APPLE_DEVELOPMENT_TEAM; for Xcode,
+// create it with one line: DEVELOPMENT_TEAM = ABCDE12345. Simulator builds need none.
+#include? "Signing.local.xcconfig"

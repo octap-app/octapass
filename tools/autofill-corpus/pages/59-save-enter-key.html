@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Members · Riverbend Climbing</title>
+<style>
+  body { margin: 0; font: 14px/1.5 "Gill Sans", system-ui, sans-serif; background: #f5f5f4; color: #1c1917; }
+  header { background: #57534e; color: #fff; padding: 14px 32px; }
+  .box { width: 340px; margin: 70px auto; background: #fff; padding: 22px 26px; border-left: 4px solid #65a30d; }
+  label { display: block; margin: 10px 0 3px; }
+  input { width: 100%; box-sizing: border-box; padding: 8px; border: 1px solid #a8a29e; font: inherit; }
+  input[type=submit] { margin-top: 14px; background: #65a30d; color: #fff; border: 0; cursor: pointer; }
+  #msg { color: #3f6212; font-weight: bold; }
+</style>
+</head>
+<body>
+<header>Riverbend Climbing · Members area</header>
+<div class="box">
+  <form id="members" action="/members" method="post">
+    <label for="member_no">Member number</label>
+    <input id="member_no" name="member_no" type="text">
+    <label for="member_pin">Password</label>
+    <input id="member_pin" name="member_pin" type="password">
+    <input type="submit" value="Enter">
+  </form>
+  <p id="msg"></p>
+</div>
+<script>
+  document.getElementById('members').addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('msg').textContent = 'Welcome back!';
+  });
+</script>
+</body>
+</html>

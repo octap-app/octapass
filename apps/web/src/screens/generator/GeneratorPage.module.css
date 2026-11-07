@@ -1,0 +1,32 @@
+.page {
+  block-size: 100%;
+  overflow-y: auto;
+  background: var(--paper);
+}
+
+.body {
+  max-inline-size: 36rem;
+  margin-inline: auto;
+  padding: 0 clamp(1rem, 3vw, 2rem) 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.note {
+  font-size: var(--text-sm);
+  color: var(--mist);
+  text-align: center;
+}
+
+.masked {
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.masked h2 {
+  padding: 1rem 1.1rem 0;
+  font-size: var(--text-lg);
+  font-weight: 700;
+}

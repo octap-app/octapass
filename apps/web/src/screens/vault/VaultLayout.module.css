@@ -1,0 +1,128 @@
+.shell {
+  display: grid;
+  grid-template-columns: 16rem minmax(0, 1fr);
+  block-size: 100dvh;
+  overflow: hidden;
+}
+
+.skip {
+  position: fixed;
+  inset-block-start: 0.75rem;
+  inset-inline-start: 0.75rem;
+  z-index: 200;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  background: var(--button);
+  color: #fff;
+  font-weight: 600;
+  transform: translateY(-200%);
+}
+
+.skip:focus {
+  transform: none;
+}
+
+.sidebar {
+  min-block-size: 0;
+  border-inline-end: 1px solid var(--line);
+}
+
+.scrim {
+  display: none;
+}
+
+.main {
+  min-inline-size: 0;
+  min-block-size: 0;
+  overflow: hidden;
+  background: var(--surface);
+}
+
+.tabs {
+  display: none;
+}
+
+/* Below desktop width the sidebar becomes a drawer. */
+@media (max-width: 1099px) {
+  .shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sidebar {
+    position: fixed;
+    inset-block: 0;
+    inset-inline-start: 0;
+    z-index: 50;
+    inline-size: min(18rem, 85vw);
+    transform: translateX(-102%);
+    transition: transform var(--medium) var(--ease-out);
+    box-shadow: var(--shadow-pop);
+  }
+
+  :dir(rtl) .sidebar {
+    transform: translateX(102%);
+  }
+
+  .shell[data-drawer] .sidebar {
+    transform: none;
+  }
+
+  .shell[data-drawer] .scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: var(--scrim);
+    animation: fade var(--medium) ease;
+  }
+}
+
+/* Phones: a tab bar for the four main places, like a native app. */
+@media (max-width: 719px) {
+  .shell {
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+
+  .tabs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 0.35rem 0.5rem max(0.35rem, env(safe-area-inset-bottom));
+    border-block-start: 1px solid var(--line);
+    background: color-mix(in srgb, var(--surface) 86%, transparent);
+    backdrop-filter: blur(20px) saturate(1.6);
+    -webkit-backdrop-filter: blur(20px) saturate(1.6);
+    /* Stays put while the phone app slides screens behind it. */
+    view-transition-name: tabs;
+  }
+
+  /* The phone app marks the page while the keyboard is up, as native tab bars hide then. */
+  :root[data-keyboard] .tabs {
+    display: none;
+  }
+
+  .tabs a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    padding: 0.3rem 0;
+    border-radius: 0.6rem;
+    color: var(--mist);
+    font-size: 0.6875rem;
+    font-weight: 600;
+  }
+
+  .tabs a:hover {
+    text-decoration: none;
+  }
+
+  .tabs .tabOn {
+    color: var(--trust-text);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "description": "Single one-time code input with autocomplete=one-time-code",
+  "fields": {
+    "#totp-code": "one-time-code",
+    "#trust": "none"
+  },
+  "forms": [{ "field": "#totp-code", "type": "one-time-code" }],
+  "fills": [
+    {
+      "focus": "#totp-code",
+      "pick": "one-time-code",
+      "expect": { "#totp-code": "123456" }
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+name,url,username,password,note
+github.com,https://github.com/login,octocat,"pa,ss""word",
+بنك الأمل,https://bank.example.jo/ar/login,مستخدم,كلمة-سر-١٢٣,"ملاحظة بالعربية
+سطر ثاني"
+Bücher,https://www.bücher.example/,anna,  leading and trailing  ,
+,https://empty-name.example,,only-password,
+emoji 🔐,https://emoji.example,😀user,🔑🔑🔑,"Notes with ""quotes"", commas, and
+three
+lines"
+,,,,
+android,android://AbCdEf==@com.example.app/,droid,pw,

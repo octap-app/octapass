@@ -1,0 +1,194 @@
+{
+  "shared_folders": [
+    {
+      "path": "Family",
+      "uid": "sf-family-0001",
+      "manage_users": false,
+      "manage_records": true,
+      "can_edit": true,
+      "can_share": false,
+      "permissions": [
+        {
+          "name": "owner@example.com",
+          "manage_users": true,
+          "manage_records": true
+        }
+      ]
+    }
+  ],
+  "records": [
+    {
+      "uid": "rec-login-0001",
+      "title": "GitHub",
+      "$type": "login",
+      "login": "octo@example.com",
+      "password": "kp-json-pass",
+      "login_url": "https://github.com/login",
+      "notes": "Line one\nLine two, with \"quotes\"",
+      "last_modified": 1761177600,
+      "custom_fields": {
+        "$oneTimeCode::1": "otpauth://totp/GitHub:octo@example.com?secret=JBSWY3DPEHPK3PXP&issuer=GitHub",
+        "$text:Account ID:1": "12345",
+        "$secret:Recovery phrase:1": "orange piano seven",
+        "$url::1": "https://gist.github.com",
+        "$securityQuestion::1": [
+          {
+            "question": "First pet?",
+            "answer": "Biscuit"
+          }
+        ]
+      },
+      "folders": [
+        {
+          "folder": "Work\\Dev"
+        },
+        {
+          "shared_folder": "Family",
+          "folder": "Shared logins",
+          "can_edit": true,
+          "can_share": false
+        }
+      ]
+    },
+    {
+      "uid": "rec-login-0002",
+      "title": "بنك الأمل",
+      "login": "مستخدم",
+      "password": "كلمة-سر-١٢٣",
+      "login_url": "https://bank.example.jo",
+      "notes": "ملاحظة بالعربية\nسطر ثاني",
+      "custom_fields": {
+        "TFC:Keeper": "JBSWY3DPEHPK3PXP"
+      }
+    },
+    {
+      "uid": "rec-card-0001",
+      "title": "Travel card",
+      "$type": "bankCard",
+      "notes": "Card for trips",
+      "custom_fields": {
+        "$paymentCard::1": {
+          "cardNumber": "4111111111111111",
+          "cardExpirationDate": "03/2030",
+          "cardSecurityCode": "123"
+        },
+        "$text:cardholderName:1": "Jane Q. Doe",
+        "$pinCode::1": "9876",
+        "$url:Bank site:1": "https://bank.example.com/cards"
+      },
+      "references": {
+        "$addressRef::1": [
+          "rec-address-0001"
+        ]
+      },
+      "folders": [
+        {
+          "folder": "Finance"
+        }
+      ]
+    },
+    {
+      "uid": "rec-contact-0001",
+      "title": "ليلى حداد",
+      "$type": "contact",
+      "custom_fields": {
+        "$name::1": {
+          "first": "ليلى",
+          "middle": "م.",
+          "last": "حداد"
+        },
+        "$text:company:1": "شركة المثال",
+        "$email::1": "layla@example.com",
+        "$phone::1": [
+          {
+            "region": "JO",
+            "number": "791234567",
+            "ext": "12",
+            "type": "Mobile"
+          },
+          {
+            "region": "JO",
+            "number": "64000000",
+            "type": "Work"
+          }
+        ]
+      }
+    },
+    {
+      "uid": "rec-address-0001",
+      "title": "Home Address",
+      "$type": "address",
+      "notes": "Ring twice.",
+      "custom_fields": {
+        "$address::1": {
+          "street1": "12 Rainbow St",
+          "street2": "Apt 3",
+          "city": "Amman",
+          "state": "Amman Governorate",
+          "zip": "11118",
+          "country": "JO"
+        }
+      }
+    },
+    {
+      "uid": "rec-passport-0001",
+      "title": "Passport",
+      "$type": "passport",
+      "custom_fields": {
+        "$accountNumber:passportNumber:1": "X1234567",
+        "$name::1": {
+          "first": "Omar",
+          "last": "Khalil"
+        },
+        "$birthDate::1": 648604800000,
+        "$expirationDate::1": 2005603200000,
+        "$date:dateIssued:1": 1692057600000
+      }
+    },
+    {
+      "uid": "rec-note-0001",
+      "title": "Diary",
+      "$type": "encryptedNotes",
+      "notes": "Written in Keeper's notes box.",
+      "custom_fields": {
+        "$note::1": "Dear diary,\nemoji 🔐 and \"quotes\"",
+        "$date::1": 1761177600000
+      }
+    },
+    {
+      "uid": "rec-server-0001",
+      "title": "Web server",
+      "$type": "serverCredentials",
+      "login": "deploy",
+      "password": "srv-pass",
+      "custom_fields": {
+        "$host::1": {
+          "hostName": "web01.example.com",
+          "port": "22"
+        }
+      }
+    },
+    {
+      "uid": "rec-ssh-0001",
+      "title": "SSH key",
+      "$type": "sshKeys",
+      "custom_fields": {
+        "$keyPair::1": {
+          "publicKey": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIExampleOnly",
+          "privateKey": "-----BEGIN OPENSSH PRIVATE KEY-----\nnot-a-real-key\n-----END OPENSSH PRIVATE KEY-----"
+        }
+      }
+    },
+    {
+      "uid": "rec-file-0001",
+      "title": "Scanned contract",
+      "$type": "file",
+      "notes": "The PDF lives in Keeper."
+    },
+    {
+      "uid": "rec-empty-0001",
+      "title": "",
+      "$type": "login"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "description": "Login with a type=email identifier and a password under a big \"Continue with email\" heading, after three social sign-in buttons; placeholders and aria-labels only",
+  "fields": {
+    "#fw-email": "username",
+    "#fw-pass": "current-password"
+  },
+  "forms": [{ "field": "#fw-email", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#fw-pass",
+      "pick": "login",
+      "expect": { "#fw-email": "alex@example.test", "#fw-pass": "correct-horse-42!" }
+    }
+  ]
+}

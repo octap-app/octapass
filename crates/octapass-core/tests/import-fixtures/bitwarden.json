@@ -1,0 +1,104 @@
+{
+  "encrypted": false,
+  "folders": [
+    { "id": "0f4a1c2e-0000-4000-8000-000000000001", "name": "عمل" },
+    { "id": "0f4a1c2e-0000-4000-8000-000000000002", "name": "Personal, misc" }
+  ],
+  "items": [
+    {
+      "id": "1b2c3d4e-0000-4000-8000-000000000001",
+      "organizationId": null,
+      "folderId": "0f4a1c2e-0000-4000-8000-000000000001",
+      "type": 1,
+      "reprompt": 0,
+      "name": "GitHub",
+      "notes": "Line one\nLine \"two\"",
+      "favorite": true,
+      "fields": [
+        { "name": "Recovery PIN", "value": "4321", "type": 1, "linkedId": null },
+        { "name": "Team", "value": "فريق التطوير", "type": 0, "linkedId": null },
+        { "name": null, "value": null, "type": 3, "linkedId": 100 }
+      ],
+      "login": {
+        "uris": [
+          { "match": null, "uri": "https://github.com/login" },
+          { "match": 1, "uri": "https://gist.github.com" },
+          { "match": 4, "uri": "^https://([a-z]+\\.)?github\\.com/" }
+        ],
+        "username": "octocat",
+        "password": "  spaces kept  ",
+        "totp": "otpauth://totp/GitHub:octocat?secret=JBSWY3DPEHPK3PXP&issuer=GitHub",
+        "passwordRevisionDate": "2025-01-02T03:04:05.000Z",
+        "fido2Credentials": [
+          {
+            "credentialId": "c3ludGhldGljLWNyZWRlbnRpYWw",
+            "keyType": "public-key",
+            "keyAlgorithm": "ECDSA",
+            "keyCurve": "P-256",
+            "keyValue": "c3ludGhldGljLWtleQ",
+            "rpId": "github.com",
+            "userHandle": "dXNlcg",
+            "userName": "octocat",
+            "counter": "0",
+            "rpName": "GitHub",
+            "userDisplayName": "Octo Cat",
+            "discoverable": "true",
+            "creationDate": "2025-05-01T10:00:00.000Z"
+          }
+        ]
+      },
+      "passwordHistory": [{ "lastUsedDate": "2025-01-02T03:04:05.000Z", "password": "old-password" }],
+      "revisionDate": "2025-06-01T08:30:00.123Z",
+      "creationDate": "2021-03-04T05:06:07.000Z",
+      "deletedDate": null,
+      "collectionIds": null
+    },
+    {
+      "id": "1b2c3d4e-0000-4000-8000-000000000002",
+      "folderId": "0f4a1c2e-0000-4000-8000-000000000002",
+      "type": 2,
+      "name": "ملاحظة سرية",
+      "notes": "نص الملاحظة\nسطر ثاني",
+      "favorite": false,
+      "secureNote": { "type": 0 },
+      "collectionIds": null
+    },
+    {
+      "id": "1b2c3d4e-0000-4000-8000-000000000003",
+      "folderId": null,
+      "type": 3,
+      "creationDate": "2024-02-03T00:00:00.000Z",
+      "revisionDate": "2024-02-04T00:00:00.000Z",
+      "name": "Visa",
+      "notes": null,
+      "favorite": false,
+      "card": { "cardholderName": "Jane Q. Doe", "brand": "Visa", "number": "4111111111111111", "expMonth": "7", "expYear": "2031", "code": "999" },
+      "collectionIds": null
+    },
+    {
+      "id": "1b2c3d4e-0000-4000-8000-000000000004",
+      "folderId": null,
+      "type": 4,
+      "name": "Me",
+      "notes": "",
+      "favorite": false,
+      "identity": {
+        "title": "Ms", "firstName": "Layla", "middleName": null, "lastName": "Haddad",
+        "address1": "1 Example St", "address2": "Floor 2", "address3": null, "city": "Amman",
+        "state": null, "postalCode": "11118", "country": "JO", "company": "Example Co",
+        "email": "layla@example.jo", "phone": "+962 7 9000 0000", "ssn": null, "username": "layla",
+        "passportNumber": "X0000000", "licenseNumber": null
+      },
+      "collectionIds": null
+    },
+    {
+      "id": "1b2c3d4e-0000-4000-8000-000000000005",
+      "type": 1,
+      "name": "Empty login",
+      "notes": null,
+      "favorite": false,
+      "login": { "uris": [], "username": null, "password": null, "totp": null },
+      "collectionIds": null
+    }
+  ]
+}

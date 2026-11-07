@@ -1,0 +1,14 @@
+{
+  "displayName": "Octa Pass",
+  "description": "تصفّح مراجع Octa Pass، وأدرج روابط octapass://‎، وشغّل الأوامر مع حقن الأسرار فيها.",
+  "container.title": "Octa Pass",
+  "view.references": "المراجع",
+  "view.welcome": "اتصل بـ Octa Pass لتصفّح مراجعك. توافق على ذلك مرة واحدة، ولا تظهر هنا إلا الأسماء.\n[اتصال](command:octapass.connect)",
+  "command.connect": "اتصال",
+  "command.disconnect": "قطع الاتصال",
+  "command.insertReference": "إدراج مرجع",
+  "command.runWithSecrets": "تشغيل مع الأسرار",
+  "command.refresh": "تحديث",
+  "setting.cliPath": "واجهة سطر أوامر Octa Pass التي يستخدمها أمر التشغيل مع الأسرار: اسم موجود في PATH أو مسار كامل. لا يمكن تغييرها إلا من إعدادات المستخدم، حتى لا يستبدل مشروعٌ البرنامج.",
+  "untrusted.description": "يحتاج التشغيل مع الأسرار إلى مساحة عمل موثوقة."
+}

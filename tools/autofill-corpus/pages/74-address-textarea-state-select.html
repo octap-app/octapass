@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Delivery address · Juniper &amp; Oak</title>
+<style>
+  body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: #f7f5f0; color: #292524; }
+  .steps { text-align: center; padding: 18px; font-size: 13px; color: #78716c; }
+  .card { width: 520px; margin: 0 auto 40px; background: #fff; border: 1px solid #e7e5e4; border-radius: 8px; padding: 26px 30px; }
+  h1 { margin: 0 0 18px; font-size: 21px; }
+  .f { margin-bottom: 12px; }
+  .f label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; }
+  .f input, .f select, .f textarea { width: 100%; box-sizing: border-box; padding: 9px; border: 1px solid #d6d3d1; border-radius: 6px; font: inherit; }
+  .f textarea { resize: vertical; }
+  .three { display: grid; grid-template-columns: 2fr 1.3fr 1fr; gap: 12px; }
+  button { width: 100%; padding: 12px; border: 0; border-radius: 6px; background: #3f6212; color: #fff; font: inherit; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="steps">Cart &rsaquo; <b>Delivery</b> &rsaquo; Payment &rsaquo; Review</div>
+<div class="card">
+  <h1>Where should we deliver?</h1>
+  <form id="delivery" action="/checkout/delivery" method="post">
+    <div class="f"><label for="recipient">Recipient name</label><input id="recipient" name="recipient"></div>
+    <div class="f"><label for="street">Street address</label><textarea id="street" name="street" rows="2"></textarea></div>
+    <div class="f"><label for="unit">Apartment, suite, unit (optional)</label><input id="unit" name="unit"></div>
+    <div class="three">
+      <div class="f"><label for="town">City</label><input id="town" name="town"></div>
+      <div class="f">
+        <label for="state">State</label>
+        <select id="state" name="state">
+          <option value="">Select…</option>
+          <option value="AZ">Arizona</option>
+          <option value="CA">California</option>
+          <option value="CO">Colorado</option>
+          <option value="NV">Nevada</option>
+          <option value="NY">New York</option>
+          <option value="OR">Oregon</option>
+          <option value="TX">Texas</option>
+          <option value="WA">Washington</option>
+        </select>
+      </div>
+      <div class="f"><label for="zip">ZIP</label><input id="zip" name="zip" inputmode="numeric" maxlength="10"></div>
+    </div>
+    <div class="f"><label for="notes">Delivery instructions (optional)</label><textarea id="notes" name="notes" rows="3" placeholder="Gate code, where to leave the parcel…"></textarea></div>
+    <button type="submit">Continue to payment</button>
+  </form>
+</div>
+<script>document.getElementById('delivery').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

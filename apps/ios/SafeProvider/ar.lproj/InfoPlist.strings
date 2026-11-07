@@ -1,0 +1,4 @@
+/* The Files extension's name in Arabic: the brand name, written the same way. Its messages come
+   from OctaPassResources (`phone.native.safes*`), and each Safe's name is the user's own. */
+
+"CFBundleDisplayName" = "Octa Pass";

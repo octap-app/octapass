@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>تسجيل الدخول · متجر الواحة</title>
+<style>
+  body { margin: 0; font: 16px/1.6 Tahoma, "Segoe UI", system-ui, sans-serif; background: #f5f0e6; color: #2b2116; }
+  header { background: #7c4a1e; color: #fff; padding: 14px 32px; font-size: 20px; }
+  .box { width: 380px; margin: 60px auto; background: #fff; border-radius: 12px; padding: 28px; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
+  label { display: block; margin: 12px 0 5px; font-weight: bold; }
+  input[type=text], input[type=password] { width: 100%; box-sizing: border-box; padding: 9px 12px; border: 1px solid #c8b79f; border-radius: 8px; font: inherit; }
+  .remember { display: flex; align-items: center; gap: 8px; margin: 12px 0; font-size: 14px; }
+  button { width: 100%; padding: 11px; border: 0; border-radius: 8px; background: #7c4a1e; color: #fff; font: inherit; }
+  .links { margin-top: 14px; font-size: 14px; text-align: center; }
+</style>
+</head>
+<body>
+<header>متجر الواحة</header>
+<div class="box">
+  <h1 style="font-size:22px;margin-top:0">تسجيل الدخول</h1>
+  <form id="f" action="/login" method="post">
+    <label for="f1">البريد الإلكتروني أو رقم الجوال</label>
+    <input type="text" id="f1" name="f1" placeholder="example@mail.com">
+    <label for="f2">كلمة المرور</label>
+    <input type="password" id="f2" name="f2" placeholder="أدخل كلمة المرور">
+    <label class="remember"><input type="checkbox" id="f3" name="f3"> تذكرني</label>
+    <button type="submit">دخول</button>
+  </form>
+  <div class="links"><a href="#forgot">نسيت كلمة المرور؟</a> · <a href="#register">إنشاء حساب جديد</a></div>
+</div>
+<script>document.getElementById('f').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

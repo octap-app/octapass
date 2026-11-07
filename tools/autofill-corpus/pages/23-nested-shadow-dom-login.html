@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Atlas Travel – Account</title>
+<style>
+  body { margin: 0; font: 15px "Trebuchet MS", system-ui, sans-serif; background: #e0f2fe; }
+</style>
+</head>
+<body>
+<app-shell>
+  <template shadowrootmode="open">
+    <style>
+      :host { display: block; }
+      header { background: #0369a1; color: #fff; padding: 16px 32px; font-size: 18px; }
+      .body { display: flex; justify-content: center; padding-top: 50px; }
+    </style>
+    <header>Atlas Travel</header>
+    <div class="body">
+      <auth-panel></auth-panel>
+    </div>
+  </template>
+</app-shell>
+<script>
+  customElements.define('auth-panel', class extends HTMLElement {
+    connectedCallback() {
+      if (this.shadowRoot) return;
+      var root = this.attachShadow({ mode: 'open' });
+      root.innerHTML =
+        '<style>' +
+        ':host { display: block; width: 380px; background: #fff; border-radius: 12px; padding: 26px; box-shadow: 0 6px 20px rgba(3,105,161,.18); }' +
+        '.row { margin-top: 12px; } .row span { display: block; font-size: 13px; color: #075985; margin-bottom: 4px; }' +
+        'input { width: 100%; box-sizing: border-box; padding: 9px; border: 1px solid #7dd3fc; border-radius: 6px; font: inherit; }' +
+        'button { margin-top: 18px; width: 100%; padding: 10px; border: 0; border-radius: 6px; background: #0369a1; color: #fff; font: inherit; }' +
+        '</style>' +
+        '<h2 style="margin:0">Sign in to manage your trips</h2>' +
+        '<div class="row"><label><span>Username</span><input id="username" name="username" type="text"></label></div>' +
+        '<div class="row"><label><span>Password</span><input id="password" name="password" type="password"></label></div>' +
+        '<button id="go" type="button">Sign in</button>';
+    }
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Log in · Quayside Rides</title>
+<style>
+  body { margin: 0; font: 15px/1.5 "Helvetica Neue", Arial, sans-serif; background: #111827; color: #111827; }
+  .sheet { width: 400px; margin: 70px auto; background: #fff; border-radius: 16px; padding: 28px; }
+  h1 { margin: 0 0 6px; font-size: 24px; }
+  p.sub { margin: 0 0 18px; color: #6b7280; }
+  label { display: block; font-size: 13px; font-weight: 600; margin: 14px 0 5px; }
+  .phone { display: flex; gap: 8px; }
+  .phone select { padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font: inherit; }
+  .phone input, .pw { flex: 1; width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font: inherit; }
+  button { margin-top: 20px; width: 100%; padding: 12px; border: 0; border-radius: 8px; background: #facc15; font: inherit; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <h1>Welcome back</h1>
+  <p class="sub">Log in with the mobile number you registered with.</p>
+  <form id="rider-login" action="/rider/login" method="post">
+    <label for="mobile">Mobile number</label>
+    <div class="phone">
+      <select id="dial" name="dial_code" aria-label="Country code">
+        <option value="+44" selected>UK +44</option>
+        <option value="+353">IE +353</option>
+        <option value="+1">US +1</option>
+        <option value="+61">AU +61</option>
+      </select>
+      <input id="mobile" name="mobile" type="tel" inputmode="tel" placeholder="7700 900123">
+    </div>
+    <label for="rider-pw">Password</label>
+    <input class="pw" id="rider-pw" name="password" type="password">
+    <button type="submit">Log in</button>
+  </form>
+  <p style="font-size:13px"><a href="#forgot">Forgot password?</a> · <a href="#signup">Create an account</a></p>
+</div>
+<script>document.getElementById('rider-login').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

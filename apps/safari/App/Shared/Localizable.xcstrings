@@ -1,0 +1,146 @@
+{
+  "sourceLanguage": "en",
+  "strings": {
+    "Click Edit Websites and allow Octa Pass on other websites, so it can fill sign-in forms.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انقر «تعديل مواقع الويب» واسمح لـ Octa Pass بالعمل على المواقع الأخرى ليتمكن من ملء نماذج تسجيل الدخول."
+          }
+        }
+      }
+    },
+    "Click Open Safari settings below, or choose Safari > Settings > Extensions.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "انقر «افتح إعدادات Safari» في الأسفل، أو اختر Safari > الإعدادات > الإضافات."
+          }
+        }
+      }
+    },
+    "Octa Pass fills passwords, suggests strong ones and signs in with passkeys on the websites you visit. Safari keeps extensions off until you turn them on.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "يملأ Octa Pass كلمات المرور ويقترح كلمات قوية ويسجّل دخولك بمفاتيح المرور على المواقع التي تزورها. يُبقي Safari الإضافات متوقفة حتى تفعّلها بنفسك."
+          }
+        }
+      }
+    },
+    "Octa Pass is off in Safari": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Octa Pass متوقف في Safari"
+          }
+        }
+      }
+    },
+    "Octa Pass is on in Safari": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "Octa Pass مفعّل في Safari"
+          }
+        }
+      }
+    },
+    "Open Safari extension settings": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتح إعدادات إضافات Safari"
+          }
+        }
+      }
+    },
+    "Open Safari settings": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتح إعدادات Safari"
+          }
+        }
+      }
+    },
+    "Open Settings, then go to Apps > Safari > Extensions.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "افتح الإعدادات، ثم انتقل إلى التطبيقات > Safari > الإضافات."
+          }
+        }
+      }
+    },
+    "Safari settings didn't open. Open Safari and go to Settings > Extensions.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "لم تُفتح إعدادات Safari. افتح Safari ثم انتقل إلى الإعدادات > الإضافات."
+          }
+        }
+      }
+    },
+    "Tap Octa Pass and turn on Allow Extension.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "اضغط Octa Pass وفعّل «السماح بالإضافة»."
+          }
+        }
+      }
+    },
+    "Tick Octa Pass.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "حدّد Octa Pass."
+          }
+        }
+      }
+    },
+    "Turn on Octa Pass in Safari": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "فعّل Octa Pass في Safari"
+          }
+        }
+      }
+    },
+    "Under Permissions, allow Octa Pass on all websites, so it can fill sign-in forms.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "ضمن الأذونات، اسمح لـ Octa Pass بالعمل على كل مواقع الويب ليتمكن من ملء نماذج تسجيل الدخول."
+          }
+        }
+      }
+    },
+    "Your vault is encrypted on your device before it syncs. The extension does its work inside Safari; this app only helps you turn it on.": {
+      "localizations": {
+        "ar": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "تُشفَّر خزنتك على جهازك قبل مزامنتها. تعمل الإضافة داخل Safari، وهذا التطبيق يساعدك على تفعيلها فقط."
+          }
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>إنشاء حساب · منصة نور التعليمية</title>
+<style>
+  body { margin: 0; font: 15px/1.6 Tahoma, system-ui, sans-serif; background: #eef6f3; color: #12352b; }
+  .wrap { width: 440px; margin: 30px auto; background: #fff; border-radius: 14px; padding: 24px 30px; }
+  .field { margin-top: 10px; }
+  .field label { display: block; font-weight: bold; margin-bottom: 4px; }
+  .field input { width: 100%; box-sizing: border-box; padding: 8px 12px; border: 1px solid #9cc9b9; border-radius: 8px; font: inherit; }
+  .hint { font-size: 12px; color: #4b7366; }
+  button { margin-top: 16px; width: 100%; padding: 10px; border: 0; border-radius: 8px; background: #157a5c; color: #fff; font: inherit; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1 style="font-size:22px;margin:0">إنشاء حساب جديد</h1>
+  <p class="hint">انضم إلى آلاف الطلاب في منصة نور.</p>
+  <form id="reg" action="/register" method="post">
+    <div class="field"><label for="a1">الاسم الكامل</label><input id="a1" name="a1" type="text"></div>
+    <div class="field"><label for="a2">البريد الإلكتروني</label><input id="a2" name="a2" type="email" dir="ltr"></div>
+    <div class="field"><label for="a3">كلمة المرور</label><input id="a3" name="a3" type="password"><div class="hint">ثمانية أحرف على الأقل</div></div>
+    <div class="field"><label for="a4">تأكيد كلمة المرور</label><input id="a4" name="a4" type="password"></div>
+    <button type="submit">إنشاء حساب</button>
+  </form>
+</div>
+<script>document.getElementById('reg').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

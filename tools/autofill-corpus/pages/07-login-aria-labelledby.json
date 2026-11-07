@@ -1,0 +1,15 @@
+{
+  "description": "Labels via aria-labelledby on spans, submit button outside the form (form= attribute)",
+  "fields": {
+    "#emp": "username",
+    "#emp-key": "current-password"
+  },
+  "forms": [{ "field": "#emp", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#emp",
+      "pick": "login",
+      "expect": { "#emp": "alex@example.test", "#emp-key": "correct-horse-42!" }
+    }
+  ]
+}

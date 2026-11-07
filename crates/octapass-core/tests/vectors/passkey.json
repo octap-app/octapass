@@ -1,0 +1,102 @@
+{
+  "aaguid": "c9a07734-1d0b-4c72-8ff5-45e0daa2064f",
+  "cases": [
+    {
+      "algorithm": -7,
+      "assertion": {
+        "authenticatorAttachment": "platform",
+        "clientExtensionResults": {},
+        "id": "Hsw2hrYO47hLbH0yHXDVwA",
+        "rawId": "Hsw2hrYO47hLbH0yHXDVwA",
+        "response": {
+          "authenticatorData": "o3mm9u6vuaVeN4wRgDTidR5oL6ufLTCrE9ISVYbOGUcdAAAAAA",
+          "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiM3EyLTdfN2VyYjctX3Q2dHZ2Ny1yUSIsIm9yaWdpbiI6Imh0dHBzOi8vbG9naW4uZXhhbXBsZS5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9",
+          "signature": "MEYCIQDucOlmPkt9ja58FSYR2fspo2_SUIiMd5kPvXHIY7uB6wIhAJ4sz3I51AA6raPz-lizz7z2vVbDYcB71kztN8XuZpwd",
+          "userHandle": "dXNlci0xMjM"
+        },
+        "type": "public-key"
+      },
+      "assertionRequest": {
+        "challenge": "3q2-7_7erb7-_t6tvv7-rQ",
+        "rpId": "example.com"
+      },
+      "record": {
+        "createdAt": "2026-10-24T00:00:00.000Z",
+        "credentialId": "Hsw2hrYO47hLbH0yHXDVwA",
+        "prfSecret": "bp2sY6TQp51zGxfA0E0DDQEnTdHuUhbCBPtpja6kW1I",
+        "privateKey": "MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgAj83IDokdsQlZqYcxVw8qHXbtMxBwN63ifjnv4gYNjihRANCAARlkFo6xlDoW18PIrfLK171qbf4aHZoaqRvdTdIlWzeOWP9S348dsFR1fxbiEzMb_DgK-St1YsR9mgmj9pIOjkH",
+        "rpId": "example.com",
+        "signCount": 0,
+        "userDisplayName": "Alice",
+        "userHandle": "dXNlci0xMjM",
+        "userName": "alice@example.com"
+      },
+      "registration": {
+        "authenticatorAttachment": "platform",
+        "clientExtensionResults": {},
+        "id": "Hsw2hrYO47hLbH0yHXDVwA",
+        "rawId": "Hsw2hrYO47hLbH0yHXDVwA",
+        "response": {
+          "attestationObject": "o2NmbXRkbm9uZWdhdHRTdG10oGhhdXRoRGF0YViUo3mm9u6vuaVeN4wRgDTidR5oL6ufLTCrE9ISVYbOGUddAAAAAMmgdzQdC0xyj_VF4NqiBk8AEB7MNoa2DuO4S2x9Mh1w1cClAQIDJiABIVggZZBaOsZQ6FtfDyK3yyte9am3-Gh2aGqkb3U3SJVs3jkiWCBj_Ut-PHbBUdX8W4hMzG_w4CvkrdWLEfZoJo_aSDo5Bw",
+          "authenticatorData": "o3mm9u6vuaVeN4wRgDTidR5oL6ufLTCrE9ISVYbOGUddAAAAAMmgdzQdC0xyj_VF4NqiBk8AEB7MNoa2DuO4S2x9Mh1w1cClAQIDJiABIVggZZBaOsZQ6FtfDyK3yyte9am3-Gh2aGqkb3U3SJVs3jkiWCBj_Ut-PHbBUdX8W4hMzG_w4CvkrdWLEfZoJo_aSDo5Bw",
+          "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiM3EyLTdfN2VyYjctX3Q2dHZ2Ny1yUSIsIm9yaWdpbiI6Imh0dHBzOi8vbG9naW4uZXhhbXBsZS5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9",
+          "publicKey": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEZZBaOsZQ6FtfDyK3yyte9am3-Gh2aGqkb3U3SJVs3jlj_Ut-PHbBUdX8W4hMzG_w4CvkrdWLEfZoJo_aSDo5Bw",
+          "publicKeyAlgorithm": -7,
+          "transports": [
+            "internal"
+          ]
+        },
+        "type": "public-key"
+      }
+    },
+    {
+      "algorithm": -8,
+      "assertion": {
+        "authenticatorAttachment": "platform",
+        "clientExtensionResults": {},
+        "id": "f4LdY_T3XDPaREtyNyvjqg",
+        "rawId": "f4LdY_T3XDPaREtyNyvjqg",
+        "response": {
+          "authenticatorData": "o3mm9u6vuaVeN4wRgDTidR5oL6ufLTCrE9ISVYbOGUcdAAAAAA",
+          "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uZ2V0IiwiY2hhbGxlbmdlIjoiM3EyLTdfN2VyYjctX3Q2dHZ2Ny1yUSIsIm9yaWdpbiI6Imh0dHBzOi8vbG9naW4uZXhhbXBsZS5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9",
+          "signature": "0gs_T8itXih-LPF8GrkZ_8psYHUK7hKV8GdlYB8T_eb-KORyHpmv-Kq90O3mVcntOtc6lzuOAsM7-gGAjt_uBw",
+          "userHandle": "dXNlci0xMjM"
+        },
+        "type": "public-key"
+      },
+      "assertionRequest": {
+        "challenge": "3q2-7_7erb7-_t6tvv7-rQ",
+        "rpId": "example.com"
+      },
+      "record": {
+        "createdAt": "2026-10-24T00:00:00.000Z",
+        "credentialId": "f4LdY_T3XDPaREtyNyvjqg",
+        "prfSecret": "Q8ACegdr-Wdet5MmldEnpErKM3FNlEvhbopm4lXoVq4",
+        "privateKey": "MC4CAQAwBQYDK2VwBCIEIPahLKj_wwpmyhQMzHJ2M2EVgZNhGG0_U13Zn46qyo_O",
+        "rpId": "example.com",
+        "signCount": 0,
+        "userDisplayName": "Alice",
+        "userHandle": "dXNlci0xMjM",
+        "userName": "alice@example.com"
+      },
+      "registration": {
+        "authenticatorAttachment": "platform",
+        "clientExtensionResults": {},
+        "id": "f4LdY_T3XDPaREtyNyvjqg",
+        "rawId": "f4LdY_T3XDPaREtyNyvjqg",
+        "response": {
+          "attestationObject": "o2NmbXRkbm9uZWdhdHRTdG10oGhhdXRoRGF0YVhxo3mm9u6vuaVeN4wRgDTidR5oL6ufLTCrE9ISVYbOGUddAAAAAMmgdzQdC0xyj_VF4NqiBk8AEH-C3WP091wz2kRLcjcr46qkAQEDJyAGIVggfRd_HnG0kK0M44D5V4qxK7D8AKmN6PalVcgdSMIDkkk",
+          "authenticatorData": "o3mm9u6vuaVeN4wRgDTidR5oL6ufLTCrE9ISVYbOGUddAAAAAMmgdzQdC0xyj_VF4NqiBk8AEH-C3WP091wz2kRLcjcr46qkAQEDJyAGIVggfRd_HnG0kK0M44D5V4qxK7D8AKmN6PalVcgdSMIDkkk",
+          "clientDataJSON": "eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiM3EyLTdfN2VyYjctX3Q2dHZ2Ny1yUSIsIm9yaWdpbiI6Imh0dHBzOi8vbG9naW4uZXhhbXBsZS5jb20iLCJjcm9zc09yaWdpbiI6ZmFsc2V9",
+          "publicKey": "MCowBQYDK2VwAyEAfRd_HnG0kK0M44D5V4qxK7D8AKmN6PalVcgdSMIDkkk",
+          "publicKeyAlgorithm": -8,
+          "transports": [
+            "internal"
+          ]
+        },
+        "type": "public-key"
+      }
+    }
+  ],
+  "description": "Passkeys from the Octa Pass authenticator for origin https://login.example.com and rpId example.com. ES256 signatures are deterministic (RFC 6979) and Ed25519 signatures always are, so an implementation given `record.privateKey` must reproduce `registration` byte for byte (with the same credential id) and `assertion` exactly. Binary values are base64url without padding."
+}

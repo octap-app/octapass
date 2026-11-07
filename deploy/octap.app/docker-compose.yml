@@ -1,0 +1,170 @@
+# The public Octa Pass service:
+#   https://octap.app        website and docs        (octapass-website)
+#   https://vault.octap.app  sync server + web vault (octapass-server, on PostgreSQL)
+#
+# Images are built on a workstation and copied to the server by ./deploy.sh, so the server never
+# compiles anything. TLS is Traefik's (Cloudflare DNS challenge) behind the Cloudflare proxy.
+# See README.md.
+
+name: octapass
+
+x-hardening: &hardening
+  restart: unless-stopped
+  security_opt:
+    - no-new-privileges:true
+  logging:
+    driver: json-file
+    options: { max-size: "10m", max-file: "3" }
+
+services:
+  server:
+    <<: *hardening
+    image: octapass-server:${OCTAPASS_TAG:?set OCTAPASS_TAG}
+    container_name: octapass-server
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      OCTAPASS_PUBLIC_URL: https://vault.octap.app
+      OCTAPASS_WEB_ORIGINS: https://vault.octap.app
+      OCTAPASS_DATABASE_URL: postgres://octapass:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}@db:5432/octapass
+      # Public alpha: anyone can create an account (email verification required).
+      OCTAPASS_SIGNUPS: open
+      OCTAPASS_DEV_MODE: "false"
+      OCTAPASS_RATE_LIMITS: "on"
+      OCTAPASS_ICONS: "on"
+      # Only Traefik reaches this container (no published port), so X-Forwarded-For is trusted.
+      OCTAPASS_TRUST_PROXY: "true"
+      OCTAPASS_SMTP_URL: ${OCTAPASS_SMTP_URL:?set OCTAPASS_SMTP_URL}
+      OCTAPASS_SMTP_FROM: ${OCTAPASS_SMTP_FROM:-Octa Pass <no-reply@octap.app>}
+      OCTAPASS_LOG: ${OCTAPASS_LOG:-info}
+    volumes:
+      - server-data:/data
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    mem_limit: 384m
+    cpus: 1.5
+    networks: [proxy, internal]
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: proxy
+      traefik.http.routers.octapass-vault.rule: Host(`vault.octap.app`)
+      traefik.http.routers.octapass-vault.entrypoints: websecure
+      traefik.http.routers.octapass-vault.tls: "true"
+      traefik.http.routers.octapass-vault.tls.certresolver: cloudflare
+      traefik.http.services.octapass-vault.loadbalancer.server.port: "8080"
+
+  website:
+    <<: *hardening
+    image: octapass-website:${OCTAPASS_TAG:?set OCTAPASS_TAG}
+    container_name: octapass-website
+    read_only: true
+    tmpfs: [/var/cache/nginx, /var/run, /tmp]
+    mem_limit: 64m
+    cpus: 0.5
+    networks: [proxy]
+    labels:
+      traefik.enable: "true"
+      traefik.docker.network: proxy
+      traefik.http.routers.octapass-site.rule: Host(`octap.app`) || Host(`www.octap.app`)
+      traefik.http.routers.octapass-site.entrypoints: websecure
+      traefik.http.routers.octapass-site.tls: "true"
+      traefik.http.routers.octapass-site.tls.certresolver: cloudflare
+      traefik.http.routers.octapass-site.middlewares: octapass-www
+      traefik.http.middlewares.octapass-www.redirectregex.regex: ^https://www\.octap\.app/(.*)
+      traefik.http.middlewares.octapass-www.redirectregex.replacement: https://octap.app/$${1}
+      traefik.http.middlewares.octapass-www.redirectregex.permanent: "true"
+      traefik.http.services.octapass-site.loadbalancer.server.port: "8080"
+
+  db:
+    <<: *hardening
+    image: postgres:17-alpine
+    container_name: octapass-db
+    environment:
+      POSTGRES_USER: octapass
+      POSTGRES_DB: octapass
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      POSTGRES_INITDB_ARGS: --data-checksums
+    # Sized for a small shared server: the sync server opens at most 16 connections.
+    command:
+      - postgres
+      - -c
+      - shared_buffers=96MB
+      - -c
+      - effective_cache_size=256MB
+      - -c
+      - work_mem=4MB
+      - -c
+      - maintenance_work_mem=32MB
+      - -c
+      - max_connections=30
+      - -c
+      - wal_buffers=4MB
+      - -c
+      - max_wal_size=512MB
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    shm_size: 128m
+    mem_limit: 384m
+    cpus: 1.0
+    networks: [internal]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U octapass -d octapass"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # Nightly pg_dump plus the server's secrets, kept for BACKUP_KEEP_DAYS. Copy /opt/stacks/octapass/backups off the server too.
+  backup:
+    <<: *hardening
+    image: postgres:17-alpine
+    container_name: octapass-backup
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PGHOST: db
+      PGUSER: octapass
+      PGDATABASE: octapass
+      PGPASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      BACKUP_KEEP_DAYS: ${BACKUP_KEEP_DAYS:-14}
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        set -eu
+        # Let the server finish its startup migrations first: pg_dump's table locks deadlock with them.
+        sleep 300
+        while true; do
+          f="/backups/octapass-$$(date -u +%Y%m%dT%H%M%SZ).dump"
+          if pg_dump --format=custom --compress=9 --file="$$f.part"; then
+            mv "$$f.part" "$$f"; echo "backup: wrote $$f"
+          else
+            rm -f "$$f.part"; echo "backup: pg_dump failed, retrying in 15 minutes" >&2
+            sleep 900; continue
+          fi
+          # The server's own secrets (OPAQUE setup, signing key): without them nobody can log in,
+          # so they are backed up with every dump.
+          tar -czf "/backups/server-data-$$(date -u +%Y%m%dT%H%M%SZ).tgz" -C /server-data . \
+            || echo "backup: server-data copy failed" >&2
+          find /backups \( -name 'octapass-*.dump' -o -name 'server-data-*.tgz' \) -mtime +"$$BACKUP_KEEP_DAYS" -delete
+          sleep 86400
+        done
+    volumes:
+      - ./backups:/backups
+      - server-data:/server-data:ro
+    mem_limit: 128m
+    cpus: 0.5
+    networks: [internal]
+
+volumes:
+  server-data:
+  db-data:
+
+networks:
+  # Traefik's network, shared with the other sites on this server.
+  proxy:
+    external: true
+  # The database is reachable only from the server and the backup job.
+  internal:
+    internal: true

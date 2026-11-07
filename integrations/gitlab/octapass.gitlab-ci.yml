@@ -1,0 +1,21 @@
+# Octa Pass for GitLab CI: `include` this file, then extend `.octapass`. Set
+# OCTAPASS_SERVICE_ACCOUNT_TOKEN as a masked, protected CI/CD variable. References in your job's
+# variables are replaced when the command runs through `octapass run`:
+#
+#   deploy:
+#     extends: .octapass
+#     variables:
+#       DATABASE_URL: octapass://CI/Shop database/url
+#     script:
+#       - octapass run -- ./deploy.sh
+#
+# Secrets are decrypted on the runner. `octapass` must be on the runner's image.
+
+.octapass:
+  before_script:
+    - |
+      if [ -z "${OCTAPASS_SERVICE_ACCOUNT_TOKEN:-}" ]; then
+        echo "Set OCTAPASS_SERVICE_ACCOUNT_TOKEN as a masked CI/CD variable." >&2
+        exit 1
+      fi
+    - command -v octapass >/dev/null

@@ -1,0 +1,54 @@
+url,username,password,totp,extra,name,grouping,fav
+https://github.com,octocat,lp-pass,JBSWY3DPEHPK3PXP,login note,GitHub,Work\Dev,1
+http://sn,,,,"Plain secure note
+with two lines",Diary,Personal,0
+http://sn,,,,"NoteType:Credit Card
+Language:en-US
+Name on Card:Jane Q. Doe
+Type:Visa
+Number:4111111111111111
+Security Code:123
+Start Date:,
+Expiration Date:March,2030
+Notes:Card for travel",Travel card,Finance,0
+http://sn,,,,"NoteType:Address
+Language:ar-JO
+Title:Ms
+First Name:ليلى
+Middle Name:
+Last Name:حداد
+Birthday:April,19,1995
+Address 1:شارع المدينة 1
+Address 2:
+City / Town:عمّان
+State:
+Zip / Postal Code:11118
+Country:JO
+Email Address:layla@example.jo
+Phone:{""num"":""790000000"",""ext"":"""",""cc3l"":""JOR""}
+Notes:",Home address,,0
+http://sn,,,,"NoteType:Database
+Language:en-US
+Type:PostgreSQL
+Hostname:db.example.internal
+Port:5432
+Database:app
+Username:app_user
+Password:db-secret
+SID:
+Alias:
+Notes:Production database",App DB,Work,0
+http://sn,,,,"NoteType:Passport
+Language:en-US
+Type:
+Name:Jane Q. Doe
+Country:Jordan
+Number:X0000000
+Sex:F
+Nationality:Jordanian
+Issuing Authority:
+Date of Birth:April,19,1995
+Expiration Date:June,4,2031
+Issued Date:June,5,2021
+Notes:",Passport,,0
+,,,,,,,

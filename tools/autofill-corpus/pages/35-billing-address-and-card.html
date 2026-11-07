@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout · Prism Photos</title>
+<style>
+  body { margin: 0; font: 13px/1.4 system-ui, sans-serif; background: #f4f4f5; color: #18181b; }
+  .top { padding: 12px 30px; background: #18181b; color: #fff; font-weight: 700; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 20px 30px; }
+  form { background: #fff; border: 1px solid #e4e4e7; border-radius: 10px; padding: 16px 20px; }
+  h2 { font-size: 16px; margin: 0 0 6px; }
+  label { display: block; font-size: 12px; color: #52525b; margin: 7px 0 2px; }
+  input, select { width: 100%; box-sizing: border-box; padding: 6px 8px; border: 1px solid #d4d4d8; border-radius: 6px; font: inherit; background: #fff; }
+  .two { display: flex; gap: 10px; } .two > div { flex: 1; }
+  .pay { grid-column: 1 / -1; text-align: right; }
+  .pay button { padding: 10px 28px; border: 0; border-radius: 8px; background: #a855f7; color: #fff; font: inherit; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="top">Prism Photos · Annual plan</div>
+<div class="cols">
+  <form id="billing" action="/billing/address" method="post">
+    <h2>Billing address</h2>
+    <label for="b-name">Full name</label><input id="b-name" name="billing_name" autocomplete="billing name">
+    <label for="b-street">Address line 1</label><input id="b-street" name="billing_street">
+    <label for="b-street2">Address line 2</label><input id="b-street2" name="billing_street2">
+    <div class="two">
+      <div><label for="b-city">City</label><input id="b-city" name="billing_city"></div>
+      <div><label for="b-state">State</label>
+        <select id="b-state" name="billing_state">
+          <option value="">—</option><option value="AZ">Arizona</option><option value="CA">California</option>
+          <option value="NY">New York</option><option value="TX">Texas</option><option value="WA">Washington</option>
+        </select></div>
+      <div><label for="b-zip">Postal code</label><input id="b-zip" name="billing_zip"></div>
+    </div>
+    <label for="b-country">Country</label>
+    <select id="b-country" name="billing_country">
+      <option value="">Select a country</option>
+      <option value="124">Canada</option>
+      <option value="276">Germany</option>
+      <option value="826">United Kingdom</option>
+      <option value="840">United States</option>
+    </select>
+  </form>
+  <form id="card" action="/billing/card" method="post">
+    <h2>Card details</h2>
+    <label for="c-name">Name on card</label><input id="c-name" name="card_name" autocomplete="cc-name">
+    <label for="c-number">Card number</label><input id="c-number" name="card_number" autocomplete="cc-number">
+    <div class="two">
+      <div><label for="c-exp">Expiry (MM/YY)</label><input id="c-exp" name="card_exp" autocomplete="cc-exp"></div>
+      <div><label for="c-cvc">CVC</label><input id="c-cvc" name="card_cvc" autocomplete="cc-csc"></div>
+    </div>
+  </form>
+  <div class="pay"><button type="button" id="pay-now">Pay $119.00</button></div>
+</div>
+<script>
+  ['billing', 'card'].forEach(function (id) { document.getElementById(id).onsubmit = function (e) { e.preventDefault(); }; });
+</script>
+</body>
+</html>

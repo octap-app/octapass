@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Join Sparrow Recipes</title>
+<style>
+  body { margin: 0; font: 15px/1.5 "Nunito", system-ui, sans-serif; background: #fff1f2; color: #4c0519; }
+  main { width: 400px; margin: 40px auto; background: #fff; border-radius: 18px; padding: 26px 30px; }
+  h1 { margin: 0 0 6px; color: #e11d48; }
+  label { display: block; font-weight: 700; font-size: 13px; margin: 12px 0 4px; }
+  input { width: 100%; box-sizing: border-box; padding: 9px 12px; border: 2px solid #fecdd3; border-radius: 10px; font: inherit; }
+  .meter { font-size: 12px; margin-top: 4px; }
+  button { width: 100%; margin-top: 16px; padding: 11px; border: 0; border-radius: 10px; background: #e11d48; color: #fff; font: inherit; font-weight: 700; }
+  button:disabled { opacity: .45; }
+</style>
+</head>
+<body>
+<main class="svelte-1x2y3z">
+  <h1 class="svelte-1x2y3z">Join Sparrow Recipes</h1>
+  <p style="margin:0">Save recipes and plan your week.</p>
+  <form id="join" class="svelte-1x2y3z">
+    <label for="join-email" class="svelte-1x2y3z">Email</label>
+    <input id="join-email" type="email" class="svelte-1x2y3z">
+    <label for="join-password" class="svelte-1x2y3z">Choose a password</label>
+    <input id="join-password" type="password" class="svelte-1x2y3z">
+    <label for="join-password-again" class="svelte-1x2y3z">Type it again</label>
+    <input id="join-password-again" type="password" class="svelte-1x2y3z">
+    <div class="meter"><output id="match"></output></div>
+    <button id="join-btn" type="submit" disabled>Create my account</button>
+  </form>
+  <p style="font:12px monospace;color:#9f1239">password = <output id="sv-password"></output><br>again = <output id="sv-again"></output></p>
+</main>
+<script>
+/* Inline emulation of Svelte `bind:value`: an `input` listener on each element assigns
+ * this.value to the component variable and invalidates it; the update writes the variable
+ * back to its input only when that variable changed and differs from the DOM value. */
+(function () {
+  var ctx = { email: '', password: '', again: '' };
+  var nodes = { email: document.getElementById('join-email'), password: document.getElementById('join-password'), again: document.getElementById('join-password-again') };
+  var dirty = {};
+  function p() {
+    Object.keys(dirty).forEach(function (k) { if (nodes[k].value !== ctx[k]) nodes[k].value = ctx[k]; });
+    dirty = {};
+    document.getElementById('sv-password').textContent = ctx.password;
+    document.getElementById('sv-again').textContent = ctx.again;
+    document.getElementById('match').textContent = !ctx.password ? '' : ctx.password === ctx.again ? 'Passwords match' : 'Passwords do not match';
+    document.getElementById('join-btn').disabled = !(ctx.email && ctx.password && ctx.password === ctx.again);
+  }
+  var pending = false;
+  function invalidate(k, v) { if (ctx[k] === v) return; ctx[k] = v; dirty[k] = true; if (!pending) { pending = true; Promise.resolve().then(function () { pending = false; p(); }); } }
+  Object.keys(nodes).forEach(function (k) {
+    nodes[k].addEventListener('input', function () { invalidate(k, this.value); });
+  });
+  document.getElementById('join').addEventListener('submit', function (e) { e.preventDefault(); });
+  p();
+})();
+</script>
+</body>
+</html>

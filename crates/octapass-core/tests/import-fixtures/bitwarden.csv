@@ -1,0 +1,11 @@
+folder,favorite,type,name,notes,fields,reprompt,archivedDate,login_uri,login_username,login_password,login_totp
+Work,1,login,GitHub,"Two-factor is on.
+Second line, with ""quotes"".","Recovery email: octo@example.com
+PIN: 4321
+Address: 1 Main Street
+Flat 2",0,,"https://github.com/login,https://gist.github.com",octocat,"pa,ss""word",otpauth://totp/GitHub:octocat?secret=JBSWY3DPEHPK3PXP&issuer=GitHub
+مالية,,login,بنك الأمل,ملاحظة بالعربية,,1,,https://bank.example,سارة,كلمة-سر-🔑,
+,,login,Old forum,,,0,2025-11-02T09:30:00.000Z,https://forum.example,me,old-password,
+Personal/Ideas,,note,Wi-Fi at home,"Network: Casa
+Password is on the router.",Linked: null,0,,,,,
+,,login,Empty,,,0,,,,,

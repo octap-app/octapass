@@ -1,0 +1,9 @@
+# Security vulnerabilities must never go in a public issue (SECURITY.md).
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/octap-app/octapass/security/advisories/new
+    about: Report vulnerabilities privately, never in a public issue. See SECURITY.md.
+  - name: Read the docs
+    url: https://github.com/octap-app/octapass/blob/main/docs/index.md
+    about: Features, platforms, self-hosting and the security design.

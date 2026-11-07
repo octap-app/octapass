@@ -1,0 +1,3 @@
+collections,type,name,notes,fields,reprompt,archivedDate,login_uri,login_username,login_password,login_totp
+"Engineering,Shared",login,Build server,,Token: abc123,0,,https://ci.example,deploy,s3cret,
+Engineering,note,Runbook,Restart the service first.,,0,,,,,

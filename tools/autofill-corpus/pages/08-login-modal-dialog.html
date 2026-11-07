@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Driftwood Games</title>
+<style>
+  body { margin: 0; font: 15px system-ui, sans-serif; background: #0b1020; color: #cbd5e1; }
+  .page { padding: 30px 50px; }
+  .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 20px; }
+  .tiles div { height: 140px; border-radius: 10px; background: #1e293b; }
+  dialog { border: 0; border-radius: 14px; padding: 28px; width: 340px; background: #fff; color: #111; }
+  dialog::backdrop { background: rgba(2,6,23,.7); }
+  dialog label { display: block; font-size: 13px; margin: 12px 0 4px; }
+  dialog input { width: 100%; box-sizing: border-box; padding: 9px; border: 1px solid #bbb; border-radius: 6px; font: inherit; }
+  dialog .row { display: flex; gap: 10px; margin-top: 18px; }
+  dialog button { flex: 1; padding: 10px; border-radius: 6px; border: 1px solid #7c3aed; font: inherit; }
+  dialog button.primary { background: #7c3aed; color: #fff; }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1 style="color:#fff">Driftwood Games</h1>
+  <p>Pick up where you left off.</p>
+  <div class="tiles"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+</div>
+<dialog id="login-dialog">
+  <form id="dlg-form" method="dialog">
+    <h2 style="margin:0">Log in to play</h2>
+    <label for="player">Player name or email</label>
+    <input id="player" name="player" type="text" autocomplete="username">
+    <label for="player-pass">Password</label>
+    <input id="player-pass" name="password" type="password" autocomplete="current-password">
+    <div class="row">
+      <button type="button" id="cancel">Not now</button>
+      <button type="submit" class="primary">Log in</button>
+    </div>
+  </form>
+</dialog>
+<script>
+  var dlg = document.getElementById('login-dialog');
+  dlg.showModal();
+  document.getElementById('dlg-form').addEventListener('submit', function (e) { e.preventDefault(); });
+  dlg.addEventListener('cancel', function (e) { e.preventDefault(); });
+</script>
+</body>
+</html>

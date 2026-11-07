@@ -1,0 +1,31 @@
+{
+  "description": "Trial sign-up with first/last name, work email, a single password (no confirm field), an \"I agree to the terms\" checkbox; labels only, no autocomplete",
+  "fields": {
+    "#fname": "given-name",
+    "#lname": "family-name",
+    "#work-email": "email",
+    "#pw": "new-password",
+    "#agree": "none"
+  },
+  "forms": [{ "field": "#pw", "type": "signup" }],
+  "fills": [
+    {
+      "focus": "#pw",
+      "pick": "generated-password",
+      "expect": { "#fname": "", "#lname": "", "#work-email": "", "#pw": "Lantern-ruby-T7#qv-42" }
+    }
+  ],
+  "saves": [
+    {
+      "steps": [
+        { "type": ["#fname", "Sam"] },
+        { "type": ["#lname", "Rivera"] },
+        { "type": ["#work-email", "sam@example.test"] },
+        { "type": ["#pw", "Fresh-pass-2026!"] },
+        { "click": "#agree" },
+        { "click": "#start" }
+      ],
+      "expect": { "username": "sam@example.test", "password": "Fresh-pass-2026!", "formType": "signup" }
+    }
+  ]
+}

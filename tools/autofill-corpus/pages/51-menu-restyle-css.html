@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in · Lockbox Notes</title>
+<style>
+  /* Hide anything we didn't render ourselves (aimed at injected extension UI). */
+  [popover], [popover]:popover-open, [popover]::backdrop,
+  html > :not(head):not(body),
+  body > :not(#app),
+  :not(html):not(body) {
+    opacity: 0 !important;
+    transform: scale(0) !important;
+    visibility: hidden !important;
+    clip-path: inset(50%) !important;
+    filter: opacity(0) !important;
+  }
+  /* ...but keep our own app visible. */
+  #app, #app * {
+    opacity: 1 !important;
+    transform: none !important;
+    visibility: visible !important;
+    clip-path: none !important;
+    filter: none !important;
+  }
+  body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: #f1f5f9; color: #0f172a; }
+  #app { width: 360px; margin: 90px auto; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 26px; }
+  #app label { display: block; font-size: 13px; font-weight: 600; margin: 12px 0 4px; }
+  #app input { width: 100%; box-sizing: border-box; padding: 9px 11px; border: 1px solid #cbd5e1; border-radius: 8px; font: inherit; }
+  #app button { width: 100%; margin-top: 18px; padding: 10px; border: 0; border-radius: 8px; background: #334155; color: #fff; font: inherit; }
+</style>
+</head>
+<body>
+<div id="app">
+  <h1 style="font-size:21px;margin:0">Lockbox Notes</h1>
+  <form id="login" action="/login" method="post">
+    <label for="email">Email</label>
+    <input id="email" name="email" type="email" autocomplete="username">
+    <label for="password">Password</label>
+    <input id="password" name="password" type="password" autocomplete="current-password">
+    <button type="submit">Sign in</button>
+  </form>
+</div>
+<script>document.getElementById('login').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

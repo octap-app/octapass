@@ -1,0 +1,16 @@
+{
+  "description": "Arabic RTL login (dir=rtl), Arabic labels and placeholders, generic ids, no autocomplete",
+  "fields": {
+    "#f1": "username",
+    "#f2": "current-password",
+    "#f3": "none"
+  },
+  "forms": [{ "field": "#f1", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#f1",
+      "pick": "login",
+      "expect": { "#f1": "alex@example.test", "#f2": "correct-horse-42!" }
+    }
+  ]
+}

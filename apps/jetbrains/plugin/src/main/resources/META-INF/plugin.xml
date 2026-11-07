@@ -1,0 +1,53 @@
+<idea-plugin>
+    <id>app.octap.jetbrains</id>
+    <name>Octa Pass</name>
+    <vendor url="https://github.com/octap-app/octapass">Octa Pass</vendor>
+    <description><![CDATA[
+    A generic client of Octa Pass Connect. Browse references, insert <code>octapass://</code> links,
+    and run a command with secrets injected by <code>octapass run</code>. Names only: the plugin
+    never reads a secret value, and it talks only to Connect on your own computer.
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.plugins.terminal</depends>
+
+    <resource-bundle>messages.OctaPassBundle</resource-bundle>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow id="Octa Pass" anchor="right" icon="/icons/toolWindow.svg"
+                    factoryClass="app.octap.jetbrains.OctaPassToolWindowFactory"/>
+        <notificationGroup id="Octa Pass" displayType="BALLOON"/>
+        <applicationConfigurable parentId="tools" id="app.octap.jetbrains.settings"
+                                 displayName="Octa Pass"
+                                 instance="app.octap.jetbrains.OctaPassConfigurable"/>
+    </extensions>
+
+    <actions>
+        <action id="OctaPass.Connect" class="app.octap.jetbrains.ConnectAction"
+                icon="AllIcons.Actions.Execute"/>
+        <action id="OctaPass.Disconnect" class="app.octap.jetbrains.DisconnectAction"
+                icon="AllIcons.Actions.Suspend"/>
+        <action id="OctaPass.Refresh" class="app.octap.jetbrains.RefreshAction"
+                icon="AllIcons.Actions.Refresh"/>
+        <action id="OctaPass.InsertReference" class="app.octap.jetbrains.InsertReferenceAction">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+        </action>
+        <action id="OctaPass.RunWithSecrets" class="app.octap.jetbrains.RunWithSecretsAction"
+                icon="AllIcons.Actions.Run_anything"/>
+
+        <group id="OctaPass.Menu" popup="true">
+            <reference ref="OctaPass.Connect"/>
+            <reference ref="OctaPass.Disconnect"/>
+            <reference ref="OctaPass.InsertReference"/>
+            <reference ref="OctaPass.RunWithSecrets"/>
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </group>
+
+        <group id="OctaPass.ToolWindow">
+            <reference ref="OctaPass.Refresh"/>
+            <reference ref="OctaPass.Connect"/>
+            <reference ref="OctaPass.Disconnect"/>
+            <reference ref="OctaPass.RunWithSecrets"/>
+        </group>
+    </actions>
+</idea-plugin>

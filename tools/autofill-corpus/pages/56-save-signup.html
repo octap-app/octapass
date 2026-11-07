@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign up · Copperleaf CRM</title>
+<style>
+  body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: #fff7ed; color: #431407; }
+  .card { width: 380px; margin: 40px auto; background: #fff; border: 1px solid #fed7aa; border-radius: 10px; padding: 24px 26px; }
+  label { display: block; margin: 10px 0 3px; font-weight: 600; }
+  input { width: 100%; box-sizing: border-box; padding: 8px 9px; border: 1px solid #fdba74; border-radius: 6px; font: inherit; }
+  button { margin-top: 16px; width: 100%; padding: 10px; border: 0; border-radius: 6px; background: #c2410c; color: #fff; font: inherit; }
+  #done { font-weight: 600; color: #15803d; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1 style="font-size:21px;margin:0">Start using Copperleaf</h1>
+  <form id="signup" action="/signup" method="post">
+    <label for="su-name">Your name</label>
+    <input id="su-name" name="name" type="text" autocomplete="name">
+    <label for="su-email">Work email</label>
+    <input id="su-email" name="email" type="email" autocomplete="email">
+    <label for="su-password">Create password</label>
+    <input id="su-password" name="password" type="password" autocomplete="new-password">
+    <label for="su-password2">Confirm password</label>
+    <input id="su-password2" name="password2" type="password" autocomplete="new-password">
+    <button id="create" type="submit">Create account</button>
+  </form>
+  <p id="done" role="status"></p>
+</div>
+<script>
+  document.getElementById('signup').addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('done').textContent = 'Account created. Check your inbox.';
+  });
+</script>
+</body>
+</html>

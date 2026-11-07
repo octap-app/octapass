@@ -1,0 +1,23 @@
+{
+  "description": "Svelte-style bind:value sign-up (inline emulation: variable updated on `input`); generated password must reach both variables",
+  "fields": {
+    "#join-email": "email",
+    "#join-password": "new-password",
+    "#join-password-again": "confirm-password"
+  },
+  "forms": [{ "field": "#join-password", "type": "signup" }],
+  "fills": [
+    {
+      "focus": "#join-password",
+      "pick": "generated-password",
+      "expect": {
+        "#join-email": "",
+        "#join-password": "Lantern-ruby-T7#qv-42",
+        "#join-password-again": "Lantern-ruby-T7#qv-42",
+        "#sv-password": "Lantern-ruby-T7#qv-42",
+        "#sv-again": "Lantern-ruby-T7#qv-42",
+        "#match": "Passwords match"
+      }
+    }
+  ]
+}

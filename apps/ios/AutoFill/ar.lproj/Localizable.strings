@@ -1,0 +1,33 @@
+/* The AutoFill extension in Arabic. Keys are the English text in AutoFillView.swift and AutoFillModel.swift. */
+
+"Cancel" = "إلغاء";
+"Can't fill" = "تتعذّر التعبئة";
+"Unlock Octa Pass" = "فتح قفل Octa Pass";
+"Unlock with %@" = "فتح القفل باستخدام %@";
+"Passcode" = "رمز الدخول";
+"Master password" = "كلمة المرور الرئيسية";
+"Unlock with master password" = "فتح القفل بكلمة المرور الرئيسية";
+"Passkeys" = "مفاتيح المرور";
+"No logins for this site" = "لا بيانات دخول لهذا الموقع";
+"Suggested" = "مقترحة";
+"All logins" = "كل بيانات الدخول";
+"Search all logins" = "البحث في كل بيانات الدخول";
+"Not a secure (https) page" = "صفحة غير آمنة (ليست https)";
+"Sign in to the Octa Pass app first." = "سجّل الدخول إلى تطبيق Octa Pass أولًا.";
+"Save a passkey" = "حفظ مفتاح مرور";
+"One-time codes" = "الرموز لمرة واحدة";
+"Fill with Octa Pass" = "التعبئة باستخدام Octa Pass";
+"Wrong master password." = "كلمة المرور الرئيسية غير صحيحة.";
+"Enter your master password. It's needed every 14 days." = "أدخل كلمة المرور الرئيسية. تُطلب كل 14 يومًا.";
+"Couldn't unlock. Try your master password." = "تعذّر فتح القفل. جرّب كلمة المرور الرئيسية.";
+"A passkey for this account is already saved in Octa Pass." = "يوجد مفتاح مرور لهذا الحساب محفوظ في Octa Pass بالفعل.";
+"Octa Pass couldn't answer this request." = "تعذّر على Octa Pass الاستجابة لهذا الطلب.";
+"Octa Pass saves passkeys for websites only. Save this one in Passwords or on a security key." = "يحفظ Octa Pass مفاتيح المرور للمواقع فقط. احفظ هذا المفتاح في تطبيق كلمات السر أو على مفتاح أمان.";
+"This login can't be filled." = "لا يمكن تعبئة بيانات الدخول هذه.";
+"This passkey can't sign in." = "لا يمكن تسجيل الدخول بمفتاح المرور هذا.";
+"Turn on %@ in Octa Pass → Settings → Security to fill without your master password." = "فعّل %@ في Octa Pass ← الإعدادات ← الأمان لتملأ دون كلمة المرور الرئيسية.";
+"Logins for other parts of %@" = "بيانات الدخول لأجزاء أخرى من %@";
+"Add %@ to this login?" = "أضف %@ إلى بيانات الدخول هذه؟";
+"Add" = "إضافة";
+"Not now" = "ليس الآن";
+"your Mac’s password" = "كلمة مرور جهاز Mac";

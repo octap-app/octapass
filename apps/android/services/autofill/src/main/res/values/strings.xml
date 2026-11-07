@@ -1,0 +1,31 @@
+<resources>
+    <string name="octapass_service_name">Octa Pass</string>
+    <string name="octapass_suggestion">Octa Pass</string>
+    <string name="octapass_suggested_password">Suggested password</string>
+    <string name="octapass_suggested_password_detail">Strong, made on this phone</string>
+    <string name="octapass_unlock_title">Unlock Octa Pass</string>
+    <string name="octapass_unlock">Unlock</string>
+    <string name="octapass_master_password">Master password</string>
+    <string name="octapass_wrong_password">That master password didn’t unlock Octa Pass.</string>
+    <string name="octapass_device_unlock_failed">Use your master password this time.</string>
+    <string name="octapass_open_failed">Octa Pass couldn’t open your vault. Open the app to check it.</string>
+    <string name="octapass_signed_out">Sign in to Octa Pass first.</string>
+    <string name="octapass_pick_login">Choose a login</string>
+    <string name="octapass_no_match">No logins saved for %1$s</string>
+    <string name="octapass_no_logins">There are no logins in Octa Pass yet.</string>
+    <string name="octapass_fill_unmatched">“%1$s” isn’t saved for %2$s. Fill it anyway?</string>
+    <string name="octapass_insecure_page">%1$s isn’t using a secure connection, so others on the network could see what you send. Fill anyway?</string>
+    <string name="octapass_other_parts">Logins for other parts of %1$s</string>
+    <string name="octapass_add_website">Add %1$s to this login?</string>
+    <string name="octapass_add">Add</string>
+    <string name="octapass_not_now">Not now</string>
+    <string name="octapass_fill">Fill</string>
+    <string name="octapass_fill_failed">Couldn’t fill from Octa Pass.</string>
+    <string name="octapass_saved">Saved to Octa Pass</string>
+    <string name="octapass_save_failed">Couldn’t save to Octa Pass.</string>
+    <!-- Saved while Octa Pass is locked (plan 03, Saving while locked). -->
+    <string name="octapass_saved_locked">Saved to Octa Pass. It’s added to your vault the next time you unlock.</string>
+    <string name="octapass_export_title">Export from Octa Pass</string>
+    <string name="octapass_export_message">%1$s will get a copy of the passwords, passkeys and other items in %2$s. Enter your master password to export them.</string>
+    <string name="octapass_export">Export</string>
+</resources>

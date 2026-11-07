@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fernwood Market · Sign in</title>
+<style>
+  body { margin: 0; font: 14px/1.4 Verdana, sans-serif; background: #fff; color: #233; }
+  header { display: flex; align-items: center; gap: 24px; padding: 12px 32px; background: #1f4d2b; color: #fff; }
+  header .logo { font-weight: 700; font-size: 18px; }
+  header form { flex: 1; display: flex; }
+  header input { flex: 1; padding: 8px 10px; border: 0; border-radius: 4px 0 0 4px; }
+  header button { border: 0; padding: 0 14px; border-radius: 0 4px 4px 0; background: #f2c14e; }
+  nav { padding: 8px 32px; background: #eaf2ec; font-size: 13px; }
+  nav a { margin-right: 18px; color: #1f4d2b; }
+  .box { width: 360px; margin: 40px auto; border: 1px solid #d5e0d8; padding: 24px; border-radius: 6px; }
+  .box label.text { display: block; margin-top: 12px; font-weight: bold; }
+  .box input[type=email], .box input[type=password] { width: 100%; box-sizing: border-box; padding: 8px; margin-top: 4px; border: 1px solid #9bb3a2; border-radius: 4px; }
+  .remember { display: flex; align-items: center; gap: 6px; margin: 14px 0; }
+  .box button { width: 100%; padding: 10px; background: #f2c14e; border: 1px solid #c99a2e; border-radius: 4px; font-weight: bold; }
+</style>
+</head>
+<body>
+<header>
+  <span class="logo">Fernwood Market</span>
+  <form id="search" role="search" action="/search">
+    <input type="search" id="q" name="q" placeholder="Search groceries, brands and recipes" aria-label="Search">
+    <button type="submit">Go</button>
+  </form>
+  <a href="#cart" style="color:#fff">Cart (0)</a>
+</header>
+<nav><a href="#">Fresh</a><a href="#">Pantry</a><a href="#">Household</a><a href="#">Deals</a></nav>
+<div class="box">
+  <h1 style="font-size:20px;margin:0">Sign in</h1>
+  <form id="signin" action="/account/signin" method="post">
+    <label class="text" for="signin-email">Email address</label>
+    <input type="email" id="signin-email" name="email" autocomplete="email">
+    <label class="text" for="signin-password">Password</label>
+    <input type="password" id="signin-password" name="password">
+    <label class="remember"><input type="checkbox" id="remember" name="remember" checked> Keep me signed in</label>
+    <button type="submit">Sign in</button>
+  </form>
+  <p style="font-size:12px">New to Fernwood? <a href="#register">Create an account</a></p>
+</div>
+<script>
+  document.getElementById('signin').onsubmit = function (e) { e.preventDefault(); };
+  document.getElementById('search').onsubmit = function (e) { e.preventDefault(); };
+</script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  min-inline-size: 0;
+}
+
+.label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.control {
+  display: flex;
+  align-items: center;
+  min-block-size: 2.875rem;
+  border-radius: var(--radius);
+  background: var(--field);
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+  transition: box-shadow var(--fast) ease;
+}
+
+.control:hover {
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 30%, transparent);
+}
+
+.control:focus-within {
+  box-shadow:
+    inset 0 0 0 1.5px var(--focus),
+    0 0 0 4px color-mix(in srgb, var(--focus) 18%, transparent);
+}
+
+.invalid,
+.invalid:hover {
+  box-shadow: inset 0 0 0 1.5px var(--danger);
+}
+
+.multiline {
+  align-items: flex-start;
+}
+
+.input {
+  flex: 1;
+  min-inline-size: 0;
+  align-self: stretch;
+  padding: 0.7rem 0.9rem;
+  border: 0;
+  background: transparent;
+  outline: none;
+  font-size: max(var(--field-min), var(--text-md));
+}
+
+textarea.input {
+  resize: vertical;
+  min-block-size: 6rem;
+  line-height: 1.5;
+}
+
+.input::placeholder {
+  color: color-mix(in srgb, var(--mist) 80%, transparent);
+}
+
+.input:focus-visible {
+  outline: none;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+  padding-inline-end: 0.3rem;
+}
+
+.multiline .actions {
+  padding-block-start: 0.3rem;
+}
+
+.hint,
+.error {
+  font-size: var(--text-sm);
+  line-height: 1.4;
+}
+
+.hint {
+  color: var(--mist);
+}
+
+.error {
+  display: flex;
+  gap: 0.35rem;
+  align-items: flex-start;
+  color: var(--danger-text);
+}
+
+.error svg {
+  flex: none;
+  margin-block-start: 0.1rem;
+}

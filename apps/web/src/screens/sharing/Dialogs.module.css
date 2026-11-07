@@ -1,0 +1,82 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.intro {
+  color: var(--mist);
+  font-size: var(--text-sm);
+}
+
+.secure {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  color: var(--mist);
+  font-size: var(--text-sm);
+}
+
+.secure svg {
+  flex: none;
+  margin-block-start: 0.1rem;
+  color: var(--free-text);
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 1rem;
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: var(--radius);
+  background: var(--tile);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: var(--radius);
+  box-shadow: inset 0 0 0 1px var(--line);
+  cursor: pointer;
+  transition: box-shadow var(--fast) ease, background-color var(--fast) ease;
+}
+
+.choice:has(input:checked) {
+  background: var(--selected);
+  box-shadow: inset 0 0 0 1.5px var(--trust);
+}
+
+.choice input {
+  accent-color: var(--trust);
+  inline-size: 1.1rem;
+  block-size: 1.1rem;
+}
+
+.choice svg {
+  color: var(--mist);
+}

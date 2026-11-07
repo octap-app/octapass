@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Staff Portal - Hollowbrook County Library</title>
+<style>
+  body { margin: 0; font: 13px Verdana, Arial, sans-serif; background: #e8e4d8; color: #222; }
+  .banner { background: #5b3a1e; color: #f5e9d0; padding: 10px 20px; font-size: 18px; font-weight: bold; }
+  .box { width: 460px; margin: 60px auto; background: #fffdf6; border: 1px solid #b9a98a; padding: 16px 20px; }
+  table.login { border-collapse: collapse; width: 100%; }
+  table.login td { padding: 6px 4px; vertical-align: middle; }
+  table.login td.lbl { width: 120px; text-align: right; font-weight: bold; }
+  table.login input[type=text], table.login input[type=password], table.login select { width: 220px; padding: 3px; font: inherit; border: 1px solid #8a7a5a; }
+  .btn { background: #e0d6bc; border: 1px outset #8a7a5a; padding: 3px 14px; font: inherit; }
+  .small { font-size: 11px; color: #6b5c40; }
+</style>
+</head>
+<body>
+<div class="banner">Hollowbrook County Library &mdash; Staff Portal</div>
+<div class="box">
+  <p><b>Please identify yourself.</b> Use your branch credentials.</p>
+  <form name="loginform" method="post" action="/j_security_check">
+    <table class="login">
+      <tr>
+        <td class="lbl">Username:</td>
+        <td><input type="text" name="j_username" size="24"></td>
+      </tr>
+      <tr>
+        <td class="lbl">Password:</td>
+        <td><input type="password" name="j_password" size="24"></td>
+      </tr>
+      <tr>
+        <td class="lbl">Branch:</td>
+        <td>
+          <select name="branch">
+            <option value="main">Main Library</option>
+            <option value="north">North Branch</option>
+            <option value="riverside">Riverside</option>
+          </select>
+        </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td><input type="submit" class="btn" value="Login"> <input type="reset" class="btn" value="Clear"></td>
+      </tr>
+    </table>
+  </form>
+  <p class="small">Forgotten your password? Contact the IT help desk on extension 2210.</p>
+</div>
+<script>document.forms.loginform.onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

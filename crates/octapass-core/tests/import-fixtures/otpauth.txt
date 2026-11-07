@@ -1,0 +1,6 @@
+otpauth://totp/GitHub:octocat?secret=JBSWY3DPEHPK3PXP&issuer=GitHub
+otpauth://totp/Example%20Bank:jane%40example.com?secret=GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ&issuer=Example%20Bank&digits=8&period=60&algorithm=SHA256
+
+otpauth://totp/%D8%A8%D9%86%D9%83:%D9%84%D9%8A%D9%84%D9%89?secret=KRSXG5CTMVRXEZLUKN2XAZLSKNSWG4TFOQ&issuer=%D8%A8%D9%86%D9%83
+otpauth-migration://offline?data=Ci8KCkhlbGxvId6tvu8SFUFDTUU6amFuZUBleGFtcGxlLmNvbRoEQUNNRSABKAEwAgojChQxMjM0NTY3ODkwMTIzNDU2Nzg5MBIDYm9iIAIoAjABOAkQARgB
+this line is not a link

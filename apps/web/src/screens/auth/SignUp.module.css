@@ -1,0 +1,91 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.progress {
+  align-self: stretch;
+  margin-block-end: 1.5rem;
+}
+
+.progress ol {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.progress li {
+  block-size: 0.25rem;
+  border-radius: 999px;
+  background: var(--line);
+  transition: background-color var(--slow) var(--ease-out);
+}
+
+.progress .done {
+  background: var(--free);
+}
+
+.progress .current {
+  background: var(--trust);
+}
+
+.passwordGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.guidance {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.85rem 0.95rem;
+  border-radius: var(--radius);
+  background: var(--tile);
+  color: var(--mist);
+  font-size: var(--text-sm);
+  line-height: 1.45;
+}
+
+.guidance svg {
+  flex: none;
+  margin-block-start: 0.05rem;
+  color: var(--trust-text);
+}
+
+.code input {
+  font-size: max(var(--field-min), 1.5rem);
+  letter-spacing: 0.35em;
+  text-align: center;
+}
+
+.confirm {
+  padding: 0.9rem 1rem;
+  border-radius: var(--radius);
+  background: var(--tile);
+}
+
+.facts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin: 0 0 0.5rem;
+  padding: 0;
+  list-style: none;
+  color: var(--mist);
+}
+
+.facts li {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.facts svg {
+  flex: none;
+  margin-block-start: 0.1rem;
+  color: var(--free-text);
+}

@@ -1,0 +1,205 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  padding: 1rem 0.75rem 0.85rem;
+  background: var(--tile);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.15rem 0.35rem 0.85rem 0.5rem;
+}
+
+.name {
+  flex: 1;
+  font-size: 1.05rem;
+  font-weight: 380;
+  font-stretch: 110%;
+  letter-spacing: -0.02em;
+}
+
+.name b {
+  font-weight: 740;
+}
+
+.close {
+  display: none;
+}
+
+.scroll {
+  flex: 1;
+  overflow-y: auto;
+  margin-inline: -0.25rem;
+  padding-inline: 0.25rem;
+  scrollbar-width: thin;
+}
+
+.heading {
+  margin: 1.1rem 0 0.3rem 0.65rem;
+  font-size: var(--text-xs);
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  color: var(--mist);
+}
+
+.heading:first-child {
+  margin-block-start: 0.35rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  min-block-size: 2.25rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 0.6rem;
+  color: var(--ink);
+  font-size: var(--text-md);
+  font-weight: 480;
+  transition: background-color var(--fast) ease;
+}
+
+.row:hover {
+  background: var(--hover);
+  text-decoration: none;
+}
+
+.row svg {
+  flex: none;
+  color: var(--mist);
+}
+
+.label {
+  flex: 1;
+  min-inline-size: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.label em {
+  margin-inline-start: 0.4rem;
+  font-style: normal;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--free-text);
+}
+
+.label em.warn {
+  color: var(--warn-text);
+}
+
+.add {
+  inline-size: 100%;
+  border: 0;
+  background: none;
+  color: var(--mist);
+  font-family: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.add:hover {
+  color: var(--ink);
+}
+
+/* A list that isn't built yet: dimmed, and not a link. */
+.soon,
+.soon:hover {
+  background: none;
+  color: var(--mist);
+  cursor: default;
+}
+
+.soon .label em {
+  color: var(--mist);
+}
+
+.count {
+  font-size: var(--text-sm);
+  color: var(--mist);
+}
+
+.on,
+.on:hover {
+  background: var(--button);
+  color: #fff;
+  font-weight: 560;
+}
+
+.on svg,
+.on .count,
+.on .label em {
+  color: rgb(255 255 255 / 0.85);
+}
+
+.health {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-block-start: 0.75rem;
+  padding: 0.6rem 0.7rem;
+  border-radius: 0.85rem;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+  color: var(--ink);
+  transition: box-shadow var(--fast) ease;
+}
+
+.health:hover {
+  text-decoration: none;
+  box-shadow: inset 0 0 0 1px var(--line-strong), var(--shadow-sm);
+}
+
+.healthOn {
+  box-shadow: inset 0 0 0 1.5px var(--trust);
+}
+
+.healthText {
+  flex: 1;
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+
+.healthText b {
+  font-size: 1.2rem;
+  font-weight: 740;
+  font-stretch: 110%;
+}
+
+.healthText span {
+  color: var(--mist);
+  font-weight: 550;
+}
+
+.chev {
+  color: var(--mist);
+}
+
+.account {
+  margin: 0.6rem 0.5rem 0;
+  font-size: var(--text-xs);
+  color: var(--mist);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 1099px) {
+  .close {
+    display: inline-grid;
+  }
+}

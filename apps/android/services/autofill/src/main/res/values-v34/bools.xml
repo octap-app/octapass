@@ -1,0 +1,3 @@
+<resources>
+    <bool name="octapass_credential_provider">true</bool>
+</resources>

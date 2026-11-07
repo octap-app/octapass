@@ -1,0 +1,53 @@
+{
+  "description": "Billing address form beside a separate card form; a card fill must not touch the address and vice versa. Country select uses numeric values (840 = United States), state select uses codes.",
+  "fields": {
+    "#b-name": "name",
+    "#b-street": "address-line1",
+    "#b-street2": "address-line2",
+    "#b-city": "address-level2",
+    "#b-state": "address-level1",
+    "#b-zip": "postal-code",
+    "#b-country": "country",
+    "#c-name": "cc-name",
+    "#c-number": "cc-number",
+    "#c-exp": "cc-exp",
+    "#c-cvc": "cc-csc"
+  },
+  "forms": [
+    { "field": "#b-name", "type": "identity" },
+    { "field": "#c-number", "type": "card" }
+  ],
+  "fills": [
+    {
+      "focus": "#c-number",
+      "pick": "card",
+      "expect": {
+        "#c-name": "Alex Doe",
+        "#c-number": "4111111111111111",
+        "#c-exp": "09/29",
+        "#c-cvc": "123",
+        "#b-name": "",
+        "#b-street": "",
+        "#b-city": "",
+        "#b-zip": ""
+      }
+    },
+    {
+      "focus": "#b-name",
+      "pick": "identity",
+      "expect": {
+        "#b-name": "Alex Doe",
+        "#b-street": "1 Test Street",
+        "#b-street2": "Apt 2",
+        "#b-city": "Springfield",
+        "#b-state": "CA",
+        "#b-zip": "90210",
+        "#b-country": "840",
+        "#c-name": "",
+        "#c-number": "",
+        "#c-exp": "",
+        "#c-cvc": ""
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "description": "Formless login: inputs in a div with wrapping labels and a type=button Log in button",
+  "fields": {
+    "#login-email": "username",
+    "#login-password": "current-password"
+  },
+  "forms": [{ "field": "#login-email", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#login-password",
+      "pick": "login",
+      "expect": { "#login-email": "alex@example.test", "#login-password": "correct-horse-42!" }
+    }
+  ]
+}

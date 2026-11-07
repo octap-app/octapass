@@ -1,0 +1,9 @@
+{
+  "ask": "B5bLKFcRAv8G6irSaTOhfoIlhYoIUnDXIdAoQyuCToQ",
+  "description": "Device unlock (passkey PRF) for the account in account.json: device_key = HKDF-SHA256(prfOutput, salt = deviceSalt, info = \"octapass/v1/device-unlock\"), wrappedAsk = AEAD(device_key, ASK, \"device-unlock\").",
+  "deviceKey": "RD8yiEyiNPiBpMxbwtNWbX3cPZPXypaek53mNRAFjos",
+  "deviceSalt": "gQiu36z1zx1zxntpNjl7pQ",
+  "prfInput": "PcIhpef6CjInVK13uJQl3KXvntYwy5UYfp3waURFfZY",
+  "prfOutput": "oKGio6SlpqeoqaqrrK2ur7CxsrO0tba3uLm6u7y9vr8",
+  "wrappedAsk": "AXWOGewiIu-cUF3r_PiuQxD6coF_G1qrlGWCON3NwIAQplAHrhWuAhBSFIo8gh5pO5Ree86fn74qb0g3_nnFUKcVxOD90ZrPdQCSc8kPQ47YcLG34ismqKE"
+}

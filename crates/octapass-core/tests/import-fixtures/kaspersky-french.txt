@@ -1,0 +1,2 @@
+Nom du site web: Exemple
+Mot de passe: x

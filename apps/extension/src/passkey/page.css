@@ -1,0 +1,11 @@
+/* The passkey prompt's page only. The frame is sized to the content (Prompt's useReportHeight), so
+   the page itself never scrolls; the list inside does. */
+html,
+body {
+  overflow: hidden;
+  background: var(--surface);
+}
+
+body {
+  min-height: 0;
+}

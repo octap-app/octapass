@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anmelden – Stadtwerke Birkenau Kundenportal</title>
+<style>
+  body { margin: 0; font: 15px/1.5 Arial, sans-serif; background: #f1f5f9; color: #1e293b; }
+  header { background: #b91c1c; color: #fff; padding: 14px 30px; font-size: 18px; }
+  .panel { width: 420px; margin: 60px auto; background: #fff; border: 1px solid #cbd5e1; padding: 26px 30px; }
+  label { display: block; margin: 12px 0 4px; }
+  input[type=text], input[type=password] { width: 100%; box-sizing: border-box; padding: 8px; border: 1px solid #94a3b8; font: inherit; }
+  .row { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
+  button { background: #b91c1c; color: #fff; border: 0; padding: 9px 22px; font: inherit; }
+</style>
+</head>
+<body>
+<header>Stadtwerke Birkenau · Kundenportal</header>
+<div class="panel">
+  <h1 style="font-size:20px;margin-top:0">Anmelden</h1>
+  <form id="anmeldung" action="/anmelden" method="post">
+    <label for="benutzer">E-Mail-Adresse oder Kundennummer</label>
+    <input type="text" id="benutzer" name="benutzer">
+    <label for="kennwort">Passwort</label>
+    <input type="password" id="kennwort" name="kennwort">
+    <label style="font-size:14px"><input type="checkbox" id="angemeldet" name="angemeldet"> Angemeldet bleiben</label>
+    <div class="row">
+      <a href="#vergessen">Passwort vergessen?</a>
+      <button type="submit">Anmelden</button>
+    </div>
+  </form>
+</div>
+<script>document.getElementById('anmeldung').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

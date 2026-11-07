@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Create account | Quill Docs</title>
+<style>
+  body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: #f8fafc; color: #0f172a; }
+  #app { width: 420px; margin: 30px auto; }
+  .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 22px 26px; }
+  .field { margin-top: 10px; }
+  .field span { display: block; font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+  input { width: 100%; box-sizing: border-box; padding: 8px 11px; border: 1px solid #cbd5e1; border-radius: 8px; font: inherit; }
+  button { width: 100%; margin-top: 16px; padding: 10px; border: 0; border-radius: 8px; background: #0f172a; color: #fff; font: inherit; }
+  .debug { margin-top: 10px; font: 12px ui-monospace, monospace; color: #475569; background: #f1f5f9; padding: 8px 10px; border-radius: 8px; }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="card">
+    <h1 style="font-size:21px;margin:0">Create your Quill account</h1>
+    <form id="signup-form" novalidate>
+      <label class="field"><span>Name</span><input id="name" name="name" type="text"></label>
+      <label class="field"><span>Email</span><input id="email" name="email" type="email"></label>
+      <label class="field"><span>Password</span><input id="password" name="password" type="password"></label>
+      <label class="field"><span>Repeat password</span><input id="password2" name="password2" type="password"></label>
+      <button id="create" type="submit">Create account</button>
+    </form>
+  </div>
+  <div class="debug">
+    state.password = <output id="state-password"></output><br>
+    state.password2 = <output id="state-password2"></output><br>
+    <output id="match"></output>
+  </div>
+</div>
+<script>
+/* Inline emulation of React controlled inputs (see 17-react-controlled-login.html). */
+(function () {
+  var valueDesc = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+  function track(node) {
+    var current = valueDesc.get.call(node);
+    Object.defineProperty(node, 'value', {
+      configurable: true,
+      enumerable: valueDesc.enumerable,
+      get: function () { return valueDesc.get.call(this); },
+      set: function (v) { current = '' + v; valueDesc.set.call(this, v); }
+    });
+    node._valueTracker = {
+      getValue: function () { return current; },
+      setValue: function (v) { current = '' + v; },
+      stopTracking: function () { node._valueTracker = null; delete node.value; }
+    };
+  }
+  function updateValueIfChanged(node) {
+    var next = valueDesc.get.call(node);
+    if (next !== node._valueTracker.getValue()) { node._valueTracker.setValue(next); return true; }
+    return false;
+  }
+  var keys = ['name', 'email', 'password', 'password2'];
+  var state = { name: '', email: '', password: '', password2: '' };
+  var inputs = {};
+  keys.forEach(function (k) { inputs[k] = document.getElementById(k); track(inputs[k]); });
+  function render() {
+    keys.forEach(function (k) { if (inputs[k].value !== state[k]) inputs[k].value = state[k]; });
+    document.getElementById('state-password').textContent = state.password;
+    document.getElementById('state-password2').textContent = state.password2;
+    document.getElementById('match').textContent = !state.password ? '' : state.password === state.password2 ? 'Passwords match' : 'Passwords do not match';
+  }
+  function onEvent(e) {
+    var key = keys.filter(function (k) { return inputs[k] === e.target; })[0];
+    if (!key) return;
+    if (updateValueIfChanged(e.target)) { var patch = {}; patch[key] = valueDesc.get.call(e.target); state = Object.assign({}, state, patch); }
+    render();
+  }
+  var app = document.getElementById('app');
+  app.addEventListener('input', onEvent);
+  app.addEventListener('change', onEvent);
+  document.getElementById('signup-form').addEventListener('submit', function (e) { e.preventDefault(); });
+  render();
+})();
+</script>
+</body>
+</html>

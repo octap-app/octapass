@@ -1,0 +1,43 @@
+[package]
+name = "octapass-relay"
+version = "0.1.0"
+description = "The Octa Pass masked email relay: forwards mail to aliases without storing it. Off unless configured."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+base64.workspace = true
+thiserror.workspace = true
+rand_core.workspace = true
+zeroize.workspace = true
+axum = { version = "0.8", features = ["macros"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "net", "signal", "time", "io-util"] }
+sqlx = { version = "0.9", default-features = false, features = ["runtime-tokio", "any", "sqlite", "postgres", "migrate", "macros"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+sha2 = "0.10"
+hmac = "0.12"
+subtle = "2.6"
+time = { version = "0.3", features = ["formatting", "parsing", "macros"] }
+chacha20poly1305 = { version = "0.10", default-features = false, features = ["alloc"] }
+# Outbound: everything leaves through the operator's smart host.
+lettre = { version = "0.11", default-features = false, features = ["smtp-transport", "tokio1", "tokio1-rustls", "ring", "webpki-roots"] }
+# STARTTLS on the inbound listener. The provider is passed explicitly: mail-auth's resolver links
+# aws-lc-rs too, and rustls refuses to guess between two.
+tokio-rustls = { version = "0.26", default-features = false, features = ["ring", "tls12"] }
+rustls-pki-types = "1"
+# SPF, DKIM, DMARC and ARC, and MIME. Hand-written versions of these are how mail servers get
+# forged. mail-auth's default backend is aws-lc-rs: the signing key is long-lived and every message
+# signs with it, so it needs constant-time RSA, which the `rsa` crate doesn't promise.
+mail-auth = { version = "0.15", features = ["arc"] }
+mail-parser = "1"
+
+[dev-dependencies]
+proptest = "1"
+tempfile = "3"
+tower = { version = "0.5", features = ["util"] }
+http-body-util = "0.1"

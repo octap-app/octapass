@@ -1,0 +1,5 @@
+# Build outputs of crates/octapass-mobile/scripts
+jniLibs/
+build/
+.gradle/
+.kotlin/

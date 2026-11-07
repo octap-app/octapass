@@ -1,0 +1,38 @@
+{
+  "description": "Turkish sign-up (Ad, Soyad, E-posta adresi, Şifre, Şifre (tekrar)) with a consent checkbox, labels only, no autocomplete",
+  "fields": {
+    "#ad": "given-name",
+    "#soyad": "family-name",
+    "#eposta": "email",
+    "#sifre": "new-password",
+    "#sifre2": "confirm-password",
+    "#kvkk": "none"
+  },
+  "forms": [{ "field": "#sifre", "type": "signup" }],
+  "fills": [
+    {
+      "focus": "#sifre",
+      "pick": "generated-password",
+      "expect": {
+        "#ad": "",
+        "#soyad": "",
+        "#eposta": "",
+        "#sifre": "Lantern-ruby-T7#qv-42",
+        "#sifre2": "Lantern-ruby-T7#qv-42"
+      }
+    }
+  ],
+  "saves": [
+    {
+      "steps": [
+        { "type": ["#ad", "Deniz"] },
+        { "type": ["#soyad", "Kaya"] },
+        { "type": ["#eposta", "deniz@example.test"] },
+        { "type": ["#sifre", "Yeni-sifre-2026!"] },
+        { "type": ["#sifre2", "Yeni-sifre-2026!"] },
+        { "click": "#olustur" }
+      ],
+      "expect": { "username": "deniz@example.test", "password": "Yeni-sifre-2026!", "formType": "signup" }
+    }
+  ]
+}

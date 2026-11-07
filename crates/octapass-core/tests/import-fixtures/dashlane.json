@@ -1,0 +1,58 @@
+{
+  "AUTHENTIFIANT": [
+    {
+      "title": "GitHub",
+      "login": "octo-cat",
+      "secondaryLogin": "",
+      "email": "octo@example.com",
+      "password": "pa,ss\"word 1",
+      "domain": "github.com",
+      "note": "Work account.\nSecond line.",
+      "category": "Work",
+      "autoLogin": "true",
+      "id": "{5E1F2A3B-0000-4000-8000-000000000001}",
+      "creationDatetime": "1600000000",
+      "userModificationDatetime": "1650000000",
+      "lastUse": "1700000000"
+    },
+    {
+      "title": "بنك الأمل",
+      "login": "",
+      "secondaryLogin": "",
+      "email": "مستخدم@example.com",
+      "password": "سر,مع\"علامات",
+      "domain": "bank.example.jo",
+      "note": "ملاحظة بالعربية"
+    },
+    { "title": "", "login": "", "email": "", "password": "", "domain": "", "note": "" }
+  ],
+  "SECURENOTE": [
+    { "title": "Ideas 💡", "content": "Line one\nLine two", "category": "Personal" }
+  ],
+  "PAYMENTMEANS_CREDITCARD": [
+    {
+      "name": "Visa",
+      "bank": "EXAMPLE_BANK|US",
+      "cardNumber": "4111111111111111",
+      "owner": "Jane Q. Doe",
+      "securityCode": "123",
+      "expireMonth": "8",
+      "expireYear": "2029"
+    }
+  ],
+  "IDENTITY": [
+    { "fullName": "Jane Q Doe", "pseudo": "jdoe", "birthDate": "1990-02-03", "birthPlace": "Zürich" }
+  ],
+  "ADDRESS": [
+    { "addressName": "Home", "addressFull": "1 Main St", "city": "Springfield", "state": "CA", "zipcode": "90210", "country": "US" }
+  ],
+  "EMAIL": [
+    { "emailName": "Personal email", "email": "jane@example.com", "type": "PERSO" }
+  ],
+  "BANKSTATEMENT": [
+    { "BankAccountName": "Checking", "BankAccountOwner": "Jane Q. Doe", "BankAccountIBAN": "DE00 0000 0000 0000 0000 00", "BankAccountBIC": "EXAMPLEXXX" }
+  ],
+  "PAYMENTMEAN_PAYPAL": [
+    { "name": "PayPal", "login": "jane@example.com", "password": "pp-secret" }
+  ]
+}

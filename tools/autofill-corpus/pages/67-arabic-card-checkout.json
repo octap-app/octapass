@@ -1,0 +1,24 @@
+{
+  "description": "Arabic RTL card checkout (الاسم على البطاقة، رقم البطاقة، تاريخ الانتهاء MM/YY، رمز الأمان) with a discount-code input (رمز الخصم) that is not a card or one-time code field",
+  "fields": {
+    "#card-holder": "cc-name",
+    "#card-no": "cc-number",
+    "#card-exp": "cc-exp",
+    "#card-cvv": "cc-csc",
+    "#coupon": "none"
+  },
+  "forms": [{ "field": "#card-no", "type": "card" }],
+  "fills": [
+    {
+      "focus": "#card-no",
+      "pick": "card",
+      "expect": {
+        "#card-holder": "Alex Doe",
+        "#card-no": "4111111111111111",
+        "#card-exp": "09/29",
+        "#card-cvv": "123",
+        "#coupon": ""
+      }
+    }
+  ]
+}

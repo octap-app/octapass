@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Вход · Почта Сокол</title>
+<style>
+  body { margin: 0; font: 15px/1.5 Arial, sans-serif; background: #eff6ff; color: #172554; }
+  .box { width: 360px; margin: 90px auto; background: #fff; border-radius: 16px; padding: 28px; }
+  .logo { font-weight: 800; color: #1d4ed8; font-size: 22px; }
+  .fld { margin-top: 14px; }
+  .fld input { width: 100%; box-sizing: border-box; padding: 11px 12px; border: 1px solid #93c5fd; border-radius: 10px; font: inherit; }
+  .fld label { display: block; font-size: 13px; color: #1e40af; margin-bottom: 3px; }
+  button { margin-top: 18px; width: 100%; padding: 11px; border: 0; border-radius: 10px; background: #1d4ed8; color: #fff; font: inherit; }
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="logo">Сокол Почта</div>
+  <h1 style="font-size:20px">Вход в аккаунт</h1>
+  <form id="form1" action="/auth" method="post">
+    <div class="fld"><label for="f1">Логин или электронная почта</label><input id="f1" name="f1" type="text"></div>
+    <div class="fld"><label for="f2">Пароль</label><input id="f2" name="f2" type="password"></div>
+    <button type="submit">Войти</button>
+  </form>
+  <p style="font-size:13px;text-align:center"><a href="#restore">Забыли пароль?</a> · <a href="#reg">Регистрация</a></p>
+</div>
+<script>document.getElementById('form1').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Confirm it's you · Quill Docs</title>
+<style>
+  body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: #f8fafc; color: #0f172a; }
+  .card { width: 380px; margin: 100px auto; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 26px; }
+  label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+  input { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font: 20px ui-monospace, monospace; letter-spacing: 6px; }
+  .trust { display: flex; gap: 6px; align-items: center; font-size: 13px; margin: 12px 0; }
+  button { width: 100%; padding: 10px; border: 0; border-radius: 8px; background: #0f172a; color: #fff; font: inherit; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1 style="font-size:20px;margin-top:0">Check your authenticator app</h1>
+  <form id="totp" action="/2fa" method="post">
+    <label for="totp-code">Authentication code</label>
+    <input id="totp-code" name="code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}">
+    <label class="trust"><input type="checkbox" id="trust" name="trust" style="width:auto"> Don't ask again on this device</label>
+    <button type="submit">Verify</button>
+  </form>
+</div>
+<script>document.getElementById('totp').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

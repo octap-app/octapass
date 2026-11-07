@@ -1,0 +1,69 @@
+Websites
+
+Website name: GitHub
+Website URL: www.github.com
+Login name: Work
+Login: mailto:jane@example.com
+Password:  kas:per sky 
+Comment: Deploy notes
+Password: this line is part of the comment
+
+and more after a blank line
+
+---
+
+Website name: بنك الأمل
+Website URL: https://bank.example.sa
+Login name: جميلة
+Login: جميلة
+Password: كلمة-سر-١٢٣
+Comment: ملاحظة بالعربية
+
+---
+
+Website name: Nothing but a name
+Website URL:
+Login name:
+Login:
+Password:
+Comment:
+
+---
+
+Applications
+
+Application: Skype
+Login name:
+Login: jane.app
+Password: app-pass
+Comment:
+
+---
+
+Other Accounts
+
+Account name: Home router
+Login name: admin
+Login:
+Password: router-pass
+Security question: First pet?
+Comment: a comment
+---
+that had a dashed line
+
+---
+
+Notes
+
+Name: Diary
+Text: Dear diary,
+Password: not a field here
+
+emoji 🔐
+
+---
+
+Name: Empty note
+Text:
+
+* * *

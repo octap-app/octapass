@@ -1,0 +1,10 @@
+kind,autologin,favorite,hexColor,login,memo,name,password,protectedWithPassword,subdomainOnly,type,url,tk_export_version,cardholder,number,expiryDate,title,note,document_content,verificationCode
+login,true,true,#ff0000,jane@example.com,"Deploy notes
+second line",GitHub,"true,key ""pw""",false,false,,https://github.com/login,2,,,,,,,
+login,false,false,,جميلة,ملاحظة,بنك الأمل,كلمة-سر-١٢٣,false,false,,https://bank.example.sa,2,,,,,,,
+cc,,true,,,,,,,,,,2,Jane Doe,4242424242424242,2031-07-01T00:00:00Z,Visa,Travel card,,123
+cc,,false,,,,,,,,,,2,Jane Doe,5555555555554444,sometime,Mastercard,,,
+note,,false,,,,,,,,,,2,,,,Diary,Dear diary,,
+document,,false,,,,,,,,,,2,,,,Contract,,The whole text,
+login,,,,,,,,,,,,2,,,,,,,
+note,,,,,,,,,,,,2,,,,,,,

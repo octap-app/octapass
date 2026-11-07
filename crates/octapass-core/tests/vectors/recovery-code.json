@@ -1,0 +1,20 @@
+{
+  "cases": [
+    {
+      "bytes": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "text": "00000-00000-00000-00000-00000-00000-00000-00000-00000-00000-06G78",
+      "wrappingKey": "JrZcrwXEQg3WUfrTegTaCeNpffvsXLLSYi0pknaLNoY"
+    },
+    {
+      "bytes": "__________________________________________8",
+      "text": "ZZZZZ-ZZZZZ-ZZZZZ-ZZZZZ-ZZZZZ-ZZZZZ-ZZZZZ-ZZZZZ-ZZZZZ-ZZZZZ-ZT9YG",
+      "wrappingKey": "kTZUTMs6DYky2rhV23TOe1ntdZi5fURnGCid93jLhhg"
+    },
+    {
+      "bytes": "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8",
+      "text": "000G4-0R40M-30E20-9185G-R38E1-W8124-GK2GA-HC5RR-34D1P-70X3R-FTJH8",
+      "wrappingKey": "fkGplpKLb2UDvbTyrDmzHfh2wgwbo08y4BqDzYkY9jQ"
+    }
+  ],
+  "description": "Recovery code bytes, text form (with checksum) and the key that wraps the ASK."
+}

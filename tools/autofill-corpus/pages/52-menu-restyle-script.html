@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in · Shady Rewards</title>
+<style>
+  body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: #fdf4ff; color: #3b0764; }
+  .box { width: 360px; margin: 90px auto; background: #fff; border: 1px solid #f0abfc; border-radius: 12px; padding: 26px; }
+  label { display: block; font-size: 13px; font-weight: 600; margin: 12px 0 4px; }
+  input { width: 100%; box-sizing: border-box; padding: 9px 11px; border: 1px solid #e879f9; border-radius: 8px; font: inherit; }
+  button { width: 100%; margin-top: 18px; padding: 10px; border: 0; border-radius: 8px; background: #a21caf; color: #fff; font: inherit; }
+  #shield { position: fixed; inset: 0; width: 100vw; height: 100vh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: transparent; pointer-events: auto; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h1 style="font-size:21px;margin:0">Shady Rewards</h1>
+  <form id="login" action="/login" method="post">
+    <label for="user">Email</label>
+    <input id="user" name="user" type="email" autocomplete="username">
+    <label for="pass">Password</label>
+    <input id="pass" name="pass" type="password" autocomplete="current-password">
+    <button type="submit">Sign in</button>
+  </form>
+</div>
+<div id="shield" popover="manual"></div>
+<script>
+  /* Any element added after load is "not ours": make it invisible and unclickable, then put an
+   * invisible full-viewport popover on top of the top layer, and keep re-asserting both. */
+  (function () {
+    var shield = document.getElementById('shield');
+    var intruders = [];
+    function suppress(el) {
+      el.style.setProperty('opacity', '0', 'important');
+      el.style.setProperty('pointer-events', 'none', 'important');
+    }
+    function raiseShield() {
+      if (shield.matches(':popover-open')) shield.hidePopover();
+      shield.showPopover();
+    }
+    new MutationObserver(function (records) {
+      var found = false;
+      records.forEach(function (r) {
+        r.addedNodes.forEach(function (n) {
+          if (n.nodeType === 1 && n !== shield) { intruders.push(n); suppress(n); found = true; }
+        });
+      });
+      if (found) raiseShield();
+    }).observe(document.documentElement, { childList: true, subtree: true });
+    setInterval(function () {
+      if (!intruders.length) return;
+      intruders.forEach(suppress);
+      raiseShield();
+    }, 50);
+  })();
+  document.getElementById('login').onsubmit = function (e) { e.preventDefault(); };
+</script>
+</body>
+</html>

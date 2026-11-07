@@ -1,0 +1,22 @@
+{
+  "argon2Salt": "SpkpRWXG_ASyaVPjBB2C-A",
+  "auk": "Fi5XvSHfyD09kvBRH1PV2R4aPy7IDC__PKq512hVLCA",
+  "authSecret": "w0WzAIs0hgL50GWl7_2C8rs3Y4obejIJV86vhT5NC2Y",
+  "description": "Master password + Secret Key -> AUK and auth_secret. Binary values are base64url without padding.",
+  "input": {
+    "accountSalt": "AAECAwQFBgcICQoLDA0ODw",
+    "email": "  Alice@Example.COM ",
+    "kdf": {
+      "algorithm": "argon2id",
+      "iterations": 3,
+      "memoryKib": 65536,
+      "parallelism": 1
+    },
+    "password": "Pässwörd ﬁ 🔑",
+    "secretKey": "OP1-208H44-RM2MB1-E60S3-8DHR7-8Y3W"
+  },
+  "normalizedEmail": "alice@example.com",
+  "normalizedPasswordUtf8": "UGHMiHNzd2_MiHJkIGZpIPCflJE",
+  "pwKey": "5QY4EQpxmQIb73q_trCQaG6kNKAdF0TXrmEv2COpPrI",
+  "skKey": "UngYtookEqMqIFwA664WMfOM5dCXbqNVKElG2TOTUww"
+}

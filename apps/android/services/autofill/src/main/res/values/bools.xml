@@ -1,0 +1,4 @@
+<resources>
+    <!-- Credential Manager providers exist from Android 14. -->
+    <bool name="octapass_credential_provider">false</bool>
+</resources>

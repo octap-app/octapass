@@ -1,0 +1,6 @@
+"url","username","password","httpRealm","formActionOrigin","guid","timeCreated","timeLastUsed","timePasswordChanged"
+"https://www.example.org","alice@example.org","hunter2",,"https://login.example.org","{6a7e1f4e-0000-4000-8000-000000000001}","1700000000000","1700000000000","1700000000000"
+"https://forum.example.net","Ünïcødé","pässwörd",,"https://forum.example.net","{6a7e1f4e-0000-4000-8000-000000000002}","1700000000000","1700000000000","1700000000000"
+"http://192.168.0.1","admin","admin","Router Admin",,"{6a7e1f4e-0000-4000-8000-000000000003}","1700000000000","1700000000000","1700000000000"
+"https://ar.example.sa","سارة","سر,مع""علامات",,"","{6a7e1f4e-0000-4000-8000-000000000004}","1700000000000","1700000000000","1700000000000"
+"chrome://FirefoxAccounts","00000000000000000000000000000000","{""version"":1}","Firefox Accounts credentials",,"{6a7e1f4e-0000-4000-8000-000000000005}","1700000000000","1700000000000","1700000000000"

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in · Fernway Notes</title>
+<style>
+  body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: #fafaf9; color: #1c1917; }
+  .wrap { width: 380px; margin: 70px auto; text-align: center; }
+  .logo { font-size: 22px; font-weight: 700; color: #15803d; margin-bottom: 26px; }
+  .social { display: block; width: 100%; padding: 11px; margin-bottom: 10px; border: 1px solid #d6d3d1; border-radius: 999px; background: #fff; font: inherit; cursor: pointer; }
+  .or { margin: 20px 0; color: #78716c; font-size: 13px; }
+  h1 { font-size: 26px; margin: 0 0 18px; }
+  form { text-align: left; }
+  form input { display: block; width: 100%; box-sizing: border-box; padding: 11px 14px; margin-bottom: 12px; border: 1px solid #d6d3d1; border-radius: 10px; font: inherit; }
+  form button { width: 100%; padding: 12px; border: 0; border-radius: 999px; background: #15803d; color: #fff; font: inherit; font-weight: 600; }
+  .legal { font-size: 12px; color: #78716c; margin-top: 18px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo">Fernway Notes</div>
+  <button class="social" type="button" id="sso-orbit">Continue with Orbit ID</button>
+  <button class="social" type="button" id="sso-pinecone">Continue with Pinecone</button>
+  <button class="social" type="button" id="sso-phone">Continue with phone</button>
+  <div class="or">or</div>
+  <h1>Continue with email</h1>
+  <form id="email-login" action="/auth/email" method="post">
+    <input type="email" name="email" id="fw-email" placeholder="you@company.com" aria-label="Email address">
+    <input type="password" name="password" id="fw-pass" placeholder="Password" aria-label="Password">
+    <button type="submit" id="fw-continue">Continue</button>
+  </form>
+  <p class="legal">By continuing you accept the Fernway Terms and Privacy Notice.</p>
+</div>
+<script>document.getElementById('email-login').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

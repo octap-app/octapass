@@ -1,0 +1,28 @@
+---
+// Inline Octa Pass logo. `mark` is the gradient OP monogram, `tile` the app icon.
+// Gradient ids are suffixed so several logos can share a page.
+import mark from '../assets/logo.svg?raw';
+import tile from '../assets/logo-tile.svg?raw';
+
+interface Props {
+  size?: number;
+  id: string;
+  variant?: 'mark' | 'tile';
+  class?: string;
+}
+const { size = 28, id, variant = 'mark', class: className } = Astro.props;
+const svg = (variant === 'tile' ? tile : mark)
+  .replaceAll('op-g', `op-g-${id}`)
+  .replaceAll('op-t', `op-t-${id}`)
+  .replace(/width="64" height="64"/, `width="${size}" height="${size}" aria-hidden="true" focusable="false"`)
+  .replace(/<title>.*?<\/title>/, '');
+---
+
+<span class:list={['logo', className]} set:html={svg} />
+
+<style>
+  .logo {
+    display: inline-flex;
+    flex: none;
+  }
+</style>

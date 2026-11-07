@@ -1,0 +1,12 @@
+"Work\Dev","GitHub","octo@example.com","kp-pass,with ""quotes""","https://github.com/login","Deploy key is in the vault.
+Second line.","","Account ID","12345","TFC:Keeper","otpauth://totp/GitHub:octo@example.com?secret=JBSWY3DPEHPK3PXP&issuer=GitHub"
+"","بنك الأمل","مستخدم","كلمة-سر-١٢٣","https://bank.example.jo","ملاحظة بالعربية
+سطر ثاني","Family#edit#reshare","Security Question","اسم المدينة؟","PIN Code","4321"
+"Travel","Hotel loyalty","guest-7781","","https://hotel.example","","Team Shared","Membership No.","HX-7781"
+"Personal","Wi-Fi at home","","","","Network: Casa Verde
+Password: correct-horse","",""
+"","Recovery codes","","","","","","Codes","1111-2222
+3333-4444"
+"Finance","Travel card","","","","Card for trips","","$record_uid","AbCdEfGh123","$type","bankCard","$paymentCard","4111111111111111 03/2030 123","$text:cardholderName","Jane Q. Doe","$pinCode","9876"
+"Archive","","","","","",""
+"only","five","columns","here",""

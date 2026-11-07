@@ -1,0 +1,44 @@
+[package]
+name = "octapass-ffi"
+version = "0.1.0"
+description = "UniFFI bindings of octapass-core for the Octa Pass iOS and Android apps and their autofill extensions."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[lib]
+crate-type = ["lib", "staticlib", "cdylib"]
+
+[features]
+# Adds `TestServer`, an in-process fake of the sync API for the Swift and Kotlin tests. Release
+# builds for the apps never enable it.
+test-server = ["octapass-core/opaque-server"]
+# The `uniffi-bindgen` and `uniffi-bindgen-swift` binaries used by `scripts/`.
+bindgen = ["uniffi/cli"]
+
+[[bin]]
+name = "uniffi-bindgen"
+required-features = ["bindgen"]
+
+[[bin]]
+name = "uniffi-bindgen-swift"
+required-features = ["bindgen"]
+
+[dependencies]
+octapass-api = { path = "../octapass-api" }
+octapass-core = { path = "../octapass-core" }
+rand_core.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+zeroize.workspace = true
+sha2 = "0.10"
+time = { version = "0.3", default-features = false, features = ["formatting", "macros", "parsing"] }
+uniffi = "0.32"
+url = "2"
+uuid = { version = "1", default-features = false }
+
+[dev-dependencies]
+octapass-ffi = { path = ".", features = ["test-server"] }
+p256 = { version = "0.13", default-features = false, features = ["ecdsa", "pkcs8"] }
+tempfile = "3"

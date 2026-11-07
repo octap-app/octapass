@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in · Prism Photos</title>
+<style>
+  body { margin: 0; font: 15px system-ui, sans-serif; background: #18181b; color: #f4f4f5; }
+  .top { padding: 16px 32px; font-weight: 700; letter-spacing: .5px; }
+  .center { display: flex; justify-content: center; padding-top: 60px; }
+</style>
+</head>
+<body>
+<div class="top">PRISM PHOTOS</div>
+<div class="center"><prism-login id="login"></prism-login></div>
+<script>
+  customElements.define('prism-login', class extends HTMLElement {
+    constructor() {
+      super();
+      var root = this.attachShadow({ mode: 'open' });
+      root.innerHTML =
+        '<style>' +
+        ':host { display: block; width: 360px; background: #27272a; border-radius: 14px; padding: 28px; }' +
+        'h1 { font-size: 22px; margin: 0 0 16px; }' +
+        'label { display: block; font-size: 13px; color: #a1a1aa; margin: 12px 0 4px; }' +
+        'input { width: 100%; box-sizing: border-box; padding: 10px; border-radius: 8px; border: 1px solid #3f3f46; background: #18181b; color: #fff; font: inherit; }' +
+        'button { width: 100%; margin-top: 18px; padding: 11px; border: 0; border-radius: 8px; background: #a855f7; color: #fff; font: inherit; font-weight: 600; }' +
+        '</style>' +
+        '<h1>Welcome back</h1>' +
+        '<form id="form" action="/login" method="post">' +
+        '<label for="user">Email</label><input id="user" name="email" type="email" autocomplete="username">' +
+        '<label for="pass">Password</label><input id="pass" name="password" type="password" autocomplete="current-password">' +
+        '<button type="submit">Sign in</button>' +
+        '</form>';
+      root.getElementById('form').addEventListener('submit', function (e) { e.preventDefault(); });
+    }
+  });
+</script>
+</body>
+</html>

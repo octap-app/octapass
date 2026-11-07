@@ -1,0 +1,18 @@
+{
+  "description": "Card form without autocomplete; month select (01-12) and year select whose option values are 2-digit (\"29\") with 4-digit text",
+  "fields": {
+    "#holder": "cc-name",
+    "#pan": "cc-number",
+    "#exp-m": "cc-exp-month",
+    "#exp-y": "cc-exp-year",
+    "#cvv": "cc-csc"
+  },
+  "forms": [{ "field": "#pan", "type": "card" }],
+  "fills": [
+    {
+      "focus": "#pan",
+      "pick": "card",
+      "expect": { "#holder": "Alex Doe", "#pan": "4111111111111111", "#exp-m": "09", "#exp-y": "29", "#cvv": "123" }
+    }
+  ]
+}

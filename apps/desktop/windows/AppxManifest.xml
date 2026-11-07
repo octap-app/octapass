@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  The MSIX package of the desktop app. Windows only activates a passkey plugin from a package
+  (Microsoft's PasskeyManager sample, Package.appxmanifest), so the provider needs this; the NSIS
+  installer has no package and hides the switch.
+
+  scripts/package-msix.ps1 fills in __PUBLISHER__ (the signing certificate's subject) and __VERSION__.
+  The class id is PROVIDER_CLSID and the argument ACTIVATION_ARGUMENT in
+  crates/windows-passkey/src/lib.rs; a test keeps them equal.
+-->
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
+  IgnorableNamespaces="uap rescap com">
+
+  <Identity
+    Name="OctaPass.Desktop"
+    Publisher="__PUBLISHER__"
+    Version="__VERSION__"
+    ProcessorArchitecture="x64" />
+
+  <Properties>
+    <DisplayName>Octa Pass</DisplayName>
+    <PublisherDisplayName>Octa Pass contributors</PublisherDisplayName>
+    <Logo>assets\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <!-- The app runs from Windows 10 on; the passkey provider appears from 26100.6725 / 26200.6725. -->
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.19041.0" MaxVersionTested="10.0.26200.0" />
+  </Dependencies>
+
+  <Resources>
+    <Resource Language="en-US" />
+    <Resource Language="ar" />
+  </Resources>
+
+  <Applications>
+    <Application Id="OctaPass" Executable="octapass-desktop.exe" EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements
+        DisplayName="Octa Pass"
+        Description="An open-source, end-to-end encrypted password manager."
+        BackgroundColor="transparent"
+        Square150x150Logo="assets\Square150x150Logo.png"
+        Square44x44Logo="assets\Square44x44Logo.png" />
+      <Extensions>
+        <com:Extension Category="windows.comServer">
+          <com:ComServer>
+            <com:ExeServer Executable="octapass-desktop.exe" Arguments="-PluginActivated" DisplayName="Octa Pass">
+              <com:Class Id="4ba386cd-7fd2-4238-bf45-b3b3e1cf144d" DisplayName="Octa Pass" />
+            </com:ExeServer>
+          </com:ComServer>
+        </com:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+</Package>

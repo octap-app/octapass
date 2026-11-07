@@ -1,0 +1,38 @@
+name: Docs or translation problem
+description: Something wrong, missing or unclear in the docs, on the website, or in a translation.
+labels: [docs]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of problem?
+      options:
+        - The docs are wrong or out of date
+        - The docs are missing something
+        - A translation is wrong or unclear
+        - The website
+    validations:
+      required: true
+  - type: dropdown
+    id: language
+    attributes:
+      label: Language
+      options:
+        - English
+        - Arabic
+        - Another language
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Page or screen
+      placeholder: /docs/features/sharing/, or Settings → Security in the app
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: What's wrong, and what should it say?
+    validations:
+      required: true

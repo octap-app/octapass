@@ -1,0 +1,28 @@
+name: Security design feedback
+description: A question or critique of the published security design. Not for vulnerabilities in code.
+labels: [security-design]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is for public design review. **If you found something exploitable, report it privately** as described in [SECURITY.md](https://github.com/octap-app/octapass/blob/main/SECURITY.md).
+  - type: input
+    id: reference
+    attributes:
+      label: Which part of the design?
+      description: A docs page or a section of plans/03-security-model.md.
+      placeholder: docs/security/encryption.md, key hierarchy
+    validations:
+      required: true
+  - type: textarea
+    id: concern
+    attributes:
+      label: Your concern or question
+      description: What an attacker could do, or what looks wrong, and under which assumptions.
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested change
+      description: References to papers, RFCs or other products are welcome.

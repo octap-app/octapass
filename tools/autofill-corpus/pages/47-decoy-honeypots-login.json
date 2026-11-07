@@ -1,0 +1,32 @@
+{
+  "description": "Login with honeypot decoys (display:none, visibility:hidden, 0x0, off-screen, opacity:0, aria-hidden 1px clip, type=hidden); only the two visible fields may be filled",
+  "fields": {
+    "#username": "username",
+    "#password": "current-password",
+    "#hp-display": "none",
+    "#hp-visibility": "none",
+    "#hp-zero": "none",
+    "#hp-offscreen": "none",
+    "#hp-opacity": "none",
+    "#hp-tiny": "none",
+    "#hp-hidden": "none"
+  },
+  "forms": [{ "field": "#username", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#username",
+      "pick": "login",
+      "expect": {
+        "#username": "alex@example.test",
+        "#password": "correct-horse-42!",
+        "#hp-display": "",
+        "#hp-visibility": "",
+        "#hp-zero": "",
+        "#hp-offscreen": "",
+        "#hp-opacity": "",
+        "#hp-tiny": "",
+        "#hp-hidden": ""
+      }
+    }
+  ]
+}

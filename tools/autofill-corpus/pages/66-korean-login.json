@@ -1,0 +1,16 @@
+{
+  "description": "Korean shop login (아이디 / 비밀번호 labels, 로그인 상태 유지 checkbox), no autocomplete attributes",
+  "fields": {
+    "#loginId": "username",
+    "#loginPw": "current-password",
+    "#keepLogin": "none"
+  },
+  "forms": [{ "field": "#loginId", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#loginId",
+      "pick": "login",
+      "expect": { "#loginId": "alex@example.test", "#loginPw": "correct-horse-42!" }
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verify your email — Tidepool Studio</title>
+<style>
+  body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: #ecfeff; color: #0f172a; }
+  .box { width: 400px; margin: 100px auto; background: #fff; border-radius: 10px; padding: 28px; }
+  label { display: block; font-weight: 600; margin-bottom: 6px; }
+  input { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font: inherit; }
+  button { margin-top: 14px; padding: 10px 22px; border: 0; border-radius: 8px; background: #0e7490; color: #fff; font: inherit; }
+</style>
+</head>
+<body>
+<div class="box">
+  <h1 style="font-size:20px;margin-top:0">Check your inbox</h1>
+  <p>We emailed a code to s***@example.test. It expires in 10 minutes.</p>
+  <form id="verify" action="/verify-email" method="post">
+    <label for="vc">Verification code</label>
+    <input id="vc" name="vc" type="text">
+    <button type="submit">Continue</button>
+  </form>
+</div>
+<script>document.getElementById('verify').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

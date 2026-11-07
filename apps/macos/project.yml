@@ -1,0 +1,304 @@
+name: OctaPassMac
+# The native Mac app (plan 19). It compiles the iPhone and iPad app's screens (../ios/OctaPass)
+# directly, with platform differences behind #if os(macOS) / #if os(iOS) in those files, plus the
+# Mac-only code in OctaPassMac. Generate the Xcode project with `xcodegen generate` in this folder
+# after changing this file, and commit both.
+options:
+  bundleIdPrefix: app.octap.ios
+  deploymentTarget:
+    macOS: "14.0"
+  developmentLanguage: en
+  createIntermediateGroups: true
+# The signing team comes from the iPhone app's gitignored Signing.local.xcconfig: one team signs
+# every Apple app. The data-protection Keychain and the App Group need a signed build (plan 19).
+configFiles:
+  Debug: ../ios/Signing.xcconfig
+  Release: ../ios/Signing.xcconfig
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    # The iPhone app's App IDs (a universal purchase, maintainer's decision 2026-11-06) serve the Mac
+    # app and its extensions too, with AutoFill. Still apart from the Tauri app's
+    # app.octap.desktop, so the two run side by side.
+    # The App Group is the Mac's own, team-prefixed: macOS opens a `group.` container only to a
+    # target whose own profile lists it, and Xcode signs the Safes extension (no capability that
+    # needs its own App ID) with the team's wildcard profile, so Finder got "Operation not
+    # permitted". A team-prefixed group needs no profile. An App Group never leaves the device, so
+    # its name needn't match the iPhone's.
+    OCTAPASS_APP_GROUP: $(TeamIdentifierPrefix)app.octap
+    OCTAPASS_KEYCHAIN_GROUP: $(AppIdentifierPrefix)app.octap.shared
+    OCTAPASS_SERVER_URL: https://vault.octap.app
+packages:
+  OctaPassVault:
+    path: ../ios/Packages/OctaPassVault
+  OctaPassResources:
+    path: ../ios/Packages/OctaPassResources
+  OctaPassKeychain:
+    path: ../ios/Packages/Keychain
+  OctaPassAutoFillKit:
+    path: ../ios/Packages/AutoFillKit
+targets:
+  OctaPassMac:
+    type: application
+    platform: macOS
+    sources:
+      - path: OctaPassMac
+        excludes: ["Info.plist", "*.entitlements"]
+      # The shared screens. Each folder is listed so new iPhone-only folders don't slip in.
+      - path: ../ios/OctaPass/App
+      - path: ../ios/OctaPass/Components
+      - path: ../ios/OctaPass/Items
+      - path: ../ios/OctaPass/Onboarding
+      - path: ../ios/OctaPass/Platform
+      - path: ../ios/OctaPass/Settings
+      - path: ../ios/OctaPass/Sharing
+      - path: ../ios/OctaPass/Tools
+      - path: ../ios/OctaPass/Vault
+      - path: ../ios/OctaPass/Resources/Assets.xcassets
+    settings:
+      base:
+        PRODUCT_NAME: Octa Pass
+        PRODUCT_MODULE_NAME: OctaPass
+        PRODUCT_BUNDLE_IDENTIFIER: app.octap.ios
+        ASSETCATALOG_COMPILER_APPICON_NAME: MacAppIcon
+        CODE_SIGN_ENTITLEMENTS: OctaPassMac/OctaPassMac.entitlements
+        ENABLE_HARDENED_RUNTIME: YES
+        ENABLE_PREVIEWS: true
+        COMBINE_HIDPI_IMAGES: YES
+        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/../Frameworks"
+        # scripts/native-host.sh reads the repository and runs cargo.
+        ENABLE_USER_SCRIPT_SANDBOXING: NO
+      configs:
+        # No get-task-allow in a release build, though it's signed for development: nothing may
+        # attach a debugger to the process that holds the open vault.
+        Release:
+          CODE_SIGN_INJECT_BASE_ENTITLEMENTS: NO
+    info:
+      path: OctaPassMac/Info.plist
+      properties:
+        CFBundleDisplayName: Octa Pass
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleLocalizations: [en, ar]
+        LSApplicationCategoryType: public.app-category.productivity
+        NSHumanReadableCopyright: MIT
+        ITSAppUsesNonExemptEncryption: false
+        # One-time code setup links (a website's otpauth:// link, a Google Authenticator export):
+        # OctaPassMacApp's onOpenURL keeps them until the vault is unlocked, then asks (OpenedLinks).
+        # Listing otpauth also puts Octa Pass under System Settings → AutoFill & Passwords → Set Up
+        # Codes In (macOS 15).
+        CFBundleURLTypes:
+          - CFBundleURLName: app.octap.ios.otpauth
+            CFBundleTypeRole: Editor
+            CFBundleURLSchemes: [otpauth, otpauth-migration]
+        # Credential Exchange (macOS 26): other apps' exports open Octa Pass with this activity.
+        NSUserActivityTypes: [ASCredentialExchangeActivity, ASCredentialExchangeActivityType]
+        # A Safe's file or folder dragged within the app, from one Safe or folder to another
+        # (SafeEntryRef). Dropped anywhere else, it's a decrypted copy instead.
+        UTExportedTypeDeclarations:
+          - UTTypeIdentifier: app.octap.safe-entry
+            UTTypeDescription: Octa Pass Safe item
+            UTTypeConformsTo: [public.data]
+        OctaPassAppGroup: $(OCTAPASS_APP_GROUP)
+        OctaPassKeychainGroup: $(OCTAPASS_KEYCHAIN_GROUP)
+        OctaPassServerURL: $(OCTAPASS_SERVER_URL)
+    entitlements:
+      path: OctaPassMac/OctaPassMac.entitlements
+      properties:
+        # Sandboxed, as the AutoFill and Files extensions are: the store lives in the App Group.
+        com.apple.security.app-sandbox: true
+        # Writes the suggestions AutoFill shows before the vault is unlocked (ASCredentialIdentityStore).
+        com.apple.developer.authentication-services.autofill-credential-provider: true
+        com.apple.security.network.client: true
+        com.apple.security.files.user-selected.read-write: true
+        com.apple.security.application-groups: [$(OCTAPASS_APP_GROUP)]
+        keychain-access-groups: [$(OCTAPASS_KEYCHAIN_GROUP)]
+        # Connecting the browser extension writes its native messaging manifest into each
+        # browser's own folder, outside the sandbox: exactly those folders, nothing else in them
+        # (plan 19, phase 3; the app isn't on the Mac App Store). The sockets themselves are in
+        # the App Group container.
+        com.apple.security.temporary-exception.files.home-relative-path.read-write:
+          - /Library/Application Support/Google/Chrome/NativeMessagingHosts/
+          - /Library/Application Support/Chromium/NativeMessagingHosts/
+          - /Library/Application Support/Microsoft Edge/NativeMessagingHosts/
+          - /Library/Application Support/BraveSoftware/Brave-Browser/NativeMessagingHosts/
+          # All of Mozilla/ (Firefox's shared folder, not its profiles), since Firefox may not
+          # have made it yet and the app makes NativeMessagingHosts in it (maintainer, 2026-11-07).
+          - /Library/Application Support/Mozilla/
+    # The browser extension's native messaging host, built with cargo for the architectures being
+    # built, in Contents/MacOS and signed with the app's team (scripts/native-host.sh). It runs
+    # before Xcode signs the app.
+    postBuildScripts:
+      - name: Bundle octapass-native-host
+        script: '"$SRCROOT/scripts/native-host.sh"'
+        basedOnDependencyAnalysis: false
+    dependencies:
+      - target: OctaPassMacAutoFill
+        embed: true
+      - target: OctaPassMacSafeProvider
+        embed: true
+      - target: OctaPassMacSafeUnlock
+        embed: true
+      - package: OctaPassVault
+      - package: OctaPassResources
+      - package: OctaPassKeychain
+    scheme:
+      testTargets:
+        - OctaPassMacUITests
+      gatherCoverageData: false
+  # The AutoFill Credential Provider extension (passwords, passkeys, one-time codes), built from the
+  # iPhone's sources (../ios/AutoFill, with #if os(macOS) where the Mac differs). Like the iPhone's,
+  # it opens the store the app shares through the App Group with the small octapass-ffi
+  # (OctaPassAutoFillKit on OctaPassCore), so it fills with the app closed. Nothing here uses the
+  # network: a passkey it saves waits in the store until the app uploads it.
+  OctaPassMacAutoFill:
+    type: app-extension
+    platform: macOS
+    sources:
+      - path: ../ios/AutoFill
+        excludes: ["Info.plist", "*.entitlements"]
+    settings:
+      base:
+        PRODUCT_NAME: OctaPassAutoFill
+        PRODUCT_BUNDLE_IDENTIFIER: app.octap.ios.autofill
+        CODE_SIGN_ENTITLEMENTS: AutoFill/AutoFill.entitlements
+        APPLICATION_EXTENSION_API_ONLY: true
+        ENABLE_HARDENED_RUNTIME: YES
+      configs:
+        Release:
+          CODE_SIGN_INJECT_BASE_ENTITLEMENTS: NO
+    info:
+      path: AutoFill/Info.plist
+      properties:
+        CFBundleDisplayName: Octa Pass
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleLocalizations: [en, ar]
+        CFBundlePackageType: XPC!
+        LSMinimumSystemVersion: $(MACOSX_DEPLOYMENT_TARGET)
+        OctaPassAppGroup: $(OCTAPASS_APP_GROUP)
+        OctaPassKeychainGroup: $(OCTAPASS_KEYCHAIN_GROUP)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.authentication-services-credential-provider-ui
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).CredentialProviderViewController
+          NSExtensionAttributes:
+            ASCredentialProviderExtensionShowsConfigurationUI: false
+            ASCredentialProviderExtensionCapabilities:
+              ProvidesPasswords: true
+              ProvidesPasskeys: true
+              # macOS 15 and later.
+              ProvidesOneTimeCodes: true
+              SupportsCredentialExchange: true
+              SupportedCredentialExchangeVersions: ["1.0"]
+    entitlements:
+      path: AutoFill/AutoFill.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        # What lets macOS turn the extension on in System Settings (the App ID's AutoFill capability).
+        com.apple.developer.authentication-services.autofill-credential-provider: true
+        com.apple.security.application-groups: [$(OCTAPASS_APP_GROUP)]
+        keychain-access-groups: [$(OCTAPASS_KEYCHAIN_GROUP)]
+    dependencies:
+      - package: OctaPassAutoFillKit
+        product: OctaPassAutoFillKit
+  # Safes in Finder: a File Provider extension, one domain per Safe while the vault is unlocked,
+  # built from the iPhone's sources (../ios/SafeProvider). It has no vault: it opens each Safe with
+  # the key the app leaves in the shared Keychain (OctaPassKeychain's SafeKeyRecords), on the App
+  # Group's `safes` folder the app uses too. It links the vault library for `SafeDrive` only.
+  OctaPassMacSafeProvider:
+    type: app-extension
+    platform: macOS
+    sources:
+      - path: ../ios/SafeProvider
+        excludes: ["Info.plist", "*.entitlements"]
+    settings:
+      base:
+        PRODUCT_NAME: OctaPassSafeProvider
+        PRODUCT_BUNDLE_IDENTIFIER: app.octap.ios.safes
+        CODE_SIGN_ENTITLEMENTS: SafeProvider/SafeProvider.entitlements
+        APPLICATION_EXTENSION_API_ONLY: true
+        ENABLE_HARDENED_RUNTIME: YES
+      configs:
+        Release:
+          CODE_SIGN_INJECT_BASE_ENTITLEMENTS: NO
+    info:
+      path: SafeProvider/Info.plist
+      properties:
+        CFBundleDisplayName: Octa Pass
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleLocalizations: [en, ar]
+        CFBundlePackageType: XPC!
+        LSMinimumSystemVersion: $(MACOSX_DEPLOYMENT_TARGET)
+        OctaPassAppGroup: $(OCTAPASS_APP_GROUP)
+        OctaPassKeychainGroup: $(OCTAPASS_KEYCHAIN_GROUP)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.fileprovider-nonui
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).FileProviderExtension
+          NSExtensionFileProviderDocumentGroup: $(OCTAPASS_APP_GROUP)
+          NSExtensionFileProviderSupportsEnumeration: true
+    entitlements:
+      path: SafeProvider/SafeProvider.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.application-groups: [$(OCTAPASS_APP_GROUP)]
+        keychain-access-groups: [$(OCTAPASS_KEYCHAIN_GROUP)]
+    dependencies:
+      - package: OctaPassVault
+      - package: OctaPassKeychain
+      - package: OctaPassResources
+  # Finder's Sign In on a locked Safe: a File Provider UI extension that opens Octa Pass and asks it
+  # to unlock. It has no key and no vault (SafeUnlock/SafeUnlockViewController.swift).
+  OctaPassMacSafeUnlock:
+    type: app-extension
+    platform: macOS
+    sources:
+      - path: SafeUnlock
+        excludes: ["Info.plist", "*.entitlements"]
+    settings:
+      base:
+        PRODUCT_NAME: OctaPassSafeUnlock
+        PRODUCT_BUNDLE_IDENTIFIER: app.octap.ios.safesunlock
+        CODE_SIGN_ENTITLEMENTS: SafeUnlock/SafeUnlock.entitlements
+        APPLICATION_EXTENSION_API_ONLY: true
+        ENABLE_HARDENED_RUNTIME: YES
+      configs:
+        Release:
+          CODE_SIGN_INJECT_BASE_ENTITLEMENTS: NO
+    info:
+      path: SafeUnlock/Info.plist
+      properties:
+        CFBundleDisplayName: Octa Pass
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleLocalizations: [en, ar]
+        CFBundlePackageType: XPC!
+        LSMinimumSystemVersion: $(MACOSX_DEPLOYMENT_TARGET)
+        OctaPassAppGroup: $(OCTAPASS_APP_GROUP)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.fileprovider-actionsui
+          NSExtensionPrincipalClass: $(PRODUCT_MODULE_NAME).SafeUnlockViewController
+    entitlements:
+      path: SafeUnlock/SafeUnlock.entitlements
+      properties:
+        # The App Group only for the name of the "unlock" notification it posts.
+        com.apple.security.app-sandbox: true
+        com.apple.security.application-groups: [$(OCTAPASS_APP_GROUP)]
+    dependencies:
+      - package: OctaPassKeychain
+      - package: OctaPassResources
+      - sdk: FileProviderUI.framework
+  OctaPassMacUITests:
+    type: bundle.ui-testing
+    platform: macOS
+    sources:
+      - path: OctaPassMacUITests
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: app.octap.macos.uitests
+        GENERATE_INFOPLIST_FILE: true
+        TEST_TARGET_NAME: OctaPassMac
+    dependencies:
+      - target: OctaPassMac

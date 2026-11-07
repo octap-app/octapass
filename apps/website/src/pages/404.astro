@@ -1,0 +1,45 @@
+---
+import Site from '../layouts/Site.astro';
+import { stringsFor } from '../i18n/landing';
+
+// One 404 file for the whole site, so it says it in both languages.
+const { meta, notFound: en } = stringsFor('en');
+const { notFound: ar } = stringsFor('ar');
+---
+
+<Site title={meta.notFoundTitle} description={meta.notFoundDescription}>
+  <div class="nf">
+    <h1>{en.title}</h1>
+    <p>{en.body}</p>
+    <p><a href="/docs/">{en.docs}</a> {en.or} <a href="/">{en.home}</a>.</p>
+  </div>
+  <div class="nf" lang="ar" dir="rtl">
+    <h2>{ar.title}</h2>
+    <p>{ar.body}</p>
+    <p><a href="/ar/docs/">{ar.docs}</a> {ar.or} <a href="/ar/">{ar.home}</a>.</p>
+  </div>
+</Site>
+
+<style>
+  .nf {
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: clamp(3rem, 10vw, 7rem) var(--gutter) 0;
+  }
+  h2 {
+    font-size: var(--step-2);
+    font-weight: 720;
+    margin: 0 0 1rem;
+    line-height: 1.3;
+  }
+  h1 {
+    font-size: var(--step-3);
+    font-weight: 720;
+    font-stretch: 112%;
+    letter-spacing: -0.04em;
+    margin: 0 0 1rem;
+  }
+  p {
+    color: var(--mist);
+  }
+</style>

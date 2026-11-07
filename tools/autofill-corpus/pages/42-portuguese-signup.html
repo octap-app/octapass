@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Criar conta · Caju Delivery</title>
+<style>
+  body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: #fff7ed; color: #431407; }
+  .card { width: 400px; margin: 34px auto; background: #fff; border-radius: 16px; padding: 24px 28px; box-shadow: 0 6px 22px rgba(194,65,12,.12); }
+  .campo { margin-top: 10px; }
+  .campo label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+  .campo input { width: 100%; box-sizing: border-box; padding: 9px 12px; border: 1px solid #fdba74; border-radius: 10px; font: inherit; }
+  button { margin-top: 16px; width: 100%; padding: 11px; border: 0; border-radius: 10px; background: #ea580c; color: #fff; font: inherit; font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1 style="font-size:22px;margin:0">Crie sua conta</h1>
+  <p style="margin:2px 0 0;font-size:13px">Peça comida dos melhores restaurantes da cidade.</p>
+  <form id="cadastro" action="/cadastro" method="post">
+    <div class="campo"><label for="f1">Nome completo</label><input id="f1" name="f1" type="text"></div>
+    <div class="campo"><label for="f2">E-mail</label><input id="f2" name="f2" type="email"></div>
+    <div class="campo"><label for="f3">Senha</label><input id="f3" name="f3" type="password"></div>
+    <div class="campo"><label for="f4">Confirme a senha</label><input id="f4" name="f4" type="password"></div>
+    <button type="submit">Criar conta</button>
+  </form>
+</div>
+<script>document.getElementById('cadastro').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Payment details · Marlow Theatre</title>
+<style>
+  body { margin: 0; font: 15px/1.5 Georgia, serif; background: #1a1423; color: #2a1f33; }
+  .tickets { width: 500px; margin: 40px auto; background: #fbf7ff; border-radius: 6px; padding: 26px 30px; }
+  h2 { margin: 0 0 16px; font-weight: normal; font-size: 22px; }
+  .row { margin-bottom: 12px; }
+  .row label { display: block; font: 600 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: .6px; color: #6b4f86; margin-bottom: 4px; }
+  .row input { box-sizing: border-box; padding: 9px; border: 1px solid #c4b0dc; border-radius: 4px; font: 15px system-ui, sans-serif; }
+  .w { width: 100%; }
+  .line { display: flex; gap: 18px; }
+  .exp input { width: 56px; text-align: center; }
+  .exp span { margin: 0 4px; }
+  button { margin-top: 10px; padding: 11px 26px; border: 0; border-radius: 4px; background: #6b21a8; color: #fff; font: 15px system-ui, sans-serif; }
+</style>
+</head>
+<body>
+<div class="tickets">
+  <h2>Pay for 2 tickets &middot; &pound;64.00</h2>
+  <form id="pay" action="/basket/pay" method="post">
+    <div class="row"><label for="number">Card number</label><input class="w" id="number" name="number" inputmode="numeric" maxlength="19"></div>
+    <div class="row"><label for="nameoncard">Name on card</label><input class="w" id="nameoncard" name="nameoncard"></div>
+    <div class="line">
+      <div class="row exp">
+        <label for="expmonth">Expiry date</label>
+        <input id="expmonth" name="expmonth" placeholder="MM" maxlength="2" inputmode="numeric" aria-label="Expiry month"><span>/</span><input id="expyear" name="expyear" placeholder="YY" maxlength="2" inputmode="numeric" aria-label="Expiry year">
+      </div>
+      <div class="row"><label for="seccode">Security code</label><input id="seccode" name="seccode" maxlength="4" inputmode="numeric" style="width:80px"></div>
+    </div>
+    <div class="row"><label for="billzip">Billing postcode</label><input id="billzip" name="billzip" style="width:140px"></div>
+    <button type="submit">Pay now</button>
+  </form>
+</div>
+<script>document.getElementById('pay').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

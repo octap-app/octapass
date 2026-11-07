@@ -1,0 +1,16 @@
+{
+  "description": "Spanish login (Correo electrónico / Contraseña), Spanish ids, no autocomplete",
+  "fields": {
+    "#correo": "username",
+    "#clave": "current-password",
+    "#recordarme": "none"
+  },
+  "forms": [{ "field": "#correo", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#correo",
+      "pick": "login",
+      "expect": { "#correo": "alex@example.test", "#clave": "correct-horse-42!" }
+    }
+  ]
+}

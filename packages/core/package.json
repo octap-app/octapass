@@ -1,0 +1,36 @@
+{
+  "name": "@octapass/core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The Octa Pass crypto core (Rust, compiled to WebAssembly) for the web vault.",
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./dist/web/octapass_core.d.ts",
+      "default": "./dist/web/octapass_core.js"
+    },
+    "./octapass_core_bg.wasm": "./dist/web/octapass_core_bg.wasm",
+    "./tools": {
+      "types": "./dist/tools/octapass_core.d.ts",
+      "default": "./dist/tools/octapass_core.js"
+    },
+    "./tools/octapass_core_bg.wasm": "./dist/tools/octapass_core_bg.wasm",
+    "./full": {
+      "types": "./dist/full/octapass_core.d.ts",
+      "default": "./dist/full/octapass_core.js"
+    },
+    "./full/octapass_core_bg.wasm": "./dist/full/octapass_core_bg.wasm",
+    "./node": {
+      "types": "./dist/node/octapass_core.d.ts",
+      "default": "./dist/node/octapass_core.js"
+    }
+  },
+  "files": ["dist"],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "build:if-stale": "node scripts/build.mjs --if-stale",
+    "test": "node --test \"test/*.test.mjs\"",
+    "bench": "node bench/unlock.mjs"
+  }
+}

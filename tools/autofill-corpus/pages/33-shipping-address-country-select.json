@@ -1,0 +1,47 @@
+{
+  "description": "Shipping address with a country select (ISO values), no autocomplete attributes",
+  "fields": {
+    "#country": "country",
+    "#name": "name",
+    "#addr1": "address-line1",
+    "#addr2": "address-line2",
+    "#city": "address-level2",
+    "#region": "address-level1",
+    "#zip": "postal-code",
+    "#phone": "tel"
+  },
+  "forms": [{ "field": "#name", "type": "identity" }],
+  "fills": [
+    {
+      "focus": "#name",
+      "pick": "identity",
+      "expect": {
+        "#country": "US",
+        "#name": "Alex Doe",
+        "#addr1": "1 Test Street",
+        "#addr2": "Apt 2",
+        "#city": "Springfield",
+        "#region": "CA",
+        "#zip": "90210",
+        "#phone": "+15555550100"
+      }
+    }
+  ],
+  "saves": [
+    {
+      "steps": [
+        { "type": ["#name", "Sam Rivera"] },
+        { "type": ["#addr1", "12 Harbour Road"] },
+        { "type": ["#city", "Bristol"] },
+        { "type": ["#zip", "BS1 4DJ"] },
+        { "type": ["#phone", "+44 117 496 0000"] },
+        { "select": ["#country", "GB"] },
+        { "click": "#shipping button[type=submit]" }
+      ],
+      "expect": {
+        "kind": "identity",
+        "values": { "name": "Sam Rivera", "address-line1": "12 Harbour Road", "address-level2": "Bristol", "postal-code": "BS1 4DJ", "tel": "+44 117 496 0000", "country": "United Kingdom" }
+      }
+    }
+  ]
+}

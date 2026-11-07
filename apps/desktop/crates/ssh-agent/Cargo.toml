@@ -1,0 +1,20 @@
+[package]
+name = "octapass-ssh-agent"
+description = "The Octa Pass SSH agent's protocol and server, and the desktop app's handling of ~/.ssh. No UI, no vault."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+
+[dependencies]
+octapass-core = { workspace = true, features = ["ssh-sign"] }
+tokio.workspace = true
+dirs = "6"
+serde.workspace = true
+zeroize.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+tokio = { workspace = true, features = ["full"] }
+rand_core.workspace = true

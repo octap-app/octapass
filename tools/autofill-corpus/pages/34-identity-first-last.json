@@ -1,0 +1,26 @@
+{
+  "description": "Identity form with separate first/last name, email, phone, organization and a date-of-birth date input; wrapping labels, no autocomplete",
+  "fields": {
+    "#first": "given-name",
+    "#last": "family-name",
+    "#pemail": "email",
+    "#mobile": "tel",
+    "#company": "organization",
+    "#dob": "bday"
+  },
+  "forms": [{ "field": "#first", "type": "identity" }],
+  "fills": [
+    {
+      "focus": "#first",
+      "pick": "identity",
+      "expect": {
+        "#first": "Alex",
+        "#last": "Doe",
+        "#pemail": "alex@example.test",
+        "#mobile": "+15555550100",
+        "#company": "Example Labs",
+        "#dob": "1990-04-12"
+      }
+    }
+  ]
+}

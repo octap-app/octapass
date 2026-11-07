@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in | Quill Docs</title>
+<style>
+  body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: #f8fafc; color: #0f172a; }
+  #root { width: 380px; margin: 60px auto; }
+  .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 26px; }
+  label { display: block; font-size: 13px; font-weight: 600; margin: 12px 0 4px; }
+  input { width: 100%; box-sizing: border-box; padding: 9px 11px; border: 1px solid #cbd5e1; border-radius: 8px; font: inherit; }
+  button { width: 100%; margin-top: 18px; padding: 10px; border: 0; border-radius: 8px; background: #0f172a; color: #fff; font: inherit; }
+  .debug { margin-top: 14px; font: 12px ui-monospace, monospace; color: #475569; background: #f1f5f9; padding: 10px; border-radius: 8px; }
+</style>
+</head>
+<body>
+<div id="root">
+  <div class="card">
+    <h1 style="font-size:21px;margin:0 0 6px">Sign in to Quill Docs</h1>
+    <form id="login-form" novalidate>
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email">
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password">
+      <button id="submit" type="submit">Sign in</button>
+    </form>
+    <p id="status" role="status"></p>
+  </div>
+  <div class="debug">state.email = <output id="state-email"></output><br>state.password = <output id="state-password"></output></div>
+</div>
+<script>
+/* Small emulation of a React 18 controlled form (no React itself, everything inline).
+ * - react-dom's inputValueTracking: an own `value` property on each input records every
+ *   programmatic write (node._valueTracker). onChange only fires when the DOM value differs
+ *   from the tracked value.
+ * - Events are handled by one listener on the root container (bubbling input/change).
+ * - After every event the controlled value is restored from state, so a value that never
+ *   reached state is reverted.
+ * A fill that sets `.value` without events never updates state. */
+(function () {
+  var valueDesc = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+  function track(node) {
+    var current = valueDesc.get.call(node);
+    Object.defineProperty(node, 'value', {
+      configurable: true,
+      enumerable: valueDesc.enumerable,
+      get: function () { return valueDesc.get.call(this); },
+      set: function (v) { current = '' + v; valueDesc.set.call(this, v); }
+    });
+    node._valueTracker = {
+      getValue: function () { return current; },
+      setValue: function (v) { current = '' + v; },
+      stopTracking: function () { node._valueTracker = null; delete node.value; }
+    };
+  }
+  function updateValueIfChanged(node) {
+    var tracker = node._valueTracker;
+    if (!tracker) return true;
+    var next = valueDesc.get.call(node);
+    if (next !== tracker.getValue()) { tracker.setValue(next); return true; }
+    return false;
+  }
+  var state = { email: '', password: '' };
+  var inputs = { email: document.getElementById('email'), password: document.getElementById('password') };
+  function render() {
+    Object.keys(inputs).forEach(function (k) { if (inputs[k].value !== state[k]) inputs[k].value = state[k]; });
+    document.getElementById('state-email').textContent = state.email;
+    document.getElementById('state-password').textContent = state.password;
+  }
+  function onEvent(e) {
+    var key = Object.keys(inputs).filter(function (k) { return inputs[k] === e.target; })[0];
+    if (!key) return;
+    if (updateValueIfChanged(e.target)) state = Object.assign({}, state, { [key]: valueDesc.get.call(e.target) });
+    render();
+  }
+  Object.keys(inputs).forEach(function (k) { track(inputs[k]); });
+  var root = document.getElementById('root');
+  root.addEventListener('input', onEvent);
+  root.addEventListener('change', onEvent);
+  document.getElementById('login-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    document.getElementById('status').textContent = state.email && state.password ? 'Signed in as ' + state.email : 'Enter your email and password';
+  });
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+# Written by scripts/build.sh: the Safari build of apps/extension and the bundled font.
+/Generated/
+/build/
+xcuserdata/

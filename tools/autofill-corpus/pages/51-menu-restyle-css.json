@@ -1,0 +1,15 @@
+{
+  "description": "Page stylesheet tries to hide injected UI ([popover], extra children of html/body, everything not inside #app) with !important opacity/transform/visibility/clip-path/filter rules. The engine must keep its menu visible and the fill must succeed.",
+  "fields": {
+    "#email": "username",
+    "#password": "current-password"
+  },
+  "forms": [{ "field": "#email", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#email",
+      "pick": "login",
+      "expect": { "#email": "alex@example.test", "#password": "correct-horse-42!" }
+    }
+  ]
+}

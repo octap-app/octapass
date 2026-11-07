@@ -1,0 +1,60 @@
+name: Autofill problem
+description: Octa Pass didn't fill, filled the wrong field, or didn't offer to save on a website or in an app.
+labels: [bug, autofill]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Name the website or app, but don't paste your own usernames or passwords. If a site could steal credentials through this, report it privately instead: see [SECURITY.md](https://github.com/octap-app/octapass/blob/main/SECURITY.md).
+  - type: input
+    id: site
+    attributes:
+      label: Website address or app name
+      description: The sign-in page itself, without tokens or personal data in the address.
+      placeholder: https://example.com/login
+    validations:
+      required: true
+  - type: dropdown
+    id: where
+    attributes:
+      label: Which Octa Pass client?
+      options:
+        - Browser extension
+        - Safari extension
+        - iPhone or iPad AutoFill
+        - Android Autofill
+        - macOS AutoFill
+        - Desktop auto-type
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Octa Pass version, browser and system
+      placeholder: 0.1.0, Firefox 145, Windows 11
+    validations:
+      required: true
+  - type: dropdown
+    id: problem
+    attributes:
+      label: What went wrong?
+      multiple: true
+      options:
+        - No suggestion was offered
+        - Filled the wrong field
+        - Filled, but the site didn't accept it
+        - Didn't offer to save or update
+        - Multi-step sign-in broke
+        - One-time code wasn't filled
+        - Passkey didn't work
+        - Card or address form
+        - Offered a login on the wrong site
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: What happened
+      description: Include the page's language and anything unusual, such as a sign-in inside a frame or a pop-up.
+    validations:
+      required: true

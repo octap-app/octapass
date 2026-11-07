@@ -1,0 +1,46 @@
+[package]
+name = "octapass-files"
+version = "0.1.0"
+description = "Octa Pass on the file system: age file encryption with folders, secure delete, right-click menus and the Octa Pass Safe engine."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[features]
+default = ["age-files"]
+# `octapass encrypt` and `decrypt`, with folders as tar archives inside age. The phones only use
+# the Safe engine and leave this out.
+age-files = ["octapass-core/age-files", "dep:tar"]
+# Mounting a Safe with FUSE: Linux, or macOS with macFUSE. Needs libfuse's headers at build time
+# only through `fuser`'s pure-Rust mount path, so no C library is linked.
+fuse = ["dep:fuser"]
+
+[dependencies]
+octapass-core = { path = "../octapass-core", default-features = false }
+rand_core.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+zeroize.workspace = true
+tempfile = "3"
+tar = { version = "0.4", default-features = false, optional = true }
+fuser = { version = "0.15", default-features = false, optional = true }
+
+[target.'cfg(unix)'.dependencies]
+libc = { version = "0.2" }
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.61", features = [
+    "Win32_Foundation",
+    "Win32_Security",
+    "Win32_Storage_CloudFilters",
+    "Win32_Storage_FileSystem",
+    "Win32_System_CorrelationVector",
+    "Win32_System_IO",
+    "Win32_System_Threading",
+] }
+
+[dev-dependencies]
+tokio = { version = "1", features = ["macros", "rt"] }
+proptest = "1"

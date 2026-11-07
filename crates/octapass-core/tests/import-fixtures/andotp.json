@@ -1,0 +1,81 @@
+[
+  {
+    "secret": "JBSWY3DPEHPK3PXP",
+    "issuer": "GitHub",
+    "label": "octo",
+    "digits": 6,
+    "type": "TOTP",
+    "algorithm": "SHA1",
+    "thumbnail": "Github",
+    "last_used": 1767225600000,
+    "used_frequency": 12,
+    "period": 30,
+    "tags": ["Work"]
+  },
+  {
+    "secret": "GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ",
+    "issuer": "بنك الأمل",
+    "label": "مستخدم",
+    "digits": 8,
+    "type": "TOTP",
+    "algorithm": "SHA256",
+    "thumbnail": "Default",
+    "last_used": 0,
+    "used_frequency": 0,
+    "period": 60,
+    "tags": ["شخصي", "Work"]
+  },
+  {
+    "secret": "KRSXG5CTMVRXEZLUKN2XAZLSKNSWG4TFOQ",
+    "issuer": "",
+    "label": "Emoji 🔐 Mail:jane@example.com",
+    "digits": 7,
+    "type": "TOTP",
+    "algorithm": "SHA512",
+    "thumbnail": "Default",
+    "last_used": 0,
+    "used_frequency": 0,
+    "period": 30,
+    "tags": []
+  },
+  {
+    "secret": "MFRGGZDFMZTWQ2LK",
+    "issuer": "Counter Corp",
+    "label": "counter-user",
+    "digits": 6,
+    "type": "HOTP",
+    "algorithm": "SHA1",
+    "thumbnail": "Default",
+    "last_used": 0,
+    "used_frequency": 0,
+    "counter": 42,
+    "tags": []
+  },
+  {
+    "secret": "ONSWG4TFOQYTEMZU",
+    "issuer": "Steam",
+    "label": "gamer",
+    "digits": 5,
+    "type": "STEAM",
+    "algorithm": "SHA1",
+    "thumbnail": "Steam",
+    "last_used": 0,
+    "used_frequency": 0,
+    "period": 30,
+    "tags": ["Work"]
+  },
+  {
+    "secret": "GEZDGNBVGY3TQOJQ",
+    "issuer": "Office VPN",
+    "label": "vpn-user",
+    "digits": 6,
+    "type": "MOTP",
+    "algorithm": "MD5",
+    "thumbnail": "Default",
+    "last_used": 0,
+    "used_frequency": 0,
+    "period": 10,
+    "tags": []
+  },
+  "not an entry"
+]

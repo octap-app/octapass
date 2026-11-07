@@ -1,0 +1,134 @@
+{
+  "folders": [
+    { "icon": "1030", "parent_uuid": "", "title": "Social", "updated_at": 1761177600, "uuid": "f0000000-0000-4000-8000-000000000001" },
+    { "icon": "1008", "parent_uuid": "f0000000-0000-4000-8000-000000000001", "title": "أصدقاء", "updated_at": 1761177600, "uuid": "f0000000-0000-4000-8000-000000000002" }
+  ],
+  "items": [
+    {
+      "archived": 0, "auto_submit": 1, "category": "login", "createdAt": 1690000000, "favorite": 1, "last_used": 1761264000,
+      "folders": ["f0000000-0000-4000-8000-000000000002"],
+      "icon": { "fav": "github.com", "image": { "file": "web/github.com" }, "type": 1, "uuid": "" },
+      "note": "Work account.\nSecond line, with \"quotes\".",
+      "subtitle": "octo-cat", "template_type": "login.default", "title": "GitHub", "trashed": 0,
+      "updated_at": 1761177600, "uuid": "i0000000-0000-4000-8000-000000000001",
+      "fields": [
+        { "deleted": 0, "label": "Username", "order": 1, "sensitive": 0, "type": "username", "uid": 10, "updated_at": 1761177600, "value": "octo-cat", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "E-mail", "order": 2, "sensitive": 0, "type": "email", "uid": 11, "updated_at": 1761177600, "value": "octo@example.com", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Password", "order": 3, "sensitive": 1, "type": "password", "uid": 12, "updated_at": 1761177600, "value": "pa,ss\"word 1", "value_updated_at": 1761177600,
+          "history": [ { "encrypted": false, "updated_at": 1700000000, "value": "older password" } ] },
+        { "deleted": 0, "label": "Website", "order": 4, "sensitive": 0, "type": "url", "uid": 13, "updated_at": 1761177600, "value": "https://github.com/login", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "ADDITIONAL DETAILS", "order": 5, "sensitive": 0, "type": "section", "uid": 14, "updated_at": 1761177600, "value": "", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "One-time code", "order": 6, "sensitive": 0, "type": "totp", "uid": 15, "updated_at": 1761177600, "value": "JBSW Y3DP EHPK 3PXP", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Security question", "order": 7, "sensitive": 0, "type": "text", "uid": 16, "updated_at": 1761177600, "value": "First pet?", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Security answer", "order": 8, "sensitive": 1, "type": "text", "uid": 17, "updated_at": 1761177600, "value": "Rex", "value_updated_at": 1761177600 },
+        { "deleted": 1, "label": "Removed field", "order": 9, "sensitive": 0, "type": "text", "uid": 18, "updated_at": 1761177600, "value": "should not appear", "value_updated_at": 1761177600 }
+      ]
+    },
+    {
+      "archived": 0, "auto_submit": 1, "category": "login", "createdAt": 1761177600, "favorite": 0,
+      "note": "ملاحظة بالعربية\nسطر ثاني", "subtitle": "مستخدم@example.com", "template_type": "login.default",
+      "title": "بنك الأمل", "trashed": 0, "updated_at": 1761177600, "uuid": "i0000000-0000-4000-8000-000000000002",
+      "fields": [
+        { "deleted": 0, "label": "E-mail", "order": 1, "sensitive": 0, "type": "email", "uid": 11, "updated_at": 1761177600, "value": "مستخدم@example.com", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Password", "order": 2, "sensitive": 1, "type": "password", "uid": 12, "updated_at": 1761177600, "value": "سر,مع\"علامات", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Website", "order": 3, "sensitive": 0, "type": "url", "uid": 13, "updated_at": 1761177600, "value": "https://bank.example.jo/", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "App", "order": 4, "sensitive": 0, "type": ".Android#", "uid": 19, "updated_at": 1761177600, "value": "jo.example.bank", "value_updated_at": 1761177600 }
+      ],
+      "attachments": [
+        { "data": "c3ludGhldGljIGF0dGFjaG1lbnQ=", "kind": "image/png", "name": "card-scan.png", "order": 1, "updated": 1761177600, "uuid": "a0000000-0000-4000-8000-000000000001" }
+      ]
+    },
+    {
+      "archived": 0, "auto_submit": 1, "category": "password", "createdAt": 1761177600, "favorite": 0,
+      "folders": ["f0000000-0000-4000-8000-000000000001"],
+      "note": "", "subtitle": "admin", "template_type": "password.default", "title": "Router", "trashed": 0,
+      "updated_at": 1761177600, "uuid": "i0000000-0000-4000-8000-000000000003",
+      "fields": [
+        { "deleted": 0, "label": "Login", "order": 1, "sensitive": 0, "type": "username", "uid": 10, "updated_at": 1761177600, "value": "admin", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Password", "order": 2, "sensitive": 1, "type": "password", "uid": 12, "updated_at": 1761177600, "value": "  leading and trailing  ", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Access", "order": 3, "sensitive": 0, "type": "text", "uid": 20, "updated_at": 1761177600, "value": "192.168.1.1", "value_updated_at": 1761177600 }
+      ]
+    },
+    {
+      "archived": 0, "auto_submit": 1, "category": "note", "createdAt": 1761177600, "favorite": 0,
+      "note": "Line one\nLine two — with a dash\n\nAfter a blank line", "subtitle": "", "template_type": "note.default",
+      "title": "Ideas 💡", "trashed": 0, "updated_at": 1761177600, "uuid": "i0000000-0000-4000-8000-000000000004"
+    },
+    {
+      "archived": 0, "auto_submit": 1, "category": "creditcard", "createdAt": 1761177600, "favorite": 0,
+      "note": "Travel card", "subtitle": "***** 1111", "template_type": "creditcard.default", "title": "Visa",
+      "trashed": 0, "updated_at": 1761177600, "uuid": "i0000000-0000-4000-8000-000000000005",
+      "fields": [
+        { "deleted": 0, "label": "Cardholder", "order": 1, "sensitive": 0, "type": "ccName", "uid": 30, "updated_at": 1761177600, "value": "Jane Q. Doe", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Type", "order": 2, "sensitive": 0, "type": "ccType", "uid": 31, "updated_at": 1761177600, "value": "Visa", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Number", "order": 3, "sensitive": 0, "type": "ccNumber", "uid": 32, "updated_at": 1761177600, "value": "4111 1111 1111 1111", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "CVC", "order": 4, "sensitive": 1, "type": "ccCvc", "uid": 33, "updated_at": 1761177600, "value": "123", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "PIN", "order": 5, "sensitive": 1, "type": "ccPin", "uid": 34, "updated_at": 1761177600, "value": "4321", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Expiry date", "order": 6, "sensitive": 0, "type": "ccExpiry", "uid": 35, "updated_at": 1761177600, "value": "08/2029", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "INTERNET BANKING", "order": 7, "sensitive": 0, "type": "section", "uid": 36, "updated_at": 1761177600, "value": "", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Issuing bank", "order": 8, "sensitive": 0, "type": "ccBankname", "uid": 37, "updated_at": 1761177600, "value": "Example Bank", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Credit limit", "order": 9, "sensitive": 0, "type": "numeric", "uid": 38, "updated_at": 1761177600, "value": "5000", "value_updated_at": 1761177600 }
+      ]
+    },
+    {
+      "archived": 0, "auto_submit": 1, "category": "identity", "createdAt": 1761177600, "favorite": 0,
+      "note": "", "subtitle": "عمر حداد", "template_type": "identity.default", "title": "عمر",
+      "trashed": 0, "updated_at": 1761177600, "uuid": "i0000000-0000-4000-8000-000000000006",
+      "fields": [
+        { "deleted": 0, "label": "الاسم الأول", "order": 1, "sensitive": 0, "type": "text", "uid": 130, "updated_at": 1761177600, "value": "عمر", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Middle name", "order": 2, "sensitive": 0, "type": "text", "uid": 131, "updated_at": 1761177600, "value": "خالد", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Last name", "order": 3, "sensitive": 0, "type": "text", "uid": 132, "updated_at": 1761177600, "value": "حداد", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Gender", "order": 4, "sensitive": 0, "type": "text", "uid": 133, "updated_at": 1761177600, "value": "M", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Birthday", "order": 5, "sensitive": 0, "type": "date", "uid": 134, "updated_at": 1761177600, "value": "17/05/1990", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "HOME ADDRESS", "order": 6, "sensitive": 0, "type": "section", "uid": 142, "updated_at": 1761177600, "value": "", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Street", "order": 7, "sensitive": 0, "type": "text", "uid": 143, "updated_at": 1761177600, "value": "12 شارع الرينبو", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "City", "order": 8, "sensitive": 0, "type": "text", "uid": 144, "updated_at": 1761177600, "value": "عمّان", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Country", "order": 9, "sensitive": 0, "type": "text", "uid": 146, "updated_at": 1761177600, "value": "JO", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "ZIP", "order": 10, "sensitive": 0, "type": "text", "uid": 147, "updated_at": 1761177600, "value": "11118", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Phone", "order": 11, "sensitive": 0, "type": "phone", "uid": 149, "updated_at": 1761177600, "value": "+962 79 000 0000", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "E-mail", "order": 12, "sensitive": 0, "type": "email", "uid": 165, "updated_at": 1761177600, "value": "omar@example.com", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Signature", "order": 13, "sensitive": 0, "type": "multiline", "uid": 200, "updated_at": 1761177600, "value": "عمر\nO. K. H.", "value_updated_at": 1761177600 }
+      ]
+    },
+    {
+      "archived": 1, "auto_submit": 1, "category": "finance", "createdAt": 1761177600, "favorite": 0,
+      "note": "Main account", "subtitle": "Example Bank", "template_type": "finance.bankaccount", "title": "Bank account",
+      "trashed": 0, "updated_at": 1761177600, "uuid": "i0000000-0000-4000-8000-000000000007",
+      "fields": [
+        { "deleted": 0, "label": "Bank name", "order": 1, "sensitive": 0, "type": "ccBankname", "uid": 40, "updated_at": 1761177600, "value": "Example Bank", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Account number", "order": 2, "sensitive": 0, "type": "numeric", "uid": 41, "updated_at": 1761177600, "value": "000123456789", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "IBAN", "order": 3, "sensitive": 0, "type": "text", "uid": 42, "updated_at": 1761177600, "value": "JO00 EXAM 0000 0000 0000 0000 0000 00", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Website", "order": 4, "sensitive": 0, "type": "url", "uid": 43, "updated_at": 1761177600, "value": "https://bank.example.com", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Username", "order": 5, "sensitive": 0, "type": "username", "uid": 44, "updated_at": 1761177600, "value": "jane.doe", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Login password", "order": 6, "sensitive": 1, "type": "password", "uid": 45, "updated_at": 1761177600, "value": "bank-login", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Transaction password", "order": 7, "sensitive": 0, "type": "ccTxnpassword", "uid": 46, "updated_at": 1761177600, "value": "txn-4455", "value_updated_at": 1761177600 }
+      ]
+    },
+    {
+      "archived": 0, "auto_submit": 1, "category": "misc", "createdAt": 1761177600, "favorite": 0,
+      "note": "", "subtitle": "PP-9999", "template_type": "misc.vehicleinfo", "title": "Car",
+      "trashed": 0, "updated_at": 1761177600, "uuid": "i0000000-0000-4000-8000-000000000008",
+      "fields": [
+        { "deleted": 0, "label": "Registration number", "order": 1, "sensitive": 0, "type": "text", "uid": 50, "updated_at": 1761177600, "value": "PP-9999", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Purchase date", "order": 2, "sensitive": 0, "type": "date", "uid": 51, "updated_at": 1761177600, "value": "1 January 2023", "value_updated_at": 1761177600 }
+      ]
+    },
+    {
+      "archived": 0, "auto_submit": 1, "category": "login", "createdAt": 1761177600, "favorite": 0,
+      "note": "", "subtitle": "", "template_type": "login.default", "title": "Old forum", "trashed": 1,
+      "updated_at": 1761177600, "uuid": "i0000000-0000-4000-8000-000000000009",
+      "fields": [
+        { "deleted": 0, "label": "Password", "order": 1, "sensitive": 1, "type": "password", "uid": 12, "updated_at": 1761177600, "value": "gone", "value_updated_at": 1761177600 }
+      ]
+    },
+    {
+      "archived": 0, "auto_submit": 1, "category": "login", "createdAt": 1761177600, "favorite": 0,
+      "note": "", "subtitle": "", "template_type": "login.default", "title": "Empty login", "trashed": 0,
+      "updated_at": 1761177600, "uuid": "i0000000-0000-4000-8000-000000000010",
+      "fields": [
+        { "deleted": 0, "label": "Username", "order": 1, "sensitive": 0, "type": "username", "uid": 10, "updated_at": 1761177600, "value": "", "value_updated_at": 1761177600 },
+        { "deleted": 0, "label": "Password", "order": 2, "sensitive": 1, "type": "password", "uid": 12, "updated_at": 1761177600, "value": "", "value_updated_at": 1761177600 }
+      ]
+    }
+  ]
+}

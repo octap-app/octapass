@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Online Banking · Pebble Bank</title>
+<style>
+  body { margin: 0; font: 14px/1.45 Georgia, serif; background: #0f2a3d; color: #10202c; }
+  .top { color: #fff; padding: 18px 40px; font-size: 20px; letter-spacing: .5px; }
+  .panel { width: 380px; margin: 50px auto; background: #fff; padding: 26px 30px; border-top: 5px solid #2f8f83; }
+  h2 { margin: 0 0 14px; font-weight: normal; }
+  .row { margin-bottom: 14px; }
+  .row label { display: block; font-size: 13px; color: #47606f; margin-bottom: 3px; }
+  .row input { width: 100%; box-sizing: border-box; padding: 8px; border: 1px solid #94a9b5; font: 15px system-ui, sans-serif; }
+  .actions { display: flex; justify-content: space-between; align-items: center; }
+  .actions button { background: #2f8f83; color: #fff; border: 0; padding: 9px 22px; font: inherit; }
+  .notice { font-size: 12px; color: #607884; margin-top: 18px; }
+</style>
+</head>
+<body>
+<div class="top">Pebble Bank</div>
+<div class="panel">
+  <h2>Log in to Online Banking</h2>
+  <form id="logonForm" name="logonForm" action="/logon.do" method="post" autocomplete="off">
+    <div class="row">
+      <label for="uid">User ID</label>
+      <input type="text" id="uid" name="userid" maxlength="32">
+    </div>
+    <div class="row">
+      <label for="pwd">Password</label>
+      <input type="password" id="pwd" name="pwd" maxlength="64">
+    </div>
+    <div class="actions">
+      <a href="#help">Forgot User ID or Password?</a>
+      <button type="submit" id="logon">Log in</button>
+    </div>
+  </form>
+  <p class="notice">Pebble Bank will never ask for your password by email or phone.</p>
+</div>
+<script>
+  document.getElementById('logonForm').onsubmit = function (e) { e.preventDefault(); };
+</script>
+</body>
+</html>

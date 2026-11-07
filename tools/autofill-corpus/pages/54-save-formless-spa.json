@@ -1,0 +1,19 @@
+{
+  "description": "Formless SPA login: a div role=button signs in, the page clears both inputs, hides the login view and pushes a new history state",
+  "fields": {
+    "#username": "username",
+    "#password": "current-password"
+  },
+  "forms": [{ "field": "#username", "type": "login" }],
+  "saves": [
+    {
+      "steps": [
+        { "type": ["#username", "sam.orchard"] },
+        { "type": ["#password", "Typed-pass-99"] },
+        { "click": "#signin-btn" },
+        { "wait": 300 }
+      ],
+      "expect": { "username": "sam.orchard", "password": "Typed-pass-99", "formType": "login" }
+    }
+  ]
+}

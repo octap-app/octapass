@@ -1,0 +1,65 @@
+.find {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 0.75rem;
+}
+
+.find > button {
+  margin-block-start: 1.6rem;
+  min-block-size: 2.75rem;
+}
+
+.found {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.personText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.personText strong {
+  font-weight: 620;
+  overflow-wrap: anywhere;
+}
+
+.personText span {
+  font-size: var(--text-sm);
+  color: var(--free-text);
+  font-weight: 550;
+}
+
+.compare {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+}
+
+.compare > p {
+  flex: 1 1 14rem;
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--mist);
+}
+
+@media (max-width: 480px) {
+  .find {
+    grid-template-columns: 1fr;
+  }
+
+  .find > button {
+    margin-block-start: 0;
+  }
+}

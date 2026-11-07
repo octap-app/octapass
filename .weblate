@@ -1,0 +1,5 @@
+# wlc client settings (https://docs.weblate.org/en/latest/wlc.html). Components are in
+# translations/weblate.json. API keys never go here: they belong in your personal wlc config.
+[weblate]
+url = https://hosted.weblate.org/api/
+translation = octapass

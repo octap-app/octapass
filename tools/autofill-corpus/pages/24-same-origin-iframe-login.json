@@ -1,0 +1,16 @@
+{
+  "description": "Login form inside a same-origin iframe (frames/signin.html); handled in-frame, not reported as a cross-origin frame",
+  "fields": {
+    "iframe#signin >>> #user": "username",
+    "iframe#signin >>> #pass": "current-password"
+  },
+  "forms": [{ "field": "iframe#signin >>> #user", "type": "login" }],
+  "frames": [{ "selector": "iframe#signin", "crossOrigin": false }],
+  "fills": [
+    {
+      "focus": "iframe#signin >>> #user",
+      "pick": "login",
+      "expect": { "iframe#signin >>> #user": "alex@example.test", "iframe#signin >>> #pass": "correct-horse-42!" }
+    }
+  ]
+}

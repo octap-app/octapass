@@ -1,0 +1,41 @@
+[package]
+name = "octapass-relay-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2024"
+license = "MIT"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+octapass-relay = { path = ".." }
+tokio = { version = "1", features = ["rt", "time"] }
+
+# Its own workspace, like the core's fuzz crate: nightly and sanitizers stay out of the main build.
+[workspace]
+
+[[bin]]
+name = "smtp_command"
+path = "fuzz_targets/smtp_command.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "dsn"
+path = "fuzz_targets/dsn.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "data"
+path = "fuzz_targets/data.rs"
+test = false
+doc = false
+
+[[bin]]
+name = "headers"
+path = "fuzz_targets/headers.rs"
+test = false
+doc = false

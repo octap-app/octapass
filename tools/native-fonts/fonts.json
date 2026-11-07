@@ -1,0 +1,45 @@
+{
+  "fonts": [
+    {
+      "package": "@fontsource-variable/mona-sans",
+      "version": "5.3.0",
+      "source": "files/mona-sans-latin-wdth-normal.woff2",
+      "sourceSha256": "5ea3740633e5ac7af56c13d7e8ec32bcae12e7723e53d34284469a8947ccb2f3",
+      "fontVersion": "Version 2.000",
+      "output": "apps/android/app/src/main/res/font/mona_sans.ttf",
+      "outputSha256": "f26f01f802aabc164d05dce51969aa4409898df24e3fdb1920adc43a040e10a5"
+    },
+    {
+      "package": "@fontsource/monaspace-neon",
+      "version": "5.3.0",
+      "source": "files/monaspace-neon-latin-400-normal.woff2",
+      "sourceSha256": "d90b15f2bab28d1ee0b11a3e45ab2b3b5f1d0ca898ae047ab40172d25730343c",
+      "fontVersion": "Version 1.101 (Monaspace Neon)",
+      "output": "apps/android/app/src/main/res/font/monaspace_neon_regular.ttf",
+      "outputSha256": "d4e7973fd689ade249fc6b519286e66dfb088272979fc0a28e83afbdca59208c"
+    },
+    {
+      "package": "@fontsource/monaspace-neon",
+      "version": "5.3.0",
+      "source": "files/monaspace-neon-latin-600-normal.woff2",
+      "sourceSha256": "8331226e8f74e9fb952b377e1290950eaa9bc265ef15f0b001f9ad1426520292",
+      "fontVersion": "Version 1.101 (Monaspace Neon)",
+      "output": "apps/android/app/src/main/res/font/monaspace_neon_semibold.ttf",
+      "outputSha256": "c43b1cfdcac1b89b08091c04197a0427128bf2b8f1c43ca87606c9e7665ff28a"
+    }
+  ],
+  "licenses": [
+    {
+      "package": "@fontsource-variable/mona-sans",
+      "version": "5.3.0",
+      "output": "apps/android/app/src/main/assets/licenses/mona-sans-OFL.txt",
+      "sha256": "41e9911493de5899a20336baf13b6ea6483b5eea34e237f2ffed22c39bdc4a8d"
+    },
+    {
+      "package": "@fontsource/monaspace-neon",
+      "version": "5.3.0",
+      "output": "apps/android/app/src/main/assets/licenses/monaspace-neon-OFL.txt",
+      "sha256": "0e84e5f7dd6f05e74a00f2fb828ca43e489d954f5509ff0fa439ea18c0d35fe9"
+    }
+  ]
+}

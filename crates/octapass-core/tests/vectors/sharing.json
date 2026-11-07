@@ -1,0 +1,219 @@
+{
+  "fingerprint": {
+    "cases": [
+      {
+        "fingerprint": {
+          "digits": "8009 7224 5289 8233 5080 8784",
+          "emoji": [
+            {
+              "emoji": "🐟",
+              "name": "Fish"
+            },
+            {
+              "emoji": "📎",
+              "name": "Paperclip"
+            },
+            {
+              "emoji": "🎅",
+              "name": "Santa"
+            },
+            {
+              "emoji": "⚓",
+              "name": "Anchor"
+            },
+            {
+              "emoji": "✈️",
+              "name": "Aeroplane"
+            },
+            {
+              "emoji": "💡",
+              "name": "Light bulb"
+            },
+            {
+              "emoji": "☂️",
+              "name": "Umbrella"
+            },
+            {
+              "emoji": "✂️",
+              "name": "Scissors"
+            }
+          ]
+        },
+        "publicEncKey": "AQIDBAUGBwgJCgsMDQ4PEBESExQVFhcYGRobHB0eHyA",
+        "publicSignKey": "AgMEBQYHCAkKCwwNDg8QERITFBUWFxgZGhscHR4fICE"
+      },
+      {
+        "fingerprint": {
+          "digits": "3973 1045 2330 0332 7288 1636",
+          "emoji": [
+            {
+              "emoji": "🌙",
+              "name": "Moon"
+            },
+            {
+              "emoji": "📎",
+              "name": "Paperclip"
+            },
+            {
+              "emoji": "🦋",
+              "name": "Butterfly"
+            },
+            {
+              "emoji": "🐷",
+              "name": "Pig"
+            },
+            {
+              "emoji": "🐟",
+              "name": "Fish"
+            },
+            {
+              "emoji": "🐶",
+              "name": "Dog"
+            },
+            {
+              "emoji": "☁️",
+              "name": "Cloud"
+            },
+            {
+              "emoji": "🔔",
+              "name": "Bell"
+            }
+          ]
+        },
+        "publicEncKey": "ERITFBUWFxgZGhscHR4fICEiIyQlJicoKSorLC0uLzA",
+        "publicSignKey": "IiMkJSYnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8PT4_QEE"
+      }
+    ],
+    "description": "Fingerprints: SHA-256 of a label and both public keys, shown as 6 groups of 4 digits and 8 emoji."
+  },
+  "grant": {
+    "description": "A signed grant. The vault key is sealed to the member (as in sealedBox, context vaultkey:<vaultId>:<recipientAccountId>), then the message is signed with Ed25519.",
+    "ephemeralSecret": "gIGCg4SFhoeIiYqLjI2Oj5CRkpOUlZaXmJmam5ydnp8",
+    "grant": {
+      "grantedAt": 1761177600000,
+      "grantedBy": "0192f0c8-1c2d-7a00-8000-0000000000a1",
+      "recipientAccountId": "0192f0c8-1c2d-7a00-8000-0000000000b1",
+      "role": "write",
+      "signature": "rn0EWjrsU_dKluOaSmHUNSzgoZqNnqe0pAQFUld1q_Ok7PR0I76SdoRYMN-cZJ2uwbnBMnfswl--d6xV4kIBBA",
+      "vaultId": "0192f0c8-1c2d-7a00-8000-0000000000aa",
+      "wrappedVaultKey": "AUk-gvx0RkpZJogXYj0gU8XrjizEqYi0_uF57GsBDVMdsLGys7S1tre4ubq7vL2-v8DBwsPExcbHWqbxdIPOuOGngvX4n5ifMpcboYVptrB3kB64U-yg8OlPRdCR4icBYOhSTGFIcJP0"
+    },
+    "granterPublicSignKey": "Kay64UG8yvCyLhqU000LxzYeUm0L_hLIl5S8kyKWbdc",
+    "granterSigningSeed": "ICEiIyQlJicoKSorLC0uLzAxMjM0NTY3ODk6Ozw9Pj8",
+    "memberPrivateKey": "MDEyMzQ1Njc4OTo7PD0-P0BBQkNERUZHSElKS0xNTk8",
+    "message": "b3BlbnBhc3MvdjEvZ3JhbnQAAAAAJDAxOTJmMGM4LTFjMmQtN2EwMC04MDAwLTAwMDAwMDAwMDBhYQAAACQwMTkyZjBjOC0xYzJkLTdhMDAtODAwMC0wMDAwMDAwMDAwYjEAAAAFd3JpdGUAAACMQVVrLWd2eDBSa3BaSm9nWFlqMGdVOFhyaml6RXFZaTBfdUY1N0dzQkRWTWRzTEd5czdTMXRyZTR1YnE3dkwyLXY4REJ3c1BFeGNiSFdxYnhkSVBPdU9Hbmd2WDRuNWlmTXBjYm9ZVnB0ckIza0I2NFUteWc4T2xQUmRDUjRpY0JZT2hTVEdGSWNKUDAAAAAkMDE5MmYwYzgtMWMyZC03YTAwLTgwMDAtMDAwMDAwMDAwMGExAAAADTE3NjExNzc2MDAwMDA",
+    "nonce": "sLGys7S1tre4ubq7vL2-v8DBwsPExcbH",
+    "vaultKey": "UFFSU1RVVldYWVpbXF1eX2BhYmNkZWZnaGlqa2xtbm8"
+  },
+  "hybridSealedBox": {
+    "context": "vaultkey:0192f0c8-1c2d-7a00-8000-0000000000aa:0192f0c8-1c2d-7a00-8000-0000000000b1",
+    "description": "Hybrid X25519 + ML-KEM-768 sealed box. The X25519 ephemeral secret is drawn first, then FIPS 203's 32-byte m, then the nonce. sealed = 0x02 ‖ ephemeral public ‖ ML-KEM ciphertext ‖ nonce ‖ XChaCha20-Poly1305 ciphertext and tag.",
+    "encapsulationRandomness": "4OHi4-Tl5ufo6err7O3u7_Dx8vP09fb3-Pn6-_z9_v8",
+    "ephemeralSecret": "cHFyc3R1dnd4eXp7fH1-f4CBgoOEhYaHiImKi4yNjo8",
+    "key": "QEFCQ0RFRkdISUpLTE1OT1BRUlNUVVZXWFlaW1xdXl8",
+    "nonce": "oKGio6SlpqeoqaqrrK2ur7CxsrO0tba3",
+    "recipientPqPublicKey": "wJhviTNE1AVNVvJkbpqlV6N7H6JPrNgI1ocs6QgtNnyH2YJqxzFW7dBS6Kq1eoGTYVef2lvJ71adcDodjrYWQGgOOmA4MAZaLyBQ0_ZZ7ix7OZmrSgkiLKmPszSeeDyIjJoxdDuMEvpQgbY8vnMUZznKVAwgWMemVfdgtTFyrqKtkGyy2JsacbYVXtg6PKwze3zEOWWELZzLtbIlv8arGNuG4PmRLHNW8GMm0TEzMUY56BdEUug_iHqrbfZ-Qnk0G8wUC3Kc6cKgaMR7maHCzyegpECMxemybPc5I4qbJtaaCeq6cyNhOlCC12KW-iafmdRrIxy56paaP1HLx1ZE0iWMrXaO_GodNShY-4FwmyskhYMis1tFTudcxFbPBJdincIIr-t4zWBGV_Kx2jUE3ylusOFu5Mgo52nFrthby6GhBHLFa6Mpi-GgNVWK6wF5XZNFPiZOPmdRJidVKCKkjNZ9reWOBSJdCxPGMFV5W1AmSBZV81MtfZCIFTSmHNymqPIFbvlvdmaH1ltKYRi3LwF7stEsJpMLODmjXPyP3uuHxWh_7UtgFnUqOQej2uGaZXrDyMgM22axMRtN99EsvlEvXecwyiQNKAkqWACF1EYLouU9UdikJJAsRoWm9FNGngU5ZzFT9JpHBjJltIWGzSEG6DKRHkN4-to1mPAWc0IwD0goxoJLLDoPKvQ95LJeb6QfPsRk3YOqE0gsrsxfaisj6KUvLYZ2oriiJTFnGXxjmCkAVDozsoDOseohk-ukXFtiyzx34qGXRxHID2Sj0GFF1ochlYNGbNYAXrYt7biJlDtFhDub9Fh-97u7b_p2Q7QRTGi4ootlqQkHGWKUyCq-UYJ2WYWkyHgBtVqwEZGEUHlTy9SbbIpmgOAaOnSMzeygIfWTKulq4CKbMGUkZSGXursrHauaRrglvYFWU1IbGYKq_pp9J8HCx2k5n_wuiKE9O5Q-QumD7vpQxIAZSKEK7mRiyrUIcHemUuI9O1Q383qZ15oyOtdKJVE0Nrpaz8EQuyZOzDhVCTHOOtcPG5tVHJFxAKSpCQaMZUycsYKlRvWxWoVcYxOftygJI5cXbDR_k0mSSEJhZpWZmkszpuo6Uft0HdqpFlOCniOvblDFFlSSK6eigZR-G3Mm0rqn7ctePIA4Wvxg92Fzo6pFkOB_o1Zd2zuxtIkbKIWJ4WYLdnuV8EhsO9Ul5Osx3sqCFWphcGZJLXGLPAJpMmi8uWnDcCE6BNRngwxqDMl_FqxXPjCbnxuRQpaV-XbEqBAtY1kpMrzNFZGEG1BUKdtqNEgFL-IUSivCblCyTagLu7NYJ9NmAvAt6AGfj-Yv_otTY6cyH0U5PVqlCdKER0qnPPZspekahFclP4x0BASAEHnOrtyBnlEZe3xP9HMei6AuCKlMgPkgSeoVaRmY8FdQgZquxTWwhuoI-HGbSeZC5qMYwFZ4DLiDdLQcZcRDoBjGTFs1YaMF5eQ6AZKoZ6qhtfa2BoLA0-OazRw30bMe0KJwu4cmGuisypWqD9K5VmemEt2FwiSEjW7uIdBk_w_yE2jVm5AocrQEzshTxsNEejo",
+    "recipientPqSeed": "kJGSk5SVlpeYmZqbnJ2en6ChoqOkpaanqKmqq6ytrq-wsbKztLW2t7i5uru8vb6_wMHCw8TFxsfIycrLzM3Ozw",
+    "recipientPrivateKey": "EBESExQVFhcYGRobHB0eHyAhIiMkJSYnKCkqKywtLi8",
+    "recipientPublicKey": "2J47rXlDfb7Z-ENBgwT0YP8Fx_6B_kqVd6gEy5Nn_2Y",
+    "sealed": "AiO3u4yRrgCHEfsShGeAvN8eBl-CG9_sSfV-fH3NTEgj2Bc0_1BIH16Ue6GxBVn7l3rIiGeo2T_9nEvqCreFtm08myRhDsa28DA7bkZl3bgazj6E_3-HTF8tePZxOqx1IYBPxoIBKjkMW37ETvP6OdGPDDpuY-CSt9UpNAnTJ1ohukAgsYTjmigQJkCPJlo0GTmDMu-l4a8XCDiecgIWuAO97wMid7inASW0RgceCCB00P9R-F9XnGD4B-z18z8KicUU0cWgryFRdfjtSAidJ1_A9VKirLcTy07mdtheFwV7__IstXY8fac2FZUT3Ub3f7FBAN_fLsi0e_9OrPiZmFLbDZ9UkOFvB1WZL_h6o6Qym2GIPPR4-f2bAX8CR2NQSKwlobn-ZBgRbCEkjlONxBZyzxHqDGp7RWU1GAaiK1-ofW_U4Lcnjj1Jw6SuUNMKYDnG0EY5zEFqLrm4RBax0SBOy5H70XDXqyIjVTUUUzNJtSOIVxhOKN9sSMMa34ELyMZTpziMfXMkGazSwWVdbdpq4MQ8DKCcowaYVJzStyzpICDwyu3ZQCHc0j2uIHT2dp6T_upSomtyrpvsKLjeFdQkD7JF15lpwtpblZTkHKn5pWkFwrNWnW3cXrR_CSzvI46WjN9b5jdpM75C-cBlMLC8xyuPVplaeXLighoHQqXU_m-oc1iJRtrPRJQBBqRQTKwaCvlCgWRHgD8J4_o-E6c6MobBT_pPwFV6-kQ3rudSVYyMnpLZctbExb4BfpHuur6UlunBxUl175JCe-GWj5KPMFgQTom8p3-V1C87qw3u7pO07RTadjX4FTV-zTDaNIMGwoBCYl8D1FcJgivNttz8DUYrZ5bv01aTJNTFrQ3kg9812dW-Rk3beIRglwchTPGM0y7dN_W1_CNtO3nCmzKovr7NzJovUmH60Gq9-nd8eZ9QkM2jJfG5QsAoklge6K_gamo7_8AfAvwwnD4PG7iCbOk8IF3VswdnfZLCvaTb8m2Azt2hDoieLe60pmQXD1OQt92sZULzBC31WsJR5Oor_16vM389kjRyzPUjFYHNAMVm5ZjNA2DoamXub-aTTE-6jc4CieNZtHvYvInjfTekpW_nmtlWInoZUx_p7Vfp7LgV7dKdFyBUjJU27qFH6GptSE4dFIBk5AUrd-pbrWYfTvYHvPnBmoeJYTWbkrraMIb83E_risa1hvUP39kT782slGTSzVBAN-2DwUz1ejejJeXT72WqdNNq1LMokcf2VMr9WTmrdkdrOdQ46BUHYj-YHb3OHF6gw4ewCy9TdQXBRp0LJJlQ0LNDL1nyu6YUwTuc8lglRkJCTrK5cczJAF2ArKYbk9d_xNtLpXNHv3r7MDE743_rmbMSd0cOn2ReSmOw4GQEgmVD3HeI3XB7-owqSdcTpGLCwSmIdNrEp_4VgAQBAgfLOZsQBjxxy5OlrQt9M6xqiQKnaLPE2f2EP7HFzz-dPkj2hPK0FFU9eRqgoaKjpKWmp6ipqqusra6vsLGys7S1trfTaJOclgwuPjFBw02eKHiYjTOmO6uaMBMEVBllEzv4sJEllp6kZtU-VPESafadpuE"
+  },
+  "keyLog": {
+    "accountSigningSeed": "IyQlJicoKSorLC0uLzAxMjM0NTY3ODk6Ozw9Pj9AQUI",
+    "consistencyFrom3": {
+      "proof": [
+        "Rid5Xl9Wji5yO0gsFlOPkMarQrj1LXsForeNsomZYpk",
+        "_9PpRruPoLVcXqSuBGoGhgmbYb66_o_UHYpR6Anl8hM",
+        "9pFKjbf13fkfn5VxHeEzsrxIJ08eGY7r-L2oCs7F5Hk",
+        "NjsPUnGO9FNuaXIcqHhKX7ymS4t7Z_brTQz3DGIPr_w"
+      ],
+      "rootAt3": "7HBWrN1-d4yc7wApKq3brU9AM4OOenLSjifIBtQF-GA"
+    },
+    "description": "The key log. Head and record signatures are Ed25519. Leaves are label ‖ record hash; the tree is RFC 9162. The label comes from the VOPRF seed below (RFC 9497, ristretto255-SHA512, info octapass/v1/key-log-oprf).",
+    "email": "member@example.com",
+    "head": {
+      "rootHash": "IPBh4z1pxFtALPJa2NMYldnjPTwGRVsizkdWwFaYTIs",
+      "signature": "CGzrahk7JJvlrZxAetzxr5Fv5s_mtVpJB30VpaBoTq1xd7itvsaufehPvDRlbARDyxjpyCRf4VHlNTxhNLZbCg",
+      "timestamp": 1761177600000,
+      "treeSize": 5
+    },
+    "inclusionOfLeaf2": [
+      "_9PpRruPoLVcXqSuBGoGhgmbYb66_o_UHYpR6Anl8hM",
+      "9pFKjbf13fkfn5VxHeEzsrxIJ08eGY7r-L2oCs7F5Hk",
+      "NjsPUnGO9FNuaXIcqHhKX7ymS4t7Z_brTQz3DGIPr_w"
+    ],
+    "label": "OGjiDpKKI4gcDqaSynAXRV9W2kmUOhg_1mSi0NholSk",
+    "leaves": [
+      "AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8gISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0-Pw",
+      "EBESExQVFhcYGRobHB0eHyAhIiMkJSYnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8PT4_QEFCQ0RFRkdISUpLTE1OTw",
+      "OGjiDpKKI4gcDqaSynAXRV9W2kmUOhg_1mSi0NholSmOsasFRKXlJeghS7ZaEdV780WQmgvcgmv76rj6DB8VGQ",
+      "MDEyMzQ1Njc4OTo7PD0-P0BBQkNERUZHSElKS0xNTk9QUVJTVFVWV1hZWltcXV5fYGFiY2RlZmdoaWprbG1ubw",
+      "QEFCQ0RFRkdISUpLTE1OT1BRUlNUVVZXWFlaW1xdXl9gYWJjZGVmZ2hpamtsbW5vcHFyc3R1dnd4eXp7fH1-fw"
+    ],
+    "log": {
+      "oprfKey": "UI2V_ufs9SCw009eYCL85yANwjh3-0K94FYALxs5g0U",
+      "signKey": "5_FioQvsVZr-oZXk3OhLaVaNXSywlj60RsBoXisX8vA"
+    },
+    "logId": "fW2hXfpAFJkkbIRuLMFTgfgJtkP6cho7QWOOhUCTSJg",
+    "logSigningSeed": "ISIjJCUmJygpKissLS4vMDEyMzQ1Njc4OTo7PD0-P0A",
+    "message": "b3BlbnBhc3MvdjEva2V5LXJlY29yZAAAAAArZlcyaFhmcEFGSmtrYklSdUxNRlRnZmdKdGtQNmNobzdRV09PaFVDVFNKZwAAACQwMTkyZjBjOC0xYzJkLTdhMDAtODAwMC0wMDAwMDAwMDAwYjEAAAArT0dqaURwS0tJNGdjRHFhU3luQVhSVjlXMmttVU9oZ18xbVNpME5ob2xTawAAACs5eFlhd2d2NEREaF9CY29YTmp2N2xoUnRZdVU3ZDRaM08yc3l1VHpQWGdrAAAAK21JQ0xIQVg3anQ4N0tRRWZtbWhQZHRqb0ZnNW5fYThtMlVEaEd0eGdFajAAAAYrVFFmQzJESmRIZVk4amV4SFlPaG91MGRkUFZkbE94aDJtSEhJamxlcVItQktWLUlvejdNT2NfSm1xNWQtMW1WZjlFZ2tqRFk3V1VJNm1KRkt2Y1ktVTRsd3EwRjE2TVpkTTJSMWxBbEdGYUtDRFN4MTZEdWxxMmQxRW5KRFZzZ3hZWUZfa29hWUNnUl9TYUJxQVpLdkFOVEt5UVZxSUhlTVVtaTZ1MmUzVUpObXVfVVIzOXFvdllSeFVIR19rb2g2NkpTVE9kc2s2b3BZLVZBRXNDY0xsbmNNZG9pT3M2U3kzbUJMQlBVRXl3Ump1TnJDUWVpYUFORWFjekJ3SnJHUGRNT2VDNUFfQk9zSDVsS0tmNVNBQzBzc1lGRUZlZ1dfZVFvVkJhbUxnNHlOQXFzTGgzaUZld0JpRFpOZ29zZGtlNVdBaVNPQmNKbzhDYndPZkNaSVR5QVdoMldhMTNxbWxYcVYyS2lWQ3RBa2dGWUhuSHFTbzh0NWV0WkRoRHFwWXlFY1hRTWxmTWs0Z1NUTDlMRkg4dXJQSlRpeEV1b1VtZ1djVVZvdWl4dFdleXVpRC16R1dmTUZ4bFNWbkpNOGx1TmxzbG1UcUlCMDNxSkFjRWlycDNkM0RIVjNsN05ybEFXdWlXUlk3cU1VSTZVbUhiY1NUQXNTdFhlbTlhdEhfVFNBM1JsUUZxV1hwNFVBY2x4MHNDQlpmYkZhLTZDaVByTEp0YWdOaXVRMmVtS1VFWm9SOFVlc3JzaDB0OFBBWGZVVW44RzJZZGlNTFVvdDNCTVdlbG1ob0JVTHk3TzlUUm0wQ1ZRRHQxcGg0S0dlb2RjRERuZGpCTG9LSGtWY0VxQmZNemVQbTRCRXdnRXZLa3gxNV9PZUVGS1R0b0NmdGt1UXJNSWloNXNud1dwQUF3Z0ZEOGZIaEFjSHV0ZFJxSEVVM1pCWGZpRmR4Y3hxWExNaXNDV1huanVuTmREQURNQ1h3eVdfMU9LQ1pHV0xrZnhIZFVVNnoxV1JPMlpuX294M2dMTVdWdmdraUZnZ0Vkck96UkZlb3RLb01MbENMUkJyOGlnZENFaWJlRXQ4Q2prZnJUbWRrN3cweVFaM2wzUi1OMGJHT1FJRXBNZXpfcFJmWmVlTnpTSTNUaWdwQzRoWGlvWnVoVmVjMDdIQTZMRkVwMFMwemh0WURYbHl3SVZNX01wRkx5RkIzbUJlX0x5UEwzdGowUkl2ZGxVOEt1WEVqbEpSV29WbU1peWUtMHFyY3BkaEwtUUNBeUVSdVdZZi1SQXplbXRRTW1BRU9KSl93T2lzdHRTaGVEQVZ3WEdMeW5OOHl4WmFRNmlueUt5YmdSUXRMdGFjUWZ6QmRRWVFFLVVJMDJSN0UtRU5IRUVsaXlXems5WkNtbXRsRXBBaWY4VXVPNFJTb29VcU1NSzJfVEduYVhadEdrQVk3elpiS2VJdmhlSUpDa0JkVTB5dldWSnE3YWpDMGhsckdwSVNKUXA3TVFNb0g0YXZsdW95UUNSNEp2Y1dLZEFMWGhDMm5qWWlFZ0FWd0h0eVlmWlVpUmNnZm1sTGlTaGk3emRqREJPMFA3d1lyMVkyajdhbXBNZWhvbHkzbTdtcXJNVFBZU1hDYnRDNWxXU3RrUVVybEhwb0VGVWN4RmNQeTRaeEJvQ29wTUpEY2ptalBUQkE5Nk53dkVJbkc3SWx1X09OQmFDUVlZbGZ4X25ONE9qSXoyWndIM0J0M3JtcTQzR1VLYmVseUxpckZ4Y0RENUtfdklkQzY2V0R2X0IzSlJaMElPaEhaMEo3ZDRrMDNoTWpiVnNnYmxSekZLVEVNWHlhTE5LWTdjTlpTTXc3ZGxDTk1xSlJITFc3UHVLZlIzVUxxRWdjWTNTZmhmRnpxYkYzd0VvYzBwS2tBb09iVkRTMlpYU1FFRkNIZ3JSdVVOTlZWVVF2NkhNTzhZZHJRV2tXTXlPUjdOeVJxMlpPMnpxZzJocXhLU0ZlSVJTMlRZb3dPN3NZTG1SdEpNUk9DR2RyLUFiRlZFcWVwbFN5X1EzTFRWd0hjSnVUcDVGVzZEUUpyMUoza0diOUZydUlrSUUtOUFxSnB4NAAAAA0xNzYxMTc3NjAwMDAw",
+    "oprfSeed": "IiMkJSYnKCkqKywtLi8wMTIzNDU2Nzg5Ojs8PT4_QEE",
+    "record": {
+      "accountId": "0192f0c8-1c2d-7a00-8000-0000000000b1",
+      "createdAt": 1761177600000,
+      "label": "OGjiDpKKI4gcDqaSynAXRV9W2kmUOhg_1mSi0NholSk",
+      "logId": "fW2hXfpAFJkkbIRuLMFTgfgJtkP6cho7QWOOhUCTSJg",
+      "publicEncKey": "9xYawgv4DDh_BcoXNjv7lhRtYuU7d4Z3O2syuTzPXgk",
+      "publicPqKey": "TQfC2DJdHeY8jexHYOhou0ddPVdlOxh2mHHIjleqR-BKV-Ioz7MOc_Jmq5d-1mVf9EgkjDY7WUI6mJFKvcY-U4lwq0F16MZdM2R1lAlGFaKCDSx16Dulq2d1EnJDVsgxYYF_koaYCgR_SaBqAZKvANTKyQVqIHeMUmi6u2e3UJNmu_UR39qovYRxUHG_koh66JSTOdsk6opY-VAEsCcLlncMdoiOs6Sy3mBLBPUEywRjuNrCQeiaANEaczBwJrGPdMOeC5A_BOsH5lKKf5SAC0ssYFEFegW_eQoVBamLg4yNAqsLh3iFewBiDZNgosdke5WAiSOBcJo8CbwOfCZITyAWh2Wa13qmlXqV2KiVCtAkgFYHnHqSo8t5etZDhDqpYyEcXQMlfMk4gSTL9LFH8urPJTixEuoUmgWcUVouixtWeyuiD-zGWfMFxlSVnJM8luNlslmTqIB03qJAcEirp3d3DHV3l7NrlAWuiWRY7qMUI6UmHbcSTAsStXem9atH_TSA3RlQFqWXp4UAclx0sCBZfbFa-6CiPrLJtagNiuQ2emKUEZoR8Uesrsh0t8PAXfUUn8G2YdiMLUot3BMWelmhoBULy7O9TRm0CVQDt1ph4KGeodcDDndjBLoKHkVcEqBfMzePm4BEwgEvKkx15_OeEFKTtoCftkuQrMIih5snwWpAAwgFD8fHhAcHutdRqHEU3ZBXfiFdxcxqXLMisCWXnjunNdDADMCXwyW_1OKCZGWLkfxHdUU6z1WRO2Zn_ox3gLMWVvgkiFggEdrOzRFeotKoMLlCLRBr8igdCEibeEt8CjkfrTmdk7w0yQZ3l3R-N0bGOQIEpMez_pRfZeeNzSI3TigpC4hXioZuhVec07HA6LFEp0S0zhtYDXlywIVM_MpFLyFB3mBe_LyPL3tj0RIvdlU8KuXEjlJRWoVmMiye-0qrcpdhL-QCAyERuWYf-RAzemtQMmAEOJJ_wOisttSheDAVwXGLynN8yxZaQ6inyKybgRQtLtacQfzBdQYQE-UI02R7E-ENHEEliyWzk9ZCmmtlEpAif8UuO4RSooUqMMK2_TGnaXZtGkAY7zZbKeIvheIJCkBdU0yvWVJq7ajC0hlrGpISJQp7MQMoH4avluoyQCR4JvcWKdALXhC2njYiEgAVwHtyYfZUiRcgfmlLiShi7zdjDBO0P7wYr1Y2j7ampMeholy3m7mqrMTPYSXCbtC5lWStkQUrlHpoEFUcxFcPy4ZxBoCopMJDcjmjPTBA96NwvEInG7Ilu_ONBaCQYYlfx_nN4OjIz2ZwH3Bt3rmq43GUKbelyLirFxcDD5K_vIdC66WDv_B3JRZ0IOhHZ0J7d4k03hMjbVsgblRzFKTEMXyaLNKY7cNZSMw7dlCNMqJRHLW7PuKfR3ULqEgcY3SfhfFzqbF3wEoc0pKkAoObVDS2ZXSQEFCHgrRuUNNVVUQv6HMO8YdrQWkWMyOR7NyRq2ZO2zqg2hqxKSFeIRS2TYowO7sYLmRtJMROCGdr-AbFVEqeplSy_Q3LTVwHcJuTp5FW6DQJr1J3kGb9FruIkIE-9AqJpx4",
+      "publicSignKey": "mICLHAX7jt87KQEfmmhPdtjoFg5n_a8m2UDhGtxgEj0",
+      "signature": "3kQ6bKNR9PgUWS5Wj16W4KdmKA5q_xZgNqr7JnYN_dRqSJg8sTA9-jMiD3MlEP-hYEo1yctZh8KPfYoxkpHxBA"
+    },
+    "recordHash": "jrGrBUSl5SXoIUu2WhHVe_NFkJoL3IJr--q4-gwfFRk"
+  },
+  "sealedBox": {
+    "cases": [
+      {
+        "associatedData": "octapass/v1|vaultkey:0192f0c8-1c2d-7a00-8000-0000000000aa:0192f0c8-1c2d-7a00-8000-0000000000b1",
+        "context": "vaultkey:0192f0c8-1c2d-7a00-8000-0000000000aa:0192f0c8-1c2d-7a00-8000-0000000000b1",
+        "sealed": "ASO3u4yRrgCHEfsShGeAvN8eBl-CG9_sSfV-fH3NTEgjoKGio6SlpqeoqaqrrK2ur7CxsrO0tba3JxShAwgiPqeAFC2wVWvhr7ftN5OnY-SkD-OhtDK1Qyul1UjiQFS6UVu-wR1aSFrR"
+      },
+      {
+        "associatedData": "octapass/v1|emergency:0192f0c8-1c2d-7a00-8000-0000000000a1:0192f0c8-1c2d-7a00-8000-0000000000b1:ask",
+        "context": "emergency:0192f0c8-1c2d-7a00-8000-0000000000a1:0192f0c8-1c2d-7a00-8000-0000000000b1:ask",
+        "sealed": "ASO3u4yRrgCHEfsShGeAvN8eBl-CG9_sSfV-fH3NTEgjoKGio6SlpqeoqaqrrK2ur7CxsrO0tba3JxShAwgiPqeAFC2wVWvhr7ftN5OnY-SkD-OhtDK1QyuyabbXXQACo0OCc_h7UWbd"
+      },
+      {
+        "associatedData": "octapass/v1|emergency:0192f0c8-1c2d-7a00-8000-0000000000a1:0192f0c8-1c2d-7a00-8000-0000000000b1:vault:0192f0c8-1c2d-7a00-8000-0000000000aa",
+        "context": "emergency:0192f0c8-1c2d-7a00-8000-0000000000a1:0192f0c8-1c2d-7a00-8000-0000000000b1:vault:0192f0c8-1c2d-7a00-8000-0000000000aa",
+        "sealed": "ASO3u4yRrgCHEfsShGeAvN8eBl-CG9_sSfV-fH3NTEgjoKGio6SlpqeoqaqrrK2ur7CxsrO0tba3JxShAwgiPqeAFC2wVWvhr7ftN5OnY-SkD-OhtDK1Qyv8gPhz5aD68JtBSbErHM0_"
+      }
+    ],
+    "description": "X25519 sealed box. The ephemeral secret is drawn first, then the nonce. sealed = 0x01 ‖ ephemeral public ‖ nonce ‖ XChaCha20-Poly1305 ciphertext and tag.",
+    "ephemeralPublicKey": "I7e7jJGuAIcR-xKEZ4C83x4GX4Ib3-xJ9X58fc1MSCM",
+    "ephemeralSecret": "cHFyc3R1dnd4eXp7fH1-f4CBgoOEhYaHiImKi4yNjo8",
+    "key": "QEFCQ0RFRkdISUpLTE1OT1BRUlNUVVZXWFlaW1xdXl8",
+    "nonce": "oKGio6SlpqeoqaqrrK2ur7CxsrO0tba3",
+    "recipientPrivateKey": "EBESExQVFhcYGRobHB0eHyAhIiMkJSYnKCkqKywtLi8",
+    "recipientPublicKey": "2J47rXlDfb7Z-ENBgwT0YP8Fx_6B_kqVd6gEy5Nn_2Y"
+  },
+  "shareLink": {
+    "description": "Share links. The link key is drawn first, then the Argon2id salt (passphrase only), then the nonce. The key is the URL fragment.",
+    "item": "{\"overview\":{\"schemaVersion\":1,\"title\":\"Router\",\"type\":\"login\"},\"details\":{\"schemaVersion\":1,\"username\":\"admin\",\"password\":\"hunter2\"}}",
+    "linkKey": "YGFiY2RlZmdoaWprbG1ub3BxcnN0dXZ3eHl6e3x9fn8",
+    "nonce": "0NHS09TV1tfY2drb3N3e3-Dh4uPk5ebn",
+    "salt": "wMHCw8TFxsfIycrLzM3Ozw",
+    "withPassphrase": {
+      "ciphertext": "AQHAwcLDxMXGx8jJysvMzc7PAAEAAAAAAAMAAAAB0NHS09TV1tfY2drb3N3e3-Dh4uPk5ebnbzixwo40t0oSvzWpISZ7QwMh_HiazeUw2WhstID3v-5R6uN9p8A0G9MPrLidCq2OowpUgh42Z8OwlvX8XC9fwQS_0qDLBEj4OoZM7OgB3MYB5tF5xnKgTT9sscgKq9KGk1S15IcDjigy1_aPwprr_ZchblBhZ2fGhrQW0lajgsoi460chNRM4vCcWJ9K1Ssl4I7LIXHg",
+      "kdf": {
+        "algorithm": "argon2id",
+        "iterations": 3,
+        "memoryKib": 65536,
+        "parallelism": 1
+      },
+      "passphrase": "correct horse battery"
+    },
+    "withoutPassphrase": {
+      "ciphertext": "AQDQ0dLT1NXW19jZ2tvc3d7f4OHi4-Tl5ucmQBmWxnqxMC3JovYwg8UaWic1Keo54xszaVEBSOqF8zPqOrTlE5JqP4GS__SL0V3AgoBOvMbGyDGEK8GoUQXno2jIkxscCZ6JtgZdYfW-XT55Kp4loCbpeO8jO4RkUYoHn2SLWpGW0oCLK7jWL7qeMsFhvFXjp5FSzfzjniIoEkWegIO_RFtFdGfEmre5ooYFr2c9zxU"
+    }
+  }
+}

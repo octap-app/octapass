@@ -1,0 +1,721 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		05676D9722D5CDC13CB9364F /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 5D80772197699F5CC8E5B5C0 /* manifest.json */; };
+		07AEE9F860A8DD34577012AC /* icons in Resources */ = {isa = PBXBuildFile; fileRef = A75ADD5419BB3093D0322DB5 /* icons */; };
+		0CCD3350A2423875AA74F002 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 6F9973165E2B0FD4A3AAC566 /* assets */; };
+		0DADDD90713D66077555D0E1 /* Octa Pass Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5664040BC52A555621106CF6 /* Octa Pass Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		21B008E7E4E2A1368546F2F8 /* page.js in Resources */ = {isa = PBXBuildFile; fileRef = 0D33912B4797DA9B0B926C82 /* page.js */; };
+		322FE07AECE69CE1CF0A9E69 /* app.html in Resources */ = {isa = PBXBuildFile; fileRef = A0DB0C398DF80C9F5C2D5156 /* app.html */; };
+		411578802D25C43551A29F8D /* passkey.html in Resources */ = {isa = PBXBuildFile; fileRef = CC9440F3FFACC03BE1344372 /* passkey.html */; };
+		4BF8137C9701734DAC4A2ACD /* MonaSans.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = F4781BF43E0C8B6C5799D44B /* MonaSans.woff2 */; };
+		5C3F63BB486FFD88BF0FDDE6 /* content.js in Resources */ = {isa = PBXBuildFile; fileRef = D12A24D6D0C082921265C439 /* content.js */; };
+		5F9FE8BA521B42D0E33DCA88 /* app.html in Resources */ = {isa = PBXBuildFile; fileRef = A0DB0C398DF80C9F5C2D5156 /* app.html */; };
+		602AA417E7C9BBFD20849D20 /* content.js in Resources */ = {isa = PBXBuildFile; fileRef = D12A24D6D0C082921265C439 /* content.js */; };
+		62F857C707137FD4A7AB5411 /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = 8DF36FEDCC5A6476F379139A /* background.js */; };
+		7EB4446EF01E08DC943C06CC /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 5D80772197699F5CC8E5B5C0 /* manifest.json */; };
+		8F7A7D6285303B16542FFD65 /* MonaSans.woff2 in Resources */ = {isa = PBXBuildFile; fileRef = F4781BF43E0C8B6C5799D44B /* MonaSans.woff2 */; };
+		94D7CCEFA97727DE3EEFCA59 /* page.js in Resources */ = {isa = PBXBuildFile; fileRef = 0D33912B4797DA9B0B926C82 /* page.js */; };
+		9EFF73696B7FEAB84C1D9AFC /* Octa Pass Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = E00FAB36CA174EA524AFBABA /* Octa Pass Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A804F546FADD8586B07FD87C /* background.js in Resources */ = {isa = PBXBuildFile; fileRef = 8DF36FEDCC5A6476F379139A /* background.js */; };
+		AD33F19665F513894FA07696 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 6F9973165E2B0FD4A3AAC566 /* assets */; };
+		CE18DD1A73F26CA3E5B12260 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = A75ADD5419BB3093D0322DB5 /* icons */; };
+		F05112D3CB9038E1117FE28C /* passkey.html in Resources */ = {isa = PBXBuildFile; fileRef = CC9440F3FFACC03BE1344372 /* passkey.html */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3D1668FC7BAC3651079A77BF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 46F86FAA6BBF9AC94A7E4595 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D1D9A2816075EC36397999FD;
+			remoteInfo = "Octa Pass Extension (macOS)";
+		};
+		E3B4C0D059B6C3DC9E190E6F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 46F86FAA6BBF9AC94A7E4595 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BD38088CE4256CCC3B33844A;
+			remoteInfo = "Octa Pass Extension (iOS)";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		727B2B85FA2CB57866C1D00D /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				0DADDD90713D66077555D0E1 /* Octa Pass Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		931CEB9E1D230B66E82F7A7A /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				9EFF73696B7FEAB84C1D9AFC /* Octa Pass Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0D33912B4797DA9B0B926C82 /* page.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = page.js; sourceTree = "<group>"; };
+		427F92DCE39737954C6743F3 /* Octa Pass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Octa Pass.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5664040BC52A555621106CF6 /* Octa Pass Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Octa Pass Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5D80772197699F5CC8E5B5C0 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = manifest.json; sourceTree = "<group>"; };
+		6F9973165E2B0FD4A3AAC566 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
+		8DF36FEDCC5A6476F379139A /* background.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = background.js; sourceTree = "<group>"; };
+		9D248E0E88379865006DEC50 /* Octa Pass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Octa Pass.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A0DB0C398DF80C9F5C2D5156 /* app.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = app.html; sourceTree = "<group>"; };
+		A75ADD5419BB3093D0322DB5 /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; path = icons; sourceTree = "<group>"; };
+		CC9440F3FFACC03BE1344372 /* passkey.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = passkey.html; sourceTree = "<group>"; };
+		D12A24D6D0C082921265C439 /* content.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = content.js; sourceTree = "<group>"; };
+		E00FAB36CA174EA524AFBABA /* Octa Pass Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Octa Pass Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4781BF43E0C8B6C5799D44B /* MonaSans.woff2 */ = {isa = PBXFileReference; lastKnownFileType = file; path = MonaSans.woff2; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		4FE666FE3CC646EBA93203CB /* Exceptions for "Extension" folder in "Octa Pass Extension (iOS)" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = BD38088CE4256CCC3B33844A /* Octa Pass Extension (iOS) */;
+		};
+		86EA8290EFD77DB6A8F3F313 /* Exceptions for "Extension" folder in "Octa Pass Extension (macOS)" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = D1D9A2816075EC36397999FD /* Octa Pass Extension (macOS) */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		19AA90C05D5E51C61B554CC6 /* Shared */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		2BA74A810212755CCB850F49 /* macOS */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = macOS;
+			sourceTree = "<group>";
+		};
+		409791E8ECB9ADEFC71EDB9B /* iOS */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = iOS;
+			sourceTree = "<group>";
+		};
+		9943520DB41B3B212FD09B3D /* Extension */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				4FE666FE3CC646EBA93203CB /* Exceptions for "Extension" folder in "Octa Pass Extension (iOS)" target */,
+				86EA8290EFD77DB6A8F3F313 /* Exceptions for "Extension" folder in "Octa Pass Extension (macOS)" target */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AC63E8A574F054A2C1402E9D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B07BCAB344F872CE97DEC0B6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B59A99E464DCA428737AB21D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DE5A098FA662E8C5CA3849E4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		379134B0376C34C57A69AEF5 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				19AA90C05D5E51C61B554CC6 /* Shared */,
+				409791E8ECB9ADEFC71EDB9B /* iOS */,
+				2BA74A810212755CCB850F49 /* macOS */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		A45C494344EA780B34B0A189 = {
+			isa = PBXGroup;
+			children = (
+				379134B0376C34C57A69AEF5 /* App */,
+				9943520DB41B3B212FD09B3D /* Extension */,
+				C11828958646A72A1F765D1C /* Generated */,
+				FDE390BA598F9B91DDC27B8A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B4CEFE5A9FFB9593AE6DD16C /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				F4781BF43E0C8B6C5799D44B /* MonaSans.woff2 */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		C11828958646A72A1F765D1C /* Generated */ = {
+			isa = PBXGroup;
+			children = (
+				C3F82E1D59B7AF4650A2C4EB /* Extension */,
+				B4CEFE5A9FFB9593AE6DD16C /* Fonts */,
+			);
+			path = Generated;
+			sourceTree = "<group>";
+		};
+		C3F82E1D59B7AF4650A2C4EB /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				5D80772197699F5CC8E5B5C0 /* manifest.json */,
+				8DF36FEDCC5A6476F379139A /* background.js */,
+				D12A24D6D0C082921265C439 /* content.js */,
+				0D33912B4797DA9B0B926C82 /* page.js */,
+				A0DB0C398DF80C9F5C2D5156 /* app.html */,
+				CC9440F3FFACC03BE1344372 /* passkey.html */,
+				A75ADD5419BB3093D0322DB5 /* icons */,
+				6F9973165E2B0FD4A3AAC566 /* assets */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		FDE390BA598F9B91DDC27B8A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9D248E0E88379865006DEC50 /* Octa Pass.app */,
+				5664040BC52A555621106CF6 /* Octa Pass Extension.appex */,
+				427F92DCE39737954C6743F3 /* Octa Pass.app */,
+				E00FAB36CA174EA524AFBABA /* Octa Pass Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9E28E0F1004306C7CAFEF2ED /* Octa Pass (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C69F3568752D29DA2EA0523D /* Build configuration list for PBXNativeTarget "Octa Pass (iOS)" */;
+			buildPhases = (
+				40E0B3361DA837395A089F06 /* Sources */,
+				DE5A098FA662E8C5CA3849E4 /* Frameworks */,
+				AEBD9E567242CB33A8EBE4E7 /* Resources */,
+				727B2B85FA2CB57866C1D00D /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				45AF0CC449390A8616FBCF03 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				19AA90C05D5E51C61B554CC6 /* Shared */,
+				409791E8ECB9ADEFC71EDB9B /* iOS */,
+			);
+			name = "Octa Pass (iOS)";
+			productName = "Octa Pass";
+			productReference = 9D248E0E88379865006DEC50 /* Octa Pass.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BD38088CE4256CCC3B33844A /* Octa Pass Extension (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7638A7AABDA205C29845A78B /* Build configuration list for PBXNativeTarget "Octa Pass Extension (iOS)" */;
+			buildPhases = (
+				E42A6625AA0A7398FFAEE3D7 /* Sources */,
+				AC63E8A574F054A2C1402E9D /* Frameworks */,
+				D59F7F70E2C6B4497A7E69DB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				9943520DB41B3B212FD09B3D /* Extension */,
+			);
+			name = "Octa Pass Extension (iOS)";
+			productName = "Octa Pass Extension";
+			productReference = 5664040BC52A555621106CF6 /* Octa Pass Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		D1D9A2816075EC36397999FD /* Octa Pass Extension (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F81674C9F7C18746B513950F /* Build configuration list for PBXNativeTarget "Octa Pass Extension (macOS)" */;
+			buildPhases = (
+				DB4534931DEDC08FBE90DE20 /* Sources */,
+				B07BCAB344F872CE97DEC0B6 /* Frameworks */,
+				D02DF6B6953FEA7252E89C91 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				9943520DB41B3B212FD09B3D /* Extension */,
+			);
+			name = "Octa Pass Extension (macOS)";
+			productName = "Octa Pass Extension";
+			productReference = E00FAB36CA174EA524AFBABA /* Octa Pass Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		DB1FAB3FEEE93DA0A451D8D2 /* Octa Pass (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3353D8B4655484873AF83208 /* Build configuration list for PBXNativeTarget "Octa Pass (macOS)" */;
+			buildPhases = (
+				60F140A1315E8DDD82F6039E /* Sources */,
+				B59A99E464DCA428737AB21D /* Frameworks */,
+				698B73FE5A381A60DE9DF26B /* Resources */,
+				931CEB9E1D230B66E82F7A7A /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A51DA55E2250BA093518AE90 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				19AA90C05D5E51C61B554CC6 /* Shared */,
+				2BA74A810212755CCB850F49 /* macOS */,
+			);
+			name = "Octa Pass (macOS)";
+			productName = "Octa Pass";
+			productReference = 427F92DCE39737954C6743F3 /* Octa Pass.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		46F86FAA6BBF9AC94A7E4595 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2650;
+				LastUpgradeCheck = 2650;
+			};
+			buildConfigurationList = F9FBB92E94E3EF23FA14607F /* Build configuration list for PBXProject "OctaPass" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				ar,
+				Base,
+			);
+			mainGroup = A45C494344EA780B34B0A189;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = FDE390BA598F9B91DDC27B8A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9E28E0F1004306C7CAFEF2ED /* Octa Pass (iOS) */,
+				BD38088CE4256CCC3B33844A /* Octa Pass Extension (iOS) */,
+				DB1FAB3FEEE93DA0A451D8D2 /* Octa Pass (macOS) */,
+				D1D9A2816075EC36397999FD /* Octa Pass Extension (macOS) */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		698B73FE5A381A60DE9DF26B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BF8137C9701734DAC4A2ACD /* MonaSans.woff2 in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AEBD9E567242CB33A8EBE4E7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F7A7D6285303B16542FFD65 /* MonaSans.woff2 in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D02DF6B6953FEA7252E89C91 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				05676D9722D5CDC13CB9364F /* manifest.json in Resources */,
+				A804F546FADD8586B07FD87C /* background.js in Resources */,
+				602AA417E7C9BBFD20849D20 /* content.js in Resources */,
+				21B008E7E4E2A1368546F2F8 /* page.js in Resources */,
+				5F9FE8BA521B42D0E33DCA88 /* app.html in Resources */,
+				411578802D25C43551A29F8D /* passkey.html in Resources */,
+				07AEE9F860A8DD34577012AC /* icons in Resources */,
+				0CCD3350A2423875AA74F002 /* assets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D59F7F70E2C6B4497A7E69DB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7EB4446EF01E08DC943C06CC /* manifest.json in Resources */,
+				62F857C707137FD4A7AB5411 /* background.js in Resources */,
+				5C3F63BB486FFD88BF0FDDE6 /* content.js in Resources */,
+				94D7CCEFA97727DE3EEFCA59 /* page.js in Resources */,
+				322FE07AECE69CE1CF0A9E69 /* app.html in Resources */,
+				F05112D3CB9038E1117FE28C /* passkey.html in Resources */,
+				CE18DD1A73F26CA3E5B12260 /* icons in Resources */,
+				AD33F19665F513894FA07696 /* assets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		40E0B3361DA837395A089F06 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		60F140A1315E8DDD82F6039E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB4534931DEDC08FBE90DE20 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E42A6625AA0A7398FFAEE3D7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		45AF0CC449390A8616FBCF03 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BD38088CE4256CCC3B33844A /* Octa Pass Extension (iOS) */;
+			targetProxy = E3B4C0D059B6C3DC9E190E6F /* PBXContainerItemProxy */;
+		};
+		A51DA55E2250BA093518AE90 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D1D9A2816075EC36397999FD /* Octa Pass Extension (macOS) */;
+			targetProxy = 3D1668FC7BAC3651079A77BF /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		08BCF1B9C9455AB2B7BCC8FA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Extension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Octa Pass";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.octap.safari.extension;
+				PRODUCT_NAME = "Octa Pass Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		10399CC46C4523BD0A05659D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Octa Pass";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.octap.safari;
+				PRODUCT_NAME = "Octa Pass";
+				SDKROOT = iphoneos;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		17B7ACBB8015B680EC661A66 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Extension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Octa Pass";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.octap.safari.extension;
+				PRODUCT_NAME = "Octa Pass Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		38795CD01D2DCA9D2D06F8A2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Octa Pass";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.octap.safari;
+				PRODUCT_NAME = "Octa Pass";
+				SDKROOT = iphoneos;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6400937BFF6940676096EBF4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Extension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Octa Pass";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.octap.safari.extension;
+				PRODUCT_NAME = "Octa Pass Extension";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		72AD16AA1613730C90E6DAEA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Octa Pass";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.octap.safari;
+				PRODUCT_NAME = "Octa Pass";
+				SDKROOT = macosx;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+			};
+			name = Debug;
+		};
+		9FA9CD22E41A27D8FAFE9384 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Extension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Octa Pass";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.octap.safari.extension;
+				PRODUCT_NAME = "Octa Pass Extension";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		A6311276B5558DC6B3A63897 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		BBA2393AB3483A1F60BE4CC7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 0.1.0;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		D93200D1AA1E97FB7B9457FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_APP_SANDBOX = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Octa Pass";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.octap.safari;
+				PRODUCT_NAME = "Octa Pass";
+				SDKROOT = macosx;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3353D8B4655484873AF83208 /* Build configuration list for PBXNativeTarget "Octa Pass (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				72AD16AA1613730C90E6DAEA /* Debug */,
+				D93200D1AA1E97FB7B9457FF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7638A7AABDA205C29845A78B /* Build configuration list for PBXNativeTarget "Octa Pass Extension (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17B7ACBB8015B680EC661A66 /* Debug */,
+				08BCF1B9C9455AB2B7BCC8FA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C69F3568752D29DA2EA0523D /* Build configuration list for PBXNativeTarget "Octa Pass (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				38795CD01D2DCA9D2D06F8A2 /* Debug */,
+				10399CC46C4523BD0A05659D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F81674C9F7C18746B513950F /* Build configuration list for PBXNativeTarget "Octa Pass Extension (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9FA9CD22E41A27D8FAFE9384 /* Debug */,
+				6400937BFF6940676096EBF4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F9FBB92E94E3EF23FA14607F /* Build configuration list for PBXProject "OctaPass" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A6311276B5558DC6B3A63897 /* Debug */,
+				BBA2393AB3483A1F60BE4CC7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 46F86FAA6BBF9AC94A7E4595 /* Project object */;
+}

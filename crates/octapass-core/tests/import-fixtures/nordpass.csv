@@ -1,0 +1,15 @@
+name,url,additional_urls,username,password,note,cardholdername,cardnumber,cvc,pin,expirydate,zipcode,folder,full_name,phone_number,email,address1,address2,city,country,state,type,custom_fields
+Work,,,,,,,,,,,,,,,,,,,,,folder,
+عائلة,,,,,,,,,,,,,,,,,,,,,folder,
+GitHub,https://github.com/login,"[""https://gist.github.com"",""https://api.github.com""]",octo@example.com,"np-pass,with ""quotes""","Deploy notes
+second line",,,,,,,Work,,,,,,,,,password,"[{""type"":""text"",""label"":""Account ID"",""value"":""12345""},{""type"":""hidden"",""label"":""Recovery phrase"",""value"":""orange piano seven""},{""type"":""date"",""label"":""Created"",""value"":""1772150400""},{""type"":""text"",""label"":""Empty"",""value"":""""}]"
+بنك الأمل,https://bank.example.jo,,مستخدم,كلمة-سر-١٢٣,"ملاحظة بالعربية
+سطر ثاني",,,,,,,عائلة,,,,,,,,,password,
+Travel card,,,,,Card for trips,Jane Q. Doe,4111111111111111,123,9876,03/30,11118,,,,,,,,,,credit_card,"[{""type"":""text"",""label"":""Issuer"",""value"":""Example Bank""}]"
+ليلى حداد,,,,,Home contact,,,,,,11118,عائلة,ليلى حداد,+962791234567,layla@example.com,12 Rainbow St,Apt 3,Amman,Jordan,Amman Governorate,identity,
+Diary,,,,,"Dear diary,
+emoji 🔐 and ""quotes""",,,,,,,,,,,,,,,,note,"[{""type"":""text"",""label"":""Mood"",""value"":""calm""}]"
+Passport,,,,,Passport scan,,,,,,,Work,,,,,,,,,document,"[{""type"":""hidden"",""label"":""Passport number"",""value"":""X1234567""}]"
+,,,,,,,,,,,,,,,,,,,,,password,
+
+Bank account,,,,,IBAN JO00 0000 0000,,,,,,,,,,,,,,,,bank_account,

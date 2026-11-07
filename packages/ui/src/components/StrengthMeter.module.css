@@ -1,0 +1,51 @@
+.meter {
+  --tone: var(--line-strong);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.meter[data-score='0'],
+.meter[data-score='1'] {
+  --tone: var(--danger);
+}
+
+.meter[data-score='2'] {
+  --tone: var(--warn);
+}
+
+.meter[data-score='3'] {
+  --tone: var(--trust);
+}
+
+.meter[data-score='4'] {
+  --tone: var(--free);
+}
+
+.bars {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.3rem;
+}
+
+.bars span {
+  block-size: 0.3rem;
+  border-radius: 999px;
+  background: var(--line);
+  transition: background-color var(--medium) ease;
+}
+
+.bars .on {
+  background: var(--tone);
+}
+
+.text {
+  font-size: var(--text-sm);
+  color: var(--mist);
+  min-block-size: 1.3em;
+}
+
+.text strong {
+  color: var(--ink);
+  font-weight: 650;
+}

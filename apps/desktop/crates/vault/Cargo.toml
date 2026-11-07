@@ -1,0 +1,56 @@
+[package]
+name = "octapass-desktop-vault"
+description = "The desktop app's vault: the Octa Pass core, sync with the server, local state and device unlock. No UI."
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish.workspace = true
+# Integration tests are one binary (tests/main.rs); see the [[test]] tables at the end.
+autotests = false
+
+[features]
+# `Vault::with_keys` and `Vault::current_access_token`, for tests that share vaults as the web
+# vault does. Never enabled in the app.
+testing = []
+
+[dependencies]
+octapass-core = { workspace = true, features = ["ssh-sign", "age-files"] }
+# Octa Pass Safe: the sync of a Safe through this account's attachments.
+octapass-files.workspace = true
+octapass-api.workspace = true
+octapass-device-unlock.workspace = true
+octapass-windows-passkey.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+zeroize.workspace = true
+rand_core.workspace = true
+sha2.workspace = true
+base64.workspace = true
+tokio.workspace = true
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls", "stream"] }
+# Attachment uploads stream their ciphertext as it's encrypted.
+futures-util = { version = "0.3", default-features = false }
+time = { version = "0.3", features = ["formatting", "parsing"] }
+unicode-normalization = "0.1"
+x25519-dalek = { version = "2", features = ["static_secrets", "zeroize"] }
+hkdf = "0.12"
+
+[dev-dependencies]
+rand_core.workspace = true
+octapass-desktop-vault = { path = ".", features = ["testing"] }
+octapass-device-unlock = { workspace = true, features = ["fake"] }
+octapass-server = { path = "../../../server" }
+axum = { version = "0.8", features = ["form"] }
+# The SSO tests set up an organisation directly, and play the browser.
+sqlx = { version = "0.9", default-features = false, features = ["any", "runtime-tokio"] }
+url = "2"
+tempfile.workspace = true
+tokio = { workspace = true, features = ["full"] }
+p256 = { version = "0.13", default-features = false, features = ["ecdsa", "std"] }
+ciborium = "0.2"
+
+[[test]]
+name = "integration"
+path = "tests/main.rs"

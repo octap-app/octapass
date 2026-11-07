@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>लॉग इन करें · किसान मंडी</title>
+<style>
+  body { margin: 0; font: 16px/1.6 "Noto Sans Devanagari", "Mangal", system-ui, sans-serif; background: #f7fee7; color: #1a2e05; }
+  header { background: #4d7c0f; color: #fff; padding: 12px 30px; font-size: 19px; }
+  .box { width: 380px; margin: 60px auto; background: #fff; border-radius: 10px; padding: 26px; border: 1px solid #d9f99d; }
+  label { display: block; margin: 12px 0 4px; font-weight: 600; }
+  input { width: 100%; box-sizing: border-box; padding: 9px 10px; border: 1px solid #a3e635; border-radius: 6px; font: inherit; }
+  button { width: 100%; margin-top: 18px; padding: 10px; border: 0; border-radius: 6px; background: #4d7c0f; color: #fff; font: inherit; }
+</style>
+</head>
+<body>
+<header>किसान मंडी</header>
+<div class="box">
+  <h1 style="font-size:22px;margin-top:0">लॉग इन करें</h1>
+  <form id="pravesh" action="/login" method="post">
+    <label for="f1">ईमेल या मोबाइल नंबर</label>
+    <input id="f1" name="f1" type="text">
+    <label for="f2">पासवर्ड</label>
+    <input id="f2" name="f2" type="password">
+    <button type="submit">लॉग इन</button>
+  </form>
+  <p style="font-size:14px;text-align:center"><a href="#bhool">पासवर्ड भूल गए?</a></p>
+</div>
+<script>document.getElementById('pravesh').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

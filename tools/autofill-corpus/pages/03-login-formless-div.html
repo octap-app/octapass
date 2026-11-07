@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lumen Wiki – Log in</title>
+<style>
+  body { margin: 0; font: 15px/1.5 -apple-system, system-ui, sans-serif; background: #fafafa; }
+  .wrap { display: grid; grid-template-columns: 1fr 1fr; height: 100vh; }
+  .hero { background: linear-gradient(135deg, #4338ca, #0ea5e9); color: #fff; padding: 80px 60px; font-size: 28px; font-weight: 700; }
+  .card { align-self: center; justify-self: center; width: 360px; }
+  .card label { display: block; margin: 14px 0; font-size: 13px; color: #444; }
+  .card input { display: block; width: 100%; box-sizing: border-box; margin-top: 4px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font: inherit; }
+  .btn { margin-top: 10px; width: 100%; padding: 11px; background: #4338ca; color: #fff; border: 0; border-radius: 8px; font: inherit; cursor: pointer; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">Lumen Wiki<br><small style="font-weight:400;font-size:17px">Your team's knowledge, in one place.</small></div>
+  <div class="card" id="login-card">
+    <h1 style="font-size:22px">Log in</h1>
+    <label>Email
+      <input id="login-email" type="email">
+    </label>
+    <label>Password
+      <input id="login-password" type="password">
+    </label>
+    <button class="btn" id="login-btn" type="button">Log in</button>
+    <div id="msg" style="margin-top:10px;color:#b91c1c"></div>
+  </div>
+</div>
+<script>
+  document.getElementById('login-btn').addEventListener('click', function () {
+    document.getElementById('msg').textContent = 'Checking…';
+  });
+</script>
+</body>
+</html>

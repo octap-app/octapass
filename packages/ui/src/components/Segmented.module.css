@@ -1,0 +1,54 @@
+.group {
+  display: inline-flex;
+  padding: 0.2rem;
+  border-radius: 999px;
+  background: var(--tile);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.block {
+  display: flex;
+}
+
+.option {
+  position: relative;
+  flex: 1;
+  display: flex;
+}
+
+.option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.option span {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-block-size: 2.125rem;
+  padding-inline: 0.95rem;
+  border-radius: 999px;
+  color: var(--mist);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color var(--fast) ease,
+    color var(--fast) ease,
+    box-shadow var(--fast) ease;
+}
+
+.option input:checked + span {
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 0 1px 2px rgb(11 18 32 / 0.1), 0 0 0 0.5px rgb(11 18 32 / 0.06);
+}
+
+.option input:focus-visible + span {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}

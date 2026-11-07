@@ -1,0 +1,16 @@
+{
+  "description": "Login where the identifier is a type=tel \"Mobile number\" input (with a country dial-code select beside it) plus a password; no autocomplete attributes",
+  "fields": {
+    "#dial": "none",
+    "#mobile": "username",
+    "#rider-pw": "current-password"
+  },
+  "forms": [{ "field": "#mobile", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#rider-pw",
+      "pick": "login",
+      "expect": { "#dial": "+44", "#mobile": "alex@example.test", "#rider-pw": "correct-horse-42!" }
+    }
+  ]
+}

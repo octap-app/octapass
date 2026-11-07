@@ -1,0 +1,5 @@
+.about {
+  font-size: var(--text-sm);
+  color: var(--mist);
+  text-align: center;
+}

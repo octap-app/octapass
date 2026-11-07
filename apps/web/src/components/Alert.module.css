@@ -1,0 +1,49 @@
+.alert {
+  --tone: var(--danger);
+  --tone-text: var(--danger-text);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.6rem;
+  padding: 0.8rem 0.95rem;
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--tone) 9%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--tone) 22%, transparent);
+  font-size: var(--text-sm);
+  line-height: 1.45;
+  animation: in var(--medium) var(--ease-out);
+}
+
+.alert > svg {
+  flex: none;
+  margin-block-start: 0.05rem;
+  color: var(--tone-text);
+}
+
+.text {
+  /* Long messages push an action button onto its own line instead of squeezing the text. */
+  flex: 1 1 12rem;
+  min-inline-size: 0;
+}
+
+.info {
+  --tone: var(--trust);
+  --tone-text: var(--trust-text);
+}
+
+.success {
+  --tone: var(--free);
+  --tone-text: var(--free-text);
+}
+
+.warn {
+  --tone: var(--warn);
+  --tone-text: var(--warn-text);
+}
+
+@keyframes in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}

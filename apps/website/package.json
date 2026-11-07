@@ -1,0 +1,24 @@
+{
+  "name": "@octapass/website",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.19",
+    "@astrojs/starlight": "^0.42.6",
+    "@fontsource-variable/mona-sans": "^5.3.0",
+    "@fontsource-variable/noto-sans-arabic": "5.3.0",
+    "@fontsource/monaspace-neon": "^5.3.0",
+    "@fontsource/noto-sans-arabic": "5.2.8",
+    "astro": "^7.4.2",
+    "github-slugger": "2.0.0",
+    "sharp": "0.35.5",
+    "starlight-llms-txt": "^0.12.0"
+  }
+}

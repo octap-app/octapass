@@ -1,0 +1,17 @@
+{
+  "description": "Japanese sign-up in a table (お名前 / メールアドレス / パスワード / パスワード（確認用）), generic ids, no autocomplete, email is type=text",
+  "fields": {
+    "#f0": "name",
+    "#f1": "email",
+    "#f2": "new-password",
+    "#f3": "confirm-password"
+  },
+  "forms": [{ "field": "#f2", "type": "signup" }],
+  "fills": [
+    {
+      "focus": "#f2",
+      "pick": "generated-password",
+      "expect": { "#f0": "", "#f1": "", "#f2": "Lantern-ruby-T7#qv-42", "#f3": "Lantern-ruby-T7#qv-42" }
+    }
+  ]
+}

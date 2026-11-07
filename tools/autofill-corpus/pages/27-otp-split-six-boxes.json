@@ -1,0 +1,19 @@
+{
+  "description": "Split one-time code: six single-digit boxes (maxlength=1, auto-advance), only the first has autocomplete=one-time-code",
+  "fields": {
+    "#d1": "one-time-code",
+    "#d2": "one-time-code",
+    "#d3": "one-time-code",
+    "#d4": "one-time-code",
+    "#d5": "one-time-code",
+    "#d6": "one-time-code"
+  },
+  "forms": [{ "field": "#d1", "type": "one-time-code" }],
+  "fills": [
+    {
+      "focus": "#d1",
+      "pick": "one-time-code",
+      "expect": { "#d1": "1", "#d2": "2", "#d3": "3", "#d4": "4", "#d5": "5", "#d6": "6" }
+    }
+  ]
+}

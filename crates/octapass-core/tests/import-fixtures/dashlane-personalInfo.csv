@@ -1,0 +1,6 @@
+type,title,first_name,middle_name,last_name,login,date_of_birth,place_of_birth,email,email_type,item_name,phone_number,address,country,state,city,zip,address_recipient,address_building,address_apartment,address_floor,address_door_code,job_title,url
+name,Ms,Jane,Q,Doe,jdoe,1990-2-3,Zürich,,,Jane Doe,,,,,,,,,,,,Engineer,
+email,,,,,,,,jane@example.com,personal,Personal email,,,,,,,,,,,,,
+email,,,,,,,,jane.doe@work.example,business,Work email,,,,,,,,,,,,,
+number,,,,,,,,,,Mobile,+1 555 0100,,,,,,,,,,,,
+address,,,,,,,,,,Home,,"1 Main St, Apt 2",US,CA,Springfield,90210,Jane Doe,B,2,3,4711,,

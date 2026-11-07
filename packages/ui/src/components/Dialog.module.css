@@ -1,0 +1,111 @@
+.dialog {
+  inline-size: min(100% - 2rem, var(--dialog-size));
+  max-block-size: min(100dvh - 2rem, 48rem);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: var(--raised);
+  color: var(--ink);
+  box-shadow: var(--shadow-pop);
+  overflow: auto;
+}
+
+.sm {
+  --dialog-size: 28rem;
+}
+
+.md {
+  --dialog-size: 36rem;
+}
+
+.dialog[open] {
+  animation: pop var(--medium) var(--ease-out);
+}
+
+.dialog::backdrop {
+  background: var(--scrim);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: fade var(--medium) ease;
+}
+
+.panel {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-block-end: -0.25rem;
+}
+
+.title {
+  font-size: var(--text-xl);
+  font-weight: 720;
+  font-stretch: 108%;
+  letter-spacing: -0.02em;
+  padding-block-start: 0.2rem;
+}
+
+.description {
+  color: var(--mist);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-block-start: 0.5rem;
+}
+
+/* Phones: a sheet from the bottom edge, clear of the home indicator. */
+@media (max-width: 719px) {
+  .dialog {
+    inline-size: 100%;
+    max-inline-size: 100%;
+    max-block-size: calc(100dvh - 2.5rem);
+    margin: auto 0 0;
+    padding-block-end: env(safe-area-inset-bottom);
+    border-end-start-radius: 0;
+    border-end-end-radius: 0;
+  }
+
+  .dialog[open] {
+    animation: sheet var(--medium) var(--ease-out);
+  }
+
+  .panel {
+    padding: 1.25rem 1.25rem 1.5rem;
+  }
+}
+
+@keyframes sheet {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}

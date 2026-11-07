@@ -1,0 +1,76 @@
+name: Bug report
+description: Something in an Octa Pass app, the server or the website doesn't work as it should.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Is this a security vulnerability?** Don't file it here: use the private report in [SECURITY.md](https://github.com/octap-app/octapass/blob/main/SECURITY.md).
+
+        Never paste real passwords, one-time codes, recovery codes, your Secret Key, vault exports or tokens in an issue. Issues are public.
+  - type: dropdown
+    id: component
+    attributes:
+      label: Where did it happen?
+      multiple: true
+      options:
+        - Web vault
+        - Browser extension (Chrome, Edge, Brave and others)
+        - Browser extension (Firefox)
+        - Safari extension
+        - Desktop app (macOS)
+        - Desktop app (Windows)
+        - Desktop app (Linux)
+        - iPhone or iPad app
+        - Android app
+        - CLI
+        - Sync server or self-hosting
+        - Website or docs
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: The app, extension or server version, or the commit if you built it yourself.
+      placeholder: 0.1.0, or a commit hash
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Device and system
+      placeholder: macOS 15.5 on Apple silicon, Chrome 142
+    validations:
+      required: true
+  - type: dropdown
+    id: account
+    attributes:
+      label: How are you using Octa Pass?
+      options:
+        - Hosted Octa Pass service
+        - Self-hosted server
+        - Local vault, no account
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open …
+        2. Choose …
+        3. See …
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected, and what happened instead
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: Check them first and remove anything secret or personal, including emails and server addresses you don't want public.

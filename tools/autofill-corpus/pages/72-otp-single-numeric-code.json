@@ -1,0 +1,15 @@
+{
+  "description": "Single one-time-code field: type=text, inputmode=numeric, name=\"code\", maxlength=6, label \"Authentication code\", no autocomplete; a trust-device checkbox is not a field",
+  "fields": {
+    "#code": "one-time-code",
+    "#trust": "none"
+  },
+  "forms": [{ "field": "#code", "type": "one-time-code" }],
+  "fills": [
+    {
+      "focus": "#code",
+      "pick": "one-time-code",
+      "expect": { "#code": "123456" }
+    }
+  ]
+}

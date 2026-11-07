@@ -1,0 +1,23 @@
+{
+  "description": "Italian bank login (\"Nome utente o email\" / \"Password\") with a type=hidden csrf token and a display:none honeypot email input placed before the real fields; only the two visible fields may be filled",
+  "fields": {
+    "#csrf": "none",
+    "#hp-email": "none",
+    "#utente": "username",
+    "#parola": "current-password",
+    "#ricordami": "none"
+  },
+  "forms": [{ "field": "#utente", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#utente",
+      "pick": "login",
+      "expect": {
+        "#csrf": "8f3a1c9e2b7d4f60a5e1c3b9d7f2a4e6",
+        "#hp-email": "",
+        "#utente": "alex@example.test",
+        "#parola": "correct-horse-42!"
+      }
+    }
+  ]
+}

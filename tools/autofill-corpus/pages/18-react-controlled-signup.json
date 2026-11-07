@@ -1,0 +1,25 @@
+{
+  "description": "React-style controlled sign-up: generated password must reach state for both password and repeat fields",
+  "fields": {
+    "#name": "name",
+    "#email": "email",
+    "#password": "new-password",
+    "#password2": "confirm-password"
+  },
+  "forms": [{ "field": "#password", "type": "signup" }],
+  "fills": [
+    {
+      "focus": "#password",
+      "pick": "generated-password",
+      "expect": {
+        "#name": "",
+        "#email": "",
+        "#password": "Lantern-ruby-T7#qv-42",
+        "#password2": "Lantern-ruby-T7#qv-42",
+        "#state-password": "Lantern-ruby-T7#qv-42",
+        "#state-password2": "Lantern-ruby-T7#qv-42",
+        "#match": "Passwords match"
+      }
+    }
+  ]
+}

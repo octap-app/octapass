@@ -1,0 +1,15 @@
+{
+  "description": "Hindi login (ईमेल या मोबाइल नंबर / पासवर्ड), generic ids, no autocomplete",
+  "fields": {
+    "#f1": "username",
+    "#f2": "current-password"
+  },
+  "forms": [{ "field": "#f1", "type": "login" }],
+  "fills": [
+    {
+      "focus": "#f1",
+      "pick": "login",
+      "expect": { "#f1": "alex@example.test", "#f2": "correct-horse-42!" }
+    }
+  ]
+}

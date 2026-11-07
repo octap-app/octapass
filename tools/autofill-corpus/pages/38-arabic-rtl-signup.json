@@ -1,0 +1,17 @@
+{
+  "description": "Arabic RTL sign-up: full name, email, password and password confirmation; Arabic labels, generic ids, no autocomplete",
+  "fields": {
+    "#a1": "name",
+    "#a2": "email",
+    "#a3": "new-password",
+    "#a4": "confirm-password"
+  },
+  "forms": [{ "field": "#a3", "type": "signup" }],
+  "fills": [
+    {
+      "focus": "#a3",
+      "pick": "generated-password",
+      "expect": { "#a1": "", "#a2": "", "#a3": "Lantern-ruby-T7#qv-42", "#a4": "Lantern-ruby-T7#qv-42" }
+    }
+  ]
+}

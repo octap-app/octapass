@@ -1,0 +1,28 @@
+<resources>
+    <string name="octapass_suggested_password">كلمة مرور مقترحة</string>
+    <string name="octapass_suggested_password_detail">قوية، أُنشئت على هذا الهاتف</string>
+    <string name="octapass_unlock_title">فتح قفل Octa Pass</string>
+    <string name="octapass_unlock">فتح القفل</string>
+    <string name="octapass_master_password">كلمة المرور الرئيسية</string>
+    <string name="octapass_wrong_password">لم تفتح كلمة المرور الرئيسية هذه قفل Octa Pass.</string>
+    <string name="octapass_device_unlock_failed">استخدم كلمة المرور الرئيسية هذه المرة.</string>
+    <string name="octapass_open_failed">تعذّر على Octa Pass فتح خزنتك. افتح التطبيق للتحقق منها.</string>
+    <string name="octapass_signed_out">سجّل الدخول إلى Octa Pass أولًا.</string>
+    <string name="octapass_pick_login">اختر بيانات دخول</string>
+    <string name="octapass_no_match">لا بيانات دخول محفوظة لـ %1$s</string>
+    <string name="octapass_no_logins">لا توجد بيانات دخول في Octa Pass بعد.</string>
+    <string name="octapass_fill_unmatched">«%1$s» غير محفوظة لـ %2$s. هل تريد التعبئة على أي حال؟</string>
+    <string name="octapass_insecure_page">لا يستخدم %1$s اتصالًا آمنًا، لذلك قد يرى الآخرون على الشبكة ما ترسله. هل تريد التعبئة على أي حال؟</string>
+    <string name="octapass_other_parts">بيانات الدخول لأجزاء أخرى من %1$s</string>
+    <string name="octapass_add_website">أضف %1$s إلى بيانات الدخول هذه؟</string>
+    <string name="octapass_add">إضافة</string>
+    <string name="octapass_not_now">ليس الآن</string>
+    <string name="octapass_fill">تعبئة</string>
+    <string name="octapass_fill_failed">تعذّرت التعبئة من Octa Pass.</string>
+    <string name="octapass_saved">حُفظت في Octa Pass</string>
+    <string name="octapass_save_failed">تعذّر الحفظ في Octa Pass.</string>
+    <string name="octapass_saved_locked">حُفظت في Octa Pass، وستُضاف إلى خزنتك عندما تفتح القفل في المرة القادمة.</string>
+    <string name="octapass_export_title">التصدير من Octa Pass</string>
+    <string name="octapass_export_message">سيحصل %1$s على نسخة من كلمات المرور ومفاتيح المرور والعناصر الأخرى في %2$s. أدخل كلمة المرور الرئيسية لتصديرها.</string>
+    <string name="octapass_export">تصدير</string>
+</resources>

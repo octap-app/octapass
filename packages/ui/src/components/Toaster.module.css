@@ -1,0 +1,58 @@
+.stack {
+  position: fixed;
+  inset-block-end: max(1.25rem, env(safe-area-inset-bottom));
+  inset-inline: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+/* Phones: above the tab bar. */
+@media (max-width: 719px) {
+  .stack {
+    inset-block-end: calc(4.75rem + env(safe-area-inset-bottom));
+  }
+}
+
+.toast {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  max-inline-size: calc(100% - 2rem);
+  padding: 0.7rem 1.1rem 0.7rem 0.9rem;
+  border-radius: 999px;
+  background: #0b1220;
+  color: #f5f6f8;
+  font-size: var(--text-sm);
+  font-weight: 550;
+  box-shadow: 0 12px 32px -8px rgb(0 0 0 / 0.45), 0 0 0 1px rgb(255 255 255 / 0.08);
+  animation: rise var(--medium) var(--ease-spring);
+}
+
+.success svg {
+  color: #2fd394;
+}
+
+.danger svg {
+  color: #ff8f85;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .toast {
+    background: #232838;
+  }
+}
+
+:root[data-theme='dark'] .toast {
+  background: #232838;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+}

@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Register - Glimmer Forums</title>
+<style>
+  body { margin: 0; font: 13px Tahoma, Verdana, sans-serif; background: #dfe6ee; }
+  .forum { width: 760px; margin: 20px auto; background: #fff; border: 1px solid #a9b8c8; }
+  .forum h2 { margin: 0; padding: 8px 12px; background: #3b5a7a; color: #fff; font-size: 14px; }
+  table { width: 100%; border-collapse: collapse; }
+  td { padding: 8px 12px; border-bottom: 1px solid #e1e7ee; }
+  td.l { width: 220px; background: #f3f6f9; font-weight: bold; }
+  td.l small { display: block; font-weight: normal; color: #6b7c8f; }
+  td input[type=text], td input[type=password] { width: 260px; padding: 4px; border: 1px solid #8fa3b8; }
+  .bottom { padding: 10px; text-align: center; background: #f3f6f9; }
+</style>
+</head>
+<body>
+<div class="forum">
+  <h2>Register a new account</h2>
+  <form id="ucp" action="/ucp.php?mode=register" method="post">
+    <table>
+      <tr><td class="l"><label for="username">Username:</label><small>3 to 20 characters.</small></td><td><input type="text" id="username" name="username" maxlength="20"></td></tr>
+      <tr><td class="l"><label for="email">Email address:</label></td><td><input type="text" id="email" name="email"></td></tr>
+      <tr><td class="l"><label for="new_password">Password:</label><small>Must be at least 10 characters.</small></td><td><input type="password" id="new_password" name="new_password"></td></tr>
+      <tr><td class="l"><label for="password_confirm">Confirm password:</label></td><td><input type="password" id="password_confirm" name="password_confirm"></td></tr>
+      <tr><td class="l">Terms</td><td><label><input type="checkbox" id="agree" name="agree"> I agree to the forum rules</label></td></tr>
+    </table>
+    <div class="bottom"><button type="submit" name="submit">Submit</button> <button type="reset">Reset</button></div>
+  </form>
+</div>
+<script>document.getElementById('ucp').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

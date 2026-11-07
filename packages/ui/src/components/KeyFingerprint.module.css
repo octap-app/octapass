@@ -1,0 +1,49 @@
+.fingerprint {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius);
+  background: var(--tile);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.groups {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  justify-content: start;
+  gap: 0.3rem 1.1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.emoji {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0;
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.sm {
+  gap: 0.45rem;
+  padding: 0.6rem 0.75rem;
+}
+
+.sm .groups {
+  gap: 0.15rem 0.8rem;
+  font-size: var(--text-md);
+}
+
+.sm .emoji {
+  font-size: 1rem;
+}

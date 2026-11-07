@@ -1,0 +1,4 @@
+# Build outputs of crates/octapass-mobile/scripts
+OctaPassVaultFFI.xcframework/
+.testing/
+.build/

@@ -1,0 +1,58 @@
+{
+  "account": {
+    "accountSalt": "y244feHmI0qkX03wCotirQ",
+    "email": "alice@example.com",
+    "kdf": {
+      "algorithm": "argon2id",
+      "iterations": 3,
+      "memoryKib": 65536,
+      "parallelism": 1
+    },
+    "publicEncKey": "wO988NXNdb1QqvaLM03zV7EoCpO9ITDdjGVO8yGjS0E",
+    "publicSignKey": "hDNTalInthBYh4GRTV7ZiDIpRfQ_wg4FiQs4sMb5pvY",
+    "recoveryWrappedAsk": "Ab7gQ0E4t3k8tdklXZeVktiN_OpcFjVD_io1F-GbmgS33-qa-Yui5a4Cl-GUYk_lsH6w-oODD-263XF0Yq_AUTkWLJqKi_JoWKog6fg7Yy1FmtcDElUxRBs",
+    "wrappedAsk": "AcORKflcNnwOwByA6dIIQuBdtHh-KQg21mJt1r9DJa5ueX9suuAu6jMf_lO1WdY1RMD9tvS9lS6r6DKhvBfDh6C9-3bBk9YT7H2W-6KMrEMYZz_XSBn0W-w",
+    "wrappedPrivateKeys": "AfyVB28ExIshRSNWDvE7GgB4HVY-u5GA2ADeHAfg-nyjHPBqOIoOTbbZvL5DSQiZCSrIvyd0Uw9xrzzKhr1KsDpG51IjSpcf60LXQltDEBjcKEg2z5Ibuf8CRGeCXvG3wrMklnktmpb6ZOtkCyYHTzHsgGL-YhdtBw"
+  },
+  "ask": "B5bLKFcRAv8G6irSaTOhfoIlhYoIUnDXIdAoQyuCToQ",
+  "auk": "OGYSmB4gHHKpELJrmgSnkgLFdank_1vWoltULR5k558",
+  "authSecret": "4Q9MnukKP5zxaFuyOCKhVWvaJaswCdtr8NvN9V3e5rk",
+  "description": "A complete account as created at sign-up, plus one encrypted item. Unlock with password + secretKey, or with recoveryCode.",
+  "input": {
+    "email": "alice@example.com",
+    "nowMs": 1761177600000,
+    "password": "correct horse battery staple"
+  },
+  "item": {
+    "encrypted": {
+      "details": "AcYbv0_P-R6pSxl0woIYtfT8Zcv3NzIJLPVrVpug-rnpcA9T6RJ2GoGumH-KU8YasCpiBsmF_dQLD6KDdB9_pJrJd34ACisxayLa-EFtD-VleUN8M2mcppaKzAffDHbC6tM82azu6YRFYYHIV2_XhW4gcpNl0ve1n-nJaxQmMK2femL-EVpOPRiABY-5TQ",
+      "encryptedItemKey": "ARt0xEATLmSvPfzrYOkZitnCrB6QKYAXZ2WthRPuv34nd5e4wYSt7OulZbKzn2d5IwTi925aHi8C2JzsqOAa3p0SK3J3ZH0xebB2RZpqlQqTJpHk3zG_mO0",
+      "overview": "AcYbv0_P-R6pSxl0woIYtfS4qCEGqRPY8gvwp7nnP3LD572kZrRrQbpHHnRxytD_GcxyD5OeRSf97cV-ikFRv7NPYwtwYIO8D_ue1Eqgfi8YgOeXeTiOWkYr84vYOmR98f1_gROyDwAAYH7J4H9u3DzDYX-IG4KBFQ2wYXdefOPAnOMOvSswvLah"
+    },
+    "itemId": "019a0e5d-8000-7d10-b029-2db40650ce29",
+    "plaintext": {
+      "details": {
+        "password": "hunter2",
+        "schemaVersion": 1,
+        "totp": "JBSWY3DPEHPK3PXP",
+        "username": "alice"
+      },
+      "overview": {
+        "schemaVersion": 1,
+        "title": "GitHub",
+        "type": "login",
+        "urls": [
+          "https://github.com"
+        ]
+      }
+    },
+    "vaultId": "019a0e5d-8000-7f9a-ad9f-ae4e2eb3b700"
+  },
+  "personalVault": {
+    "id": "019a0e5d-8000-7f9a-ad9f-ae4e2eb3b700",
+    "wrappedVaultKey": "AfyVB28ExIshRSNWDvE7GgC0QKkEMJk18Yb1Br6aP6Bf72TVRnCnpQcEce4SK-xI67KdSC9qzQMguYTnMDxqaR5YrILKWYmbMZTtfFoiTOmGPoGhhQ2dK6U"
+  },
+  "personalVaultKey": "OADA57Tq13hx9UXzyFqtVhu8tuGgBE-Gewl8fnKjSh4",
+  "recoveryCode": "NCYW3-TCK16-BV463-58ENQ-ZR1CS-NSQ39-MP5R7-VFF8J-KH17Z-1T8MY-5ZRP8",
+  "secretKey": "OP1-F1VMM6-300F6T-YWYZX-Z752V-PYNG"
+}

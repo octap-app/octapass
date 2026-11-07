@@ -67,7 +67,7 @@ describe('moving a vault to another account', () => {
     await page.getByRole('button', { name: 'Save' }).click();
     await page.getByRole('heading', { name: LOGIN.title }).waitFor();
     await page.getByRole('button', { name: 'New item' }).click();
-    await page.getByRole('menuitem', { name: 'Document' }).click();
+    await page.getByRole('menuitem', { name: 'Document', exact: true }).click();
     await page.getByRole('textbox', { name: 'Title' }).fill(DOCUMENT.title);
     await page.getByTestId('file-input').setInputFiles({ name: DOCUMENT.name, mimeType: 'text/plain', buffer: Buffer.from(DOCUMENT.text) });
     await page.getByText('Uploaded when you save').waitFor();

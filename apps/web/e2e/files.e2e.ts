@@ -67,7 +67,7 @@ describe('files on the real server', () => {
 
   it('saves a Document whose file the server stores only encrypted', async () => {
     await page.getByRole('button', { name: 'New item' }).click();
-    await page.getByRole('menuitem', { name: 'Document' }).click();
+    await page.getByRole('menuitem', { name: 'Document', exact: true }).click();
     await page.getByRole('textbox', { name: 'Title' }).fill(LEASE.title);
     await page.getByTestId('file-input').setInputFiles({ name: LEASE.name, mimeType: 'text/plain', buffer: Buffer.from(LEASE.text) });
     await page.getByText('Uploaded when you save').waitFor();

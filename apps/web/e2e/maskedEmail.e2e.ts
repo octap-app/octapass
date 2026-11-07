@@ -119,7 +119,7 @@ describe('masked email on the real server', () => {
 
     // Reloading would lock the vault, so this goes through the app: Health, then the map.
     await page.getByRole('link', { name: /Health/ }).click();
-    await page.getByRole('link', { name: 'View the recovery map' }).click();
+    await page.getByRole('link', { name: /^Recovery map/ }).click();
     const contact = page.getByRole('region', { name: ALIAS });
     await contact.getByRole('heading', { name: `1 account can be reset through ${ALIAS}` }).waitFor();
     await contact.getByText('Masked email from SimpleLogin').waitFor();

@@ -328,6 +328,7 @@ impl Relay {
 
     /// The single address in the From header. More than one is refused: DMARC exempts such
     /// messages, so allowing them would be a way around the policy check.
+    #[allow(clippy::wrong_self_convention)] // the From header, not a constructor
     fn from_header(&self, parsed: &mail_parser::Message<'_>) -> Option<(Address, Option<String>)> {
         let mut all = parsed.all_from();
         let from = all.next()?;

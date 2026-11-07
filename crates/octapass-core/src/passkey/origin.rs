@@ -57,10 +57,13 @@ impl ClientData {
                     .ok_or(Error::InvalidPasskeyRequest)?
                     .to_ascii_lowercase();
                 // A Chromium extension's own passkey (the Octa Pass extension's Unlock with Touch
-                // ID): its RP ID is its ID, and the browser has checked the origin (plan 05).
-                if is_chromium_extension_id(&rp_id) {
+                // ID), and the browser has checked the origin (plan 05). The page asks for its ID,
+                // but Chrome hands authenticators its origin instead, `chrome-extension://<id>`
+                // (`MaybeGetRelyingPartyIdOverride`): that is the RP ID it hashes and checks.
+                let extension = rp_id.strip_prefix("chrome-extension://").unwrap_or(&rp_id);
+                if is_chromium_extension_id(extension) {
                     return Ok(Relying {
-                        origin: format!("chrome-extension://{rp_id}"),
+                        origin: format!("chrome-extension://{extension}"),
                         rp_id,
                         top_origin: None,
                     });
@@ -337,11 +340,26 @@ mod tests {
             relying.origin,
             "chrome-extension://oojckfebkmiogiahdggohbdnndbfcjnm"
         );
+        // What Chrome actually hands an authenticator: the extension's origin.
+        let relying = platform
+            .relying(Some("chrome-extension://oojckfebkmiogiahdggohbdnndbfcjnm"))
+            .unwrap();
+        assert_eq!(
+            relying.rp_id,
+            "chrome-extension://oojckfebkmiogiahdggohbdnndbfcjnm"
+        );
+        assert_eq!(
+            relying.origin,
+            "chrome-extension://oojckfebkmiogiahdggohbdnndbfcjnm"
+        );
         // Near misses, and a page claiming an extension's ID, are still refused.
         for rp_id in [
             "oojckfebkmiogiahdggohbdnndbfcjn",
             "oojckfebkmiogiahdggohbdnndbfcjnz",
             "oojckfebkmiogiahdggohbdnndbfcjnm.",
+            "chrome-extension://oojckfebkmiogiahdggohbdnndbfcjnm/",
+            "chrome-extension://example.com",
+            "moz-extension://oojckfebkmiogiahdggohbdnndbfcjnm",
         ] {
             assert_eq!(
                 platform.relying(Some(rp_id)).unwrap_err(),

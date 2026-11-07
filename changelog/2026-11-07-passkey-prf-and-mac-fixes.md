@@ -19,7 +19,7 @@ See [Octa Pass Safe](/docs/features/octa-pass-safe/#sync).
 
 - **SSH agent:** it no longer fails with "operation not permitted". It tried to change its socket folder's permissions, and the sandbox doesn't allow that for the app's group container, which already has the right ones.
 - **Firefox:** Settings → Browser extension → Connect lists Firefox even when Firefox hasn't made `~/Library/Application Support/Mozilla` yet. The app now creates it when Firefox is in Applications, and the sandbox exception covers that folder (plan 19).
-- **Health:** a check's list, the recovery map and an item's list of logins sharing its password close when you pick something else in the sidebar. They used to stay in the right-hand column, beside All items or Safes.
+- **Health:** a check opens in place of the Health list, with a back button to it, and the logins in it open on the right. Picking something else in the sidebar closes both. A check's list and the recovery map used to stay in the right-hand column, beside All items or Safes, and the back button showed as a thin pill.
 - **AutoFill:** when it can't save a passkey because it isn't for a website, it says so, and suggests Passwords or a security key. It also writes the real reason for any failure to the system log.
 
 **Browser extension:** the long "Unlock with Touch ID in the desktop app" button wraps instead of running past its edge.

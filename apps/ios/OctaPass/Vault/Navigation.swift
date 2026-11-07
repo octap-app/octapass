@@ -204,16 +204,17 @@ enum Route: Hashable {
     case reusedPasswords(String)
 }
 
-/// A link from a list in the middle column to a page beside it. On the Mac the page starts the
-/// detail column's stack over (`DetailEditor`): a link there doesn't reach that stack, and a page
-/// pushed outside it stays when the sidebar moves on. Elsewhere it's a plain value link.
-struct RouteLink<Label: View>: View {
+/// A link to a page for the detail column. In the Mac's middle column it starts that column's stack
+/// over (`DetailEditor`): a link there would open the page in the middle column. Elsewhere, the
+/// detail column included, it's a plain value link.
+struct DetailLink<Label: View>: View {
     @Environment(\.detailEditor) private var detailEditor
+    @Environment(\.middleColumn) private var middleColumn
     let route: Route
     @ViewBuilder let label: () -> Label
 
     var body: some View {
-        if let detailEditor {
+        if middleColumn, let detailEditor {
             let open = detailEditor.path.first == route
             Button { detailEditor.navigate([route]) } label: {
                 label().contentShape(Rectangle())

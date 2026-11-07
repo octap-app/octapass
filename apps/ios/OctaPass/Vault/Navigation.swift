@@ -209,12 +209,12 @@ enum Route: Hashable {
 /// detail column included, it's a plain value link.
 struct DetailLink<Label: View>: View {
     @Environment(\.detailEditor) private var detailEditor
-    @Environment(\.middleColumn) private var middleColumn
+    @Environment(\.openInMiddle) private var openInMiddle
     let route: Route
     @ViewBuilder let label: () -> Label
 
     var body: some View {
-        if middleColumn, let detailEditor {
+        if openInMiddle != nil, let detailEditor {
             let open = detailEditor.path.first == route
             Button { detailEditor.navigate([route]) } label: {
                 label().contentShape(Rectangle())
@@ -222,6 +222,30 @@ struct DetailLink<Label: View>: View {
             .buttonStyle(.plain)
             .listRowBackground(open ? RoundedRectangle(cornerRadius: 8).fill(Color.trust.opacity(0.18)).padding(.horizontal, 6) : nil)
             .accessibilityAddTraits(open ? .isSelected : [])
+        } else {
+            NavigationLink(value: route, label: label)
+        }
+    }
+}
+
+/// Opens a page in the Mac's middle column (`SplitShell`).
+struct MiddleOpener {
+    let open: (Route) -> Void
+}
+
+/// A link from a list in the Mac's middle column to a page that takes the list's place there (a
+/// Health check, the recovery map). Elsewhere it's a plain value link.
+struct MiddleLink<Label: View>: View {
+    @Environment(\.openInMiddle) private var openInMiddle
+    let route: Route
+    @ViewBuilder let label: () -> Label
+
+    var body: some View {
+        if let openInMiddle {
+            Button { openInMiddle.open(route) } label: {
+                label().frame(maxWidth: .infinity, alignment: .leading).contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
         } else {
             NavigationLink(value: route, label: label)
         }

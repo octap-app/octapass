@@ -245,12 +245,12 @@ private struct HealthReportList: View {
                 }
             }
             Section {
-                NavigationLink(value: Route.recoveryMap) {
+                MiddleLink(route: .recoveryMap) {
                     Label(L10n.health.viewRecoveryMap, systemImage: "point.3.connected.trianglepath.dotted")
                 }
                 .accessibilityIdentifier("recovery-map")
                 if !report.dismissed.isEmpty {
-                    NavigationLink(value: Route.healthCheck(.dismissed)) {
+                    MiddleLink(route: .healthCheck(.dismissed)) {
                         Label(L10n.health.dismissedCount(count: report.dismissed.count), systemImage: HealthCheck.dismissed.icon)
                     }
                     .accessibilityIdentifier("health-dismissed")
@@ -261,7 +261,7 @@ private struct HealthReportList: View {
 
     /// A check and its count; opens the check's list.
     private func checkRow(_ check: HealthCheck, value: String, clear: Bool, off: Bool = false) -> some View {
-        NavigationLink(value: Route.healthCheck(check)) {
+        MiddleLink(route: .healthCheck(check)) {
             HStack {
                 Label(check.title, systemImage: clear ? "checkmark.circle" : check.icon)
                     .foregroundStyle(clear ? Color.freeText : off ? Color.mist : Color.ink)
@@ -375,7 +375,7 @@ struct HealthCheckView: View {
                 ForEach(entries, id: \.entry.itemId) { row($0.entry, subtitle: $0.email, tag: L10n.health.recoveryResets(count: Int($0.accounts)), tone: .warn) }
             }
             Section {
-                NavigationLink(value: Route.recoveryMap) {
+                MiddleLink(route: .recoveryMap) {
                     Label(L10n.health.viewRecoveryMap, systemImage: "point.3.connected.trianglepath.dotted")
                 }
             }

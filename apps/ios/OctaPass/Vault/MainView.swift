@@ -142,26 +142,21 @@ private struct SplitShell: View {
         .task(id: model.itemsVersion &+ model.sharingVersion) { await directory.load(model.vault) }
     }
 
-    /// What the sidebar chose. On the Mac it's the root of a stack of its own, so a page opened from
-    /// it replaces it, with a back button; an item opened from such a page goes to the detail column
-    /// (`DetailLink`). Elsewhere a link in this column reaches the detail column's stack.
-    @ViewBuilder
+    /// What the sidebar chose, or on the Mac a page opened from it (a Health check) in its place,
+    /// with a back button. Not a stack of its own: the column stays as the split view lays it out.
+    /// An item opened from such a page goes to the detail column (`DetailLink`).
     private var middle: some View {
-        let chosen = Group {
-            if let selection {
+        Group {
+            if let page = listPath.last {
+                MiddlePage(route: page) { listPath.removeLast() }
+            } else if let selection {
                 RouteView(route: selection)
             } else {
                 NoSelectionView()
             }
         }
-        if Self.editsInDetail {
-            NavigationStack(path: $listPath) {
-                chosen.navigationDestination(for: Route.self) { MiddlePage(route: $0, path: $listPath) }
-            }
-            .environment(\.middleColumn, true)
-        } else {
-            chosen.navigationDestination(for: Route.self) { RouteView(route: $0) }
-        }
+        .environment(\.openInMiddle, Self.editsInDetail ? MiddleOpener { listPath.append($0) } : nil)
+        .navigationDestination(for: Route.self) { RouteView(route: $0) }
     }
 
     #if os(macOS)
@@ -265,20 +260,18 @@ private struct NewSafePage: View {
     }
 }
 
-/// A page opened in the Mac's middle column, with a back button of the Mac's own: the stack's would
-/// take the window's borderless text style (`SceneRoot`) and show as a thin pill.
+/// A page opened in the Mac's middle column, in place of the list it came from, with a back button
+/// to that list (a toolbar item: the Mac's toolbar button, see MacControls.swift).
 private struct MiddlePage: View {
     let route: Route
-    @Binding var path: [Route]
+    let back: () -> Void
 
     var body: some View {
         RouteView(route: route)
-            .navigationBarBackButtonHidden(true)
+            .id(route)
             .toolbar {
                 ToolbarItem(placement: .navigation) {
-                    Button {
-                        if !path.isEmpty { path.removeLast() }
-                    } label: {
+                    Button(action: back) {
                         Image(systemName: "chevron.backward")
                     }
                     .help(L10n.common.back)
@@ -291,8 +284,8 @@ private struct MiddlePage: View {
 extension EnvironmentValues {
     /// The Mac's detail-column editor; nil on the iPhone and iPad.
     @Entry var detailEditor: DetailEditor?
-    /// In the Mac's middle column, whose links to an item open it in the detail column.
-    @Entry var middleColumn = false
+    /// The Mac's middle column: opens a page there, in place of the list. Nil elsewhere.
+    @Entry var openInMiddle: MiddleOpener?
 }
 
 /// What the Mac's menu commands act on: the list showing (New item) and the item open (copy).

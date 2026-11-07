@@ -44,7 +44,8 @@ In the browser extension, save and update prompts are cards in the page's corner
 - The title says what Octa Pass will do: **Save this login?** or **Update the saved password?** The site's host is on its own line under it.
 - A panel shows the username and the password, masked. The dots are always the same length, so they don't give away how long the password is.
 - **Save** or **Update** does it. **×** is **Not now**. **Never for this site** is a quiet link at the foot of the card.
-- Short messages, such as *Saved in Octa Pass*, close by themselves. A thin bar shows how long is left, and pointing at the message or moving focus into it pauses it.
+- Short messages, such as *One-time code copied*, close by themselves. A thin bar shows how long is left, and pointing at the message or moving focus into it pauses it.
+- *Saved in Octa Pass* after you use a suggested password stays until you close it. When you send the sign-up form, the login is confirmed and the message goes.
 
 ## The in-page list
 
@@ -57,6 +58,8 @@ The list has:
 - dividers between kinds of suggestion, such as logins, a suggested password and a masked email
 - the suggested password in a monospace box, so it's easy to read
 - a footer with the keys to use: **↑↓ Move · ↵ Choose**
+
+Clicking the Octa Pass icon in a field, or pressing **↓**, always opens the list. When your vault has nothing for that field, the list says **Nothing saved for this field**. Clicking into such a field opens nothing.
 
 The extension tries to stay light on the page:
 

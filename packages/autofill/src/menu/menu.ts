@@ -22,6 +22,8 @@ export interface MenuLabels {
   /** The footer's keyboard hints: next to ↑↓, and next to ↵. */
   hintMove: string;
   hintPick: string;
+  /** The menu asked for (the field's icon, ArrowDown) where the vault has nothing for the field. */
+  empty: string;
 }
 
 export const DEFAULT_LABELS: MenuLabels = {
@@ -38,6 +40,7 @@ export const DEFAULT_LABELS: MenuLabels = {
   otherLoginDetail: '{username} on {host}',
   hintMove: 'Move',
   hintPick: 'Choose',
+  empty: 'Nothing saved for this field',
 };
 
 export type Theme = 'system' | 'light' | 'dark';
@@ -143,6 +146,8 @@ export class Menu {
   private readonly site: HTMLElement;
   private readonly dot: HTMLElement;
   private readonly list: HTMLElement;
+  private readonly foot: HTMLElement;
+  private readonly emptyText: string;
   private items: { entry: Entry; element: HTMLElement }[] = [];
   /** Each SVG parsed once, then cloned for every row that draws it. */
   private readonly svgs = new Map<string, Element>();
@@ -171,8 +176,9 @@ export class Menu {
     this.list.setAttribute('role', 'listbox');
     this.list.setAttribute('aria-label', labels.menu);
 
-    const foot = this.element('div', 'foot');
+    const foot = (this.foot = this.element('div', 'foot'));
     foot.setAttribute('aria-hidden', 'true');
+    this.emptyText = labels.empty;
     const hint = (keys: string[], text: string) => {
       const span = this.element('span', 'hint');
       span.append(...keys.map((key) => this.element('kbd', '', key)), text);
@@ -281,6 +287,14 @@ export class Menu {
       rows.push(element);
       return { entry, element };
     });
+    if (entries.length === 0) {
+      // Asked for, with nothing to offer: say so rather than open nothing.
+      const empty = this.element('div', 'empty', this.emptyText);
+      empty.setAttribute('role', 'option');
+      empty.setAttribute('aria-disabled', 'true');
+      rows.push(empty);
+    }
+    this.foot.hidden = entries.length === 0;
     this.list.replaceChildren(...rows);
     this.list.scrollTop = 0;
   }

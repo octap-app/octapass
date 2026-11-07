@@ -233,6 +233,7 @@
     "otherLoginDetail": "{username} on {host}",
     "hintMove": "Move",
     "hintPick": "Choose",
+    "empty": "Nothing saved for this field",
     "unlock": "Unlock Octa Pass"
   },
   "qr": {

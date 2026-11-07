@@ -199,7 +199,7 @@ class Engine implements Autofill {
       options.theme ?? 'system',
     );
     this.icon = new FieldIcon(this.doc, this.labels.icon, (event) => {
-      if (this.trusted(event)) void this.openMenu(false);
+      if (this.trusted(event)) void this.openMenu(false, true);
     });
     this.tracker = new VisibilityTracker((this.doc.defaultView ?? window) as Window & typeof globalThis);
     this.detector = new SaveDetector({
@@ -436,7 +436,7 @@ class Engine implements Autofill {
       }
       event.preventDefault();
       if (this.menu.isOpen) this.menu.focusFirst();
-      else void this.openMenu(true);
+      else void this.openMenu(true, true);
     } else if (event.key === 'Escape' && this.menu.isOpen && target === this.active?.field.element) {
       event.preventDefault();
       this.closeMenu();
@@ -596,7 +596,8 @@ class Engine implements Autofill {
     };
   }
 
-  private async openMenu(focus: boolean): Promise<void> {
+  /** `asked`: the user asked for the menu (the field's icon, ArrowDown), so an empty one says so. */
+  private async openMenu(focus: boolean, asked = false): Promise<void> {
     const active = this.active;
     if (!active) return;
     if (this.menu.isOpen) {
@@ -618,7 +619,7 @@ class Engine implements Autofill {
     if (this.active?.token !== active.token || this.menu.isOpen) return;
     active.all = suggestions;
     const shown = this.visible(active, suggestions);
-    if (shown.length === 0) return;
+    if (shown.length === 0 && !asked) return;
     active.request = request;
     this.showMenu(active, shown, focus);
   }

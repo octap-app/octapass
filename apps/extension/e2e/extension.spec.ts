@@ -359,6 +359,20 @@ test('imports authenticator links, and the review links one to a login with the 
   await app.close();
 });
 
+test('keeps the app tab in place when a box in the editor is ticked', async () => {
+  const app = await openApp();
+  await app.getByRole('link', { name: 'All items' }).click();
+  await itemLink(app, LOGIN.title).click();
+  await app.getByRole('button', { name: 'Edit', exact: true }).click();
+  await app.getByRole('button', { name: 'Add a field' }).click();
+  await app.getByRole('checkbox', { name: 'Hide this value' }).click();
+  await expect(app.getByRole('checkbox', { name: 'Hide this value' })).toBeChecked();
+  // The checkbox's hidden input used to sit outside the editor's scrolling pane, and focusing it
+  // scrolled the whole page away: a blank (in dark mode, black) tab.
+  expect(await app.evaluate(() => [scrollX, scrollY])).toEqual([0, 0]);
+  await app.close();
+});
+
 test('shows the app tab, its settings and the page’s menu in Arabic, right to left', async () => {
   const settings = await openApp();
   await settings.getByRole('link', { name: 'Settings' }).click();

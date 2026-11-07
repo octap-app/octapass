@@ -29,6 +29,8 @@ ${RESET}
 .list { padding: 2px 6px 6px; max-height: ${LIST_MAX_HEIGHT}px; overflow-y: auto; overscroll-behavior: contain;
   outline: none; scrollbar-width: thin; }
 .sep { height: 1px; background: var(--line); margin: 4px 8px; }
+.empty { padding: 10px 8px 6px; color: var(--mist); font-size: var(--text-sm); }
+.foot[hidden] { display: none; }
 
 .item { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 6px 8px; border-radius: var(--radius-sm);
   cursor: pointer; outline: none; color: var(--ink); font-size: var(--text-sm); }

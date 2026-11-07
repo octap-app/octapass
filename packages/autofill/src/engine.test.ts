@@ -45,6 +45,9 @@ function menuHost(): HTMLElement | undefined {
 }
 
 /** The menu's options, placed at y 300–400 and reported on top there, as a browser would. */
+/** The menu's one row when it's asked for with nothing to offer. */
+const NOTHING = 'Nothing saved for this field';
+
 function options(): HTMLElement[] {
   const host = menuHost();
   if (!host) return [];
@@ -483,7 +486,9 @@ describe('createAutofill', () => {
     it('is only in sign-in fields, and never fills by itself', async () => {
       html(`${LOGIN_FORM}<form><input id="n" type="password" autocomplete="new-password"><button>Sign up</button></form>`);
       const host = start([OTHERS]);
-      expect(await openMenu('n')).toEqual([]);
+      // Asked for with ArrowDown: it says there's nothing, rather than not opening.
+      expect((await openMenu('n')).map((o) => o.textContent)).toEqual([NOTHING]);
+      press(field('n'), 'Escape');
       const [quiet] = await openMenu('p');
       expect(quiet!.textContent).toBe('Logins for other parts of example.com');
       expect(host.resolve).not.toHaveBeenCalled();
@@ -493,7 +498,17 @@ describe('createAutofill', () => {
     it('takes no sibling the host sent as a suggestion of its own, nor an empty list', async () => {
       html(LOGIN_FORM);
       start([{ kind: 'other-login', id: 's1', title: 'Shop', host: 'shop.example.com' }, { ...OTHERS, logins: [] } as Suggestion]);
-      expect(await openMenu('u')).toEqual([]);
+      expect((await openMenu('u')).map((o) => o.textContent)).toEqual([NOTHING]);
+    });
+
+    it('opens nothing on a click into a field it has nothing for, but says so when asked', async () => {
+      html(LOGIN_FORM);
+      start([], { testing: { trustAllEvents: true } });
+      field('u').focus();
+      field('u').dispatchEvent(new MouseEvent('click', { bubbles: true, composed: true }));
+      await flush();
+      expect(options()).toEqual([]);
+      expect((await openMenu('u')).map((o) => o.textContent)).toEqual([NOTHING]);
     });
 
     it('expands and fills only on the user’s own picks, with the usual checks', async () => {

@@ -154,6 +154,16 @@ describe('toasts', () => {
     expect(hosts()).toHaveLength(0);
   });
 
+  it('with `stay`, wait to be closed, with no bar', () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'performance'] });
+    const close = showToast('Saved in Octa Pass', 'Marked “Unconfirmed” until you finish signing up.', { dismiss: 'Dismiss', stay: true });
+    vi.advanceTimersByTime(60_000);
+    expect(hosts()).toHaveLength(1);
+    expect(cards()[0]!.querySelector('.progress')).toBeNull();
+    close();
+    expect(hosts()).toHaveLength(0);
+  });
+
   it('keep at most three, pushing the oldest out', () => {
     for (const title of ['one', 'two', 'three', 'four']) showToast(title);
     expect(cards().map((c) => c.querySelector('.title')!.textContent)).toEqual(['four', 'three', 'two']);

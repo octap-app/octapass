@@ -263,12 +263,14 @@ function closeButton(label: string, onClose: () => void): HTMLButtonElement {
 export interface ToastOptions {
   /** How long it shows; hovering or focusing it pauses the clock. */
   ms?: number;
+  /** Stays until it's closed, by the user or by the caller: no clock and no bar. */
+  stay?: boolean;
   /** The close button's accessible name. */
   dismiss?: string;
 }
 
-/** A confirmation that goes away by itself, with a bar that shows how long it has left. */
-export function showToast(title: string, detail?: string, { ms = 4000, dismiss = 'Dismiss' }: ToastOptions = {}): () => void {
+/** A confirmation that goes away by itself, with a bar that shows how long it has left (or, with `stay`, stays). */
+export function showToast(title: string, detail?: string, { ms = 4000, dismiss = 'Dismiss', stay = false }: ToastOptions = {}): () => void {
   const card = el('section', 'card toast');
   card.setAttribute('role', 'status');
   card.setAttribute('aria-live', 'polite');
@@ -288,6 +290,7 @@ export function showToast(title: string, detail?: string, { ms = 4000, dismiss =
     remove(card);
   };
   const run = () => {
+    if (stay) return;
     started = performance.now();
     timer = setTimeout(close, remaining);
   };
@@ -309,7 +312,7 @@ export function showToast(title: string, detail?: string, { ms = 4000, dismiss =
   // After focus has moved: still inside, it stays paused.
   card.addEventListener('focusout', () => void setTimeout(resume));
 
-  card.append(tile(), text, closeButton(dismiss, close), progress);
+  card.append(tile(), text, closeButton(dismiss, close), ...(stay ? [] : [progress]));
   closers.set(card, close);
   add(card);
   run();

@@ -243,6 +243,7 @@ const en = {
     otherLoginDetail: '{username} on {host}',
     hintMove: 'Move',
     hintPick: 'Choose',
+    empty: 'Nothing saved for this field',
     unlock: 'Unlock Octa Pass',
   },
   qr: {
@@ -491,6 +492,7 @@ const ar: Translation<typeof en> = {
     otherLoginDetail: '{username} على {host}',
     hintMove: 'تنقّل',
     hintPick: 'اختيار',
+    empty: 'لا شيء محفوظ لهذا الحقل',
     unlock: 'فتح قفل Octa Pass',
   },
   qr: {

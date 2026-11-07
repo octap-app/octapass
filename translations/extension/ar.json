@@ -237,6 +237,7 @@
     "otherLoginDetail": "{username} على {host}",
     "hintMove": "تنقّل",
     "hintPick": "اختيار",
+    "empty": "لا شيء محفوظ لهذا الحقل",
     "unlock": "فتح قفل Octa Pass"
   },
   "qr": {

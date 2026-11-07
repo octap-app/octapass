@@ -1,4 +1,7 @@
 .checkbox {
+  /* Holds the hidden input. Without it the input is placed against the page, outside any scrolling
+     pane, and focusing it (a click on the label) scrolled the whole page to where it sat. */
+  position: relative;
   display: inline-flex;
   align-items: flex-start;
   gap: 0.65rem;
@@ -8,6 +11,9 @@
 
 .input {
   position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  margin: 0;
   opacity: 0;
   inline-size: 1px;
   block-size: 1px;

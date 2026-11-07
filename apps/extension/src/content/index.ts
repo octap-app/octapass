@@ -24,7 +24,7 @@ const language = ask<LanguagePreference>({ type: 'language' }).then(
 
 function menuLabels(): MenuLabels {
   const key = (name: keyof MenuLabels) => tx(`menu.${name}`);
-  return { menu: key('menu'), icon: key('icon'), suggestedPassword: key('suggestedPassword'), maskedEmail: key('maskedEmail'), needsSetup: key('needsSetup'), oneTimeCode: key('oneTimeCode'), noUsername: key('noUsername'), allowFrame: key('allowFrame'), frameNotice: key('frameNotice'), otherLogins: key('otherLogins'), otherLoginDetail: key('otherLoginDetail'), hintMove: key('hintMove'), hintPick: key('hintPick') };
+  return { menu: key('menu'), icon: key('icon'), suggestedPassword: key('suggestedPassword'), maskedEmail: key('maskedEmail'), needsSetup: key('needsSetup'), oneTimeCode: key('oneTimeCode'), noUsername: key('noUsername'), allowFrame: key('allowFrame'), frameNotice: key('frameNotice'), otherLogins: key('otherLogins'), otherLoginDetail: key('otherLoginDetail'), hintMove: key('hintMove'), hintPick: key('hintPick'), empty: key('empty') };
 }
 
 function maskedEmailHint(code: string) {
@@ -88,11 +88,22 @@ function unlockTitle(suggestions: Suggestion[]): Suggestion[] {
   return suggestions.map((s) => (s.kind === 'login' ? { ...s, title: tx('menu.unlock'), pinned: true } : s.kind === 'api-credential' ? { ...s, title: tx('menu.unlock') } : s));
 }
 
+/** The notice for a suggested password saved as "Unconfirmed": up until it's closed, or the sign-up goes through. */
+let closeDraft: (() => void) | undefined;
+
 async function onSave({ url: _url, ...report }: SaveReport): Promise<void> {
   const response = await ask<SaveResponse>({ type: 'save', report });
   if (!response) return;
   if ('prompt' in response) prompt(response.prompt);
-  else if (response.saved === 'draft') toast(tx('page.savedDraft'), tx('page.savedDraftBody'));
+  else if (response.saved === 'draft') {
+    closeDraft?.();
+    closeDraft = showToast(tx('page.savedDraft'), tx('page.savedDraftBody'), { dismiss: tx('page.dismiss'), stay: true });
+  } else if (response.saved === 'confirmed' && closeDraft) {
+    // The form went in with that password: the login is confirmed, so the notice says so and goes.
+    closeDraft();
+    closeDraft = undefined;
+    toast(tx('page.savedDraft'));
+  }
 }
 
 async function onSaveDetails({ url: _url, ...report }: DetailsSaveReport): Promise<void> {

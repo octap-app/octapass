@@ -30,11 +30,11 @@ sidebar:
 ## من سطر الأوامر
 
 ```bash
-octapass encrypt plan.pdf                    # plan.pdf.age، لك
-octapass encrypt photos/                     # photos.tar.age: يصبح المجلد ملفًا واحدًا
+octapass encrypt plan.pdf                    # plan.pdf.age, for you
+octapass encrypt photos/                     # photos.tar.age: a folder becomes one file
 octapass encrypt --to grace@example.com a.txt
-octapass encrypt --passphrase --armor a.txt  # نص، للّصق في بريد إلكتروني
-tar c src | octapass encrypt -o src.tar.age  # من الإدخال القياسي إلى ملف
+octapass encrypt --passphrase --armor a.txt  # text, for pasting into an email
+tar c src | octapass encrypt -o src.tar.age  # stdin to a file
 octapass decrypt plan.pdf.age                # plan.pdf
 octapass decrypt photos.tar.age              # photos/
 ```
@@ -46,8 +46,8 @@ octapass decrypt photos.tar.age              # photos/
 ## دون Octa Pass
 
 ```bash
-octapass file-key                          # مفتاحك العام: age1…
-octapass file-key --export -o my-key.txt   # مفتاحك السري، لا يقرؤه غيرك
+octapass file-key                          # your public key: age1…
+octapass file-key --export -o my-key.txt   # your secret key, for this user's eyes only
 age -d -i my-key.txt plan.pdf.age > plan.pdf
 tar xf <(age -d -i my-key.txt photos.tar.age)
 ```

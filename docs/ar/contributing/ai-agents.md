@@ -53,6 +53,31 @@ python3 skills/octapass-docs/scripts/search_docs.py --remote "self-hosting postg
 | Claude Code (مشروع واحد) | انسخها إلى `.claude/skills/octapass-docs/` داخل ذلك المشروع |
 | وكلاء آخرون (Codex وCursor وCopilot…) | أشر إليها من ملف `AGENTS.md` في مشروعك، مثلًا: "To answer questions about Octa Pass, follow `skills/octapass-docs/SKILL.md`." |
 
+## خادم MCP للتوثيق
+
+يمنح `octapass-docs-mcp` أي عميل يدعم [Model Context Protocol](https://modelcontextprotocol.io) البحثَ نفسه الذي تقدّمه المهارة، في صورة أدوات. وهو ملف Python واحد بلا اعتماديات، يحتاج إلى Python 3.9 أو أحدث، ويتواصل عبر stdio، فلا شيء يستمع على أي منفذ ولا يحتاج إلى حساب.
+
+| الأداة | ما تفعله |
+|---|---|
+| `search_docs` | تبحث في التوثيق. تأخذ `query` و`limit` اختياريًا (1–20). تُرجع لكل نتيجة عنوانها وقسمها وحالتها ورابطها وصفحتها ومقتطفًا منها |
+| `get_page` | تُرجع صفحة كاملة واحدة. تأخذ `page`، مثل `security/encryption` |
+| `list_pages` | تسرد كل الصفحات مع حالة كل منها ووصفها |
+
+الأدوات الثلاث للقراءة فقط. أضف الخادم إلى إعدادات MCP في عميلك. داخل نسخة من المستودع يقرأ المجلد `docs/`:
+
+```json
+{
+  "mcpServers": {
+    "octapass-docs": {
+      "command": "python3",
+      "args": ["/path/to/octapass/skills/octapass-docs/scripts/docs_mcp.py"]
+    }
+  }
+}
+```
+
+وخارج نسخة المستودع يقرأ الموقع، أو أضف `"--remote"` إلى `args` لفرض ذلك. يعمل `--docs-dir PATH` و`--base-url URL` كما يعملان مع `search_docs.py`. تبقى استعلامات البحث على حاسوبك: الوضع البعيد لا يفعل سوى تنزيل صفحات التوثيق العامة وتخزينها مؤقتًا ليوم واحد.
+
 ## قواعد الوكلاء العاملين في المستودع
 
 على الوكلاء الذين يغيّرون هذا المستودع اتباع الملف `AGENTS.md` في جذر المستودع. أهم القواعد:

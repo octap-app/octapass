@@ -468,7 +468,7 @@ impl Vault {
                 _ => {}
             }
         }
-        self.delete_device_keys(&account)?;
+        self.delete_device_keys(account)?;
         self.native.delete_chip_key(&account.chip_key_name())?;
         Ok(())
     }

@@ -205,7 +205,7 @@ impl Vault {
             if let Ok(store) = self.open_store(account) {
                 store.disable_device_unlock()?;
             }
-            self.delete_device_keys(&account)?;
+            self.delete_device_keys(account)?;
         }
         // The new kit matters more than signing in, which can be done again by hand.
         let sign_in = self

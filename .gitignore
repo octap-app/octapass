@@ -14,3 +14,6 @@ brand/source/render/
 
 # Python bytecode (the octapass-docs skill scripts and their tests)
 __pycache__/
+
+# Local scratch experiments, never committed
+**/__scratch/

@@ -654,7 +654,7 @@ impl Vault {
         self.native.delete_secret(&account.secret_key_name())?;
         self.native.delete_secret(&account.refresh_token_name())?;
         self.native.delete_secret(&account.trusted_device_name())?;
-        self.delete_device_keys(&account)?;
+        self.delete_device_keys(account)?;
         self.native.set_credential_identities(&[])?;
         self.emit_session();
         Ok(())

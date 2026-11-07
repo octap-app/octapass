@@ -8,7 +8,10 @@ import { freePort, startServer, type TestServer } from '@octapass/vault-client/r
 import { chromium, type Browser } from 'playwright-core';
 import { build, preview, type PreviewServer } from 'vite';
 
-export const CHROME = process.env.CHROME_PATH ?? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+// System Chrome on a Mac; elsewhere (CI) Playwright's own Chromium, from `playwright install chromium`.
+export const CHROME: string | undefined =
+  process.env.CHROME_PATH ??
+  (process.platform === 'darwin' ? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome' : undefined);
 const WEB_ROOT = resolve(import.meta.dirname, '..');
 
 export interface Stack {

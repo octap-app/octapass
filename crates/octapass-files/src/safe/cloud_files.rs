@@ -1981,7 +1981,7 @@ mod tests {
                     prop_assert_eq!(span.offset % TRANSFER_ALIGN, 0);
                     prop_assert!(span.len as u64 <= TRANSFER_LEN);
                     let span_end = span.offset + span.len as u64;
-                    prop_assert!(span_end % TRANSFER_ALIGN == 0 || span_end == size);
+                    prop_assert!(span_end.is_multiple_of(TRANSFER_ALIGN) || span_end == size);
                 }
             }
         }

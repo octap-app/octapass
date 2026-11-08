@@ -41,7 +41,7 @@ impl DesktopService {
             service.stop();
         }
         #[cfg(not(target_os = "macos"))]
-        drop(service);
+        let _ = service;
     }
 }
 
@@ -84,7 +84,7 @@ impl SshAgentHandle {
             agent.stop();
         }
         #[cfg(not(target_os = "macos"))]
-        drop(agent);
+        let _ = agent;
     }
 }
 

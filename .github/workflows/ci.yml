@@ -45,6 +45,11 @@ jobs:
         run: cargo test -p octapass-server
         env:
           OCTAPASS_TEST_POSTGRES_URL: postgres://postgres:postgres@localhost:5432/postgres
+      - name: Agent skills match the docs and the CLI's --help (docs/contributing/ai-agents.md)
+        run: |
+          cargo build -p octapass-cli --all-features --bin octapass
+          python3 -m unittest discover -s skills/octapass-docs/tests
+          OCTAPASS_BIN=target/debug/octapass python3 -m unittest discover -s skills/octapass-cli/tests
 
   apps-rust:
     name: Rust (desktop workspace)

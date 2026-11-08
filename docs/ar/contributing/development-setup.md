@@ -123,6 +123,7 @@ pnpm --filter @octapass/web build                   # type-check and production 
 | `docs/` | هذا التوثيق، ويُقدَّم على `/docs/` |
 | `changelog/` | ملف Markdown واحد لكل تغيير مهم، ويُقدَّم على `/changelog/` |
 | `skills/octapass-docs/` | مهارة الوكيل للاستعلام عن هذا التوثيق |
+| `skills/octapass-cli/` | مهارة الوكيل لاستخدام أداة `octapass` بأمان، مختبرة على مخرجات `--help` |
 | `apps/website/` | موقع Astro + Starlight |
 | `apps/web/` | خزنة الويب (Vite + React) |
 | `packages/ui/` | رموز التصميم ومكوّنات React الأساسية للواجهة |

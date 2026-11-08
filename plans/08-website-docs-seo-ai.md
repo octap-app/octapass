@@ -20,6 +20,7 @@ Hosted-first: the landing page sells the **free Octa Pass service** (hero, "See 
 | `/changelog/rss.xml` | RSS feed of the changelog | Generated |
 | `/llms.txt`, `/llms-full.txt`, `/llms-small.txt` | AI-readable indexes and full-text docs (llmstxt.org convention) | `starlight-llms-txt` plugin |
 | `/skills/octapass-docs/SKILL.md` | The agent skill, downloadable | Repo-root `skills/` folder |
+| `/skills/octapass-cli/SKILL.md` (and its `references/*.md`) | The CLI agent skill, downloadable | Repo-root `skills/` folder |
 | `/robots.txt`, `/sitemap-index.xml` | Crawling | Generated |
 | `/.well-known/security.txt` | RFC 9116 contacts from `SECURITY.md`, with `Expires` a year after the build | Generated endpoint |
 | Later: `/download`, `/security`, `/privacy`, `/terms`, `/status` link, `/s/<id>` (share-link viewer), `/app` (web vault) | | |
@@ -63,6 +64,7 @@ Hosted-first: the landing page sells the **free Octa Pass service** (hero, "See 
 4. **Agent skill** (`skills/octapass-docs/SKILL.md`): teaches Claude Code, Codex and other agents how to search the docs, locally in the repo or remotely through `llms.txt` and the `.md` twins, and how to answer with citations. It includes a zero-dependency search script.
 5. **Stable structure:** front matter (`title`, `description`, `status`) on every page, and one topic per page, so retrieval stays precise.
 6. **MCP server** (`octapass-docs-mcp`, `skills/octapass-docs/scripts/docs_mcp.py`) exposing `search_docs`, `get_page` and `list_pages`, built on the same index.
+7. **CLI agent skill** (`skills/octapass-cli/SKILL.md`): teaches agents to use the `octapass` CLI for a user without exposing secrets. Agents print no secret unless asked, inject secrets with `octapass run` instead of copying them, never handle the master password or Secret Key, and confirm before anything destructive. It's tested against the built CLI's `--help` in CI, so it can't name a command, option or value that doesn't exist, and a new command fails the tests until the skill covers it.
 
 ## Docs information architecture
 

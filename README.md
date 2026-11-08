@@ -109,6 +109,7 @@ More: [architecture](docs/developers/architecture.md) · [sync API](docs/develop
 | [`docs/`](docs/) | Public documentation, served on the website at `/docs/` |
 | [`changelog/`](changelog/) | One dated file per notable change, served at `/changelog/` with RSS |
 | [`skills/octapass-docs/`](skills/octapass-docs/) | Agent skill that lets AI agents search and cite the docs |
+| [`skills/octapass-cli/`](skills/octapass-cli/) | Agent skill that teaches AI agents to use the `octapass` CLI without exposing secrets |
 | [`brand/`](brand/) | Logo, colours, type, voice and image sources |
 | [`apps/website/`](apps/website/) | Astro + Starlight website: landing page, docs, changelog, `llms.txt`, in English and Arabic |
 | [`apps/`](apps/), [`crates/`](crates/), [`packages/`](packages/) | The server, web vault, extension, the native Mac, iOS and Android apps, the Windows and Linux desktop app, and the Rust core. See [architecture](docs/developers/architecture.md) |
@@ -134,6 +135,7 @@ The docs are built to be read by machines too:
 - [`/llms.txt`](https://octap.app/llms.txt), `/llms-small.txt` and `/llms-full.txt`
 - Every docs page as Markdown: add `.md` to its URL (e.g. `/docs/security/encryption.md`)
 - The [`octapass-docs` skill](skills/octapass-docs/SKILL.md) with a zero-dependency search script. Copy the folder into `~/.claude/skills/` (or your agent's skills folder).
+- The [`octapass-cli` skill](skills/octapass-cli/SKILL.md), so an agent can use the `octapass` CLI for you: reading items, running commands with secrets injected, CI with service accounts. Its rules keep secrets out of the agent's output, and its tests check every command it names against the CLI's `--help`.
 - Repository rules for agents: [`AGENTS.md`](AGENTS.md)
 
 ## Contributing

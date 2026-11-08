@@ -1,6 +1,6 @@
 ---
 title: Docs for AI agents
-description: How AI agents and LLM tools can read the Octa Pass docs through llms.txt, Markdown twins and the octapass-docs agent skill, and the rules agents follow in the repo.
+description: How AI agents read the Octa Pass docs through llms.txt, Markdown twins and the octapass-docs skill, use the CLI safely with octapass-cli, and follow repo rules.
 status: stable
 sidebar:
   order: 4
@@ -52,6 +52,29 @@ python3 skills/octapass-docs/scripts/search_docs.py --remote "self-hosting postg
 | Claude Code (all projects) | Copy `skills/octapass-docs/` to `~/.claude/skills/octapass-docs/` |
 | Claude Code (one project) | Copy it to `.claude/skills/octapass-docs/` in that project |
 | Other agents (Codex, Cursor, Copilot…) | Point to it from your project's `AGENTS.md`, for example: "To answer questions about Octa Pass, follow `skills/octapass-docs/SKILL.md`." |
+
+## The `octapass-cli` skill
+
+A second skill teaches agents to use the [`octapass` command-line tool](/docs/platforms/cli/) for a user: finding and reading items, creating and editing them, generating passwords, getting one-time codes, handing secrets to commands with `octapass run` and `octapass://` references, environments, service accounts and CI, SSH keys and file encryption.
+
+- In the repository: `skills/octapass-cli/SKILL.md`, with `references/commands.md` (every command) and `references/ci.md` (GitHub Actions, GitLab CI, cloud tools and Connect)
+- On the web: `https://octap.app/skills/octapass-cli/SKILL.md`
+
+It starts with rules an agent follows before anything the task asks:
+
+1. Don't print a secret unless the user asks for that value. `octapass get <item>` shows an item with its secrets left out, and `octapass list --json` never holds secrets. `octapass get <item> --json` without `--field` includes them.
+2. Inject secrets rather than copying them: `octapass run`, `octapass inject` and `octapass://` references keep the value out of the agent's output.
+3. Never ask for, store or pass the master password or Secret Key. When the vault is locked (exit code 4), the user unlocks it in their own terminal or through the desktop app.
+4. Confirm before deleting, overwriting, exporting or changing the account, and never add `--yes` to skip the CLI's own question.
+
+Install it the same way as `octapass-docs`: copy `skills/octapass-cli/` to `~/.claude/skills/octapass-cli/`, or point to it from `AGENTS.md`.
+
+The skill can't drift from the CLI. Its tests read the built binary's `--help` for every command and fail if the skill names a command, option or value that doesn't exist, an environment variable the CLI doesn't read, or exit codes other than those in `apps/cli/src/error.rs`. They also fail when the CLI gains a command the skill doesn't mention. CI runs them on every push:
+
+```bash
+cargo build -p octapass-cli
+python3 -m unittest discover -s skills/octapass-cli/tests
+```
 
 ## The MCP docs server
 

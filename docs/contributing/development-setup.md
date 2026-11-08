@@ -125,6 +125,7 @@ The builds are unsigned unless the app's own signing settings are set, as each a
 | `docs/` | These docs, served at `/docs/` |
 | `changelog/` | One Markdown file per notable change, served at `/changelog/` |
 | `skills/octapass-docs/` | The agent skill for querying these docs |
+| `skills/octapass-cli/` | The agent skill for using the `octapass` CLI safely, tested against its `--help` |
 | `apps/website/` | Astro + Starlight website |
 | `apps/web/` | The web vault (Vite + React) |
 | `packages/ui/` | Design tokens and React UI primitives |

@@ -15,21 +15,22 @@ use serde_json::{Value, json};
 
 pub const HOST_NAME: &str = "app.octap.desktop";
 
-// PUBLISH: replace these placeholders with the store IDs once the extension is listed. A
-// placeholder isn't a well-formed ID, so it never matches a caller and never reaches a manifest:
-// until they're filled in, release builds accept no extension at all.
+// PUBLISH: replace the Chrome and Edge placeholders with the store IDs once the extension is listed
+// (the stores assign them). A placeholder isn't a well-formed ID, so it never matches a caller and
+// never reaches a manifest: until they're filled in, release builds accept no Chromium extension.
 /// The Chrome Web Store listing's ID.
 pub const CHROME_WEB_STORE_ID: &str = "PLACEHOLDER:chrome-web-store-id";
 /// The Edge Add-ons listing's ID (Edge gives its store its own IDs).
 pub const EDGE_ADD_ONS_ID: &str = "PLACEHOLDER:edge-add-ons-id";
 /// The `browser_specific_settings.gecko.id` the extension is signed with on addons.mozilla.org.
-pub const AMO_ID: &str = "PLACEHOLDER:addons-mozilla-org-id";
+pub const AMO_ID: &str = "octa-pass@octap.app";
 
 /// From the development key in the extension's `manifest.json` (`key`, see
 /// `apps/desktop/README.md`). Debug builds only.
 pub const DEV_CHROME_ID: &str = "oojckfebkmiogiahdggohbdnndbfcjnm";
-/// The development builds' Firefox ID. Debug builds only.
-pub const DEV_FIREFOX_ID: &str = "octa-pass@octap.app";
+/// The development builds' Firefox ID: the same as the store's, which the extension chooses itself
+/// (`browser_specific_settings.gecko.id`).
+pub const DEV_FIREFOX_ID: &str = AMO_ID;
 
 /// The Chromium extension IDs this build allows.
 #[cfg(not(debug_assertions))]
@@ -40,7 +41,7 @@ pub const CHROME_EXTENSION_IDS: &[&str] = &[CHROME_WEB_STORE_ID, EDGE_ADD_ONS_ID
 #[cfg(not(debug_assertions))]
 pub const FIREFOX_EXTENSION_IDS: &[&str] = &[AMO_ID];
 #[cfg(debug_assertions)]
-pub const FIREFOX_EXTENSION_IDS: &[&str] = &[AMO_ID, DEV_FIREFOX_ID];
+pub const FIREFOX_EXTENSION_IDS: &[&str] = &[DEV_FIREFOX_ID];
 
 /// Extension IDs a self-distributed build allows on top of the store IDs, set when it is built:
 /// `OCTAPASS_EXTRA_EXTENSION_IDS=<Chromium ID>,<Firefox ID>,…` (debug and release alike). For
@@ -481,7 +482,7 @@ mod tests {
 
     #[test]
     fn placeholders_are_never_allowed() {
-        for placeholder in [CHROME_WEB_STORE_ID, EDGE_ADD_ONS_ID, AMO_ID] {
+        for placeholder in [CHROME_WEB_STORE_ID, EDGE_ADD_ONS_ID] {
             assert!(!is_chrome_id(placeholder) && !is_firefox_id(placeholder));
         }
         let built_in = |id: &&str| !listed(EXTRA_EXTENSION_IDS).any(|extra| extra == *id);

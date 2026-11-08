@@ -7,7 +7,7 @@ The server is the same binary for the free hosted service and for self-hosters.
 - Account registration and login (OPAQUE), sessions, devices, account 2FA
 - Store and sync encrypted vaults, items and attachments
 - Route shared vault keys between accounts
-- Send transactional email (verification codes, new-device alerts, two-step sign-in changes, emergency access notices)
+- Send transactional email (verification codes, new-device alerts, two-step sign-in changes, emergency access notices). Each email is plain text plus a branded HTML part (`apps/server/src/mail.rs`): no remote images, tracking or links, user-chosen names escaped, the logo attached inline
 - Optional proxies: Pwned Passwords range API, HIBP email breach API, website icons (so clients don't leak browsing to icon services)
 - Rate limiting, abuse prevention, quotas
 

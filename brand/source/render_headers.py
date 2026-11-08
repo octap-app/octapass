@@ -255,4 +255,5 @@ for name, t in themes.items():
 (out / 'developers.html').write_text(developers())
 (out / 'icon-512.html').write_text(icon(512))
 (out / 'icon-180.html').write_text(icon(180))
+(out / 'icon-64.html').write_text(icon(64))  # the email logo, rendered @2x into apps/server/assets/
 print('Wrote', out)

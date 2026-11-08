@@ -23,7 +23,7 @@ The logo, colours, type and voice for Octa Pass. Everything here is MIT like the
 - Clear space around the mark is at least ¼ of its width. Minimum size: 20 px for the bare mark, 16 px for the tile.
 - Below 24 px, use the tile (`logo-tile.svg`). The bare monogram's lines get too thin.
 - Don't rotate the mark, change the gradient direction, outline it, or add shadows.
-- The wordmark is **OctaPass**, one word: "Open" light (380), "Pass" bold (740). In running text write "Octa Pass"; in code and URLs, `octapass`.
+- The wordmark is **OctaPass**, one word: "Octa" light (380), "Pass" bold (740). In running text write "Octa Pass"; in code and URLs, `octapass`.
 
 ## Colour
 

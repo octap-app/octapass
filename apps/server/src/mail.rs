@@ -515,7 +515,7 @@ body{{margin:0;padding:0;-webkit-text-size-adjust:100%}}
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px">
 <tr><td style="padding:0 4px 20px"><table role="presentation" cellpadding="0" cellspacing="0"><tr>
 <td style="vertical-align:middle"><img src="cid:{logo_cid}" width="32" height="32" alt="" style="display:block;border:0;border-radius:8px"></td>
-<td class="ink" style="vertical-align:middle;padding-left:10px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:19px;letter-spacing:-0.3px;color:#0B1220"><span style="font-weight:400">Open</span><span style="font-weight:800">Pass</span></td>
+<td class="ink" style="vertical-align:middle;padding-left:10px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:19px;letter-spacing:-0.3px;color:#0B1220"><span style="font-weight:400">Octa</span><span style="font-weight:800">Pass</span></td>
 </tr></table></td></tr>
 <tr><td class="card" style="background:#FFFFFF;border:1px solid #E3E5EC;border-top:4px solid #2456F0;border-radius:18px;padding:36px 40px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#0B1220;font-size:16px;line-height:1.55">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0">

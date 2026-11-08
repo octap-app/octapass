@@ -128,7 +128,7 @@ export function Sidebar({ onLock, onClose, top, bottom }: { onLock: () => void; 
       <div className={styles.brand}>
         <Logo variant="tile" size={28} />
         <span className={styles.name}>
-          Open<b>Pass</b>
+          Octa<b>Pass</b>
         </span>
         <IconButton icon="lock" label={t('nav.lockNow')} onClick={onLock} size="sm" className={styles.lock} />
         <IconButton icon="close" label={t('common.close')} onClick={onClose} size="sm" className={styles.close} />

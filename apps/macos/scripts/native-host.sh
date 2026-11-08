@@ -45,8 +45,9 @@ if [[ -z "${EXPANDED_CODE_SIGN_IDENTITY:-}" ]]; then
   echo "note: octapass-native-host is not signed (signing is off)"
   exit 0
 fi
-# The App Group, so the host reaches the app's container (its socket) as a member of the group:
-# OCTAPASS_APP_GROUP in project.yml, `<team>.app.octap`.
+# Sandboxed, which the Mac App Store requires of every executable in the app (the browsers start
+# this one, so it can't inherit the app's sandbox), and in the App Group, so it reaches the app's
+# container (its socket) as a member of the group: OCTAPASS_APP_GROUP in project.yml, `<team>.app.octap`.
 group="${DEVELOPMENT_TEAM:?no signing team}.app.octap"
 entitlements="$DERIVED_FILE_DIR/octapass-native-host.entitlements"
 mkdir -p "$DERIVED_FILE_DIR"
@@ -55,6 +56,8 @@ cat >"$entitlements" <<EOF
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>com.apple.security.app-sandbox</key>
+	<true/>
 	<key>com.apple.security.application-groups</key>
 	<array>
 		<string>${group}</string>

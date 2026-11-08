@@ -30,9 +30,19 @@ fn host(dir: &Path, origin: &str, by_browser: bool) -> Child {
         .env(DATA_DIR_ENV, dir)
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
-        .stderr(Stdio::null())
-        .spawn()
-        .unwrap()
+        .stderr(Stdio::null());
+    // The fake browser is a script written just before this: on Linux a test running in another
+    // thread can fork while its write handle is still open, and exec then fails with "Text file
+    // busy" until that child execs. Retry briefly instead of failing the run.
+    for _ in 0..50 {
+        match command.spawn() {
+            Err(error) if error.kind() == std::io::ErrorKind::ExecutableFileBusy => {
+                std::thread::sleep(std::time::Duration::from_millis(20));
+            }
+            result => return result.unwrap(),
+        }
+    }
+    command.spawn().unwrap()
 }
 
 fn exchange(child: &mut Child, message: Value) -> Value {

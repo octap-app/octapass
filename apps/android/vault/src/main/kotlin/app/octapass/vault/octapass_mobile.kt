@@ -2180,838 +2180,838 @@ private fun uniffiCheckContractApiVersion(lib: IntegrityCheckingUniffiLib) {
 }
 @Suppress("UNUSED_PARAMETER")
 private fun uniffiCheckApiChecksums(lib: IntegrityCheckingUniffiLib) {
-    if ((lib.uniffi_octapass_mobile_checksum_func_browser_extension_browsers() and 0xFFFF) != 43242) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_browser_extension_browsers() and 0xFFFF) != 9793) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_connect_browser_extension() and 0xFFFF) != 6638) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_connect_browser_extension() and 0xFFFF) != 64505) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_disconnect_browser_extension() and 0xFFFF) != 34820) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_disconnect_browser_extension() and 0xFFFF) != 53354) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_environment_choices() and 0xFFFF) != 57344) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_environment_choices() and 0xFFFF) != 34268) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_environment_dotenv() and 0xFFFF) != 62287) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_environment_dotenv() and 0xFFFF) != 52108) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_environment_file_name() and 0xFFFF) != 22723) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_environment_file_name() and 0xFFFF) != 46681) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_is_production_stage() and 0xFFFF) != 27064) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_is_production_stage() and 0xFFFF) != 45436) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_known_environment_stage() and 0xFFFF) != 57879) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_known_environment_stage() and 0xFFFF) != 22868) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_merge_dotenv() and 0xFFFF) != 15924) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_merge_dotenv() and 0xFFFF) != 16356) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_missing_environment_keys() and 0xFFFF) != 45805) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_missing_environment_keys() and 0xFFFF) != 14154) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_new_environment_variable() and 0xFFFF) != 55925) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_new_environment_variable() and 0xFFFF) != 9528) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_error_code_name() and 0xFFFF) != 17774) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_error_code_name() and 0xFFFF) != 53104) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_icon_domain() and 0xFFFF) != 45004) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_icon_domain() and 0xFFFF) != 5490) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_isvalidemail() and 0xFFFF) != 6062) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_isvalidemail() and 0xFFFF) != 35458) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_item_draft() and 0xFFFF) != 3879) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_item_draft() and 0xFFFF) != 63319) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_new_item_draft() and 0xFFFF) != 23331) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_new_item_draft() and 0xFFFF) != 37156) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_normalize_email() and 0xFFFF) != 42534) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_normalize_email() and 0xFFFF) != 63657) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_unique_websites() and 0xFFFF) != 49730) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_unique_websites() and 0xFFFF) != 51146) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_url_match_modes() and 0xFFFF) != 11743) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_url_match_modes() and 0xFFFF) != 39934) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_validate_draft() and 0xFFFF) != 16843) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_validate_draft() and 0xFFFF) != 64759) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_wifi_choices() and 0xFFFF) != 46861) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_wifi_choices() and 0xFFFF) != 58243) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_parse_share_link_url() and 0xFFFF) != 11050) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_parse_share_link_url() and 0xFFFF) != 23183) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_default_arrangement() and 0xFFFF) != 57271) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_default_arrangement() and 0xFFFF) != 49083) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_first_letter() and 0xFFFF) != 60795) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_first_letter() and 0xFFFF) != 63919) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_list_groupings() and 0xFFFF) != 33010) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_list_groupings() and 0xFFFF) != 49466) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_offers_site_rows() and 0xFFFF) != 43632) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_offers_site_rows() and 0xFFFF) != 49039) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_can_manage_alias() and 0xFFFF) != 22717) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_can_manage_alias() and 0xFFFF) != 48903) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_masked_email_providers() and 0xFFFF) != 62458) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_masked_email_providers() and 0xFFFF) != 48332) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_bank_qr_text() and 0xFFFF) != 3694) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_bank_qr_text() and 0xFFFF) != 14788) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_qr_choices() and 0xFFFF) != 36091) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_qr_choices() and 0xFFFF) != 9663) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_read_qr_codes() and 0xFFFF) != 50511) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_read_qr_codes() and 0xFFFF) != 16274) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_scanned_draft() and 0xFFFF) != 5473) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_scanned_draft() and 0xFFFF) != 40718) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_summarize_qr_scans() and 0xFFFF) != 64658) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_summarize_qr_scans() and 0xFFFF) != 50545) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_wifi_qr_text() and 0xFFFF) != 29242) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_wifi_qr_text() and 0xFFFF) != 22408) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_wifi_tag_mime_type() and 0xFFFF) != 43398) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_wifi_tag_mime_type() and 0xFFFF) != 1071) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_wifi_tag_payload() and 0xFFFF) != 36271) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_wifi_tag_payload() and 0xFFFF) != 15833) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_safe_root_id() and 0xFFFF) != 55725) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_safe_root_id() and 0xFFFF) != 39947) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_authorized_keys_line() and 0xFFFF) != 34279) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_authorized_keys_line() and 0xFFFF) != 52476) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_is_usable_ssh_key() and 0xFFFF) != 31373) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_is_usable_ssh_key() and 0xFFFF) != 22923) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_ssh_key_file_name() and 0xFFFF) != 51043) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_ssh_key_file_name() and 0xFFFF) != 64096) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_ssh_key_kinds() and 0xFFFF) != 1554) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_ssh_key_kinds() and 0xFFFF) != 41289) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_ssh_key_type_label() and 0xFFFF) != 18290) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_ssh_key_type_label() and 0xFFFF) != 26981) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_with_ssh_key() and 0xFFFF) != 55471) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_with_ssh_key() and 0xFFFF) != 3605) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_custom_field_kinds() and 0xFFFF) != 53834) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_custom_field_kinds() and 0xFFFF) != 65096) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_custom_kind_is_plain() and 0xFFFF) != 22704) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_custom_kind_is_plain() and 0xFFFF) != 61058) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_field_specs() and 0xFFFF) != 40200) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_field_specs() and 0xFFFF) != 64209) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_fields_from_template() and 0xFFFF) != 12982) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_fields_from_template() and 0xFFFF) != 39259) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_template_from_item() and 0xFFFF) != 60653) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_template_from_item() and 0xFFFF) != 52552) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_default_generator_options() and 0xFFFF) != 46267) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_default_generator_options() and 0xFFFF) != 49600) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_generate_password() and 0xFFFF) != 11815) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_generate_password() and 0xFFFF) != 18548) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_generate_password_for_site() and 0xFFFF) != 16330) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_generate_password_for_site() and 0xFFFF) != 4181) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_generator_entropy_bits() and 0xFFFF) != 3289) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_generator_entropy_bits() and 0xFFFF) != 37950) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_hotp_counter() and 0xFFFF) != 49573) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_hotp_counter() and 0xFFFF) != 17437) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_is_hotp() and 0xFFFF) != 39118) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_is_hotp() and 0xFFFF) != 6242) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_normalize_secret_key() and 0xFFFF) != 37013) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_normalize_secret_key() and 0xFFFF) != 5788) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_toolkit_run() and 0xFFFF) != 20379) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_toolkit_run() and 0xFFFF) != 20365) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_totp_code() and 0xFFFF) != 49110) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_totp_code() and 0xFFFF) != 33948) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_smart_list_name() and 0xFFFF) != 20712) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_smart_list_name() and 0xFFFF) != 21290) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_func_recovery_kit_setup_uri() and 0xFFFF) != 59182) {
+    if ((lib.uniffi_octapass_mobile_checksum_func_recovery_kit_setup_uri() and 0xFFFF) != 25175) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_desktopservice_endpoint() and 0xFFFF) != 22943) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_desktopservice_endpoint() and 0xFFFF) != 29960) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_desktopservice_stop() and 0xFFFF) != 21605) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_desktopservice_stop() and 0xFFFF) != 64416) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_sshagenthandle_endpoint() and 0xFFFF) != 38316) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_sshagenthandle_endpoint() and 0xFFFF) != 7231) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_sshagenthandle_error() and 0xFFFF) != 18267) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_sshagenthandle_error() and 0xFFFF) != 12623) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_sshagenthandle_stop() and 0xFFFF) != 5339) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_sshagenthandle_stop() and 0xFFFF) != 62062) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_sshpromptscallback_approve() and 0xFFFF) != 23730) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_sshpromptscallback_approve() and 0xFFFF) != 2382) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_sshpromptscallback_show_unlock() and 0xFFFF) != 12811) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_sshpromptscallback_show_unlock() and 0xFFFF) != 52625) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_sshpromptscallback_language() and 0xFFFF) != 51324) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_sshpromptscallback_language() and 0xFFFF) != 12656) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_secret() and 0xFFFF) != 60915) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_secret() and 0xFFFF) != 12070) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_set_secret() and 0xFFFF) != 42164) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_set_secret() and 0xFFFF) != 58595) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_delete_secret() and 0xFFFF) != 54143) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_delete_secret() and 0xFFFF) != 10574) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_device_lock() and 0xFFFF) != 63423) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_device_lock() and 0xFFFF) != 10004) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_store_device_secret() and 0xFFFF) != 19724) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_store_device_secret() and 0xFFFF) != 16232) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_device_secret() and 0xFFFF) != 48822) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_device_secret() and 0xFFFF) != 4256) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_delete_device_secret() and 0xFFFF) != 47831) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_delete_device_secret() and 0xFFFF) != 41903) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_verify_user() and 0xFFFF) != 4681) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_verify_user() and 0xFFFF) != 34765) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_store_stay_unlocked_key() and 0xFFFF) != 37832) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_store_stay_unlocked_key() and 0xFFFF) != 5847) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_stay_unlocked_key() and 0xFFFF) != 36190) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_stay_unlocked_key() and 0xFFFF) != 6006) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_delete_stay_unlocked_key() and 0xFFFF) != 23759) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_delete_stay_unlocked_key() and 0xFFFF) != 31488) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_set_credential_identities() and 0xFFFF) != 12902) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_set_credential_identities() and 0xFFFF) != 2492) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_chip_available() and 0xFFFF) != 35940) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_chip_available() and 0xFFFF) != 9222) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_create_chip_key() and 0xFFFF) != 32903) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_create_chip_key() and 0xFFFF) != 13537) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_chip_secret() and 0xFFFF) != 510) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_chip_secret() and 0xFFFF) != 22075) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_delete_chip_key() and 0xFFFF) != 28497) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_delete_chip_key() and 0xFFFF) != 58187) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_low_memory() and 0xFFFF) != 24338) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_low_memory() and 0xFFFF) != 9976) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_backup_folder_files() and 0xFFFF) != 41215) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_backup_folder_files() and 0xFFFF) != 54904) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_write_backup_file() and 0xFFFF) != 38564) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_write_backup_file() and 0xFFFF) != 58336) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_delete_backup_file() and 0xFFFF) != 20131) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_nativeplatform_delete_backup_file() and 0xFFFF) != 15084) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_vaultobserver_session_changed() and 0xFFFF) != 53943) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_vaultobserver_session_changed() and 0xFFFF) != 3508) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_vaultobserver_items_changed() and 0xFFFF) != 8755) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_vaultobserver_items_changed() and 0xFFFF) != 50151) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_vaultobserver_sync_changed() and 0xFFFF) != 47840) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_vaultobserver_sync_changed() and 0xFFFF) != 33638) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_vaultobserver_sharing_changed() and 0xFFFF) != 12580) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_vaultobserver_sharing_changed() and 0xFFFF) != 46508) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_create_file() and 0xFFFF) != 6841) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_create_file() and 0xFFFF) != 26768) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_create_folder() and 0xFFFF) != 25183) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_create_folder() and 0xFFFF) != 49213) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_entry() and 0xFFFF) != 4087) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_entry() and 0xFFFF) != 48832) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_export_file() and 0xFFFF) != 61495) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_export_file() and 0xFFFF) != 44567) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_flush() and 0xFFFF) != 28605) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_flush() and 0xFFFF) != 13229) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_import_file() and 0xFFFF) != 57028) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_import_file() and 0xFFFF) != 45319) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_is_locked() and 0xFFFF) != 50797) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_is_locked() and 0xFFFF) != 25865) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_list() and 0xFFFF) != 1641) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_list() and 0xFFFF) != 28850) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_lock() and 0xFFFF) != 45900) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_lock() and 0xFFFF) != 19644) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_read() and 0xFFFF) != 14431) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_read() and 0xFFFF) != 38242) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_remove() and 0xFFFF) != 26066) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_remove() and 0xFFFF) != 63025) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_rename() and 0xFFFF) != 55166) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_rename() and 0xFFFF) != 20743) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_truncate() and 0xFFFF) != 5209) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_truncate() and 0xFFFF) != 55668) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_warnings() and 0xFFFF) != 38922) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_warnings() and 0xFFFF) != 52132) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_write() and 0xFFFF) != 6875) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_safedrive_write() and 0xFFFF) != 39382) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_ssh_agent_keys() and 0xFFFF) != 17615) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_ssh_agent_keys() and 0xFFFF) != 33644) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_start_browser_bridge() and 0xFFFF) != 7115) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_start_browser_bridge() and 0xFFFF) != 56975) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_start_cli_session() and 0xFFFF) != 45724) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_start_cli_session() and 0xFFFF) != 36670) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_start_ssh_agent() and 0xFFFF) != 25171) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_start_ssh_agent() and 0xFFFF) != 63382) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_fills_without_prompt() and 0xFFFF) != 16072) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_fills_without_prompt() and 0xFFFF) != 44720) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_create_local_vault() and 0xFFFF) != 30446) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_create_local_vault() and 0xFFFF) != 43052) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_delete_local_vault() and 0xFFFF) != 15857) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_delete_local_vault() and 0xFFFF) != 41102) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_export_local_backup() and 0xFFFF) != 14618) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_export_local_backup() and 0xFFFF) != 21102) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_finish_turn_on_sync() and 0xFFFF) != 21639) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_finish_turn_on_sync() and 0xFFFF) != 47608) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_leave_local_vault() and 0xFFFF) != 40503) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_leave_local_vault() and 0xFFFF) != 60742) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_local_backup_saved() and 0xFFFF) != 62358) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_local_backup_saved() and 0xFFFF) != 60259) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_local_capabilities() and 0xFFFF) != 61038) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_local_capabilities() and 0xFFFF) != 65497) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_local_recovery_code() and 0xFFFF) != 38899) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_local_recovery_code() and 0xFFFF) != 6734) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_local_vaults() and 0xFFFF) != 65387) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_local_vaults() and 0xFFFF) != 50923) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_rename_local_vault() and 0xFFFF) != 38601) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_rename_local_vault() and 0xFFFF) != 24927) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_restore_local_vault() and 0xFFFF) != 59990) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_restore_local_vault() and 0xFFFF) != 36674) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_set_backup_folder() and 0xFFFF) != 23685) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_set_backup_folder() and 0xFFFF) != 63028) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_start_turn_on_sync() and 0xFFFF) != 18989) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_start_turn_on_sync() and 0xFFFF) != 3430) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_switch_local_vault() and 0xFFFF) != 41750) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_switch_local_vault() and 0xFFFF) != 6948) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_clear_push_token() and 0xFFFF) != 48765) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_clear_push_token() and 0xFFFF) != 2831) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_set_push_token() and 0xFFFF) != 16851) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_set_push_token() and 0xFFFF) != 55513) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_sync_on_push() and 0xFFFF) != 9177) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_sync_on_push() and 0xFFFF) != 36473) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_create_safe() and 0xFFFF) != 18929) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_create_safe() and 0xFFFF) != 34776) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_delete_safe() and 0xFFFF) != 14625) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_delete_safe() and 0xFFFF) != 31258) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_list_safes() and 0xFFFF) != 40995) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_list_safes() and 0xFFFF) != 48970) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_open_safe() and 0xFFFF) != 40988) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_open_safe() and 0xFFFF) != 50062) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_safe_key() and 0xFFFF) != 21920) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_safe_key() and 0xFFFF) != 63945) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_sync_safe() and 0xFFFF) != 54017) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_sync_safe() and 0xFFFF) != 39585) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_stay_unlocked_status() and 0xFFFF) != 44495) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_stay_unlocked_status() and 0xFFFF) != 25389) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_unlock_stay_unlocked() and 0xFFFF) != 30619) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_unlock_stay_unlocked() and 0xFFFF) != 6754) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_accept_family_invite() and 0xFFFF) != 61041) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_accept_family_invite() and 0xFFFF) != 63414) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_account_summary() and 0xFFFF) != 64445) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_account_summary() and 0xFFFF) != 28412) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_add_attachment() and 0xFFFF) != 48131) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_add_attachment() and 0xFFFF) != 1570) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_add_emergency_contact() and 0xFFFF) != 447) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_add_emergency_contact() and 0xFFFF) != 12820) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_add_member() and 0xFFFF) != 57426) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_add_member() and 0xFFFF) != 12248) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_app_did_enter_background() and 0xFFFF) != 8976) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_app_did_enter_background() and 0xFFFF) != 34553) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_app_will_enter_foreground() and 0xFFFF) != 31066) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_app_will_enter_foreground() and 0xFFFF) != 48501) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_approve_emergency_access() and 0xFFFF) != 10507) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_approve_emergency_access() and 0xFFFF) != 18177) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_arrange_items() and 0xFFFF) != 55610) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_arrange_items() and 0xFFFF) != 32703) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_cancel_family_invite() and 0xFFFF) != 36340) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_cancel_family_invite() and 0xFFFF) != 35656) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_cancel_import() and 0xFFFF) != 7589) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_cancel_import() and 0xFFFF) != 28874) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_cancel_password_reset() and 0xFFFF) != 9552) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_cancel_password_reset() and 0xFFFF) != 5993) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_cancel_two_step() and 0xFFFF) != 33941) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_cancel_two_step() and 0xFFFF) != 52442) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_change_master_password() and 0xFFFF) != 5049) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_change_master_password() and 0xFFFF) != 17043) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_change_role() and 0xFFFF) != 30214) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_change_role() and 0xFFFF) != 4174) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_check_breached() and 0xFFFF) != 17416) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_check_breached() and 0xFFFF) != 31445) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_check_email_breaches() and 0xFFFF) != 28758) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_check_email_breaches() and 0xFFFF) != 16890) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_close_attachment() and 0xFFFF) != 34912) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_close_attachment() and 0xFFFF) != 15165) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_confirm_totp_setup() and 0xFFFF) != 22181) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_confirm_totp_setup() and 0xFFFF) != 34583) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_confirm_user() and 0xFFFF) != 63076) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_confirm_user() and 0xFFFF) != 14127) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_connect_masked_email() and 0xFFFF) != 61742) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_connect_masked_email() and 0xFFFF) != 47339) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_copy_item() and 0xFFFF) != 6819) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_copy_item() and 0xFFFF) != 48846) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_create_alias() and 0xFFFF) != 39591) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_create_alias() and 0xFFFF) != 2204) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_create_family() and 0xFFFF) != 6058) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_create_family() and 0xFFFF) != 58622) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_create_share_link() and 0xFFFF) != 14935) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_create_share_link() and 0xFFFF) != 21133) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_create_vault() and 0xFFFF) != 57814) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_create_vault() and 0xFFFF) != 57161) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_decline_family_invite() and 0xFFFF) != 5823) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_decline_family_invite() and 0xFFFF) != 2455) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_delete_account() and 0xFFFF) != 27006) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_delete_account() and 0xFFFF) != 2112) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_delete_alias() and 0xFFFF) != 42137) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_delete_alias() and 0xFFFF) != 28035) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_delete_family() and 0xFFFF) != 9880) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_delete_family() and 0xFFFF) != 46055) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_delete_item() and 0xFFFF) != 26579) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_delete_item() and 0xFFFF) != 64208) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_deny_emergency_access() and 0xFFFF) != 53074) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_deny_emergency_access() and 0xFFFF) != 40923) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_disable_device_unlock() and 0xFFFF) != 48963) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_disable_device_unlock() and 0xFFFF) != 19875) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_disable_two_step() and 0xFFFF) != 47142) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_disable_two_step() and 0xFFFF) != 26454) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_discard_received() and 0xFFFF) != 42596) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_discard_received() and 0xFFFF) != 4533) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_disconnect_masked_email() and 0xFFFF) != 17129) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_disconnect_masked_email() and 0xFFFF) != 59002) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_dismiss_health_warnings() and 0xFFFF) != 2103) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_dismiss_health_warnings() and 0xFFFF) != 29278) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_email_breach_checks_available() and 0xFFFF) != 13671) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_email_breach_checks_available() and 0xFFFF) != 15966) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_enable_device_unlock() and 0xFFFF) != 11413) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_enable_device_unlock() and 0xFFFF) != 1545) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_enable_organiser_recovery() and 0xFFFF) != 42987) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_enable_organiser_recovery() and 0xFFFF) != 26481) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_equivalent_domains() and 0xFFFF) != 28990) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_equivalent_domains() and 0xFFFF) != 20212) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_estimate_strength() and 0xFFFF) != 29307) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_estimate_strength() and 0xFFFF) != 11560) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_export_ssh_key() and 0xFFFF) != 14608) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_export_ssh_key() and 0xFFFF) != 18024) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_export_vault() and 0xFFFF) != 8407) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_export_vault() and 0xFFFF) != 4292) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_fetch_share_link() and 0xFFFF) != 64125) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_fetch_share_link() and 0xFFFF) != 38869) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_finish_import() and 0xFFFF) != 45720) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_finish_import() and 0xFFFF) != 9234) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_finish_password_reset() and 0xFFFF) != 36658) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_finish_password_reset() and 0xFFFF) != 25069) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_finish_signup() and 0xFFFF) != 64856) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_finish_signup() and 0xFFFF) != 6014) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_finish_sso() and 0xFFFF) != 30490) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_finish_sso() and 0xFFFF) != 59936) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_finish_two_step() and 0xFFFF) != 6821) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_finish_two_step() and 0xFFFF) != 64769) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_flush_item_uses() and 0xFFFF) != 24023) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_flush_item_uses() and 0xFFFF) != 1546) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_forget_trusted_devices() and 0xFFFF) != 31852) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_forget_trusted_devices() and 0xFFFF) != 12177) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_generate_ssh_key() and 0xFFFF) != 3316) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_generate_ssh_key() and 0xFFFF) != 10099) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_get_family() and 0xFFFF) != 36413) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_get_family() and 0xFFFF) != 21218) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_get_item() and 0xFFFF) != 64003) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_get_item() and 0xFFFF) != 64957) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_health_report() and 0xFFFF) != 63592) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_health_report() and 0xFFFF) != 46736) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_import_file() and 0xFFFF) != 39348) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_import_file() and 0xFFFF) != 21922) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_import_received() and 0xFFFF) != 29180) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_import_received() and 0xFFFF) != 19394) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_invite_to_family() and 0xFFFF) != 948) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_invite_to_family() and 0xFFFF) != 17808) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_item_counts() and 0xFFFF) != 644) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_item_counts() and 0xFFFF) != 51289) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_item_versions() and 0xFFFF) != 15456) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_item_versions() and 0xFFFF) != 55429) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_leave_family() and 0xFFFF) != 36100) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_leave_family() and 0xFFFF) != 45695) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_leave_vault() and 0xFFFF) != 42206) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_leave_vault() and 0xFFFF) != 36522) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_list_arrangement() and 0xFFFF) != 62333) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_list_arrangement() and 0xFFFF) != 61928) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_list_devices() and 0xFFFF) != 55636) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_list_devices() and 0xFFFF) != 15148) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_list_emergency_contacts() and 0xFFFF) != 63081) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_list_emergency_contacts() and 0xFFFF) != 6978) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_list_items() and 0xFFFF) != 5474) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_list_items() and 0xFFFF) != 37749) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_list_members() and 0xFFFF) != 34070) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_list_members() and 0xFFFF) != 18660) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_list_share_links() and 0xFFFF) != 46844) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_list_share_links() and 0xFFFF) != 24928) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_list_vaults() and 0xFFFF) != 30605) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_list_vaults() and 0xFFFF) != 26487) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_lock() and 0xFFFF) != 36102) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_lock() and 0xFFFF) != 5206) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_lookup_account() and 0xFFFF) != 57505) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_lookup_account() and 0xFFFF) != 36689) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_mark_verified() and 0xFFFF) != 8969) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_mark_verified() and 0xFFFF) != 57042) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_masked_email_connections() and 0xFFFF) != 15208) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_masked_email_connections() and 0xFFFF) != 57885) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_move_item() and 0xFFFF) != 51214) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_move_item() and 0xFFFF) != 49372) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_my_fingerprint() and 0xFFFF) != 65461) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_my_fingerprint() and 0xFFFF) != 61341) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_next_hotp_code() and 0xFFFF) != 10646) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_next_hotp_code() and 0xFFFF) != 26031) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_open_attachment() and 0xFFFF) != 19297) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_open_attachment() and 0xFFFF) != 51052) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_open_emergency_access() and 0xFFFF) != 1600) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_open_emergency_access() and 0xFFFF) != 33862) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_open_emergency_attachment() and 0xFFFF) != 32783) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_open_emergency_attachment() and 0xFFFF) != 34618) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_open_share_link() and 0xFFFF) != 54445) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_open_share_link() and 0xFFFF) != 62451) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_pending_two_step() and 0xFFFF) != 31060) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_pending_two_step() and 0xFFFF) != 34153) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_preview_received() and 0xFFFF) != 29613) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_preview_received() and 0xFFFF) != 34288) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_read_ssh_key() and 0xFFFF) != 5862) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_read_ssh_key() and 0xFFFF) != 39096) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_record_activity() and 0xFFFF) != 19943) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_record_activity() and 0xFFFF) != 7094) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_record_item_use() and 0xFFFF) != 9378) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_record_item_use() and 0xFFFF) != 54580) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_remove_attachment() and 0xFFFF) != 60656) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_remove_attachment() and 0xFFFF) != 10054) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_remove_emergency_contact() and 0xFFFF) != 43892) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_remove_emergency_contact() and 0xFFFF) != 10584) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_remove_family_member() and 0xFFFF) != 56968) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_remove_family_member() and 0xFFFF) != 60001) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_remove_member() and 0xFFFF) != 57364) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_remove_member() and 0xFFFF) != 32283) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_remove_security_key() and 0xFFFF) != 10074) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_remove_security_key() and 0xFFFF) != 35689) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_rename_device() and 0xFFFF) != 25336) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_rename_device() and 0xFFFF) != 39807) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_rename_vault() and 0xFFFF) != 41128) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_rename_vault() and 0xFFFF) != 58791) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_renew_emergency_key() and 0xFFFF) != 10005) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_renew_emergency_key() and 0xFFFF) != 41268) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_renew_recovery_codes() and 0xFFFF) != 34867) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_renew_recovery_codes() and 0xFFFF) != 65454) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_request_emergency_access() and 0xFFFF) != 49365) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_request_emergency_access() and 0xFFFF) != 26408) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_restore_health_warnings() and 0xFFFF) != 13706) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_restore_health_warnings() and 0xFFFF) != 64111) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_restore_item() and 0xFFFF) != 32325) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_restore_item() and 0xFFFF) != 63926) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_restore_item_version() and 0xFFFF) != 3207) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_restore_item_version() and 0xFFFF) != 21958) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_review_import() and 0xFFFF) != 55146) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_review_import() and 0xFFFF) != 3241) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_review_scanned_codes() and 0xFFFF) != 15668) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_review_scanned_codes() and 0xFFFF) != 54031) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_revoke_share_link() and 0xFFFF) != 33941) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_revoke_share_link() and 0xFFFF) != 25082) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_rotate_secret_key() and 0xFFFF) != 36283) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_rotate_secret_key() and 0xFFFF) != 56538) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_rotate_vault_key() and 0xFFFF) != 11729) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_rotate_vault_key() and 0xFFFF) != 15416) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_same_login() and 0xFFFF) != 28910) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_same_login() and 0xFFFF) != 10124) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_save_equivalent_domains() and 0xFFFF) != 22701) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_save_equivalent_domains() and 0xFFFF) != 24562) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_save_item() and 0xFFFF) != 38365) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_save_item() and 0xFFFF) != 7418) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_save_tool_item() and 0xFFFF) != 40521) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_save_tool_item() and 0xFFFF) != 14692) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_secret_key() and 0xFFFF) != 31024) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_secret_key() and 0xFFFF) != 29492) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_security_log() and 0xFFFF) != 36911) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_security_log() and 0xFFFF) != 19751) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_server_info() and 0xFFFF) != 48164) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_server_info() and 0xFFFF) != 11289) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_set_alias_enabled() and 0xFFFF) != 46225) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_set_alias_enabled() and 0xFFFF) != 9054) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_set_email_breach_alerts() and 0xFFFF) != 37561) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_set_email_breach_alerts() and 0xFFFF) != 49943) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_set_favorite() and 0xFFFF) != 52008) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_set_favorite() and 0xFFFF) != 22492) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_set_hotp_counter() and 0xFFFF) != 45515) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_set_hotp_counter() and 0xFFFF) != 30524) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_set_list_arrangement() and 0xFFFF) != 21008) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_set_list_arrangement() and 0xFFFF) != 1475) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_set_pinned() and 0xFFFF) != 44266) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_set_pinned() and 0xFFFF) != 48317) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_settings() and 0xFFFF) != 57619) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_settings() and 0xFFFF) != 38336) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_sign_in() and 0xFFFF) != 31873) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_sign_in() and 0xFFFF) != 44477) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_sign_out() and 0xFFFF) != 37151) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_sign_out() and 0xFFFF) != 18891) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_sign_out_device() and 0xFFFF) != 44612) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_sign_out_device() and 0xFFFF) != 35039) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_site_icon() and 0xFFFF) != 51250) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_site_icon() and 0xFFFF) != 23405) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_smart_list() and 0xFFFF) != 8363) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_smart_list() and 0xFFFF) != 33877) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_snapshot() and 0xFFFF) != 4585) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_snapshot() and 0xFFFF) != 31855) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_start_password_reset() and 0xFFFF) != 11982) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_start_password_reset() and 0xFFFF) != 870) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_start_signup() and 0xFFFF) != 59820) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_start_signup() and 0xFFFF) != 38979) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_start_totp_setup() and 0xFFFF) != 18316) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_start_totp_setup() and 0xFFFF) != 11615) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_storage_usage() and 0xFFFF) != 46946) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_storage_usage() and 0xFFFF) != 2018) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_sync() and 0xFFFF) != 9299) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_sync() and 0xFFFF) != 35424) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_sync_state() and 0xFFFF) != 54443) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_sync_state() and 0xFFFF) != 16889) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_take_over_account() and 0xFFFF) != 43214) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_take_over_account() and 0xFFFF) != 50929) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_two_step_status() and 0xFFFF) != 38335) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_two_step_status() and 0xFFFF) != 43930) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_unlock() and 0xFFFF) != 44754) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_unlock() and 0xFFFF) != 56522) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_unlock_methods() and 0xFFFF) != 51945) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_unlock_methods() and 0xFFFF) != 25484) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_unlock_with_device() and 0xFFFF) != 50054) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_unlock_with_device() and 0xFFFF) != 37429) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_update_password() and 0xFFFF) != 20485) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_update_password() and 0xFFFF) != 30047) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_update_settings() and 0xFFFF) != 52247) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_update_settings() and 0xFFFF) != 28588) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_verify_password_reset() and 0xFFFF) != 37736) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_verify_password_reset() and 0xFFFF) != 18864) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_watch_payload() and 0xFFFF) != 39271) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_watch_payload() and 0xFFFF) != 32325) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_write_share_file() and 0xFFFF) != 59921) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_write_share_file() and 0xFFFF) != 35646) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_constructor_safedrive_open_with_key() and 0xFFFF) != 59741) {
+    if ((lib.uniffi_octapass_mobile_checksum_constructor_safedrive_open_with_key() and 0xFFFF) != 12593) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_constructor_octapassvault_new() and 0xFFFF) != 44509) {
+    if ((lib.uniffi_octapass_mobile_checksum_constructor_octapassvault_new() and 0xFFFF) != 9809) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
 }

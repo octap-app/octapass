@@ -22,5 +22,5 @@ for pair in aarch64-linux-android:arm64-v8a x86_64-linux-android:x86_64; do
 done
 
 generate_kotlin "$TARGET/aarch64-linux-android/release/liboctapass_mobile.so" "$WORK/android/generated"
-cp "$WORK/android/generated/app/octapass/vault/octapass_mobile.kt" "$KOTLIN_SOURCE"
+cp "$WORK/android/generated/app/octap/vault/octapass_mobile.kt" "$KOTLIN_SOURCE"
 echo "Built $KOTLIN_PROJECT/jniLibs"

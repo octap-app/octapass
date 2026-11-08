@@ -437,7 +437,7 @@ pub async fn start(
         &browser.email,
     );
     let key = flow.state.clone();
-    browser.flow = Some(BrowserFlow::Oidc(flow, provider));
+    browser.flow = Some(BrowserFlow::Oidc(Box::new((flow, provider))));
     state.pending_sso_browsers.insert(key, &ip, browser);
     Ok((StatusCode::FOUND, [(header::LOCATION, url.to_string())]).into_response())
 }
@@ -476,11 +476,12 @@ pub async fn callback(
     let Some(browser) = browser else {
         return failed(Failure::Expired);
     };
-    let (Some(code), Some(BrowserFlow::Oidc(flow, provider))) =
+    let (Some(code), Some(BrowserFlow::Oidc(oidc))) =
         (query.code.as_deref(), browser.flow.as_ref())
     else {
         return failed(Failure::Provider);
     };
+    let (flow, provider) = &**oidc;
     let Some(settings) = orgs::sso_settings(&state.db, &browser.org_id)
         .await?
         .filter(|settings| !settings.is_saml())

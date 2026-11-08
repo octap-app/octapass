@@ -79,7 +79,8 @@ pub struct SsoBrowser {
 
 /// What the provider's answer must match.
 pub enum BrowserFlow {
-    Oidc(crate::sso::Flow, crate::sso::Provider),
+    /// Boxed: the provider's settings are far larger than the SAML variant.
+    Oidc(Box<(crate::sso::Flow, crate::sso::Provider)>),
     /// The AuthnRequest's ID, and the settings it was sent under (`updated_at`), so a Response
     /// is never checked against certificates saved after the request left.
     Saml { request_id: String, updated_at: i64 },

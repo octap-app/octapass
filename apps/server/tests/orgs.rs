@@ -34,7 +34,13 @@ pub(crate) async fn create_org(server: &TestServer, owner: &Person, name: &str) 
 }
 
 /// Invites `person` and accepts as them.
-pub(crate) async fn join(server: &TestServer, admin: &Person, org: &str, person: &Person, role: &str) {
+pub(crate) async fn join(
+    server: &TestServer,
+    admin: &Person,
+    org: &str,
+    person: &Person,
+    role: &str,
+) {
     let body = json!({ "email": person.email, "role": role });
     let path = format!("/v1/orgs/{org}/invites");
     let invited = server.send_as(admin, Method::POST, &path, Some(body)).await;
@@ -109,7 +115,12 @@ pub(crate) async fn link(
     assert_eq!(linked.status, StatusCode::NO_CONTENT, "{:?}", linked.body);
 }
 
-pub(crate) async fn plan(server: &TestServer, person: &Person, org: &str, vault: &str) -> Option<Value> {
+pub(crate) async fn plan(
+    server: &TestServer,
+    person: &Person,
+    org: &str,
+    vault: &str,
+) -> Option<Value> {
     let path = format!("/v1/orgs/{org}/access");
     let access = server.get_as(person, &path).await;
     assert_eq!(access.status, StatusCode::OK, "{:?}", access.body);

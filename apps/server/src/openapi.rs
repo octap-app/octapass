@@ -5,8 +5,8 @@ use utoipa::{Modify, OpenApi};
 
 use crate::routes::{
     account, attachments, auth, batch, breach_email, devices, emergency, families, icons,
-    masked_email, meta, orgs, password, scim, service_accounts, share_links, sharing, sso, transparency,
-    two_step, vaults, ws,
+    masked_email, meta, orgs, password, scim, service_accounts, share_links, sharing, sso,
+    transparency, two_step, vaults, ws,
 };
 
 #[derive(OpenApi)]

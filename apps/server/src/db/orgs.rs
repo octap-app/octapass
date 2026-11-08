@@ -1064,7 +1064,14 @@ pub async fn put_sso(
             entity_id,
             sso_url,
             certificates,
-        } => ("saml", entity_id, "", None, Some(sso_url), Some(certificates)),
+        } => (
+            "saml",
+            entity_id,
+            "",
+            None,
+            Some(sso_url),
+            Some(certificates),
+        ),
     };
     let previous: Option<(String, String)> =
         sqlx::query_as("SELECT protocol, issuer FROM org_sso WHERE org_id = $1")

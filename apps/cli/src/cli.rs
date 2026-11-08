@@ -400,9 +400,16 @@ pub enum GroupRoleArg {
 #[derive(Debug, Subcommand)]
 pub enum OrgGroupCommand {
     List,
-    Create { name: String },
-    Rename { group: String, name: String },
-    Delete { group: String },
+    Create {
+        name: String,
+    },
+    Rename {
+        group: String,
+        name: String,
+    },
+    Delete {
+        group: String,
+    },
     /// Add a member to a group. They get its vaults when a key holder applies access.
     Add {
         group: String,
@@ -410,16 +417,23 @@ pub enum OrgGroupCommand {
         member: String,
     },
     /// Take a member out of a group. They lose the vaults only it gave them, at once.
-    Remove { group: String, member: String },
+    Remove {
+        group: String,
+        member: String,
+    },
 }
 
 #[derive(Debug, Subcommand)]
 pub enum OrgVaultCommand {
     List,
     /// A new organisation vault, owned by you.
-    Create { name: String },
+    Create {
+        name: String,
+    },
     /// Delete a vault and everything in it (owners). Needs no key. Asks for the master password.
-    Delete { vault: String },
+    Delete {
+        vault: String,
+    },
     /// Link a group to a vault. Its members get it when a key holder applies access.
     Link {
         vault: String,
@@ -427,7 +441,10 @@ pub enum OrgVaultCommand {
         #[arg(long, default_value = "write")]
         role: GroupRoleArg,
     },
-    Unlink { vault: String, group: String },
+    Unlink {
+        vault: String,
+        group: String,
+    },
 }
 
 #[derive(Debug, Subcommand)]
@@ -452,7 +469,10 @@ pub enum OrgPolicyCommand {
     /// Set one policy: require-two-step, require-sso, disable-share-links,
     /// disable-emergency-access, disable-export (on/off), sso-max-age-hours (0 to 8760),
     /// max-auto-lock-minutes, min-password-length (a number, or none).
-    Set { name: String, value: String },
+    Set {
+        name: String,
+        value: String,
+    },
 }
 
 #[derive(Debug, Subcommand)]

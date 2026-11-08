@@ -695,7 +695,7 @@ impl Open {
             let staged = self.staged.get_mut(id);
             let plain = match staged {
                 Some(staged) if staged.holds(index) => staged.read_chunk(index)?,
-                Some(staged) if !staged.from_base(index) => Zeroizing::new(Vec::new()),
+                Some(staged) if !staged.in_base(index) => Zeroizing::new(Vec::new()),
                 _ => match base.as_mut() {
                     Some((file, reader)) => Self::base_chunk(&record, file, reader, index)?,
                     None => Zeroizing::new(Vec::new()),
@@ -739,7 +739,7 @@ impl Open {
             return Ok(());
         }
         let record = self.record(id)?.clone();
-        let from_base = self.staged_for(id)?.from_base(index);
+        let from_base = self.staged_for(id)?.in_base(index);
         let plain = if record.content.is_some() && from_base {
             let (mut file, mut reader) = self.content_reader(root, &record)?;
             Self::base_chunk(&record, &mut file, &mut reader, index)?
@@ -832,7 +832,7 @@ impl Open {
                 .min(CONTENT_CHUNK_LEN as u64) as usize;
             let mut plain = match base.as_mut() {
                 _ if staged.holds(index) => staged.read_chunk(index)?,
-                Some((file, reader)) if staged.from_base(index) => {
+                Some((file, reader)) if staged.in_base(index) => {
                     Self::base_chunk(record, file, reader, index)?
                 }
                 _ => Zeroizing::new(Vec::new()),

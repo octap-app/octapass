@@ -123,14 +123,17 @@ fn the_apps_refusal_reaches_the_extension_with_the_requests_id() {
         (&stream)
             .write_all(format!("{}\n", serde_json::to_string(&reply).unwrap()).as_bytes())
             .unwrap();
+        // Stay connected until the host hangs up, as the app does: closing at once races the
+        // host's write of the request, which then sees no app at all.
+        let _ = std::io::copy(&mut &stream, &mut std::io::sink());
     });
     let mut child = host(dir.path(), &chrome_origin(), true);
     let reply = exchange(&mut child, json!({ "id": 7, "type": "unlock-status" }));
-    app.join().unwrap();
     assert_eq!(reply["id"], 7);
     assert_eq!(reply["error"]["code"], "browserNotTrusted");
     drop(child.stdin.take());
     child.wait().unwrap();
+    app.join().unwrap();
 }
 
 #[test]

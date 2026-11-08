@@ -25,6 +25,8 @@ pub struct ItemSummary {
     pub username: Option<String>,
     pub has_totp: bool,
     pub has_passkey: bool,
+    /// A non-empty password: a login made by saving a passkey has none, so it can't fill a password.
+    pub has_password: bool,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, uniffi::Record)]
@@ -114,6 +116,8 @@ pub(crate) fn summary(item_id: &str, vault_id: &str, item: &CoreItem) -> ItemSum
         username: login.and_then(|login| login.username.clone()),
         has_totp: login.is_some_and(|login| login.totp.as_deref().is_some_and(|t| !t.is_empty())),
         has_passkey: !passkey_records(item).is_empty(),
+        has_password: login
+            .is_some_and(|login| login.password.as_deref().is_some_and(|p| !p.is_empty())),
     }
 }
 

@@ -197,7 +197,13 @@ final class AutoFillModel: ObservableObject {
                     return unlocked()
                 }
             case .registration(let request):
-                return answer(try register(request, vault: vault))
+                let (registered, identity) = try register(request, vault: vault)
+                // Into the system's list before answering: the extension may be gone right after.
+                Task {
+                    await Self.publish(identity)
+                    self.answer(registered)
+                }
+                return
             }
             if case .oneTimeCodes = task {
                 suggestions = suggestions.filter(\.hasTotp)
@@ -304,8 +310,13 @@ final class AutoFillModel: ObservableObject {
         }
     }
 
-    private func register(_ request: ASPasskeyCredentialRequest, vault: AutoFillVault) throws -> AutoFillAnswer {
-        guard let identity = request.credentialIdentity as? ASPasskeyCredentialIdentity else { return .cancel(.failed) }
+    /// The new passkey, and its identity for the system's list (nil when there's nothing to answer with).
+    private func register(
+        _ request: ASPasskeyCredentialRequest, vault: AutoFillVault
+    ) throws -> (AutoFillAnswer, ASPasskeyCredentialIdentity?) {
+        guard let identity = request.credentialIdentity as? ASPasskeyCredentialIdentity else {
+            return (.cancel(.failed), nil)
+        }
         var excluded: [Data] = []
         var prf: PasskeyPrfRequest?
         if #available(iOS 18.0, macOS 15.0, *) {
@@ -316,8 +327,28 @@ final class AutoFillModel: ObservableObject {
             SystemRequests.creation(
                 identity: identity, algorithms: request.supportedAlgorithms, excluded: excluded, prf: prf),
             clientDataHash: request.clientDataHash)
-        return .registration(SystemRequests.registration(
+        let answer = AutoFillAnswer.registration(SystemRequests.registration(
             registration, rpId: identity.relyingPartyIdentifier, clientDataHash: request.clientDataHash))
+        let saved = ASPasskeyCredentialIdentity(
+            relyingPartyIdentifier: identity.relyingPartyIdentifier, userName: identity.userName,
+            credentialID: registration.credentialId, userHandle: identity.userHandle,
+            recordIdentifier: registration.itemId)
+        return (answer, saved)
+    }
+
+    /// Adds a passkey just made to the system's credential list. The app publishes the whole list
+    /// when it syncs, but until then the passkey sheet wouldn't know it exists: iOS offers a
+    /// provider's passkeys from this list, so signing in with it right away would show nothing.
+    /// The same identity the app publishes (`VaultPlatform.system`), so its next replace keeps it.
+    private static func publish(_ identity: ASPasskeyCredentialIdentity?) async {
+        guard let identity else { return }
+        let store = ASCredentialIdentityStore.shared
+        guard await store.state().isEnabled else { return }
+        do {
+            try await store.saveCredentialIdentities([identity])
+        } catch {
+            log.error("Couldn't add the new passkey to the system's list: \(String(describing: error), privacy: .public)")
+        }
     }
 }
 

@@ -7,156 +7,156 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		01C43F412AEBEF7FE3E04BD6 /* FilesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D183D55D64819133E8D76003 /* FilesSection.swift */; };
-		031304767EA1882C4F91F745 /* OctaPassResources in Frameworks */ = {isa = PBXBuildFile; productRef = 45375463B4AAD5BE7378B066 /* OctaPassResources */; };
-		04CC0C0620129AC304A235C7 /* GeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DE8C3510CFCDA09866A9E8 /* GeneratorView.swift */; };
-		067A362ECBF32CAB1B05EAE0 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78651E7ED3F969269C5D1505 /* SignInView.swift */; };
-		09686AA7E586DCC61CFA5885 /* MaskedEmailNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED8623C85E4E31B96AEF471 /* MaskedEmailNames.swift */; };
-		09B15009BB5B7B091BB29228 /* OnboardingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07CFC6BCD22512914C481A03 /* OnboardingTests.swift */; };
-		0E7F82656FF83237BD9C4401 /* AuthLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6C3CCF60B720D32B7540819 /* AuthLayout.swift */; };
-		0EE3D204B9B05FA64ADBEA89 /* LocalVaultViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B873AF0BFE425DC116FFBAD /* LocalVaultViews.swift */; };
-		133B3223C4DBA3A8E401AB1D /* SharingViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD50CB60504A0EC93EF2F2A9 /* SharingViews.swift */; };
-		166FA958290529CACC7B6EB3 /* StructuredViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D8C883CE97633853923E1B /* StructuredViews.swift */; };
-		1FCC8208194A2042752F0D1C /* OneTimeCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8105DA81D2A212857F6BE58C /* OneTimeCodes.swift */; };
-		20A65BC56FCB3B58C81A02D2 /* AccountViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 398098A3BA39BC7148562E3E /* AccountViews.swift */; };
-		21D0A30EED25EBD0EC4E3F13 /* ItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F713528A42CD296E0A734B2B /* ItemTests.swift */; };
-		2768F7066557529ECD94C5FB /* ItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94508FB1501B82FB652A583E /* ItemListView.swift */; };
-		28988DF60DF6AA4C4FFA2DB1 /* OtherAppsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2EC8D36595AA8F1B8609FB6 /* OtherAppsTests.swift */; };
-		2E38F337DF75D37C712D940D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77CFCDCD9073D8EC69F53B40 /* SettingsView.swift */; };
-		34C741E91C8F55B45F7AFF2A /* AutoFillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FDC8891A1AE8FA461B3354D /* AutoFillView.swift */; };
-		350745DF9BEF31599C0613D0 /* MaskedEmailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61907D37F1408E856809AA9A /* MaskedEmailTests.swift */; };
-		369BB57816392212915E78AB /* VaultPlatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67DEC3E03CB9E7592A5424ED /* VaultPlatform.swift */; };
-		398E6C92444EE16EA6AD0615 /* OctaPassWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF5439CD5A810A12E14FCF3 /* OctaPassWatchApp.swift */; };
-		3AF5052F189527D844CAC15F /* CodesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96DACB11ED358517E93A2924 /* CodesView.swift */; };
-		3CCDA8C8775595C1E911CA9F /* VaultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312CADB9CCA1BE813DB48B64 /* VaultTests.swift */; };
-		3E46086B88E4608FA3AE930F /* OctaPassVault in Frameworks */ = {isa = PBXBuildFile; productRef = AD87CCBD91B2AAC2A3ABA889 /* OctaPassVault */; };
-		44960CBA37A83A6FEECBC9F6 /* HealthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B81BD0FB35E7C47ED7B5C99B /* HealthView.swift */; };
-		4760671CC79E05DC0DA974F0 /* ThisDeviceSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A33DB486CBB1A8F000518BB8 /* ThisDeviceSection.swift */; };
-		4982DDEC7AB2B7B713ABD906 /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEDC6512E07D8F917E4AEFC7 /* Errors.swift */; };
-		573B05B59A053A828C65ABAB /* AutoFillModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D61B90C359F57C0F4C88332 /* AutoFillModel.swift */; };
-		587FDF8E9A192577396B022E /* DeveloperToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66EB567B862846E9E47BEF15 /* DeveloperToolsView.swift */; };
-		5894ABB4EF7C8412935BDB8B /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 685A8B4AE632C8DA4AE15F76 /* PrivacyInfo.xcprivacy */; };
-		593E31979BF208E5148AAA81 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = F87C0DE9E6456AEDD91A4EEA /* PrivacyInfo.xcprivacy */; };
-		5A81B3B3E377470C175D6B19 /* UnlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6472EA922419AC6138F42D /* UnlockView.swift */; };
-		5AC249796B9F63EAE2813A31 /* KeyRotationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6DE8C68D798599068C2BCC6 /* KeyRotationTests.swift */; };
-		60B9603430F60AE7706C7369 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0CD2DBC5B00B23C0C4A4B751 /* Assets.xcassets */; };
-		60F560CEC9A64A1261140108 /* FieldRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = B759FCBFF6F50B8703240539 /* FieldRows.swift */; };
-		642FE7C80A63FD45ED7B00FA /* OctaPassAutoFill.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8EFD6FA607230AE17253E44E /* OctaPassAutoFill.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		646E815EBAF4DBA75629127F /* FileProviderExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CEF2E35BD87024AAF605D8 /* FileProviderExtension.swift */; };
-		64CF203CFB7D3409C10635C6 /* QrScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA830FE13A8B29E6D8EAA05 /* QrScanner.swift */; };
-		664821DCBBAEC5F46BA14D97 /* SharingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EFD1AB458FCB1AF14537641 /* SharingTests.swift */; };
-		67B0EBD3079FFB8A2299929F /* ScanSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD8D085E0A5184A8DA9EE09 /* ScanSheet.swift */; };
-		6B1AC5763CAF99C301306AD2 /* ItemEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C24ADA5A0E7F38AA7CB35A9 /* ItemEditor.swift */; };
-		6BDCFA2854284C33E204B0C2 /* OctaPassWatchCodes in Frameworks */ = {isa = PBXBuildFile; productRef = A5D3F08134870B72DDC43C28 /* OctaPassWatchCodes */; };
-		6CA854F7FCEC0418AD50A8B9 /* BackupFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2A43F809E244D50F5C8FB2 /* BackupFolder.swift */; };
-		6E7198639A663CAC6BBCE8A5 /* EnvironmentViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0084D6F9E78612F84F2A02F /* EnvironmentViews.swift */; };
-		6E9410E71F80ADD300C0AA5E /* LocalVaultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55EA3CDE76894089765177A /* LocalVaultTests.swift */; };
-		70C0C4CD880144776F6C3CEC /* SettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7F6D43754FA92F13D4578E5 /* SettingsTests.swift */; };
-		7117F71B0C6E3D4187C6181E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 27183FC8C823D20F6E4A96A3 /* InfoPlist.strings */; };
-		7157430EBB0C7DACC8C28EA2 /* OctaPassResources in Frameworks */ = {isa = PBXBuildFile; productRef = A1520EF3441811EB9CA251C1 /* OctaPassResources */; };
-		72DB5C54C25AE2D742BAEC08 /* SafeFileOps.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92F93CAB041F9303AF3D268 /* SafeFileOps.swift */; };
-		79C2B6253E82FF0C30A209FC /* VaultTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1343A60D50DF322944CEA1B6 /* VaultTypes.swift */; };
-		7E4B029DF3C62C16E6F5BB77 /* AutoFillTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4E2F902A38FE94899B0E50 /* AutoFillTests.swift */; };
-		84D15CE860912D56A93375F6 /* WifiViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDC23A90DD62B04BE318EB3E /* WifiViews.swift */; };
-		870BDF8130BA8648F91CD055 /* WifiOffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF14E943685386A29EFE069D /* WifiOffer.swift */; };
-		8C0FC68FB492D3FBD4C41232 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA550C3E02C6261DE4D895C /* MainView.swift */; };
-		8FB29846536CEF469CFAECDF /* OctaPassSafeProvider.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DFB906F68CC64BD22A027C6D /* OctaPassSafeProvider.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		90F31D3D1A14D1B081105F69 /* SafeSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8E64B22D5866F76FDC99280 /* SafeSession.swift */; };
-		9143EE84F3161A85EA103C0C /* QrSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD7A530D601023FAC94ACA0 /* QrSheet.swift */; };
-		92BF7A5393E0D38096937326 /* DeveloperItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6590EA854A5C534BBA10F1CA /* DeveloperItemTests.swift */; };
-		9490E88D1DC3D28E6BD7D126 /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB205AAB3BC3262B9A1893A /* Navigation.swift */; };
-		95F4EDE87684C26805CFCC1B /* TwoStepSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39B7E7C26E32905F15B43436 /* TwoStepSettingsView.swift */; };
-		967BA36DADBAD3A22D160C45 /* OctaPassWatchCodes in Frameworks */ = {isa = PBXBuildFile; productRef = 3507803406CF090EDCE3E776 /* OctaPassWatchCodes */; };
-		9F3CF9EDDD3FA9846A485EC7 /* CredentialProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D218424F4356FE9B38ED27 /* CredentialProviderViewController.swift */; };
-		A02B72FBED09257AD4328937 /* OpenedLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838A5920DFC1C323D349F855 /* OpenedLinks.swift */; };
-		A032FE22663573C303C88DCF /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 067C409709CF88BF0D17307B /* Avatar.swift */; };
-		A2D4637BB6040DBFAE61030F /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D1BF020BC20899338993CD /* Theme.swift */; };
-		A4EC3CD16ACD7062CD0EBF87 /* SafeFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 875EE4B9605A1163E2F5A7EC /* SafeFiles.swift */; };
-		A5A8B73A67E58D3AB30A833D /* KeychainTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB70F582759703C5E49882C1 /* KeychainTypes.swift */; };
-		A5D7C2738D456AC53F804C51 /* OtherAppsViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = D78AEBF331804CFA7DF54B19 /* OtherAppsViews.swift */; };
-		AA249321B51832185B1CA78B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B4E80508A32834B024FB3319 /* InfoPlist.strings */; };
-		ACF41D0905C41FEB3B7AEAFC /* FilePickers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0960EEFF9DE8DEA6789722AD /* FilePickers.swift */; };
-		B5C4CB8FF61993940FB57ABB /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 549CA197EE019B3E0851112E /* ChangePasswordView.swift */; };
-		B762091B45857EF4DEEA68E7 /* RecoveryKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC8757F40A01FB002FE25D5A /* RecoveryKitView.swift */; };
-		B9F25AABB025D975BE41CE2E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0BF367557A17B136CAD6F391 /* Assets.xcassets */; };
-		BA9B7250068E1C958F435A79 /* IdentityGate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86137DB9CF56B484884792D /* IdentityGate.swift */; };
-		BBA8AC127CE589B41F6D2D31 /* UITestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75807D6C73221530ADD35AA9 /* UITestCase.swift */; };
-		C07A849C35D5E9EEDAB6032C /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 23CB32D9E15653C9C5B71397 /* Localizable.strings */; };
-		C145ACB53A9BB9B0BE660184 /* OctaPassKeychain in Frameworks */ = {isa = PBXBuildFile; productRef = 91875F27F5F878AEA3C7A08D /* OctaPassKeychain */; };
-		C163EEAACC517D25748A21C6 /* SshKeyViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E7BA200E3FD2C82C9AD489 /* SshKeyViews.swift */; };
-		C251577DFFBC223CFB3E97D4 /* WatchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECE1868BFA580E80299F4497 /* WatchModel.swift */; };
-		C4273BB4F769F4528A21B6AE /* MasterPasswordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21CE274C5460254ED53FAA79 /* MasterPasswordTests.swift */; };
-		C52860706D5E95788BC96EC7 /* AutoFillSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318F057ABDA53523323FA01E /* AutoFillSettings.swift */; };
-		C7CDA3D8C93416BE5559F0C0 /* PasswordResetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F560D5C6F6C91EFACFD29E /* PasswordResetView.swift */; };
-		CA21C46A2C72037384BFED66 /* OctaPassApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5FDCDF318ED3353B59D8D5F /* OctaPassApp.swift */; };
-		CC0C5CD7EF62579451F73789 /* CredentialExchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857D24EB60BA8AB5AE8AFCA2 /* CredentialExchange.swift */; };
-		CC69193EDE0726CB1FE6C091 /* OctaPassVault in Frameworks */ = {isa = PBXBuildFile; productRef = AA63F50FA0278325AB0CA72C /* OctaPassVault */; };
-		CED3B6BC20943B8927D31764 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = E6C846EE03BCEB8470BCBE1F /* PrivacyInfo.xcprivacy */; };
-		D2CDBC022F218876473EC8FB /* MaskedEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863E7C9522799FC4CED9885F /* MaskedEmailView.swift */; };
-		D2F8C77FA38FC24E2E60268C /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14BA9730FA2C49A1D910D51 /* AppModel.swift */; };
-		D4044FCB07113078B8F01AA7 /* TurnOnSyncView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47CEFE3B4AEA2904C51719AA /* TurnOnSyncView.swift */; };
-		D458B87767A70143177666B3 /* Wifi.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D4DD8B35126F1D63AF70B5 /* Wifi.swift */; };
-		D6F9C93D0A599AF7043A5B5C /* StayUnlockedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500CAC9B1CE48A59CE35CDDA /* StayUnlockedTests.swift */; };
-		D9B64CD20D87A893BEA45D33 /* OctaPassAutoFillKit in Frameworks */ = {isa = PBXBuildFile; productRef = 565C331D3A1ACC564B9E7EF1 /* OctaPassAutoFillKit */; };
-		D9F82AE1BF01929C48B00ED9 /* OctaPassResources in Frameworks */ = {isa = PBXBuildFile; productRef = E95481DE5AFD89C50B2238B1 /* OctaPassResources */; };
-		DA190569F464E04E2252BD80 /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A8AE164FAF254ACC67549ED /* ItemDetailView.swift */; };
-		DEB8D3BFBCD0CDC85E7CD35E /* SafeKeyRecordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D013882A0833E384B2ABE61 /* SafeKeyRecordTests.swift */; };
-		E2EAED23749F3688F9D1C933 /* OctaPassKeychain in Frameworks */ = {isa = PBXBuildFile; productRef = CA983489C68BB26A82F480A0 /* OctaPassKeychain */; };
-		E4646B598777422E841AA379 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA46C51EAC0F840D0163978F /* SignUpView.swift */; };
-		E53BB248DC6F92751C720A1E /* Fields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346DDF5A4536C4D7534FF1B3 /* Fields.swift */; };
-		E6D5333E712D86893C4ABA90 /* KeyRotationViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782AF71ED223C539956461E2 /* KeyRotationViews.swift */; };
-		E7BFD188B1195C8736012510 /* OnboardingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA5FF7A0FE97BD850D57707 /* OnboardingTests.swift */; };
-		E855003F043C9E6BCB526E1D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 481A3F6E3BBE0749CD24713A /* InfoPlist.strings */; };
-		ED02FB3F5828B33A56E2E200 /* WatchCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68B946FB8B52327C1A3F3FC /* WatchCodes.swift */; };
-		F0A472FCA466CCB4A65C21AA /* IPadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75F60BF317C90E4D409EC112 /* IPadTests.swift */; };
-		F111A99D2AB4949CF8C262A3 /* LocalVaultSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A36012D23009BC1C31C2DFCC /* LocalVaultSetup.swift */; };
-		F1F774AEFC6CE91C02BF700A /* SafesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6204BFF3D1699AFB62CD4E42 /* SafesView.swift */; };
-		F99E695E2751D6D10301112E /* SafeBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE77042125680D52BC1478BB /* SafeBrowserView.swift */; };
-		FCF6DBD21C87CDDC26D84F3D /* OctaPassWifi in Frameworks */ = {isa = PBXBuildFile; productRef = 28757162FEF10F2997D59DBB /* OctaPassWifi */; };
-		FEEDA03F7D02F6DD3D0C1814 /* EmergencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F592F2A1FECA6AB4C0394A44 /* EmergencyView.swift */; };
-		FFA8501482AA420B37F155E6 /* SafeItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EE2FFFC12482A51D5D54779 /* SafeItems.swift */; };
+		0492FDFE6EBE81EEA8BDA07B /* CodesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535F0B54F2F225C6034D763C /* CodesView.swift */; };
+		0A8E0692A84DD59ABA9FEACD /* FieldRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F0F27939E4956D76E99E3A /* FieldRows.swift */; };
+		0B3D6C2550ED48FEE3F94766 /* LocalVaultViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80FD4DB838A5AAC4F933248 /* LocalVaultViews.swift */; };
+		0D16D59C03FD3155A9DA18DE /* HealthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3379C0118A906D9CC9FFA20A /* HealthView.swift */; };
+		0F11427197FEB7CCFB47CEB0 /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2957722800F983044893A2E2 /* Avatar.swift */; };
+		10669AFA214E8711BCF366F0 /* KeychainTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A887744F6478AAC29E03E60 /* KeychainTypes.swift */; };
+		14FBC0C375BCF2FFFDDA3BD0 /* EnvironmentViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88655CCD9A4BD662C054A6F /* EnvironmentViews.swift */; };
+		18AEA094CD1B713D40A55445 /* CredentialExchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41071D91CA8929C84D8A98E /* CredentialExchange.swift */; };
+		18DBC19D4574B0497FE74530 /* SharingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5479256543307508035B38D6 /* SharingTests.swift */; };
+		1A9D73D87657CA7CAA6F70CE /* IPadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1FBD4889ACB30835601ECAF /* IPadTests.swift */; };
+		1C068A70C8625089049D2A27 /* KeyRotationViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EA3F0788FAA674EE79B8D /* KeyRotationViews.swift */; };
+		1D6D01D8B63A0285A8BCA031 /* IdentityGate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EC1B0E0EB2548E64897F90D /* IdentityGate.swift */; };
+		22828175F93442911686F35A /* MaskedEmailTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0CB10683CD909D5B6E2EC48 /* MaskedEmailTests.swift */; };
+		229B9561E581F8AACE5DA2E1 /* FileProviderExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D94926BA04C5FE128CF02A8 /* FileProviderExtension.swift */; };
+		2AF666A421315CFC6B2082F6 /* ItemEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DE30F756B9DAF0A70738C12 /* ItemEditor.swift */; };
+		2CB536DD9F15C146F548A92D /* RecoveryKitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE0DF4BCD97D1DBB6A76213 /* RecoveryKitView.swift */; };
+		3029336ED62C342266917087 /* AccountViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 193CF213B44E80067AB75FA1 /* AccountViews.swift */; };
+		313D78C4FB1DE4831A17FB84 /* AutoFillTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA7785B495F6ABC5F5F41E9B /* AutoFillTests.swift */; };
+		32816A1DB8AA88C404EBEAF6 /* OpenedLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A327F187CD3A12C714D752B /* OpenedLinks.swift */; };
+		364098680F60668DFC107066 /* VaultPlatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70924F701E170B23782CDC6D /* VaultPlatform.swift */; };
+		36D300E95EAE11880D286149 /* AuthLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1226F5D0C0594210895206 /* AuthLayout.swift */; };
+		37C02D9635CF231796333A0B /* AutoFillSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D9B7D9F4F2C66CBE17348C /* AutoFillSettings.swift */; };
+		3D6D4BFF07973F6D32EE7DCC /* TurnOnSyncView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7311F2FCFD93514BDD308735 /* TurnOnSyncView.swift */; };
+		3F1DAC1B5BFCFB8EF87FF842 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 0DCB9CEDDD29241F02943A7F /* PrivacyInfo.xcprivacy */; };
+		418ADA3722316CCD5019847E /* OnboardingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA29606BE5DD165FCEE83589 /* OnboardingTests.swift */; };
+		41E41368A380960ECE416C4B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A90AD259E16EE0625F325006 /* InfoPlist.strings */; };
+		44A6FAB6E73CF50DDE07E1DB /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF80A09969FCA6CE98811A2B /* Navigation.swift */; };
+		4833CA10D3BA03310030886F /* AutoFillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94CCAAC50EC8338B06959431 /* AutoFillView.swift */; };
+		4DF4DD294D562CBDCAC96287 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1C19785A2CCB93499889A8 /* MainView.swift */; };
+		513A5031EF8300995177C0C7 /* UnlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5C0DE7E81DD663F45D28CD /* UnlockView.swift */; };
+		5304FD7A5B17796C5B87434B /* WatchCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACD9D91E3AE3B3FE55A105B /* WatchCodes.swift */; };
+		55AAD53302731166F71715AA /* UITestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4686EC4ED2A20D3F141A54D6 /* UITestCase.swift */; };
+		5745865311C7403A79C3E33A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39A889AF2D946C8166BF057D /* SettingsView.swift */; };
+		591B70519CCBBFA39FE28F9D /* QrScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38538B09749094580D4D12CA /* QrScanner.swift */; };
+		5A5008AC872C4F7EBC920E15 /* SshKeyViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2A0BDACD1FE6C33B7D00B38 /* SshKeyViews.swift */; };
+		5AF9EE0AA1C0CCE7A4E91AD8 /* SharingViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 111371FD946535BF5AD6FB41 /* SharingViews.swift */; };
+		5B7FE87FDD165A33D75BF318 /* BackupFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7114AF306F3933E3D6836A6B /* BackupFolder.swift */; };
+		5BBC15EAA3E935ECC4CC1B50 /* AutoFillModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ED1EFE8EB21E36C017AAADE /* AutoFillModel.swift */; };
+		5C1B87E646C0F4090BE687D1 /* OneTimeCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A5A9ED57FFF188C35626E0 /* OneTimeCodes.swift */; };
+		60DACDD9E3152A3F08F285DD /* SafeFileOps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 936EF02751F19769EF5712C4 /* SafeFileOps.swift */; };
+		6416CBB279C8BF655B3CC174 /* OctaPassWatchCodes in Frameworks */ = {isa = PBXBuildFile; productRef = 745388AD845A48F0C21F69B8 /* OctaPassWatchCodes */; };
+		64CF91667C85C0F4B4F9441D /* OctaPassAutoFillKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4B276DA6168D79866CAD0A66 /* OctaPassAutoFillKit */; };
+		652A59176A05E96C08EF0B66 /* ItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62E2461C964AC8E5DFC7430F /* ItemTests.swift */; };
+		66BDDA2ED1A4322B063ECEF6 /* StayUnlockedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103B21FC6238EF42106936A3 /* StayUnlockedTests.swift */; };
+		6DA5CE6550BF9CC3E3224CBC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2FE01DE909C59F7A28181876 /* InfoPlist.strings */; };
+		780B575F101FCDFD3DE28D40 /* OctaPassResources in Frameworks */ = {isa = PBXBuildFile; productRef = CDED54E3C95F01B591C9CBB6 /* OctaPassResources */; };
+		7B11894C04354D0CB22C3F24 /* KeyRotationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7159D1D5F7041C077C642B9 /* KeyRotationTests.swift */; };
+		7CA144E4C0FBC8C89457D721 /* CredentialProviderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E39DD7AC02769C1BAEEF27 /* CredentialProviderViewController.swift */; };
+		85B33B6FE96F57D928B23DC4 /* OctaPassKeychain in Frameworks */ = {isa = PBXBuildFile; productRef = 56534BAA868B7A2DCA7FF56A /* OctaPassKeychain */; };
+		860F0B247D2E3FC2AAFA45E6 /* MaskedEmailNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE22EC5BD36CAC4640D34A1 /* MaskedEmailNames.swift */; };
+		88DEAADD56A234923CB56EC6 /* Fields.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284196760EB078A9D9410C0D /* Fields.swift */; };
+		8B6459BF3314186E080D8319 /* WifiViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF6923079321CEE8B89958C /* WifiViews.swift */; };
+		8C41AE67676EAD635D79A94A /* SafeBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F820498BC802C79DC50A6C /* SafeBrowserView.swift */; };
+		8C4FFA6047192EE47DBD55A0 /* ItemDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA99047A7E4A1341DDF7268C /* ItemDetailView.swift */; };
+		8F1570E031F997B1B3DC1249 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F40C965DC98C7396363D8B6B /* Localizable.strings */; };
+		916CCB58B1179D0775C98004 /* Wifi.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD16BB9062418222BEC71EC /* Wifi.swift */; };
+		93B4A53FC32214DD18B945C1 /* ItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E5A2957CC670B0F37EB47D /* ItemListView.swift */; };
+		95235DA59F8C44C2B53C20B9 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B292F500AE8B8521AA8ECD88 /* SignInView.swift */; };
+		952C3E0535D70670A6BDCEA2 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD9BED6627A60C937D36A45 /* AppModel.swift */; };
+		958228154D8557839526217D /* LocalVaultSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D9D967523613B3DB82E0D4 /* LocalVaultSetup.swift */; };
+		9834C191A99265FE3BAA42A3 /* OctaPassKeychain in Frameworks */ = {isa = PBXBuildFile; productRef = 0B8C2F14FE406EB115F7F9E0 /* OctaPassKeychain */; };
+		9C208E8BA4D2800D1A82A9E9 /* OctaPassWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1482D9CCEB81C889C1F3E93D /* OctaPassWatchApp.swift */; };
+		9C7CE605F50D251D0B1BCC45 /* VaultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D878B0A2D419FA21FDC2DE7 /* VaultTests.swift */; };
+		9C7F203B8D6F5BDE7AA12C2F /* OtherAppsViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17A9036BFD852DB8A71E576B /* OtherAppsViews.swift */; };
+		9DF2D7083AB42E71BE703C09 /* SafeSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B534C68A732F6D56A9ABA8D8 /* SafeSession.swift */; };
+		9E66532CE07D36DBAFA6DE14 /* FilePickers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18CD72FF0668089A9CFFD1D4 /* FilePickers.swift */; };
+		AEBD421CB718EAA4D55EB4C6 /* DeveloperItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65B71E7AE1A06E0AC1C485E3 /* DeveloperItemTests.swift */; };
+		B173D7C8F7CBD4B3CA15396B /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58E89F894B950E9990A0528 /* ChangePasswordView.swift */; };
+		B31A34E6273CFE4B163B20B4 /* StructuredViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = B315F5144FAEE6C48CE1ADAA /* StructuredViews.swift */; };
+		B5421FA98825A9236EEC0DED /* OctaPassResources in Frameworks */ = {isa = PBXBuildFile; productRef = 49E9B3AF7D559EC4833BD369 /* OctaPassResources */; };
+		B635545159A684B805DC7621 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D8E2A14CF173FC4CDAC9683C /* PrivacyInfo.xcprivacy */; };
+		B8AA5EA337E0D3EAB35A3925 /* OctaPassWifi in Frameworks */ = {isa = PBXBuildFile; productRef = 712985FA5E487AFBC7AD11A0 /* OctaPassWifi */; };
+		B8FB3E70CF4125AF13B4896B /* DeveloperToolsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DD51D8768BDC424D168BE4 /* DeveloperToolsView.swift */; };
+		BE5DC66FCD8CB0B69B8D1C26 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA7D4744675CE0CA177C825D /* Assets.xcassets */; };
+		BE8426293AFAADC304791FEF /* PasswordResetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 011BC5FECD99087FE5435714 /* PasswordResetView.swift */; };
+		BEA415E30C6DAE2C450EF885 /* OtherAppsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC6BC0708A27FC50357BA6ED /* OtherAppsTests.swift */; };
+		BF8E92681C71FE7605DF04DB /* SettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D2458964DE5F522CEEBF87 /* SettingsTests.swift */; };
+		C0E90A1E086C28561742C41C /* OctaPassWatchCodes in Frameworks */ = {isa = PBXBuildFile; productRef = 5C431CBBDA4DE3BA3DE4050F /* OctaPassWatchCodes */; };
+		C14E4A17411FCFB2D6ADFFB7 /* QrSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 787CFC23309CA5C7A6893826 /* QrSheet.swift */; };
+		C186AFAF2062C26A31053E32 /* WatchModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82285495A4F64F5710F5BBB2 /* WatchModel.swift */; };
+		C3123A475FEDCE838A1D019A /* ScanSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D86AE1627ACEF0960AAA74A /* ScanSheet.swift */; };
+		C3B3CE1F69A8E565C5F9C559 /* SafeItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D48392D3CC0713D0E68A009 /* SafeItems.swift */; };
+		C445085FB2BCD45A1E7BE1CB /* SafeKeyRecordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 284EF75D5EC41F8042C8AF65 /* SafeKeyRecordTests.swift */; };
+		C603FD953FCD24D04C9B8021 /* FilesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD10548B047470B4B26ABC62 /* FilesSection.swift */; };
+		C60F70B914A1FC182EDCE88F /* OctaPassVault in Frameworks */ = {isa = PBXBuildFile; productRef = 02A64BAC23F03DB7AFFFFD2F /* OctaPassVault */; };
+		C63D5DEB9BC53AF9F98D65C8 /* OnboardingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5AD00F04FCE1602F4C9ED15 /* OnboardingTests.swift */; };
+		C8BEB0C46F7133445159177A /* ThisDeviceSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3B9BF76B8E3971116AA2F12 /* ThisDeviceSection.swift */; };
+		CA747B528FFA16550EF87E5A /* WifiOffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31D03BA01020F66B929E33EE /* WifiOffer.swift */; };
+		CD0D76C012DAB8D45C14EBE9 /* VaultTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BA94CEDAA2ED219FB31F576 /* VaultTypes.swift */; };
+		CD40641CCA25FA700BEA981C /* OctaPassAutoFill.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 46B54BD266098FC9C4FF08F5 /* OctaPassAutoFill.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CD91A871AFC86F7FCCC1455E /* EmergencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B2629754F009CB78BE36ACF /* EmergencyView.swift */; };
+		CE08A85132AA002F96E77DBC /* OctaPassVault in Frameworks */ = {isa = PBXBuildFile; productRef = 3A9E3606B4496F8E167FB376 /* OctaPassVault */; };
+		CE6630A78E08A4EB06175E83 /* OctaPassApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D9AC163E113FDB21EA471DA /* OctaPassApp.swift */; };
+		CEAFC09EDDBA70D24D68902C /* LocalVaultTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13DA432B33A79455CCFBD095 /* LocalVaultTests.swift */; };
+		D036BA8D86E923A72C08A7F7 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7366C686CA5F224213697C57 /* PrivacyInfo.xcprivacy */; };
+		D875E0239F42B12A3FAA6427 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BB0DDA86768736712DB9A5F3 /* InfoPlist.strings */; };
+		D8A040E9862D97BA0334A9B2 /* GeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9182929BCF4710018C36CFB4 /* GeneratorView.swift */; };
+		DC33A0D756316569EF466302 /* MasterPasswordTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6C9CA446C805DB7B20B3A3B /* MasterPasswordTests.swift */; };
+		DCD02B5EDDFE41CF60078FF0 /* SafesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727EECB040D7407C6D215373 /* SafesView.swift */; };
+		DE15F7FD37253286F1D7E839 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E12A08F1E9E60E94000ADE95 /* Assets.xcassets */; };
+		E07916DDA7F6D89A32D311A1 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214692F5912EB79D90A07DE8 /* Theme.swift */; };
+		E930621FE155549221FC9F73 /* OctaPassResources in Frameworks */ = {isa = PBXBuildFile; productRef = 98437ED83A786CE5C23C6FD6 /* OctaPassResources */; };
+		EA03EA60B9C7207B7FEFF1B7 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFF79A6818084AB8B01A58 /* SignUpView.swift */; };
+		EC56ACA537F97AD2A0F27747 /* SafeFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7476E2B9BB28CBC1F83668E1 /* SafeFiles.swift */; };
+		EDB7C77EF4527EEF43E91F1B /* OctaPassSafeProvider.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 4D7CDBD7E96EC03CECC84055 /* OctaPassSafeProvider.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		EF79F03A70368F6F3F227C3E /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10DD198E6FAB9DDA2CA503D6 /* Errors.swift */; };
+		F2F31FB11E7E72086E365A19 /* TwoStepSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39FCCFA9BAF4BA82CE2694B3 /* TwoStepSettingsView.swift */; };
+		F7572D208EED54A4F802EE20 /* MaskedEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558A0AC9F1D1B051CFF43285 /* MaskedEmailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		4B04C7FA9B4188FC07DAF27F /* PBXContainerItemProxy */ = {
+		7F479402718DF73474097053 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 85FC365B34565BB054898094 /* Project object */;
+			containerPortal = EB7BE93FAFC8361FCC2AF496 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 2C0D7D3151B4C96724D7195B;
+			remoteGlobalIDString = FD615CBC94EBC7685B217014;
+			remoteInfo = OctaPass;
+		};
+		9D79361F306064E4F8B8CA7A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EB7BE93FAFC8361FCC2AF496 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FDBAB55229768F95830A87DB;
 			remoteInfo = OctaPassAutoFill;
 		};
-		80AB46C0750F8CEB3A61D51D /* PBXContainerItemProxy */ = {
+		D486A0604180952A4397C796 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 85FC365B34565BB054898094 /* Project object */;
+			containerPortal = EB7BE93FAFC8361FCC2AF496 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 9E12F14C44EBDD2D111C3788;
+			remoteGlobalIDString = FD615CBC94EBC7685B217014;
 			remoteInfo = OctaPass;
 		};
-		AD0D154B048D4E3278C2ED6E /* PBXContainerItemProxy */ = {
+		D5302FA6C0A575418E2C243F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 85FC365B34565BB054898094 /* Project object */;
+			containerPortal = EB7BE93FAFC8361FCC2AF496 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 730B4F26BC2D85CE335EDE16;
+			remoteGlobalIDString = 60AA21EC30F3C5B3264562E1;
 			remoteInfo = OctaPassSafeProvider;
-		};
-		FC60933CB77761726FC3D678 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 85FC365B34565BB054898094 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9E12F14C44EBDD2D111C3788;
-			remoteInfo = OctaPass;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		3D592CB96B4745683DEAF746 /* Embed Foundation Extensions */ = {
+		BA2E3E2ED66086A2705DD631 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				642FE7C80A63FD45ED7B00FA /* OctaPassAutoFill.appex in Embed Foundation Extensions */,
-				8FB29846536CEF469CFAECDF /* OctaPassSafeProvider.appex in Embed Foundation Extensions */,
+				CD40641CCA25FA700BEA981C /* OctaPassAutoFill.appex in Embed Foundation Extensions */,
+				EDB7C77EF4527EEF43E91F1B /* OctaPassSafeProvider.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -164,426 +164,426 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		04D1BF020BC20899338993CD /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
-		067C409709CF88BF0D17307B /* Avatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
-		0751541332A9B2205A0C3DD9 /* OctaPassVault */ = {isa = PBXFileReference; lastKnownFileType = folder; name = OctaPassVault; path = Packages/OctaPassVault; sourceTree = SOURCE_ROOT; };
-		07CFC6BCD22512914C481A03 /* OnboardingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTests.swift; sourceTree = "<group>"; };
-		0960EEFF9DE8DEA6789722AD /* FilePickers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePickers.swift; sourceTree = "<group>"; };
-		0BF367557A17B136CAD6F391 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		0C2A43F809E244D50F5C8FB2 /* BackupFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupFolder.swift; sourceTree = "<group>"; };
-		0CD2DBC5B00B23C0C4A4B751 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		0EFD1AB458FCB1AF14537641 /* SharingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingTests.swift; sourceTree = "<group>"; };
-		129D0DE84AB9C8630D5794F0 /* WatchCodes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = WatchCodes; path = Packages/WatchCodes; sourceTree = SOURCE_ROOT; };
-		1343A60D50DF322944CEA1B6 /* VaultTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultTypes.swift; sourceTree = "<group>"; };
-		1D17FB3605294A18D76B3173 /* Keychain */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Keychain; path = Packages/Keychain; sourceTree = SOURCE_ROOT; };
-		20D8C883CE97633853923E1B /* StructuredViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StructuredViews.swift; sourceTree = "<group>"; };
-		21CE274C5460254ED53FAA79 /* MasterPasswordTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterPasswordTests.swift; sourceTree = "<group>"; };
-		23CB32D9E15653C9C5B71397 /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
-		27183FC8C823D20F6E4A96A3 /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = ar.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		2A8AE164FAF254ACC67549ED /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
-		2C24ADA5A0E7F38AA7CB35A9 /* ItemEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemEditor.swift; sourceTree = "<group>"; };
-		2D61B90C359F57C0F4C88332 /* AutoFillModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoFillModel.swift; sourceTree = "<group>"; };
-		312CADB9CCA1BE813DB48B64 /* VaultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultTests.swift; sourceTree = "<group>"; };
-		318F057ABDA53523323FA01E /* AutoFillSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoFillSettings.swift; sourceTree = "<group>"; };
-		346DDF5A4536C4D7534FF1B3 /* Fields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fields.swift; sourceTree = "<group>"; };
-		398098A3BA39BC7148562E3E /* AccountViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViews.swift; sourceTree = "<group>"; };
-		39B7E7C26E32905F15B43436 /* TwoStepSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoStepSettingsView.swift; sourceTree = "<group>"; };
-		3D013882A0833E384B2ABE61 /* SafeKeyRecordTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeKeyRecordTests.swift; sourceTree = "<group>"; };
-		47CEFE3B4AEA2904C51719AA /* TurnOnSyncView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnOnSyncView.swift; sourceTree = "<group>"; };
-		481A3F6E3BBE0749CD24713A /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = ar.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		48E7BA200E3FD2C82C9AD489 /* SshKeyViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SshKeyViews.swift; sourceTree = "<group>"; };
-		4FA550C3E02C6261DE4D895C /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		500CAC9B1CE48A59CE35CDDA /* StayUnlockedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StayUnlockedTests.swift; sourceTree = "<group>"; };
-		549CA197EE019B3E0851112E /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
-		55B7D371A2E0810B545DE9DF /* OctaPassTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = OctaPassTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5BA830FE13A8B29E6D8EAA05 /* QrScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrScanner.swift; sourceTree = "<group>"; };
-		5CD7A530D601023FAC94ACA0 /* QrSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrSheet.swift; sourceTree = "<group>"; };
-		5ED8623C85E4E31B96AEF471 /* MaskedEmailNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaskedEmailNames.swift; sourceTree = "<group>"; };
-		5FDC8891A1AE8FA461B3354D /* AutoFillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoFillView.swift; sourceTree = "<group>"; };
-		61907D37F1408E856809AA9A /* MaskedEmailTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaskedEmailTests.swift; sourceTree = "<group>"; };
-		6204BFF3D1699AFB62CD4E42 /* SafesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafesView.swift; sourceTree = "<group>"; };
-		6590EA854A5C534BBA10F1CA /* DeveloperItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperItemTests.swift; sourceTree = "<group>"; };
-		66EB567B862846E9E47BEF15 /* DeveloperToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperToolsView.swift; sourceTree = "<group>"; };
-		67DEC3E03CB9E7592A5424ED /* VaultPlatform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultPlatform.swift; sourceTree = "<group>"; };
-		685A8B4AE632C8DA4AE15F76 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		736295DC70D0CD328731ADAF /* OctaPassResources */ = {isa = PBXFileReference; lastKnownFileType = folder; name = OctaPassResources; path = Packages/OctaPassResources; sourceTree = SOURCE_ROOT; };
-		75807D6C73221530ADD35AA9 /* UITestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestCase.swift; sourceTree = "<group>"; };
-		75F60BF317C90E4D409EC112 /* IPadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPadTests.swift; sourceTree = "<group>"; };
-		77CFCDCD9073D8EC69F53B40 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		782AF71ED223C539956461E2 /* KeyRotationViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyRotationViews.swift; sourceTree = "<group>"; };
-		78651E7ED3F969269C5D1505 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
-		7873174501FA8FABA6A62003 /* Wifi */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Wifi; path = Packages/Wifi; sourceTree = SOURCE_ROOT; };
-		7F580E66E4EF148FF67A620F /* OctaPassWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OctaPassWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		8105DA81D2A212857F6BE58C /* OneTimeCodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneTimeCodes.swift; sourceTree = "<group>"; };
-		838A5920DFC1C323D349F855 /* OpenedLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenedLinks.swift; sourceTree = "<group>"; };
-		857D24EB60BA8AB5AE8AFCA2 /* CredentialExchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialExchange.swift; sourceTree = "<group>"; };
-		863E7C9522799FC4CED9885F /* MaskedEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaskedEmailView.swift; sourceTree = "<group>"; };
-		875EE4B9605A1163E2F5A7EC /* SafeFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeFiles.swift; sourceTree = "<group>"; };
-		87DE8C3510CFCDA09866A9E8 /* GeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratorView.swift; sourceTree = "<group>"; };
-		87F560D5C6F6C91EFACFD29E /* PasswordResetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetView.swift; sourceTree = "<group>"; };
-		8EFD6FA607230AE17253E44E /* OctaPassAutoFill.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = OctaPassAutoFill.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		9062FD80C17984C9664FFA91 /* OctaPass.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = OctaPass.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		94508FB1501B82FB652A583E /* ItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListView.swift; sourceTree = "<group>"; };
-		96DACB11ED358517E93A2924 /* CodesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodesView.swift; sourceTree = "<group>"; };
-		9B873AF0BFE425DC116FFBAD /* LocalVaultViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalVaultViews.swift; sourceTree = "<group>"; };
-		9EE2FFFC12482A51D5D54779 /* SafeItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeItems.swift; sourceTree = "<group>"; };
-		A0084D6F9E78612F84F2A02F /* EnvironmentViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentViews.swift; sourceTree = "<group>"; };
-		A33DB486CBB1A8F000518BB8 /* ThisDeviceSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThisDeviceSection.swift; sourceTree = "<group>"; };
-		A36012D23009BC1C31C2DFCC /* LocalVaultSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalVaultSetup.swift; sourceTree = "<group>"; };
-		A68B946FB8B52327C1A3F3FC /* WatchCodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchCodes.swift; sourceTree = "<group>"; };
-		A8E64B22D5866F76FDC99280 /* SafeSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeSession.swift; sourceTree = "<group>"; };
-		ADD401A4CC8CEA1E5CD19409 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		B16B907D41336A20EAAC93EB /* AutoFillKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AutoFillKit; path = Packages/AutoFillKit; sourceTree = SOURCE_ROOT; };
-		B41782712F93EB6DAB5DE0A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		B4CEF2E35BD87024AAF605D8 /* FileProviderExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileProviderExtension.swift; sourceTree = "<group>"; };
-		B4E80508A32834B024FB3319 /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = ar.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		B759FCBFF6F50B8703240539 /* FieldRows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldRows.swift; sourceTree = "<group>"; };
-		B7F6D43754FA92F13D4578E5 /* SettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTests.swift; sourceTree = "<group>"; };
-		B81BD0FB35E7C47ED7B5C99B /* HealthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthView.swift; sourceTree = "<group>"; };
-		B86137DB9CF56B484884792D /* IdentityGate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityGate.swift; sourceTree = "<group>"; };
-		B8D218424F4356FE9B38ED27 /* CredentialProviderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialProviderViewController.swift; sourceTree = "<group>"; };
-		B92F93CAB041F9303AF3D268 /* SafeFileOps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeFileOps.swift; sourceTree = "<group>"; };
-		BA46C51EAC0F840D0163978F /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
-		BB70F582759703C5E49882C1 /* KeychainTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTypes.swift; sourceTree = "<group>"; };
-		BC4E2F902A38FE94899B0E50 /* AutoFillTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoFillTests.swift; sourceTree = "<group>"; };
-		BC5A07147F068A2F66644EA2 /* OctaPassUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = OctaPassUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		BCD8D085E0A5184A8DA9EE09 /* ScanSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanSheet.swift; sourceTree = "<group>"; };
-		BEDC6512E07D8F917E4AEFC7 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
-		BF14E943685386A29EFE069D /* WifiOffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiOffer.swift; sourceTree = "<group>"; };
-		C55EA3CDE76894089765177A /* LocalVaultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalVaultTests.swift; sourceTree = "<group>"; };
-		CD6472EA922419AC6138F42D /* UnlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockView.swift; sourceTree = "<group>"; };
-		D183D55D64819133E8D76003 /* FilesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesSection.swift; sourceTree = "<group>"; };
-		D4D4DD8B35126F1D63AF70B5 /* Wifi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wifi.swift; sourceTree = "<group>"; };
-		D78AEBF331804CFA7DF54B19 /* OtherAppsViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherAppsViews.swift; sourceTree = "<group>"; };
-		DFB906F68CC64BD22A027C6D /* OctaPassSafeProvider.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = OctaPassSafeProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		E14BA9730FA2C49A1D910D51 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
-		E2EC8D36595AA8F1B8609FB6 /* OtherAppsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherAppsTests.swift; sourceTree = "<group>"; };
-		E5FDCDF318ED3353B59D8D5F /* OctaPassApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctaPassApp.swift; sourceTree = "<group>"; };
-		E6C3CCF60B720D32B7540819 /* AuthLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthLayout.swift; sourceTree = "<group>"; };
-		E6C846EE03BCEB8470BCBE1F /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		E7B48C00D79D40BF281AE2AD /* OctaPass.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OctaPass.entitlements; sourceTree = "<group>"; };
-		EC8757F40A01FB002FE25D5A /* RecoveryKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryKitView.swift; sourceTree = "<group>"; };
-		ECE1868BFA580E80299F4497 /* WatchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchModel.swift; sourceTree = "<group>"; };
-		EE77042125680D52BC1478BB /* SafeBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeBrowserView.swift; sourceTree = "<group>"; };
-		EFF5439CD5A810A12E14FCF3 /* OctaPassWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctaPassWatchApp.swift; sourceTree = "<group>"; };
-		F592F2A1FECA6AB4C0394A44 /* EmergencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyView.swift; sourceTree = "<group>"; };
-		F6DE8C68D798599068C2BCC6 /* KeyRotationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyRotationTests.swift; sourceTree = "<group>"; };
-		F713528A42CD296E0A734B2B /* ItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTests.swift; sourceTree = "<group>"; };
-		F87C0DE9E6456AEDD91A4EEA /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		FD50CB60504A0EC93EF2F2A9 /* SharingViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingViews.swift; sourceTree = "<group>"; };
-		FDB205AAB3BC3262B9A1893A /* Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
-		FDC23A90DD62B04BE318EB3E /* WifiViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiViews.swift; sourceTree = "<group>"; };
-		FEA5FF7A0FE97BD850D57707 /* OnboardingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTests.swift; sourceTree = "<group>"; };
-		"TEMP_3E31E033-1FEB-4EF8-840A-9C4B0A82B4D0" /* Signing.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Signing.xcconfig; sourceTree = "<group>"; };
+		011BC5FECD99087FE5435714 /* PasswordResetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetView.swift; sourceTree = "<group>"; };
+		0DCB9CEDDD29241F02943A7F /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		0DE30F756B9DAF0A70738C12 /* ItemEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemEditor.swift; sourceTree = "<group>"; };
+		103B21FC6238EF42106936A3 /* StayUnlockedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StayUnlockedTests.swift; sourceTree = "<group>"; };
+		10DD198E6FAB9DDA2CA503D6 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		111371FD946535BF5AD6FB41 /* SharingViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingViews.swift; sourceTree = "<group>"; };
+		13DA432B33A79455CCFBD095 /* LocalVaultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalVaultTests.swift; sourceTree = "<group>"; };
+		1482D9CCEB81C889C1F3E93D /* OctaPassWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctaPassWatchApp.swift; sourceTree = "<group>"; };
+		17A9036BFD852DB8A71E576B /* OtherAppsViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherAppsViews.swift; sourceTree = "<group>"; };
+		18CD72FF0668089A9CFFD1D4 /* FilePickers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePickers.swift; sourceTree = "<group>"; };
+		193CF213B44E80067AB75FA1 /* AccountViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViews.swift; sourceTree = "<group>"; };
+		19E5A2957CC670B0F37EB47D /* ItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListView.swift; sourceTree = "<group>"; };
+		214692F5912EB79D90A07DE8 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		284196760EB078A9D9410C0D /* Fields.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fields.swift; sourceTree = "<group>"; };
+		284EF75D5EC41F8042C8AF65 /* SafeKeyRecordTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeKeyRecordTests.swift; sourceTree = "<group>"; };
+		2957722800F983044893A2E2 /* Avatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
+		2D878B0A2D419FA21FDC2DE7 /* VaultTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultTests.swift; sourceTree = "<group>"; };
+		2F0EA3F0788FAA674EE79B8D /* KeyRotationViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyRotationViews.swift; sourceTree = "<group>"; };
+		2FE01DE909C59F7A28181876 /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = ar.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		31D03BA01020F66B929E33EE /* WifiOffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiOffer.swift; sourceTree = "<group>"; };
+		31EC01C1AA797E250685281E /* AutoFillKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = AutoFillKit; path = Packages/AutoFillKit; sourceTree = SOURCE_ROOT; };
+		32DD51D8768BDC424D168BE4 /* DeveloperToolsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperToolsView.swift; sourceTree = "<group>"; };
+		3379C0118A906D9CC9FFA20A /* HealthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthView.swift; sourceTree = "<group>"; };
+		38538B09749094580D4D12CA /* QrScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrScanner.swift; sourceTree = "<group>"; };
+		39A889AF2D946C8166BF057D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		39FCCFA9BAF4BA82CE2694B3 /* TwoStepSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoStepSettingsView.swift; sourceTree = "<group>"; };
+		3D48392D3CC0713D0E68A009 /* SafeItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeItems.swift; sourceTree = "<group>"; };
+		3FAE5A40E97C9141E7F7FA21 /* Keychain */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Keychain; path = Packages/Keychain; sourceTree = SOURCE_ROOT; };
+		3FD9BED6627A60C937D36A45 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		4686EC4ED2A20D3F141A54D6 /* UITestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITestCase.swift; sourceTree = "<group>"; };
+		46B54BD266098FC9C4FF08F5 /* OctaPassAutoFill.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = OctaPassAutoFill.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		47A5A9ED57FFF188C35626E0 /* OneTimeCodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OneTimeCodes.swift; sourceTree = "<group>"; };
+		4A887744F6478AAC29E03E60 /* KeychainTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTypes.swift; sourceTree = "<group>"; };
+		4D7CDBD7E96EC03CECC84055 /* OctaPassSafeProvider.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = OctaPassSafeProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		4E1226F5D0C0594210895206 /* AuthLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthLayout.swift; sourceTree = "<group>"; };
+		4EFEEE5D5F165DB9A5B93CF2 /* OctaPassTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = OctaPassTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		535F0B54F2F225C6034D763C /* CodesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodesView.swift; sourceTree = "<group>"; };
+		5479256543307508035B38D6 /* SharingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingTests.swift; sourceTree = "<group>"; };
+		558A0AC9F1D1B051CFF43285 /* MaskedEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaskedEmailView.swift; sourceTree = "<group>"; };
+		5AE0DF4BCD97D1DBB6A76213 /* RecoveryKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryKitView.swift; sourceTree = "<group>"; };
+		5BA94CEDAA2ED219FB31F576 /* VaultTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultTypes.swift; sourceTree = "<group>"; };
+		5D9AC163E113FDB21EA471DA /* OctaPassApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctaPassApp.swift; sourceTree = "<group>"; };
+		62E2461C964AC8E5DFC7430F /* ItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTests.swift; sourceTree = "<group>"; };
+		65B71E7AE1A06E0AC1C485E3 /* DeveloperItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperItemTests.swift; sourceTree = "<group>"; };
+		68F0F27939E4956D76E99E3A /* FieldRows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldRows.swift; sourceTree = "<group>"; };
+		6D86AE1627ACEF0960AAA74A /* ScanSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanSheet.swift; sourceTree = "<group>"; };
+		70924F701E170B23782CDC6D /* VaultPlatform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultPlatform.swift; sourceTree = "<group>"; };
+		7114AF306F3933E3D6836A6B /* BackupFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupFolder.swift; sourceTree = "<group>"; };
+		727EECB040D7407C6D215373 /* SafesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafesView.swift; sourceTree = "<group>"; };
+		7311F2FCFD93514BDD308735 /* TurnOnSyncView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnOnSyncView.swift; sourceTree = "<group>"; };
+		7366C686CA5F224213697C57 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		7476E2B9BB28CBC1F83668E1 /* SafeFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeFiles.swift; sourceTree = "<group>"; };
+		787CFC23309CA5C7A6893826 /* QrSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrSheet.swift; sourceTree = "<group>"; };
+		789B5878CF7CBC87BBBBC1EC /* Wifi */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Wifi; path = Packages/Wifi; sourceTree = SOURCE_ROOT; };
+		82285495A4F64F5710F5BBB2 /* WatchModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchModel.swift; sourceTree = "<group>"; };
+		86E39DD7AC02769C1BAEEF27 /* CredentialProviderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialProviderViewController.swift; sourceTree = "<group>"; };
+		8966962DDE38F8D8D7CD026D /* WatchCodes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = WatchCodes; path = Packages/WatchCodes; sourceTree = SOURCE_ROOT; };
+		8A327F187CD3A12C714D752B /* OpenedLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenedLinks.swift; sourceTree = "<group>"; };
+		8B2629754F009CB78BE36ACF /* EmergencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyView.swift; sourceTree = "<group>"; };
+		8B4D6190199A245FAF8748B4 /* OctaPassWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OctaPassWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8ED1EFE8EB21E36C017AAADE /* AutoFillModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoFillModel.swift; sourceTree = "<group>"; };
+		8FA97C787148EC44DE8AA904 /* OctaPass.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OctaPass.entitlements; sourceTree = "<group>"; };
+		9182929BCF4710018C36CFB4 /* GeneratorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneratorView.swift; sourceTree = "<group>"; };
+		936EF02751F19769EF5712C4 /* SafeFileOps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeFileOps.swift; sourceTree = "<group>"; };
+		93F820498BC802C79DC50A6C /* SafeBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeBrowserView.swift; sourceTree = "<group>"; };
+		94CCAAC50EC8338B06959431 /* AutoFillView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoFillView.swift; sourceTree = "<group>"; };
+		9D94926BA04C5FE128CF02A8 /* FileProviderExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileProviderExtension.swift; sourceTree = "<group>"; };
+		9EC1B0E0EB2548E64897F90D /* IdentityGate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentityGate.swift; sourceTree = "<group>"; };
+		A7D2458964DE5F522CEEBF87 /* SettingsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsTests.swift; sourceTree = "<group>"; };
+		A90AD259E16EE0625F325006 /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = ar.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		AA5C0DE7E81DD663F45D28CD /* UnlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockView.swift; sourceTree = "<group>"; };
+		AA7D4744675CE0CA177C825D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AACD9D91E3AE3B3FE55A105B /* WatchCodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchCodes.swift; sourceTree = "<group>"; };
+		AD10548B047470B4B26ABC62 /* FilesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesSection.swift; sourceTree = "<group>"; };
+		AF80A09969FCA6CE98811A2B /* Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Navigation.swift; sourceTree = "<group>"; };
+		B0B9C9D96D8D177990B96540 /* OctaPassResources */ = {isa = PBXFileReference; lastKnownFileType = folder; name = OctaPassResources; path = Packages/OctaPassResources; sourceTree = SOURCE_ROOT; };
+		B28B0CB9C074E8ED61F37EA7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		B292F500AE8B8521AA8ECD88 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		B315F5144FAEE6C48CE1ADAA /* StructuredViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StructuredViews.swift; sourceTree = "<group>"; };
+		B534C68A732F6D56A9ABA8D8 /* SafeSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeSession.swift; sourceTree = "<group>"; };
+		B58E89F894B950E9990A0528 /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
+		BB0DDA86768736712DB9A5F3 /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = ar.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C1D9D967523613B3DB82E0D4 /* LocalVaultSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalVaultSetup.swift; sourceTree = "<group>"; };
+		C2A0BDACD1FE6C33B7D00B38 /* SshKeyViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SshKeyViews.swift; sourceTree = "<group>"; };
+		C88655CCD9A4BD662C054A6F /* EnvironmentViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentViews.swift; sourceTree = "<group>"; };
+		C9C2B3A83FA82C2BB28C4935 /* OctaPass.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = OctaPass.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC6BC0708A27FC50357BA6ED /* OtherAppsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherAppsTests.swift; sourceTree = "<group>"; };
+		D1FBD4889ACB30835601ECAF /* IPadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPadTests.swift; sourceTree = "<group>"; };
+		D248CB57DF1F59D39164469F /* OctaPassVault */ = {isa = PBXFileReference; lastKnownFileType = folder; name = OctaPassVault; path = Packages/OctaPassVault; sourceTree = SOURCE_ROOT; };
+		D41071D91CA8929C84D8A98E /* CredentialExchange.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialExchange.swift; sourceTree = "<group>"; };
+		D6C9CA446C805DB7B20B3A3B /* MasterPasswordTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterPasswordTests.swift; sourceTree = "<group>"; };
+		D80FD4DB838A5AAC4F933248 /* LocalVaultViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalVaultViews.swift; sourceTree = "<group>"; };
+		D8E2A14CF173FC4CDAC9683C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		DA29606BE5DD165FCEE83589 /* OnboardingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTests.swift; sourceTree = "<group>"; };
+		DB2E3CE4118A4938C2CDD870 /* OctaPassUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = OctaPassUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCE22EC5BD36CAC4640D34A1 /* MaskedEmailNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaskedEmailNames.swift; sourceTree = "<group>"; };
+		E0CB10683CD909D5B6E2EC48 /* MaskedEmailTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaskedEmailTests.swift; sourceTree = "<group>"; };
+		E12A08F1E9E60E94000ADE95 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		E33541533A49FFBDD9E463B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		E5AD00F04FCE1602F4C9ED15 /* OnboardingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingTests.swift; sourceTree = "<group>"; };
+		E7159D1D5F7041C077C642B9 /* KeyRotationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyRotationTests.swift; sourceTree = "<group>"; };
+		EA99047A7E4A1341DDF7268C /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
+		F3B9BF76B8E3971116AA2F12 /* ThisDeviceSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThisDeviceSection.swift; sourceTree = "<group>"; };
+		F40C965DC98C7396363D8B6B /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
+		F6D9B7D9F4F2C66CBE17348C /* AutoFillSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoFillSettings.swift; sourceTree = "<group>"; };
+		FA7785B495F6ABC5F5F41E9B /* AutoFillTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoFillTests.swift; sourceTree = "<group>"; };
+		FADFF79A6818084AB8B01A58 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		FDD16BB9062418222BEC71EC /* Wifi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wifi.swift; sourceTree = "<group>"; };
+		FF1C19785A2CCB93499889A8 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		FFF6923079321CEE8B89958C /* WifiViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiViews.swift; sourceTree = "<group>"; };
+		"TEMP_160BBE29-BFD6-421D-B98A-8BFB85586FA4" /* Signing.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Signing.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		6083E66FBF5C5184B7A66882 /* Frameworks */ = {
+		374ACF0F5C8E3306E86C27B4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				967BA36DADBAD3A22D160C45 /* OctaPassWatchCodes in Frameworks */,
-				031304767EA1882C4F91F745 /* OctaPassResources in Frameworks */,
+				C60F70B914A1FC182EDCE88F /* OctaPassVault in Frameworks */,
+				9834C191A99265FE3BAA42A3 /* OctaPassKeychain in Frameworks */,
+				B5421FA98825A9236EEC0DED /* OctaPassResources in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		84B04D57F4EC15C290DDF9EE /* Frameworks */ = {
+		A09ADF07690BE45152A315D9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC69193EDE0726CB1FE6C091 /* OctaPassVault in Frameworks */,
-				7157430EBB0C7DACC8C28EA2 /* OctaPassResources in Frameworks */,
-				E2EAED23749F3688F9D1C933 /* OctaPassKeychain in Frameworks */,
-				FCF6DBD21C87CDDC26D84F3D /* OctaPassWifi in Frameworks */,
-				6BDCFA2854284C33E204B0C2 /* OctaPassWatchCodes in Frameworks */,
+				64CF91667C85C0F4B4F9441D /* OctaPassAutoFillKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9EF16FC040A35D5BAE0FB778 /* Frameworks */ = {
+		CF937DF217B2546D904B32D2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9B64CD20D87A893BEA45D33 /* OctaPassAutoFillKit in Frameworks */,
+				CE08A85132AA002F96E77DBC /* OctaPassVault in Frameworks */,
+				780B575F101FCDFD3DE28D40 /* OctaPassResources in Frameworks */,
+				85B33B6FE96F57D928B23DC4 /* OctaPassKeychain in Frameworks */,
+				B8AA5EA337E0D3EAB35A3925 /* OctaPassWifi in Frameworks */,
+				C0E90A1E086C28561742C41C /* OctaPassWatchCodes in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		E406713890DA6A1216A148B6 /* Frameworks */ = {
+		F91D91047BC156C47605B4A7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3E46086B88E4608FA3AE930F /* OctaPassVault in Frameworks */,
-				C145ACB53A9BB9B0BE660184 /* OctaPassKeychain in Frameworks */,
-				D9F82AE1BF01929C48B00ED9 /* OctaPassResources in Frameworks */,
+				6416CBB279C8BF655B3CC174 /* OctaPassWatchCodes in Frameworks */,
+				E930621FE155549221FC9F73 /* OctaPassResources in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		016C2B984249A52673BE458E = {
+		0AC0B3042D3CDA0CE0D8EDAA /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
-				322AE9EFCBCEFF89E5C5F6CD /* AutoFill */,
-				0818FCB7A445B3D83112E40A /* OctaPass */,
-				8FD88D43F235FC59DFACCA71 /* OctaPassTests */,
-				79AFE9DB83A66CC0A8FF6C2A /* OctaPassUITests */,
-				F5DDFE11BD53574BF97CFB3D /* Packages */,
-				A406DF48C96D06B93315FFB3 /* SafeProvider */,
-				E9D722F1530E5A7BADA996B6 /* Watch */,
-				CCA543342E8BC56EB85CAF6E /* Products */,
-			);
-			sourceTree = "<group>";
-		};
-		0818FCB7A445B3D83112E40A /* OctaPass */ = {
-			isa = PBXGroup;
-			children = (
-				ADD401A4CC8CEA1E5CD19409 /* Info.plist */,
-				B4E80508A32834B024FB3319 /* InfoPlist.strings */,
-				E7B48C00D79D40BF281AE2AD /* OctaPass.entitlements */,
-				65058E52AC51891CA099A5A1 /* App */,
-				CFA6BB393EEFB29C000BA298 /* Components */,
-				AC964F1494941F53797C8518 /* Items */,
-				20B88B724E2804FDD93F8CC7 /* Onboarding */,
-				8BE067BA2FE5DD0061AFC09E /* Platform */,
-				E41A82CE5740B29F0E33A0EB /* Resources */,
-				5D8B73C4EC204695335415A3 /* Settings */,
-				9B6E1FB2770135123C24602F /* Sharing */,
-				B4899EE2F1D9F5D687FB9917 /* Tools */,
-				CCBFE6ADE04C2C7A585AE6A5 /* Vault */,
-			);
-			path = OctaPass;
-			sourceTree = "<group>";
-		};
-		20B88B724E2804FDD93F8CC7 /* Onboarding */ = {
-			isa = PBXGroup;
-			children = (
-				E6C3CCF60B720D32B7540819 /* AuthLayout.swift */,
-				A36012D23009BC1C31C2DFCC /* LocalVaultSetup.swift */,
-				87F560D5C6F6C91EFACFD29E /* PasswordResetView.swift */,
-				EC8757F40A01FB002FE25D5A /* RecoveryKitView.swift */,
-				78651E7ED3F969269C5D1505 /* SignInView.swift */,
-				BA46C51EAC0F840D0163978F /* SignUpView.swift */,
-				47CEFE3B4AEA2904C51719AA /* TurnOnSyncView.swift */,
-				CD6472EA922419AC6138F42D /* UnlockView.swift */,
+				4E1226F5D0C0594210895206 /* AuthLayout.swift */,
+				C1D9D967523613B3DB82E0D4 /* LocalVaultSetup.swift */,
+				011BC5FECD99087FE5435714 /* PasswordResetView.swift */,
+				5AE0DF4BCD97D1DBB6A76213 /* RecoveryKitView.swift */,
+				B292F500AE8B8521AA8ECD88 /* SignInView.swift */,
+				FADFF79A6818084AB8B01A58 /* SignUpView.swift */,
+				7311F2FCFD93514BDD308735 /* TurnOnSyncView.swift */,
+				AA5C0DE7E81DD663F45D28CD /* UnlockView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
 		};
-		322AE9EFCBCEFF89E5C5F6CD /* AutoFill */ = {
+		118589E4CA352FD2B26BBF0A /* Platform */ = {
 			isa = PBXGroup;
 			children = (
-				2D61B90C359F57C0F4C88332 /* AutoFillModel.swift */,
-				5FDC8891A1AE8FA461B3354D /* AutoFillView.swift */,
-				B8D218424F4356FE9B38ED27 /* CredentialProviderViewController.swift */,
-				481A3F6E3BBE0749CD24713A /* InfoPlist.strings */,
-				23CB32D9E15653C9C5B71397 /* Localizable.strings */,
-				E6C846EE03BCEB8470BCBE1F /* PrivacyInfo.xcprivacy */,
-			);
-			path = AutoFill;
-			sourceTree = "<group>";
-		};
-		5D8B73C4EC204695335415A3 /* Settings */ = {
-			isa = PBXGroup;
-			children = (
-				398098A3BA39BC7148562E3E /* AccountViews.swift */,
-				549CA197EE019B3E0851112E /* ChangePasswordView.swift */,
-				782AF71ED223C539956461E2 /* KeyRotationViews.swift */,
-				D78AEBF331804CFA7DF54B19 /* OtherAppsViews.swift */,
-				77CFCDCD9073D8EC69F53B40 /* SettingsView.swift */,
-				A33DB486CBB1A8F000518BB8 /* ThisDeviceSection.swift */,
-				39B7E7C26E32905F15B43436 /* TwoStepSettingsView.swift */,
-			);
-			path = Settings;
-			sourceTree = "<group>";
-		};
-		65058E52AC51891CA099A5A1 /* App */ = {
-			isa = PBXGroup;
-			children = (
-				E14BA9730FA2C49A1D910D51 /* AppModel.swift */,
-				BEDC6512E07D8F917E4AEFC7 /* Errors.swift */,
-				E5FDCDF318ED3353B59D8D5F /* OctaPassApp.swift */,
-				04D1BF020BC20899338993CD /* Theme.swift */,
-			);
-			path = App;
-			sourceTree = "<group>";
-		};
-		79AFE9DB83A66CC0A8FF6C2A /* OctaPassUITests */ = {
-			isa = PBXGroup;
-			children = (
-				BC4E2F902A38FE94899B0E50 /* AutoFillTests.swift */,
-				6590EA854A5C534BBA10F1CA /* DeveloperItemTests.swift */,
-				75F60BF317C90E4D409EC112 /* IPadTests.swift */,
-				F713528A42CD296E0A734B2B /* ItemTests.swift */,
-				F6DE8C68D798599068C2BCC6 /* KeyRotationTests.swift */,
-				C55EA3CDE76894089765177A /* LocalVaultTests.swift */,
-				61907D37F1408E856809AA9A /* MaskedEmailTests.swift */,
-				21CE274C5460254ED53FAA79 /* MasterPasswordTests.swift */,
-				07CFC6BCD22512914C481A03 /* OnboardingTests.swift */,
-				E2EC8D36595AA8F1B8609FB6 /* OtherAppsTests.swift */,
-				B7F6D43754FA92F13D4578E5 /* SettingsTests.swift */,
-				0EFD1AB458FCB1AF14537641 /* SharingTests.swift */,
-				500CAC9B1CE48A59CE35CDDA /* StayUnlockedTests.swift */,
-				75807D6C73221530ADD35AA9 /* UITestCase.swift */,
-				312CADB9CCA1BE813DB48B64 /* VaultTests.swift */,
-			);
-			path = OctaPassUITests;
-			sourceTree = "<group>";
-		};
-		8BE067BA2FE5DD0061AFC09E /* Platform */ = {
-			isa = PBXGroup;
-			children = (
-				318F057ABDA53523323FA01E /* AutoFillSettings.swift */,
-				0C2A43F809E244D50F5C8FB2 /* BackupFolder.swift */,
-				857D24EB60BA8AB5AE8AFCA2 /* CredentialExchange.swift */,
-				0960EEFF9DE8DEA6789722AD /* FilePickers.swift */,
-				BB70F582759703C5E49882C1 /* KeychainTypes.swift */,
-				5BA830FE13A8B29E6D8EAA05 /* QrScanner.swift */,
-				B92F93CAB041F9303AF3D268 /* SafeFileOps.swift */,
-				875EE4B9605A1163E2F5A7EC /* SafeFiles.swift */,
-				67DEC3E03CB9E7592A5424ED /* VaultPlatform.swift */,
-				1343A60D50DF322944CEA1B6 /* VaultTypes.swift */,
-				A68B946FB8B52327C1A3F3FC /* WatchCodes.swift */,
-				D4D4DD8B35126F1D63AF70B5 /* Wifi.swift */,
+				F6D9B7D9F4F2C66CBE17348C /* AutoFillSettings.swift */,
+				7114AF306F3933E3D6836A6B /* BackupFolder.swift */,
+				D41071D91CA8929C84D8A98E /* CredentialExchange.swift */,
+				18CD72FF0668089A9CFFD1D4 /* FilePickers.swift */,
+				4A887744F6478AAC29E03E60 /* KeychainTypes.swift */,
+				38538B09749094580D4D12CA /* QrScanner.swift */,
+				936EF02751F19769EF5712C4 /* SafeFileOps.swift */,
+				7476E2B9BB28CBC1F83668E1 /* SafeFiles.swift */,
+				70924F701E170B23782CDC6D /* VaultPlatform.swift */,
+				5BA94CEDAA2ED219FB31F576 /* VaultTypes.swift */,
+				AACD9D91E3AE3B3FE55A105B /* WatchCodes.swift */,
+				FDD16BB9062418222BEC71EC /* Wifi.swift */,
 			);
 			path = Platform;
 			sourceTree = "<group>";
 		};
-		8FD88D43F235FC59DFACCA71 /* OctaPassTests */ = {
+		183FBCCBED7C578206DA4EDB /* SafeProvider */ = {
 			isa = PBXGroup;
 			children = (
-				FEA5FF7A0FE97BD850D57707 /* OnboardingTests.swift */,
-				3D013882A0833E384B2ABE61 /* SafeKeyRecordTests.swift */,
-			);
-			path = OctaPassTests;
-			sourceTree = "<group>";
-		};
-		9B6E1FB2770135123C24602F /* Sharing */ = {
-			isa = PBXGroup;
-			children = (
-				F592F2A1FECA6AB4C0394A44 /* EmergencyView.swift */,
-				FD50CB60504A0EC93EF2F2A9 /* SharingViews.swift */,
-			);
-			path = Sharing;
-			sourceTree = "<group>";
-		};
-		A406DF48C96D06B93315FFB3 /* SafeProvider */ = {
-			isa = PBXGroup;
-			children = (
-				B4CEF2E35BD87024AAF605D8 /* FileProviderExtension.swift */,
-				27183FC8C823D20F6E4A96A3 /* InfoPlist.strings */,
-				F87C0DE9E6456AEDD91A4EEA /* PrivacyInfo.xcprivacy */,
-				9EE2FFFC12482A51D5D54779 /* SafeItems.swift */,
-				A8E64B22D5866F76FDC99280 /* SafeSession.swift */,
+				9D94926BA04C5FE128CF02A8 /* FileProviderExtension.swift */,
+				BB0DDA86768736712DB9A5F3 /* InfoPlist.strings */,
+				D8E2A14CF173FC4CDAC9683C /* PrivacyInfo.xcprivacy */,
+				3D48392D3CC0713D0E68A009 /* SafeItems.swift */,
+				B534C68A732F6D56A9ABA8D8 /* SafeSession.swift */,
 			);
 			path = SafeProvider;
 			sourceTree = "<group>";
 		};
-		AC964F1494941F53797C8518 /* Items */ = {
+		27FA6AAD00E8384104F0D76C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A0084D6F9E78612F84F2A02F /* EnvironmentViews.swift */,
-				B759FCBFF6F50B8703240539 /* FieldRows.swift */,
-				D183D55D64819133E8D76003 /* FilesSection.swift */,
-				2A8AE164FAF254ACC67549ED /* ItemDetailView.swift */,
-				2C24ADA5A0E7F38AA7CB35A9 /* ItemEditor.swift */,
-				8105DA81D2A212857F6BE58C /* OneTimeCodes.swift */,
-				838A5920DFC1C323D349F855 /* OpenedLinks.swift */,
-				5CD7A530D601023FAC94ACA0 /* QrSheet.swift */,
-				BCD8D085E0A5184A8DA9EE09 /* ScanSheet.swift */,
-				48E7BA200E3FD2C82C9AD489 /* SshKeyViews.swift */,
-				20D8C883CE97633853923E1B /* StructuredViews.swift */,
-				BF14E943685386A29EFE069D /* WifiOffer.swift */,
-				FDC23A90DD62B04BE318EB3E /* WifiViews.swift */,
-			);
-			path = Items;
-			sourceTree = "<group>";
-		};
-		B4899EE2F1D9F5D687FB9917 /* Tools */ = {
-			isa = PBXGroup;
-			children = (
-				66EB567B862846E9E47BEF15 /* DeveloperToolsView.swift */,
-				87DE8C3510CFCDA09866A9E8 /* GeneratorView.swift */,
-				B81BD0FB35E7C47ED7B5C99B /* HealthView.swift */,
-				5ED8623C85E4E31B96AEF471 /* MaskedEmailNames.swift */,
-				863E7C9522799FC4CED9885F /* MaskedEmailView.swift */,
-				EE77042125680D52BC1478BB /* SafeBrowserView.swift */,
-				6204BFF3D1699AFB62CD4E42 /* SafesView.swift */,
-			);
-			path = Tools;
-			sourceTree = "<group>";
-		};
-		CCA543342E8BC56EB85CAF6E /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				9062FD80C17984C9664FFA91 /* OctaPass.app */,
-				8EFD6FA607230AE17253E44E /* OctaPassAutoFill.appex */,
-				DFB906F68CC64BD22A027C6D /* OctaPassSafeProvider.appex */,
-				55B7D371A2E0810B545DE9DF /* OctaPassTests.xctest */,
-				BC5A07147F068A2F66644EA2 /* OctaPassUITests.xctest */,
-				7F580E66E4EF148FF67A620F /* OctaPassWatch.app */,
+				C9C2B3A83FA82C2BB28C4935 /* OctaPass.app */,
+				46B54BD266098FC9C4FF08F5 /* OctaPassAutoFill.appex */,
+				4D7CDBD7E96EC03CECC84055 /* OctaPassSafeProvider.appex */,
+				4EFEEE5D5F165DB9A5B93CF2 /* OctaPassTests.xctest */,
+				DB2E3CE4118A4938C2CDD870 /* OctaPassUITests.xctest */,
+				8B4D6190199A245FAF8748B4 /* OctaPassWatch.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		CCBFE6ADE04C2C7A585AE6A5 /* Vault */ = {
+		2988B16668E68694E1F55E0D /* AutoFill */ = {
 			isa = PBXGroup;
 			children = (
-				94508FB1501B82FB652A583E /* ItemListView.swift */,
-				9B873AF0BFE425DC116FFBAD /* LocalVaultViews.swift */,
-				4FA550C3E02C6261DE4D895C /* MainView.swift */,
-				FDB205AAB3BC3262B9A1893A /* Navigation.swift */,
+				8ED1EFE8EB21E36C017AAADE /* AutoFillModel.swift */,
+				94CCAAC50EC8338B06959431 /* AutoFillView.swift */,
+				86E39DD7AC02769C1BAEEF27 /* CredentialProviderViewController.swift */,
+				2FE01DE909C59F7A28181876 /* InfoPlist.strings */,
+				F40C965DC98C7396363D8B6B /* Localizable.strings */,
+				0DCB9CEDDD29241F02943A7F /* PrivacyInfo.xcprivacy */,
 			);
-			path = Vault;
+			path = AutoFill;
 			sourceTree = "<group>";
 		};
-		CFA6BB393EEFB29C000BA298 /* Components */ = {
+		43BFD301F3D99CCC67B66A86 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				067C409709CF88BF0D17307B /* Avatar.swift */,
-				346DDF5A4536C4D7534FF1B3 /* Fields.swift */,
-				B86137DB9CF56B484884792D /* IdentityGate.swift */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
-		E41A82CE5740B29F0E33A0EB /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				0CD2DBC5B00B23C0C4A4B751 /* Assets.xcassets */,
-				685A8B4AE632C8DA4AE15F76 /* PrivacyInfo.xcprivacy */,
+				AA7D4744675CE0CA177C825D /* Assets.xcassets */,
+				7366C686CA5F224213697C57 /* PrivacyInfo.xcprivacy */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		E9D722F1530E5A7BADA996B6 /* Watch */ = {
+		45D593C4897377516EB7D5BA /* Tools */ = {
 			isa = PBXGroup;
 			children = (
-				0BF367557A17B136CAD6F391 /* Assets.xcassets */,
-				96DACB11ED358517E93A2924 /* CodesView.swift */,
-				B41782712F93EB6DAB5DE0A7 /* Info.plist */,
-				EFF5439CD5A810A12E14FCF3 /* OctaPassWatchApp.swift */,
-				ECE1868BFA580E80299F4497 /* WatchModel.swift */,
+				32DD51D8768BDC424D168BE4 /* DeveloperToolsView.swift */,
+				9182929BCF4710018C36CFB4 /* GeneratorView.swift */,
+				3379C0118A906D9CC9FFA20A /* HealthView.swift */,
+				DCE22EC5BD36CAC4640D34A1 /* MaskedEmailNames.swift */,
+				558A0AC9F1D1B051CFF43285 /* MaskedEmailView.swift */,
+				93F820498BC802C79DC50A6C /* SafeBrowserView.swift */,
+				727EECB040D7407C6D215373 /* SafesView.swift */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		4D27DF44F75C1D0B278AEFA5 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				193CF213B44E80067AB75FA1 /* AccountViews.swift */,
+				B58E89F894B950E9990A0528 /* ChangePasswordView.swift */,
+				2F0EA3F0788FAA674EE79B8D /* KeyRotationViews.swift */,
+				17A9036BFD852DB8A71E576B /* OtherAppsViews.swift */,
+				39A889AF2D946C8166BF057D /* SettingsView.swift */,
+				F3B9BF76B8E3971116AA2F12 /* ThisDeviceSection.swift */,
+				39FCCFA9BAF4BA82CE2694B3 /* TwoStepSettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		50BADDB6477960641BA253C6 /* Vault */ = {
+			isa = PBXGroup;
+			children = (
+				19E5A2957CC670B0F37EB47D /* ItemListView.swift */,
+				D80FD4DB838A5AAC4F933248 /* LocalVaultViews.swift */,
+				FF1C19785A2CCB93499889A8 /* MainView.swift */,
+				AF80A09969FCA6CE98811A2B /* Navigation.swift */,
+			);
+			path = Vault;
+			sourceTree = "<group>";
+		};
+		71CACE182D48501065141B2B /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				C88655CCD9A4BD662C054A6F /* EnvironmentViews.swift */,
+				68F0F27939E4956D76E99E3A /* FieldRows.swift */,
+				AD10548B047470B4B26ABC62 /* FilesSection.swift */,
+				EA99047A7E4A1341DDF7268C /* ItemDetailView.swift */,
+				0DE30F756B9DAF0A70738C12 /* ItemEditor.swift */,
+				47A5A9ED57FFF188C35626E0 /* OneTimeCodes.swift */,
+				8A327F187CD3A12C714D752B /* OpenedLinks.swift */,
+				787CFC23309CA5C7A6893826 /* QrSheet.swift */,
+				6D86AE1627ACEF0960AAA74A /* ScanSheet.swift */,
+				C2A0BDACD1FE6C33B7D00B38 /* SshKeyViews.swift */,
+				B315F5144FAEE6C48CE1ADAA /* StructuredViews.swift */,
+				31D03BA01020F66B929E33EE /* WifiOffer.swift */,
+				FFF6923079321CEE8B89958C /* WifiViews.swift */,
+			);
+			path = Items;
+			sourceTree = "<group>";
+		};
+		7218235ABC74F398C35495CA /* Watch */ = {
+			isa = PBXGroup;
+			children = (
+				E12A08F1E9E60E94000ADE95 /* Assets.xcassets */,
+				535F0B54F2F225C6034D763C /* CodesView.swift */,
+				E33541533A49FFBDD9E463B5 /* Info.plist */,
+				1482D9CCEB81C889C1F3E93D /* OctaPassWatchApp.swift */,
+				82285495A4F64F5710F5BBB2 /* WatchModel.swift */,
 			);
 			path = Watch;
 			sourceTree = "<group>";
 		};
-		F5DDFE11BD53574BF97CFB3D /* Packages */ = {
+		7BE8332325409B867DBC17FA /* OctaPassUITests */ = {
 			isa = PBXGroup;
 			children = (
-				B16B907D41336A20EAAC93EB /* AutoFillKit */,
-				1D17FB3605294A18D76B3173 /* Keychain */,
-				736295DC70D0CD328731ADAF /* OctaPassResources */,
-				0751541332A9B2205A0C3DD9 /* OctaPassVault */,
-				129D0DE84AB9C8630D5794F0 /* WatchCodes */,
-				7873174501FA8FABA6A62003 /* Wifi */,
+				FA7785B495F6ABC5F5F41E9B /* AutoFillTests.swift */,
+				65B71E7AE1A06E0AC1C485E3 /* DeveloperItemTests.swift */,
+				D1FBD4889ACB30835601ECAF /* IPadTests.swift */,
+				62E2461C964AC8E5DFC7430F /* ItemTests.swift */,
+				E7159D1D5F7041C077C642B9 /* KeyRotationTests.swift */,
+				13DA432B33A79455CCFBD095 /* LocalVaultTests.swift */,
+				E0CB10683CD909D5B6E2EC48 /* MaskedEmailTests.swift */,
+				D6C9CA446C805DB7B20B3A3B /* MasterPasswordTests.swift */,
+				DA29606BE5DD165FCEE83589 /* OnboardingTests.swift */,
+				CC6BC0708A27FC50357BA6ED /* OtherAppsTests.swift */,
+				A7D2458964DE5F522CEEBF87 /* SettingsTests.swift */,
+				5479256543307508035B38D6 /* SharingTests.swift */,
+				103B21FC6238EF42106936A3 /* StayUnlockedTests.swift */,
+				4686EC4ED2A20D3F141A54D6 /* UITestCase.swift */,
+				2D878B0A2D419FA21FDC2DE7 /* VaultTests.swift */,
+			);
+			path = OctaPassUITests;
+			sourceTree = "<group>";
+		};
+		B096B7EBC4AD885A5AC5DC22 /* OctaPassTests */ = {
+			isa = PBXGroup;
+			children = (
+				E5AD00F04FCE1602F4C9ED15 /* OnboardingTests.swift */,
+				284EF75D5EC41F8042C8AF65 /* SafeKeyRecordTests.swift */,
+			);
+			path = OctaPassTests;
+			sourceTree = "<group>";
+		};
+		B4EAFADFD799D8E2FA63791A /* Sharing */ = {
+			isa = PBXGroup;
+			children = (
+				8B2629754F009CB78BE36ACF /* EmergencyView.swift */,
+				111371FD946535BF5AD6FB41 /* SharingViews.swift */,
+			);
+			path = Sharing;
+			sourceTree = "<group>";
+		};
+		BC8BE5B75319DFB0A6190F3F /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				31EC01C1AA797E250685281E /* AutoFillKit */,
+				3FAE5A40E97C9141E7F7FA21 /* Keychain */,
+				B0B9C9D96D8D177990B96540 /* OctaPassResources */,
+				D248CB57DF1F59D39164469F /* OctaPassVault */,
+				8966962DDE38F8D8D7CD026D /* WatchCodes */,
+				789B5878CF7CBC87BBBBC1EC /* Wifi */,
 			);
 			path = Packages;
 			sourceTree = "<group>";
 		};
-		"TEMP_F5CC489B-02AE-4FFF-9D73-6FA1DFA3D3F1" /* ios */ = {
+		C0F112925CE255F45A04BDF0 /* App */ = {
 			isa = PBXGroup;
 			children = (
-				"TEMP_3E31E033-1FEB-4EF8-840A-9C4B0A82B4D0" /* Signing.xcconfig */,
+				3FD9BED6627A60C937D36A45 /* AppModel.swift */,
+				10DD198E6FAB9DDA2CA503D6 /* Errors.swift */,
+				5D9AC163E113FDB21EA471DA /* OctaPassApp.swift */,
+				214692F5912EB79D90A07DE8 /* Theme.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		CBC0F09F483AAD7C995EC65C /* OctaPass */ = {
+			isa = PBXGroup;
+			children = (
+				B28B0CB9C074E8ED61F37EA7 /* Info.plist */,
+				A90AD259E16EE0625F325006 /* InfoPlist.strings */,
+				8FA97C787148EC44DE8AA904 /* OctaPass.entitlements */,
+				C0F112925CE255F45A04BDF0 /* App */,
+				D5E76D9F8B655EC9B1DEE610 /* Components */,
+				71CACE182D48501065141B2B /* Items */,
+				0AC0B3042D3CDA0CE0D8EDAA /* Onboarding */,
+				118589E4CA352FD2B26BBF0A /* Platform */,
+				43BFD301F3D99CCC67B66A86 /* Resources */,
+				4D27DF44F75C1D0B278AEFA5 /* Settings */,
+				B4EAFADFD799D8E2FA63791A /* Sharing */,
+				45D593C4897377516EB7D5BA /* Tools */,
+				50BADDB6477960641BA253C6 /* Vault */,
+			);
+			path = OctaPass;
+			sourceTree = "<group>";
+		};
+		D5E76D9F8B655EC9B1DEE610 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				2957722800F983044893A2E2 /* Avatar.swift */,
+				284196760EB078A9D9410C0D /* Fields.swift */,
+				9EC1B0E0EB2548E64897F90D /* IdentityGate.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		E2440E8A9C6FF46EC816EE3C = {
+			isa = PBXGroup;
+			children = (
+				2988B16668E68694E1F55E0D /* AutoFill */,
+				CBC0F09F483AAD7C995EC65C /* OctaPass */,
+				B096B7EBC4AD885A5AC5DC22 /* OctaPassTests */,
+				7BE8332325409B867DBC17FA /* OctaPassUITests */,
+				BC8BE5B75319DFB0A6190F3F /* Packages */,
+				183FBCCBED7C578206DA4EDB /* SafeProvider */,
+				7218235ABC74F398C35495CA /* Watch */,
+				27FA6AAD00E8384104F0D76C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		"TEMP_B32CAF2D-8B4C-48F1-92C8-3C1C1A4F1B50" /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				"TEMP_160BBE29-BFD6-421D-B98A-8BFB85586FA4" /* Signing.xcconfig */,
 			);
 			path = ios;
 			sourceTree = "<group>";
@@ -591,13 +591,31 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		278E11AF99CF7002E648939C /* OctaPassWatch */ = {
+		3B1C7BD1CA27BAB3DA3CDCCF /* OctaPassUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 35638D4ADF3DC4D5487CE549 /* Build configuration list for PBXNativeTarget "OctaPassWatch" */;
+			buildConfigurationList = 02950C653F94C632773E9725 /* Build configuration list for PBXNativeTarget "OctaPassUITests" */;
 			buildPhases = (
-				4BB38AECD291A6C3E9557BAD /* Sources */,
-				8767076A3B6D68DD461D4303 /* Resources */,
-				6083E66FBF5C5184B7A66882 /* Frameworks */,
+				7587DC22499312C41EB6130A /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A37EE70BFC2CFCB5A462CC25 /* PBXTargetDependency */,
+			);
+			name = OctaPassUITests;
+			packageProductDependencies = (
+			);
+			productName = OctaPassUITests;
+			productReference = DB2E3CE4118A4938C2CDD870 /* OctaPassUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		5639BF1918701B6B3FD37888 /* OctaPassWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2EAE88D2BF3C96EF00DF1E09 /* Build configuration list for PBXNativeTarget "OctaPassWatch" */;
+			buildPhases = (
+				6B9A60DE2EC0328EDAE05B9D /* Sources */,
+				9A27B1162CE61036127BF871 /* Resources */,
+				F91D91047BC156C47605B4A7 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -605,58 +623,20 @@
 			);
 			name = OctaPassWatch;
 			packageProductDependencies = (
-				3507803406CF090EDCE3E776 /* OctaPassWatchCodes */,
-				45375463B4AAD5BE7378B066 /* OctaPassResources */,
+				745388AD845A48F0C21F69B8 /* OctaPassWatchCodes */,
+				98437ED83A786CE5C23C6FD6 /* OctaPassResources */,
 			);
 			productName = OctaPassWatch;
-			productReference = 7F580E66E4EF148FF67A620F /* OctaPassWatch.app */;
+			productReference = 8B4D6190199A245FAF8748B4 /* OctaPassWatch.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2C0D7D3151B4C96724D7195B /* OctaPassAutoFill */ = {
+		60AA21EC30F3C5B3264562E1 /* OctaPassSafeProvider */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 87092F58E61E0D2CAD5FC47F /* Build configuration list for PBXNativeTarget "OctaPassAutoFill" */;
+			buildConfigurationList = D93038E9EEB182A1CA8BBD7F /* Build configuration list for PBXNativeTarget "OctaPassSafeProvider" */;
 			buildPhases = (
-				2E4CD95B8A2CBCCC9773C848 /* Sources */,
-				BA5455AB28121B8B8BDCD515 /* Resources */,
-				9EF16FC040A35D5BAE0FB778 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = OctaPassAutoFill;
-			packageProductDependencies = (
-				565C331D3A1ACC564B9E7EF1 /* OctaPassAutoFillKit */,
-			);
-			productName = OctaPassAutoFill;
-			productReference = 8EFD6FA607230AE17253E44E /* OctaPassAutoFill.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
-		68E789E817F7ACA33794657A /* OctaPassTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = DE05B0D8578479CED267634D /* Build configuration list for PBXNativeTarget "OctaPassTests" */;
-			buildPhases = (
-				998C46BDA0924B7459042186 /* Sources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				890E77860940B6A31189A1BC /* PBXTargetDependency */,
-			);
-			name = OctaPassTests;
-			packageProductDependencies = (
-			);
-			productName = OctaPassTests;
-			productReference = 55B7D371A2E0810B545DE9DF /* OctaPassTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		730B4F26BC2D85CE335EDE16 /* OctaPassSafeProvider */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = C991DCC932A0E4268204A862 /* Build configuration list for PBXNativeTarget "OctaPassSafeProvider" */;
-			buildPhases = (
-				9F2FECC2FBF6A281F87722D6 /* Sources */,
-				B021131292F83EC557F062A8 /* Resources */,
-				E406713890DA6A1216A148B6 /* Frameworks */,
+				D853F62F0E44635421D6695A /* Sources */,
+				A29E272F06581DD891592A30 /* Resources */,
+				374ACF0F5C8E3306E86C27B4 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -664,74 +644,94 @@
 			);
 			name = OctaPassSafeProvider;
 			packageProductDependencies = (
-				AD87CCBD91B2AAC2A3ABA889 /* OctaPassVault */,
-				91875F27F5F878AEA3C7A08D /* OctaPassKeychain */,
-				E95481DE5AFD89C50B2238B1 /* OctaPassResources */,
+				02A64BAC23F03DB7AFFFFD2F /* OctaPassVault */,
+				0B8C2F14FE406EB115F7F9E0 /* OctaPassKeychain */,
+				49E9B3AF7D559EC4833BD369 /* OctaPassResources */,
 			);
 			productName = OctaPassSafeProvider;
-			productReference = DFB906F68CC64BD22A027C6D /* OctaPassSafeProvider.appex */;
+			productReference = 4D7CDBD7E96EC03CECC84055 /* OctaPassSafeProvider.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		9E12F14C44EBDD2D111C3788 /* OctaPass */ = {
+		6212AD23C0CB745346A1C97B /* OctaPassTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D9A9DEC7B15322F728E1C306 /* Build configuration list for PBXNativeTarget "OctaPass" */;
+			buildConfigurationList = A5C2F3F0DED986139C4BE011 /* Build configuration list for PBXNativeTarget "OctaPassTests" */;
 			buildPhases = (
-				BB17A59BBA4BC7C3CB970FF3 /* Sources */,
-				AEF717CFC0FF3009956109A9 /* Resources */,
-				84B04D57F4EC15C290DDF9EE /* Frameworks */,
-				3D592CB96B4745683DEAF746 /* Embed Foundation Extensions */,
+				167AAB1A28A3F265C5EA88D2 /* Sources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				368B944615E43EF1EF9113AD /* PBXTargetDependency */,
-				DCA0009820F66BC61C6F2156 /* PBXTargetDependency */,
+				09340F2F57AA95E55934B39D /* PBXTargetDependency */,
+			);
+			name = OctaPassTests;
+			packageProductDependencies = (
+			);
+			productName = OctaPassTests;
+			productReference = 4EFEEE5D5F165DB9A5B93CF2 /* OctaPassTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		FD615CBC94EBC7685B217014 /* OctaPass */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7E206C979536ADE26A187275 /* Build configuration list for PBXNativeTarget "OctaPass" */;
+			buildPhases = (
+				1AE34CBB6710C91C4DFB4E60 /* Sources */,
+				ACBB8E561503543398A459BF /* Resources */,
+				CF937DF217B2546D904B32D2 /* Frameworks */,
+				BA2E3E2ED66086A2705DD631 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E79EABD9DF487C9EEDAA9701 /* PBXTargetDependency */,
+				FE7CEC2FF0193ADD2CF1B328 /* PBXTargetDependency */,
 			);
 			name = OctaPass;
 			packageProductDependencies = (
-				AA63F50FA0278325AB0CA72C /* OctaPassVault */,
-				A1520EF3441811EB9CA251C1 /* OctaPassResources */,
-				CA983489C68BB26A82F480A0 /* OctaPassKeychain */,
-				28757162FEF10F2997D59DBB /* OctaPassWifi */,
-				A5D3F08134870B72DDC43C28 /* OctaPassWatchCodes */,
+				3A9E3606B4496F8E167FB376 /* OctaPassVault */,
+				CDED54E3C95F01B591C9CBB6 /* OctaPassResources */,
+				56534BAA868B7A2DCA7FF56A /* OctaPassKeychain */,
+				712985FA5E487AFBC7AD11A0 /* OctaPassWifi */,
+				5C431CBBDA4DE3BA3DE4050F /* OctaPassWatchCodes */,
 			);
 			productName = OctaPass;
-			productReference = 9062FD80C17984C9664FFA91 /* OctaPass.app */;
+			productReference = C9C2B3A83FA82C2BB28C4935 /* OctaPass.app */;
 			productType = "com.apple.product-type.application";
 		};
-		B4E4B8E0FA7BB26677CC2BB3 /* OctaPassUITests */ = {
+		FDBAB55229768F95830A87DB /* OctaPassAutoFill */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 91DB9A5E8C804A9761B571AB /* Build configuration list for PBXNativeTarget "OctaPassUITests" */;
+			buildConfigurationList = 05F85D5659FA125F22FB0713 /* Build configuration list for PBXNativeTarget "OctaPassAutoFill" */;
 			buildPhases = (
-				1EBA20510828D22CBDD50236 /* Sources */,
+				8AE4F4BE46F5F53EF1526877 /* Sources */,
+				0698D487D4CC218687D73513 /* Resources */,
+				A09ADF07690BE45152A315D9 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				0303BDA397711B4B7EF5A9CC /* PBXTargetDependency */,
 			);
-			name = OctaPassUITests;
+			name = OctaPassAutoFill;
 			packageProductDependencies = (
+				4B276DA6168D79866CAD0A66 /* OctaPassAutoFillKit */,
 			);
-			productName = OctaPassUITests;
-			productReference = BC5A07147F068A2F66644EA2 /* OctaPassUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
+			productName = OctaPassAutoFill;
+			productReference = 46B54BD266098FC9C4FF08F5 /* OctaPassAutoFill.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		85FC365B34565BB054898094 /* Project object */ = {
+		EB7BE93FAFC8361FCC2AF496 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
-					B4E4B8E0FA7BB26677CC2BB3 = {
-						TestTargetID = 9E12F14C44EBDD2D111C3788;
+					3B1C7BD1CA27BAB3DA3CDCCF = {
+						TestTargetID = FD615CBC94EBC7685B217014;
 					};
 				};
 			};
-			buildConfigurationList = 19FDC6E00A3477B1CECE4F25 /* Build configuration list for PBXProject "OctaPass" */;
+			buildConfigurationList = 71865A1407B080EB211841DE /* Build configuration list for PBXProject "OctaPass" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -739,227 +739,244 @@
 				ar,
 				en,
 			);
-			mainGroup = 016C2B984249A52673BE458E;
+			mainGroup = E2440E8A9C6FF46EC816EE3C;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				9C1FA7912EA73B8DCCE26181 /* XCLocalSwiftPackageReference "Packages/AutoFillKit" */,
-				BF549C7DE2930E8AA5314D3D /* XCLocalSwiftPackageReference "Packages/Keychain" */,
-				66C4CC1B12DA85F38A97432D /* XCLocalSwiftPackageReference "Packages/OctaPassResources" */,
-				F1A11A1E501F71558ADD29C8 /* XCLocalSwiftPackageReference "Packages/OctaPassVault" */,
-				13CC93D9C1D4C2806D583428 /* XCLocalSwiftPackageReference "Packages/WatchCodes" */,
-				966995F1CC6DE10115E48BB4 /* XCLocalSwiftPackageReference "Packages/Wifi" */,
+				AB45E57B83E071B77DC00FAE /* XCLocalSwiftPackageReference "Packages/AutoFillKit" */,
+				20209976FA5F95AE52BF52F8 /* XCLocalSwiftPackageReference "Packages/Keychain" */,
+				C3C94AABCAC627E31A75EA58 /* XCLocalSwiftPackageReference "Packages/OctaPassResources" */,
+				91C20894C37DD9009B557F6C /* XCLocalSwiftPackageReference "Packages/OctaPassVault" */,
+				A0E99E51CF6A0093C16B3DCE /* XCLocalSwiftPackageReference "Packages/WatchCodes" */,
+				D53D6A7381E7FC68D77F1B4C /* XCLocalSwiftPackageReference "Packages/Wifi" */,
 			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = CCA543342E8BC56EB85CAF6E /* Products */;
+			productRefGroup = 27FA6AAD00E8384104F0D76C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9E12F14C44EBDD2D111C3788 /* OctaPass */,
-				2C0D7D3151B4C96724D7195B /* OctaPassAutoFill */,
-				730B4F26BC2D85CE335EDE16 /* OctaPassSafeProvider */,
-				278E11AF99CF7002E648939C /* OctaPassWatch */,
-				68E789E817F7ACA33794657A /* OctaPassTests */,
-				B4E4B8E0FA7BB26677CC2BB3 /* OctaPassUITests */,
+				FD615CBC94EBC7685B217014 /* OctaPass */,
+				FDBAB55229768F95830A87DB /* OctaPassAutoFill */,
+				60AA21EC30F3C5B3264562E1 /* OctaPassSafeProvider */,
+				5639BF1918701B6B3FD37888 /* OctaPassWatch */,
+				6212AD23C0CB745346A1C97B /* OctaPassTests */,
+				3B1C7BD1CA27BAB3DA3CDCCF /* OctaPassUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		8767076A3B6D68DD461D4303 /* Resources */ = {
+		0698D487D4CC218687D73513 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B9F25AABB025D975BE41CE2E /* Assets.xcassets in Resources */,
+				6DA5CE6550BF9CC3E3224CBC /* InfoPlist.strings in Resources */,
+				8F1570E031F997B1B3DC1249 /* Localizable.strings in Resources */,
+				3F1DAC1B5BFCFB8EF87FF842 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AEF717CFC0FF3009956109A9 /* Resources */ = {
+		9A27B1162CE61036127BF871 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				60B9603430F60AE7706C7369 /* Assets.xcassets in Resources */,
-				AA249321B51832185B1CA78B /* InfoPlist.strings in Resources */,
-				5894ABB4EF7C8412935BDB8B /* PrivacyInfo.xcprivacy in Resources */,
+				DE15F7FD37253286F1D7E839 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B021131292F83EC557F062A8 /* Resources */ = {
+		A29E272F06581DD891592A30 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7117F71B0C6E3D4187C6181E /* InfoPlist.strings in Resources */,
-				593E31979BF208E5148AAA81 /* PrivacyInfo.xcprivacy in Resources */,
+				D875E0239F42B12A3FAA6427 /* InfoPlist.strings in Resources */,
+				B635545159A684B805DC7621 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BA5455AB28121B8B8BDCD515 /* Resources */ = {
+		ACBB8E561503543398A459BF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E855003F043C9E6BCB526E1D /* InfoPlist.strings in Resources */,
-				C07A849C35D5E9EEDAB6032C /* Localizable.strings in Resources */,
-				CED3B6BC20943B8927D31764 /* PrivacyInfo.xcprivacy in Resources */,
+				BE5DC66FCD8CB0B69B8D1C26 /* Assets.xcassets in Resources */,
+				41E41368A380960ECE416C4B /* InfoPlist.strings in Resources */,
+				D036BA8D86E923A72C08A7F7 /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		1EBA20510828D22CBDD50236 /* Sources */ = {
+		167AAB1A28A3F265C5EA88D2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7E4B029DF3C62C16E6F5BB77 /* AutoFillTests.swift in Sources */,
-				92BF7A5393E0D38096937326 /* DeveloperItemTests.swift in Sources */,
-				F0A472FCA466CCB4A65C21AA /* IPadTests.swift in Sources */,
-				21D0A30EED25EBD0EC4E3F13 /* ItemTests.swift in Sources */,
-				5AC249796B9F63EAE2813A31 /* KeyRotationTests.swift in Sources */,
-				6E9410E71F80ADD300C0AA5E /* LocalVaultTests.swift in Sources */,
-				350745DF9BEF31599C0613D0 /* MaskedEmailTests.swift in Sources */,
-				C4273BB4F769F4528A21B6AE /* MasterPasswordTests.swift in Sources */,
-				09B15009BB5B7B091BB29228 /* OnboardingTests.swift in Sources */,
-				28988DF60DF6AA4C4FFA2DB1 /* OtherAppsTests.swift in Sources */,
-				70C0C4CD880144776F6C3CEC /* SettingsTests.swift in Sources */,
-				664821DCBBAEC5F46BA14D97 /* SharingTests.swift in Sources */,
-				D6F9C93D0A599AF7043A5B5C /* StayUnlockedTests.swift in Sources */,
-				BBA8AC127CE589B41F6D2D31 /* UITestCase.swift in Sources */,
-				3CCDA8C8775595C1E911CA9F /* VaultTests.swift in Sources */,
+				C63D5DEB9BC53AF9F98D65C8 /* OnboardingTests.swift in Sources */,
+				C445085FB2BCD45A1E7BE1CB /* SafeKeyRecordTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2E4CD95B8A2CBCCC9773C848 /* Sources */ = {
+		1AE34CBB6710C91C4DFB4E60 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				573B05B59A053A828C65ABAB /* AutoFillModel.swift in Sources */,
-				34C741E91C8F55B45F7AFF2A /* AutoFillView.swift in Sources */,
-				9F3CF9EDDD3FA9846A485EC7 /* CredentialProviderViewController.swift in Sources */,
+				3029336ED62C342266917087 /* AccountViews.swift in Sources */,
+				952C3E0535D70670A6BDCEA2 /* AppModel.swift in Sources */,
+				36D300E95EAE11880D286149 /* AuthLayout.swift in Sources */,
+				37C02D9635CF231796333A0B /* AutoFillSettings.swift in Sources */,
+				0F11427197FEB7CCFB47CEB0 /* Avatar.swift in Sources */,
+				5B7FE87FDD165A33D75BF318 /* BackupFolder.swift in Sources */,
+				B173D7C8F7CBD4B3CA15396B /* ChangePasswordView.swift in Sources */,
+				18AEA094CD1B713D40A55445 /* CredentialExchange.swift in Sources */,
+				B8FB3E70CF4125AF13B4896B /* DeveloperToolsView.swift in Sources */,
+				CD91A871AFC86F7FCCC1455E /* EmergencyView.swift in Sources */,
+				14FBC0C375BCF2FFFDDA3BD0 /* EnvironmentViews.swift in Sources */,
+				EF79F03A70368F6F3F227C3E /* Errors.swift in Sources */,
+				0A8E0692A84DD59ABA9FEACD /* FieldRows.swift in Sources */,
+				88DEAADD56A234923CB56EC6 /* Fields.swift in Sources */,
+				9E66532CE07D36DBAFA6DE14 /* FilePickers.swift in Sources */,
+				C603FD953FCD24D04C9B8021 /* FilesSection.swift in Sources */,
+				D8A040E9862D97BA0334A9B2 /* GeneratorView.swift in Sources */,
+				0D16D59C03FD3155A9DA18DE /* HealthView.swift in Sources */,
+				1D6D01D8B63A0285A8BCA031 /* IdentityGate.swift in Sources */,
+				8C4FFA6047192EE47DBD55A0 /* ItemDetailView.swift in Sources */,
+				2AF666A421315CFC6B2082F6 /* ItemEditor.swift in Sources */,
+				93B4A53FC32214DD18B945C1 /* ItemListView.swift in Sources */,
+				1C068A70C8625089049D2A27 /* KeyRotationViews.swift in Sources */,
+				10669AFA214E8711BCF366F0 /* KeychainTypes.swift in Sources */,
+				958228154D8557839526217D /* LocalVaultSetup.swift in Sources */,
+				0B3D6C2550ED48FEE3F94766 /* LocalVaultViews.swift in Sources */,
+				4DF4DD294D562CBDCAC96287 /* MainView.swift in Sources */,
+				860F0B247D2E3FC2AAFA45E6 /* MaskedEmailNames.swift in Sources */,
+				F7572D208EED54A4F802EE20 /* MaskedEmailView.swift in Sources */,
+				44A6FAB6E73CF50DDE07E1DB /* Navigation.swift in Sources */,
+				CE6630A78E08A4EB06175E83 /* OctaPassApp.swift in Sources */,
+				5C1B87E646C0F4090BE687D1 /* OneTimeCodes.swift in Sources */,
+				32816A1DB8AA88C404EBEAF6 /* OpenedLinks.swift in Sources */,
+				9C7F203B8D6F5BDE7AA12C2F /* OtherAppsViews.swift in Sources */,
+				BE8426293AFAADC304791FEF /* PasswordResetView.swift in Sources */,
+				591B70519CCBBFA39FE28F9D /* QrScanner.swift in Sources */,
+				C14E4A17411FCFB2D6ADFFB7 /* QrSheet.swift in Sources */,
+				2CB536DD9F15C146F548A92D /* RecoveryKitView.swift in Sources */,
+				8C41AE67676EAD635D79A94A /* SafeBrowserView.swift in Sources */,
+				60DACDD9E3152A3F08F285DD /* SafeFileOps.swift in Sources */,
+				EC56ACA537F97AD2A0F27747 /* SafeFiles.swift in Sources */,
+				DCD02B5EDDFE41CF60078FF0 /* SafesView.swift in Sources */,
+				C3123A475FEDCE838A1D019A /* ScanSheet.swift in Sources */,
+				5745865311C7403A79C3E33A /* SettingsView.swift in Sources */,
+				5AF9EE0AA1C0CCE7A4E91AD8 /* SharingViews.swift in Sources */,
+				95235DA59F8C44C2B53C20B9 /* SignInView.swift in Sources */,
+				EA03EA60B9C7207B7FEFF1B7 /* SignUpView.swift in Sources */,
+				5A5008AC872C4F7EBC920E15 /* SshKeyViews.swift in Sources */,
+				B31A34E6273CFE4B163B20B4 /* StructuredViews.swift in Sources */,
+				E07916DDA7F6D89A32D311A1 /* Theme.swift in Sources */,
+				C8BEB0C46F7133445159177A /* ThisDeviceSection.swift in Sources */,
+				3D6D4BFF07973F6D32EE7DCC /* TurnOnSyncView.swift in Sources */,
+				F2F31FB11E7E72086E365A19 /* TwoStepSettingsView.swift in Sources */,
+				513A5031EF8300995177C0C7 /* UnlockView.swift in Sources */,
+				364098680F60668DFC107066 /* VaultPlatform.swift in Sources */,
+				CD0D76C012DAB8D45C14EBE9 /* VaultTypes.swift in Sources */,
+				5304FD7A5B17796C5B87434B /* WatchCodes.swift in Sources */,
+				916CCB58B1179D0775C98004 /* Wifi.swift in Sources */,
+				CA747B528FFA16550EF87E5A /* WifiOffer.swift in Sources */,
+				8B6459BF3314186E080D8319 /* WifiViews.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4BB38AECD291A6C3E9557BAD /* Sources */ = {
+		6B9A60DE2EC0328EDAE05B9D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3AF5052F189527D844CAC15F /* CodesView.swift in Sources */,
-				398E6C92444EE16EA6AD0615 /* OctaPassWatchApp.swift in Sources */,
-				C251577DFFBC223CFB3E97D4 /* WatchModel.swift in Sources */,
+				0492FDFE6EBE81EEA8BDA07B /* CodesView.swift in Sources */,
+				9C208E8BA4D2800D1A82A9E9 /* OctaPassWatchApp.swift in Sources */,
+				C186AFAF2062C26A31053E32 /* WatchModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		998C46BDA0924B7459042186 /* Sources */ = {
+		7587DC22499312C41EB6130A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E7BFD188B1195C8736012510 /* OnboardingTests.swift in Sources */,
-				DEB8D3BFBCD0CDC85E7CD35E /* SafeKeyRecordTests.swift in Sources */,
+				313D78C4FB1DE4831A17FB84 /* AutoFillTests.swift in Sources */,
+				AEBD421CB718EAA4D55EB4C6 /* DeveloperItemTests.swift in Sources */,
+				1A9D73D87657CA7CAA6F70CE /* IPadTests.swift in Sources */,
+				652A59176A05E96C08EF0B66 /* ItemTests.swift in Sources */,
+				7B11894C04354D0CB22C3F24 /* KeyRotationTests.swift in Sources */,
+				CEAFC09EDDBA70D24D68902C /* LocalVaultTests.swift in Sources */,
+				22828175F93442911686F35A /* MaskedEmailTests.swift in Sources */,
+				DC33A0D756316569EF466302 /* MasterPasswordTests.swift in Sources */,
+				418ADA3722316CCD5019847E /* OnboardingTests.swift in Sources */,
+				BEA415E30C6DAE2C450EF885 /* OtherAppsTests.swift in Sources */,
+				BF8E92681C71FE7605DF04DB /* SettingsTests.swift in Sources */,
+				18DBC19D4574B0497FE74530 /* SharingTests.swift in Sources */,
+				66BDDA2ED1A4322B063ECEF6 /* StayUnlockedTests.swift in Sources */,
+				55AAD53302731166F71715AA /* UITestCase.swift in Sources */,
+				9C7CE605F50D251D0B1BCC45 /* VaultTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9F2FECC2FBF6A281F87722D6 /* Sources */ = {
+		8AE4F4BE46F5F53EF1526877 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				646E815EBAF4DBA75629127F /* FileProviderExtension.swift in Sources */,
-				FFA8501482AA420B37F155E6 /* SafeItems.swift in Sources */,
-				90F31D3D1A14D1B081105F69 /* SafeSession.swift in Sources */,
+				5BBC15EAA3E935ECC4CC1B50 /* AutoFillModel.swift in Sources */,
+				4833CA10D3BA03310030886F /* AutoFillView.swift in Sources */,
+				7CA144E4C0FBC8C89457D721 /* CredentialProviderViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BB17A59BBA4BC7C3CB970FF3 /* Sources */ = {
+		D853F62F0E44635421D6695A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				20A65BC56FCB3B58C81A02D2 /* AccountViews.swift in Sources */,
-				D2F8C77FA38FC24E2E60268C /* AppModel.swift in Sources */,
-				0E7F82656FF83237BD9C4401 /* AuthLayout.swift in Sources */,
-				C52860706D5E95788BC96EC7 /* AutoFillSettings.swift in Sources */,
-				A032FE22663573C303C88DCF /* Avatar.swift in Sources */,
-				6CA854F7FCEC0418AD50A8B9 /* BackupFolder.swift in Sources */,
-				B5C4CB8FF61993940FB57ABB /* ChangePasswordView.swift in Sources */,
-				CC0C5CD7EF62579451F73789 /* CredentialExchange.swift in Sources */,
-				587FDF8E9A192577396B022E /* DeveloperToolsView.swift in Sources */,
-				FEEDA03F7D02F6DD3D0C1814 /* EmergencyView.swift in Sources */,
-				6E7198639A663CAC6BBCE8A5 /* EnvironmentViews.swift in Sources */,
-				4982DDEC7AB2B7B713ABD906 /* Errors.swift in Sources */,
-				60F560CEC9A64A1261140108 /* FieldRows.swift in Sources */,
-				E53BB248DC6F92751C720A1E /* Fields.swift in Sources */,
-				ACF41D0905C41FEB3B7AEAFC /* FilePickers.swift in Sources */,
-				01C43F412AEBEF7FE3E04BD6 /* FilesSection.swift in Sources */,
-				04CC0C0620129AC304A235C7 /* GeneratorView.swift in Sources */,
-				44960CBA37A83A6FEECBC9F6 /* HealthView.swift in Sources */,
-				BA9B7250068E1C958F435A79 /* IdentityGate.swift in Sources */,
-				DA190569F464E04E2252BD80 /* ItemDetailView.swift in Sources */,
-				6B1AC5763CAF99C301306AD2 /* ItemEditor.swift in Sources */,
-				2768F7066557529ECD94C5FB /* ItemListView.swift in Sources */,
-				E6D5333E712D86893C4ABA90 /* KeyRotationViews.swift in Sources */,
-				A5A8B73A67E58D3AB30A833D /* KeychainTypes.swift in Sources */,
-				F111A99D2AB4949CF8C262A3 /* LocalVaultSetup.swift in Sources */,
-				0EE3D204B9B05FA64ADBEA89 /* LocalVaultViews.swift in Sources */,
-				8C0FC68FB492D3FBD4C41232 /* MainView.swift in Sources */,
-				09686AA7E586DCC61CFA5885 /* MaskedEmailNames.swift in Sources */,
-				D2CDBC022F218876473EC8FB /* MaskedEmailView.swift in Sources */,
-				9490E88D1DC3D28E6BD7D126 /* Navigation.swift in Sources */,
-				1FCC8208194A2042752F0D1C /* OneTimeCodes.swift in Sources */,
-				CA21C46A2C72037384BFED66 /* OctaPassApp.swift in Sources */,
-				A02B72FBED09257AD4328937 /* OpenedLinks.swift in Sources */,
-				A5D7C2738D456AC53F804C51 /* OtherAppsViews.swift in Sources */,
-				C7CDA3D8C93416BE5559F0C0 /* PasswordResetView.swift in Sources */,
-				64CF203CFB7D3409C10635C6 /* QrScanner.swift in Sources */,
-				9143EE84F3161A85EA103C0C /* QrSheet.swift in Sources */,
-				B762091B45857EF4DEEA68E7 /* RecoveryKitView.swift in Sources */,
-				F99E695E2751D6D10301112E /* SafeBrowserView.swift in Sources */,
-				72DB5C54C25AE2D742BAEC08 /* SafeFileOps.swift in Sources */,
-				A4EC3CD16ACD7062CD0EBF87 /* SafeFiles.swift in Sources */,
-				F1F774AEFC6CE91C02BF700A /* SafesView.swift in Sources */,
-				67B0EBD3079FFB8A2299929F /* ScanSheet.swift in Sources */,
-				2E38F337DF75D37C712D940D /* SettingsView.swift in Sources */,
-				133B3223C4DBA3A8E401AB1D /* SharingViews.swift in Sources */,
-				067A362ECBF32CAB1B05EAE0 /* SignInView.swift in Sources */,
-				E4646B598777422E841AA379 /* SignUpView.swift in Sources */,
-				C163EEAACC517D25748A21C6 /* SshKeyViews.swift in Sources */,
-				166FA958290529CACC7B6EB3 /* StructuredViews.swift in Sources */,
-				A2D4637BB6040DBFAE61030F /* Theme.swift in Sources */,
-				4760671CC79E05DC0DA974F0 /* ThisDeviceSection.swift in Sources */,
-				D4044FCB07113078B8F01AA7 /* TurnOnSyncView.swift in Sources */,
-				95F4EDE87684C26805CFCC1B /* TwoStepSettingsView.swift in Sources */,
-				5A81B3B3E377470C175D6B19 /* UnlockView.swift in Sources */,
-				369BB57816392212915E78AB /* VaultPlatform.swift in Sources */,
-				79C2B6253E82FF0C30A209FC /* VaultTypes.swift in Sources */,
-				ED02FB3F5828B33A56E2E200 /* WatchCodes.swift in Sources */,
-				D458B87767A70143177666B3 /* Wifi.swift in Sources */,
-				870BDF8130BA8648F91CD055 /* WifiOffer.swift in Sources */,
-				84D15CE860912D56A93375F6 /* WifiViews.swift in Sources */,
+				229B9561E581F8AACE5DA2E1 /* FileProviderExtension.swift in Sources */,
+				C3B3CE1F69A8E565C5F9C559 /* SafeItems.swift in Sources */,
+				9DF2D7083AB42E71BE703C09 /* SafeSession.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		0303BDA397711B4B7EF5A9CC /* PBXTargetDependency */ = {
+		09340F2F57AA95E55934B39D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9E12F14C44EBDD2D111C3788 /* OctaPass */;
-			targetProxy = FC60933CB77761726FC3D678 /* PBXContainerItemProxy */;
+			target = FD615CBC94EBC7685B217014 /* OctaPass */;
+			targetProxy = 7F479402718DF73474097053 /* PBXContainerItemProxy */;
 		};
-		368B944615E43EF1EF9113AD /* PBXTargetDependency */ = {
+		A37EE70BFC2CFCB5A462CC25 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2C0D7D3151B4C96724D7195B /* OctaPassAutoFill */;
-			targetProxy = 4B04C7FA9B4188FC07DAF27F /* PBXContainerItemProxy */;
+			target = FD615CBC94EBC7685B217014 /* OctaPass */;
+			targetProxy = D486A0604180952A4397C796 /* PBXContainerItemProxy */;
 		};
-		890E77860940B6A31189A1BC /* PBXTargetDependency */ = {
+		E79EABD9DF487C9EEDAA9701 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 9E12F14C44EBDD2D111C3788 /* OctaPass */;
-			targetProxy = 80AB46C0750F8CEB3A61D51D /* PBXContainerItemProxy */;
+			target = FDBAB55229768F95830A87DB /* OctaPassAutoFill */;
+			targetProxy = 9D79361F306064E4F8B8CA7A /* PBXContainerItemProxy */;
 		};
-		DCA0009820F66BC61C6F2156 /* PBXTargetDependency */ = {
+		FE7CEC2FF0193ADD2CF1B328 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 730B4F26BC2D85CE335EDE16 /* OctaPassSafeProvider */;
-			targetProxy = AD0D154B048D4E3278C2ED6E /* PBXContainerItemProxy */;
+			target = 60AA21EC30F3C5B3264562E1 /* OctaPassSafeProvider */;
+			targetProxy = D5302FA6C0A575418E2C243F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		02F9CDFBA4B6C26945959D71 /* Release */ = {
+		0779C4EDB001DA9CCAE0C657 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.octap.ios.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = OctaPass;
+			};
+			name = Release;
+		};
+		167C848E9D72D0778879E10E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
@@ -975,26 +992,9 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Release;
-		};
-		21067C07019D81D4525247FD /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				GENERATE_INFOPLIST_FILE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.octap.ios.tests;
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Octa Pass.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Octa Pass";
-			};
 			name = Debug;
 		};
-		30B9BF84E0F87D4EBFF07CBA /* Debug */ = {
+		1D4F905D5729267477FE3A21 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1015,24 +1015,7 @@
 			};
 			name = Debug;
 		};
-		322DDD3EB78E94421B8E248F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				GENERATE_INFOPLIST_FILE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.octap.ios.uitests;
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = OctaPass;
-			};
-			name = Release;
-		};
-		3D95F7495EF6957902D23046 /* Debug */ = {
+		2C0EEE1FCD930D6BBBC519D0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
@@ -1050,22 +1033,7 @@
 			};
 			name = Debug;
 		};
-		657D7DEBC08A9B49CB403781 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = Watch/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = app.octap.ios.watch;
-				PRODUCT_MODULE_NAME = OctaPassWatch;
-				PRODUCT_NAME = OctaPassWatch;
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.0;
-			};
-			name = Debug;
-		};
-		66B1E1D55AA801F1E157BE3B /* Release */ = {
+		32E3AD3FF2B3C910E91C9C86 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1080,11 +1048,50 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Octa Pass.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Octa Pass";
 			};
+			name = Debug;
+		};
+		3FAC8FFA81E3E4E962C6BADB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = SafeProvider/SafeProvider.entitlements;
+				INFOPLIST_FILE = SafeProvider/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.octap.ios.safes;
+				PRODUCT_NAME = OctaPassSafeProvider;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
 			name = Release;
 		};
-		6E9D0221D3EF16C63F82EDB8 /* Debug */ = {
+		5D98C9F832015828EABED38B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = "TEMP_3E31E033-1FEB-4EF8-840A-9C4B0A82B4D0" /* Signing.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = OctaPass/OctaPass.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = OctaPass/Info.plist;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.octap.ios;
+				PRODUCT_MODULE_NAME = OctaPass;
+				PRODUCT_NAME = "Octa Pass";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		667F564EF3F666236FD70550 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = "TEMP_160BBE29-BFD6-421D-B98A-8BFB85586FA4" /* Signing.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1139,10 +1146,10 @@
 				MARKETING_VERSION = 0.1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				ONLY_ACTIVE_ARCH = YES;
 				OCTAPASS_APP_GROUP = group.app.octap;
 				OCTAPASS_KEYCHAIN_GROUP = "$(AppIdentifierPrefix)app.octap.shared";
 				OCTAPASS_SERVER_URL = "https://vault.octap.app";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1150,25 +1157,24 @@
 			};
 			name = Debug;
 		};
-		77D4F08A72B854AFC738B040 /* Debug */ = {
+		7C506195AC5A75B80A06CFB0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				CODE_SIGN_ENTITLEMENTS = AutoFill/AutoFill.entitlements;
-				INFOPLIST_FILE = AutoFill/Info.plist;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
+					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.octap.ios.autofill;
-				PRODUCT_NAME = OctaPassAutoFill;
+				PRODUCT_BUNDLE_IDENTIFIER = app.octap.ios.tests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Octa Pass.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Octa Pass";
 			};
-			name = Debug;
+			name = Release;
 		};
-		7BA18618DD05F934155155BF /* Debug */ = {
+		9D7B4DA65B679BF3DD042195 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1185,24 +1191,27 @@
 			};
 			name = Debug;
 		};
-		7D1E606D045617DE9FB3ED0C /* Release */ = {
+		A708AAB364CE327CBE0EF0D8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				INFOPLIST_FILE = Watch/Info.plist;
-				PRODUCT_BUNDLE_IDENTIFIER = app.octap.ios.watch;
-				PRODUCT_MODULE_NAME = OctaPassWatch;
-				PRODUCT_NAME = OctaPassWatch;
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = AutoFill/AutoFill.entitlements;
+				INFOPLIST_FILE = AutoFill/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.octap.ios.autofill;
+				PRODUCT_NAME = OctaPassAutoFill;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
-		83F9211CD8DD0D055F478BF1 /* Release */ = {
+		E9D6EF18FEE9BCB2711D5C55 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = "TEMP_3E31E033-1FEB-4EF8-840A-9C4B0A82B4D0" /* Signing.xcconfig */;
+			baseConfigurationReference = "TEMP_160BBE29-BFD6-421D-B98A-8BFB85586FA4" /* Signing.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1261,107 +1270,98 @@
 			};
 			name = Release;
 		};
-		85DA7AF5A537B56C5FDDE301 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				CODE_SIGN_ENTITLEMENTS = SafeProvider/SafeProvider.entitlements;
-				INFOPLIST_FILE = SafeProvider/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.octap.ios.safes;
-				PRODUCT_NAME = OctaPassSafeProvider;
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		F678C65AEA40E8AA3BF43F57 /* Release */ = {
+		F28B6D51D7CCF1CB09E385DB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = OctaPass/OctaPass.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = OctaPass/Info.plist;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = app.octap.ios;
-				PRODUCT_MODULE_NAME = OctaPass;
-				PRODUCT_NAME = "Octa Pass";
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				INFOPLIST_FILE = Watch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = app.octap.ios.watch;
+				PRODUCT_MODULE_NAME = OctaPassWatch;
+				PRODUCT_NAME = OctaPassWatch;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		FD240A2F0B41ECF40D9B992E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				INFOPLIST_FILE = Watch/Info.plist;
+				PRODUCT_BUNDLE_IDENTIFIER = app.octap.ios.watch;
+				PRODUCT_MODULE_NAME = OctaPassWatch;
+				PRODUCT_NAME = OctaPassWatch;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		19FDC6E00A3477B1CECE4F25 /* Build configuration list for PBXProject "OctaPass" */ = {
+		02950C653F94C632773E9725 /* Build configuration list for PBXNativeTarget "OctaPassUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6E9D0221D3EF16C63F82EDB8 /* Debug */,
-				83F9211CD8DD0D055F478BF1 /* Release */,
+				9D7B4DA65B679BF3DD042195 /* Debug */,
+				0779C4EDB001DA9CCAE0C657 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		35638D4ADF3DC4D5487CE549 /* Build configuration list for PBXNativeTarget "OctaPassWatch" */ = {
+		05F85D5659FA125F22FB0713 /* Build configuration list for PBXNativeTarget "OctaPassAutoFill" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				657D7DEBC08A9B49CB403781 /* Debug */,
-				7D1E606D045617DE9FB3ED0C /* Release */,
+				167C848E9D72D0778879E10E /* Debug */,
+				A708AAB364CE327CBE0EF0D8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		87092F58E61E0D2CAD5FC47F /* Build configuration list for PBXNativeTarget "OctaPassAutoFill" */ = {
+		2EAE88D2BF3C96EF00DF1E09 /* Build configuration list for PBXNativeTarget "OctaPassWatch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				77D4F08A72B854AFC738B040 /* Debug */,
-				02F9CDFBA4B6C26945959D71 /* Release */,
+				F28B6D51D7CCF1CB09E385DB /* Debug */,
+				FD240A2F0B41ECF40D9B992E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		91DB9A5E8C804A9761B571AB /* Build configuration list for PBXNativeTarget "OctaPassUITests" */ = {
+		71865A1407B080EB211841DE /* Build configuration list for PBXProject "OctaPass" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7BA18618DD05F934155155BF /* Debug */,
-				322DDD3EB78E94421B8E248F /* Release */,
+				667F564EF3F666236FD70550 /* Debug */,
+				E9D6EF18FEE9BCB2711D5C55 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		C991DCC932A0E4268204A862 /* Build configuration list for PBXNativeTarget "OctaPassSafeProvider" */ = {
+		7E206C979536ADE26A187275 /* Build configuration list for PBXNativeTarget "OctaPass" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3D95F7495EF6957902D23046 /* Debug */,
-				85DA7AF5A537B56C5FDDE301 /* Release */,
+				1D4F905D5729267477FE3A21 /* Debug */,
+				5D98C9F832015828EABED38B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		D9A9DEC7B15322F728E1C306 /* Build configuration list for PBXNativeTarget "OctaPass" */ = {
+		A5C2F3F0DED986139C4BE011 /* Build configuration list for PBXNativeTarget "OctaPassTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				30B9BF84E0F87D4EBFF07CBA /* Debug */,
-				F678C65AEA40E8AA3BF43F57 /* Release */,
+				32E3AD3FF2B3C910E91C9C86 /* Debug */,
+				7C506195AC5A75B80A06CFB0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		DE05B0D8578479CED267634D /* Build configuration list for PBXNativeTarget "OctaPassTests" */ = {
+		D93038E9EEB182A1CA8BBD7F /* Build configuration list for PBXNativeTarget "OctaPassSafeProvider" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				21067C07019D81D4525247FD /* Debug */,
-				66B1E1D55AA801F1E157BE3B /* Release */,
+				2C0EEE1FCD930D6BBBC519D0 /* Debug */,
+				3FAC8FFA81E3E4E962C6BADB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -1369,78 +1369,78 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		13CC93D9C1D4C2806D583428 /* XCLocalSwiftPackageReference "Packages/WatchCodes" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = Packages/WatchCodes;
-		};
-		66C4CC1B12DA85F38A97432D /* XCLocalSwiftPackageReference "Packages/OctaPassResources" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = Packages/OctaPassResources;
-		};
-		966995F1CC6DE10115E48BB4 /* XCLocalSwiftPackageReference "Packages/Wifi" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = Packages/Wifi;
-		};
-		9C1FA7912EA73B8DCCE26181 /* XCLocalSwiftPackageReference "Packages/AutoFillKit" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = Packages/AutoFillKit;
-		};
-		BF549C7DE2930E8AA5314D3D /* XCLocalSwiftPackageReference "Packages/Keychain" */ = {
+		20209976FA5F95AE52BF52F8 /* XCLocalSwiftPackageReference "Packages/Keychain" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Packages/Keychain;
 		};
-		F1A11A1E501F71558ADD29C8 /* XCLocalSwiftPackageReference "Packages/OctaPassVault" */ = {
+		91C20894C37DD9009B557F6C /* XCLocalSwiftPackageReference "Packages/OctaPassVault" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = Packages/OctaPassVault;
+		};
+		A0E99E51CF6A0093C16B3DCE /* XCLocalSwiftPackageReference "Packages/WatchCodes" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/WatchCodes;
+		};
+		AB45E57B83E071B77DC00FAE /* XCLocalSwiftPackageReference "Packages/AutoFillKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/AutoFillKit;
+		};
+		C3C94AABCAC627E31A75EA58 /* XCLocalSwiftPackageReference "Packages/OctaPassResources" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/OctaPassResources;
+		};
+		D53D6A7381E7FC68D77F1B4C /* XCLocalSwiftPackageReference "Packages/Wifi" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/Wifi;
 		};
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		28757162FEF10F2997D59DBB /* OctaPassWifi */ = {
+		02A64BAC23F03DB7AFFFFD2F /* OctaPassVault */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = OctaPassWifi;
+			productName = OctaPassVault;
 		};
-		3507803406CF090EDCE3E776 /* OctaPassWatchCodes */ = {
+		0B8C2F14FE406EB115F7F9E0 /* OctaPassKeychain */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = OctaPassWatchCodes;
+			productName = OctaPassKeychain;
 		};
-		45375463B4AAD5BE7378B066 /* OctaPassResources */ = {
+		3A9E3606B4496F8E167FB376 /* OctaPassVault */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OctaPassVault;
+		};
+		49E9B3AF7D559EC4833BD369 /* OctaPassResources */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = OctaPassResources;
 		};
-		565C331D3A1ACC564B9E7EF1 /* OctaPassAutoFillKit */ = {
+		4B276DA6168D79866CAD0A66 /* OctaPassAutoFillKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = OctaPassAutoFillKit;
 		};
-		91875F27F5F878AEA3C7A08D /* OctaPassKeychain */ = {
+		56534BAA868B7A2DCA7FF56A /* OctaPassKeychain */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = OctaPassKeychain;
 		};
-		A1520EF3441811EB9CA251C1 /* OctaPassResources */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = OctaPassResources;
-		};
-		A5D3F08134870B72DDC43C28 /* OctaPassWatchCodes */ = {
+		5C431CBBDA4DE3BA3DE4050F /* OctaPassWatchCodes */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = OctaPassWatchCodes;
 		};
-		AA63F50FA0278325AB0CA72C /* OctaPassVault */ = {
+		712985FA5E487AFBC7AD11A0 /* OctaPassWifi */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = OctaPassVault;
+			productName = OctaPassWifi;
 		};
-		AD87CCBD91B2AAC2A3ABA889 /* OctaPassVault */ = {
+		745388AD845A48F0C21F69B8 /* OctaPassWatchCodes */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = OctaPassVault;
+			productName = OctaPassWatchCodes;
 		};
-		CA983489C68BB26A82F480A0 /* OctaPassKeychain */ = {
+		98437ED83A786CE5C23C6FD6 /* OctaPassResources */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = OctaPassKeychain;
+			productName = OctaPassResources;
 		};
-		E95481DE5AFD89C50B2238B1 /* OctaPassResources */ = {
+		CDED54E3C95F01B591C9CBB6 /* OctaPassResources */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = OctaPassResources;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = 85FC365B34565BB054898094 /* Project object */;
+	rootObject = EB7BE93FAFC8361FCC2AF496 /* Project object */;
 }

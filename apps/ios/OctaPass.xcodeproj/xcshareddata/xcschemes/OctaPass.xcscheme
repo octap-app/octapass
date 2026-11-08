@@ -15,7 +15,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "9E12F14C44EBDD2D111C3788"
+               BlueprintIdentifier = "FD615CBC94EBC7685B217014"
                BuildableName = "OctaPass.app"
                BlueprintName = "OctaPass"
                ReferencedContainer = "container:OctaPass.xcodeproj">
@@ -32,7 +32,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9E12F14C44EBDD2D111C3788"
+            BlueprintIdentifier = "FD615CBC94EBC7685B217014"
             BuildableName = "OctaPass.app"
             BlueprintName = "OctaPass"
             ReferencedContainer = "container:OctaPass.xcodeproj">
@@ -44,7 +44,7 @@
             parallelizable = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "68E789E817F7ACA33794657A"
+               BlueprintIdentifier = "6212AD23C0CB745346A1C97B"
                BuildableName = "OctaPassTests.xctest"
                BlueprintName = "OctaPassTests"
                ReferencedContainer = "container:OctaPass.xcodeproj">
@@ -55,7 +55,7 @@
             parallelizable = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B4E4B8E0FA7BB26677CC2BB3"
+               BlueprintIdentifier = "3B1C7BD1CA27BAB3DA3CDCCF"
                BuildableName = "OctaPassUITests.xctest"
                BlueprintName = "OctaPassUITests"
                ReferencedContainer = "container:OctaPass.xcodeproj">
@@ -79,7 +79,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9E12F14C44EBDD2D111C3788"
+            BlueprintIdentifier = "FD615CBC94EBC7685B217014"
             BuildableName = "OctaPass.app"
             BlueprintName = "OctaPass"
             ReferencedContainer = "container:OctaPass.xcodeproj">
@@ -98,7 +98,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "9E12F14C44EBDD2D111C3788"
+            BlueprintIdentifier = "FD615CBC94EBC7685B217014"
             BuildableName = "OctaPass.app"
             BlueprintName = "OctaPass"
             ReferencedContainer = "container:OctaPass.xcodeproj">

@@ -3824,13 +3824,20 @@ public struct ItemSummary: Equatable, Hashable {
     public var username: String?
     public var hasTotp: Bool
     public var hasPasskey: Bool
+    /**
+     * A non-empty password: a login made by saving a passkey has none, so it can't fill a password.
+     */
+    public var hasPassword: Bool
 
     // Default memberwise initializers are never public by default, so we
     // declare one manually.
     public init(itemId: String, vaultId: String, 
         /**
          * `login`, `secureNote`, `card`, `identity`, `password`, or a type from a newer client.
-         */itemType: String, title: String, subtitle: String?, urls: [String], favorite: Bool, username: String?, hasTotp: Bool, hasPasskey: Bool) {
+         */itemType: String, title: String, subtitle: String?, urls: [String], favorite: Bool, username: String?, hasTotp: Bool, hasPasskey: Bool, 
+        /**
+         * A non-empty password: a login made by saving a passkey has none, so it can't fill a password.
+         */hasPassword: Bool) {
         self.itemId = itemId
         self.vaultId = vaultId
         self.itemType = itemType
@@ -3841,6 +3848,7 @@ public struct ItemSummary: Equatable, Hashable {
         self.username = username
         self.hasTotp = hasTotp
         self.hasPasskey = hasPasskey
+        self.hasPassword = hasPassword
     }
 
     
@@ -3868,7 +3876,8 @@ public struct FfiConverterTypeItemSummary: FfiConverterRustBuffer {
                 favorite: FfiConverterBool.read(from: &buf), 
                 username: FfiConverterOptionString.read(from: &buf), 
                 hasTotp: FfiConverterBool.read(from: &buf), 
-                hasPasskey: FfiConverterBool.read(from: &buf)
+                hasPasskey: FfiConverterBool.read(from: &buf), 
+                hasPassword: FfiConverterBool.read(from: &buf)
         )
     }
 
@@ -3883,6 +3892,7 @@ public struct FfiConverterTypeItemSummary: FfiConverterRustBuffer {
         FfiConverterOptionString.write(value.username, into: &buf)
         FfiConverterBool.write(value.hasTotp, into: &buf)
         FfiConverterBool.write(value.hasPasskey, into: &buf)
+        FfiConverterBool.write(value.hasPassword, into: &buf)
     }
 }
 

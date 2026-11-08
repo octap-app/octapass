@@ -15,7 +15,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "278E11AF99CF7002E648939C"
+               BlueprintIdentifier = "5639BF1918701B6B3FD37888"
                BuildableName = "OctaPassWatch.app"
                BlueprintName = "OctaPassWatch"
                ReferencedContainer = "container:OctaPass.xcodeproj">
@@ -32,7 +32,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "278E11AF99CF7002E648939C"
+            BlueprintIdentifier = "5639BF1918701B6B3FD37888"
             BuildableName = "OctaPassWatch.app"
             BlueprintName = "OctaPassWatch"
             ReferencedContainer = "container:OctaPass.xcodeproj">
@@ -57,7 +57,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "278E11AF99CF7002E648939C"
+            BlueprintIdentifier = "5639BF1918701B6B3FD37888"
             BuildableName = "OctaPassWatch.app"
             BlueprintName = "OctaPassWatch"
             ReferencedContainer = "container:OctaPass.xcodeproj">
@@ -76,7 +76,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "278E11AF99CF7002E648939C"
+            BlueprintIdentifier = "5639BF1918701B6B3FD37888"
             BuildableName = "OctaPassWatch.app"
             BlueprintName = "OctaPassWatch"
             ReferencedContainer = "container:OctaPass.xcodeproj">

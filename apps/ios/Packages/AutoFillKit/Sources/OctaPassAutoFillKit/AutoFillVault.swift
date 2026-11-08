@@ -162,6 +162,7 @@ public final class AutoFillVault {
         var seen = Set<String>()
         return try Self.pages(urls).flatMap { page in try Self.ifWebsite { try session.matchLogins(store: store, url: page) } }
             .filter { seen.insert($0.item.itemId).inserted }
+            .filter { Self.fillsPassword($0.item) }
             .map { Login(
                 itemId: $0.item.itemId, title: $0.item.title, username: $0.item.username, url: $0.url,
                 schemeMismatch: $0.schemeMismatch, hasTotp: $0.item.hasTotp) }
@@ -177,6 +178,7 @@ public final class AutoFillVault {
             return try Self.ifWebsite { try session.otherLogins(store: store, url: page) }.map { (page: website, other: $0) }
         }
         .filter { seen.insert($0.other.item.itemId).inserted }
+        .filter { Self.fillsPassword($0.other.item) }
         .map { page, other in OtherPartLogin(
             login: Login(
                 itemId: other.item.itemId, title: other.item.title, username: other.item.username, url: other.url,
@@ -232,12 +234,19 @@ public final class AutoFillVault {
         let needle = query.trimmingCharacters(in: .whitespaces).lowercased()
         return try session.listItems(store: store)
             .filter { $0.itemType == "login" || $0.itemType == "password" }
+            .filter { Self.fillsPassword($0) }
             .filter { item in
                 needle.isEmpty || ([item.title, item.username ?? ""] + item.urls).contains { $0.lowercased().contains(needle) }
             }
             .map { Login(
                 itemId: $0.itemId, title: $0.title, username: $0.username, url: $0.urls.first,
                 schemeMismatch: false, hasTotp: $0.hasTotp) }
+    }
+
+    /// Whether a login belongs in a password list. One made by saving a passkey has no password:
+    /// picked there, it would fill an empty one, so it's offered only through its passkey.
+    static func fillsPassword(_ item: ItemSummary) -> Bool {
+        item.hasPassword || !item.hasPasskey
     }
 
     public func password(itemId: String) throws -> (user: String, password: String) {

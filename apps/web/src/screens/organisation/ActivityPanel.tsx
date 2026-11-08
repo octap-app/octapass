@@ -26,6 +26,16 @@ const LABELS: Record<string, MessageKey> = {
   'policies-changed': 'organisation.eventPoliciesChanged',
   'sso-changed': 'organisation.eventSsoChanged',
   'sso-removed': 'organisation.eventSsoRemoved',
+  'scim-token-created': 'organisation.eventScimTokenCreated',
+  'scim-token-revoked': 'organisation.eventScimTokenRevoked',
+  'scim-user-provisioned': 'organisation.eventScimProvisioned',
+  'scim-user-invited': 'organisation.eventScimInvited',
+  'scim-user-deprovisioned': 'organisation.eventScimDeprovisioned',
+  'scim-owner-kept': 'organisation.eventScimOwnerKept',
+  'scim-group-created': 'organisation.eventScimGroupCreated',
+  'scim-group-changed': 'organisation.eventScimGroupChanged',
+  'scim-group-deleted': 'organisation.eventScimGroupDeleted',
+  'scim-vault-orphaned': 'organisation.eventScimVaultOrphaned',
 };
 
 /** What admins did, newest first, kept a year. Names and ids only: never vault contents. */
@@ -46,7 +56,7 @@ export function ActivityPanel() {
                   <span className={styles.name}>{label ? t(label) : event.type}</span>
                   <span className={styles.meta}>
                     {event.subject && <span>{event.subject}</span>}
-                    {event.actor && <span>{event.actor}</span>}
+                    {event.actor ? <span>{event.actor}</span> : event.type.startsWith('scim-') && <span>{t('organisation.byIdentityProvider')}</span>}
                     <span>{formatDate(event.createdAt, 'long')}</span>
                   </span>
                 </div>

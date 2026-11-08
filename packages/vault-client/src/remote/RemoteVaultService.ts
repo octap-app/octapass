@@ -64,6 +64,9 @@ import type {
   OrgMembers,
   OrgPolicies,
   OrgRole,
+  OrgSamlInput,
+  OrgScim,
+  OrgScimToken,
   OrgSsoSettings,
   OrgVault,
   OrganisationService,
@@ -648,8 +651,24 @@ export class RemoteVaultService implements VaultService, SharingService, Attachm
     return this.engine.call('saveOrgSso', [input]);
   }
 
+  saveOrgSaml(input: OrgSamlInput): Promise<OrgSsoSettings> {
+    return this.engine.call('saveOrgSaml', [input]);
+  }
+
   removeOrgSso(): Promise<void> {
     return this.engine.call('removeOrgSso', []);
+  }
+
+  getOrgScim(): Promise<OrgScim> {
+    return this.engine.call('getOrgScim', []);
+  }
+
+  createOrgScimToken(name: string): Promise<{ token: OrgScimToken; secret: string }> {
+    return this.engine.call('createOrgScimToken', [name]);
+  }
+
+  revokeOrgScimToken(tokenId: string): Promise<void> {
+    return this.engine.call('revokeOrgScimToken', [tokenId]);
   }
 
   testOrgSso(): Promise<string> {

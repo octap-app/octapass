@@ -5,7 +5,7 @@ use utoipa::{Modify, OpenApi};
 
 use crate::routes::{
     account, attachments, auth, batch, breach_email, devices, emergency, families, icons,
-    masked_email, meta, orgs, password, service_accounts, share_links, sharing, sso, transparency,
+    masked_email, meta, orgs, password, scim, service_accounts, share_links, sharing, sso, transparency,
     two_step, vaults, ws,
 };
 
@@ -56,7 +56,8 @@ use crate::routes::{
         orgs::add_group_member, orgs::remove_group_member, orgs::list_vaults, orgs::create_vault,
         orgs::delete_vault, orgs::link_group, orgs::unlink_group, orgs::access, orgs::grant_access,
         orgs::put_policies, orgs::events,
-        sso::get_sso, sso::put_sso, sso::delete_sso, sso::test_sso,
+        sso::get_sso, sso::put_sso, sso::delete_sso, sso::test_sso, sso::put_saml,
+        sso::saml_acs, sso::saml_metadata, scim::get_scim, scim::create_token, scim::delete_token,
     ),
     // Carried over the WebSocket, so no path references them.
     components(schemas(octapass_api::ClientMessage, octapass_api::ServerMessage)),

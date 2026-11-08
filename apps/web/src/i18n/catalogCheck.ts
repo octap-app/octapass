@@ -4,7 +4,7 @@ import type { Catalog, Locale, Plural } from './core';
 // time; it lives here so the web vault, the extension and the apps check theirs the same way.
 
 /** Names and formats people know in Latin letters (Wi-Fi security and sign-in methods too), so a message of only these needn't change. */
-const NAMES = /Octa Pass Connect|Octa Pass|Touch ID|Windows Hello|Windows|Android|Linux|Mac|Bitwarden|1Password|JSON|CSV|CXF|PIN|MM\/YY|Wi-Fi|SSH|OpenSSH|Ed25519|ECDSA|RSA|P-256|P-384|WPA|WEP|EAP-FAST|PEAP|TTLS|LEAP|PWD|MSCHAPv2|MSCHAP|CHAP|GTC|PAP|IBAN|OAuth|JWT|PostgreSQL|SQL Server|SQLite|MongoDB|Redis|Oracle/g;
+const NAMES = /Octa Pass Connect|Octa Pass|Touch ID|Windows Hello|Windows|Android|Linux|Mac|Bitwarden|1Password|JSON|CSV|CXF|PIN|MM\/YY|Wi-Fi|SSH|OpenSSH|Ed25519|ECDSA|RSA|P-256|P-384|WPA|WEP|EAP-FAST|PEAP|TTLS|LEAP|PWD|MSCHAPv2|MSCHAP|CHAP|GTC|PAP|IBAN|OAuth|OpenID Connect|SAML|SCIM|JWT|PostgreSQL|SQL Server|SQLite|MongoDB|Redis|Oracle/g;
 const sameEverywhere = (message: string) => /^[\s\p{P}\p{S}\d]*$/u.test(message.replace(NAMES, ''));
 
 const placeholders = (message: string) => new Set([...message.matchAll(/\{(\w+)\}/g)].map((m) => m[1]!));

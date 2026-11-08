@@ -17,7 +17,7 @@ import { desktopSsh } from './ssh';
 import { desktopWifi } from './wifi';
 
 const transport = tauriTransport();
-const service = await TauriVaultService.create(transport, { attachments: true, sharing: true, local: true, fillGate: true, autoType: true, files: true, wifi: await desktopWifi(transport), ssh: desktopSsh(transport), background: desktopBackground(transport) });
+const service = await TauriVaultService.create(transport, { attachments: true, sharing: true, organisations: true, local: true, fillGate: true, autoType: true, files: true, wifi: await desktopWifi(transport), ssh: desktopSsh(transport), background: desktopBackground(transport) });
 
 // The Windows 11 passkey section, from the app's package only: everywhere else it isn't added.
 const passkeyProvider = await desktopPasskeyProvider(transport);

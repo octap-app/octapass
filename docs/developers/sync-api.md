@@ -93,8 +93,10 @@ The sync API is public and documented so that self-hosters and third-party clien
 | `GET`, `POST /v1/orgs/{orgId}/vaults`, `DELETE …/vaults/{vaultId}`, `PUT`, `DELETE …/vaults/{vaultId}/groups/{groupId}` | Organisation vaults and the groups linked to them |
 | `GET /v1/orgs/{orgId}/access`, `POST …/vaults/{vaultId}/grants` | What vaults wait for from a key holder; give it |
 | `PUT /v1/orgs/{orgId}/policies`, `GET …/events` | Policies (owner); the activity log (admin) |
-| `GET`, `PUT`, `DELETE /v1/orgs/{orgId}/sso`, `POST …/sso/test` | Identity provider settings (owner) |
-| `POST /v1/auth/login/sso`, `GET /v1/sso/start/{token}`, `GET /v1/sso/callback` | The SSO sign-in step |
+| `GET`, `PUT`, `DELETE /v1/orgs/{orgId}/sso`, `PUT …/sso/saml`, `POST …/sso/test` | Identity provider settings, OpenID Connect or SAML (owner) |
+| `POST /v1/auth/login/sso`, `GET /v1/sso/start/{token}`, `GET /v1/sso/callback`, `POST /v1/sso/saml/{orgId}/acs`, `GET /v1/sso/saml/{orgId}/metadata` | The SSO sign-in step |
+| `GET /v1/orgs/{orgId}/scim`, `POST …/scim/tokens`, `DELETE …/scim/tokens/{tokenId}` | SCIM tokens (owner) |
+| `/v1/scim/v2/Users`, `/v1/scim/v2/Groups`, `…/ServiceProviderConfig`, `…/ResourceTypes`, `…/Schemas` | SCIM 2.0 for identity providers, with an organisation's SCIM token |
 | `GET /v1/security-log` | The account's own security log |
 | `GET /v1/icons/{domain}` | A website's icon as a PNG (no account needed); see [website icons](#website-icons) |
 
@@ -480,6 +482,14 @@ SSO adds a step after OPAQUE and takes no part in deriving keys. See [single sig
 3. `POST /v1/auth/login/sso` with `{ challengeId, code }` answers like `login/finish`, or `401 second-factor-required` if a second step comes next. `409 sso-pending`: the browser hasn't finished. `401 invalid-second-factor`: a wrong code, up to 5. `401 login-failed`: start over.
 
 A refresh fails with `401 unauthorized` once the session's SSO sign-in is older than `ssoMaxAgeHours` (0: only at sign-in). The client then signs in again.
+
+**SAML.** `PUT …/sso/saml` takes `{ metadataXml }`, or `{ entityId, ssoUrl, certificates }` (1 to 4 PEM or base64 DER certificates), and replaces OpenID Connect settings; `PUT …/sso` does the reverse. Either clears every member's link when the provider changes. `GET …/sso` answers `protocol` (`oidc` or `saml`) when there are settings, `saml: { entityId, ssoUrl, certificates: [{ sha256, notAfter? }] }` for SAML, and always `samlServiceProvider: { entityId, acsUrl, metadataUrl }`. With SAML settings, step 2 sends the browser to the IdP with a deflated AuthnRequest (HTTP-Redirect binding), and the IdP posts `SAMLResponse` and `RelayState` to `POST /v1/sso/saml/{orgId}/acs`, which ends on the same code page. The rules the Response must meet are in [single sign-on](/docs/features/single-sign-on/#how-saml-responses-are-checked). `GET /v1/sso/saml/{orgId}/metadata` is the service provider's metadata (`application/samlmetadata+xml`).
+
+### SCIM
+
+Identity providers call `/v1/scim/v2` (RFC 7643, RFC 7644) with `Authorization: Bearer opscim_…`, a token an owner made with `POST /v1/orgs/{orgId}/scim/tokens` `{ name }`, which answers `{ token, secret }` with the secret only that once (10 per organisation, `409 already-exists` after). `GET …/scim` answers `{ baseUrl, tokens }`; `DELETE …/scim/tokens/{tokenId}` revokes one. SCIM requests and answers use `application/scim+json` and SCIM's error schema (`status` as a string, `scimType`), not problem documents; a missing or wrong token answers `401`.
+
+A provisioned user gets an invitation (no inviter, role `member`), and joins only by accepting it with `POST …/invites/{inviteId}/accept`; an active user who is already a member is linked at once. A SCIM group is an organisation group the provider manages (groups made through `/v1/orgs` stay out of its reach); its members are applied to the organisation group for users who are members. Deactivating (`active: false`), deleting or taking someone out of a group reconciles the organisation's vaults at once, as an admin's change does, but goes ahead when it orphans a vault. Owners are never removed. See [SCIM provisioning](/docs/features/scim/) for what's supported.
 
 ## Share links
 

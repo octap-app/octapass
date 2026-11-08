@@ -15,10 +15,11 @@ import { GroupsPanel } from './GroupsPanel';
 import { LeavePanel } from './LeavePanel';
 import { MembersPanel } from './MembersPanel';
 import { PoliciesPanel } from './PoliciesPanel';
+import { ScimPanel } from './ScimPanel';
 import { SsoPanel } from './SsoPanel';
 import { VaultsPanel } from './VaultsPanel';
 
-type Tab = 'members' | 'groups' | 'vaults' | 'policies' | 'sso' | 'activity';
+type Tab = 'members' | 'groups' | 'vaults' | 'policies' | 'sso' | 'scim' | 'activity';
 
 /** Organisation: invitations, or the organisation itself; what shows depends on the member's role. */
 export function OrganisationPage() {
@@ -131,7 +132,13 @@ function Member({ organisation }: { organisation: Organisation }) {
     { value: 'members', label: t('organisation.tabMembers') },
     { value: 'groups', label: t('organisation.tabGroups') },
     { value: 'vaults', label: t('organisation.tabVaults') },
-    ...(owner ? [{ value: 'policies' as const, label: t('organisation.tabPolicies') }, { value: 'sso' as const, label: t('organisation.tabSso') }] : []),
+    ...(owner
+      ? [
+          { value: 'policies' as const, label: t('organisation.tabPolicies') },
+          { value: 'sso' as const, label: t('organisation.tabSso') },
+          { value: 'scim' as const, label: t('organisation.tabScim') },
+        ]
+      : []),
     { value: 'activity', label: t('organisation.tabActivity') },
   ];
 
@@ -169,6 +176,7 @@ function Member({ organisation }: { organisation: Organisation }) {
           {tab === 'vaults' && <VaultsPanel owner={owner} />}
           {tab === 'policies' && owner && <PoliciesPanel policies={organisation.policies} />}
           {tab === 'sso' && owner && <SsoPanel policies={organisation.policies} />}
+          {tab === 'scim' && owner && <ScimPanel />}
           {tab === 'activity' && <ActivityPanel />}
         </>
       )}

@@ -15,6 +15,9 @@ import type {
   OrgMembers,
   OrgPolicies,
   OrgRole,
+  OrgSamlInput,
+  OrgScim,
+  OrgScimToken,
   OrgSsoSettings,
   OrgVault,
   OrganisationState,
@@ -292,6 +295,27 @@ export class OrganisationEngine {
     const saved = await asNotAllowed(this.host.api().saveOrgSso(await this.orgId(), input));
     this.host.changed();
     return saved;
+  }
+
+  async saveOrgSaml(input: OrgSamlInput): Promise<OrgSsoSettings> {
+    const saved = await asNotAllowed(this.host.api().saveOrgSaml(await this.orgId(), input));
+    this.host.changed();
+    return saved;
+  }
+
+  async getOrgScim(): Promise<OrgScim> {
+    return asNotAllowed(this.host.api().orgScim(await this.orgId()));
+  }
+
+  async createOrgScimToken(name: string): Promise<{ token: OrgScimToken; secret: string }> {
+    const created = await asNotAllowed(this.host.api().createOrgScimToken(await this.orgId(), name.trim()));
+    this.host.changed();
+    return created;
+  }
+
+  async revokeOrgScimToken(tokenId: string): Promise<void> {
+    await asNotAllowed(this.host.api().revokeOrgScimToken(await this.orgId(), tokenId));
+    this.host.changed();
   }
 
   async removeOrgSso(): Promise<void> {

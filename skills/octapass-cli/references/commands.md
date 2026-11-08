@@ -104,6 +104,52 @@ Run `octapass import --dry-run` first and show the user the counts. Import forma
 
 A plaintext export holds every secret in the clear. Prefer `octapass export --encrypted -o backup.octapass`, and remind the user to delete a plaintext file once they're done with it.
 
+## Organisations
+
+For owners and admins. Roles, groups, policies, SSO and SCIM are server settings and open nothing; the one command that seals a vault key is `octapass org access apply`, and it's the user's review, not yours.
+
+| Command | What it does |
+|---|---|
+| `octapass org show` | The organisation, your role, its policies and invitations to you |
+| `octapass org create` | ⚠ Starts an organisation with you as owner: `octapass org create "Acme"` |
+| `octapass org rename` | ⚠ Renames it (owners) |
+| `octapass org delete` | ⚠ Deletes it and all its vaults, after the master password. `--confirm-name` |
+| `octapass org join` | ⚠ Accepts an invitation by its id. Its policies apply from then on |
+| `octapass org decline` | Declines an invitation |
+| `octapass org leave` | ⚠ Leaves; its vaults go at once. `--orphan-vaults` |
+| `octapass org members` | Members and pending invites (admins) |
+| `octapass org invite` | ⚠ Emails an invitation. `--admin` |
+| `octapass org uninvite` | Cancels an invite, by id or email |
+| `octapass org role` | ⚠ Sets a member's role: `member`, `admin` or `owner` (owners) |
+| `octapass org remove` | ⚠ Removes a member; they lose its vaults at once. `--orphan-vaults` |
+| `octapass org group list` | Groups and who's in them |
+| `octapass org group create` | Makes a group |
+| `octapass org group rename` | Renames a group |
+| `octapass org group delete` | ⚠ Deletes a group; its members lose the vaults only it gave them |
+| `octapass org group add` | Adds a member to a group. They get its vaults only after `org access apply` |
+| `octapass org group remove` | ⚠ Takes a member out of a group, with its vaults |
+| `octapass org vault list` | Organisation vaults, their groups, and which need a new key |
+| `octapass org vault create` | Makes an organisation vault, owned by you |
+| `octapass org vault delete` | ⚠ Deletes a vault and everything in it, after the master password |
+| `octapass org vault link` | Links a group to a vault. `--role` is `read`, `write` or `manage` |
+| `octapass org vault unlink` | ⚠ Unlinks a group; people who had the vault only through it lose it |
+| `octapass org access list` | What vaults wait for, with each person's fingerprint worked out on this device |
+| `octapass org access apply` | ⚠ Seals a vault to the people waiting. In a terminal it asks the user person by person; in a script each one needs `--person EMAIL=FINGERPRINT` |
+| `octapass org rotate` | ⚠ Gives an organisation vault a new key after someone lost access |
+| `octapass org policy show` | The policies |
+| `octapass org policy set` | ⚠ Sets one: `octapass org policy set disable-export on` |
+| `octapass org sso show` | SSO settings and what to register at the identity provider |
+| `octapass org sso oidc` | ⚠ OpenID Connect settings. `--issuer`, `--client-id`, `--client-secret` (asks for it) |
+| `octapass org sso saml` | ⚠ SAML settings. `--metadata FILE`, or `--entity-id`, `--sso-url` and `--certificate FILE` |
+| `octapass org sso test` | Prints a test sign-in URL for the user to open |
+| `octapass org sso remove` | ⚠ Removes SSO settings and every member's link |
+| `octapass org scim show` | The SCIM base URL and tokens |
+| `octapass org scim token create` | ⚠ Prints a SCIM token (`opscim_…`) once |
+| `octapass org scim token revoke` | ⚠ Ends a SCIM token |
+| `octapass org events` | The admin activity log |
+
+Never pass `--person` fingerprints you didn't get from the user: they come from comparing with each person out of band, and sealing on a fingerprint the server showed you defeats the review.
+
 ## Service accounts, Connect and cloud helpers
 
 These are in [ci.md](ci.md).

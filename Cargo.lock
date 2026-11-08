@@ -4247,6 +4247,9 @@ dependencies = [
  "rand_core 0.6.4",
  "reqwest",
  "resvg",
+ "ring",
+ "roxmltree",
+ "rsa",
  "serde",
  "serde_json",
  "sha1 0.10.7",
@@ -4267,6 +4270,7 @@ dependencies = [
  "utoipa",
  "uuid",
  "x25519-dalek",
+ "x509-cert",
  "zeroize",
 ]
 

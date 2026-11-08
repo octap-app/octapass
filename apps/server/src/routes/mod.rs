@@ -13,6 +13,7 @@ pub mod masked_email;
 pub mod meta;
 pub mod orgs;
 pub mod password;
+pub mod scim;
 pub mod service_accounts;
 pub mod share_links;
 pub mod sharing;
@@ -271,6 +272,44 @@ pub fn router(state: AppState) -> Router {
             get(sso::get_sso).put(sso::put_sso).delete(sso::delete_sso),
         )
         .route("/v1/orgs/{org_id}/sso/test", post(sso::test_sso))
+        .route("/v1/orgs/{org_id}/sso/saml", put(sso::put_saml))
+        .route("/v1/sso/saml/{org_id}/acs", post(sso::saml_acs))
+        .route("/v1/sso/saml/{org_id}/metadata", get(sso::saml_metadata))
+        .route("/v1/orgs/{org_id}/scim", get(scim::get_scim))
+        .route("/v1/orgs/{org_id}/scim/tokens", post(scim::create_token))
+        .route(
+            "/v1/orgs/{org_id}/scim/tokens/{token_id}",
+            delete(scim::delete_token),
+        )
+        // SCIM 2.0, for identity providers, with an organisation's SCIM token (RFC 7644).
+        .route(
+            "/v1/scim/v2/ServiceProviderConfig",
+            get(scim::service_provider_config),
+        )
+        .route("/v1/scim/v2/ResourceTypes", get(scim::resource_types))
+        .route("/v1/scim/v2/Schemas", get(scim::schemas))
+        .route(
+            "/v1/scim/v2/Users",
+            get(scim::list_users).post(scim::create_user),
+        )
+        .route(
+            "/v1/scim/v2/Users/{id}",
+            get(scim::get_user)
+                .put(scim::replace_user)
+                .patch(scim::patch_user)
+                .delete(scim::delete_user),
+        )
+        .route(
+            "/v1/scim/v2/Groups",
+            get(scim::list_groups).post(scim::create_group),
+        )
+        .route(
+            "/v1/scim/v2/Groups/{id}",
+            get(scim::get_group)
+                .put(scim::replace_group)
+                .patch(scim::patch_group)
+                .delete(scim::delete_group),
+        )
         .route(
             "/v1/share-links",
             get(share_links::list).post(share_links::create),

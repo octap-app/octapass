@@ -5378,6 +5378,232 @@
         ]
       }
     },
+    "/v1/orgs/{orgId}/scim": {
+      "get": {
+        "tags": [
+          "organisations"
+        ],
+        "operationId": "get_scim",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The base URL to give the identity provider, and the tokens (never their secrets)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrgScimResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Only owners can",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/scim/tokens": {
+      "post": {
+        "tags": [
+          "organisations"
+        ],
+        "operationId": "create_token",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateScimTokenRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "The secret is in this answer only",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreatedScimToken"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Only owners can",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "already-exists: 10 tokens at most",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/scim/tokens/{tokenId}": {
+      "delete": {
+        "tags": [
+          "organisations"
+        ],
+        "operationId": "delete_token",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "tokenId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Revoked: the identity provider can't use it any more"
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Only owners can",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
     "/v1/orgs/{orgId}/sso": {
       "get": {
         "tags": [
@@ -5546,6 +5772,91 @@
           },
           "400": {
             "description": "sso-config: SSO is required right now",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Only owners can",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/v1/orgs/{orgId}/sso/saml": {
+      "put": {
+        "tags": [
+          "organisations"
+        ],
+        "operationId": "put_saml",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OrgSamlRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Saved, replacing any OpenID Connect settings. A test sign-in is needed again.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrgSsoRecord"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "invalid-request, or sso-config: the metadata or a certificate can't be used; SSO is required right now",
             "content": {
               "application/problem+json": {
                 "schema": {
@@ -6864,6 +7175,91 @@
         }
       }
     },
+    "/v1/sso/saml/{orgId}/acs": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "The assertion consumer service: where the identity provider posts the browser back with its\nsigned Response (HTTP-POST binding).",
+        "operationId": "saml_acs",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "SAMLResponse and RelayState",
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "An HTML page with the 6-digit code to type into the app"
+          },
+          "400": {
+            "description": "An HTML page saying what went wrong"
+          },
+          "429": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/sso/saml/{orgId}/metadata": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "This server's SAML service provider metadata for an organisation. It's the same for any id\nand needs no lookup, so it says nothing about which organisations exist.",
+        "operationId": "saml_metadata",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "SAML 2.0 metadata (application/samlmetadata+xml)",
+            "content": {
+              "application/samlmetadata+xml": {}
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/sso/start/{token}": {
       "get": {
         "tags": [
@@ -7046,7 +7442,7 @@
         ],
         "responses": {
           "200": {
-            "description": "The newest signed head, with a consistency proof from `since`",
+            "description": "The newest signed head, with a consistency proof from `since`, and the log's witnesses and newest witnessed checkpoint when it has witnesses",
             "content": {
               "application/json": {
                 "schema": {
@@ -9136,6 +9532,19 @@
           }
         }
       },
+      "CreateScimTokenRequest": {
+        "type": "object",
+        "description": "`POST /v1/orgs/{orgId}/scim/tokens`",
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "For telling tokens apart, at most 64 characters."
+          }
+        }
+      },
       "CreateServiceAccountRequest": {
         "type": "object",
         "description": "`POST /v1/vaults/{vaultId}/service-accounts`. Everything was made on the creator's device; the\ntoken isn't here.",
@@ -9246,6 +9655,22 @@
           "keyId": {
             "type": "string",
             "description": "base64url key id (16 bytes) of the vault key."
+          }
+        }
+      },
+      "CreatedScimToken": {
+        "type": "object",
+        "description": "A new SCIM token. `secret` is shown once: the server keeps only its hash.",
+        "required": [
+          "token",
+          "secret"
+        ],
+        "properties": {
+          "secret": {
+            "type": "string"
+          },
+          "token": {
+            "$ref": "#/components/schemas/OrgScimTokenRecord"
           }
         }
       },
@@ -10088,6 +10513,28 @@
           },
           "log": {
             "$ref": "#/components/schemas/KeyLogIdentity"
+          },
+          "witnessed": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/KeyLogWitnessed",
+                "description": "Absent until a quorum of witnesses has cosigned a checkpoint."
+              }
+            ]
+          },
+          "witnesses": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/KeyLogWitnessPolicy",
+                "description": "Absent when the log has no witnesses."
+              }
+            ]
           }
         }
       },
@@ -10168,6 +10615,70 @@
           },
           "log": {
             "$ref": "#/components/schemas/KeyLogIdentity"
+          },
+          "witnessed": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/KeyLogWitnessed"
+              }
+            ]
+          },
+          "witnesses": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/KeyLogWitnessPolicy"
+              }
+            ]
+          }
+        }
+      },
+      "KeyLogWitnessPolicy": {
+        "type": "object",
+        "description": "The witnesses a key log sends its checkpoints to (plan 03, \"Witnesses\").",
+        "required": [
+          "witnesses",
+          "quorum"
+        ],
+        "properties": {
+          "quorum": {
+            "type": "integer",
+            "format": "int32",
+            "description": "How many of them must have cosigned.",
+            "minimum": 0
+          },
+          "witnesses": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "C2SP verifier keys (`name+id+base64`), Ed25519 cosignature/v1."
+          }
+        }
+      },
+      "KeyLogWitnessed": {
+        "type": "object",
+        "description": "The newest checkpoint a quorum of witnesses cosigned.",
+        "required": [
+          "checkpoint",
+          "consistency"
+        ],
+        "properties": {
+          "checkpoint": {
+            "type": "string",
+            "description": "A C2SP checkpoint as a signed note: the log's signature, then the witnesses'."
+          },
+          "consistency": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "RFC 9162 consistency proof from the checkpoint's size to `head`, base64url hashes."
           }
         }
       },
@@ -10900,6 +11411,158 @@
           "owner"
         ]
       },
+      "OrgSamlCertificate": {
+        "type": "object",
+        "description": "A signing certificate an organisation pinned for SAML.",
+        "required": [
+          "sha256"
+        ],
+        "properties": {
+          "notAfter": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "When the certificate says it expires. Only its key is used, so this is for the admin."
+          },
+          "sha256": {
+            "type": "string",
+            "description": "SHA-256 of the DER, colon-separated hex, as identity providers show it."
+          }
+        }
+      },
+      "OrgSamlIdpRecord": {
+        "type": "object",
+        "description": "An organisation's SAML identity provider.",
+        "required": [
+          "entityId",
+          "ssoUrl",
+          "certificates"
+        ],
+        "properties": {
+          "certificates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrgSamlCertificate"
+            }
+          },
+          "entityId": {
+            "type": "string"
+          },
+          "ssoUrl": {
+            "type": "string"
+          }
+        }
+      },
+      "OrgSamlRequest": {
+        "type": "object",
+        "description": "`PUT /v1/orgs/{orgId}/sso/saml`: the identity provider's metadata, or its three fields. Saving\nreplaces OpenID Connect settings, if any, and needs a new test sign-in.",
+        "properties": {
+          "certificates": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Without metadata: its signing certificates, PEM or base64 DER, 1 to 4 (more than one while\nit rolls its key over)."
+          },
+          "entityId": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Without metadata: the IdP's entity id."
+          },
+          "metadataXml": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The IdP's metadata XML (`EntityDescriptor`). It isn't fetched from a URL: paste it."
+          },
+          "ssoUrl": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Without metadata: its HTTP-Redirect single sign-on URL."
+          }
+        }
+      },
+      "OrgSamlServiceProvider": {
+        "type": "object",
+        "description": "This server as a SAML service provider for one organisation.",
+        "required": [
+          "entityId",
+          "acsUrl",
+          "metadataUrl"
+        ],
+        "properties": {
+          "acsUrl": {
+            "type": "string",
+            "description": "The assertion consumer service (HTTP-POST binding)."
+          },
+          "entityId": {
+            "type": "string"
+          },
+          "metadataUrl": {
+            "type": "string",
+            "description": "The SP metadata, for providers that import it."
+          }
+        }
+      },
+      "OrgScimResponse": {
+        "type": "object",
+        "description": "`GET /v1/orgs/{orgId}/scim`",
+        "required": [
+          "baseUrl",
+          "tokens"
+        ],
+        "properties": {
+          "baseUrl": {
+            "type": "string",
+            "description": "The SCIM 2.0 base URL to give the identity provider."
+          },
+          "tokens": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrgScimTokenRecord"
+            }
+          }
+        }
+      },
+      "OrgScimTokenRecord": {
+        "type": "object",
+        "description": "A SCIM bearer token, without the token.",
+        "required": [
+          "id",
+          "name",
+          "createdAt"
+        ],
+        "properties": {
+          "createdAt": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The email of the owner who made it, unless that account is gone."
+          },
+          "id": {
+            "type": "string"
+          },
+          "lastUsedAt": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
       "OrgSsoRecord": {
         "type": "object",
         "description": "`GET /v1/orgs/{orgId}/sso`. The client secret never comes back.",
@@ -10926,6 +11589,31 @@
               "string",
               "null"
             ]
+          },
+          "protocol": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/SsoProtocol",
+                "description": "Which protocol the saved settings use; absent when there are none. `issuer` and\n`clientId` are OpenID Connect's; `saml` is SAML's."
+              }
+            ]
+          },
+          "saml": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/components/schemas/OrgSamlIdpRecord"
+              }
+            ]
+          },
+          "samlServiceProvider": {
+            "$ref": "#/components/schemas/OrgSamlServiceProvider",
+            "description": "What to register at a SAML identity provider, whatever is saved now."
           },
           "testedAt": {
             "type": [
@@ -12461,6 +13149,14 @@
             "description": "The 6-digit code the browser page showed."
           }
         }
+      },
+      "SsoProtocol": {
+        "type": "string",
+        "description": "The protocol of an organisation's SSO step. Either way it runs after the master password and\ndecides only whether the sign-in may go on.",
+        "enum": [
+          "oidc",
+          "saml"
+        ]
       },
       "SyncResponse": {
         "type": "object",

@@ -21,6 +21,8 @@ mod masked_email;
 mod orgs;
 mod password;
 mod quotas;
+mod saml;
+mod scim;
 mod security;
 mod security_log;
 mod self_hosting;

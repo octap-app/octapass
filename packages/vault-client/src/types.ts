@@ -1745,13 +1745,50 @@ export interface OrgAccessReview {
 }
 
 export interface OrgSsoSettings {
+  /** Which protocol the saved settings use; absent when there are none. */
+  protocol?: 'oidc' | 'saml';
+  /** OpenID Connect. */
   issuer?: string;
   clientId?: string;
   hasClientSecret: boolean;
+  /** SAML 2.0: the identity provider as saved. */
+  saml?: OrgSamlIdp;
   /** When a test sign-in last finished with these settings. Requiring SSO needs one. */
   testedAt?: string;
-  /** The redirect URI to register at the identity provider. */
+  /** The OpenID Connect redirect URI to register at the identity provider. */
   callbackUrl: string;
+  /** What to register at a SAML identity provider, whatever is saved now. */
+  samlServiceProvider: { entityId: string; acsUrl: string; metadataUrl: string };
+}
+
+export interface OrgSamlIdp {
+  entityId: string;
+  ssoUrl: string;
+  /** Signing certificates: SHA-256 fingerprints as identity providers show them. */
+  certificates: { sha256: string; notAfter?: string }[];
+}
+
+/** SAML settings: the provider's metadata XML, or its entity id, SSO URL and certificates (PEM). */
+export interface OrgSamlInput {
+  metadataXml?: string;
+  entityId?: string;
+  ssoUrl?: string;
+  certificates?: string[];
+}
+
+/** A SCIM bearer token, without its secret. */
+export interface OrgScimToken {
+  id: string;
+  name: string;
+  createdBy?: string;
+  createdAt: string;
+  lastUsedAt?: string;
+}
+
+export interface OrgScim {
+  /** The SCIM 2.0 base URL to give the identity provider. */
+  baseUrl: string;
+  tokens: OrgScimToken[];
 }
 
 export interface OrgEvent {
@@ -1807,10 +1844,17 @@ export interface OrganisationService {
   setOrgPolicies(policies: OrgPolicies): Promise<void>;
   getOrgSso(): Promise<OrgSsoSettings>;
   saveOrgSso(input: { issuer: string; clientId: string; clientSecret?: string }): Promise<OrgSsoSettings>;
+  /** SAML 2.0 instead of OpenID Connect. The server never fetches anything for it. */
+  saveOrgSaml(input: OrgSamlInput): Promise<OrgSsoSettings>;
   removeOrgSso(): Promise<void>;
   /** The URL of a test sign-in, to open in a browser. */
   testOrgSso(): Promise<string>;
   listOrgEvents(): Promise<OrgEvent[]>;
+  /** SCIM provisioning (owners): the base URL and the tokens, never their secrets. */
+  getOrgScim(): Promise<OrgScim>;
+  /** A new token. Its secret is in this answer only. */
+  createOrgScimToken(name: string): Promise<{ token: OrgScimToken; secret: string }>;
+  revokeOrgScimToken(tokenId: string): Promise<void>;
 }
 
 /** A way to finish two-step sign-in on a new device. */

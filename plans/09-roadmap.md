@@ -25,7 +25,7 @@ Checked against the code on 2026-11-05, with every `m25-*` branch merged into `m
 **Features**
 
 - **Push and the push relay** (plan 04): the server has no push code and `routes/meta.rs` reports `push_relay: false`. Emergency access notifies by email only.
-- **Organisations:** SCIM and SAML (the server has neither), and running an organisation outside the web vault. Admin account recovery and group keys are left out on purpose (plan 03 History).
+- **Organisations:** SCIM and SAML are built (2026-11-08, plan 03 "SAML" and "SCIM provisioning"; plan 15 History), and organisations run from the CLI (`octapass org`) and the Windows and Linux app as well as the web vault. Left: an organisation screen in the native Mac, iPhone, iPad and Android apps (they use `crates/octapass-mobile`, which has no organisation engine yet), and SAML and SCIM tried against real identity providers. Admin account recovery and group keys are left out on purpose (plan 03 History).
 - **Witnesses for the hosted service:** key log witnesses are built (`apps/witness`, `OCTAPASS_KEY_LOG_WITNESSES`, plan 03 "Witnesses"), but nobody has been chosen to witness `vault.octap.app`, so it runs without them.
 - **The autofill gate on the phones:** with stay unlocked (plan 18) off, the AutoFill extension and the Android services still ask on every fill (plan 17a, "Device auth: autofill switch"). With it on, the default, they fill without asking.
 - **Nearby:** the sidebar shows it as "Soon" and `parseScope('nearby')` falls back to All items (`apps/web/src/lib/scope.test.ts`). The last P2 item in plan 01 that isn't built.

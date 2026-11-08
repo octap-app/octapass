@@ -226,6 +226,9 @@ pub enum Command {
     /// Service accounts: non-human access to one shared vault, for CI and servers.
     #[command(subcommand, name = "service-account", alias = "sa")]
     ServiceAccount(ServiceAccountCommand),
+    /// Your organisation: members, groups, vaults, access, policies, SSO and SCIM.
+    #[command(subcommand, alias = "organisation")]
+    Org(OrgCommand),
     /// Octa Pass Connect: a local helper that gives approved tools a secret by reference.
     #[command(subcommand)]
     Connect(ConnectCommand),
@@ -299,6 +302,209 @@ pub enum Command {
         #[arg(long, short)]
         output: Option<PathBuf>,
     },
+}
+
+#[derive(Debug, Subcommand)]
+pub enum OrgCommand {
+    /// Your organisation, your role in it, its policies, and invitations to your email.
+    Show,
+    /// Start an organisation, with you as its owner.
+    Create { name: String },
+    /// Rename it (owners).
+    Rename { name: String },
+    /// Delete it and all its vaults (owners). Asks for the master password.
+    Delete {
+        /// The organisation's name, to confirm.
+        #[arg(long, value_name = "NAME")]
+        confirm_name: String,
+    },
+    /// Accept an invitation (see `org show`). Its policies apply from then on.
+    Join {
+        /// The invitation's id.
+        invite: String,
+    },
+    /// Decline an invitation.
+    Decline { invite: String },
+    /// Leave your organisation. Its vaults go at once.
+    Leave {
+        /// Go ahead even if a vault is left with nobody able to manage it.
+        #[arg(long)]
+        orphan_vaults: bool,
+    },
+    /// Members and pending invites (admins).
+    Members,
+    /// Invite someone by email (admins). The same answer whether or not they have an account.
+    Invite {
+        email: String,
+        /// Invite as an admin rather than a member.
+        #[arg(long)]
+        admin: bool,
+    },
+    /// Cancel a pending invite (admins), by its id or email.
+    Uninvite { invite: String },
+    /// Change a member's role (owners).
+    Role {
+        /// The member's email or account id.
+        member: String,
+        role: OrgRoleArg,
+    },
+    /// Remove a member (admins; owners for an owner). They lose its vaults at once.
+    Remove {
+        /// The member's email or account id.
+        member: String,
+        /// Go ahead even if a vault is left with nobody able to manage it.
+        #[arg(long)]
+        orphan_vaults: bool,
+    },
+    /// Groups: lists of people that vaults are linked to (admins).
+    #[command(subcommand)]
+    Group(OrgGroupCommand),
+    /// Organisation vaults and the groups they're linked to (admins).
+    #[command(subcommand)]
+    Vault(OrgVaultCommand),
+    /// Vaults waiting for a key holder: review who gets them, and seal.
+    #[command(subcommand)]
+    Access(OrgAccessCommand),
+    /// Give an organisation vault a new key after someone lost access.
+    Rotate {
+        /// The vault (name or id).
+        vault: String,
+    },
+    /// The organisation's policies (owners change them).
+    #[command(subcommand)]
+    Policy(OrgPolicyCommand),
+    /// Single sign-on: OpenID Connect or SAML, a step after the master password (owners).
+    #[command(subcommand)]
+    Sso(OrgSsoCommand),
+    /// SCIM provisioning tokens for your identity provider (owners).
+    #[command(subcommand)]
+    Scim(OrgScimCommand),
+    /// The admin activity log, newest first (admins).
+    Events,
+}
+
+#[derive(Debug, Clone, Copy, ValueEnum)]
+pub enum OrgRoleArg {
+    Member,
+    Admin,
+    Owner,
+}
+
+#[derive(Debug, Clone, Copy, ValueEnum)]
+pub enum GroupRoleArg {
+    Read,
+    Write,
+    Manage,
+}
+
+#[derive(Debug, Subcommand)]
+pub enum OrgGroupCommand {
+    List,
+    Create { name: String },
+    Rename { group: String, name: String },
+    Delete { group: String },
+    /// Add a member to a group. They get its vaults when a key holder applies access.
+    Add {
+        group: String,
+        /// The member's email or account id.
+        member: String,
+    },
+    /// Take a member out of a group. They lose the vaults only it gave them, at once.
+    Remove { group: String, member: String },
+}
+
+#[derive(Debug, Subcommand)]
+pub enum OrgVaultCommand {
+    List,
+    /// A new organisation vault, owned by you.
+    Create { name: String },
+    /// Delete a vault and everything in it (owners). Needs no key. Asks for the master password.
+    Delete { vault: String },
+    /// Link a group to a vault. Its members get it when a key holder applies access.
+    Link {
+        vault: String,
+        group: String,
+        #[arg(long, default_value = "write")]
+        role: GroupRoleArg,
+    },
+    Unlink { vault: String, group: String },
+}
+
+#[derive(Debug, Subcommand)]
+pub enum OrgAccessCommand {
+    /// What each vault waits for, with fingerprints computed here.
+    List,
+    /// Seal a vault to the people waiting for it, after you review each one. In a terminal you're
+    /// asked person by person; otherwise name each one with --person.
+    Apply {
+        /// The vault (name or id).
+        vault: String,
+        /// `EMAIL=FINGERPRINT`: seal to this person if their keys still give this fingerprint
+        /// (the 24 digits, as `access list` shows them). Repeat for each person.
+        #[arg(long = "person", value_name = "EMAIL=FINGERPRINT")]
+        people: Vec<String>,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+pub enum OrgPolicyCommand {
+    Show,
+    /// Set one policy: require-two-step, require-sso, disable-share-links,
+    /// disable-emergency-access, disable-export (on/off), sso-max-age-hours (0 to 8760),
+    /// max-auto-lock-minutes, min-password-length (a number, or none).
+    Set { name: String, value: String },
+}
+
+#[derive(Debug, Subcommand)]
+pub enum OrgSsoCommand {
+    /// The saved settings, and what to register at the identity provider.
+    Show,
+    /// Use OpenID Connect. The server fetches the issuer's discovery document first.
+    Oidc {
+        #[arg(long)]
+        issuer: String,
+        #[arg(long)]
+        client_id: String,
+        /// Ask for a client secret (the next stdin line with --password-stdin). Without it, a
+        /// saved secret for the same issuer is kept.
+        #[arg(long)]
+        client_secret: bool,
+    },
+    /// Use SAML 2.0: the identity provider's metadata file, or its three fields.
+    Saml {
+        /// The IdP's metadata XML file.
+        #[arg(long, value_name = "FILE", conflicts_with_all = ["entity_id", "sso_url", "certificate"])]
+        metadata: Option<PathBuf>,
+        #[arg(long, requires_all = ["sso_url", "certificate"])]
+        entity_id: Option<String>,
+        /// Its HTTP-Redirect single sign-on URL.
+        #[arg(long)]
+        sso_url: Option<String>,
+        /// A signing certificate (PEM file). Repeat during a key rollover.
+        #[arg(long, value_name = "FILE")]
+        certificate: Vec<PathBuf>,
+    },
+    /// Start a test sign-in: open the URL in a browser. Requiring SSO needs one.
+    Test,
+    /// Remove the settings and every member's link to the provider.
+    Remove,
+}
+
+#[derive(Debug, Subcommand)]
+pub enum OrgScimCommand {
+    /// The SCIM base URL and the tokens.
+    Show,
+    /// Make a token and print it, once.
+    Token {
+        #[command(subcommand)]
+        command: OrgScimTokenCommand,
+    },
+}
+
+#[derive(Debug, Subcommand)]
+pub enum OrgScimTokenCommand {
+    Create { name: String },
+    Revoke { id: String },
 }
 
 #[derive(Debug, Subcommand)]

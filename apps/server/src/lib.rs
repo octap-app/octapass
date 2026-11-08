@@ -22,6 +22,7 @@ pub mod openapi;
 mod rate_limit;
 mod relay;
 mod routes;
+mod saml;
 mod secrets;
 mod sso;
 mod state;

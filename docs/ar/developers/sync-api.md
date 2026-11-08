@@ -93,8 +93,10 @@ sidebar:
 | `GET`، `POST /v1/orgs/{orgId}/vaults`، `DELETE …/vaults/{vaultId}`، `PUT`، `DELETE …/vaults/{vaultId}/groups/{groupId}` | خزنات المؤسسة والمجموعات المرتبطة بها |
 | `GET /v1/orgs/{orgId}/access`، `POST …/vaults/{vaultId}/grants` | ما تنتظره الخزنات من حامل المفتاح؛ وتقديمه |
 | `PUT /v1/orgs/{orgId}/policies`، `GET …/events` | السياسات (المالك)؛ وسجل النشاط (المسؤول) |
-| `GET`، `PUT`، `DELETE /v1/orgs/{orgId}/sso`، `POST …/sso/test` | إعدادات موفّر الهوية (المالك) |
-| `POST /v1/auth/login/sso`، `GET /v1/sso/start/{token}`، `GET /v1/sso/callback` | خطوة تسجيل الدخول الموحّد |
+| `GET`، `PUT`، `DELETE /v1/orgs/{orgId}/sso`، `PUT …/sso/saml`، `POST …/sso/test` | إعدادات موفّر الهوية، OpenID Connect أو SAML (المالك) |
+| `POST /v1/auth/login/sso`، `GET /v1/sso/start/{token}`، `GET /v1/sso/callback`، `POST /v1/sso/saml/{orgId}/acs`، `GET /v1/sso/saml/{orgId}/metadata` | خطوة تسجيل الدخول الموحّد |
+| `GET /v1/orgs/{orgId}/scim`، `POST …/scim/tokens`، `DELETE …/scim/tokens/{tokenId}` | رموز SCIM (المالك) |
+| `/v1/scim/v2/Users`، `/v1/scim/v2/Groups`، `…/ServiceProviderConfig`، `…/ResourceTypes`، `…/Schemas` | SCIM 2.0 لموفّري الهوية، برمز SCIM الخاص بالمؤسسة |
 | `GET /v1/security-log` | سجل الأمان الخاص بالحساب |
 | `GET /v1/icons/{domain}` | أيقونة موقع بصيغة PNG (دون حاجة إلى حساب)؛ راجع [أيقونات المواقع](#أيقونات-المواقع) |
 
@@ -480,6 +482,14 @@ Content-Type: application/json
 3. يجيب `POST /v1/auth/login/sso` مع `{ challengeId, code }` كما يجيب `login/finish`، أو بـ `401 second-factor-required` إن كانت الخطوة الثانية تالية. `409 sso-pending`: لم ينتهِ المتصفح بعد. `401 invalid-second-factor`: رمز خاطئ، حتى 5 مرات. `401 login-failed`: ابدأ من جديد.
 
 يفشل التحديث بـ `401 unauthorized` متى صار تسجيل الدخول الموحّد للجلسة أقدم من `ssoMaxAgeHours` (0: عند تسجيل الدخول فقط). ويسجّل العميل الدخول حينها من جديد.
+
+**SAML.** يأخذ `PUT …/sso/saml` القيمة `{ metadataXml }`، أو `{ entityId, ssoUrl, certificates }` (من 1 إلى 4 شهادات بصيغة PEM أو DER بترميز base64)، ويستبدل إعدادات OpenID Connect؛ ويفعل `PUT …/sso` العكس. وكلاهما يمحو ربط كل عضو حين يتغيّر الموفّر. يجيب `GET …/sso` بـ `protocol` (`oidc` أو `saml`) حين توجد إعدادات، وبـ `saml: { entityId, ssoUrl, certificates: [{ sha256, notAfter? }] }` لـ SAML، ودائمًا بـ `samlServiceProvider: { entityId, acsUrl, metadataUrl }`. ومع إعدادات SAML، ترسل الخطوة 2 المتصفح إلى موفّر الهوية مع AuthnRequest مضغوط (ربط HTTP-Redirect)، ويرسل الموفّر `SAMLResponse` و`RelayState` إلى `POST /v1/sso/saml/{orgId}/acs`، الذي ينتهي بصفحة الرمز نفسها. القواعد التي يجب أن يستوفيها الرد في [تسجيل الدخول الموحّد](/ar/docs/features/single-sign-on/). و`GET /v1/sso/saml/{orgId}/metadata` هو البيانات الوصفية لمزوّد الخدمة (`application/samlmetadata+xml`).
+
+### SCIM
+
+يستدعي موفّرو الهوية `/v1/scim/v2` (RFC 7643 وRFC 7644) مع `Authorization: Bearer opscim_…`، وهو رمز أنشأه مالك بـ `POST /v1/orgs/{orgId}/scim/tokens` و`{ name }`، فيجيب بـ `{ token, secret }` ولا يظهر السر إلا تلك المرة (10 لكل مؤسسة، ثم `409 already-exists`). ويجيب `GET …/scim` بـ `{ baseUrl, tokens }`؛ ويلغي `DELETE …/scim/tokens/{tokenId}` رمزًا. تستخدم طلبات SCIM وأجوبتها `application/scim+json` ومخطط أخطاء SCIM (`status` نصًا، و`scimType`)، لا مستندات المشكلات؛ والرمز المفقود أو الخاطئ يُجاب بـ `401`.
+
+يحصل المستخدم المُزوَّد على دعوة (بلا داعٍ، بدور `member`)، ولا ينضم إلا بقبولها عبر `POST …/invites/{inviteId}/accept`؛ والمستخدم النشط العضو من قبل يُربط فورًا. ومجموعة SCIM مجموعةٌ في المؤسسة يديرها الموفّر (وتبقى المجموعات المنشأة عبر `/v1/orgs` بعيدة عن متناوله)؛ ويُطبَّق أعضاؤها على مجموعة المؤسسة لمن كان عضوًا من المستخدمين. والتعطيل (`active: false`) أو الحذف أو الإخراج من مجموعة يوفّق خزائن المؤسسة فورًا كما يفعل تغيير المسؤول، لكنه يمضي حين يترك خزنة بلا مدير. ولا يُزال المالكون أبدًا. انظر [التزويد عبر SCIM](/ar/docs/features/scim/) لما هو مدعوم.
 
 ## روابط المشاركة
 

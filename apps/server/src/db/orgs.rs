@@ -985,10 +985,22 @@ pub struct SsoRule {
     pub client_secret: Option<String>,
     pub max_age_hours: i64,
     pub updated_at: i64,
+    /// `oidc` or `saml`. For SAML, `issuer` is the IdP's entity id and `client_id` is unused.
+    pub protocol: String,
+    pub saml_sso_url: Option<String>,
+    /// Base64 DER, one per line.
+    pub saml_certificates: Option<String>,
+}
+
+impl SsoRule {
+    pub fn is_saml(&self) -> bool {
+        self.protocol == "saml"
+    }
 }
 
 const SELECT_SSO: &str = "SELECT o.id AS org_id, o.name AS org_name, s.issuer, s.client_id, s.client_secret, \
-     o.sso_max_age_hours AS max_age_hours, s.updated_at \
+     o.sso_max_age_hours AS max_age_hours, s.updated_at, s.protocol, s.saml_sso_url, \
+     s.saml_certificates \
      FROM organisations o JOIN org_sso s ON s.org_id = o.id";
 
 /// The SSO step this account must pass, if any. Owners are exempt.
@@ -1019,25 +1031,69 @@ pub async fn tested_at(conn: &mut Conn, org_id: &str) -> Result<Option<i64>, sql
     Ok(tested.flatten())
 }
 
+/// The settings to store, for either protocol.
+pub enum SsoSettings<'a> {
+    Oidc {
+        issuer: &'a str,
+        client_id: &'a str,
+        client_secret: Option<&'a str>,
+    },
+    Saml {
+        entity_id: &'a str,
+        sso_url: &'a str,
+        certificates: &'a str,
+    },
+}
+
+/// Saves the settings and clears the test sign-in. Members' links to IdP subjects go too when the
+/// provider changed (another protocol, issuer or entity id): a subject means something only to
+/// the provider that issued it.
 pub async fn put_sso(
     conn: &mut Conn,
     org_id: &str,
-    issuer: &str,
-    client_id: &str,
-    client_secret: Option<&str>,
+    settings: SsoSettings<'_>,
     now: i64,
 ) -> Result<(), sqlx::Error> {
+    let (protocol, issuer, client_id, client_secret, sso_url, certificates) = match settings {
+        SsoSettings::Oidc {
+            issuer,
+            client_id,
+            client_secret,
+        } => ("oidc", issuer, client_id, client_secret, None, None),
+        SsoSettings::Saml {
+            entity_id,
+            sso_url,
+            certificates,
+        } => ("saml", entity_id, "", None, Some(sso_url), Some(certificates)),
+    };
+    let previous: Option<(String, String)> =
+        sqlx::query_as("SELECT protocol, issuer FROM org_sso WHERE org_id = $1")
+            .bind(org_id)
+            .fetch_optional(&mut *conn)
+            .await?;
+    if previous.is_some_and(|(was, from)| was != protocol || from != issuer) {
+        sqlx::query("DELETE FROM org_sso_identities WHERE org_id = $1")
+            .bind(org_id)
+            .execute(&mut *conn)
+            .await?;
+    }
     sqlx::query(
-        "INSERT INTO org_sso (org_id, issuer, client_id, client_secret, tested_at, updated_at) \
-         VALUES ($1, $2, $3, $4, NULL, $5) \
+        "INSERT INTO org_sso (org_id, issuer, client_id, client_secret, tested_at, updated_at, \
+         protocol, saml_sso_url, saml_certificates) \
+         VALUES ($1, $2, $3, $4, NULL, $5, $6, $7, $8) \
          ON CONFLICT (org_id) DO UPDATE SET issuer = excluded.issuer, client_id = excluded.client_id, \
-         client_secret = excluded.client_secret, tested_at = NULL, updated_at = excluded.updated_at",
+         client_secret = excluded.client_secret, tested_at = NULL, updated_at = excluded.updated_at, \
+         protocol = excluded.protocol, saml_sso_url = excluded.saml_sso_url, \
+         saml_certificates = excluded.saml_certificates",
     )
     .bind(org_id)
     .bind(issuer)
     .bind(client_id)
     .bind(client_secret)
     .bind(now)
+    .bind(protocol)
+    .bind(sso_url)
+    .bind(certificates)
     .execute(conn)
     .await?;
     Ok(())
@@ -1114,6 +1170,19 @@ pub async fn record_event(
     conn: &mut Conn,
     org_id: &str,
     actor: &str,
+    event_type: &str,
+    subject: Option<&str>,
+    now: i64,
+) -> Result<(), sqlx::Error> {
+    record_event_by(conn, org_id, Some(actor), event_type, subject, now).await
+}
+
+/// An event with no person behind it, such as the identity provider's (SCIM) changes, has no
+/// actor.
+pub async fn record_event_by(
+    conn: &mut Conn,
+    org_id: &str,
+    actor: Option<&str>,
     event_type: &str,
     subject: Option<&str>,
     now: i64,

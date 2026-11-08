@@ -66,6 +66,7 @@ import type {
   OrgAccessGrant,
   OrgPolicies,
   OrgRole,
+  OrgSamlInput,
   SsoRequired,
   TwoStepMethod,
   TwoStepProof,
@@ -1436,7 +1437,11 @@ export class VaultEngine {
   setOrgPolicies = (policies: OrgPolicies) => this.organisations.setOrgPolicies(policies);
   getOrgSso = () => this.organisations.getOrgSso();
   saveOrgSso = (input: { issuer: string; clientId: string; clientSecret?: string }) => this.organisations.saveOrgSso(input);
+  saveOrgSaml = (input: OrgSamlInput) => this.organisations.saveOrgSaml(input);
   removeOrgSso = () => this.organisations.removeOrgSso();
+  getOrgScim = () => this.organisations.getOrgScim();
+  createOrgScimToken = (name: string) => this.organisations.createOrgScimToken(name);
+  revokeOrgScimToken = (tokenId: string) => this.organisations.revokeOrgScimToken(tokenId);
   testOrgSso = () => this.organisations.testOrgSso();
   listOrgEvents = () => this.organisations.listOrgEvents();
 

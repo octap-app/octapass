@@ -103,6 +103,18 @@ import {
   type ToolkitService,
 } from '@octapass/vault-client';
 import type { ConnectClient, ConnectService, ServiceAccount } from '@octapass/vault-client';
+import type {
+  OrgAccessReview,
+  OrgEvent,
+  OrgGroup,
+  OrgMembers,
+  OrgScim,
+  OrgScimToken,
+  OrgSsoSettings,
+  OrgVault,
+  OrganisationService,
+  OrganisationState,
+} from '@octapass/vault-client';
 import type { DesktopSsh } from './ssh';
 import type { Transport } from './transport';
 
@@ -158,6 +170,11 @@ export interface TauriOptions {
    * access, devices and the security log (the desktop app).
    */
   sharing?: boolean;
+  /**
+   * The Rust side has the organisation commands (the desktop app): the same engine as the CLI,
+   * which seals grants only to the people confirmed on screen.
+   */
+  organisations?: boolean;
   /** The Rust side has local vaults: "Use on this device only" (the desktop app). */
   local?: boolean;
   /** The Rust side fills, and asks plan 03's autofill gate first (the desktop app). */
@@ -435,6 +452,54 @@ export class TauriVaultService implements VaultService, AttachmentService {
       return { kind: 'none' };
     }
   }
+
+  // ---------- Organisations (grants sealed in Rust, after review on screen) ----------
+
+  get organisations(): OrganisationService | undefined {
+    return this.options.organisations ? this.organisationService : undefined;
+  }
+
+  private readonly organisationService: OrganisationService = {
+    getOrganisation: () => this.call<OrganisationState>('get_organisation'),
+    createOrganisation: (name) => this.call('create_organisation', { name }),
+    renameOrganisation: (name) => this.call('rename_organisation', { name }),
+    deleteOrganisation: ({ password, confirmName }) => this.call('delete_organisation', { password, confirmName }),
+    acceptOrgInvite: (orgId, inviteId) => this.call('accept_org_invite', { orgId, inviteId }),
+    declineOrgInvite: (orgId, inviteId) => this.call('decline_org_invite', { orgId, inviteId }),
+    listOrgMembers: () => this.call<OrgMembers>('list_org_members'),
+    inviteOrgMember: (email, role) => this.call('invite_org_member', { email, role }),
+    cancelOrgInvite: (inviteId) => this.call('cancel_org_invite', { inviteId }),
+    setOrgMemberRole: (accountId, role) => this.call('set_org_member_role', { accountId, role }),
+    removeOrgMember: (accountId, options) => this.call('remove_org_member', { accountId, orphanVaults: options?.orphanVaults ?? false }),
+    leaveOrganisation: (options) => this.call('leave_organisation', { orphanVaults: options?.orphanVaults ?? false }),
+    listOrgGroups: () => this.call<OrgGroup[]>('list_org_groups'),
+    createOrgGroup: (name) => this.call<OrgGroup>('create_org_group', { name }),
+    renameOrgGroup: (groupId, name) => this.call('rename_org_group', { groupId, name }),
+    deleteOrgGroup: (groupId) => this.call('delete_org_group', { groupId }),
+    addOrgGroupMember: (groupId, accountId) => this.call('add_org_group_member', { groupId, accountId }),
+    removeOrgGroupMember: (groupId, accountId) => this.call('remove_org_group_member', { groupId, accountId }),
+    listOrgVaults: () => this.call<OrgVault[]>('list_org_vaults'),
+    createOrgVault: async (name) => {
+      await this.call('create_org_vault', { name });
+    },
+    deleteOrgVault: ({ password, vaultId }) => this.call('delete_org_vault', { password, vaultId }),
+    linkOrgVaultGroup: (vaultId, groupId, role) => this.call('link_org_vault_group', { vaultId, groupId, role }),
+    unlinkOrgVaultGroup: (vaultId, groupId) => this.call('unlink_org_vault_group', { vaultId, groupId }),
+    getOrgAccess: () => this.call<OrgAccessReview[]>('get_org_access'),
+    applyOrgAccess: (vaultId, confirmed) =>
+      this.call('apply_org_access', { vaultId, confirmed: confirmed.map(({ accountId, fingerprint }) => ({ accountId, fingerprint })) }),
+    rotateOrgVault: (vaultId) => this.call('rotate_org_vault', { vaultId }),
+    setOrgPolicies: (policies) => this.call('set_org_policies', { policies }),
+    getOrgSso: () => this.call<OrgSsoSettings>('get_org_sso'),
+    saveOrgSso: (input) => this.call<OrgSsoSettings>('save_org_sso', { input: { ...input, clientSecret: input.clientSecret || null } }),
+    saveOrgSaml: (input) => this.call<OrgSsoSettings>('save_org_saml', { input }),
+    removeOrgSso: () => this.call('remove_org_sso'),
+    testOrgSso: () => this.call<string>('test_org_sso'),
+    listOrgEvents: () => this.call<OrgEvent[]>('list_org_events'),
+    getOrgScim: () => this.call<OrgScim>('get_org_scim'),
+    createOrgScimToken: (name) => this.call<{ token: OrgScimToken; secret: string }>('create_org_scim_token', { name }),
+    revokeOrgScimToken: (tokenId) => this.call('revoke_org_scim_token', { tokenId }),
+  };
 
   // ---------- Sharing (sealed, signed and opened in Rust) ----------
 

@@ -1,22 +1,28 @@
-//! SSO settings, and the browser's way through the identity provider. The provider decides only
-//! whether a sign-in that already passed OPAQUE may go on (plan 03, "SSO is sign-in only").
+//! SSO settings, and the browser's way through the identity provider, by OpenID Connect or SAML
+//! 2.0. The provider decides only whether a sign-in that already passed OPAQUE may go on (plan 03,
+//! "SSO is sign-in only").
 
 use axum::Json;
-use axum::extract::{Query, State};
-use axum::http::{HeaderMap, StatusCode, header};
+use axum::extract::{Form, Query, State};
+use axum::http::{HeaderMap, HeaderValue, StatusCode, header};
 use axum::response::{IntoResponse, Response};
 use octapass_api::problem::Problem;
-use octapass_api::{OrgRole, OrgSsoRecord, OrgSsoRequest, OrgSsoTestResponse};
+use octapass_api::{
+    OrgRole, OrgSamlCertificate, OrgSamlIdpRecord, OrgSamlRequest, OrgSamlServiceProvider,
+    OrgSsoRecord, OrgSsoRequest, OrgSsoTestResponse, SsoProtocol,
+};
 use serde::Deserialize;
 
 use super::orgs::locked;
 use crate::crypto::{random_token, six_digit_code};
+use crate::db::orgs::{SsoRule, SsoSettings};
 use crate::db::{self, accounts, orgs};
 use crate::error::{ApiError, ApiResult};
 use crate::extract::{ApiJson, ApiPath, Authenticated, ClientIp};
-use crate::login::{SsoBrowser, SsoPurpose};
+use crate::login::{BrowserFlow, SsoBrowser, SsoPurpose};
+use crate::saml::{self, IdpSettings, SamlError, ServiceProvider};
 use crate::sso::page::{self, Failure, Page};
-use crate::sso::{self, Exchange, Flow, SsoError};
+use crate::sso::{self, Claims, Exchange, Flow, SsoError};
 use crate::state::{AppState, SSO_TTL};
 use crate::validate;
 
@@ -37,6 +43,81 @@ fn callback_url(state: &AppState) -> String {
 
 fn config_error(error: SsoError) -> ApiError {
     ApiError::SsoConfig(error.to_string())
+}
+
+fn saml_config_error(error: SamlError) -> ApiError {
+    ApiError::SsoConfig(error.to_string())
+}
+
+fn service_provider(state: &AppState, org_id: &str) -> ServiceProvider {
+    ServiceProvider::for_org(public_url(state), org_id)
+}
+
+fn sp_record(state: &AppState, org_id: &str) -> OrgSamlServiceProvider {
+    let sp = service_provider(state, org_id);
+    OrgSamlServiceProvider {
+        metadata_url: sp.entity_id.clone(),
+        entity_id: sp.entity_id,
+        acs_url: sp.acs_url,
+    }
+}
+
+/// The stored SAML settings, ready to use. `None` if the row isn't SAML or no longer parses.
+fn idp_settings(state: &AppState, rule: &SsoRule) -> Option<IdpSettings> {
+    if !rule.is_saml() {
+        return None;
+    }
+    let sso_url = saml::sso_url(rule.saml_sso_url.as_deref()?, state.config.dev_mode).ok()?;
+    let certificates = saml::parse_stored_certificates(rule.saml_certificates.as_deref()?);
+    if certificates.is_empty() {
+        return None;
+    }
+    Some(IdpSettings {
+        entity_id: rule.issuer.clone(),
+        sso_url,
+        certificates,
+    })
+}
+
+fn saml_record(settings: &IdpSettings) -> OrgSamlIdpRecord {
+    OrgSamlIdpRecord {
+        entity_id: settings.entity_id.clone(),
+        sso_url: settings.sso_url.to_string(),
+        certificates: settings
+            .certificates
+            .iter()
+            .map(|certificate| OrgSamlCertificate {
+                sha256: certificate.fingerprint(),
+                not_after: certificate.not_after.map(db::rfc3339),
+            })
+            .collect(),
+    }
+}
+
+fn record(
+    state: &AppState,
+    org_id: &str,
+    settings: Option<&SsoRule>,
+    tested_at: Option<i64>,
+) -> OrgSsoRecord {
+    let saml = settings.and_then(|settings| idp_settings(state, settings));
+    let oidc = settings.filter(|settings| !settings.is_saml());
+    OrgSsoRecord {
+        has_client_secret: oidc.is_some_and(|settings| settings.client_secret.is_some()),
+        issuer: oidc.map(|settings| settings.issuer.clone()),
+        client_id: oidc.map(|settings| settings.client_id.clone()),
+        tested_at: tested_at.map(db::rfc3339),
+        callback_url: callback_url(state),
+        protocol: settings.map(|settings| {
+            if settings.is_saml() {
+                SsoProtocol::Saml
+            } else {
+                SsoProtocol::Oidc
+            }
+        }),
+        saml: saml.as_ref().map(saml_record),
+        saml_service_provider: sp_record(state, org_id),
+    }
 }
 
 #[utoipa::path(
@@ -61,15 +142,7 @@ pub async fn get_sso(
     let tested_at = orgs::tested_at(&mut tx, &org_id).await?;
     tx.commit().await?;
     let settings = orgs::sso_settings(&state.db, &org_id).await?;
-    Ok(Json(OrgSsoRecord {
-        has_client_secret: settings
-            .as_ref()
-            .is_some_and(|settings| settings.client_secret.is_some()),
-        issuer: settings.as_ref().map(|settings| settings.issuer.clone()),
-        client_id: settings.map(|settings| settings.client_id),
-        tested_at: tested_at.map(db::rfc3339),
-        callback_url: callback_url(&state),
-    }))
+    Ok(Json(record(&state, &org_id, settings.as_ref(), tested_at)))
 }
 
 #[utoipa::path(
@@ -111,6 +184,7 @@ pub async fn put_sso(
     let sealed = new_secret.map(|secret| sso::seal_client_secret(&state.secrets, &org_id, &secret));
     let kept = orgs::sso_settings(&state.db, &org_id)
         .await?
+        .filter(|settings| !settings.is_saml() && settings.issuer == issuer)
         .and_then(|settings| settings.client_secret);
     let client_secret = sealed.or(kept);
     let now = db::now();
@@ -124,24 +198,105 @@ pub async fn put_sso(
             "turn off Require SSO before changing these settings".into(),
         ));
     }
-    orgs::put_sso(
-        &mut tx,
-        &org_id,
-        &issuer,
-        &client_id,
-        client_secret.as_deref(),
-        now,
-    )
-    .await?;
+    let settings = SsoSettings::Oidc {
+        issuer: &issuer,
+        client_id: &client_id,
+        client_secret: client_secret.as_deref(),
+    };
+    orgs::put_sso(&mut tx, &org_id, settings, now).await?;
     orgs::record_event(&mut tx, &org_id, me, "sso-changed", Some(&issuer), now).await?;
     tx.commit().await?;
-    Ok(Json(OrgSsoRecord {
-        issuer: Some(issuer),
-        client_id: Some(client_id),
-        has_client_secret: client_secret.is_some(),
-        tested_at: None,
-        callback_url: callback_url(&state),
-    }))
+    let saved = orgs::sso_settings(&state.db, &org_id).await?;
+    Ok(Json(record(&state, &org_id, saved.as_ref(), None)))
+}
+
+/// What a SAML settings request describes, checked.
+fn saml_settings(state: &AppState, request: &OrgSamlRequest) -> ApiResult<IdpSettings> {
+    let allow_http = state.config.dev_mode;
+    if let Some(metadata) = request.metadata_xml.as_deref() {
+        if request.entity_id.is_some()
+            || request.sso_url.is_some()
+            || !request.certificates.is_empty()
+        {
+            return Err(ApiError::BadRequest(
+                "send metadataXml, or entityId, ssoUrl and certificates, not both".into(),
+            ));
+        }
+        return saml::parse_metadata(metadata, allow_http).map_err(saml_config_error);
+    }
+    let (Some(entity_id), Some(sso_url)) =
+        (request.entity_id.as_deref(), request.sso_url.as_deref())
+    else {
+        return Err(ApiError::BadRequest(
+            "send metadataXml, or entityId, ssoUrl and certificates".into(),
+        ));
+    };
+    let entity_id = validate::text("entityId", entity_id, MAX_ISSUER)?;
+    let sso_url = saml::sso_url(sso_url, allow_http).map_err(saml_config_error)?;
+    if request.certificates.is_empty() || request.certificates.len() > saml::MAX_CERTIFICATES {
+        return Err(ApiError::BadRequest(format!(
+            "certificates must hold 1 to {} certificates",
+            saml::MAX_CERTIFICATES
+        )));
+    }
+    let certificates = request
+        .certificates
+        .iter()
+        .map(|certificate| saml::Certificate::parse(certificate))
+        .collect::<Result<Vec<_>, _>>()
+        .map_err(saml_config_error)?;
+    Ok(IdpSettings {
+        entity_id,
+        sso_url,
+        certificates,
+    })
+}
+
+#[utoipa::path(
+    put, path = "/v1/orgs/{orgId}/sso/saml", tag = "organisations",
+    security(("bearer" = [])),
+    params(("orgId" = String, Path)),
+    request_body = OrgSamlRequest,
+    responses(
+        (status = 200, body = OrgSsoRecord, description = "Saved, replacing any OpenID Connect settings. A test sign-in is needed again."),
+        (status = 400, body = Problem, content_type = "application/problem+json", description = "invalid-request, or sso-config: the metadata or a certificate can't be used; SSO is required right now"),
+        (status = 401, body = Problem, content_type = "application/problem+json"),
+        (status = 403, body = Problem, content_type = "application/problem+json", description = "Only owners can"),
+        (status = 404, body = Problem, content_type = "application/problem+json"),
+    )
+)]
+pub async fn put_saml(
+    State(state): State<AppState>,
+    Authenticated(session): Authenticated,
+    ApiPath(org_id): ApiPath<String>,
+    ApiJson(request): ApiJson<OrgSamlRequest>,
+) -> ApiResult<Json<OrgSsoRecord>> {
+    let me = session.account_id.as_str();
+    let org_id = validate::id("orgId", &org_id)?;
+    let idp = saml_settings(&state, &request)?;
+    let certificates = saml::store_certificates(&idp.certificates);
+    let now = db::now();
+    let mut tx = state.db.begin().await?;
+    locked(&mut tx, &org_id, me, OrgRole::Owner).await?;
+    let org = orgs::find(&mut tx, &org_id)
+        .await?
+        .ok_or(ApiError::NotFound)?;
+    if org.policies().require_sso {
+        return Err(ApiError::SsoConfig(
+            "turn off Require SSO before changing these settings".into(),
+        ));
+    }
+    let settings = SsoSettings::Saml {
+        entity_id: &idp.entity_id,
+        sso_url: idp.sso_url.as_str(),
+        certificates: &certificates,
+    };
+    orgs::put_sso(&mut tx, &org_id, settings, now).await?;
+    let event = "sso-changed";
+    orgs::record_event(&mut tx, &org_id, me, event, Some(&idp.entity_id), now).await?;
+    tx.commit().await?;
+    let saved = orgs::sso_settings(&state.db, &org_id).await?;
+    Ok(Json(record(&state, &org_id, saved.as_ref(), None)))
 }
 
 #[utoipa::path(
@@ -250,6 +405,23 @@ pub async fn start(
     let Some(settings) = orgs::sso_settings(&state.db, &browser.org_id).await? else {
         return Ok(failed(Failure::Expired));
     };
+    if settings.is_saml() {
+        let Some(idp) = idp_settings(&state, &settings) else {
+            tracing::error!("an organisation's SAML settings don't parse");
+            return Ok(failed(Failure::Provider));
+        };
+        let flow = saml::Flow::new();
+        let sp = service_provider(&state, &browser.org_id);
+        let url = flow.redirect_url(&sp, &idp, state.clock.now());
+        browser.flow = Some(BrowserFlow::Saml {
+            request_id: flow.request_id,
+            updated_at: settings.updated_at,
+        });
+        state
+            .pending_sso_browsers
+            .insert(flow.relay_state, &ip, browser);
+        return Ok((StatusCode::FOUND, [(header::LOCATION, url.to_string())]).into_response());
+    }
     let provider = match state.oidc.discover(&settings.issuer).await {
         Ok(provider) => provider,
         Err(error) => {
@@ -265,7 +437,7 @@ pub async fn start(
         &browser.email,
     );
     let key = flow.state.clone();
-    browser.flow = Some((flow, provider));
+    browser.flow = Some(BrowserFlow::Oidc(flow, provider));
     state.pending_sso_browsers.insert(key, &ip, browser);
     Ok((StatusCode::FOUND, [(header::LOCATION, url.to_string())]).into_response())
 }
@@ -304,11 +476,15 @@ pub async fn callback(
     let Some(browser) = browser else {
         return failed(Failure::Expired);
     };
-    let (Some(code), Some((flow, provider))) = (query.code.as_deref(), browser.flow.as_ref())
+    let (Some(code), Some(BrowserFlow::Oidc(flow, provider))) =
+        (query.code.as_deref(), browser.flow.as_ref())
     else {
         return failed(Failure::Provider);
     };
-    let Some(settings) = orgs::sso_settings(&state.db, &browser.org_id).await? else {
+    let Some(settings) = orgs::sso_settings(&state.db, &browser.org_id)
+        .await?
+        .filter(|settings| !settings.is_saml())
+    else {
         return failed(Failure::Expired);
     };
     let secret = match settings.client_secret.as_deref() {
@@ -347,14 +523,25 @@ pub async fn callback(
             return failed(Failure::Provider);
         }
     };
+    finish(&state, &headers, browser, claims).await
+}
 
+/// After the provider vouched for `claims`: a test sign-in is done, or the sign-in gets its code,
+/// if the provider signed in this member.
+async fn finish(
+    state: &AppState,
+    headers: &HeaderMap,
+    browser: SsoBrowser,
+    claims: Claims,
+) -> ApiResult<Response> {
+    let failed = |failure| Ok(page::render(&Page::Failed(failure), headers));
     let challenge = match browser.purpose {
         SsoPurpose::Test { updated_at } => {
             let now = state.clock.now();
             if !orgs::sso_tested(&state.db, &browser.org_id, updated_at, now).await? {
                 return failed(Failure::Expired);
             }
-            return Ok(page::render(&Page::Tested, &headers));
+            return Ok(page::render(&Page::Tested, headers));
         }
         SsoPurpose::Login(challenge) => challenge,
     };
@@ -389,5 +576,101 @@ pub async fn callback(
         device: &device,
         platform: &platform,
     };
-    Ok(page::render(&page, &headers))
+    Ok(page::render(&page, headers))
+}
+
+#[derive(Deserialize)]
+pub struct AcsForm {
+    #[serde(default, rename = "SAMLResponse")]
+    saml_response: Option<String>,
+    #[serde(default, rename = "RelayState")]
+    relay_state: Option<String>,
+}
+
+/// The assertion consumer service: where the identity provider posts the browser back with its
+/// signed Response (HTTP-POST binding).
+#[utoipa::path(
+    post, path = "/v1/sso/saml/{orgId}/acs", tag = "auth",
+    params(("orgId" = String, Path)),
+    request_body(content = String, content_type = "application/x-www-form-urlencoded", description = "SAMLResponse and RelayState"),
+    responses(
+        (status = 200, description = "An HTML page with the 6-digit code to type into the app"),
+        (status = 400, description = "An HTML page saying what went wrong"),
+        (status = 429, body = Problem, content_type = "application/problem+json"),
+    )
+)]
+pub async fn saml_acs(
+    State(state): State<AppState>,
+    ClientIp(ip): ClientIp,
+    headers: HeaderMap,
+    ApiPath(org_id): ApiPath<String>,
+    Form(form): Form<AcsForm>,
+) -> ApiResult<Response> {
+    super::auth::charge(&state.ip_limiter, &ip)?;
+    let failed = |failure| Ok(page::render(&Page::Failed(failure), &headers));
+    let browser = form
+        .relay_state
+        .as_deref()
+        .and_then(|key| state.pending_sso_browsers.take(key));
+    let Some(browser) = browser.filter(|browser| browser.org_id == org_id) else {
+        return failed(Failure::Expired);
+    };
+    let (
+        Some(response),
+        Some(BrowserFlow::Saml {
+            request_id,
+            updated_at,
+        }),
+    ) = (form.saml_response.as_deref(), browser.flow.as_ref())
+    else {
+        return failed(Failure::Provider);
+    };
+    let settings = orgs::sso_settings(&state.db, &org_id)
+        .await?
+        .filter(|settings| settings.updated_at == *updated_at);
+    let Some(idp) = settings
+        .as_ref()
+        .and_then(|settings| idp_settings(&state, settings))
+    else {
+        return failed(Failure::Expired);
+    };
+    let sp = service_provider(&state, &org_id);
+    let expected = saml::Expected {
+        idp: &idp,
+        sp: &sp,
+        request_id,
+        now_ms: state.clock.now(),
+    };
+    let claims = match saml::verify_response(response, &expected) {
+        Ok(claims) => claims,
+        Err(error) => {
+            tracing::warn!(%error, "a SAML sign-in failed");
+            return failed(Failure::Provider);
+        }
+    };
+    finish(&state, &headers, browser, claims).await
+}
+
+/// This server's SAML service provider metadata for an organisation. It's the same for any id
+/// and needs no lookup, so it says nothing about which organisations exist.
+#[utoipa::path(
+    get, path = "/v1/sso/saml/{orgId}/metadata", tag = "auth",
+    params(("orgId" = String, Path)),
+    responses(
+        (status = 200, description = "SAML 2.0 metadata (application/samlmetadata+xml)", content_type = "application/samlmetadata+xml"),
+        (status = 400, body = Problem, content_type = "application/problem+json"),
+    )
+)]
+pub async fn saml_metadata(
+    State(state): State<AppState>,
+    ApiPath(org_id): ApiPath<String>,
+) -> ApiResult<Response> {
+    let org_id = validate::id("orgId", &org_id)?;
+    let metadata = service_provider(&state, &org_id).metadata();
+    let mut response = (StatusCode::OK, metadata).into_response();
+    response.headers_mut().insert(
+        header::CONTENT_TYPE,
+        HeaderValue::from_static("application/samlmetadata+xml"),
+    );
+    Ok(response)
 }

@@ -158,7 +158,7 @@ pub(super) fn check_fingerprint(account: &AccountLookup) -> Result<()> {
     )
 }
 
-fn core_role(role: VaultRole) -> Role {
+pub(super) fn core_role(role: VaultRole) -> Role {
     match role {
         VaultRole::Read => Role::Read,
         VaultRole::Write => Role::Write,
@@ -169,7 +169,7 @@ fn core_role(role: VaultRole) -> Role {
 
 /// Who gets a grant. The ML-KEM key comes only from a key record that checks out against the
 /// offered keys, so the grant is hybrid exactly when that holds.
-fn recipient(account: Offered<'_>, role: Role) -> Result<Recipient> {
+pub(super) fn recipient(account: Offered<'_>, role: Role) -> Result<Recipient> {
     let offered = OfferedKeys {
         account_id: account.account_id,
         public_enc_key: account.public_enc_key,
@@ -343,7 +343,7 @@ impl Vault {
     /// Creates under a client-chosen id, trying once more after a 500. Creating fails as a
     /// whole, so a retry can't make two; the SQLite server answers 500 when a concurrent write
     /// invalidates its snapshot mid-transaction (plan 15, History). The caller holds `io`.
-    async fn create_once<T: serde::de::DeserializeOwned>(
+    pub(super) async fn create_once<T: serde::de::DeserializeOwned>(
         &self,
         key: &AccountKey,
         path: &str,
@@ -369,7 +369,7 @@ impl Vault {
 
     /// The name lives in the vault as an encrypted record every member can read; the core keeps
     /// its unknown type as it is, so other clients round-trip it. The caller holds `io`.
-    async fn write_vault_name(&self, vault_id: &str, name: &str) -> Result<()> {
+    pub(super) async fn write_vault_name(&self, vault_id: &str, name: &str) -> Result<()> {
         let title = match name.trim() {
             "" => default_vault_name(VaultType::Shared),
             name => name,

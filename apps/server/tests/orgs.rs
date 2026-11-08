@@ -22,7 +22,7 @@ fn device(person: &Person) -> Device {
     }
 }
 
-async fn create_org(server: &TestServer, owner: &Person, name: &str) -> String {
+pub(crate) async fn create_org(server: &TestServer, owner: &Person, name: &str) -> String {
     let id = new_id();
     let body = json!({ "id": id, "name": name });
     let created = server
@@ -34,7 +34,7 @@ async fn create_org(server: &TestServer, owner: &Person, name: &str) -> String {
 }
 
 /// Invites `person` and accepts as them.
-async fn join(server: &TestServer, admin: &Person, org: &str, person: &Person, role: &str) {
+pub(crate) async fn join(server: &TestServer, admin: &Person, org: &str, person: &Person, role: &str) {
     let body = json!({ "email": person.email, "role": role });
     let path = format!("/v1/orgs/{org}/invites");
     let invited = server.send_as(admin, Method::POST, &path, Some(body)).await;
@@ -51,7 +51,7 @@ async fn join(server: &TestServer, admin: &Person, org: &str, person: &Person, r
 }
 
 /// Creates a vault of the organisation, as a client does.
-async fn org_vault(server: &TestServer, owner: &mut Person, org: &str) -> String {
+pub(crate) async fn org_vault(server: &TestServer, owner: &mut Person, org: &str) -> String {
     let vault = owner
         .session
         .create_shared_vault(now_ms(), &mut OsRng)
@@ -95,7 +95,7 @@ async fn add_to_group(
     assert_eq!(added.status, StatusCode::NO_CONTENT, "{:?}", added.body);
 }
 
-async fn link(
+pub(crate) async fn link(
     server: &TestServer,
     admin: &Person,
     org: &str,
@@ -109,7 +109,7 @@ async fn link(
     assert_eq!(linked.status, StatusCode::NO_CONTENT, "{:?}", linked.body);
 }
 
-async fn plan(server: &TestServer, person: &Person, org: &str, vault: &str) -> Option<Value> {
+pub(crate) async fn plan(server: &TestServer, person: &Person, org: &str, vault: &str) -> Option<Value> {
     let path = format!("/v1/orgs/{org}/access");
     let access = server.get_as(person, &path).await;
     assert_eq!(access.status, StatusCode::OK, "{:?}", access.body);
@@ -122,7 +122,7 @@ async fn plan(server: &TestServer, person: &Person, org: &str, vault: &str) -> O
 }
 
 /// Seals the vault to `people`, as the key holder's device does after a person reviewed the plan.
-async fn apply(
+pub(crate) async fn apply(
     server: &TestServer,
     holder: &Person,
     org: &str,

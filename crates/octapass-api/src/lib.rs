@@ -2308,6 +2308,132 @@ pub struct OrgSsoRecord {
     pub tested_at: Option<String>,
     /// The redirect URI to register at the provider.
     pub callback_url: String,
+    /// Which protocol the saved settings use; absent when there are none. `issuer` and
+    /// `clientId` are OpenID Connect's; `saml` is SAML's.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub protocol: Option<SsoProtocol>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub saml: Option<OrgSamlIdpRecord>,
+    /// What to register at a SAML identity provider, whatever is saved now.
+    #[serde(default)]
+    pub saml_service_provider: OrgSamlServiceProvider,
+}
+
+/// The protocol of an organisation's SSO step. Either way it runs after the master password and
+/// decides only whether the sign-in may go on.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "openapi", derive(utoipa::ToSchema))]
+#[serde(rename_all = "lowercase")]
+pub enum SsoProtocol {
+    Oidc,
+    Saml,
+}
+
+impl SsoProtocol {
+    pub fn as_str(self) -> &'static str {
+        match self {
+            Self::Oidc => "oidc",
+            Self::Saml => "saml",
+        }
+    }
+}
+
+/// `PUT /v1/orgs/{orgId}/sso/saml`: the identity provider's metadata, or its three fields. Saving
+/// replaces OpenID Connect settings, if any, and needs a new test sign-in.
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "openapi", derive(utoipa::ToSchema))]
+#[serde(rename_all = "camelCase")]
+pub struct OrgSamlRequest {
+    /// The IdP's metadata XML (`EntityDescriptor`). It isn't fetched from a URL: paste it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub metadata_xml: Option<String>,
+    /// Without metadata: the IdP's entity id.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub entity_id: Option<String>,
+    /// Without metadata: its HTTP-Redirect single sign-on URL.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub sso_url: Option<String>,
+    /// Without metadata: its signing certificates, PEM or base64 DER, 1 to 4 (more than one while
+    /// it rolls its key over).
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub certificates: Vec<String>,
+}
+
+/// A signing certificate an organisation pinned for SAML.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "openapi", derive(utoipa::ToSchema))]
+#[serde(rename_all = "camelCase")]
+pub struct OrgSamlCertificate {
+    /// SHA-256 of the DER, colon-separated hex, as identity providers show it.
+    pub sha256: String,
+    /// When the certificate says it expires. Only its key is used, so this is for the admin.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub not_after: Option<String>,
+}
+
+/// An organisation's SAML identity provider.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "openapi", derive(utoipa::ToSchema))]
+#[serde(rename_all = "camelCase")]
+pub struct OrgSamlIdpRecord {
+    pub entity_id: String,
+    pub sso_url: String,
+    pub certificates: Vec<OrgSamlCertificate>,
+}
+
+/// This server as a SAML service provider for one organisation.
+#[derive(Clone, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "openapi", derive(utoipa::ToSchema))]
+#[serde(rename_all = "camelCase")]
+pub struct OrgSamlServiceProvider {
+    pub entity_id: String,
+    /// The assertion consumer service (HTTP-POST binding).
+    pub acs_url: String,
+    /// The SP metadata, for providers that import it.
+    pub metadata_url: String,
+}
+
+/// A SCIM bearer token, without the token.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "openapi", derive(utoipa::ToSchema))]
+#[serde(rename_all = "camelCase")]
+pub struct OrgScimTokenRecord {
+    pub id: String,
+    pub name: String,
+    /// The email of the owner who made it, unless that account is gone.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub created_by: Option<String>,
+    pub created_at: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub last_used_at: Option<String>,
+}
+
+/// `GET /v1/orgs/{orgId}/scim`
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "openapi", derive(utoipa::ToSchema))]
+#[serde(rename_all = "camelCase")]
+pub struct OrgScimResponse {
+    /// The SCIM 2.0 base URL to give the identity provider.
+    pub base_url: String,
+    pub tokens: Vec<OrgScimTokenRecord>,
+}
+
+/// `POST /v1/orgs/{orgId}/scim/tokens`
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "openapi", derive(utoipa::ToSchema))]
+#[serde(rename_all = "camelCase")]
+pub struct CreateScimTokenRequest {
+    /// For telling tokens apart, at most 64 characters.
+    pub name: String,
+}
+
+/// A new SCIM token. `secret` is shown once: the server keeps only its hash.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "openapi", derive(utoipa::ToSchema))]
+#[serde(rename_all = "camelCase")]
+pub struct CreatedScimToken {
+    pub token: OrgScimTokenRecord,
+    pub secret: String,
 }
 
 /// `POST /v1/orgs/{orgId}/sso/test`

@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-The server and the web vault have organisations, groups, policies and [single sign-on](/docs/features/single-sign-on/). Organisation vaults open in every app, because they are shared vaults. Running an organisation happens in the web vault for now, and the iPhone, iPad, Mac and Android apps have no single sign-on step yet. SCIM and SAML aren't built. See [not yet](#not-yet).
+The server has organisations, groups, policies, [single sign-on](/docs/features/single-sign-on/) (OpenID Connect and SAML) and [SCIM provisioning](/docs/features/scim/). You can run an organisation from the web vault, the Windows and Linux app and the [CLI](#from-the-command-line). Organisation vaults open in every app, because they are shared vaults. The Mac, iPhone, iPad and Android apps have no organisation screens or single sign-on step yet. See [not yet](#not-yet).
 :::
 
 An organisation gathers a team's people, shared vaults and rules. It adds no new key, so being an admin opens nothing: nobody can read a vault without a key sealed to them on a device that already holds it.
@@ -18,7 +18,7 @@ An organisation gathers a team's people, shared vaults and rules. It adds no new
 |---|---|
 | **Member** | Use the vaults they've been given |
 | **Admin** | Invite and remove members, manage groups, create vaults and link groups to them |
-| **Owner** | All of that, plus policies, single sign-on, roles and deleting the organisation |
+| **Owner** | All of that, plus policies, single sign-on, SCIM tokens, roles and deleting the organisation |
 
 Each account is in one organisation at a time. An account can be in a family as well.
 
@@ -27,6 +27,8 @@ Members keep their own account. Nobody in an organisation can read a personal va
 ## Inviting people
 
 Admins invite by email, as a member or an admin. An invitation can reach an address with no account yet: whoever signs up with that address finds it waiting. Invitations last 14 days. The app shows the organisation's rules before you accept, so joining is an informed choice.
+
+Your identity provider can send the invitations instead, and take people out again, with [SCIM](/docs/features/scim/). It still only invites: each person accepts on their own device.
 
 ## Vaults and groups
 
@@ -79,7 +81,30 @@ The web vault applies these today. The other apps don't apply all of them yet. S
 
 ## Activity
 
-Admins can see who did what under **Activity**: invitations, members, roles, groups, vault links and policy changes, kept for a year. It never holds vault contents.
+Admins can see who did what under **Activity**: invitations, members, roles, groups, vault links, policy changes and what the identity provider did over SCIM, kept for a year. It never holds vault contents.
+
+## From the command line
+
+Everything above works from the [CLI](/docs/platforms/cli/) too, with `octapass org`. The Windows and Linux app shows the same Organisation screens as the web vault.
+
+```sh
+octapass org create "Acme"
+octapass org invite grace@example.com
+octapass org group create Engineering
+octapass org group add Engineering grace@example.com
+octapass org vault create Deploy
+octapass org vault link Deploy Engineering --role read
+octapass org access list
+octapass org access apply Deploy
+```
+
+`octapass org access apply` is the reviewed step. In a terminal it shows each person with the fingerprint your device worked out, and asks about each one. In a script, name every person with the fingerprint you checked with them:
+
+```sh
+octapass org access apply Deploy --person "grace@example.com=1234 5678 9012 3456 7890 1234"
+```
+
+If their keys no longer give that fingerprint, nothing is sealed. `octapass org remove`, `org rotate`, `org policy set`, `org sso` and `org scim` cover the rest. Add `--json` to any of them for output a script can read.
 
 ## What the server sees
 
@@ -93,6 +118,6 @@ If the only owner deletes their account, the longest-serving admin (or else memb
 
 ## Not yet
 
-- Running an organisation from the desktop, phone or extension apps. The sign-in step works in the web vault, extension, Windows and Linux app and CLI; the iPhone, iPad, Mac and Android apps have it in their core but no screen yet.
-- Provisioning from an identity provider (SCIM), and SAML. Only OpenID Connect is built.
+- Running an organisation from the Mac, iPhone, iPad and Android apps, or the browser extension. Use the web vault, the Windows and Linux app or the CLI. The sign-in step works in the web vault, extension, Windows and Linux app and CLI; the iPhone, iPad, Mac and Android apps have it in their core but no screen yet.
+- SAML and SCIM tried with real identity providers. They're tested against stand-ins.
 - Admin account recovery. It would be a path to a member's keys, so it isn't offered.

@@ -50,6 +50,13 @@ ciborium = "0.2"
 p256 = { version = "0.13", default-features = false, features = ["ecdsa", "std"] }
 ed25519-dalek = { version = "2", default-features = false, features = ["std"] }
 lettre = { version = "0.11", default-features = false, features = ["builder", "smtp-transport", "tokio1", "tokio1-rustls", "ring", "webpki-roots"] }
+# SAML sign-in (plan 03, "SAML"): the IdP's XML parsed without DTDs, its XML signature checked
+# with `ring` against the certificate the admin pinned (RSA PKCS#1 v1.5 and ECDSA verification
+# only, no RSA private-key code), and the AuthnRequest deflated for the redirect binding.
+roxmltree = "0.21"
+ring = { version = "0.17", default-features = false, features = ["alloc"] }
+x509-cert = { version = "0.2.5", default-features = false, features = ["std"] }
+flate2 = "1"
 
 [dev-dependencies]
 # Real witnesses on 127.0.0.1 for the key log's witness tests.
@@ -65,6 +72,8 @@ tokio-tungstenite = "0.29"
 # Compressed test responses for the icon fetcher.
 flate2 = "1"
 futures-util = { version = "0.3", default-features = false, features = ["sink", "alloc"] }
+# A local stand-in SAML identity provider: its RSA key and signatures (tests only).
+rsa = { version = "0.9", features = ["sha2"] }
 
 [[test]]
 name = "integration"

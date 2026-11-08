@@ -20,6 +20,7 @@ mod item_commands;
 pub mod items;
 pub mod masking;
 mod oauth_commands;
+mod org_commands;
 mod service_commands;
 pub mod session;
 mod ssh;
@@ -755,6 +756,7 @@ impl App {
             } => self.import(format, file, vault, key_file, dry_run).await,
             Command::Ssh { command } => self.ssh(command).await,
             Command::ServiceAccount(command) => self.service_account(command).await,
+            Command::Org(command) => self.org(command).await,
             Command::Connect(command) => self.connect(command).await,
             Command::Aws(command) => self.aws(command).await,
             Command::Kube(command) => self.kube(command).await,

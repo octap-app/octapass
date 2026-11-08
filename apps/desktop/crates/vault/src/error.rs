@@ -63,6 +63,10 @@ pub enum ErrorCode {
     SsoPending,
     /// An organisation policy forbids this.
     OrgPolicy,
+    /// The identity provider settings can't be used (the message says why).
+    SsoConfig,
+    /// This would leave organisation vaults with nobody able to manage them.
+    OrgVaultOrphaned,
     SecurityKeyUnsupported,
     /// `OCTAPASS_SERVICE_ACCOUNT_TOKEN` isn't a whole token.
     InvalidServiceAccountToken,
@@ -171,6 +175,8 @@ impl From<ApiError> for VaultError {
                 types::SSO_REQUIRED => ErrorCode::SessionExpired,
                 types::SSO_PENDING => ErrorCode::SsoPending,
                 types::ORG_POLICY => ErrorCode::OrgPolicy,
+                types::SSO_CONFIG => ErrorCode::SsoConfig,
+                types::ORG_VAULT_ORPHANED => ErrorCode::OrgVaultOrphaned,
                 types::ACCOUNT_EXISTS => ErrorCode::EmailTaken,
                 types::INVALID_VERIFICATION_CODE => ErrorCode::InvalidVerificationCode,
                 types::RECOVERY_EXPIRED => ErrorCode::ResetExpired,
@@ -191,6 +197,12 @@ impl From<ApiError> for VaultError {
             ApiError::Unexpected { status } if *status >= 500 => ErrorCode::ServerError,
             ApiError::Unexpected { .. } => ErrorCode::Unexpected,
         };
+        // Identity provider settings fail for reasons only the server knows: say which.
+        if let (ErrorCode::SsoConfig, ApiError::Problem { problem, .. }) = (code, &error)
+            && let Some(detail) = &problem.detail
+        {
+            return Self::new(code, detail.clone());
+        }
         Self::new(code, error.to_string())
     }
 }

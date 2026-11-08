@@ -139,4 +139,24 @@ describe('organisations', { timeout: 60_000 }, () => {
     expect(vaults.some((vault) => vault.type === 'personal')).toBe(true);
     expect((await owner.service.getOrganisation()).organisation).toBeUndefined();
   });
+
+  it('saves SAML settings and makes SCIM tokens a provider can use', async () => {
+    const owner = await signedUp();
+    await owner.service.createOrganisation('Acme');
+    const sso = await owner.service.getOrgSso();
+    expect(sso.protocol).toBeUndefined();
+    expect(sso.samlServiceProvider.acsUrl).toMatch(/\/v1\/sso\/saml\/.+\/acs$/);
+    await expectCode(owner.service.saveOrgSaml({ entityId: 'https://idp.example.com', ssoUrl: 'https://idp.example.com/sso', certificates: ['not a certificate'] }), 'ssoConfig');
+
+    const { token, secret } = await owner.service.createOrgScimToken('Okta');
+    expect(secret).toMatch(/^opscim_/);
+    const scim = await owner.service.getOrgScim();
+    expect(scim.tokens.map((listed) => listed.id)).toEqual([token.id]);
+    const users = await fetch(`${scim.baseUrl}/Users`, { headers: { authorization: `Bearer ${secret}` } });
+    expect(users.status).toBe(200);
+    expect(await users.json()).toMatchObject({ totalResults: 0 });
+    await owner.service.revokeOrgScimToken(token.id);
+    const revoked = await fetch(`${scim.baseUrl}/Users`, { headers: { authorization: `Bearer ${secret}` } });
+    expect(revoked.status).toBe(401);
+  });
 });

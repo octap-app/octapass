@@ -38,12 +38,25 @@ impl Server {
 }
 
 pub async fn server() -> Server {
+    server_with(&[]).await
+}
+
+/// A server for tests that run many commands: each one is a fresh process that refreshes its
+/// session, which the default per-address budget counts.
+pub async fn server_without_limits() -> Server {
+    server_with(&[("OCTAPASS_RATE_LIMITS", "off")]).await
+}
+
+async fn server_with(extra: &[(&str, &str)]) -> Server {
     let data = tempfile::tempdir().unwrap();
     let data_dir = data.path().to_str().unwrap().to_owned();
     let config = octapass_server::Config::from_lookup(|name| match name {
         "OCTAPASS_DATA_DIR" => Some(data_dir.clone()),
         "OCTAPASS_DEV_MODE" => Some("true".into()),
-        _ => None,
+        _ => extra
+            .iter()
+            .find(|(key, _)| *key == name)
+            .map(|(_, value)| (*value).to_owned()),
     })
     .unwrap();
     let state = octapass_server::AppState::new(config).await.unwrap();

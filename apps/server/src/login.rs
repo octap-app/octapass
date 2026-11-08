@@ -68,13 +68,21 @@ pub enum SsoPurpose {
 }
 
 /// One browser's way through the identity provider: first under the token in its URL, then under
-/// the OIDC `state`.
+/// the OIDC `state` or the SAML `RelayState`.
 pub struct SsoBrowser {
     pub purpose: SsoPurpose,
     pub org_id: String,
     pub email: String,
     /// `None` until the browser has been sent to the provider.
-    pub flow: Option<(crate::sso::Flow, crate::sso::Provider)>,
+    pub flow: Option<BrowserFlow>,
+}
+
+/// What the provider's answer must match.
+pub enum BrowserFlow {
+    Oidc(crate::sso::Flow, crate::sso::Provider),
+    /// The AuthnRequest's ID, and the settings it was sent under (`updated_at`), so a Response
+    /// is never checked against certificates saved after the request left.
+    Saml { request_id: String, updated_at: i64 },
 }
 
 struct Entry<T> {

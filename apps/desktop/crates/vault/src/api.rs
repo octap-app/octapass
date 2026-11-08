@@ -556,6 +556,26 @@ impl Api {
         .await
     }
 
+    /// `call`, confirmed with a single-use reauth token (`X-Reauth-Token`): deleting an
+    /// organisation or one of its vaults.
+    pub async fn call_reauthed<T: DeserializeOwned>(
+        &self,
+        method: Method,
+        path: &str,
+        token: &str,
+        reauth_token: &str,
+        body: Option<&Value>,
+    ) -> ApiResult<T> {
+        let request = self
+            .request(method, path, Some(token))
+            .header(REAUTH_TOKEN_HEADER, reauth_token);
+        Self::send(match body {
+            Some(body) => request.json(body),
+            None => request,
+        })
+        .await
+    }
+
     /// A `POST` with no session: a service account signing in.
     pub async fn post_public<T: DeserializeOwned>(
         &self,

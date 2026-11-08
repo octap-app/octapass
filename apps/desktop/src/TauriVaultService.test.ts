@@ -505,6 +505,31 @@ describe('TauriVaultService', () => {
     expect(changes).toHaveBeenCalledOnce();
   });
 
+  it('runs organisations in Rust, sealing only to the people confirmed on screen', async () => {
+    const { service: phone } = await connect();
+    expect(phone.organisations).toBeUndefined();
+    const fingerprint = { digits: '0001 0002 0003 0004 0005 0006', emoji: [] };
+    const transport = new FakeTransport()
+      .on('session_snapshot', () => unlocked)
+      .on('apply_org_access', () => undefined)
+      .on('remove_org_member', (args) => (args!.orphanVaults ? undefined : Promise.reject({ code: 'orgVaultOrphaned', message: 'OrgVaultOrphaned' })))
+      .on('save_org_saml', () => ({ protocol: 'saml', hasClientSecret: false, callbackUrl: 'c', samlServiceProvider: { entityId: 'e', acsUrl: 'a', metadataUrl: 'e' } }))
+      .on('create_org_scim_token', (args) => ({ token: { id: 't', name: args!.name, createdAt: 'now' }, secret: 'opscim_x' }));
+    const organisations = (await TauriVaultService.create(transport, { organisations: true })).organisations!;
+
+    const grant = { accountId: 'b', email: 'bob@example.com', role: 'read' as const, upgrade: false, fingerprint, verified: false, keyChanged: false };
+    await organisations.applyOrgAccess('v1', [grant]);
+    expect(transport.calls.at(-1)).toEqual({ command: 'apply_org_access', args: { vaultId: 'v1', confirmed: [{ accountId: 'b', fingerprint }] } });
+
+    const orphaned = await organisations.removeOrgMember('b').catch((error: unknown) => error);
+    expect(isVaultError(orphaned, 'orgVaultOrphaned')).toBe(true);
+    await organisations.removeOrgMember('b', { orphanVaults: true });
+
+    expect((await organisations.saveOrgSaml({ metadataXml: '<md/>' })).protocol).toBe('saml');
+    expect(transport.calls.at(-1)).toEqual({ command: 'save_org_saml', args: { input: { metadataXml: '<md/>' } } });
+    expect((await organisations.createOrgScimToken('Okta')).secret).toBe('opscim_x');
+  });
+
   it('passes sharing calls to Rust in the shape the commands expect', async () => {
     const fingerprint = { digits: '0001 0002 0003 0004 0005 0006', emoji: [] };
     const account = { accountId: 'b', email: 'bob@example.com', publicEncKey: 'e', publicSignKey: 's', fingerprint };

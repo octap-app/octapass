@@ -94,6 +94,45 @@ describe('organisations', { timeout: 30_000 }, () => {
     expect(screen.getByText('https://vault.example.com/v1/sso/callback')).toBeInTheDocument();
   });
 
+  it('takes SAML settings, with what to register at the provider', async () => {
+    const service = await createSignedInService();
+    await service.organisations.createOrganisation('Acme');
+    const saveSaml = vi.spyOn(service.organisations, 'saveOrgSaml');
+    const { user } = renderApp(service, '/organisation');
+    await user.click(await screen.findByRole('radio', { name: 'Single sign-on' }));
+    await user.click(await screen.findByRole('radio', { name: 'SAML 2.0' }));
+    expect(screen.getByText('https://vault.example.com/v1/sso/saml/mock/acs')).toBeInTheDocument();
+    expect(screen.getByText('https://vault.example.com/v1/sso/saml/mock/metadata')).toBeInTheDocument();
+
+    await user.type(screen.getByLabelText('Identity provider entity ID'), 'https://idp.example.com/saml');
+    await user.type(screen.getByLabelText('Single sign-on URL (HTTP-Redirect)'), 'https://idp.example.com/sso');
+    await user.type(screen.getByLabelText('Signing certificate (PEM)'), 'MIIC');
+    await user.click(screen.getByRole('button', { name: 'Save settings' }));
+    await waitFor(() => expect(saveSaml).toHaveBeenCalledWith({ entityId: 'https://idp.example.com/saml', ssoUrl: 'https://idp.example.com/sso', certificates: ['MIIC'] }));
+    expect(await screen.findByText('Saved: https://idp.example.com/saml')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Test sign-in' })).toBeInTheDocument();
+  });
+
+  it('makes a SCIM token, shows it once, and revokes it', async () => {
+    const service = await createSignedInService();
+    await service.organisations.createOrganisation('Acme');
+    const { user } = renderApp(service, '/organisation');
+    await user.click(await screen.findByRole('radio', { name: 'Provisioning' }));
+    expect(await screen.findByText('https://vault.example.com/v1/scim/v2')).toBeInTheDocument();
+    expect(screen.getByText(/It never removes an owner, and it can’t open a vault/)).toBeInTheDocument();
+
+    await user.type(screen.getByLabelText('Token name'), 'Entra ID');
+    await user.click(screen.getByRole('button', { name: 'Make a token' }));
+    const shown = await screen.findByLabelText('New token');
+    expect((shown as HTMLInputElement).value).toMatch(/^opscim_/);
+    expect(await screen.findByText('Entra ID')).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Done' }));
+    expect(screen.queryByLabelText('New token')).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('button', { name: 'Revoke' }));
+    await waitFor(() => expect(screen.queryByText('Entra ID')).not.toBeInTheDocument());
+  });
+
   it('asks again before leaving a vault with nobody to manage it', async () => {
     const service = await createSignedInService();
     const organisations = service.organisations;

@@ -83,7 +83,7 @@ fn refuse_orphans(reconciled: &Reconciled) -> ApiResult<()> {
 }
 
 /// Tells the people who lost a vault, and its remaining members. The change already committed.
-async fn notify(state: &AppState, reconciled: &Reconciled) {
+pub(super) async fn notify(state: &AppState, reconciled: &Reconciled) {
     for (vault_id, lost) in &reconciled.lost {
         state.membership_changed(vault_id, lost).await;
     }
@@ -442,6 +442,8 @@ pub async fn accept_invite(
             "leave your current organisation first",
         )))?;
     orgs::delete_invite(&mut tx, &org_id, &invite_id).await?;
+    // Someone the identity provider provisioned gets its groups now.
+    crate::db::scim::member_joined(&mut tx, &org_id, me, &email).await?;
     orgs::record_event(&mut tx, &org_id, me, "member-joined", Some(&invited), now).await?;
     let org = orgs::find(&mut tx, &org_id)
         .await?

@@ -100,6 +100,27 @@ impl From<VaultError> for CliError {
             ),
             ErrorCode::Locked => return Self::locked(),
             ErrorCode::NotFound => (Exit::NotFound, "Not found.".into()),
+            ErrorCode::NotAllowed => (
+                Exit::Error,
+                "Your role doesn't allow that. Ask an organisation admin or owner.".into(),
+            ),
+            ErrorCode::SsoConfig => (
+                Exit::Error,
+                format!("The identity provider settings can't be used: {}", error.message),
+            ),
+            ErrorCode::OrgVaultOrphaned => (
+                Exit::Error,
+                "That would leave organisation vaults with nobody able to manage them. Repeat with --orphan-vaults to go ahead: they stay unreadable to everyone and can only be deleted.".into(),
+            ),
+            ErrorCode::UntrustedVault => (
+                Exit::Error,
+                "Nothing was sealed: someone's keys changed since you reviewed them, or don't match a fingerprint verified on this device. Check their fingerprint with them again.".into(),
+            ),
+            ErrorCode::KeyLogMismatch => (
+                Exit::Error,
+                "Nothing was sealed: a person's keys don't match the key log.".into(),
+            ),
+            ErrorCode::AlreadyExists => (Exit::Error, format!("Already exists ({}).", error.message)),
             ErrorCode::ReadOnlyVault => (
                 Exit::Error,
                 "You can only read this vault, not change it.".into(),

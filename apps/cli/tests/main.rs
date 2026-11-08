@@ -14,6 +14,7 @@ mod integrations;
 mod item_commands;
 mod items;
 mod master_password;
+mod org;
 mod run;
 mod service_accounts;
 mod session;

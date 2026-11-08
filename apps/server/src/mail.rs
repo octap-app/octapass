@@ -32,6 +32,8 @@ pub enum Email {
     OrgInvite {
         inviter: String,
     },
+    /// To someone the organisation's identity provider added (SCIM): an invite with no inviter.
+    OrgProvisioned,
     /// To a member an admin removed.
     OrgRemoved,
     /// To the contact a grantor chose.
@@ -179,6 +181,20 @@ impl Email {
                          address to see the invitation, and the rules that come with it, before you accept. \
                          If you don't have an account yet, create one with this address."
                     ),
+                    "Your personal vault stays private: nobody in the organisation can read it. The invitation \
+                     lasts 14 days. If you weren't expecting it, you can ignore this email."
+                        .to_owned(),
+                ],
+            ),
+            Email::OrgProvisioned => c(
+                "You're invited to an organisation on Octa Pass".to_owned(),
+                TOPIC_ORG,
+                "Your organisation invited you".to_owned(),
+                vec![
+                    "Your organisation's identity provider added you to its organisation on Octa Pass. Sign in \
+                     with this email address to see the invitation, and the rules that come with it, before \
+                     you accept. If you don't have an account yet, create one with this address."
+                        .to_owned(),
                     "Your personal vault stays private: nobody in the organisation can read it. The invitation \
                      lasts 14 days. If you weren't expecting it, you can ignore this email."
                         .to_owned(),
@@ -834,6 +850,7 @@ mod tests {
             Email::OrgInvite {
                 inviter: "Grace Hopper".into(),
             },
+            Email::OrgProvisioned,
             Email::OrgRemoved,
             Email::EmergencyContactAdded {
                 grantor: "Maya Rahman".into(),

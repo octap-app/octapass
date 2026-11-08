@@ -14,6 +14,9 @@ import type {
   OrgMembers,
   OrgPolicies,
   OrgRole,
+  OrgSamlInput,
+  OrgScim,
+  OrgScimToken,
   OrgSsoSettings,
   OrgVault,
   Organisation,
@@ -23,6 +26,11 @@ import type {
 } from '../types';
 
 const NOW = () => new Date().toISOString();
+const MOCK_SAML_SP = {
+  entityId: 'https://vault.example.com/v1/sso/saml/mock/metadata',
+  acsUrl: 'https://vault.example.com/v1/sso/saml/mock/acs',
+  metadataUrl: 'https://vault.example.com/v1/sso/saml/mock/metadata',
+};
 const FINGERPRINT = { digits: '1234 5678 9012 3456 7890 1234', emoji: [{ emoji: '🔑', name: 'key' }, { emoji: '🌿', name: 'herb' }, { emoji: '🦉', name: 'owl' }] };
 
 const DEFAULT_POLICIES: OrgPolicies = {
@@ -47,7 +55,8 @@ export class MockOrganisations implements OrganisationService {
   private vaults: OrgVault[] = [];
   /** vault id → people waiting for a key holder, and whether a rotation is due. */
   private pending = new Map<string, { grants: OrgAccessGrant[]; rotate: boolean }>();
-  private sso: OrgSsoSettings = { hasClientSecret: false, callbackUrl: 'https://vault.example.com/v1/sso/callback' };
+  private sso: OrgSsoSettings = { hasClientSecret: false, callbackUrl: 'https://vault.example.com/v1/sso/callback', samlServiceProvider: MOCK_SAML_SP };
+  private scimTokens: OrgScimToken[] = [];
   private events: OrgEvent[] = [];
 
   /** `changed` tells screens to load again, as the real service does. */
@@ -278,13 +287,47 @@ export class MockOrganisations implements OrganisationService {
 
   async saveOrgSso(input: { issuer: string; clientId: string; clientSecret?: string }): Promise<OrgSsoSettings> {
     queueMicrotask(this.changed);
-    this.sso = { ...this.sso, issuer: input.issuer, clientId: input.clientId, hasClientSecret: this.sso.hasClientSecret || Boolean(input.clientSecret), testedAt: undefined };
+    this.sso = {
+      ...this.sso,
+      protocol: 'oidc',
+      saml: undefined,
+      issuer: input.issuer,
+      clientId: input.clientId,
+      hasClientSecret: (this.sso.protocol === 'oidc' && this.sso.hasClientSecret) || Boolean(input.clientSecret),
+      testedAt: undefined,
+    };
+    return this.sso;
+  }
+
+  async saveOrgSaml(input: OrgSamlInput): Promise<OrgSsoSettings> {
+    const entityId = input.entityId ?? (input.metadataXml ? 'https://idp.example.com/saml' : undefined);
+    const ssoUrl = input.ssoUrl ?? (input.metadataXml ? 'https://idp.example.com/sso' : undefined);
+    if (!entityId || !ssoUrl || (!input.metadataXml && !input.certificates?.length)) throw new VaultError('ssoConfig');
+    queueMicrotask(this.changed);
+    const certificates = (input.metadataXml ? ['metadata'] : input.certificates!).map((_, i) => ({ sha256: `AB:CD:${String(i).padStart(2, '0')}` }));
+    this.sso = { hasClientSecret: false, callbackUrl: this.sso.callbackUrl, samlServiceProvider: MOCK_SAML_SP, protocol: 'saml', saml: { entityId, ssoUrl, certificates } };
     return this.sso;
   }
 
   async removeOrgSso(): Promise<void> {
     queueMicrotask(this.changed);
-    this.sso = { hasClientSecret: false, callbackUrl: this.sso.callbackUrl };
+    this.sso = { hasClientSecret: false, callbackUrl: this.sso.callbackUrl, samlServiceProvider: MOCK_SAML_SP };
+  }
+
+  async getOrgScim(): Promise<OrgScim> {
+    return { baseUrl: 'https://vault.example.com/v1/scim/v2', tokens: this.scimTokens };
+  }
+
+  async createOrgScimToken(name: string): Promise<{ token: OrgScimToken; secret: string }> {
+    queueMicrotask(this.changed);
+    const token: OrgScimToken = { id: uuidv7(), name: name.trim(), createdAt: NOW() };
+    this.scimTokens = [...this.scimTokens, token];
+    return { token, secret: `opscim_${uuidv7().replaceAll('-', '')}` };
+  }
+
+  async revokeOrgScimToken(tokenId: string): Promise<void> {
+    queueMicrotask(this.changed);
+    this.scimTokens = this.scimTokens.filter((token) => token.id !== tokenId);
   }
 
   async testOrgSso(): Promise<string> {

@@ -416,9 +416,9 @@ mod witnesses {
         for _ in 0..2 {
             listeners.push(tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap());
         }
-        let closed = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
-        let closed_url = format!("http://{}", closed.local_addr().unwrap());
-        drop(closed);
+        // Port 1: nothing listens there, and unlike a freed ephemeral port another test running
+        // at the same time can't be given it.
+        let closed_url = "http://127.0.0.1:1".to_owned();
         let mut witnesses: Vec<KeyLogWitness> = listeners
             .iter()
             .zip([1u8, 2])
@@ -498,7 +498,9 @@ mod witnesses {
             (1, 2, true)
         );
         assert!(
-            matches!(first.failed.as_slice(), [(vkey, WitnessError::Http(_))] if *vkey == witness_vkey(3))
+            matches!(first.failed.as_slice(), [(vkey, WitnessError::Http(_))] if *vkey == witness_vkey(3)),
+            "{:?}",
+            first.failed
         );
 
         let mut state = LogState::default();

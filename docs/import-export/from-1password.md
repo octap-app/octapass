@@ -6,7 +6,7 @@ sidebar:
   order: 2
 ---
 
-The 1Password importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import 1password`). Everything is read on your device.
+The 1Password importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import onepassword-1pux`, or `onepassword-csv`). Everything is read on your device.
 
 ## Export from 1Password
 

@@ -6,7 +6,7 @@ sidebar:
   order: 3
 ---
 
-يعمل مستورِد Bitwarden في خزنة الويب وإضافة المتصفح وتطبيقي سطح المكتب والهاتف و[واجهة سطر الأوامر](/ar/docs/platforms/cli/) (`octapass import bitwarden`). تُقرأ كل البيانات على جهازك.
+يعمل مستورِد Bitwarden في خزنة الويب وإضافة المتصفح وتطبيقي سطح المكتب والهاتف و[واجهة سطر الأوامر](/ar/docs/platforms/cli/) (`octapass import bitwarden-json` أو `bitwarden-csv`). تُقرأ كل البيانات على جهازك.
 
 ## التصدير من Bitwarden
 

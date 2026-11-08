@@ -6,7 +6,7 @@ sidebar:
   order: 2
 ---
 
-يعمل مستورِد 1Password في خزنة الويب وإضافة المتصفح وتطبيقي سطح المكتب والهاتف و[واجهة سطر الأوامر](/ar/docs/platforms/cli/) (`octapass import 1password`). تُقرأ كل البيانات على جهازك.
+يعمل مستورِد 1Password في خزنة الويب وإضافة المتصفح وتطبيقي سطح المكتب والهاتف و[واجهة سطر الأوامر](/ar/docs/platforms/cli/) (`octapass import onepassword-1pux` أو `onepassword-csv`). تُقرأ كل البيانات على جهازك.
 
 ## التصدير من 1Password
 

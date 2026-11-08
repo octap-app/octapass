@@ -160,14 +160,14 @@ An `ARG` or `ENV` value is kept in the image's history and readable by anyone wh
 
 ## CI
 
-CI runners are non-interactive, so give the CLI the master password and Secret Key through the runner's secret store, then use `run` for the steps that need secrets:
+Give CI a [service account](/docs/features/service-accounts/), never a person's master password and Secret Key. Keep the job's environments in a shared vault made for it, create a read-only service account on that vault, and put its token in the CI system's secret store:
 
 ```bash
-printf '%s\n' "$OCTAPASS_PASSWORD" | octapass --password-stdin login --server "$OCTAPASS_SERVER"
-octapass run --project shop-api --stage testing --yes -- npm test
+export OCTAPASS_SERVICE_ACCOUNT_TOKEN=opsa1_…   # from the CI system's secret store
+octapass run --env shop-api:testing -- npm test
 ```
 
-`OCTAPASS_SECRET_KEY` covers the Secret Key on a first login without a terminal, and `OCTAPASS_TWO_STEP_CODE` a two-step code. The session stays in the runner's keyring (or in the data folder with `OCTAPASS_NO_KEYRING=1`, which does not keep the master password). Mark the variables as secret in the CI system, and don't echo them or pass them to `docker build` as build arguments. `--yes` skips the production confirmation for a named `production` stage; use it only where the job is meant to touch production.
+The token reads only that one vault and needs no sign-in, keyring, master password or Secret Key. It can expire, can be revoked at any time, and each use shows in the security log of whoever made it. A person's master password and Secret Key in CI would hand the runner, and everyone who can read its secrets, that person's whole account. Mark the token as secret in the CI system, and don't echo it or pass it to `docker build` as a build argument. `--yes` skips the production confirmation for a `production` stage that comes from `octapass.toml` or `OCTAPASS_STAGE`; use it only where the job is meant to touch production.
 
 ## Node, Python and plain shells
 

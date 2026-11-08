@@ -6,7 +6,7 @@ sidebar:
   order: 4
 ---
 
-The LastPass importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import lastpass`). Everything is read on your device.
+The LastPass importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import lastpass-csv`). Everything is read on your device.
 
 ## Export from LastPass
 

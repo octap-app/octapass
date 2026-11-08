@@ -6,7 +6,7 @@ sidebar:
   order: 3
 ---
 
-The Bitwarden importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import bitwarden`). Everything is read on your device.
+The Bitwarden importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import bitwarden-json`, or `bitwarden-csv`). Everything is read on your device.
 
 ## Export from Bitwarden
 

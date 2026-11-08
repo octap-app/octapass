@@ -50,6 +50,7 @@ octapass lock
 | `octapass rotate-vault-key <vault>` | يعطي خزنة تملكها أو تديرها مفتاحًا جديدًا. |
 | `octapass reset-master-password [--server URL] [--email E] [--code C]` | يعيد ضبط كلمة مرور رئيسية منسية بالرمز المرسل إلى بريدك ورمز الاسترداد من مجموعة الاسترداد، ثم يطبع المجموعة الجديدة. |
 | `octapass service-account create\|list\|revoke` | ينشئ [حسابات الخدمة](/ar/docs/features/service-accounts/) ويلغيها. |
+| `octapass org …` | يدير [مؤسستك](/ar/docs/features/organisations/): الأعضاء والدعوات والمجموعات والخزائن وخطوة المراجعة `access apply` و`rotate` والسياسات و[تسجيل الدخول الموحّد](/ar/docs/features/single-sign-on/) (OpenID Connect وSAML) ورموز [SCIM](/ar/docs/features/scim/) وسجل النشاط. |
 | `octapass connect serve\|status\|clients\|revoke\|approve\|pair\|read` | يشغّل [Octa Pass Connect](/ar/docs/features/connect/) ويديره. |
 | `octapass aws credential-process`, `octapass kube credential`, `octapass docker-credential` | [بيانات اعتماد لأدوات أخرى](#السحابة-وdevops). |
 | `octapass oauth create\|token\|show` | [رموز OAuth2 حية](/ar/docs/features/connect/#live-api-tokens) من عناصر بيانات اعتماد API. |
@@ -366,11 +367,11 @@ printf '%s\n' "$OCTAPASS_PASSWORD" | octapass --password-stdin get GitHub --fiel
 
 ```bash
 octapass import chrome ~/Downloads/Chrome\ Passwords.csv
-octapass import bitwarden ./bitwarden_export.json --vault Personal
+octapass import bitwarden-json ./bitwarden_export.json --vault Personal
 octapass import otpauth ./codes.txt --dry-run
 ```
 
-الصيغ: `octapass` (تصدير Octa Pass: ملف `.octapass` المشفّر مع ملفاته المرفقة، أو JSON غير مشفّر)، و`cxf` (صيغة FIDO لتبادل بيانات الاعتماد)، و`chrome` (ويشمل Edge وBrave وOpera وVivaldi وArc)، و`firefox`، و`safari` (ويشمل Apple Passwords)، و`bitwarden` (JSON، ويشمل المحمي بكلمة مرور)، و`1password` (`.1pux`)، و`1password-csv`، و`lastpass`، و`keepass` (`.kdbx` مع `--key-file` إن كان له ملف مفتاح، أو XML أو CSV)، و`protonpass`، و`dashlane`، و`enpass`، و`keeper`، و`nordpass`، و`roboform`، و`aegis`، و`2fas`، و`andotp`، و`csv` (أي CSV له صف عناوين) و`otpauth` (روابط `otpauth://` وروابط Google Authenticator بصيغة `otpauth-migration://`، رابط في كل سطر). تُضاف الرموز لمرة واحدة الخاصة بحسابات موجودة عندك إلى تلك الحسابات. الملف المحمي بكلمة مرور يطلب كلمة مروره في طرفية. انظر [الاستيراد](/ar/docs/import-export/overview/).
+الصيغ، كما يسردها `octapass import --help`: `octapass` (تصدير Octa Pass: ملف `.octapass` المشفّر مع ملفاته المرفقة، أو JSON غير مشفّر)، و`cxf` (صيغة FIDO لتبادل بيانات الاعتماد)، و`chrome` (ويشمل Edge وBrave وOpera وVivaldi وArc)، و`firefox`، و`safari` (ويشمل Apple Passwords)، و`bitwarden-json` (ويشمل المحمي بكلمة مرور) و`bitwarden-csv`، و`onepassword-1pux` و`onepassword-csv`، و`lastpass-csv`، و`keepass` (`.kdbx` مع `--key-file` إن كان له ملف مفتاح، أو XML أو CSV)، و`protonpass`، و`dashlane`، و`enpass`، و`keeper`، و`nordpass`، و`roboform`، و`zoho-vault`، و`avira`، و`norton`، و`mcafee`، و`kaspersky`، و`aegis`، و`2fas`، و`andotp`، و`ente-auth`، و`raivo`، و`generic-csv` (أي CSV له صف عناوين) و`otpauth` (روابط `otpauth://` وروابط Google Authenticator بصيغة `otpauth-migration://`، رابط في كل سطر). وما زالت الأسماء القصيرة الأقدم `bitwarden` و`1password` و`1password-csv` و`lastpass` و`csv` تعمل. تُضاف الرموز لمرة واحدة الخاصة بحسابات موجودة عندك إلى تلك الحسابات. الملف المحمي بكلمة مرور يطلب كلمة مروره في طرفية. انظر [الاستيراد](/ar/docs/import-export/overview/).
 
 ```bash
 octapass export --encrypted --output backup.octapass

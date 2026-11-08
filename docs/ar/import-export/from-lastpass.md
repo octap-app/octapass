@@ -6,7 +6,7 @@ sidebar:
   order: 4
 ---
 
-يعمل مستورِد LastPass في خزنة الويب وإضافة المتصفح وتطبيقي سطح المكتب والهاتف و[واجهة سطر الأوامر](/ar/docs/platforms/cli/) (`octapass import lastpass`). تُقرأ كل البيانات على جهازك.
+يعمل مستورِد LastPass في خزنة الويب وإضافة المتصفح وتطبيقي سطح المكتب والهاتف و[واجهة سطر الأوامر](/ar/docs/platforms/cli/) (`octapass import lastpass-csv`). تُقرأ كل البيانات على جهازك.
 
 ## التصدير من LastPass
 

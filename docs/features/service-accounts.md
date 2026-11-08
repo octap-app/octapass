@@ -76,7 +76,7 @@ Add `OCTAPASS_SERVICE_ACCOUNT_TOKEN` as a masked, protected CI/CD variable.
 No plugin needed. Both read environment variables, so `octapass run` is all it takes:
 
 ```bash
-export TF_VAR_database_password=octapass://CI/Shop database/password
+export TF_VAR_database_password="octapass://CI/Shop database/password"
 octapass run -- terraform apply
 
 export PULUMI_CONFIG_PASSPHRASE=octapass://CI/Pulumi/password

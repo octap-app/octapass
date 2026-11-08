@@ -50,6 +50,7 @@ octapass lock
 | `octapass rotate-vault-key <vault>` | Gives a vault you own or manage a new key. |
 | `octapass reset-master-password [--server URL] [--email E] [--code C]` | Resets a forgotten master password with the emailed code and the recovery code from your Recovery Kit, then prints the new kit. |
 | `octapass service-account create\|list\|revoke` | Makes and revokes [service accounts](/docs/features/service-accounts/). |
+| `octapass org …` | Runs your [organisation](/docs/features/organisations/#from-the-command-line): members, invites, groups, vaults, the reviewed `access apply`, `rotate`, policies, [SSO](/docs/features/single-sign-on/) (OpenID Connect and SAML), [SCIM](/docs/features/scim/) tokens and the activity log. |
 | `octapass connect serve\|status\|clients\|revoke\|approve\|pair\|read` | Runs and manages [Octa Pass Connect](/docs/features/connect/). |
 | `octapass aws credential-process`, `octapass kube credential`, `octapass docker-credential` | [Credentials for other tools](#cloud-and-devops). |
 | `octapass oauth create\|token\|show` | [Live OAuth2 tokens](/docs/features/connect/#live-api-tokens) from API credential items. |
@@ -366,11 +367,11 @@ printf '%s\n' "$OCTAPASS_PASSWORD" | octapass --password-stdin get GitHub --fiel
 
 ```bash
 octapass import chrome ~/Downloads/Chrome\ Passwords.csv
-octapass import bitwarden ./bitwarden_export.json --vault Personal
+octapass import bitwarden-json ./bitwarden_export.json --vault Personal
 octapass import otpauth ./codes.txt --dry-run
 ```
 
-Formats: `octapass` (an Octa Pass export: the encrypted `.octapass` file with its attached files, or plaintext JSON), `cxf` (the FIDO Credential Exchange Format), `chrome` (also Edge, Brave, Opera, Vivaldi, Arc), `firefox`, `safari` (also Apple Passwords), `bitwarden` (JSON, also password-protected), `1password` (`.1pux`), `1password-csv`, `lastpass`, `keepass` (`.kdbx` with `--key-file` if it has one, XML or CSV), `protonpass`, `dashlane`, `enpass`, `keeper`, `nordpass`, `roboform`, `zoho-vault`, `avira`, `norton`, `mcafee`, `kaspersky`, `aegis`, `2fas`, `andotp`, `csv` (any CSV with a header row) and `otpauth` (`otpauth://` and Google Authenticator `otpauth-migration://` links, one per line). One-time codes for logins you already have are added to those logins. A password-protected file asks for its password at a terminal. See [import](/docs/import-export/overview/).
+Formats, as `octapass import --help` lists them: `octapass` (an Octa Pass export: the encrypted `.octapass` file with its attached files, or plaintext JSON), `cxf` (the FIDO Credential Exchange Format), `chrome` (also Edge, Brave, Opera, Vivaldi, Arc), `firefox`, `safari` (also Apple Passwords), `bitwarden-json` (also password-protected) and `bitwarden-csv`, `onepassword-1pux` and `onepassword-csv`, `lastpass-csv`, `keepass` (`.kdbx` with `--key-file` if it has one, XML or CSV), `protonpass`, `dashlane`, `enpass`, `keeper`, `nordpass`, `roboform`, `zoho-vault`, `avira`, `norton`, `mcafee`, `kaspersky`, `aegis`, `2fas`, `andotp`, `ente-auth`, `raivo`, `generic-csv` (any CSV with a header row) and `otpauth` (`otpauth://` and Google Authenticator `otpauth-migration://` links, one per line). The older short names `bitwarden`, `1password`, `1password-csv`, `lastpass` and `csv` still work. One-time codes for logins you already have are added to those logins. A password-protected file asks for its password at a terminal. See [import](/docs/import-export/overview/).
 
 ```bash
 octapass export --encrypted --output backup.octapass

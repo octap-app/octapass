@@ -26,7 +26,7 @@ export function createManifest(target: Target, version: string, { store = false 
     name: 'Octa Pass',
     short_name: 'Octa Pass',
     version,
-    description: 'Free, open-source and end-to-end encrypted password manager.',
+    description: 'Free, open-source password manager. Fill passwords, passkeys and 2FA codes, end-to-end encrypted so only you can read them.',
     icons: ICONS,
     action: { default_title: 'Octa Pass', default_icon: ICONS },
     // The service worker reaches the sync server and every content script needs the pages it fills.

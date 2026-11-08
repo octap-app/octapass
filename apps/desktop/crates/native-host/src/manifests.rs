@@ -15,11 +15,11 @@ use serde_json::{Value, json};
 
 pub const HOST_NAME: &str = "app.octap.desktop";
 
-// PUBLISH: replace the Chrome and Edge placeholders with the store IDs once the extension is listed
-// (the stores assign them). A placeholder isn't a well-formed ID, so it never matches a caller and
-// never reaches a manifest: until they're filled in, release builds accept no Chromium extension.
+// PUBLISH: replace the Edge placeholder with the Edge Add-ons ID once the extension is listed there
+// (the store assigns it). A placeholder isn't a well-formed ID, so it never matches a caller and never
+// reaches a manifest: until it's filled in, release builds don't accept the Edge store extension.
 /// The Chrome Web Store listing's ID.
-pub const CHROME_WEB_STORE_ID: &str = "PLACEHOLDER:chrome-web-store-id";
+pub const CHROME_WEB_STORE_ID: &str = "lkiohhnnaikciebbdlnnlgagmdjgknoi";
 /// The Edge Add-ons listing's ID (Edge gives its store its own IDs).
 pub const EDGE_ADD_ONS_ID: &str = "PLACEHOLDER:edge-add-ons-id";
 /// The `browser_specific_settings.gecko.id` the extension is signed with on addons.mozilla.org.
@@ -460,7 +460,10 @@ mod tests {
         assert_eq!(chrome["path"], host.to_str().unwrap());
         assert_eq!(
             chrome["allowed_origins"],
-            json!(["chrome-extension://oojckfebkmiogiahdggohbdnndbfcjnm/"])
+            json!([
+                "chrome-extension://lkiohhnnaikciebbdlnnlgagmdjgknoi/",
+                "chrome-extension://oojckfebkmiogiahdggohbdnndbfcjnm/"
+            ])
         );
         assert!(chrome.get("allowed_extensions").is_none());
         let firefox = Browser::Firefox.manifest(host);
@@ -482,13 +485,13 @@ mod tests {
 
     #[test]
     fn placeholders_are_never_allowed() {
-        for placeholder in [CHROME_WEB_STORE_ID, EDGE_ADD_ONS_ID] {
+        for placeholder in [EDGE_ADD_ONS_ID] {
             assert!(!is_chrome_id(placeholder) && !is_firefox_id(placeholder));
         }
         let built_in = |id: &&str| !listed(EXTRA_EXTENSION_IDS).any(|extra| extra == *id);
         assert_eq!(
             chrome_extension_ids().filter(built_in).collect::<Vec<_>>(),
-            [DEV_CHROME_ID]
+            [CHROME_WEB_STORE_ID, DEV_CHROME_ID]
         );
         assert_eq!(
             firefox_extension_ids().filter(built_in).collect::<Vec<_>>(),

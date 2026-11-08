@@ -66,7 +66,7 @@ impl Caller {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::manifests::{CHROME_WEB_STORE_ID, DEV_CHROME_ID, DEV_FIREFOX_ID};
+    use crate::manifests::{CHROME_WEB_STORE_ID, DEV_CHROME_ID, DEV_FIREFOX_ID, EDGE_ADD_ONS_ID};
 
     fn args(list: &[&str]) -> Vec<String> {
         list.iter().map(|arg| (*arg).to_owned()).collect()
@@ -121,9 +121,13 @@ mod tests {
         assert!(!other.is_allowed());
         let other = Caller::from_args(args(&["/x/manifest.json", "evil@example.com"])).unwrap();
         assert!(!other.is_allowed());
-        // An unfilled store ID matches nothing, even spelled exactly.
-        let placeholder =
+        // The Chrome Web Store listing is allowed; an unfilled store ID matches nothing, even
+        // spelled exactly.
+        let store =
             Caller::from_origin(&format!("chrome-extension://{CHROME_WEB_STORE_ID}/")).unwrap();
+        assert!(store.is_allowed());
+        let placeholder =
+            Caller::from_origin(&format!("chrome-extension://{EDGE_ADD_ONS_ID}/")).unwrap();
         assert!(!placeholder.is_allowed());
         assert!(!placeholder.is_allowed_with(true));
         assert!(

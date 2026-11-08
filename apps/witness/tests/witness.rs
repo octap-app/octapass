@@ -12,7 +12,7 @@ use octapass_core::transparency::note::{
 use octapass_core::transparency::witness::AddCheckpoint;
 use octapass_witness::{Config, Witness, origin_hash_hex, router};
 
-const ORIGIN: &str = "octapass-key-log/test";
+const ORIGIN: &str = "openpass-key-log/test";
 
 /// A log in miniature: leaf `i` is 64 bytes of `seed + i`.
 struct Log {

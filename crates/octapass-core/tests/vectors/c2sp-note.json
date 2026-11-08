@@ -1,6 +1,6 @@
 {
   "_comment": "Signed by the Go reference implementations (golang.org/x/mod/sumdb/note v0.42.0 for the log's Ed25519 signature, github.com/transparency-dev/formats/note v0.1.1 for the cosignature/v1). Log seed is 32 bytes of 0x01, witness seed 32 bytes of 0x02.",
-  "logVkey": "octapass-key-log/test+bee5c544+AYqI4910CfGV/VLbLTy6XXLKZwm/HZQSG/N0iAG0D29c",
+  "logVkey": "openpass-key-log/test+bee5c544+AYqI4910CfGV/VLbLTy6XXLKZwm/HZQSG/N0iAG0D29c",
   "witnessVkey": "witness.example/w1+df1c0a35+BIE5dw6ofRdfVqNUZsNMfszLjYqRtO43ol32D1uPybOU",
-  "note": "octapass-key-log/test\n5\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n\n— octapass-key-log/test vuXFRHNXrVNvBrn1/BKLdNDe2ezIAubYQcbiu4Ovkn3/7/gqkOu7jsI+zOHiJqmF8/BpeWx6cN/6eswUBuP90Lh6dAY=\n— witness.example/w1 3xwKNQAAAABq8JlQ6Sy1qHqUdwwienGh5A/OFdxkC/tFwosA7XwfD53is9uPafQIignVuFHEonYJAcMZ8FGSZQXdCvgOfektCouUAA==\n"
+  "note": "openpass-key-log/test\n5\nAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\n\n— openpass-key-log/test vuXFRHNXrVNvBrn1/BKLdNDe2ezIAubYQcbiu4Ovkn3/7/gqkOu7jsI+zOHiJqmF8/BpeWx6cN/6eswUBuP90Lh6dAY=\n— witness.example/w1 3xwKNQAAAABq8JlQ6Sy1qHqUdwwienGh5A/OFdxkC/tFwosA7XwfD53is9uPafQIignVuFHEonYJAcMZ8FGSZQXdCvgOfektCouUAA==\n"
 }

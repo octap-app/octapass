@@ -444,7 +444,7 @@ mod tests {
     fn print_a_note_for_go() {
         let log = SigningKey::from_bytes(&[1; 32]);
         let witness = SigningKey::from_bytes(&[2; 32]);
-        let checkpoint = Checkpoint::new("octapass-key-log/test", 6, [3; 32]);
+        let checkpoint = Checkpoint::new("openpass-key-log/test", 6, [3; 32]);
         let mut note = Note {
             text: checkpoint.text(),
             signatures: vec![sign_checkpoint(&log, &checkpoint)],

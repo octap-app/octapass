@@ -74,8 +74,10 @@ export function createManifest(target: Target, version: string, { store = false 
     optional_permissions: ['privacy'],
     background: { scripts: ['background.js'], type: 'module' },
     browser_specific_settings: {
-      // 130: X25519 in WebCrypto (MAIN-world content scripts came in 128).
-      gecko: { id: GECKO_ID, strict_min_version: '130.0', data_collection_permissions: { required: ['none'] } },
+      // 140 (142 on Android): `data_collection_permissions`, which AMO requires. X25519 in WebCrypto
+      // (130) and MAIN-world content scripts (128) came earlier.
+      gecko: { id: GECKO_ID, strict_min_version: '140.0', data_collection_permissions: { required: ['none'] } },
+      gecko_android: { strict_min_version: '142.0' },
     },
   } as unknown as chrome.runtime.ManifestV3;
 }

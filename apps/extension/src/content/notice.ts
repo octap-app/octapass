@@ -210,8 +210,9 @@ function icon(name: keyof typeof ICONS): SVGSVGElement {
   svg.setAttribute('stroke-linecap', 'round');
   svg.setAttribute('stroke-linejoin', 'round');
   svg.setAttribute('aria-hidden', 'true');
-  // Our own constant markup, never page data.
-  svg.innerHTML = ICONS[name];
+  // Our own constant markup, never page data; parsed rather than assigned to innerHTML (AMO flags that).
+  const parsed = new DOMParser().parseFromString(`<svg>${ICONS[name]}</svg>`, 'text/html').body.firstElementChild!;
+  svg.append(...Array.from(parsed.childNodes, (node) => document.importNode(node, true)));
   return svg;
 }
 
@@ -219,11 +220,12 @@ function icon(name: keyof typeof ICONS): SVGSVGElement {
 function tile(): HTMLElement {
   const span = el('span', 'tile');
   const id = `op-t-${++ids}`;
-  // Our own constant markup, never page data.
-  span.innerHTML = tileSvg
+  // Our own constant markup, never page data; parsed rather than assigned to innerHTML (AMO flags that).
+  const markup = tileSvg
     .replace(/<title>.*?<\/title>/, '')
     .replaceAll('op-t', id)
     .replace('width="64" height="64"', 'aria-hidden="true" focusable="false"');
+  span.append(document.importNode(new DOMParser().parseFromString(markup, 'text/html').body.firstElementChild!, true));
   return span;
 }
 

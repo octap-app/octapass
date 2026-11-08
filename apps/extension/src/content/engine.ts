@@ -17,7 +17,9 @@ export interface AutofillEngine {
 function closedShadowRoot(element: Element): ShadowRoot | null {
   try {
     const firefox = (element as Element & { openOrClosedShadowRoot?: () => ShadowRoot | null }).openOrClosedShadowRoot;
-    return firefox ? firefox.call(element) : (chrome.dom?.openOrClosedShadowRoot(element as HTMLElement) ?? null);
+    if (firefox) return firefox.call(element);
+    if (typeof __OCTAPASS_TARGET__ !== 'undefined' && __OCTAPASS_TARGET__ === 'firefox') return null;
+    return chrome.dom?.openOrClosedShadowRoot(element as HTMLElement) ?? null;
   } catch {
     // Chrome throws for elements it won't look into (SVG, other namespaces).
     return null;

@@ -217,9 +217,7 @@ export class Menu {
   private svg(markup: string): Node {
     let parsed = this.svgs.get(markup);
     if (!parsed) {
-      const template = this.doc.createElement('template');
-      template.innerHTML = markup;
-      parsed = template.content.firstElementChild!;
+      parsed = this.doc.importNode(new DOMParser().parseFromString(markup, 'text/html').body.firstElementChild!, true);
       this.svgs.set(markup, parsed);
     }
     return parsed.cloneNode(true);

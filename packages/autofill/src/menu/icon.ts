@@ -18,7 +18,7 @@ export class FieldIcon {
     button.tabIndex = -1;
     button.setAttribute('aria-label', label);
     button.title = label;
-    button.innerHTML = TILE;
+    button.append(parseSvg(doc, TILE));
     // Keep focus in the field: the icon is a pointer shortcut, the keyboard uses ArrowDown.
     button.addEventListener('mousedown', (event) => event.preventDefault());
     button.addEventListener('click', activate);
@@ -43,4 +43,10 @@ export class FieldIcon {
   owns(element: Element): boolean {
     return this.layer.owns(element);
   }
+}
+
+/** Our own constant SVG markup as nodes of `doc`, without assigning `innerHTML` (AMO flags that). */
+function parseSvg(doc: Document, markup: string): Element {
+  const parsed = new DOMParser().parseFromString(markup, 'text/html').body.firstElementChild!;
+  return doc.importNode(parsed, true);
 }

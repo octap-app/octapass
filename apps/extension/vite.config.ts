@@ -46,7 +46,13 @@ const shared = {
   resolve: { dedupe: ['react', 'react-dom', 'react-router'] },
 } satisfies UserConfig;
 
+/** `__OCTAPASS_TARGET__` lets a build leave out other browsers' code paths (AMO flags `chrome.dom`). */
 export function extensionConfig(part: Part, outDir: string, mode: string, target: Target = 'chrome'): UserConfig {
+  const config = partConfig(part, outDir, mode, target);
+  return { ...config, define: { ...config.define, __OCTAPASS_TARGET__: JSON.stringify(target) } };
+}
+
+function partConfig(part: Part, outDir: string, mode: string, target: Target): UserConfig {
   const safari = target === 'safari';
   const build = { outDir, emptyOutDir: false, target: 'es2023', sourcemap: mode === 'development', minify: mode !== 'development', modulePreload: false } as const;
   switch (part) {

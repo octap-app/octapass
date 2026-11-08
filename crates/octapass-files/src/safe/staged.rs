@@ -51,8 +51,7 @@ impl Staged {
     }
 
     /// Whether this chunk's bytes are still the content blob's.
-    #[allow(clippy::wrong_self_convention)] // "from" the base blob, not a constructor
-    pub fn from_base(&self, index: u64) -> bool {
+    pub fn in_base(&self, index: u64) -> bool {
         index < self.base_chunks
     }
 

@@ -96,12 +96,13 @@ class OctaPassAutofillService : AutofillService() {
     }
 
     /**
-     * Stay unlocked (plan 18) opens the vault with no prompt, so the save goes straight in, as a
-     * new login or the new password of the login with that user name. Otherwise it's sealed into
-     * the inbox. What to say, or null when neither worked.
+     * Stay unlocked (plan 18), or the app unlocked with "Ask on every fill" off (plan 03), opens
+     * the vault with no prompt, so the save goes straight in, as a new login or the new password
+     * of the login with that user name. Otherwise it's sealed into the inbox. What to say, or null
+     * when neither worked.
      */
     private fun save(vault: AutofillVault, save: PendingSave): Int? = when {
-        vault.unlockStayingUnlocked() -> {
+        vault.unlockWithoutPrompt() -> {
             vault.saveLogin(save.url, save.username, save.password, save.title)
             R.string.octapass_saved
         }

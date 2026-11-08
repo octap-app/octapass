@@ -104,6 +104,38 @@ class AutofillVault private constructor(
         }
     }
 
+    /**
+     * The autofill gate off (plan 03): while the app's vault is unlocked, the app keeps a fill key
+     * and the services open the store with it, with no prompt. False, for today's unlock instead,
+     * when there's none (the gate is on, the app is locked, stay unlocked is on, no screen lock),
+     * it has expired with the app's lock timer, the 14-day master password check is due, or it no
+     * longer opens the account (an expired or broken key is deleted).
+     */
+    fun unlockWithFillKey(): Boolean {
+        val keys = stayUnlocked ?: return false
+        val key = keys.get(account.fillKeyName) ?: return false
+        return try {
+            val opened = store.unlockFillKey(key)
+            if (opened == null) {
+                keys.delete(account.fillKeyName)
+                false
+            } else {
+                replace(opened)
+                true
+            }
+        } catch (error: OctaPassException.PasswordRequired) {
+            false
+        } catch (error: OctaPassException.DeviceUnlockFailed) {
+            keys.delete(account.fillKeyName)
+            false
+        } finally {
+            key.fill(0)
+        }
+    }
+
+    /** Whatever opens the store with no prompt: stay unlocked's key (plan 18), then the fill key (plan 03). */
+    fun unlockWithoutPrompt(): Boolean = unlockStayingUnlocked() || unlockWithFillKey()
+
     /** With the secret [DevicePrompt] released; the secret is zeroed. */
     fun unlockWithDevice(secret: ByteArray) {
         try {

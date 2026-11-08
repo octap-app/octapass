@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-Autofill is built in the browser extension, the desktop apps and the iPhone, iPad and Android apps, but it isn't released yet. Still missing: auto-type in the Mac app, the **Ask on every fill** switch in the phone apps (there, with **Stay unlocked** off, AutoFill asks every time), and filling from the newer item types such as bank accounts and ID documents. The Safari extension hasn't been run in Safari itself yet. See the [roadmap](/docs/reference/roadmap/).
+Autofill is built in the browser extension, the desktop apps and the iPhone, iPad and Android apps, but it isn't released yet. Still missing: auto-type in the Mac app, and filling from the newer item types such as bank accounts and ID documents. The Safari extension hasn't been run in Safari itself yet. See the [roadmap](/docs/reference/roadmap/).
 :::
 
 ## Where autofill works
@@ -26,6 +26,8 @@ Windows and Linux have no system autofill API for third-party password managers,
 ## Device auth on fills
 
 By default, Octa Pass asks for your device's lock each time it fills a login, one-time code, card or identity. The switch is **Settings → Security → Device auth → Ask on every fill**, per device and never synced. Turn it off and fills happen directly while the vault is unlocked, with a warning that anyone using the device can fill your logins; a locked vault still asks at least once. Revealing, copying and exporting have [their own rules](/docs/features/biometric-unlock/#revealing-and-copying). On a device with no lock Octa Pass can use, fills don't prompt while the vault is already unlocked (Chrome password-manager behaviour), and the master password opens the vault after a restart or lock. The web vault never offers a gateless mode.
+
+On the iPhone, iPad and Android, AutoFill and the autofill services run apart from the app, so "while the vault is unlocked" means while the Octa Pass app is unlocked: lock the app, or let its auto-lock run out, and the next fill asks again. A phone with no passcode or screen lock keeps asking for the master password. With **Stay unlocked** on (the default), the switch is greyed out: filling doesn't ask.
 
 ## What it fills
 

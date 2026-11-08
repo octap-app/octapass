@@ -20,6 +20,7 @@ pub mod desktop;
 pub mod emergency;
 pub mod environments;
 pub mod error;
+mod fill_gate;
 pub mod health;
 pub mod icons;
 pub mod items;

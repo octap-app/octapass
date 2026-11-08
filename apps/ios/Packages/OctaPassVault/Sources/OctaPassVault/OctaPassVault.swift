@@ -1872,6 +1872,12 @@ public protocol OctaPassVaultProtocol: AnyObject, Sendable {
     func startSshAgent(prompts: SshPromptsCallback, endpoint: String?) throws  -> SshAgentHandle
     
     /**
+     * Whether the AutoFill extension or the Autofill services can fill without a prompt right
+     * now because of the autofill gate (not stay unlocked): the fill key is on this phone.
+     */
+    func fillsWithoutPrompt()  -> Bool
+    
+    /**
      * "Use on this device only": a new vault with no account, unlocked and current. Runs
      * Argon2id twice. Returns the backup recovery code, for the local Recovery Kit.
      */
@@ -2184,6 +2190,9 @@ public protocol OctaPassVaultProtocol: AnyObject, Sendable {
      */
     func emailBreachChecksAvailable() async throws  -> Bool
     
+    /**
+     * Device unlock decides whether the autofill gate has anything to ask with (`fill_gate`).
+     */
     func enableDeviceUnlock() async throws 
     
     /**
@@ -2806,6 +2815,19 @@ open func startSshAgent(prompts: SshPromptsCallback, endpoint: String?)throws  -
             self.uniffiCloneHandle(),
         FfiConverterTypeSshPromptsCallback_lower(prompts),
         FfiConverterOptionString.lower(endpoint),uniffiCallStatus
+    )
+})
+}
+    
+    /**
+     * Whether the AutoFill extension or the Autofill services can fill without a prompt right
+     * now because of the autofill gate (not stay unlocked): the fill key is on this phone.
+     */
+open func fillsWithoutPrompt() -> Bool  {
+    return try!  FfiConverterBool.lift(try! rustCall() {
+        uniffiCallStatus in
+    uniffi_octapass_mobile_fn_method_octapassvault_fills_without_prompt(
+            self.uniffiCloneHandle(),uniffiCallStatus
     )
 })
 }
@@ -3931,6 +3953,9 @@ open func emailBreachChecksAvailable()async throws  -> Bool  {
         )
 }
     
+    /**
+     * Device unlock decides whether the autofill gate has anything to ask with (`fill_gate`).
+     */
 open func enableDeviceUnlock()async throws   {
     return
         try  await uniffiRustCallAsync(
@@ -13482,6 +13507,12 @@ public struct Settings: Equatable, Hashable {
      */
     public var deviceAuthOnOpen: Bool
     /**
+     * The autofill gate (plan 03, per device, never synced): the AutoFill extension or the
+     * Autofill services ask for the device lock on every fill. Off: they fill directly while the
+     * app's vault is unlocked (`fill_gate`). Applies only with stay unlocked off.
+     */
+    public var deviceAuthOnAutofill: Bool
+    /**
      * Stay unlocked while logged in to this phone (plan 18, per device, never synced): the app
      * opens without a prompt while the phone is unlocked, with no lock timer and no lock in the
      * background; filling doesn't ask. Needs a passcode; without one the phone locks as before.
@@ -13521,6 +13552,11 @@ public struct Settings: Equatable, Hashable {
          * device lock where it's set up. Off: the master password instead.
          */deviceAuthOnOpen: Bool = true, 
         /**
+         * The autofill gate (plan 03, per device, never synced): the AutoFill extension or the
+         * Autofill services ask for the device lock on every fill. Off: they fill directly while the
+         * app's vault is unlocked (`fill_gate`). Applies only with stay unlocked off.
+         */deviceAuthOnAutofill: Bool = true, 
+        /**
          * Stay unlocked while logged in to this phone (plan 18, per device, never synced): the app
          * opens without a prompt while the phone is unlocked, with no lock timer and no lock in the
          * background; filling doesn't ask. Needs a passcode; without one the phone locks as before.
@@ -13538,6 +13574,7 @@ public struct Settings: Equatable, Hashable {
         self.wifiOffers = wifiOffers
         self.showCodesOnWatch = showCodesOnWatch
         self.deviceAuthOnOpen = deviceAuthOnOpen
+        self.deviceAuthOnAutofill = deviceAuthOnAutofill
         self.stayUnlocked = stayUnlocked
     }
 
@@ -13569,6 +13606,7 @@ public struct FfiConverterTypeSettings: FfiConverterRustBuffer {
                 wifiOffers: FfiConverterBool.read(from: &buf), 
                 showCodesOnWatch: FfiConverterBool.read(from: &buf), 
                 deviceAuthOnOpen: FfiConverterBool.read(from: &buf), 
+                deviceAuthOnAutofill: FfiConverterBool.read(from: &buf), 
                 stayUnlocked: FfiConverterBool.read(from: &buf)
         )
     }
@@ -13586,6 +13624,7 @@ public struct FfiConverterTypeSettings: FfiConverterRustBuffer {
         FfiConverterBool.write(value.wifiOffers, into: &buf)
         FfiConverterBool.write(value.showCodesOnWatch, into: &buf)
         FfiConverterBool.write(value.deviceAuthOnOpen, into: &buf)
+        FfiConverterBool.write(value.deviceAuthOnAutofill, into: &buf)
         FfiConverterBool.write(value.stayUnlocked, into: &buf)
     }
 }
@@ -23056,6 +23095,9 @@ private let initializationResult: InitializationResult = {
     if (uniffi_octapass_mobile_checksum_method_octapassvault_start_ssh_agent() != 25171) {
         return InitializationResult.apiChecksumMismatch
     }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_fills_without_prompt() != 16072) {
+        return InitializationResult.apiChecksumMismatch
+    }
     if (uniffi_octapass_mobile_checksum_method_octapassvault_create_local_vault() != 30446) {
         return InitializationResult.apiChecksumMismatch
     }
@@ -23245,7 +23287,7 @@ private let initializationResult: InitializationResult = {
     if (uniffi_octapass_mobile_checksum_method_octapassvault_email_breach_checks_available() != 13671) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_mobile_checksum_method_octapassvault_enable_device_unlock() != 27670) {
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_enable_device_unlock() != 11413) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_octapass_mobile_checksum_method_octapassvault_enable_organiser_recovery() != 42987) {

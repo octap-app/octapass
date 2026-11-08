@@ -14,6 +14,16 @@
 //!
 //! The 14-day master password rule applies to it as to device unlock: when it's due,
 //! `unlock_stay_unlocked` fails with `PasswordRequired` until the password unlocks once.
+//!
+//! **The fill key** (plan 03, *Two device-auth gates*, the autofill gate off): the same key with
+//! the moment it stops working in front, which the app keeps in the same kind of platform item
+//! while its own vault is unlocked, and deletes when it locks. The autofill extension or services
+//! fill with it without a prompt until then ([`LocalStore::unlock_fill_key`]); the deadline is the
+//! app's lock timer, so a suspended app that can't delete it in time still stops it.
+//!
+//! ```text
+//! fill key = 0x02 ‖ expires at (u64 big-endian, ms since 1970) ‖ stay-unlocked key
+//! ```
 
 use std::sync::Arc;
 
@@ -27,6 +37,8 @@ use crate::error::{OctaPassError, Result};
 use crate::session::Session;
 
 const FORMAT: u8 = 1;
+const FILL_FORMAT: u8 = 2;
+const FILL_HEADER_LEN: usize = 1 + 8;
 const SECRET_LEN: usize = 32;
 const HEADER_LEN: usize = 1 + SECRET_LEN + DEVICE_SALT_LEN;
 
@@ -67,6 +79,35 @@ impl LocalStore {
             .map_err(|_| OctaPassError::DeviceUnlockFailed)?;
         let session = CoreSession::unlock_with_device_key(data.account, secret, salt, wrapped_ask)?;
         Ok(Session::new(session))
+    }
+
+    /// A fill key for the session's account that works until `expires_at_ms` (ms since 1970):
+    /// keep it in the same kind of platform item as the stay-unlocked key, and delete it when the
+    /// app's vault locks.
+    pub fn fill_key(&self, session: Arc<Session>, expires_at_ms: u64) -> Result<Vec<u8>> {
+        let inner = Zeroizing::new(self.stay_unlocked_key(session)?);
+        let mut key = Vec::with_capacity(FILL_HEADER_LEN + inner.len());
+        key.push(FILL_FORMAT);
+        key.extend_from_slice(&expires_at_ms.to_be_bytes());
+        key.extend_from_slice(&inner);
+        Ok(key)
+    }
+
+    /// Unlocks with what [`fill_key`](Self::fill_key) returned, without a prompt. `None` once it
+    /// has expired (the app's vault has locked by now): ask as before, and delete it. Fails like
+    /// [`unlock_stay_unlocked`](Self::unlock_stay_unlocked) otherwise.
+    pub fn unlock_fill_key(&self, key: Vec<u8>) -> Result<Option<Arc<Session>>> {
+        let key = Zeroizing::new(key);
+        if key.len() <= FILL_HEADER_LEN || key[0] != FILL_FORMAT {
+            return Err(OctaPassError::DeviceUnlockFailed);
+        }
+        let mut expires = [0u8; 8];
+        expires.copy_from_slice(&key[1..FILL_HEADER_LEN]);
+        if crate::now_ms() >= u64::from_be_bytes(expires) {
+            return Ok(None);
+        }
+        self.unlock_stay_unlocked(key[FILL_HEADER_LEN..].to_vec())
+            .map(Some)
     }
 
     /// The 14-day master password check is due: the stay-unlocked key won't open the vault
@@ -137,6 +178,61 @@ mod tests {
         store.unlock_local(PASSWORD.into(), None).unwrap();
         assert!(!store.password_required());
         assert!(store.unlock_stay_unlocked(key).is_ok());
+    }
+
+    #[test]
+    fn the_fill_key_opens_the_vault_until_it_expires() {
+        let dir = tempfile::tempdir().unwrap();
+        let (store, session) = store(&dir);
+        let later = now_ms() + 60_000;
+        let key = store.fill_key(session.clone(), later).unwrap();
+        assert_eq!(key[0], FILL_FORMAT);
+        let other =
+            LocalStore::open(dir.path().join("a.opstore").to_string_lossy().into()).unwrap();
+        assert!(other.unlock_fill_key(key.clone()).unwrap().is_some());
+        // Not a stay-unlocked key, and a stay-unlocked key isn't a fill key.
+        assert!(matches!(
+            other.unlock_stay_unlocked(key),
+            Err(OctaPassError::DeviceUnlockFailed)
+        ));
+        let stay = store.stay_unlocked_key(session.clone()).unwrap();
+        assert!(matches!(
+            other.unlock_fill_key(stay),
+            Err(OctaPassError::DeviceUnlockFailed)
+        ));
+        // Past its deadline it opens nothing.
+        let expired = store.fill_key(session.clone(), now_ms() - 1).unwrap();
+        assert!(other.unlock_fill_key(expired).unwrap().is_none());
+        // The key under the deadline is checked as before.
+        let mut damaged = store.fill_key(session, later).unwrap();
+        damaged[FILL_HEADER_LEN + 1] ^= 1;
+        assert!(matches!(
+            other.unlock_fill_key(damaged),
+            Err(OctaPassError::DeviceUnlockFailed)
+        ));
+        for bad in [vec![], vec![FILL_FORMAT; FILL_HEADER_LEN]] {
+            assert!(matches!(
+                other.unlock_fill_key(bad),
+                Err(OctaPassError::DeviceUnlockFailed)
+            ));
+        }
+    }
+
+    #[test]
+    fn the_14_day_check_stops_the_fill_key() {
+        let dir = tempfile::tempdir().unwrap();
+        let (store, session) = store(&dir);
+        let key = store.fill_key(session, now_ms() + 60_000).unwrap();
+        store
+            .mutate(|data| {
+                data.password_unlocked_at = now_ms() - PASSWORD_INTERVAL_MS - 1;
+                Ok(())
+            })
+            .unwrap();
+        assert!(matches!(
+            store.unlock_fill_key(key),
+            Err(OctaPassError::PasswordRequired)
+        ));
     }
 
     #[test]

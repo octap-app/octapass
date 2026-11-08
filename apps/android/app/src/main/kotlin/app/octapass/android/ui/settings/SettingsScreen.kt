@@ -363,9 +363,11 @@ private fun StayUnlockedGates() {
 }
 
 /**
- * The app-open gate (plan 03, this phone only). With no lock Octa Pass can use there's nothing to
- * ask with: opening doesn't ask while the vault stays unlocked, and this says so. While "Stay
- * unlocked" is on ([stays]) the gate doesn't apply: shown, greyed out (plan 18).
+ * The two gates (plan 03, this phone only): asking when the app opens, and asking on every fill
+ * (the Autofill and Credential Manager services), with its warning while it's off. With no lock
+ * Octa Pass can use there's nothing to ask with: opening and filling don't ask while the vault
+ * stays unlocked, and this says so. While "Stay unlocked" is on ([stays]) the gates don't apply:
+ * shown, greyed out (plan 18).
  */
 @Composable
 private fun DeviceAuthSection(stays: Boolean) {
@@ -374,6 +376,7 @@ private fun DeviceAuthSection(stays: Boolean) {
     val methods = rememberLive(model) { runCatching { model.vault.unlockMethods() }.getOrNull() }.data
     val lockless = methods != null && !methods.deviceUnlockEnabled
     val enabled = !lockless && !stays
+    val scope = rememberCoroutineScope()
     SettingsSection(stringResource(R.string.deviceAuth_title), tag = "settings.deviceAuth") {
         if (stays) StayUnlockedGates()
         SettingsRow(
@@ -382,6 +385,16 @@ private fun DeviceAuthSection(stays: Boolean) {
             onClick = if (enabled) ({ model.updateSettings { it.copy(deviceAuthOnOpen = !it.deviceAuthOnOpen) } }) else null,
             modifier = Modifier.testTag("settings.deviceAuthOpen"),
         ) { Switch(settings.deviceAuthOnOpen, null, enabled = enabled) }
+        SettingsRow(
+            stringResource(R.string.deviceAuth_autofill),
+            stringResource(R.string.deviceAuth_autofillHelp),
+            // Off: the app keeps the services' fill key in the Keystore, which can take a moment.
+            onClick = if (enabled) ({ scope.launch(Dispatchers.IO) { model.updateSettings { it.copy(deviceAuthOnAutofill = !it.deviceAuthOnAutofill) } } }) else null,
+            modifier = Modifier.testTag("settings.deviceAuthAutofill"),
+        ) { Switch(settings.deviceAuthOnAutofill, null, enabled = enabled) }
+        if (!stays && !settings.deviceAuthOnAutofill) {
+            Alert(stringResource(R.string.deviceAuth_autofillOff), AlertTone.Warn, Modifier.padding(horizontal = 16.dp, vertical = 4.dp).testTag("settings.deviceAuthAutofillOff"))
+        }
         SettingsRow(stringResource(R.string.deviceAuth_revealHelp), null)
         if (lockless && !stays) Alert(stringResource(R.string.deviceAuth_lockless), AlertTone.Info, Modifier.padding(horizontal = 16.dp, vertical = 8.dp))
     }

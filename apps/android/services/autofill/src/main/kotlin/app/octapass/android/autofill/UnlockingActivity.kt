@@ -29,9 +29,10 @@ class Row(val label: CharSequence, val pick: () -> Unit)
 
 /**
  * An invisible activity that unlocks the shared store before doing what the system asked: with
- * no prompt at all while "Stay unlocked" is on (plan 18), otherwise the device lock first when
- * device unlock is on (plan 03), otherwise, or when that fails, the master password. The keys are
- * zeroed when it finishes.
+ * no prompt at all while "Stay unlocked" is on (plan 18) or while the app is unlocked with "Ask on
+ * every fill" off (plan 03, the fill key), otherwise the device lock first when device unlock is
+ * on (plan 03), otherwise, or when that fails, the master password. The keys are zeroed when it
+ * finishes.
  */
 abstract class UnlockingActivity : AppCompatActivity() {
     private val work = Executors.newSingleThreadExecutor()
@@ -77,14 +78,15 @@ abstract class UnlockingActivity : AppCompatActivity() {
     }
 
     /**
-     * Stay unlocked (plan 18): the app's key for this account opens the store with no prompt. Never
-     * for what asks for the master password every time ([passwordOnly]). Without the key, with the
-     * 14-day check due or a key that no longer works, the vault stays locked and today's unlock
-     * follows. Runs off the main thread.
+     * Stay unlocked (plan 18), or the autofill gate off while the app is unlocked (plan 03): the
+     * app's key for this account opens the store with no prompt. Never for what asks for the
+     * master password every time ([passwordOnly]). Without a key, with the 14-day check due or a
+     * key that no longer works, the vault stays locked and today's unlock follows. Runs off the
+     * main thread.
      */
     private fun stayUnlocked(vault: AutofillVault) {
         if (passwordOnly) return
-        runCatching { vault.unlockStayingUnlocked() }.onFailure { Log.w(TAG, "stay unlocked failed", it) }
+        runCatching { vault.unlockWithoutPrompt() }.onFailure { Log.w(TAG, "opening without a prompt failed", it) }
     }
 
     override fun onDestroy() {

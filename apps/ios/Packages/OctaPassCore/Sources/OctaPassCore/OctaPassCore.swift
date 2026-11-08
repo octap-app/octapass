@@ -951,6 +951,13 @@ public protocol LocalStoreProtocol: AnyObject, Sendable {
     func unlockLocal(password: String, chipSecret: Data?) throws  -> Session
     
     /**
+     * A fill key for the session's account that works until `expires_at_ms` (ms since 1970):
+     * keep it in the same kind of platform item as the stay-unlocked key, and delete it when the
+     * app's vault locks.
+     */
+    func fillKey(session: Session, expiresAtMs: UInt64) throws  -> Data
+    
+    /**
      * The 14-day master password check is due: the stay-unlocked key won't open the vault
      * until the master password unlocks it once.
      */
@@ -962,6 +969,13 @@ public protocol LocalStoreProtocol: AnyObject, Sendable {
      * new key; the old one keeps working until its item is deleted.
      */
     func stayUnlockedKey(session: Session) throws  -> Data
+    
+    /**
+     * Unlocks with what [`fill_key`](Self::fill_key) returned, without a prompt. `None` once it
+     * has expired (the app's vault has locked by now): ask as before, and delete it. Fails like
+     * [`unlock_stay_unlocked`](Self::unlock_stay_unlocked) otherwise.
+     */
+    func unlockFillKey(key: Data) throws  -> Session?
     
     /**
      * Unlocks with what [`stay_unlocked_key`](Self::stay_unlocked_key) returned, without a
@@ -1255,6 +1269,22 @@ open func unlockLocal(password: String, chipSecret: Data?)throws  -> Session  {
 }
     
     /**
+     * A fill key for the session's account that works until `expires_at_ms` (ms since 1970):
+     * keep it in the same kind of platform item as the stay-unlocked key, and delete it when the
+     * app's vault locks.
+     */
+open func fillKey(session: Session, expiresAtMs: UInt64)throws  -> Data  {
+    return try  FfiConverterData.lift(try rustCallWithError(FfiConverterTypeOctaPassError_lift) {
+        uniffiCallStatus in
+    uniffi_octapass_ffi_fn_method_localstore_fill_key(
+            self.uniffiCloneHandle(),
+        FfiConverterTypeSession_lower(session),
+        FfiConverterUInt64.lower(expiresAtMs),uniffiCallStatus
+    )
+})
+}
+    
+    /**
      * The 14-day master password check is due: the stay-unlocked key won't open the vault
      * until the master password unlocks it once.
      */
@@ -1278,6 +1308,21 @@ open func stayUnlockedKey(session: Session)throws  -> Data  {
     uniffi_octapass_ffi_fn_method_localstore_stay_unlocked_key(
             self.uniffiCloneHandle(),
         FfiConverterTypeSession_lower(session),uniffiCallStatus
+    )
+})
+}
+    
+    /**
+     * Unlocks with what [`fill_key`](Self::fill_key) returned, without a prompt. `None` once it
+     * has expired (the app's vault has locked by now): ask as before, and delete it. Fails like
+     * [`unlock_stay_unlocked`](Self::unlock_stay_unlocked) otherwise.
+     */
+open func unlockFillKey(key: Data)throws  -> Session?  {
+    return try  FfiConverterOptionTypeSession.lift(try rustCallWithError(FfiConverterTypeOctaPassError_lift) {
+        uniffiCallStatus in
+    uniffi_octapass_ffi_fn_method_localstore_unlock_fill_key(
+            self.uniffiCloneHandle(),
+        FfiConverterData.lower(key),uniffiCallStatus
     )
 })
 }
@@ -3824,20 +3869,13 @@ public struct ItemSummary: Equatable, Hashable {
     public var username: String?
     public var hasTotp: Bool
     public var hasPasskey: Bool
-    /**
-     * A non-empty password: a login made by saving a passkey has none, so it can't fill a password.
-     */
-    public var hasPassword: Bool
 
     // Default memberwise initializers are never public by default, so we
     // declare one manually.
     public init(itemId: String, vaultId: String, 
         /**
          * `login`, `secureNote`, `card`, `identity`, `password`, or a type from a newer client.
-         */itemType: String, title: String, subtitle: String?, urls: [String], favorite: Bool, username: String?, hasTotp: Bool, hasPasskey: Bool, 
-        /**
-         * A non-empty password: a login made by saving a passkey has none, so it can't fill a password.
-         */hasPassword: Bool) {
+         */itemType: String, title: String, subtitle: String?, urls: [String], favorite: Bool, username: String?, hasTotp: Bool, hasPasskey: Bool) {
         self.itemId = itemId
         self.vaultId = vaultId
         self.itemType = itemType
@@ -3848,7 +3886,6 @@ public struct ItemSummary: Equatable, Hashable {
         self.username = username
         self.hasTotp = hasTotp
         self.hasPasskey = hasPasskey
-        self.hasPassword = hasPassword
     }
 
     
@@ -3876,8 +3913,7 @@ public struct FfiConverterTypeItemSummary: FfiConverterRustBuffer {
                 favorite: FfiConverterBool.read(from: &buf), 
                 username: FfiConverterOptionString.read(from: &buf), 
                 hasTotp: FfiConverterBool.read(from: &buf), 
-                hasPasskey: FfiConverterBool.read(from: &buf), 
-                hasPassword: FfiConverterBool.read(from: &buf)
+                hasPasskey: FfiConverterBool.read(from: &buf)
         )
     }
 
@@ -3892,7 +3928,6 @@ public struct FfiConverterTypeItemSummary: FfiConverterRustBuffer {
         FfiConverterOptionString.write(value.username, into: &buf)
         FfiConverterBool.write(value.hasTotp, into: &buf)
         FfiConverterBool.write(value.hasPasskey, into: &buf)
-        FfiConverterBool.write(value.hasPassword, into: &buf)
     }
 }
 
@@ -6950,6 +6985,30 @@ fileprivate struct FfiConverterOptionData: FfiConverterRustBuffer {
 #if swift(>=5.8)
 @_documentation(visibility: private)
 #endif
+fileprivate struct FfiConverterOptionTypeSession: FfiConverterRustBuffer {
+    typealias SwiftType = Session?
+
+    public static func write(_ value: SwiftType, into buf: inout [UInt8]) {
+        guard let value = value else {
+            writeInt(&buf, Int8(0))
+            return
+        }
+        writeInt(&buf, Int8(1))
+        FfiConverterTypeSession.write(value, into: &buf)
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> SwiftType {
+        switch try readInt(&buf) as Int8 {
+        case 0: return nil
+        case 1: return try FfiConverterTypeSession.read(from: &buf)
+        default: throw UniffiInternalError.unexpectedOptionalTag
+        }
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
 fileprivate struct FfiConverterOptionTypeCardFields: FfiConverterRustBuffer {
     typealias SwiftType = CardFields?
 
@@ -7650,250 +7709,256 @@ private let initializationResult: InitializationResult = {
     if bindings_contract_version != scaffolding_contract_version {
         return InitializationResult.contractVersionMismatch
     }
-    if (uniffi_octapass_ffi_checksum_func_passkey_assertion_request_from_json() != 55647) {
+    if (uniffi_octapass_ffi_checksum_func_passkey_assertion_request_from_json() != 11528) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_func_passkey_creation_request_from_json() != 64550) {
+    if (uniffi_octapass_ffi_checksum_func_passkey_creation_request_from_json() != 22491) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_func_estimate_strength() != 55823) {
+    if (uniffi_octapass_ffi_checksum_func_estimate_strength() != 62457) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_func_generate_password() != 7639) {
+    if (uniffi_octapass_ffi_checksum_func_generate_password() != 33339) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_func_normalize_secret_key() != 64835) {
+    if (uniffi_octapass_ffi_checksum_func_normalize_secret_key() != 57782) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_func_read_qr_image() != 42447) {
+    if (uniffi_octapass_ffi_checksum_func_read_qr_image() != 5811) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_func_suggested_password() != 40543) {
+    if (uniffi_octapass_ffi_checksum_func_suggested_password() != 61887) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_func_summarize_qr_scans() != 842) {
+    if (uniffi_octapass_ffi_checksum_func_summarize_qr_scans() != 19372) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_func_totp_code() != 27567) {
+    if (uniffi_octapass_ffi_checksum_func_totp_code() != 1278) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_func_website_for_page() != 58378) {
+    if (uniffi_octapass_ffi_checksum_func_website_for_page() != 49322) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_httpclient_send() != 62785) {
+    if (uniffi_octapass_ffi_checksum_method_httpclient_send() != 26082) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_passwordreset_finish() != 61438) {
+    if (uniffi_octapass_ffi_checksum_method_passwordreset_finish() != 12622) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_change_master_password() != 32482) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_change_master_password() != 31362) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_start_password_reset() != 4783) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_start_password_reset() != 52837) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_verify_password_reset() != 13876) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_verify_password_reset() != 10627) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_base_url() != 55243) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_base_url() != 61958) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_confirm_totp_setup() != 50121) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_confirm_totp_setup() != 44745) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_delete_account() != 26751) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_delete_account() != 38474) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_disable_two_step() != 4405) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_disable_two_step() != 21967) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_log_in() != 848) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_log_in() != 65385) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_log_in_trusted() != 18940) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_log_in_trusted() != 46457) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_log_out() != 14945) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_log_out() != 52632) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_reauth() != 25003) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_reauth() != 4341) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_refresh() != 33292) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_refresh() != 26993) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_remove_security_key() != 62857) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_remove_security_key() != 20413) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_renew_recovery_codes() != 44322) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_renew_recovery_codes() != 56656) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_server_info() != 64318) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_server_info() != 29186) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_start_signup() != 4212) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_start_signup() != 43165) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_start_totp_setup() != 17308) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_start_totp_setup() != 26645) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_sync() != 32733) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_sync() != 27899) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_two_step_status() != 2721) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_two_step_status() != 29013) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_upload_pending() != 28388) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_upload_pending() != 62329) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_secondfactorlogin_expires_in() != 31454) {
+    if (uniffi_octapass_ffi_checksum_method_secondfactorlogin_expires_in() != 29449) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_secondfactorlogin_finish_with_recovery_code() != 53442) {
+    if (uniffi_octapass_ffi_checksum_method_secondfactorlogin_finish_with_recovery_code() != 29051) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_secondfactorlogin_finish_with_totp() != 3946) {
+    if (uniffi_octapass_ffi_checksum_method_secondfactorlogin_finish_with_totp() != 47557) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_secondfactorlogin_methods() != 28873) {
+    if (uniffi_octapass_ffi_checksum_method_secondfactorlogin_methods() != 11244) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_signup_dev_verification_code() != 8535) {
+    if (uniffi_octapass_ffi_checksum_method_signup_dev_verification_code() != 26721) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_signup_email() != 3955) {
+    if (uniffi_octapass_ffi_checksum_method_signup_email() != 65204) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_signup_finish() != 37570) {
+    if (uniffi_octapass_ffi_checksum_method_signup_finish() != 59005) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_signup_recovery_code() != 8316) {
+    if (uniffi_octapass_ffi_checksum_method_signup_recovery_code() != 2139) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_signup_secret_key() != 49235) {
+    if (uniffi_octapass_ffi_checksum_method_signup_secret_key() != 13831) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_ssologin_expires_in() != 13163) {
+    if (uniffi_octapass_ffi_checksum_method_ssologin_expires_in() != 10815) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_ssologin_finish() != 39278) {
+    if (uniffi_octapass_ffi_checksum_method_ssologin_finish() != 1328) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_ssologin_org_name() != 10140) {
+    if (uniffi_octapass_ffi_checksum_method_ssologin_org_name() != 3331) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_ssologin_url() != 33502) {
+    if (uniffi_octapass_ffi_checksum_method_ssologin_url() != 63323) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_create_passkey() != 59008) {
+    if (uniffi_octapass_ffi_checksum_method_session_create_passkey() != 48275) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_find_passkeys() != 51946) {
+    if (uniffi_octapass_ffi_checksum_method_session_find_passkeys() != 49444) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_get_passkey_assertion() != 35010) {
+    if (uniffi_octapass_ffi_checksum_method_session_get_passkey_assertion() != 27331) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_account_id() != 55151) {
+    if (uniffi_octapass_ffi_checksum_method_session_account_id() != 50319) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_credential_identities() != 12941) {
+    if (uniffi_octapass_ffi_checksum_method_session_credential_identities() != 21025) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_email() != 18241) {
+    if (uniffi_octapass_ffi_checksum_method_session_email() != 25545) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_get_item() != 58895) {
+    if (uniffi_octapass_ffi_checksum_method_session_get_item() != 9407) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_is_locked() != 49379) {
+    if (uniffi_octapass_ffi_checksum_method_session_is_locked() != 62002) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_list_items() != 57143) {
+    if (uniffi_octapass_ffi_checksum_method_session_list_items() != 57682) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_lock() != 41145) {
+    if (uniffi_octapass_ffi_checksum_method_session_lock() != 43250) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_match_logins() != 50619) {
+    if (uniffi_octapass_ffi_checksum_method_session_match_logins() != 17379) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_other_logins() != 10931) {
+    if (uniffi_octapass_ffi_checksum_method_session_other_logins() != 44664) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_save_login() != 48380) {
+    if (uniffi_octapass_ffi_checksum_method_session_save_login() != 9354) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_totp_code() != 44827) {
+    if (uniffi_octapass_ffi_checksum_method_session_totp_code() != 61192) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_export_for_app() != 37315) {
+    if (uniffi_octapass_ffi_checksum_method_session_export_for_app() != 51179) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_update_account() != 55992) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_update_account() != 60306) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_account_id() != 23494) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_account_id() != 29590) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_device_unlock_status() != 19720) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_device_unlock_status() != 58380) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_disable_device_unlock() != 16976) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_disable_device_unlock() != 3382) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_email() != 44695) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_email() != 5545) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_enable_device_unlock() != 18658) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_enable_device_unlock() != 7866) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_has_pending_changes() != 49302) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_has_pending_changes() != 18108) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_reload() != 57543) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_reload() != 36902) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_server_url() != 10918) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_server_url() != 6729) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_unlock_with_device() != 37398) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_unlock_with_device() != 35298) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_unlock_with_password() != 16018) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_unlock_with_password() != 29911) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_add_to_inbox() != 37639) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_add_to_inbox() != 44502) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_inbox_accepts() != 60665) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_inbox_accepts() != 26432) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_merge_inbox() != 3767) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_merge_inbox() != 51177) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_is_local() != 56477) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_is_local() != 31002) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_unlock_local() != 8464) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_unlock_local() != 54986) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_password_required() != 25745) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_fill_key() != 29312) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_stay_unlocked_key() != 2027) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_password_required() != 4094) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_unlock_stay_unlocked() != 63417) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_stay_unlocked_key() != 23748) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_constructor_octapassserver_new() != 59691) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_unlock_fill_key() != 7025) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_constructor_localstore_create() != 59173) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_unlock_stay_unlocked() != 46045) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_constructor_localstore_open() != 65076) {
+    if (uniffi_octapass_ffi_checksum_constructor_octapassserver_new() != 54391) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_ffi_checksum_constructor_localstore_create() != 42491) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_ffi_checksum_constructor_localstore_open() != 26798) {
         return InitializationResult.apiChecksumMismatch
     }
 

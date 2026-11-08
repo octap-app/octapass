@@ -34,7 +34,6 @@ As of 2026-11-05:
 - **Push notifications in use.** [Push sync](/docs/self-hosting/push-relay/) is built and tested against stand-ins for Apple and Google, but the Octa Pass push relay isn't running yet, so phones sync when you open the app and while it's open.
 - **Organisations in the Mac and phone apps.** [Organisations](/docs/features/organisations/) run from the web vault, the Windows and Linux app and the CLI. [SAML](/docs/features/single-sign-on/) and [SCIM](/docs/features/scim/) are built but haven't been tried with real identity providers yet.
 - **Witnesses for the hosted service.** [Key log witnesses](/docs/self-hosting/key-log-witnesses/) are built; nobody has been chosen to witness the hosted service yet.
-- **Autofill without asking on phones.** The phone apps ask you to unlock on every fill.
 - **Nearby**, the quick list of items saved with a place. It shows as "Soon".
 - **More support for the newer [item types](/docs/features/item-types/):** expiry warnings for software licences and API credentials, autofill from them, and creating them from the CLI.
 - **Our own masked email service.** The forwarding service is written but not running, and whether the hosted service will run it hasn't been decided. [Masked email](/docs/features/masked-email/) works with the services it integrates with today.

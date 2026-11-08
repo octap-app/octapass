@@ -81,6 +81,37 @@ final class StayUnlockedTests: UITestCase {
         waitForVault()
     }
 
+    /// The autofill gate (plan 03, "Ask on every fill"): greyed out under stay unlocked; with it off
+    /// and Face ID on, the switch works and turning it off shows the warning.
+    func testTheAutofillGateAndItsWarning() {
+        launchFresh()
+        signUp(email: "ios-\(UUID().uuidString.prefix(8).lowercased())@example.com")
+        waitFor(element("kit-saved"), timeout: 30)
+        scrollAndTap("kit-saved")
+        tap("kit-continue")
+        tap("open-vault")
+        // Face ID on (the Simulator answers it), so the gate has something to ask with.
+        tap("offer-turn-on", timeout: 30)
+        gone(element("offer-turn-on"))
+        waitForVault()
+        tab(3)
+        let gate = waitFor(reveal("settings-device-auth-autofill"), timeout: 20, "the autofill switch").switches.firstMatch
+        XCTAssertFalse(gate.isEnabled, "greyed out while staying unlocked")
+        XCTAssertFalse(element("settings-device-auth-autofill-off").exists)
+
+        reveal("settings-stay-unlocked").switches.firstMatch.tap()
+        gone(element("settings-stay-unlocked-gates"), timeout: 10)
+        let enabled = NSPredicate(format: "isEnabled == true")
+        wait(for: [expectation(for: enabled, evaluatedWith: gate)], timeout: 10)
+        XCTAssertEqual(gate.value as? String, "1", "on by default: every fill asks")
+
+        gate.tap()
+        waitFor(reveal("settings-device-auth-autofill-off"), timeout: 10, "the warning")
+        snap("64-autofill-gate-off")
+        reveal("settings-device-auth-autofill").switches.firstMatch.tap()
+        gone(element("settings-device-auth-autofill-off"), timeout: 10)
+    }
+
     /// "Lock now" holds until the user unlocks, even with stay unlocked on.
     func testLockNowHoldsUntilTheUserUnlocks() {
         launchFresh()

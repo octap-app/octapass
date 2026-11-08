@@ -47,6 +47,9 @@ public enum SharedContainer {
         public var chipKeyName: String { "chipKey.\(tag)" }
         /// The stay-unlocked key (plan 18): its Keychain item is there while the app has the setting on.
         public var stayUnlockedName: String { "stayUnlocked.\(tag)" }
+        /// The fill key (plan 03, the autofill gate off): kept like the stay-unlocked key, only while
+        /// the app's vault is unlocked (`Account::fill_key_name`).
+        public var fillKeyName: String { "unlockedFill.\(tag)" }
 
         /// `chipContext` as bytes.
         public var chipContext: Data? {

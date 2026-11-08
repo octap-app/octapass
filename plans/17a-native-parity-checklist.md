@@ -56,7 +56,7 @@ The audit was made by reading code. Rows marked closed were changed afterwards o
 | Auto-lock after inactivity | lib/useAutoLock.ts:9 | Yes | Yes | Touches count as activity |
 | Lock on background | useAutoLock.ts:18 | Yes | Yes | |
 | Lock now button | Sidebar.tsx:78; SettingsPage.tsx:132 | Yes | Yes | |
-| Stay unlocked while logged in (plan 18): the switch, on by default, its text, the gates greyed out under it | web:screens/settings/DeviceAuthSection.tsx (desktop, extension) | Yes | Yes | Not in the web vault (plan 18). iOS has no autofill gate, so only the open gate shows greyed out. The key: iOS Keychain `WhenPasscodeSetThisDeviceOnly`, Android Keystore `setUnlockedDeviceRequired(true)`, both through `NativePlatform.storeStayUnlockedKey` in `octapass-mobile`. |
+| Stay unlocked while logged in (plan 18): the switch, on by default, its text, the gates greyed out under it | web:screens/settings/DeviceAuthSection.tsx (desktop, extension) | Yes | Yes | Not in the web vault (plan 18). Both gates show greyed out under it (iOS had only the open gate until 2026-11-08). The key: iOS Keychain `WhenPasscodeSetThisDeviceOnly`, Android Keystore `setUnlockedDeviceRequired(true)`, both through `NativePlatform.storeStayUnlockedKey` in `octapass-mobile`. |
 | Stay unlocked: opens without a prompt, autofill fills without one | web:screens/auth/Lock.tsx (`unlockStayUnlocked`) | Yes | Yes | AutoFill extension and Android services use `LocalStore.unlockStayUnlocked`. |
 | Reveal and copy don't ask while the vault is open (plan 03, 2026-11-06) | web:lib/identityGate.tsx (`unlockCoversReveal`) | Yes | Yes | However the vault opened; export, the Secret Key and the account settings ask every time. |
 | Stay unlocked: falls back without a device lock, says why | DeviceAuthSection.tsx (`StayUnlockedRow`) | Yes | Yes | "Set a passcode…" / "Set a screen lock…"; the 14-day check stops it until the master password is typed. |
@@ -378,7 +378,7 @@ The audit was made by reading code. Rows marked closed were changed afterwards o
 | Secret Key show, copy, hide | SettingsPage.tsx:202 | Yes | Yes | Closed in m25-native-parity. |
 | Device auth section: rule text | DeviceAuthSection.tsx:41 | Yes | Yes | Closed in m25-native-parity. |
 | Device auth: app-open switch | DeviceAuthSection.tsx:55 | Yes | Yes | Closed in m25-native-parity. |
-| Device auth: autofill switch and warning | DeviceAuthSection.tsx:63 | **No** | **No** | Open. Plan 03 History: not built on the phones. AutoFill keeps asking on every fill. |
+| Device auth: autofill switch and warning | DeviceAuthSection.tsx:63 | Yes | Yes | Closed 2026-11-08. `Settings.deviceAuthOnAutofill`; off, the AutoFill extension and Android services fill through a fill key the app keeps only while its vault is unlocked (plan 03 History 2026-11-08). Greyed out under stay unlocked and when lockless, as on the web. |
 | Device auth: lockless notice | DeviceAuthSection.tsx:76 | Yes | Yes | Closed in m25-native-parity. |
 | Wi-Fi: offer switch | WifiSection.tsx:19 | Yes | Yes | Closed in m25-native-parity. |
 | Wi-Fi: forget Never list | WifiSection.tsx:21 | Yes | Yes | Closed in m25-native-parity. |

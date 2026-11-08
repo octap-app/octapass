@@ -1112,6 +1112,8 @@ internal object IntegrityCheckingUniffiLib {
     ): Int
     external fun uniffi_octapass_mobile_checksum_method_octapassvault_start_ssh_agent(
     ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_fills_without_prompt(
+    ): Int
     external fun uniffi_octapass_mobile_checksum_method_octapassvault_create_local_vault(
     ): Int
     external fun uniffi_octapass_mobile_checksum_method_octapassvault_delete_local_vault(
@@ -1609,6 +1611,8 @@ internal object UniffiLib {
     ): Long
     external fun uniffi_octapass_mobile_fn_method_octapassvault_start_ssh_agent(`ptr`: Long,`prompts`: Long,`endpoint`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, 
     ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_fills_without_prompt(`ptr`: Long,uniffi_out_err: UniffiRustCallStatus, 
+    ): Byte
     external fun uniffi_octapass_mobile_fn_method_octapassvault_create_local_vault(`ptr`: Long,`name`: RustBuffer.ByValue,`password`: RustBuffer.ByValue,
     ): Long
     external fun uniffi_octapass_mobile_fn_method_octapassvault_delete_local_vault(`ptr`: Long,`password`: RustBuffer.ByValue,
@@ -2506,6 +2510,9 @@ private fun uniffiCheckApiChecksums(lib: IntegrityCheckingUniffiLib) {
     if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_start_ssh_agent() and 0xFFFF) != 25171) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_fills_without_prompt() and 0xFFFF) != 16072) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
     if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_create_local_vault() and 0xFFFF) != 30446) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
@@ -2695,7 +2702,7 @@ private fun uniffiCheckApiChecksums(lib: IntegrityCheckingUniffiLib) {
     if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_email_breach_checks_available() and 0xFFFF) != 13671) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_enable_device_unlock() and 0xFFFF) != 27670) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_enable_device_unlock() and 0xFFFF) != 11413) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
     if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_enable_organiser_recovery() and 0xFFFF) != 42987) {
@@ -4991,6 +4998,12 @@ public interface OctaPassVaultInterface {
     fun `startSshAgent`(`prompts`: SshPromptsCallback, `endpoint`: kotlin.String?): SshAgentHandle
     
     /**
+     * Whether the AutoFill extension or the Autofill services can fill without a prompt right
+     * now because of the autofill gate (not stay unlocked): the fill key is on this phone.
+     */
+    fun `fillsWithoutPrompt`(): kotlin.Boolean
+    
+    /**
      * "Use on this device only": a new vault with no account, unlocked and current. Runs
      * Argon2id twice. Returns the backup recovery code, for the local Recovery Kit.
      */
@@ -5303,6 +5316,9 @@ public interface OctaPassVaultInterface {
      */
     suspend fun `emailBreachChecksAvailable`(): kotlin.Boolean
     
+    /**
+     * Device unlock decides whether the autofill gate has anything to ask with (`fill_gate`).
+     */
     suspend fun `enableDeviceUnlock`()
     
     /**
@@ -5993,6 +6009,23 @@ open class OctaPassVault: Disposable, AutoCloseable, OctaPassVaultInterface
         
         FfiConverterTypeSshPromptsCallback.lower(`prompts`),
         FfiConverterOptionalString.lower(`endpoint`),_status)
+}
+    }
+    )
+    }
+    
+
+    
+    /**
+     * Whether the AutoFill extension or the Autofill services can fill without a prompt right
+     * now because of the autofill gate (not stay unlocked): the fill key is on this phone.
+     */override fun `fillsWithoutPrompt`(): kotlin.Boolean {
+            return FfiConverterBoolean.lift(
+    callWithHandle {
+    uniffiRustCall() { _status ->
+    UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_fills_without_prompt(
+        it,
+        _status)
 }
     }
     )
@@ -7531,6 +7564,9 @@ open class OctaPassVault: Disposable, AutoCloseable, OctaPassVaultInterface
     }
 
     
+    /**
+     * Device unlock decides whether the autofill gate has anything to ask with (`fill_gate`).
+     */
     @Throws(VaultException::class)
     @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
     override suspend fun `enableDeviceUnlock`() {
@@ -16751,6 +16787,13 @@ data class Settings (
     var `deviceAuthOnOpen`: kotlin.Boolean = true 
     , 
     /**
+     * The autofill gate (plan 03, per device, never synced): the AutoFill extension or the
+     * Autofill services ask for the device lock on every fill. Off: they fill directly while the
+     * app's vault is unlocked (`fill_gate`). Applies only with stay unlocked off.
+     */
+    var `deviceAuthOnAutofill`: kotlin.Boolean = true 
+    , 
+    /**
      * Stay unlocked while logged in to this phone (plan 18, per device, never synced): the app
      * opens without a prompt while the phone is unlocked, with no lock timer and no lock in the
      * background; filling doesn't ask. Needs a passcode; without one the phone locks as before.
@@ -16786,6 +16829,7 @@ public object FfiConverterTypeSettings: FfiConverterRustBuffer<Settings> {
             FfiConverterBoolean.read(buf),
             FfiConverterBoolean.read(buf),
             FfiConverterBoolean.read(buf),
+            FfiConverterBoolean.read(buf),
         )
     }
 
@@ -16802,6 +16846,7 @@ public object FfiConverterTypeSettings: FfiConverterRustBuffer<Settings> {
             FfiConverterBoolean.allocationSize(value.`wifiOffers`) +
             FfiConverterBoolean.allocationSize(value.`showCodesOnWatch`) +
             FfiConverterBoolean.allocationSize(value.`deviceAuthOnOpen`) +
+            FfiConverterBoolean.allocationSize(value.`deviceAuthOnAutofill`) +
             FfiConverterBoolean.allocationSize(value.`stayUnlocked`)
     )
 
@@ -16818,6 +16863,7 @@ public object FfiConverterTypeSettings: FfiConverterRustBuffer<Settings> {
             FfiConverterBoolean.write(value.`wifiOffers`, buf)
             FfiConverterBoolean.write(value.`showCodesOnWatch`, buf)
             FfiConverterBoolean.write(value.`deviceAuthOnOpen`, buf)
+            FfiConverterBoolean.write(value.`deviceAuthOnAutofill`, buf)
             FfiConverterBoolean.write(value.`stayUnlocked`, buf)
     }
 }

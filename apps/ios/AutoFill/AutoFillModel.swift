@@ -98,14 +98,15 @@ final class AutoFillModel: ObservableObject {
     }
 
     /// With "Stay unlocked" on in the app (plan 18), the key in the shared Keychain opens the store
-    /// and the extension fills with no prompt. Without it, or when it no longer opens the account,
-    /// Face ID / Touch ID or the passcode right away, as the unlock screen does (plan 03); when
-    /// the 14-day check is due, the master password.
+    /// and the extension fills with no prompt; so does the fill key the app keeps while it's
+    /// unlocked with "Ask on every fill" off (plan 03). Without either, or when it no longer opens
+    /// the account, Face ID / Touch ID or the passcode right away, as the unlock screen does
+    /// (plan 03); when the 14-day check is due, the master password.
     func start() {
         guard phase == .locked, let vault else { return }
         phase = .unlocking
         Task.detached { [vault] in
-            let result = Result { try vault.unlockStayUnlocked() }
+            let result = Result { try vault.unlockWithoutPrompt() }
             await MainActor.run {
                 switch result {
                 case .success(true):
@@ -122,15 +123,16 @@ final class AutoFillModel: ObservableObject {
     }
 
     /// `provideCredentialWithoutUserInteraction`: a picked password or one-time code suggestion
-    /// fills right away, with no screen, while "Stay unlocked" is on in the app (plan 18), as the
-    /// screen would have done with no prompt. Otherwise, or when it can't, the system opens the
-    /// screen (`prepareInterfaceToProvideCredential`). Passkeys always go through the screen.
+    /// fills right away, with no screen, while "Stay unlocked" is on in the app (plan 18) or the
+    /// app is unlocked with "Ask on every fill" off (plan 03), as the screen would have done with
+    /// no prompt. Otherwise, or when it can't, the system opens the screen
+    /// (`prepareInterfaceToProvideCredential`). Passkeys always go through the screen.
     func fillWithoutUserInteraction() {
         guard case .credential(let request) = task, request.type != .passkeyAssertion, let vault else {
             return answer(.cancel(.userInteractionRequired))
         }
         Task.detached { [vault] in
-            let opened = (try? vault.unlockStayUnlocked()) == true
+            let opened = (try? vault.unlockWithoutPrompt()) == true
             await MainActor.run {
                 guard opened, let filled = try? self.fill(request, vault: vault) else {
                     return self.answer(.cancel(.userInteractionRequired))

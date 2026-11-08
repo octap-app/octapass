@@ -320,10 +320,11 @@ struct EquivalentDomainsView: View {
     }
 }
 
-/// Stay unlocked (plan 18) and the app-open gate (plan 03), this phone only. With no lock Open
-/// Pass can use there's nothing to ask with: opening doesn't ask while the vault stays unlocked,
-/// and this says so. The gate applies only with stay unlocked off: it's shown under the switch,
-/// greyed out while it's on.
+/// Stay unlocked (plan 18) and the two gates (plan 03), this phone only: asking when the app opens,
+/// and asking on every fill (the AutoFill extension), with its warning while it's off. With no
+/// lock Octa Pass can use there's nothing to ask with: opening and filling don't ask while the
+/// vault stays unlocked, and this says so. The gates apply only with stay unlocked off: they're
+/// shown under the switch, greyed out while it's on.
 private struct DeviceAuthSection: View {
     @Environment(AppModel.self) private var model
     @State private var methods: UnlockMethods?
@@ -344,6 +345,19 @@ private struct DeviceAuthSection: View {
             // `.disabled` greys the switch but not text with its own colour: dim the whole row.
             .opacity(lockless || staysUnlocked ? 0.5 : 1)
             .accessibilityIdentifier("settings-device-auth-open")
+            Toggle(isOn: Binding(get: { model.settings.deviceAuthOnAutofill }, set: { on in model.update { $0.deviceAuthOnAutofill = on } })) {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(L10n.deviceAuth.autofill)
+                    Text(L10n.deviceAuth.autofillHelp).font(.footnote).foregroundStyle(Color.mist)
+                }
+            }
+            .disabled(lockless || staysUnlocked)
+            .opacity(lockless || staysUnlocked ? 0.5 : 1)
+            .accessibilityIdentifier("settings-device-auth-autofill")
+            if !staysUnlocked && !model.settings.deviceAuthOnAutofill {
+                Notice(text: L10n.deviceAuth.autofillOff, tone: .warn)
+                    .accessibilityIdentifier("settings-device-auth-autofill-off")
+            }
             if !staysUnlocked {
                 Text(L10n.deviceAuth.revealHelp).font(.footnote).foregroundStyle(Color.mist)
                 if lockless { Notice(text: L10n.deviceAuth.lockless, tone: .info) }

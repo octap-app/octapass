@@ -473,6 +473,8 @@ pub struct OctaPassVault {
     /// The user locked the vault ("Lock now"): stay unlocked (plan 18) doesn't open it again by
     /// itself until the user unlocks it once. In memory only, so a restarted app opens unlocked.
     pub(crate) held: std::sync::atomic::AtomicBool,
+    /// The deadline of the fill key this app last kept (plan 03, the autofill gate off), or none.
+    fill_key_until: Mutex<Option<u64>>,
 }
 
 #[derive(Default)]
@@ -543,6 +545,20 @@ impl OctaPassVault {
         self.vault.snapshot().session.status == VaultStatus::Unlocked
     }
 
+    /// Since the user last did something.
+    pub(crate) fn idle(&self) -> Duration {
+        self.last_activity
+            .lock()
+            .unwrap_or_else(|p| p.into_inner())
+            .elapsed()
+    }
+
+    pub(crate) fn fill_key_until(&self) -> MutexGuard<'_, Option<u64>> {
+        self.fill_key_until
+            .lock()
+            .unwrap_or_else(|p| p.into_inner())
+    }
+
     pub(crate) fn touch(&self) {
         *self.last_activity.lock().unwrap_or_else(|p| p.into_inner()) = Instant::now();
     }
@@ -562,6 +578,7 @@ impl OctaPassVault {
         {
             self.vault.lock();
         }
+        self.tick_fill_key();
     }
 
     /// Changes waiting to upload, as the sync status shows them.
@@ -830,7 +847,10 @@ impl OctaPassVault {
             last_activity: Mutex::new(Instant::now()),
             uses: Mutex::new(PendingUses::default()),
             held: std::sync::atomic::AtomicBool::new(false),
+            fill_key_until: Mutex::new(None),
         });
+        // A fill key left by the app's last run: that vault is locked now (plan 03).
+        this.vault.delete_fill_key();
         let _ = hook.set(Arc::downgrade(&this));
         this.start_auto_lock();
         Ok(this)
@@ -966,6 +986,8 @@ impl OctaPassVault {
     pub fn lock(&self) {
         self.held.store(true, std::sync::atomic::Ordering::SeqCst);
         self.pending_uses().uses.clear();
+        // Locking deletes the fill key (`MobileVault::lock`).
+        *self.fill_key_until() = None;
         self.vault.lock();
     }
 
@@ -1239,14 +1261,23 @@ impl OctaPassVault {
         .await
     }
 
+    /// Device unlock decides whether the autofill gate has anything to ask with (`fill_gate`).
     pub async fn enable_device_unlock(self: Arc<Self>) -> Result<()> {
-        self.run(|this| Ok(this.vault.enable_device_unlock()?))
-            .await
+        self.run(|this| {
+            this.vault.enable_device_unlock()?;
+            this.refresh_fill_key(true);
+            Ok(())
+        })
+        .await
     }
 
     pub async fn disable_device_unlock(self: Arc<Self>) -> Result<()> {
-        self.run(|this| Ok(this.vault.disable_device_unlock()?))
-            .await
+        self.run(|this| {
+            this.vault.disable_device_unlock()?;
+            this.refresh_fill_key(true);
+            Ok(())
+        })
+        .await
     }
 
     /// Checks it's still the owner before a secret is shown as a QR code (plan 01): the master
@@ -2434,12 +2465,21 @@ impl OctaPassVault {
         local::save_settings(Path::new(&self.config.data_dir), &settings)?;
         let stay_unlocked = settings.stay_unlocked;
         let stay_unlocked_changed = self.settings_guard().stay_unlocked != stay_unlocked;
+        let fill_changed = {
+            let before = self.settings_guard();
+            stay_unlocked_changed
+                || before.device_auth_on_autofill != settings.device_auth_on_autofill
+                || before.auto_lock_minutes != settings.auto_lock_minutes
+        };
         if !settings.show_site_icons {
             self.icons.clear();
         }
         *self.settings_guard() = settings;
         if stay_unlocked_changed {
             self.stay_unlocked_changed(stay_unlocked)?;
+        }
+        if fill_changed {
+            self.refresh_fill_key(true);
         }
         Ok(())
     }
@@ -2498,10 +2538,14 @@ impl OctaPassVault {
 
     /// The app went to the background: locks at once when the settings say so.
     pub fn app_did_enter_background(&self) {
-        if self.settings_guard().lock_on_background && !self.stays_unlocked() {
+        let lock = self.settings_guard().lock_on_background;
+        if lock && !self.stays_unlocked() {
+            *self.fill_key_until() = None;
             self.vault.lock();
         } else {
             self.vault.auto_backup();
+            // The app may not run again before its timer is up: the fill key's deadline is it.
+            self.refresh_fill_key(false);
         }
     }
 
@@ -2509,6 +2553,7 @@ impl OctaPassVault {
     /// upload what an autofill extension saved meanwhile).
     pub fn app_will_enter_foreground(self: Arc<Self>) {
         self.check_auto_lock();
+        self.refresh_fill_key(false);
         if self.is_unlocked() {
             self.sync_soon();
         }

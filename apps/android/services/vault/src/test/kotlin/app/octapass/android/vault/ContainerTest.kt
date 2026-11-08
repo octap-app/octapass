@@ -32,6 +32,7 @@ class ContainerTest {
         assertEquals("deviceSecret.bb", account.deviceSecretName)
         // As Account::stay_unlocked_name names the key the services open with (plan 18).
         assertEquals("stayUnlocked.bb", account.stayUnlockedName)
+        assertEquals("unlockedFill.bb", account.fillKeyName)
     }
 
     @Test

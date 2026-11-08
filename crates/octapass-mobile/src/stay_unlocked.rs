@@ -44,6 +44,8 @@ impl OctaPassVault {
     /// Runs on its own thread: the session event that calls it may come from inside the vault.
     pub(crate) fn after_any_unlock(self: &Arc<Self>) {
         self.held.store(false, Ordering::SeqCst);
+        // The autofill gate off fills while the vault is unlocked (plan 03, `fill_gate`).
+        self.fill_key_after_unlock();
         if !self.settings().stay_unlocked {
             return;
         }

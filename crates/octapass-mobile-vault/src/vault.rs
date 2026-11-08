@@ -537,9 +537,10 @@ impl Vault {
         if cfg!(not(target_os = "ios")) {
             let _ = store.clone().merge_inbox(signed_in.session.clone());
         }
-        {
+        let previous = {
             let mut state = self.state();
-            if let Some(previous) = state.unlocked.take() {
+            let previous = state.unlocked.take();
+            if let Some(previous) = &previous {
                 previous.session.lock();
             }
             state.accounts.upsert_current(account.clone());
@@ -551,6 +552,10 @@ impl Vault {
                 session: signed_in.session,
                 server: server.clone(),
             });
+            previous
+        };
+        if let Some(previous) = previous {
+            self.drop_fill_key(&previous.account);
         }
         self.emit_session();
         self.publish_identities();
@@ -568,6 +573,8 @@ impl Vault {
         self.clear_plaintext();
         if let Some(unlocked) = unlocked {
             unlocked.session.lock();
+            // The autofill gate off fills only while this vault is unlocked (plan 03).
+            self.drop_fill_key(&unlocked.account);
             self.emit_session();
         }
     }
@@ -704,7 +711,12 @@ impl Vault {
         }
         let server = self.server(server_of(&account))?;
         let mut state = self.state();
-        // Another account's reviews never carry over.
+        // Another account's reviews never carry over, nor its fill key.
+        let other = state
+            .unlocked
+            .as_ref()
+            .filter(|now| now.account.tag != account.tag)
+            .map(|now| now.account.clone());
         if state.unlocked.as_ref().map(|now| &now.account.tag) != Some(&account.tag) {
             state.imports.clear();
         }
@@ -715,6 +727,9 @@ impl Vault {
             server,
         });
         drop(state);
+        if let Some(other) = other {
+            self.drop_fill_key(&other);
+        }
         self.emit_session();
         Ok(())
     }
@@ -990,8 +1005,53 @@ impl Vault {
     pub(crate) fn delete_device_keys(&self, account: &Account) -> Result<()> {
         self.native
             .delete_device_secret(&account.device_secret_name())?;
+        self.drop_fill_key(account);
         self.native
             .delete_stay_unlocked_key(&account.stay_unlocked_name())
+    }
+
+    // ---------- The autofill gate off (plan 03, Two device-auth gates) ----------
+
+    /// Keeps a fill key for the open account, working until `expires_at_ms` (the app's lock
+    /// timer), where the phone's own lock guards it: the AutoFill extension or the Android
+    /// services fill with it without a prompt while the app's vault is unlocked. Locking deletes
+    /// it. Fails with `deviceUnlockUnsupported` on a phone with no passcode, which keeps asking.
+    pub fn store_fill_key(&self, expires_at_ms: u64) -> Result<()> {
+        let unlocked = self.unlocked()?;
+        require(
+            self.native.device_lock().available,
+            ErrorCode::DeviceUnlockUnsupported,
+        )?;
+        let key = Zeroizing::new(
+            unlocked
+                .store
+                .fill_key(unlocked.session.clone(), expires_at_ms)?,
+        );
+        self.native
+            .store_stay_unlocked_key(&unlocked.account.fill_key_name(), &key)
+    }
+
+    /// Forgets the open account's fill key, if any: the next fill asks again.
+    pub fn delete_fill_key(&self) {
+        if let Ok(account) = self.current_account() {
+            self.drop_fill_key(&account);
+        }
+    }
+
+    /// Whether the open account has a fill key on this phone.
+    pub fn has_fill_key(&self) -> bool {
+        self.current_account().is_ok_and(|account| {
+            self.native
+                .stay_unlocked_key(&account.fill_key_name())
+                .is_ok_and(|key| key.is_some())
+        })
+    }
+
+    /// Best effort: a key that can't be deleted now still expires.
+    pub(crate) fn drop_fill_key(&self, account: &Account) {
+        let _ = self
+            .native
+            .delete_stay_unlocked_key(&account.fill_key_name());
     }
 
     // ---------- Stay unlocked while logged in to this phone (plan 18) ----------

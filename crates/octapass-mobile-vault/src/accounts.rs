@@ -106,6 +106,12 @@ impl Account {
     pub fn stay_unlocked_name(&self) -> String {
         format!("stayUnlocked.{}", self.tag)
     }
+
+    /// The fill key (plan 03, the autofill gate off): kept like the stay-unlocked key, only while
+    /// the app's vault is unlocked.
+    pub fn fill_key_name(&self) -> String {
+        format!("unlockedFill.{}", self.tag)
+    }
 }
 
 #[derive(Debug, Clone, Default, PartialEq, Eq, Serialize, Deserialize)]

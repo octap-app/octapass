@@ -26,6 +26,7 @@ final class SharedContainerTests: XCTestCase {
         XCTAssertEqual(account.deviceSecretName, "deviceSecret.bb")
         XCTAssertEqual(account.secretKeyName, "secretKey.bb")
         XCTAssertEqual(account.stayUnlockedName, "stayUnlocked.bb", "the name the vault gives it (Account::stay_unlocked_name)")
+        XCTAssertEqual(account.fillKeyName, "unlockedFill.bb", "the name the vault gives it (Account::fill_key_name)")
     }
 
     func testNamesTheDeviceLock() {

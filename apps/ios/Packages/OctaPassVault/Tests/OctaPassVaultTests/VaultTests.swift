@@ -38,7 +38,9 @@ final class TestPlatform: NativePlatform, @unchecked Sendable {
 
     func stayUnlockedKey(name: String) throws -> Data? { lock.withLock { stayUnlocked[name] } }
     func deleteStayUnlockedKey(name: String) throws { _ = lock.withLock { stayUnlocked.removeValue(forKey: name) } }
-    var stayUnlockedKeys: Int { lock.withLock { stayUnlocked.count } }
+    /// Stay unlocked's keys, not the autofill gate's fill keys kept in the same kind of item.
+    var stayUnlockedKeys: Int { lock.withLock { stayUnlocked.keys.filter { $0.hasPrefix("stayUnlocked.") }.count } }
+    var fillKeys: Int { lock.withLock { stayUnlocked.keys.filter { $0.hasPrefix("unlockedFill.") }.count } }
     func chipAvailable() -> Bool { false }
     func createChipKey(name: String) throws -> ChipKey? { nil }
     func chipSecret(name: String, context: Data) throws -> Data { Data() }
@@ -246,6 +248,36 @@ final class VaultTests: XCTestCase {
         let opened = try await started.unlockStayUnlocked()
         XCTAssertFalse(opened)
         XCTAssertEqual(started.snapshot().status, .locked)
+    }
+
+    /// The autofill gate off (plan 03), with stay unlocked off: the app keeps a fill key for the
+    /// AutoFill extension only while its vault is unlocked; "Ask on every fill" on again removes it.
+    func testTheAutofillGateOffKeepsAFillKeyWhileUnlocked() async throws {
+        let phone = try Phone(email: unique("joan"))
+        try await phone.signUp()
+        XCTAssertTrue(phone.vault.settings().deviceAuthOnAutofill, "on by default")
+        try await phone.vault.enableDeviceUnlock()
+        var settings = phone.vault.settings()
+        settings.stayUnlocked = false
+        try phone.vault.updateSettings(settings: settings)
+        try await eventually { phone.platform.fillKeys == 0 }
+        XCTAssertFalse(phone.vault.fillsWithoutPrompt(), "every fill asks")
+
+        settings.deviceAuthOnAutofill = false
+        try phone.vault.updateSettings(settings: settings)
+        XCTAssertEqual(phone.platform.fillKeys, 1)
+        XCTAssertTrue(phone.vault.fillsWithoutPrompt())
+
+        phone.vault.lock()
+        XCTAssertEqual(phone.platform.fillKeys, 0, "a locked vault always asks")
+        XCTAssertFalse(phone.vault.fillsWithoutPrompt())
+
+        try await phone.vault.unlock(password: VaultTests.password)
+        try await eventually { phone.platform.fillKeys == 1 }
+        settings = phone.vault.settings()
+        settings.deviceAuthOnAutofill = true
+        try phone.vault.updateSettings(settings: settings)
+        XCTAssertEqual(phone.platform.fillKeys, 0)
     }
 
     func eventually(_ condition: () -> Bool, file: StaticString = #filePath, line: UInt = #line) async throws {

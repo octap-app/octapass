@@ -71,6 +71,11 @@ pub struct Settings {
     /// device lock where it's set up. Off: the master password instead.
     #[uniffi(default = true)]
     pub device_auth_on_open: bool,
+    /// The autofill gate (plan 03, per device, never synced): the AutoFill extension or the
+    /// Autofill services ask for the device lock on every fill. Off: they fill directly while the
+    /// app's vault is unlocked (`fill_gate`). Applies only with stay unlocked off.
+    #[uniffi(default = true)]
+    pub device_auth_on_autofill: bool,
     /// Stay unlocked while logged in to this phone (plan 18, per device, never synced): the app
     /// opens without a prompt while the phone is unlocked, with no lock timer and no lock in the
     /// background; filling doesn't ask. Needs a passcode; without one the phone locks as before.
@@ -97,6 +102,7 @@ impl Default for Settings {
             wifi_offers: true,
             show_codes_on_watch: false,
             device_auth_on_open: true,
+            device_auth_on_autofill: true,
             stay_unlocked: true,
         }
     }
@@ -278,6 +284,7 @@ mod tests {
             wifi_offers: false,
             show_codes_on_watch: true,
             device_auth_on_open: false,
+            device_auth_on_autofill: false,
             stay_unlocked: false,
         };
         save_settings(dir.path(), &settings).unwrap();
@@ -294,10 +301,8 @@ mod tests {
             !older.show_codes_on_watch,
             "nothing reaches a watch until it's turned on"
         );
-        assert!(
-            !older.stay_unlocked,
-            "settings saved before plan 18 keep their lock"
-        );
+        assert!(!older.stay_unlocked, "settings saved before plan 18 keep their lock");
+        assert!(older.device_auth_on_autofill, "every fill keeps asking until turned off");
         std::fs::write(dir.path().join(SETTINGS_FILE), "{ broken").unwrap();
         assert_eq!(
             load_settings(dir.path()),

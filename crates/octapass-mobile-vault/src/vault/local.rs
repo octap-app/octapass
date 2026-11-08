@@ -258,14 +258,19 @@ impl Vault {
             vault,
         )?;
         let session = Session::from_local_vault(vault)?;
-        {
+        let previous = {
             let mut state = self.state();
-            if let Some(previous) = state.unlocked.take() {
+            let previous = state.unlocked.take();
+            if let Some(previous) = &previous {
                 previous.session.lock();
             }
             state.access_token = None;
             state.accounts.upsert_current(account.clone());
             state.accounts.save(&self.config.data_dir)?;
+            previous
+        };
+        if let Some(previous) = previous {
+            self.drop_fill_key(&previous.account);
         }
         self.clear_plaintext();
         self.set_unlocked(account, store, session)?;

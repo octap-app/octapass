@@ -849,9 +849,13 @@ internal object IntegrityCheckingUniffiLib {
     ): Int
     external fun uniffi_octapass_ffi_checksum_method_localstore_unlock_local(
     ): Int
+    external fun uniffi_octapass_ffi_checksum_method_localstore_fill_key(
+    ): Int
     external fun uniffi_octapass_ffi_checksum_method_localstore_password_required(
     ): Int
     external fun uniffi_octapass_ffi_checksum_method_localstore_stay_unlocked_key(
+    ): Int
+    external fun uniffi_octapass_ffi_checksum_method_localstore_unlock_fill_key(
     ): Int
     external fun uniffi_octapass_ffi_checksum_method_localstore_unlock_stay_unlocked(
     ): Int
@@ -1054,9 +1058,13 @@ internal object UniffiLib {
     ): Byte
     external fun uniffi_octapass_ffi_fn_method_localstore_unlock_local(`ptr`: Long,`password`: RustBuffer.ByValue,`chipSecret`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, 
     ): Long
+    external fun uniffi_octapass_ffi_fn_method_localstore_fill_key(`ptr`: Long,`session`: Long,`expiresAtMs`: Long,uniffi_out_err: UniffiRustCallStatus, 
+    ): RustBuffer.ByValue
     external fun uniffi_octapass_ffi_fn_method_localstore_password_required(`ptr`: Long,uniffi_out_err: UniffiRustCallStatus, 
     ): Byte
     external fun uniffi_octapass_ffi_fn_method_localstore_stay_unlocked_key(`ptr`: Long,`session`: Long,uniffi_out_err: UniffiRustCallStatus, 
+    ): RustBuffer.ByValue
+    external fun uniffi_octapass_ffi_fn_method_localstore_unlock_fill_key(`ptr`: Long,`key`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, 
     ): RustBuffer.ByValue
     external fun uniffi_octapass_ffi_fn_method_localstore_unlock_stay_unlocked(`ptr`: Long,`key`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, 
     ): Long
@@ -1427,10 +1435,16 @@ private fun uniffiCheckApiChecksums(lib: IntegrityCheckingUniffiLib) {
     if ((lib.uniffi_octapass_ffi_checksum_method_localstore_unlock_local() and 0xFFFF) != 54986) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
+    if ((lib.uniffi_octapass_ffi_checksum_method_localstore_fill_key() and 0xFFFF) != 29312) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
     if ((lib.uniffi_octapass_ffi_checksum_method_localstore_password_required() and 0xFFFF) != 4094) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
     if ((lib.uniffi_octapass_ffi_checksum_method_localstore_stay_unlocked_key() and 0xFFFF) != 23748) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_ffi_checksum_method_localstore_unlock_fill_key() and 0xFFFF) != 7025) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
     if ((lib.uniffi_octapass_ffi_checksum_method_localstore_unlock_stay_unlocked() and 0xFFFF) != 46045) {
@@ -2388,6 +2402,13 @@ public interface LocalStoreInterface {
     fun `unlockLocal`(`password`: kotlin.String, `chipSecret`: kotlin.ByteArray?): Session
     
     /**
+     * A fill key for the session's account that works until `expires_at_ms` (ms since 1970):
+     * keep it in the same kind of platform item as the stay-unlocked key, and delete it when the
+     * app's vault locks.
+     */
+    fun `fillKey`(`session`: Session, `expiresAtMs`: kotlin.ULong): kotlin.ByteArray
+    
+    /**
      * The 14-day master password check is due: the stay-unlocked key won't open the vault
      * until the master password unlocks it once.
      */
@@ -2399,6 +2420,13 @@ public interface LocalStoreInterface {
      * new key; the old one keeps working until its item is deleted.
      */
     fun `stayUnlockedKey`(`session`: Session): kotlin.ByteArray
+    
+    /**
+     * Unlocks with what [`fill_key`](Self::fill_key) returned, without a prompt. `None` once it
+     * has expired (the app's vault has locked by now): ask as before, and delete it. Fails like
+     * [`unlock_stay_unlocked`](Self::unlock_stay_unlocked) otherwise.
+     */
+    fun `unlockFillKey`(`key`: kotlin.ByteArray): Session?
     
     /**
      * Unlocks with what [`stay_unlocked_key`](Self::stay_unlocked_key) returned, without a
@@ -2789,6 +2817,27 @@ open class LocalStore: Disposable, AutoCloseable, LocalStoreInterface
 
     
     /**
+     * A fill key for the session's account that works until `expires_at_ms` (ms since 1970):
+     * keep it in the same kind of platform item as the stay-unlocked key, and delete it when the
+     * app's vault locks.
+     */
+    @Throws(OctaPassException::class)override fun `fillKey`(`session`: Session, `expiresAtMs`: kotlin.ULong): kotlin.ByteArray {
+            return FfiConverterByteArray.lift(
+    callWithHandle {
+    uniffiRustCallWithError(OctaPassException) { _status ->
+    UniffiLib.uniffi_octapass_ffi_fn_method_localstore_fill_key(
+        it,
+        
+        FfiConverterTypeSession.lower(`session`),
+        FfiConverterULong.lower(`expiresAtMs`),_status)
+}
+    }
+    )
+    }
+    
+
+    
+    /**
      * The 14-day master password check is due: the stay-unlocked key won't open the vault
      * until the master password unlocks it once.
      */override fun `passwordRequired`(): kotlin.Boolean {
@@ -2818,6 +2867,26 @@ open class LocalStore: Disposable, AutoCloseable, LocalStoreInterface
         it,
         
         FfiConverterTypeSession.lower(`session`),_status)
+}
+    }
+    )
+    }
+    
+
+    
+    /**
+     * Unlocks with what [`fill_key`](Self::fill_key) returned, without a prompt. `None` once it
+     * has expired (the app's vault has locked by now): ask as before, and delete it. Fails like
+     * [`unlock_stay_unlocked`](Self::unlock_stay_unlocked) otherwise.
+     */
+    @Throws(OctaPassException::class)override fun `unlockFillKey`(`key`: kotlin.ByteArray): Session? {
+            return FfiConverterOptionalTypeSession.lift(
+    callWithHandle {
+    uniffiRustCallWithError(OctaPassException) { _status ->
+    UniffiLib.uniffi_octapass_ffi_fn_method_localstore_unlock_fill_key(
+        it,
+        
+        FfiConverterByteArray.lower(`key`),_status)
 }
     }
     )
@@ -9114,6 +9183,38 @@ public object FfiConverterOptionalByteArray: FfiConverterRustBuffer<kotlin.ByteA
         } else {
             buf.put(1)
             FfiConverterByteArray.write(value, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
+public object FfiConverterOptionalTypeSession: FfiConverterRustBuffer<Session?> {
+    override fun read(buf: ByteBuffer): Session? {
+        if (buf.get().toInt() == 0) {
+            return null
+        }
+        return FfiConverterTypeSession.read(buf)
+    }
+
+    override fun allocationSize(value: Session?): ULong {
+        if (value == null) {
+            return 1UL
+        } else {
+            return 1UL + FfiConverterTypeSession.allocationSize(value)
+        }
+    }
+
+    override fun write(value: Session?, buf: ByteBuffer) {
+        if (value == null) {
+            buf.put(0)
+        } else {
+            buf.put(1)
+            FfiConverterTypeSession.write(value, buf)
         }
     }
 }

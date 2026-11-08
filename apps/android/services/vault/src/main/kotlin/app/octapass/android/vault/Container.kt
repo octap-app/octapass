@@ -26,6 +26,12 @@ object Container {
 
         /** As `Account::stay_unlocked_name` names it: the key in [StayUnlockedKeys] (plan 18). */
         val stayUnlockedName get() = "stayUnlocked.$tag"
+
+        /**
+         * As `Account::fill_key_name` names it: the fill key the app keeps in [StayUnlockedKeys]
+         * while its vault is unlocked with "Ask on every fill" off (plan 03).
+         */
+        val fillKeyName get() = "unlockedFill.$tag"
     }
 
     /** The account the app has open (locked or not), or null when nobody is signed in. */

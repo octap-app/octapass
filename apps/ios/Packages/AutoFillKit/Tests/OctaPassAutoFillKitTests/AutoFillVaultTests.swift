@@ -127,6 +127,44 @@ final class AutoFillVaultTests: XCTestCase {
         XCTAssertTrue(third.isUnlocked)
     }
 
+    /// The autofill gate off (plan 03): while the app's vault is unlocked it keeps a fill key, and
+    /// the extension fills with no prompt until the app locks (it deletes the key) or the key's
+    /// deadline, the app's lock timer, passes (the extension deletes it).
+    func testFillsWithNoPromptWhileTheAppIsUnlockedWithTheGateOff() throws {
+        let vault = try AutoFillVault(directory: directory, secrets: secrets)
+        XCTAssertEqual(vault.account.fillKeyName, "unlockedFill.abc")
+        XCTAssertFalse(try vault.unlockWithFillKey(), "the gate is on, or the app is locked: no key")
+        XCTAssertFalse(try vault.unlockWithoutPrompt())
+
+        // What the app keeps while it's unlocked with the gate off.
+        try vault.unlockWithDevice(reason: "Fill")
+        let session = try XCTUnwrap(vault.session)
+        let inAMinute = UInt64(Date().timeIntervalSince1970 * 1000) + 60_000
+        secrets.stayUnlocked["unlockedFill.abc"] = try vault.store.fillKey(session: session, expiresAtMs: inAMinute)
+        secrets.prompts = []
+
+        let later = try AutoFillVault(directory: directory, secrets: secrets)
+        XCTAssertTrue(try later.unlockWithoutPrompt())
+        XCTAssertTrue(later.isUnlocked)
+        XCTAssertEqual(secrets.prompts, [], "no prompt")
+        XCTAssertEqual(try later.logins(for: ["https://github.com"]).map(\.username), ["ada"])
+        XCTAssertNotNil(secrets.stayUnlocked["unlockedFill.abc"], "kept for the next fill")
+
+        // Past the app's lock timer: it asks again, and the key goes.
+        let aMomentAgo = UInt64(Date().timeIntervalSince1970 * 1000) - 1
+        secrets.stayUnlocked["unlockedFill.abc"] = try vault.store.fillKey(session: session, expiresAtMs: aMomentAgo)
+        let expired = try AutoFillVault(directory: directory, secrets: secrets)
+        XCTAssertFalse(try expired.unlockWithoutPrompt())
+        XCTAssertFalse(expired.isUnlocked)
+        XCTAssertNil(secrets.stayUnlocked["unlockedFill.abc"])
+
+        // A stay-unlocked key under the fill key's name isn't one: refused and deleted.
+        secrets.stayUnlocked["unlockedFill.abc"] = try vault.store.stayUnlockedKey(session: session)
+        let wrong = try AutoFillVault(directory: directory, secrets: secrets)
+        XCTAssertFalse(try wrong.unlockWithFillKey())
+        XCTAssertNil(secrets.stayUnlocked["unlockedFill.abc"])
+    }
+
     func testDeviceUnlockOffInTheApp() throws {
         let store = try LocalStore.open(path: directory.appendingPathComponent("abc.opstore").path)
         try store.disableDeviceUnlock()

@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-Device unlock is built in the web vault, the browser extension, the desktop apps and the iPhone, iPad and Android apps. Still missing: the **Ask on every fill** switch in the phone apps (see [two device-auth settings](#two-device-auth-settings)).
+Device unlock is built in the web vault, the browser extension, the desktop apps and the iPhone, iPad and Android apps.
 :::
 
 Biometrics **unlock a key stored on that device**. They never replace your master password on a new device, and your fingerprint or face data never reaches Octa Pass.
@@ -106,7 +106,7 @@ An open vault is enough. While Octa Pass is unlocked, revealing and copying a pa
 
 Some things always ask, however you unlocked: exporting your vault, saving a private key or an `.env` file, showing your Secret Key or recovery code, changing or resetting your master password, rotating keys, and deleting your account. Asking means your device's lock where it's set up, your master password otherwise.
 
-In the native iPhone, iPad and Android apps the first switch is there too, and the same rules apply. The **Ask on every fill** switch isn't in the phone apps yet: there, with **Stay unlocked** off, AutoFill keeps asking for your device's lock or your master password each time.
+The native iPhone, iPad and Android apps have both switches, and the same rules apply. There, **Ask on every fill** is about AutoFill (iPhone and iPad) and autofill and passkeys (Android). Off, they fill without asking while the Octa Pass app is unlocked; once the app locks (by auto-lock, in the background, or with **Lock now**), they ask again. On a phone with no passcode or screen lock, they keep asking for your master password.
 
 On a device with no lock Octa Pass can use, there is nothing to verify with, so opening an already-unlocked vault and filling don't ask (the same behaviour as Chrome's password manager). After a restart or a lock, the master password opens the vault. Exporting and your Secret Key still need the master password each time, and the web vault never offers a gateless mode.
 

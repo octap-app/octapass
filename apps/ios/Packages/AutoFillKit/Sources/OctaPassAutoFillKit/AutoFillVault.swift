@@ -11,9 +11,9 @@ public protocol AutoFillSecrets {
     /// The device chip's part of a local vault's key.
     func chipSecret(_ name: String, context: Data) throws -> Data
     /// The stay-unlocked key (plan 18), with no prompt: there while the app has "Stay unlocked"
-    /// on, nil otherwise.
+    /// on, nil otherwise. Also the fill key, under its own name (plan 03, the autofill gate off).
     func stayUnlockedKey(_ name: String) throws -> Data?
-    /// The key no longer opens the account.
+    /// The key no longer opens the account, or has expired.
     func deleteStayUnlockedKey(_ name: String) throws
 }
 
@@ -119,6 +119,37 @@ public final class AutoFillVault {
             try? secrets.deleteStayUnlockedKey(account.stayUnlockedName)
             return false
         }
+    }
+
+    /// The autofill gate off (plan 03): while the app's vault is unlocked, the app keeps a fill key
+    /// in the shared Keychain and the extension opens the store with it, with no prompt. False
+    /// when there's none (the gate is on, the app is locked, stay unlocked is on, the phone has
+    /// no passcode), it has expired with the app's lock timer, or it no longer opens the account
+    /// (deleted then, as an expired one is): unlock as before. Throws `passwordRequired` while the
+    /// 14-day master password check is due.
+    public func unlockWithFillKey() throws -> Bool {
+        guard let key = try secrets.stayUnlockedKey(account.fillKeyName) else { return false }
+        do {
+            guard let opened = try store.unlockFillKey(key: key) else {
+                try? secrets.deleteStayUnlockedKey(account.fillKeyName)
+                return false
+            }
+            session = opened
+            return true
+        } catch OctaPassError.PasswordRequired {
+            throw AutoFillError.passwordRequired
+        } catch OctaPassError.DeviceUnlockFailed {
+            try? secrets.deleteStayUnlockedKey(account.fillKeyName)
+            return false
+        }
+    }
+
+    /// What opens the store without a prompt, if anything does: stay unlocked's key (plan 18),
+    /// then the autofill gate's fill key (plan 03). Throws `passwordRequired` while the 14-day
+    /// check is due.
+    public func unlockWithoutPrompt() throws -> Bool {
+        if try unlockStayUnlocked() { return true }
+        return try unlockWithFillKey()
     }
 
     /// Face ID / Touch ID or the device passcode. Blocks while the system prompt is up.

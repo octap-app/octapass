@@ -168,3 +168,101 @@ fn turning_device_unlock_off_keeps_stay_unlocked() {
     assert_eq!(phone.keys(), 1);
     assert!(phone.native.device_secrets.lock().unwrap().is_empty());
 }
+
+// ---------- The fill key: the autofill gate off (plan 03) ----------
+
+fn fill_keys(phone: &Phone) -> Vec<Vec<u8>> {
+    phone
+        .native
+        .stay_unlocked
+        .lock()
+        .unwrap()
+        .iter()
+        .filter(|(name, _)| name.starts_with("unlockedFill."))
+        .map(|(_, key)| key.clone())
+        .collect()
+}
+
+/// The store as the AutoFill extension or the Android services open it: on its own.
+fn extension_store(phone: &Phone) -> Arc<octapass_ffi::LocalStore> {
+    let file = std::fs::read_dir(phone.dir.path().join("group"))
+        .unwrap()
+        .map(|entry| entry.unwrap().path())
+        .find(|path| path.extension().is_some_and(|ext| ext == "opstore"))
+        .unwrap();
+    octapass_ffi::LocalStore::open(file.to_string_lossy().into_owned()).unwrap()
+}
+
+fn in_a_minute() -> u64 {
+    let now = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .unwrap();
+    u64::try_from(now.as_millis()).unwrap() + 60_000
+}
+
+#[test]
+fn the_fill_key_fills_while_the_app_is_unlocked_and_goes_when_it_locks() {
+    let phone = with_vault(FakeNative::default());
+    assert!(!phone.vault.has_fill_key());
+    phone.vault.store_fill_key(in_a_minute()).unwrap();
+    assert!(phone.vault.has_fill_key());
+    let keys = fill_keys(&phone);
+    assert_eq!(keys.len(), 1);
+    // The extension opens the store with it and no prompt.
+    let store = extension_store(&phone);
+    assert!(store.unlock_fill_key(keys[0].clone()).unwrap().is_some());
+    assert!(phone.native.device_secrets.lock().unwrap().is_empty());
+    // It's not stay unlocked's key: that switch's state is untouched.
+    assert!(!phone.vault.stay_unlocked_status().enrolled);
+
+    // Locking (Lock now, the timer, the background) deletes it: the next fill asks.
+    phone.vault.lock();
+    assert!(fill_keys(&phone).is_empty());
+    assert!(!phone.vault.has_fill_key());
+}
+
+#[test]
+fn the_fill_key_is_turned_off_and_ends_with_the_device_keys() {
+    let phone = with_vault(FakeNative::default());
+    phone.vault.store_fill_key(in_a_minute()).unwrap();
+    phone.vault.delete_fill_key();
+    assert!(fill_keys(&phone).is_empty());
+
+    phone.vault.store_fill_key(in_a_minute()).unwrap();
+    phone
+        .vault
+        .change_master_password(secret(STRONG), secret(NEW_STRONG))
+        .unwrap();
+    assert!(fill_keys(&phone).is_empty(), "a password change ends it");
+
+    phone.vault.store_fill_key(in_a_minute()).unwrap();
+    phone.vault.delete_local_vault(secret(NEW_STRONG)).unwrap();
+    assert!(fill_keys(&phone).is_empty(), "forgetting the vault ends it");
+}
+
+#[test]
+fn a_phone_without_a_passcode_keeps_no_fill_key() {
+    let no_lock = FakeNative {
+        lock: DeviceLock {
+            available: false,
+            label: "Passcode".into(),
+        },
+        ..FakeNative::default()
+    };
+    let phone = with_vault(no_lock);
+    assert_eq!(
+        phone.vault.store_fill_key(in_a_minute()).unwrap_err().code,
+        ErrorCode::DeviceUnlockUnsupported
+    );
+    assert!(fill_keys(&phone).is_empty());
+}
+
+#[test]
+fn a_locked_vault_keeps_no_fill_key() {
+    let phone = with_vault(FakeNative::default());
+    phone.vault.lock();
+    assert_eq!(
+        phone.vault.store_fill_key(in_a_minute()).unwrap_err().code,
+        ErrorCode::Locked
+    );
+}

@@ -10,7 +10,7 @@ tags: [website, decision]
 - **Logo:** an **O** ring, open at the bottom, around a **P** whose stem passes out through the opening, with a keyhole in the P. *Open* and *Pass* in one mark. It comes in a gradient mark, a one-colour mark and an app-icon tile.
 - **Colours:** trust blue (`#2456F0`) and freedom green (`#10B77F`, the colour of open source), meeting in one signature gradient.
 - **Type:** Mona Sans for everything, with its width axis for headlines, and Monaspace Neon for passwords, codes and ciphertext. Both are self-hosted.
-- **Wordmark:** OctaPass, with "Open" light and "Pass" bold.
+- **Wordmark:** Octa Pass, with "Octa" light and "Pass" bold.
 
 See `brand/README.md` for the full guide.
 

@@ -10,7 +10,7 @@ The logo, colours, type and voice for Octa Pass. Everything here is MIT like the
 | `logo-mark-dark.svg` | Brighter gradient for dark backgrounds |
 | `logo-mark-mono.svg` | One colour (`currentColor`), for print, embossing and monochrome UI |
 | `logo-tile.svg` | App icon: white monogram on the gradient squircle. Also the favicon |
-| `logo-lockup.svg` / `logo-lockup-dark.svg` | Mark + "OctaPass" wordmark (outlined, so no font is needed) |
+| `logo-lockup.svg` / `logo-lockup-dark.svg` | Mark + "Octa Pass" wordmark (outlined, so no font is needed) |
 | `app-icon-512.png`, `apple-touch-icon.png` | App and home-screen icons |
 | `readme-header-light.png` / `readme-header-dark.png` | GitHub README banner (2560×1280) |
 | `readme-showcase.png` | Tall README image: "Not just a password manager", the 22 kinds of item, zero knowledge (2000×5544) |
@@ -23,7 +23,7 @@ The logo, colours, type and voice for Octa Pass. Everything here is MIT like the
 - Clear space around the mark is at least ¼ of its width. Minimum size: 20 px for the bare mark, 16 px for the tile.
 - Below 24 px, use the tile (`logo-tile.svg`). The bare monogram's lines get too thin.
 - Don't rotate the mark, change the gradient direction, outline it, or add shadows.
-- The wordmark is **OctaPass**, one word: "Octa" light (380), "Pass" bold (740). In running text write "Octa Pass"; in code and URLs, `octapass`.
+- The name is **Octa Pass**, two words, everywhere people read it. The wordmark sets "Octa" light (380) and "Pass" bold (740) with a space between; in code and URLs, `octapass`.
 
 ## Colour
 

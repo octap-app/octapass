@@ -57,7 +57,7 @@ p{{position:relative;font-size:{round(title_size*0.31)}px;color:{t['mist']};marg
 </style></head><body><div class="glow"></div>
 <div class="icon">{logo(icon)}</div>
 <h1>Everything sensitive.<br><span>One place only you can open.</span></h1>
-<p><span class="word">Octa<b>Pass</b></span>: free, open source, end-to-end encrypted. No ads, ever.</p>
+<p><span class="word">Octa <b>Pass</b></span>: free, open source, end-to-end encrypted. No ads, ever.</p>
 <div class="chips">{chips}</div>
 </body></html>'''
 

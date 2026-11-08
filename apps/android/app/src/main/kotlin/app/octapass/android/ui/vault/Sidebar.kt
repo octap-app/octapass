@@ -237,7 +237,7 @@ fun Sidebar(onNavigate: () -> Unit) {
         Row(Modifier.fillMaxWidth().padding(start = 24.dp, end = 12.dp, top = 16.dp, bottom = 8.dp), verticalAlignment = Alignment.CenterVertically) {
             Logo(28.dp)
             Spacer(Modifier.width(10.dp))
-            Text("Octa", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Light)
+            Text("Octa ", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Light)
             Text("Pass", style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
             IconButton(onClick = { model.vault.lock() }, modifier = Modifier.testTag("nav.lock")) {
                 Icon(Icons.Outlined.Lock, contentDescription = stringResource(R.string.nav_lockNow))

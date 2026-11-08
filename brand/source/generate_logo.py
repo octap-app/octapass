@@ -94,8 +94,8 @@ def favicon():
     return tile(title=False)
 
 
-def wordmark(parts=(('Octa', 380), ('Pass', 740)), width=108, size=46):
-    """'OctaPass' as one word: Octa light, Pass bold (the weight change separates the words)."""
+def wordmark(parts=(('Octa ', 380), ('Pass', 740)), width=108, size=46):
+    """'Octa Pass': Octa light, a space, Pass bold."""
     commands, x, cap = [], 0.0, 0.0
     for text, weight in parts:
         font = instancer.instantiateVariableFont(TTFont(FONT), {'wght': weight, 'wdth': width})

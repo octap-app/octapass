@@ -1192,6 +1192,10 @@
         <item quantity="other">Imported %1$d items.</item>
     </plurals>
     <string name="import_summary">%1$s new, %2$s updated, %3$s unchanged.</string>
+    <plurals name="import_alreadyThere">
+        <item quantity="one">This item is already in your vaults, so nothing was added.</item>
+        <item quantity="other">All %1$d items are already in your vaults, so nothing was added.</item>
+    </plurals>
     <plurals name="import_skipped">
         <item quantity="one">%1$d row was skipped.</item>
         <item quantity="other">%1$d rows were skipped.</item>

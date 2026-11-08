@@ -2279,6 +2279,8 @@ public enum L10n {
         public static func done(count: Int) -> String { L10n.format("import.done", count) }
         /// {added} new, {updated} updated, {unchanged} unchanged.
         public static func summary(added: String, updated: String, unchanged: String) -> String { L10n.format("import.summary", added, updated, unchanged) }
+        /// All {count} items are already in your vaults, so nothing was added.
+        public static func alreadyThere(count: Int) -> String { L10n.format("import.alreadyThere", count) }
         /// {count} rows were skipped.
         public static func skipped(count: Int) -> String { L10n.format("import.skipped", count) }
         /// {count} attached files were restored.

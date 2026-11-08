@@ -15901,6 +15901,71 @@
         }
       }
     },
+    "import.alreadyThere" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "العناصر الـ%1$lld كلها موجودة في خزائنك، فلم يُضَف شيء."
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "العناصر الـ%1$lld كلها موجودة في خزائنك، فلم يُضَف شيء."
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "هذا العنصر موجود في خزائنك، فلم يُضَف شيء."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "العناصر الـ%1$lld كلها موجودة في خزائنك، فلم يُضَف شيء."
+                }
+              },
+              "two" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "العنصران موجودان في خزائنك، فلم يُضَف شيء."
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "لم يُضَف شيء."
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "This item is already in your vaults, so nothing was added."
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "All %1$lld items are already in your vaults, so nothing was added."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "import.chooseFile" : {
       "extractionState" : "manual",
       "localizations" : {

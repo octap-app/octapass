@@ -1328,6 +1328,14 @@
         <item quantity="other">استُورد %1$d عنصر.</item>
     </plurals>
     <string name="import_summary">جديدة: %1$s، حُدِّثت: %2$s، بلا تغيير: %3$s.</string>
+    <plurals name="import_alreadyThere">
+        <item quantity="zero">لم يُضَف شيء.</item>
+        <item quantity="one">هذا العنصر موجود في خزائنك، فلم يُضَف شيء.</item>
+        <item quantity="two">العنصران موجودان في خزائنك، فلم يُضَف شيء.</item>
+        <item quantity="few">العناصر الـ%1$d كلها موجودة في خزائنك، فلم يُضَف شيء.</item>
+        <item quantity="many">العناصر الـ%1$d كلها موجودة في خزائنك، فلم يُضَف شيء.</item>
+        <item quantity="other">العناصر الـ%1$d كلها موجودة في خزائنك، فلم يُضَف شيء.</item>
+    </plurals>
     <plurals name="import_skipped">
         <item quantity="zero">لم يُتخطَّ أي صف.</item>
         <item quantity="one">تُخطّي صف واحد.</item>

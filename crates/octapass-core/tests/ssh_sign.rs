@@ -15,7 +15,8 @@ use rand_core::OsRng;
 use ssh_encoding::Decode;
 use ssh_key::{HashAlg, PublicKey, Signature, SshSig};
 
-const MESSAGE: &[u8] = b"Octa Pass signing test vector\n";
+// Signed by ssh-keygen when the project was called Open Pass: the bytes must stay as they are.
+const MESSAGE: &[u8] = b"Open Pass signing test vector\n";
 
 fn fixture(name: &str) -> String {
     let path = format!("{}/tests/ssh-fixtures/{name}", env!("CARGO_MANIFEST_DIR"));

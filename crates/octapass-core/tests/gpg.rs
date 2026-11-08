@@ -110,7 +110,7 @@ fn rsa_keys_are_read_but_refuse_to_sign() {
     let key = std::fs::read_to_string(path).unwrap();
     let info = read_private_key(&key, None).unwrap();
     assert!(!info.can_sign);
-    assert_eq!(info.user_id, "Octa Pass RSA <rsa@octap.app>");
+    assert_eq!(info.user_id, "Open Pass RSA <rsa@openpass.example>");
     assert_eq!(
         sign_detached(&key, None, MESSAGE).unwrap_err(),
         Error::UnsupportedSshKey
@@ -125,7 +125,7 @@ fn a_gnupg_export_signs_with_its_subkey() {
     let public = std::fs::read_to_string(format!("{dir}/ed25519-subkey.pub.asc")).unwrap();
     let info = read_private_key(&key, None).unwrap();
     assert!(info.can_sign);
-    assert_eq!(info.user_id, "Octa Pass Fixture <fixture@octap.app>");
+    assert_eq!(info.user_id, "Open Pass Fixture <fixture@openpass.example>");
     assert_eq!(info.fingerprints.len(), 2);
     verify(&public, &sign_detached(&key, None, MESSAGE).unwrap());
 }

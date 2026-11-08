@@ -297,6 +297,9 @@ pub(super) fn parse(
     mapping: Option<&ColumnMapping>,
 ) -> Result<ImportResult, ImportError> {
     let mut table = CsvTable::parse(text, sniff_delimiter(text))?;
+    if mapping.is_none() && super::own_csv::is_own(&table) {
+        return Ok(super::own_csv::parse(&table));
+    }
     if mapping.is_none()
         && let Some((source, app)) = known_format(&table)
         && let Ok(mut result) = super::parse(source, text.as_bytes(), &ImportOptions::default())

@@ -95,4 +95,14 @@ describe('Settings → Import', () => {
     await user.click(screen.getByRole('button', { name: 'Import' }));
     expect(await screen.findByText('1 new, 2 updated, 3 unchanged.')).toBeInTheDocument();
   });
+
+  it('says so when everything in the file is already in the vaults', async () => {
+    const service = await createSignedInService();
+    vi.spyOn(service, 'importFile').mockResolvedValue({ imported: 0, unchanged: 25, skipped: 0, warnings: [] });
+    const { user } = renderApp(service, '/settings');
+    await user.selectOptions(await screen.findByLabelText('Import from'), 'octapass');
+    await user.upload(screen.getByLabelText('File'), new File(['{}'], 'octapass-export.json', { type: 'application/json' }));
+    await user.click(screen.getByRole('button', { name: 'Import' }));
+    expect(await screen.findByText('All 25 items are already in your vaults, so nothing was added.')).toBeInTheDocument();
+  });
 });

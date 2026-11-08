@@ -16,7 +16,7 @@ Every format works in the web vault, the browser extension, the desktop and phon
 |---|---|---|
 | **Encrypted** (`.octapass`) | Everything, attached files included, encrypted with a password you choose | Backups, and moving to another Octa Pass account |
 | **JSON** (plaintext) | Everything except attached files | Scripts and other tools. Anyone who opens the file can read it. |
-| **CSV** | One row per item: Chrome-style columns plus `totp` and `notes`. Cards, identities and custom fields go in the notes. | Moving to almost any other manager |
+| **CSV** | One row per item: Chrome-style columns plus `type`, `totp` and `notes`. Cards, identities, Wi-Fi settings and custom fields go in the notes as `Label: value` lines. Imported back into Octa Pass as **Other app (CSV)**, logins, Wi-Fi networks, cards, identities, notes, bank accounts, licences, ID documents, databases and wallets come back as what they were; other types become notes. | Moving to almost any other manager |
 | **CXF** | Logins, passkeys, one-time codes, notes, cards, identities, SSH keys, ID documents and API credentials in the [FIDO Credential Exchange Format](/docs/import-export/from-cxf/). Bank accounts, software licences, crypto wallets, databases and custom items go as labelled fields, and come back as the same item when imported into Octa Pass. Custom templates and scans stay out. | Moving to another manager that supports CXF |
 
 CXF has no place for password history, recovery info or attached files, so those stay behind. It carries SSH keys as `ssh-key` credentials with their private key in PKCS#8; DSA and FIDO keys can't be converted and are reported as left out. The encrypted export keeps all of it.

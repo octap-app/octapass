@@ -38,6 +38,7 @@ mod octapass;
 mod onepassword_csv;
 mod onepux;
 mod otp;
+mod own_csv;
 mod protonpass;
 mod raivo;
 mod reimport;

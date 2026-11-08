@@ -8,7 +8,7 @@ use octapass_core::Error;
 use octapass_core::export::cxf::{self, CxfAccount};
 use octapass_core::export::{ArchiveWriter, ExportDocument, ExportItem, ExportVault};
 use octapass_core::import::{
-    ImportOptions, ImportResult, ImportSource, import_file, import_octapass, relink,
+    ExistingItem, ImportOptions, ImportResult, ImportSource, import_file, import_octapass, relink,
 };
 use octapass_core::item::{Item, ItemDetails, ItemType, LoginDetails};
 use octapass_core::kdf::KdfParams;
@@ -603,12 +603,22 @@ fn cxf_spec_example() {
     assert_eq!(visa.brand.as_deref(), Some("Visa"));
     assert_eq!(visa.notes.as_deref(), Some("Valid from: 2024-02"));
 
-    let ItemDetails::SecureNote(wifi) = &result.items[3].details else {
+    let ItemDetails::Wifi(wifi) = &result.items[3].details else {
         panic!()
     };
-    assert!(
-        wifi.notes
-            .starts_with("Network: Home_Network\nPassword: mypassword123")
+    assert_eq!(result.items[3].overview.item_type, ItemType::Wifi);
+    assert_eq!(
+        result.items[3].overview.subtitle.as_deref(),
+        Some("Home_Network")
+    );
+    assert_eq!(
+        (
+            wifi.ssid.as_str(),
+            wifi.security.as_str(),
+            wifi.password.as_deref(),
+            wifi.hidden
+        ),
+        ("Home_Network", "wpa2", Some("mypassword123"), None)
     );
 
     let ItemDetails::Identity(address) = &result.items[6].details else {
@@ -1180,4 +1190,317 @@ fn cxf_documents_with_a_person_and_extra_members() {
         ]
     );
     assert_eq!(result.items[1].overview.item_type, ItemType::Identity);
+}
+
+#[test]
+fn an_open_pass_export_imports_too() {
+    // Open Pass writes the same document under its own name.
+    let text = document(false)
+        .to_json()
+        .replace("\"octapass-export\"", "\"openpass-export\"");
+    assert!(text.contains("\"openpass-export\""));
+    let result = import_file(
+        ImportSource::OctaPass,
+        text.as_bytes(),
+        &ImportOptions::default(),
+    )
+    .unwrap();
+    assert_eq!(result.items.len(), document(false).items.len());
+}
+
+#[test]
+fn cxf_round_trip_keeps_wifi_networks() {
+    let mut original = document(false);
+    original.items = vec![
+        item(
+            "0192f0c8-1c2d-7a00-8000-000000000301",
+            "v1",
+            json!({ "schemaVersion": 1, "title": "Home", "type": "wifi", "subtitle": "Casa 5G", "tags": ["home"] }),
+            json!({ "schemaVersion": 1, "ssid": "Casa 5G", "security": "wpa3", "password": " pass phrase ", "hidden": true, "notes": "Router in the hall" }),
+        ),
+        item(
+            "0192f0c8-1c2d-7a00-8000-000000000302",
+            "v1",
+            json!({ "schemaVersion": 1, "title": "Office", "type": "wifi", "subtitle": "corp" }),
+            json!({ "schemaVersion": 1, "ssid": "corp", "security": "wpa2Enterprise", "password": "pw", "eapMethod": "peap", "phase2": "mschapv2", "username": "layla", "serverDomain": "radius.example.com", "customFields": [{ "label": "Desk", "value": "4B", "hidden": false }] }),
+        ),
+    ];
+    let export = cxf::export(&original, &account(), "octapass.example", 0);
+    let result = import_cxf(export.json.as_bytes());
+    assert_eq!(result.items.len(), 2);
+    for item in &result.items {
+        assert_eq!(item.overview.item_type, ItemType::Wifi);
+    }
+    let ItemDetails::Wifi(home) = &result.items[0].details else {
+        panic!()
+    };
+    assert_eq!(
+        result.items[0].overview.subtitle.as_deref(),
+        Some("Casa 5G")
+    );
+    assert_eq!(
+        result.items[0].overview.tags.as_deref().unwrap(),
+        ["home", "Personal"],
+        "the tags, then the vault (a CXF collection)"
+    );
+    assert_eq!(
+        (
+            home.ssid.as_str(),
+            home.security.as_str(),
+            home.password.as_deref(),
+            home.hidden
+        ),
+        ("Casa 5G", "wpa3", Some(" pass phrase "), Some(true))
+    );
+    assert_eq!(home.notes.as_deref(), Some("Router in the hall"));
+
+    let ItemDetails::Wifi(office) = &result.items[1].details else {
+        panic!()
+    };
+    assert_eq!(office.security, "wpa2Enterprise");
+    assert_eq!(
+        (
+            office.eap_method.as_deref(),
+            office.phase2.as_deref(),
+            office.username.as_deref(),
+            office.server_domain.as_deref()
+        ),
+        (
+            Some("peap"),
+            Some("mschapv2"),
+            Some("layla"),
+            Some("radius.example.com")
+        )
+    );
+    let desk = &office.custom_fields.as_ref().unwrap()[0];
+    assert_eq!((desk.label.as_str(), desk.value.as_str()), ("Desk", "4B"));
+    assert!(office.notes.is_none());
+}
+
+// ---------- Octa Pass CSV ----------
+
+/// Rows as the clients' `exportCsv` writes them.
+const OWN_CSV: &str = "vault,type,title,url,username,password,totp,notes,tags,favorite\r
+Personal,wifi,Home Wi-Fi,,,hunter22,,\"SSID: Casa 5G\nSecurity: wpa2\nHidden: Yes\nRouter: in the hall\nBought in 2024\",home,true\r
+Work,wifi,Office,,layla,pw,,\"SSID: corp\nSecurity: wpa2Enterprise\nEAP method: peap\nPhase 2: mschapv2\nServer domain: radius.example.com\",,false\r
+Personal,card,Visa,,,,,\"Cardholder: Layla Haddad\nNumber: 4111 1111 1111 1111\nExpiry: 08/29\nCVV: 123\nKeep: in wallet\",,false\r
+Personal,identity,Me,,,,,\"Name: Layla Haddad\nEmail: layla@example.com\nPhone: +962 6 000\nAddress: 1 Rainbow St, Flat 2, 11118 Amman, Jordan\",,false\r
+Personal,login,GitHub,https://github.com https://gist.github.com,layla,p@ss,,\"Recovery: codes in the safe\nPIN: 4321\nnotes start here\nSecond line: of the notes, kept\",\"work,dev\",false\r
+Personal,password,Router admin,,,admin-pw,,,,false\r
+Personal,secureNote,Plans,,,,,\"Label: not a field\nmore\",,false\r
+Personal,bankAccount,Checking,,,,,\"bankName: Arab Bank\niban: JO94CBJO0010000000000131000302\nBranch phone\",,false\r
+Personal,sshKey,Server,,,,,\"Key type: ssh-ed25519\nFingerprint: SHA256:abc\",,false\r
+";
+
+#[test]
+fn own_csv_brings_back_each_type() {
+    let result = import_file(
+        ImportSource::GenericCsv,
+        OWN_CSV.as_bytes(),
+        &ImportOptions::default(),
+    )
+    .unwrap();
+    let types: Vec<&ItemType> = result.items.iter().map(|i| &i.overview.item_type).collect();
+    assert_eq!(
+        types,
+        [
+            &ItemType::Wifi,
+            &ItemType::Wifi,
+            &ItemType::Card,
+            &ItemType::Identity,
+            &ItemType::Login,
+            &ItemType::Password,
+            &ItemType::SecureNote,
+            &ItemType::BankAccount,
+            &ItemType::SecureNote,
+        ]
+    );
+    for item in &result.items {
+        assert_eq!(&Item::from_json(&item.to_json()).unwrap(), item);
+    }
+
+    let ItemDetails::Wifi(home) = &result.items[0].details else {
+        panic!()
+    };
+    let overview = &result.items[0].overview;
+    assert_eq!(
+        (
+            overview.title.as_str(),
+            overview.subtitle.as_deref(),
+            overview.favorite
+        ),
+        ("Home Wi-Fi", Some("Casa 5G"), Some(true))
+    );
+    assert_eq!(overview.tags.as_deref().unwrap(), ["home"]);
+    assert_eq!(
+        (
+            home.ssid.as_str(),
+            home.security.as_str(),
+            home.password.as_deref(),
+            home.hidden
+        ),
+        ("Casa 5G", "wpa2", Some("hunter22"), Some(true))
+    );
+    assert_eq!(home.notes.as_deref(), Some("Bought in 2024"));
+    let router = &home.custom_fields.as_ref().unwrap()[0];
+    assert_eq!(
+        (router.label.as_str(), router.value.as_str()),
+        ("Router", "in the hall")
+    );
+
+    let ItemDetails::Wifi(office) = &result.items[1].details else {
+        panic!()
+    };
+    assert_eq!(
+        (
+            office.security.as_str(),
+            office.username.as_deref(),
+            office.eap_method.as_deref(),
+            office.phase2.as_deref(),
+            office.server_domain.as_deref()
+        ),
+        (
+            "wpa2Enterprise",
+            Some("layla"),
+            Some("peap"),
+            Some("mschapv2"),
+            Some("radius.example.com")
+        )
+    );
+
+    let ItemDetails::Card(card) = &result.items[2].details else {
+        panic!()
+    };
+    assert_eq!(card.number.as_deref(), Some("4111 1111 1111 1111"));
+    assert_eq!(
+        (card.expiry.as_deref(), card.cvv.as_deref()),
+        (Some("08/29"), Some("123"))
+    );
+    assert_eq!(card.notes.as_deref(), Some("Keep: in wallet"));
+    assert_eq!(
+        result.items[2].overview.subtitle.as_deref(),
+        Some("•••• 1111")
+    );
+
+    let ItemDetails::Identity(me) = &result.items[3].details else {
+        panic!()
+    };
+    assert_eq!(
+        (me.first_name.as_deref(), me.last_name.as_deref()),
+        (Some("Layla"), Some("Haddad"))
+    );
+    let address = me.address.as_ref().unwrap();
+    assert_eq!(
+        (
+            address.line1.as_deref(),
+            address.line2.as_deref(),
+            address.city.as_deref(),
+            address.country.as_deref()
+        ),
+        (
+            Some("1 Rainbow St"),
+            Some("Flat 2"),
+            Some("11118 Amman"),
+            Some("Jordan")
+        )
+    );
+
+    let github = &result.items[4];
+    assert_eq!(
+        github.overview.urls.as_deref().unwrap(),
+        ["https://github.com", "https://gist.github.com"]
+    );
+    assert_eq!(github.overview.tags.as_deref().unwrap(), ["work", "dev"]);
+    let details = login(github);
+    let fields: Vec<(&str, &str, bool)> = details
+        .custom_fields
+        .iter()
+        .flatten()
+        .map(|f| (f.label.as_str(), f.value.as_str(), f.hidden))
+        .collect();
+    // The vault and type columns aren't fields; the lines ahead of the notes are.
+    assert_eq!(
+        fields,
+        [
+            ("Recovery", "codes in the safe", false),
+            ("PIN", "4321", true)
+        ]
+    );
+    assert_eq!(
+        details.notes.as_deref(),
+        Some("notes start here\nSecond line: of the notes, kept")
+    );
+
+    let ItemDetails::SecureNote(plans) = &result.items[6].details else {
+        panic!()
+    };
+    assert_eq!(plans.notes, "Label: not a field\nmore");
+
+    let bank: Value = serde_json::from_str(&result.items[7].to_json()).unwrap();
+    assert_eq!(bank["details"]["bankName"], "Arab Bank");
+    assert_eq!(bank["details"]["iban"], "JO94CBJO0010000000000131000302");
+    assert_eq!(bank["details"]["notes"], "Branch phone");
+
+    let ItemDetails::SecureNote(ssh) = &result.items[8].details else {
+        panic!()
+    };
+    assert_eq!(ssh.notes, "Key type: ssh-ed25519\nFingerprint: SHA256:abc");
+    assert_eq!(
+        result.warnings,
+        [
+            "1 item of a type a CSV can't hold in full was imported as notes, with every field kept. The JSON or encrypted export keeps every type as it is."
+        ]
+    );
+}
+
+#[test]
+fn own_csv_imported_again_updates_instead_of_copying() {
+    let first = import_file(
+        ImportSource::GenericCsv,
+        OWN_CSV.as_bytes(),
+        &ImportOptions::default(),
+    )
+    .unwrap();
+    let mut vault_items = first.items.clone();
+    // The vault has the address in parts; the CSV has it as one line.
+    let ItemDetails::Identity(me) = &mut vault_items[3].details else {
+        panic!()
+    };
+    let address = me.address.as_mut().unwrap();
+    address.postal_code = Some("11118".into());
+    address.city = Some("Amman".into());
+    let existing_items: Vec<ExistingItem> = vault_items
+        .iter()
+        .enumerate()
+        .map(|(i, item)| {
+            serde_json::from_value(json!({
+                "id": format!("id-{i}"),
+                "vaultId": "v1",
+                "updatedAt": "2026-01-01T00:00:00Z",
+                "overview": item.overview,
+                "details": item.details,
+            }))
+            .unwrap()
+        })
+        .collect();
+    let again = import_file(
+        ImportSource::GenericCsv,
+        OWN_CSV.as_bytes(),
+        &ImportOptions {
+            existing_items,
+            ..ImportOptions::default()
+        },
+    )
+    .unwrap();
+    assert!(
+        again.items.is_empty(),
+        "{:?}",
+        again
+            .items
+            .iter()
+            .map(|i| &i.overview.title)
+            .collect::<Vec<_>>()
+    );
+    assert!(again.updates.is_empty());
+    assert_eq!(again.unchanged, first.items.len());
 }

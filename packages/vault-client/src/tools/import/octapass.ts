@@ -13,7 +13,8 @@ export function parseOctaPass(text: string): ParsedImport {
   } catch {
     invalidFile('This isn’t an Octa Pass export.');
   }
-  if (document?.format !== 'octapass-export' || !Array.isArray(document.items)) invalidFile('This isn’t an Octa Pass export.');
+  // Open Pass, which Octa Pass is a fork of, writes the same document under its own name.
+  if ((document?.format !== 'octapass-export' && document?.format !== 'openpass-export') || !Array.isArray(document.items)) invalidFile('This isn’t an Octa Pass export.');
   if (typeof document.version === 'number' && document.version > 1) invalidFile('This export was made by a newer version of Octa Pass.');
   const out = new ImportCollector();
   let leftOut = 0;

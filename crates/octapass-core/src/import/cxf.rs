@@ -31,7 +31,7 @@ use crate::error::Error;
 use crate::export::cxf::{
     ANDROID_APP, Account, CxfItem, Field, Header, ITEM_TYPE_EXTENSION, LinkedItem, MAJOR,
 };
-use crate::item::{CustomField, ItemDetails, ItemType, SCHEMA_VERSION, SshKeyDetails};
+use crate::item::{CustomField, ItemDetails, ItemType, SCHEMA_VERSION, SshKeyDetails, WifiDetails};
 use crate::item_fields::{english_label, fields_of};
 use crate::passkey::{CxfPasskey, PasskeyRecord};
 use crate::tools::otpauth::{OtpAlgorithm, OtpKind, OtpParams};
@@ -305,7 +305,9 @@ fn add_parts(
     } else if !parts.names.is_empty() || !parts.addresses.is_empty() || !parts.documents.is_empty()
     {
         add_identity(&parts, title, notes, tags, favorite, out);
-    } else if add_ssh_key(&parts, title.clone(), notes.clone(), &tags, favorite, out) {
+    } else if add_ssh_key(&parts, title.clone(), notes.clone(), &tags, favorite, out)
+        || add_wifi(&parts, title.clone(), notes.clone(), &tags, favorite, out)
+    {
         // Done.
     } else if let Some(generated) = parts.generated.first() {
         let mut details = build::login_details();
@@ -644,6 +646,90 @@ fn add_ssh_key(
     true
 }
 
+/// A `wifi` credential as a Wi-Fi network. Settings CXF has no member for (Enterprise ones, and
+/// security types other than Personal ones) come in custom fields, as Octa Pass exports them.
+fn add_wifi(
+    parts: &Parts,
+    title: Option<String>,
+    notes: Option<String>,
+    tags: &[String],
+    favorite: bool,
+    out: &mut Collector,
+) -> bool {
+    let Some(credential) = parts.other.iter().find(|c| kind(c) == "wifi") else {
+        return false;
+    };
+    let Some(ssid) = credential
+        .get("ssid")
+        .and_then(|field| serde_json::from_value::<Field>(field.clone()).ok())
+        .map(|field| field.value)
+        .filter(|ssid| !ssid.is_empty())
+    else {
+        return false;
+    };
+    let password = credential
+        .get("passphrase")
+        .and_then(|field| serde_json::from_value::<Field>(field.clone()).ok())
+        .and_then(|field| build::clean_password(Some(&field.value)));
+    let mut custom: Vec<CustomField> = parts.custom.iter().flat_map(|g| group_fields(g)).collect();
+    let mut take = |label: &str| {
+        custom
+            .iter()
+            .position(|f| f.label.eq_ignore_ascii_case(label))
+            .and_then(|i| clean(Some(&custom.remove(i).value)))
+    };
+    let security = take("Security")
+        .or_else(|| {
+            let kind = text(credential, "networkSecurityType")?;
+            Some(
+                match kind.as_str() {
+                    "unsecured" => "open",
+                    "wep" => "wep",
+                    "wpa-personal" => "wpa",
+                    "wpa2-personal" => "wpa2",
+                    "wpa3-personal" => "wpa3",
+                    other => other,
+                }
+                .to_owned(),
+            )
+        })
+        .unwrap_or_else(|| if password.is_some() { "wpa2" } else { "open" }.to_owned());
+    let details = WifiDetails {
+        schema_version: SCHEMA_VERSION,
+        ssid: ssid.clone(),
+        security,
+        password,
+        hidden: text(credential, "hidden")
+            .is_some_and(|hidden| hidden.eq_ignore_ascii_case("true"))
+            .then_some(true),
+        eap_method: take("EAP method"),
+        phase2: take("Phase 2"),
+        username: take("Username"),
+        identity: take("Identity"),
+        server_domain: take("Server domain"),
+        ca_certificate: take("CA certificate"),
+        captive_portal: None,
+        managed: None,
+        hotspot: None,
+        notes: notes_with(&other_lines(parts, &["wifi", "custom-fields"]), notes),
+        custom_fields: (!custom.is_empty()).then_some(custom),
+        password_history: None,
+        extra: Default::default(),
+    };
+    out.add(crate::item::Item {
+        overview: build::overview(
+            ItemType::Wifi,
+            title,
+            Vec::new(),
+            Some(ssid),
+            tags.to_vec(),
+            favorite,
+        ),
+        details: ItemDetails::Wifi(details),
+    });
+    true
+}
+
 /// A scope URL as a website address: Dashlane writes bare domains.
 fn website(url: &str) -> Option<String> {
     let url = clean(Some(url))?;
@@ -833,7 +919,7 @@ fn other_lines(parts: &Parts, skip: &[&str]) -> Vec<(String, String)> {
     let mut lines = Vec::new();
     for credential in &parts.other {
         match kind(credential) {
-            "wifi" => {
+            "wifi" if !skip.contains(&"wifi") => {
                 for (member, label) in [
                     ("ssid", "Network"),
                     ("passphrase", "Password"),

@@ -80,6 +80,7 @@ An imported item keeps the dates the other app recorded: when it was created, wh
 
 - If the header is another app's export that Octa Pass has an importer for (Firefox, Chrome, Safari, LastPass, 1Password, Proton Pass, NordPass, RoboForm, KeePassXC, Dashlane, Zoho Vault, Avira, Norton, McAfee True Key, Kaspersky), the file is read by that importer and the summary says so.
 - Bitwarden's CSV export (`folder,favorite,type,name,notes,fields,reprompt,login_uri,login_username,login_password,login_totp`) has its `fields` column split into custom fields, `folder` as a tag and `favorite` as a favourite.
+- Octa Pass's own CSV export (`vault,type,title,url,username,password,totp,notes,tags,favorite`) is read by its `type` column: Wi-Fi networks, cards, identities and the other types it can hold come back as what they were, with the `Label: value` lines at the top of the notes back in their fields. The `vault` column is left out: the import goes into the vault you choose.
 
 Otherwise, columns are recognised by their names:
 

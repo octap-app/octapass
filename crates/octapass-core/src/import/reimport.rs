@@ -679,6 +679,14 @@ fn merge(current: &Item, imported: &Item, now: &str) -> Option<Item> {
             let merged = match key.as_str() {
                 // Files only change through the attachment calls.
                 "attachments" => continue,
+                // A file with the address as one line (a CSV) keeps the vault's parts of it.
+                "address"
+                    if details
+                        .get(&key)
+                        .is_some_and(|old| same_address(old, &value)) =>
+                {
+                    continue;
+                }
                 // Labels are what names a field, also on a custom item.
                 "customFields" | "fields" => union(&value, details.get(&key), |a, b| {
                     a.get("label") == b.get("label")
@@ -709,6 +717,28 @@ fn merge(current: &Item, imported: &Item, now: &str) -> Option<Item> {
     }
     let overview: ItemOverview = serde_json::from_value(Value::Object(overview)).ok()?;
     Item::from_parts(overview, Value::Object(details)).ok()
+}
+
+/// Whether two addresses read the same as one line (`line1, line2, postcode city region, country`,
+/// as the CSV export writes it), however their parts are split.
+fn same_address(a: &Value, b: &Value) -> bool {
+    let text = |address: &Value| {
+        let part = |key: &str| address.get(key).and_then(Value::as_str).unwrap_or_default();
+        [
+            part("line1"),
+            part("line2"),
+            part("postalCode"),
+            part("city"),
+            part("region"),
+            part("country"),
+        ]
+        .join(" ")
+        .split(|c: char| c.is_whitespace() || c == ',')
+        .filter(|word| !word.is_empty())
+        .collect::<Vec<_>>()
+        .join(" ")
+    };
+    text(a) == text(b)
 }
 
 /// When the file has a new password, the vault's one goes into the history (newest first),

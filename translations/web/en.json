@@ -1239,6 +1239,8 @@
     "done_one": "Imported {count} item.",
     "done_other": "Imported {count} items.",
     "summary": "{added} new, {updated} updated, {unchanged} unchanged.",
+    "alreadyThere_one": "This item is already in your vaults, so nothing was added.",
+    "alreadyThere_other": "All {count} items are already in your vaults, so nothing was added.",
     "skipped_one": "{count} row was skipped.",
     "skipped_other": "{count} rows were skipped.",
     "files_one": "{count} attached file was restored.",

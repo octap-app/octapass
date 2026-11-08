@@ -75,6 +75,7 @@ sidebar:
 
 - إذا كان صف العناوين من تصدير تطبيق آخر لدى Octa Pass مستورِد له (Firefox وChrome وSafari وLastPass و1Password وProton Pass وNordPass وRoboForm وKeePassXC وDashlane)، يقرأ ذلك المستورِد الملف ويذكر الملخص ذلك.
 - تصدير CSV من Bitwarden (`folder,favorite,type,name,notes,fields,reprompt,login_uri,login_username,login_password,login_totp`) يُقسَّم عمود `fields` فيه إلى حقول مخصصة، ويصير `folder` وسمًا، ويصير `favorite` مفضّلًا.
+- تصدير CSV من Octa Pass نفسه (`vault,type,title,url,username,password,totp,notes,tags,favorite`) يُقرأ بحسب عمود `type`: تعود شبكات Wi-Fi والبطاقات والهويات وغيرها من الأنواع التي يحملها كما كانت، وتعود أسطر `Label: value` في أعلى الملاحظات إلى حقولها. ولا يُستعمل عمود `vault`: يذهب الاستيراد إلى الخزنة التي تختارها.
 
 وإلا فتُتعرَّف الأعمدة بأسمائها:
 

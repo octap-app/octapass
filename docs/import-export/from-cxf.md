@@ -27,7 +27,7 @@ Apps can also hand CXF to each other directly, with no file: on Android (see [mo
 | `identity-document`, `passport`, `drivers-license` | ID document. Beside a login or card, their details stay with that item. With a name or address, those become an identity next to it. |
 | `api-key` | API credential. Beside a login or card, it stays with that item. |
 | `generated-password` | Password |
-| `wifi` | Secure note |
+| `wifi` | Wi-Fi network. Enterprise settings an Octa Pass export keeps in custom fields (EAP method, phase 2, username, identity, server domain, CA certificate) go back to their places. |
 | `ssh-key` | SSH key, when its private key reads (OpenSSH, PEM or PKCS#8); a `Passphrase` custom field is kept for exports. PuTTY, DSA and FIDO keys can't be converted, so those items become secure notes. |
 | `custom-fields` | Custom fields on a Login, ID document or API credential, or lines in the notes |
 | `custom-fields` from an Octa Pass export | The same item back: bank account, software licence, crypto wallet, database or custom item. CXF has no credential for these, so other apps see plain labelled fields. |

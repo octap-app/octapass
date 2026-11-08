@@ -27,7 +27,7 @@ export const SOURCE_GROUPS: { label: MessageKey; sources: Source[] }[] = [
   {
     label: 'import.groupOctaPass',
     sources: [
-      { value: 'octapass', name: 'Octa Pass', accept: '.octapass,.json,application/json', password: true },
+      { value: 'octapass', name: 'Octa Pass', accept: '.octapass,.openpass,.json,application/json', password: true },
       { value: 'cxf', name: 'import.cxf', accept: JSON_FILE },
     ],
   },
@@ -246,9 +246,11 @@ export function ImportPanel() {
         <Alert tone={result.imported > 0 || result.updated || result.unchanged ? 'success' : 'warn'}>
           <p>
             <strong>
-              {result.updated || result.unchanged
-                ? t('import.summary', { added: result.imported, updated: result.updated ?? 0, unchanged: result.unchanged ?? 0 })
-                : t('import.done', { count: result.imported })}
+              {result.unchanged && !result.imported && !result.updated
+                ? t('import.alreadyThere', { count: result.unchanged })
+                : result.updated || result.unchanged
+                  ? t('import.summary', { added: result.imported, updated: result.updated ?? 0, unchanged: result.unchanged ?? 0 })
+                  : t('import.done', { count: result.imported })}
             </strong> {result.skipped > 0 && t('import.skipped', { count: result.skipped })}{' '}
             {result.files ? t('import.files', { count: result.files }) : null}
           </p>

@@ -1256,6 +1256,7 @@ export const en = {
     chooseFile: 'Choose the file you exported first.',
     done: { one: 'Imported {count} item.', other: 'Imported {count} items.' },
     summary: '{added} new, {updated} updated, {unchanged} unchanged.',
+    alreadyThere: { one: 'This item is already in your vaults, so nothing was added.', other: 'All {count} items are already in your vaults, so nothing was added.' },
     skipped: { one: '{count} row was skipped.', other: '{count} rows were skipped.' },
     files: { one: '{count} attached file was restored.', other: '{count} attached files were restored.' },
     deleteFile: 'Delete the file you imported when you’re done: anyone who finds it can read it, unless it’s an encrypted export.',

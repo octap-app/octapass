@@ -11,6 +11,9 @@ use serde_json::{Map, Value};
 use crate::error::{Error, Result};
 
 pub const FORMAT: &str = "octapass-export";
+/// Open Pass, which Octa Pass is a fork of, writes the same document under its own name; both read
+/// either.
+const SIBLING_FORMAT: &str = "openpass-export";
 pub const VERSION: u32 = 1;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -76,7 +79,8 @@ impl ExportDocument {
     /// Reads a document. A newer major version is refused rather than half read.
     pub fn parse(json: &[u8]) -> Result<Self> {
         let value: Value = serde_json::from_slice(json).map_err(|_| Error::InvalidImportFile)?;
-        if value.get("format").and_then(Value::as_str) != Some(FORMAT) {
+        let format = value.get("format").and_then(Value::as_str);
+        if format != Some(FORMAT) && format != Some(SIBLING_FORMAT) {
             return Err(Error::InvalidImportFile);
         }
         if value

@@ -1,0 +1,40 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "phone.native.pushAlertBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغيّر شيء في المشاركة أو الوصول في الطوارئ. افتح التطبيق لتراه."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Something changed in your sharing or emergency access. Open the app to see it."
+          }
+        }
+      }
+    },
+    "phone.native.pushAlertTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Octa Pass"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Octa Pass"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

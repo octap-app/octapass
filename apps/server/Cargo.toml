@@ -72,6 +72,9 @@ tokio-tungstenite = "0.29"
 # Compressed test responses for the icon fetcher.
 flate2 = "1"
 futures-util = { version = "0.3", default-features = false, features = ["sink", "alloc"] }
+# Push sync end to end: the real push relay on a local port, in front of fake APNs and FCM.
+octapass-push-relay = { path = "../push-relay" }
+ring = "0.17"
 # A local stand-in SAML identity provider: its RSA key and signatures (tests only).
 rsa = { version = "0.9", features = ["sha2"] }
 

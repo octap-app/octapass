@@ -1898,6 +1898,100 @@
         ]
       }
     },
+    "/v1/devices/current/push": {
+      "put": {
+        "tags": [
+          "devices"
+        ],
+        "operationId": "put_push_token",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PushTokenRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "204": {
+            "description": "Saved. When something this account can see changes, the server asks the push relay to wake this device with `sync` or `alert`, and nothing more. A token another device had moves to this one."
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "`push-off`: this server sends no pushes",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "devices"
+        ],
+        "operationId": "delete_push_token",
+        "responses": {
+          "204": {
+            "description": "This device gets no more pushes"
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "`push-off`",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
     "/v1/devices/{deviceId}": {
       "delete": {
         "tags": [
@@ -12021,6 +12115,35 @@
           }
         }
       },
+      "PushPlatform": {
+        "type": "string",
+        "description": "Which service delivers a phone's pushes.",
+        "enum": [
+          "apns",
+          "fcm"
+        ]
+      },
+      "PushTokenRequest": {
+        "type": "object",
+        "description": "`PUT /v1/devices/current/push`: where this device can be woken up. A push names no account,\nvault or item; it says only `sync` or `alert`.",
+        "required": [
+          "platform",
+          "token"
+        ],
+        "properties": {
+          "platform": {
+            "$ref": "#/components/schemas/PushPlatform"
+          },
+          "sandbox": {
+            "type": "boolean",
+            "description": "APNs only: a development build, reached through Apple's sandbox."
+          },
+          "token": {
+            "type": "string",
+            "description": "At most 4096 characters: hex for APNs; letters, digits, `-`, `_` and `:` for FCM."
+          }
+        }
+      },
       "PutItemRequest": {
         "type": "object",
         "description": "`PUT /v1/vaults/{vaultId}/items/{itemId}`",
@@ -12759,7 +12882,8 @@
             "type": "string"
           },
           "pushRelay": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Phones can register for pushes (`PUT /v1/devices/current/push`): the server is set up with\na push relay and registered with it."
           },
           "signups": {
             "$ref": "#/components/schemas/SignupMode"

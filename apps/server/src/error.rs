@@ -46,6 +46,8 @@ pub enum ApiError {
     IconsOff,
     #[error("this server has no masked email service")]
     MaskedEmailOff,
+    #[error("this server doesn't send pushes")]
+    PushOff,
     #[error("this account has as many masked email aliases as the server allows")]
     MaskedEmailLimit,
     #[error("the item changed on the server")]
@@ -166,6 +168,7 @@ impl ApiError {
                 types::MASKED_EMAIL_OFF,
                 "Masked email off",
             ),
+            PushOff => (StatusCode::NOT_FOUND, types::PUSH_OFF, "Push off"),
             MaskedEmailLimit => (
                 StatusCode::CONFLICT,
                 types::MASKED_EMAIL_LIMIT,

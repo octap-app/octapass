@@ -31,6 +31,7 @@ use crate::db::{self, accounts, audit, sharing};
 use crate::error::{ApiError, ApiResult};
 use crate::extract::{ApiJson, ApiPath, Authenticated};
 use crate::mail::Email;
+use crate::push::PushKind;
 use crate::state::AppState;
 use crate::validate;
 
@@ -260,6 +261,7 @@ pub async fn invite(
         .map(|account| account.email)
         .unwrap_or_default();
     state.send_email(&recipient.email, Email::FamilyInvite { organiser });
+    state.wake(&recipient.id, PushKind::Alert);
     Ok(StatusCode::ACCEPTED)
 }
 
@@ -478,5 +480,6 @@ pub async fn enable_organiser_recovery(
             grantor: record.grantor_email.clone(),
         },
     );
+    state.wake(&family.organiser_id, PushKind::Alert);
     Ok((StatusCode::CREATED, Json(record)))
 }

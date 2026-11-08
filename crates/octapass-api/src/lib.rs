@@ -32,6 +32,8 @@ pub struct ServerInfo {
     pub version: String,
     pub api_version: u32,
     pub signups: SignupMode,
+    /// Phones can register for pushes (`PUT /v1/devices/current/push`): the server is set up with
+    /// a push relay and registered with it.
     pub push_relay: bool,
     /// This server has its own masked email service: the routes under `/v1/masked-email` work.
     /// Absent on older servers.
@@ -1901,6 +1903,31 @@ pub struct DeviceRecord {
 pub struct RenameDeviceRequest {
     /// At most 64 characters.
     pub name: String,
+}
+
+/// Which service delivers a phone's pushes.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "openapi", derive(utoipa::ToSchema))]
+#[serde(rename_all = "lowercase")]
+pub enum PushPlatform {
+    /// Apple Push Notification service: the device token in hex.
+    Apns,
+    /// Firebase Cloud Messaging: the registration token.
+    Fcm,
+}
+
+/// `PUT /v1/devices/current/push`: where this device can be woken up. A push names no account,
+/// vault or item; it says only `sync` or `alert`.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "openapi", derive(utoipa::ToSchema))]
+#[serde(rename_all = "camelCase")]
+pub struct PushTokenRequest {
+    pub platform: PushPlatform,
+    /// At most 4096 characters: hex for APNs; letters, digits, `-`, `_` and `:` for FCM.
+    pub token: String,
+    /// APNs only: a development build, reached through Apple's sandbox.
+    #[serde(default)]
+    pub sandbox: bool,
 }
 
 /// A message from the client on `GET /v1/ws`.

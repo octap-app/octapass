@@ -152,6 +152,30 @@ impl Http {
         Ok(())
     }
 
+    /// An authenticated call of any method with a JSON body and no answer worth reading.
+    pub fn send_json(
+        &self,
+        method: HttpMethod,
+        url: String,
+        token: &str,
+        body: &impl serde::Serialize,
+    ) -> std::result::Result<(), OctaPassError> {
+        let body = serde_json::to_vec(body).map_err(|_| OctaPassError::InvalidResponse)?;
+        let response = self.send(HttpRequest {
+            method,
+            url,
+            headers: HashMap::from([
+                ("authorization".to_owned(), format!("Bearer {token}")),
+                ("content-type".to_owned(), "application/json".to_owned()),
+            ]),
+            body: Some(body),
+        })?;
+        if !(200..300).contains(&response.status) {
+            return Err(problem(&response));
+        }
+        Ok(())
+    }
+
     /// Uploads a file from disk as the raw request body (an encrypted attachment).
     pub fn upload_file(
         &self,

@@ -32,6 +32,7 @@ use crate::emergency::{self, requested_email};
 use crate::error::{ApiError, ApiResult};
 use crate::extract::{ApiJson, ApiPath, ApiQuery, Authenticated};
 use crate::mail::Email;
+use crate::push::PushKind;
 use crate::state::AppState;
 use crate::validate;
 
@@ -185,6 +186,7 @@ pub async fn create(
             grantor: record.grantor_email.clone(),
         },
     );
+    state.wake(&contact_id, PushKind::Alert);
     Ok((StatusCode::CREATED, Json(record)))
 }
 
@@ -284,6 +286,8 @@ pub async fn request(
             .await?
             .ok_or(ApiError::NotFound)?;
         state.send_email(&requested.grantor_email, requested_email(&requested, false));
+        // The grantor has the waiting period to say no: the one notice that most needs to arrive.
+        state.wake(&requested.grantor_id, PushKind::Alert);
         return Ok(Json(requested.into_record()));
     }
     Ok(Json(row.into_record()))
@@ -330,6 +334,7 @@ pub async fn deny(
                 grantor: row.grantor_email.clone(),
             },
         );
+        state.wake(&row.contact_id, PushKind::Alert);
     }
     Ok(Json(reload(&state, &row.id).await?))
 }

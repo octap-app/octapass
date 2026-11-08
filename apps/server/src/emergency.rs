@@ -8,6 +8,7 @@ use octapass_api::SecurityEventType;
 
 use crate::db::{self, emergency::ContactRow};
 use crate::mail::{Email, readable_time};
+use crate::push::PushKind;
 use crate::state::AppState;
 
 /// Releases every request whose waiting period is over.
@@ -63,6 +64,8 @@ pub async fn release(
             to_grantor: true,
         },
     );
+    state.wake(&row.contact_id, PushKind::Alert);
+    state.wake(&row.grantor_id, PushKind::Alert);
     Ok(true)
 }
 
@@ -71,6 +74,7 @@ pub async fn send_reminders(state: &AppState, now: i64) -> Result<(), sqlx::Erro
     for row in db::emergency::take_reminders(&state.db, now).await? {
         let email = requested_email(&row, true);
         state.send_email(&row.grantor_email, email);
+        state.wake(&row.grantor_id, PushKind::Alert);
     }
     Ok(())
 }

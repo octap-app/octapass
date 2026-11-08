@@ -1,0 +1,32 @@
+[package]
+name = "octapass-push-relay"
+version = "0.1.0"
+description = "The Octa Pass push relay: holds the APNs and FCM credentials and passes content-free wakeups from Octa Pass servers to phones."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+base64.workspace = true
+thiserror.workspace = true
+rand_core.workspace = true
+axum = { version = "0.8", features = ["macros"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "net", "signal", "time", "sync"] }
+sqlx = { version = "0.9", default-features = false, features = ["runtime-tokio", "any", "sqlite", "postgres", "migrate", "macros"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+sha2 = "0.10"
+subtle = "2.6"
+# APNs needs HTTP/2, negotiated over TLS.
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "http2", "json"] }
+# ES256 for APNs provider tokens and RS256 for Google's OAuth assertion. The `rsa` crate never
+# signs here (RUSTSEC-2023-0071, plan 16 History); ring does both.
+ring = "0.17"
+
+[dev-dependencies]
+tempfile = "3"
+tower = { version = "0.5", features = ["util"] }
+http-body-util = "0.1"

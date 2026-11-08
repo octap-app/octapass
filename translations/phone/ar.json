@@ -150,7 +150,11 @@
     "safeDeleteSelected": "هل تريد حذف العناصر المحددة من هذه الخزينة؟ لا يمكن التراجع عن ذلك.",
     "safesUnlockFirst": "افتح قفل Octa Pass لتفتح خزائنك هنا.",
     "settingsUnlockFirst": "افتح قفل Octa Pass لتغيّر إعداداته.",
-    "deviceUnlockTurnOn": "تفعيل {method}"
+    "deviceUnlockTurnOn": "تفعيل {method}",
+    "pushAlertTitle": "Octa Pass",
+    "pushAlertBody": "تغيّر شيء في المشاركة أو الوصول في الطوارئ. افتح التطبيق لتراه.",
+    "pushChannelName": "المشاركة والوصول في الطوارئ",
+    "pushChannelHelp": "عندما يشاركك أحدهم شيئًا، أو يدعوك إلى عائلة، أو يطلب الوصول في الطوارئ."
   },
   "mac": {
     "show": "إظهار Octa Pass",

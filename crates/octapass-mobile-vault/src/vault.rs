@@ -34,6 +34,7 @@ mod attachments;
 mod desktop;
 mod local;
 mod password;
+mod push;
 mod qr;
 pub mod safes;
 mod transfer;
@@ -41,6 +42,7 @@ mod versions;
 
 pub use access::{Access, OutboxStatus, TwoStepPending};
 pub use local::{LocalCapabilities, LocalVaultInfo, RestoreSecret};
+pub use push::{PushPlatform, PushToken};
 pub use qr::{read_qr_codes, summarize_qr_scans};
 pub use transfer::{FileExport, ImportReview, ImportSummary, ReceivedPreview, ReviewCode};
 
@@ -93,6 +95,8 @@ pub struct Vault {
     /// Serialises everything that uses the refresh token, so a rotated one is never presented
     /// twice (the server would sign the device out).
     io: Mutex<()>,
+    /// The push token the system gave the app, and what the server has (`push.rs`).
+    push: Mutex<push::PushState>,
 }
 
 struct State {
@@ -176,6 +180,7 @@ impl Vault {
                 received: None,
             }),
             io: Mutex::new(()),
+            push: Mutex::default(),
         });
         // Whatever the last run left, if it ended without locking.
         vault.clear_plaintext();
@@ -1362,6 +1367,8 @@ impl Vault {
         let _ = self.with_token(unlocked, |token| {
             unlocked.server.monitor_key_log(token, &unlocked.store)
         });
+        // Once per launch and account: the server learns where to send pushes.
+        self.register_push(&unlocked.account, &unlocked.server);
         (self.listener)(Event::ItemsChanged);
         self.publish_identities();
         Ok(())
@@ -1423,20 +1430,28 @@ impl Vault {
     }
 
     fn refresh(&self, unlocked: &Unlocked) -> Result<String> {
-        let name = unlocked.account.refresh_token_name();
+        self.refresh_account(&unlocked.account, &unlocked.server)
+    }
+
+    /// Needs no unlock: the refresh token is in the Keychain or Keystore. The caller holds `io`.
+    pub(crate) fn refresh_account(
+        &self,
+        account: &Account,
+        server: &OctaPassServer,
+    ) -> Result<String> {
+        let name = account.refresh_token_name();
         let refresh_token = self
             .native
             .secret(&name)?
             .ok_or(ErrorCode::SessionExpired)?;
-        let tokens = unlocked.server.refresh(refresh_token.to_string())?;
+        let tokens = server.refresh(refresh_token.to_string())?;
         self.native.set_secret(&name, &tokens.refresh_token)?;
         // Only for a phone that signed in before the server issued these.
         if let Some(token) = &tokens.trusted_device_token {
             self.native
-                .set_secret(&unlocked.account.trusted_device_name(), token)?;
+                .set_secret(&account.trusted_device_name(), token)?;
         }
-        self.state().access_token =
-            Some((unlocked.account.tag.clone(), tokens.access_token.clone()));
+        self.state().access_token = Some((account.tag.clone(), tokens.access_token.clone()));
         Ok(tokens.access_token)
     }
 

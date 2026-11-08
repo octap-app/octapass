@@ -1,6 +1,6 @@
 [workspace]
 resolver = "3"
-members = ["crates/*", "apps/server", "apps/relay", "apps/witness", "apps/cli"]
+members = ["crates/*", "apps/server", "apps/relay", "apps/witness", "apps/push-relay", "apps/cli"]
 exclude = ["apps/desktop"]
 
 [workspace.package]

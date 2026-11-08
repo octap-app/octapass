@@ -25,6 +25,18 @@ android {
         // -PoctapassServer=http://localhost:8090 (the emulator reaches the Mac through adb reverse).
         buildConfigField("String", "DEFAULT_SERVER_URL", "\"${providers.gradleProperty("octapassServer").getOrElse("https://vault.octap.app")}\"")
         buildConfigField("String", "WEB_VAULT_URL", "\"https://vault.octap.app\"")
+        // Push sync (`platform/Push.kt`): the Firebase project the push relay sends through, given
+        // as -PoctapassFcmProjectId, -PoctapassFcmAppId, -PoctapassFcmApiKey and
+        // -PoctapassFcmSenderId instead of a google-services.json. Without all four, Firebase is
+        // never started and the app has no push.
+        for ((field, property) in listOf(
+            "FCM_PROJECT_ID" to "octapassFcmProjectId",
+            "FCM_APP_ID" to "octapassFcmAppId",
+            "FCM_API_KEY" to "octapassFcmApiKey",
+            "FCM_SENDER_ID" to "octapassFcmSenderId",
+        )) {
+            buildConfigField("String", field, "\"${providers.gradleProperty(property).getOrElse("")}\"")
+        }
         manifestPlaceholders["usesCleartextTraffic"] = "false"
     }
 
@@ -118,6 +130,9 @@ dependencies {
     // The data layer to a paired Wear OS watch (`platform/WatchCodes.kt`). Without Play services
     // the setting does nothing.
     implementation("com.google.android.gms:play-services-wearable:20.0.1")
+    // Push sync (`platform/Push.kt`): Firebase Cloud Messaging only, started by hand. No
+    // google-services plugin, no Analytics; the manifest turns off what would report anything.
+    implementation("com.google.firebase:firebase-messaging:26.0.1")
 
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.json:json:20250517")

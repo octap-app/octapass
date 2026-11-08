@@ -48,6 +48,8 @@ pub struct Config {
     pub icons: Icons,
     /// The masked email relay's internal API (`OCTAPASS_RELAY_API_URL`), when this server has one.
     pub relay: Option<Relay>,
+    /// The push relay that wakes phones (`OCTAPASS_PUSH_RELAY`), off unless turned on.
+    pub push: Option<PushRelay>,
     /// Witnesses the key log sends its checkpoints to (`OCTAPASS_KEY_LOG_WITNESSES`). None: the
     /// log isn't witnessed.
     pub key_log_witnesses: Option<KeyLogWitnesses>,
@@ -75,6 +77,17 @@ pub struct KeyLogWitness {
     pub url: String,
     /// The witness's C2SP verifier key (`name+id+base64`, an Ed25519 cosignature/v1 key).
     pub vkey: String,
+}
+
+/// The push relay (plan 04): it holds the APNs and FCM credentials, so this server can wake the
+/// official phone apps. The server registers with it on its own and keeps the installation in
+/// its database.
+#[derive(Clone, Debug)]
+pub struct PushRelay {
+    pub url: String,
+    /// How long changes gather before their pushes go out, so an import of a thousand items
+    /// wakes each phone once. Not an environment variable; tests shorten it.
+    pub batch_delay: Duration,
 }
 
 /// Where the masked email relay's internal API is. Without it, `/v1/masked-email` answers 404 and
@@ -356,6 +369,7 @@ impl Config {
                 limits: crate::icons::Limits::default(),
             },
             relay: relay(&get)?,
+            push: push_relay(&get)?,
             key_log_witnesses: key_log_witnesses(&get)?,
             hibp: hibp(&get, dev_mode)?,
             sso_private_network: get("OCTAPASS_SSO_PRIVATE_NETWORK")
@@ -384,6 +398,42 @@ impl Config {
         origins.push(self.public_url.trim_end_matches('/').to_owned());
         origins
     }
+}
+
+/// The Octa Pass project's relay. Not running yet: until it is, set `OCTAPASS_PUSH_RELAY_URL` to
+/// one you run (`apps/push-relay`).
+pub const DEFAULT_PUSH_RELAY_URL: &str = "https://push.octap.app";
+
+/// Off by default: turning it on sends the relay a wakeup, with a device's push token, whenever
+/// that device has something to sync.
+fn push_relay(get: &impl Fn(&str) -> Option<String>) -> Result<Option<PushRelay>, ConfigError> {
+    const NAME: &str = "OCTAPASS_PUSH_RELAY";
+    let on = match get(NAME).as_deref() {
+        None | Some("false") | Some("off") => false,
+        Some("true") | Some("on") => true,
+        Some(other) => return Err(invalid(NAME, format!("{other:?} is not true or false"))),
+    };
+    let url = get("OCTAPASS_PUSH_RELAY_URL");
+    if !on {
+        if url.is_some() {
+            return Err(invalid(
+                "OCTAPASS_PUSH_RELAY_URL",
+                "needs OCTAPASS_PUSH_RELAY=true as well".into(),
+            ));
+        }
+        return Ok(None);
+    }
+    let url = url.unwrap_or_else(|| DEFAULT_PUSH_RELAY_URL.into());
+    if !(url.starts_with("https://") || url.starts_with("http://")) {
+        return Err(invalid(
+            "OCTAPASS_PUSH_RELAY_URL",
+            format!("{url:?} is not an http(s) URL"),
+        ));
+    }
+    Ok(Some(PushRelay {
+        url: url.trim_end_matches('/').to_owned(),
+        batch_delay: Duration::from_secs(2),
+    }))
 }
 
 fn relay(get: &impl Fn(&str) -> Option<String>) -> Result<Option<Relay>, ConfigError> {
@@ -927,6 +977,34 @@ mod tests {
         ])
         .unwrap();
         assert_eq!(dev.hibp.unwrap().base_url, "http://127.0.0.1:1");
+    }
+
+    #[test]
+    fn push_is_off_until_turned_on() {
+        assert!(config(&[]).unwrap().push.is_none());
+        assert!(
+            config(&[("OCTAPASS_PUSH_RELAY", "false")])
+                .unwrap()
+                .push
+                .is_none()
+        );
+        let on = config(&[("OCTAPASS_PUSH_RELAY", "true")]).unwrap();
+        assert_eq!(on.push.unwrap().url, DEFAULT_PUSH_RELAY_URL);
+        let own = config(&[
+            ("OCTAPASS_PUSH_RELAY", "on"),
+            ("OCTAPASS_PUSH_RELAY_URL", "https://push.example.com/"),
+        ])
+        .unwrap();
+        assert_eq!(own.push.unwrap().url, "https://push.example.com");
+        assert!(config(&[("OCTAPASS_PUSH_RELAY", "yes")]).is_err());
+        assert!(config(&[("OCTAPASS_PUSH_RELAY_URL", "https://push.example.com")]).is_err());
+        assert!(
+            config(&[
+                ("OCTAPASS_PUSH_RELAY", "true"),
+                ("OCTAPASS_PUSH_RELAY_URL", "push.example.com")
+            ])
+            .is_err()
+        );
     }
 
     #[test]

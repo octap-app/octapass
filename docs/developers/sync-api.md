@@ -27,7 +27,7 @@ The sync API is public and documented so that self-hosters and third-party clien
 | Endpoint | Purpose |
 |---|---|
 | `GET /healthz`, `GET /readyz` | Liveness, and readiness (database and attachment storage reachable) |
-| `GET /v1/server-info` | Name, version, `apiVersion: 1`, signup mode, push relay |
+| `GET /v1/server-info` | Name, version, `apiVersion: 1`, signup mode, `pushRelay` (phones can register for pushes) |
 | `GET /v1/openapi.json` | This API as OpenAPI 3.1 |
 | `POST /v1/auth/prelogin` | KDF parameters and account salt for an email |
 | `POST /v1/auth/register/start`, `…/finish` | OPAQUE registration with email verification |
@@ -60,6 +60,7 @@ The sync API is public and documented so that self-hosters and third-party clien
 | `GET /v1/ws` | WebSocket: "vault changed" notifications, sign-out and deletion notices |
 | `GET /v1/devices` | Signed-in devices |
 | `PATCH /v1/devices/current` | Rename this device |
+| `PUT /v1/devices/current/push`, `DELETE …` | Register or remove this device's push token ([push](#push)) |
 | `DELETE /v1/devices/{deviceId}` | Sign a device out remotely |
 | `GET /v1/accounts/lookup?email=` | An account's id, public keys and fingerprint, to share with it |
 | `GET`, `POST /v1/transparency/…` | The [key log](#key-log) |
@@ -578,6 +579,22 @@ Each login creates a device, named by the client.
 - `DELETE /v1/devices/{deviceId}` signs that device out: its tokens stop working, its live connections get `session-revoked`, and it no longer skips two-step sign-in. Deleting the current device is the same as logging out. `204`, or `404` if the account has no such signed-in device.
 
 Devices with no session left (signed out, or idle past the 30-day refresh token) are forgotten by the server's maintenance.
+
+## Push
+
+Phones can be woken to sync when the server has a [push relay](/docs/self-hosting/push-relay/): `GET /v1/server-info` then says `pushRelay: true`. Without one, every route here answers `404` with the type `push-off`.
+
+- `PUT /v1/devices/current/push` with `{ platform, token, sandbox }` saves where the calling device is woken. `platform` is `apns` (the device token in hex, any case; stored lowercase) or `fcm` (the registration token: letters, digits, `-`, `_` and `:`), at most 4096 characters. `sandbox` is for development iPhone builds, which Apple reaches through its sandbox; it's ignored for `fcm`. `204`. One token per device: a new one replaces the old, and a token another device had moves to this one. Call it at every app start, since the system may change the token.
+- `DELETE /v1/devices/current/push` stops pushes to this device. `204`. Signing the device out does the same.
+
+A push carries one word, never anything about the account, its vaults or items:
+
+| Word | Sent to | When |
+|---|---|---|
+| `sync` | Every member of the vault | An item, the trash, a member or the key of a vault changed (the same changes as `vault-changed` and `membership-changed` on the [WebSocket](#live-notifications)) |
+| `alert` | The other person | A vault was shared with them, a family invite, being added as an emergency contact, an emergency access request (to the grantor), a denial, a release (both sides) and the daily reminder of an unanswered request |
+
+Changes gather for 2 seconds, so a batch wakes each device once, and an `alert` outranks a `sync` in the same round. On iPhone, `sync` is a background push (`content-available`), and `alert` shows the app's own strings `phone.native.pushAlertTitle` and `phone.native.pushAlertBody`. On Android both are data messages (`{ "octapass": "sync" | "alert" }`), and the app shows its own notice for `alert`. Either way the client then syncs as usual; the push itself is never trusted for anything. Pushes are best effort: a client must still sync when it opens.
 
 ## Account deletion
 

@@ -146,6 +146,11 @@ const en = {
     settingsUnlockFirst: 'Unlock Octa Pass to change its settings.',
     // The system prompt when device unlock is turned on (on a Mac: "Octa Pass is trying to turn on Touch ID").
     deviceUnlockTurnOn: 'Turn on {method}',
+    // Push notifications (plan 04). A push carries no names, so these say only what kind of thing to look at.
+    pushAlertTitle: 'Octa Pass',
+    pushAlertBody: 'Something changed in your sharing or emergency access. Open the app to see it.',
+    pushChannelName: 'Sharing and emergency access',
+    pushChannelHelp: 'When someone shares with you, invites you to a family, or asks for emergency access.',
   },
   // Only the native Mac app says these (plan 19): the menu bar and quick access, as the Tauri
   // app's (`apps/desktop/src/i18n.ts`, `src-tauri/src/menu.rs`).
@@ -338,6 +343,10 @@ const ar: Translation<typeof en> = {
     safesUnlockFirst: 'افتح قفل Octa Pass لتفتح خزائنك هنا.',
     settingsUnlockFirst: 'افتح قفل Octa Pass لتغيّر إعداداته.',
     deviceUnlockTurnOn: 'تفعيل {method}',
+    pushAlertTitle: 'Octa Pass',
+    pushAlertBody: 'تغيّر شيء في المشاركة أو الوصول في الطوارئ. افتح التطبيق لتراه.',
+    pushChannelName: 'المشاركة والوصول في الطوارئ',
+    pushChannelHelp: 'عندما يشاركك أحدهم شيئًا، أو يدعوك إلى عائلة، أو يطلب الوصول في الطوارئ.',
   },
   mac: {
     show: 'إظهار Octa Pass',

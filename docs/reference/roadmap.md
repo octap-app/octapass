@@ -19,7 +19,7 @@ Everything that was planned for after 1.0 is now part of 1.0: the Windows passke
 | **2. Browser extensions + web vault** | Daily use on desktop browsers | Built. **Public alpha** open in the web vault; extensions not in stores yet. | Chrome, Edge and Firefox extensions, full web vault, main importers, security dashboard, local vaults in the extension, self-host image |
 | **3. Desktop apps** | Native desktop and biometrics | Built, not released. Signed downloads, updates and some Linux packages are missing. | macOS, Windows and Linux apps, Touch ID and Windows Hello, auto-type, macOS AutoFill, Safari on macOS |
 | **4. Mobile apps** | Autofill on phones | Built, not released. **Public beta** not opened. | iOS and Android apps with system autofill and passkeys, camera scanning |
-| **5. Sharing and completeness** | Parity with paid managers | Built, except push notifications. | Shared vaults, families, share links, emergency access, masked email, recovery map, more importers + CXF, attachments, two-step sign-in, Arabic interface |
+| **5. Sharing and completeness** | Parity with paid managers | Built. Push notifications are built but haven't run with Apple's and Google's real services, and the Octa Pass push relay isn't running yet. | Shared vaults, families, share links, emergency access, masked email, recovery map, more importers + CXF, attachments, two-step sign-in, Arabic interface |
 | **5b. Native phone apps** | Native feel on phones | Built. The last parity work and its UI tests aren't done. The older Tauri phone app was removed. | SwiftUI and Jetpack Compose apps on the same Rust core |
 | **7. Growth features** | What was "after 1.0" | Built, not yet reviewed. | Windows passkey provider, SSH agent, teams and organisations, watch apps, post-quantum sharing, key transparency, a docs MCP server and the remaining item types |
 | **8. Developer toolkit and file safe** | Beyond passwords | Built, not yet reviewed: the [developer toolkit](/docs/features/developer-toolkit/), [environments](/docs/features/environments/), [SSH keys](/docs/features/ssh-keys/), [Octa Pass Connect](/docs/features/connect/), [file encryption](/docs/features/file-encryption/) and [Octa Pass Safe](/docs/features/octa-pass-safe/). The Finder, Explorer and phone integrations haven't run on those systems yet. | Certificates, keys, JWT tools, hashes, encodings, Octa Pass Connect, file encryption, the Octa Pass Safe drive |
@@ -31,7 +31,7 @@ Phases keep their numbers, so phases 7 and 8 now come before phase 6.
 
 As of 2026-11-05:
 
-- **Push notifications.** Phones sync when you open the app, while it's open, and in the background when the system allows it. Self-hosted servers will use an opt-in push relay.
+- **Push notifications in use.** [Push sync](/docs/self-hosting/push-relay/) is built and tested against stand-ins for Apple and Google, but the Octa Pass push relay isn't running yet, so phones sync when you open the app and while it's open.
 - **Organisations in the Mac and phone apps.** [Organisations](/docs/features/organisations/) run from the web vault, the Windows and Linux app and the CLI. [SAML](/docs/features/single-sign-on/) and [SCIM](/docs/features/scim/) are built but haven't been tried with real identity providers yet.
 - **Witnesses for the hosted service.** [Key log witnesses](/docs/self-hosting/key-log-witnesses/) are built; nobody has been chosen to witness the hosted service yet.
 - **Autofill without asking on phones.** The phone apps ask you to unlock on every fill.

@@ -132,7 +132,11 @@
     "safeDeleteSelected": "Delete the selected items from this Safe? This can’t be undone.",
     "safesUnlockFirst": "Unlock Octa Pass to open your Safes here.",
     "settingsUnlockFirst": "Unlock Octa Pass to change its settings.",
-    "deviceUnlockTurnOn": "Turn on {method}"
+    "deviceUnlockTurnOn": "Turn on {method}",
+    "pushAlertTitle": "Octa Pass",
+    "pushAlertBody": "Something changed in your sharing or emergency access. Open the app to see it.",
+    "pushChannelName": "Sharing and emergency access",
+    "pushChannelHelp": "When someone shares with you, invites you to a family, or asks for emergency access."
   },
   "mac": {
     "show": "Show Octa Pass",

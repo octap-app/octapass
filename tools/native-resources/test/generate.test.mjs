@@ -35,7 +35,7 @@ test('writes everything, then --check passes', () => {
   assert.match(write.stdout, /Wrote:/);
   const check = run('--root', copy, '--check');
   assert.equal(check.status, 0, check.stderr);
-  assert.match(check.stdout, /7 native resource files are up to date/);
+  assert.match(check.stdout, /8 native resource files are up to date/);
 });
 
 test('--check fails on a stale or missing file and names it', () => {

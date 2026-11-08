@@ -4,7 +4,7 @@ use axum::Json;
 use axum::extract::State;
 use axum::http::StatusCode;
 use octapass_api::problem::Problem;
-use octapass_api::{DeviceRecord, RenameDeviceRequest};
+use octapass_api::{DeviceRecord, PushPlatform, PushTokenRequest, RenameDeviceRequest};
 
 use crate::db::{self, sessions};
 use crate::error::{ApiError, ApiResult};
@@ -76,4 +76,80 @@ pub async fn delete_device(
     } else {
         Err(ApiError::NotFound)
     }
+}
+
+/// The longest push token accepted. APNs tokens are 64 hex characters today and FCM tokens about
+/// 160; both may grow.
+const MAX_PUSH_TOKEN: usize = 4096;
+
+#[utoipa::path(
+    put, path = "/v1/devices/current/push", tag = "devices",
+    security(("bearer" = [])),
+    request_body = PushTokenRequest,
+    responses(
+        (status = 204, description = "Saved. When something this account can see changes, the server asks the \
+            push relay to wake this device with `sync` or `alert`, and nothing more. A token another device had \
+            moves to this one."),
+        (status = 400, body = Problem, content_type = "application/problem+json"),
+        (status = 401, body = Problem, content_type = "application/problem+json"),
+        (status = 404, body = Problem, content_type = "application/problem+json", description = "`push-off`: this server sends no pushes"),
+    )
+)]
+pub async fn put_push_token(
+    State(state): State<AppState>,
+    Authenticated(session): Authenticated,
+    ApiJson(request): ApiJson<PushTokenRequest>,
+) -> ApiResult<StatusCode> {
+    if state.push.is_none() {
+        return Err(ApiError::PushOff);
+    }
+    let token = request.token.trim();
+    let well_formed = !token.is_empty()
+        && token.len() <= MAX_PUSH_TOKEN
+        && match request.platform {
+            PushPlatform::Apns => token.bytes().all(|b| b.is_ascii_hexdigit()),
+            PushPlatform::Fcm => token
+                .bytes()
+                .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'-' | b'_' | b':')),
+        };
+    if !well_formed {
+        return Err(ApiError::BadRequest("token isn't a push token".into()));
+    }
+    let (platform, token, sandbox) = match request.platform {
+        PushPlatform::Apns => ("apns", token.to_ascii_lowercase(), request.sandbox),
+        PushPlatform::Fcm => ("fcm", token.to_owned(), false),
+    };
+    let mut tx = state.db.begin().await?;
+    db::push::set_token(
+        &mut tx,
+        &session.account_id,
+        &session.device_id,
+        platform,
+        &token,
+        sandbox,
+        db::now(),
+    )
+    .await?;
+    tx.commit().await?;
+    Ok(StatusCode::NO_CONTENT)
+}
+
+#[utoipa::path(
+    delete, path = "/v1/devices/current/push", tag = "devices",
+    security(("bearer" = [])),
+    responses(
+        (status = 204, description = "This device gets no more pushes"),
+        (status = 401, body = Problem, content_type = "application/problem+json"),
+        (status = 404, body = Problem, content_type = "application/problem+json", description = "`push-off`"),
+    )
+)]
+pub async fn delete_push_token(
+    State(state): State<AppState>,
+    Authenticated(session): Authenticated,
+) -> ApiResult<StatusCode> {
+    if state.push.is_none() {
+        return Err(ApiError::PushOff);
+    }
+    db::push::delete_device_token(&state.db, &session.device_id).await?;
+    Ok(StatusCode::NO_CONTENT)
 }

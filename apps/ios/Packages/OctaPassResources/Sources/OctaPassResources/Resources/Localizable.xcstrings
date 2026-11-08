@@ -9276,13 +9276,13 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "إعدادات موفّر الهوية هذه لا تعمل. تحقق من عنوان المُصدِر ومعرّف العميل، أو أكمل تجربة تسجيل دخول أولًا."
+            "value" : "إعدادات موفّر الهوية هذه لا تعمل. تحقق من عنوان المُصدِر ومعرّف العميل، أو من بيانات SAML الوصفية والشهادة، أو أكمل تجربة تسجيل دخول أولًا."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Those identity provider settings don’t work. Check the issuer URL and client ID, or finish a test sign-in first."
+            "value" : "Those identity provider settings don’t work. Check the issuer URL and client ID, or the SAML metadata and certificate, or finish a test sign-in first."
           }
         }
       }
@@ -23121,6 +23121,23 @@
         }
       }
     },
+    "organisation.byIdentityProvider" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "موفّر الهوية"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Identity provider"
+          }
+        }
+      }
+    },
     "organisation.chooseGroup" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -23899,6 +23916,176 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Role changed"
+          }
+        }
+      }
+    },
+    "organisation.eventScimDeprovisioned" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أزاله موفّر الهوية"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Removed by the identity provider"
+          }
+        }
+      }
+    },
+    "organisation.eventScimGroupChanged" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مجموعة غيّرها موفّر الهوية"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Group changed by the identity provider"
+          }
+        }
+      }
+    },
+    "organisation.eventScimGroupCreated" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مجموعة أنشأها موفّر الهوية"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Group made by the identity provider"
+          }
+        }
+      }
+    },
+    "organisation.eventScimGroupDeleted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مجموعة حذفها موفّر الهوية"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Group deleted by the identity provider"
+          }
+        }
+      }
+    },
+    "organisation.eventScimInvited" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دعاه موفّر الهوية"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invited by the identity provider"
+          }
+        }
+      }
+    },
+    "organisation.eventScimOwnerKept" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بقي المالك: لا يستطيع موفّر الهوية إزالة المالكين"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Owner kept: the identity provider can’t remove owners"
+          }
+        }
+      }
+    },
+    "organisation.eventScimProvisioned" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "زوّده موفّر الهوية"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Provisioned by the identity provider"
+          }
+        }
+      }
+    },
+    "organisation.eventScimTokenCreated" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أُنشئ رمز SCIM"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SCIM token made"
+          }
+        }
+      }
+    },
+    "organisation.eventScimTokenRevoked" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أُلغي رمز SCIM"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SCIM token revoked"
+          }
+        }
+      }
+    },
+    "organisation.eventScimVaultOrphaned" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خزنة لم يبقَ من يديرها"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vault left with nobody to manage it"
           }
         }
       }
@@ -25110,6 +25297,176 @@
         }
       }
     },
+    "organisation.samlAcs" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عنوان خدمة استقبال التأكيدات (HTTP-POST)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Assertion consumer service URL (HTTP-POST)"
+          }
+        }
+      }
+    },
+    "organisation.samlCertificate" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بصمة الشهادة SHA-256: %1$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Certificate SHA-256 %1$@"
+          }
+        }
+      }
+    },
+    "organisation.samlCertificateField" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "شهادة التوقيع (PEM)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Signing certificate (PEM)"
+          }
+        }
+      }
+    },
+    "organisation.samlCertificateHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لا يُوثق إلا بهذا المفتاح، وليس بأي مفتاح يُرسل مع تسجيل الدخول. يجب توقيع التأكيدات بـ SHA-256 أو أقوى."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only this key is trusted, never one sent with a sign-in. Assertions must be signed with SHA-256 or stronger."
+          }
+        }
+      }
+    },
+    "organisation.samlEntityId" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "معرّف كيان موفّر الهوية"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Identity provider entity ID"
+          }
+        }
+      }
+    },
+    "organisation.samlMetadata" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "البيانات الوصفية لموفّر الهوية (XML)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Identity provider metadata (XML)"
+          }
+        }
+      }
+    },
+    "organisation.samlMetadataHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الصق البيانات الوصفية التي يصدّرها موفّرك. أو اترك هذا فارغًا واملأ الحقول الثلاثة أدناه."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paste the metadata your provider exports. Or leave this empty and fill in the three fields below."
+          }
+        }
+      }
+    },
+    "organisation.samlSaved" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المحفوظ: %1$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved: %1$@"
+          }
+        }
+      }
+    },
+    "organisation.samlSpEntity" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "معرّف الكيان وعنوان البيانات الوصفية لتسجيلهما لدى موفّرك"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Entity ID and metadata URL to register at your provider"
+          }
+        }
+      }
+    },
+    "organisation.samlSsoUrl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عنوان تسجيل الدخول الموحّد (HTTP-Redirect)"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Single sign-on URL (HTTP-Redirect)"
+          }
+        }
+      }
+    },
     "organisation.savePolicies" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -25123,6 +25480,295 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Save policies"
+          }
+        }
+      }
+    },
+    "organisation.scimBaseUrl" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عنوان SCIM الأساسي"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SCIM base URL"
+          }
+        }
+      }
+    },
+    "organisation.scimCopy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نسخ"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy"
+          }
+        }
+      }
+    },
+    "organisation.scimCreate" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أنشئ رمزًا"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Make a token"
+          }
+        }
+      }
+    },
+    "organisation.scimCreated" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أُنشئ %1$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Made %1$@"
+          }
+        }
+      }
+    },
+    "organisation.scimDone" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تم"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "organisation.scimHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "دع موفّر الهوية لديك (Microsoft Entra ID وOkta وOneLogin وJumpCloud وغيرها) يضيف الأعضاء والمجموعات ويزيلهم عبر SCIM 2.0."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let your identity provider (Microsoft Entra ID, Okta, OneLogin, JumpCloud and others) add and remove members and groups with SCIM 2.0."
+          }
+        }
+      }
+    },
+    "organisation.scimLastUsed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "آخر استخدام %1$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last used %1$@"
+          }
+        }
+      }
+    },
+    "organisation.scimNeverUsed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لم يُستخدم بعد"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not used yet"
+          }
+        }
+      }
+    },
+    "organisation.scimNewToken" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "رمز جديد"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New token"
+          }
+        }
+      }
+    },
+    "organisation.scimNewTokenHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أعطه لموفّر الهوية الآن. لن يظهر إلا مرة واحدة."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Give this to your identity provider now. It’s shown only once."
+          }
+        }
+      }
+    },
+    "organisation.scimNoTokens" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لا رموز بعد."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No tokens yet."
+          }
+        }
+      }
+    },
+    "organisation.scimRevoke" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إلغاء"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revoke"
+          }
+        }
+      }
+    },
+    "organisation.scimRevoked" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أُلغي الرمز"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Token revoked"
+          }
+        }
+      }
+    },
+    "organisation.scimTokenName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اسم الرمز"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Token name"
+          }
+        }
+      }
+    },
+    "organisation.scimTokenNameHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "للتمييز بين الرموز، مثل اسم الموفّر."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "For telling tokens apart, such as the provider’s name."
+          }
+        }
+      }
+    },
+    "organisation.scimWhatItDoes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ما الذي يستطيعه"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What it can do"
+          }
+        }
+      }
+    },
+    "organisation.scimWhatItDoesHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إضافة شخص ترسل إليه دعوة يقبلها بنفسه. وإزالة شخص تسحب منه خزائن المؤسسة فورًا. لا يزيل مالكًا أبدًا، ولا يستطيع فتح أي خزنة: ما زال حامل المفتاح يراجع من يحصل على كل خزنة."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Adding someone sends them an invitation, which they accept themselves. Removing someone takes organisation vaults away at once. It never removes an owner, and it can’t open a vault: a key holder still reviews who gets each one."
           }
         }
       }
@@ -25269,13 +25915,13 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "اربط موفّر OpenID Connect مثل Okta أو Microsoft Entra ID أو Google Workspace أو Keycloak."
+            "value" : "اربط موفّر هوية مثل Okta أو Microsoft Entra ID أو Google Workspace أو Keycloak، عبر OpenID Connect أو SAML 2.0."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Connect an OpenID Connect provider such as Okta, Microsoft Entra ID, Google Workspace or Keycloak."
+            "value" : "Connect an identity provider such as Okta, Microsoft Entra ID, Google Workspace or Keycloak, by OpenID Connect or SAML 2.0."
           }
         }
       }
@@ -25382,6 +26028,40 @@
         }
       }
     },
+    "organisation.ssoOidc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OpenID Connect"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OpenID Connect"
+          }
+        }
+      }
+    },
+    "organisation.ssoProtocol" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "البروتوكول"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Protocol"
+          }
+        }
+      }
+    },
     "organisation.ssoRedirect" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -25446,6 +26126,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Settings removed"
+          }
+        }
+      }
+    },
+    "organisation.ssoReplaces" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حفظ هذه الإعدادات يستبدل الإعدادات المحفوظة الآن، وسيسجّل كل عضو دخوله عبر الموفّر الجديد مرة واحدة ليُربط من جديد."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saving these replaces the settings saved now, and every member signs in through the new provider once to link again."
+          }
+        }
+      }
+    },
+    "organisation.ssoSaml" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SAML 2.0"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SAML 2.0"
           }
         }
       }
@@ -25667,6 +26381,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Policies"
+          }
+        }
+      }
+    },
+    "organisation.tabScim" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "التزويد"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Provisioning"
           }
         }
       }
@@ -28658,6 +29389,74 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "passcode"
+          }
+        }
+      }
+    },
+    "phone.native.pushAlertBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تغيّر شيء في المشاركة أو الوصول في الطوارئ. افتح التطبيق لتراه."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Something changed in your sharing or emergency access. Open the app to see it."
+          }
+        }
+      }
+    },
+    "phone.native.pushAlertTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Octa Pass"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Octa Pass"
+          }
+        }
+      }
+    },
+    "phone.native.pushChannelHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عندما يشاركك أحدهم شيئًا، أو يدعوك إلى عائلة، أو يطلب الوصول في الطوارئ."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When someone shares with you, invites you to a family, or asks for emergency access."
+          }
+        }
+      }
+    },
+    "phone.native.pushChannelName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المشاركة والوصول في الطوارئ"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sharing and emergency access"
           }
         }
       }

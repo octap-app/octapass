@@ -57,6 +57,7 @@ None of this touches your vault: the relay has no access to it, and the site an 
 | [Website icons](/docs/features/website-icons/) (on by default, can be turned off on each device) | The domain of each item with a website, without your account or a token | Your Octa Pass server, which fetches the icon from the site itself. No icon service sees your list. |
 | Masked email | The site's domain as the alias description, sent from your device. The token is in your vault, encrypted; our server never sees it. | Your chosen alias provider, with your token |
 | Masked email through [the relay](/docs/self-hosting/relay/) (off by default) | Your account id and email, and the mail sent to your aliases as it passes through. No site name. | The relay on your Octa Pass server, then your mailbox |
+| [Push sync](/docs/self-hosting/push-relay/) on phones (only on a server that turns it on) | Your phone's push token, and one word: `sync` or `alert`. No account, email, vault, item or name. Your server knows which device and account the token belongs to. | Your Octa Pass server, then the push relay, then Apple or Google, then your phone |
 | Crash reports (opt-in, planned) | Scrubbed technical data, no vault content | Octa Pass |
 
 Octa Pass has no analytics and no advertising, so nothing else is collected.

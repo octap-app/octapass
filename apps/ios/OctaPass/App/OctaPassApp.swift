@@ -6,8 +6,17 @@ import UIKit
 
 @main
 struct OctaPassApp: App {
-    @State private var model = AppModel.live()
+    @UIApplicationDelegateAdaptor(AppDelegate.self) private var delegate
+    @State private var model: AppModel
     @Environment(\.scenePhase) private var scenePhase
+
+    init() {
+        let model = AppModel.live()
+        _model = State(initialValue: model)
+        // Before the delegate's launch calls: a push can launch the app in the background, with
+        // no scene, and its sync needs the vault (plan 04, "Push relay").
+        PushSync.shared.attach(model.vault)
+    }
 
     var body: some Scene {
         WindowGroup {

@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-The apps connect to your own server today. The store listings, push sync on phones, switching between several accounts and the F-Droid build on this page are planned. See the [roadmap](/docs/reference/roadmap/).
+The apps connect to your own server today. Push sync on phones is built but the Octa Pass push relay isn't running yet, so it needs a relay you run. The store listings, switching between several accounts and the F-Droid build on this page are planned. See the [roadmap](/docs/reference/roadmap/).
 :::
 
 There's no separate "self-hosted app". The browser extensions, desktop apps and mobile apps work with the hosted Octa Pass service **and** with your own server. You pick the server when you sign in.
@@ -41,16 +41,18 @@ Everything that happens on your device is identical, because it lives in the app
 | Feature | What you need |
 |---|---|
 | Verification codes and alert emails | An SMTP account, set in [configuration](/docs/self-hosting/configuration/) |
-| Instant sync on phones (push, planned) | Opt in to the Octa Pass push relay (below) |
+| Instant sync on phones (push) | Opt in to a push relay (below) |
 | Email breach alerts (off by default) | Your own Have I Been Pwned API key, or leave the feature off |
 | Website icons | Built in. Your server fetches and caches them so the apps don't contact icon services |
 
 ## Push sync on iPhone and Android
 
-Push sync isn't built yet, on the hosted service or on self-hosted servers: phones sync when you open the app and while it's open. Apple and Google only deliver push notifications sent with the app publisher's credentials, so your server can't wake the Octa Pass mobile apps directly. You'll choose between two setups:
+Apple and Google only deliver push notifications sent with the app publisher's credentials, so your server can't wake the Octa Pass mobile apps directly. You choose between two setups:
 
-- **Push relay (recommended).** Your server registers with the Octa Pass push relay using an installation ID and key. When a vault changes, your server sends the relay a "device X has changes" ping, and the relay forwards it through Apple or Google. **No vault data, item names or account emails pass through the relay.** It only receives random device identifiers.
-- **No relay.** Phones sync when you open the app, and in real time while it's open. Background sync is less frequent.
+- **Push relay.** Set `OCTAPASS_PUSH_RELAY=true` ([configuration](/docs/self-hosting/configuration/#push-sync)). Your server registers with the relay once and gets an installation ID and key. When a vault changes, it sends the relay each affected phone's push token and the word `sync`; for sharing, family invites and emergency access, the word `alert`, which shows a notice like "Something changed in your sharing or emergency access". The relay forwards it through Apple or Google. **No vault data, item names, names or account emails pass through the relay.** The phone then syncs with your server as usual, even while it's locked: what it downloads stays encrypted until you unlock. The Octa Pass relay isn't running yet; until it is, [run your own](/docs/self-hosting/push-relay/) if you build the apps with your own Apple and Google credentials.
+- **No relay** (the default). Phones sync when you open the app, and in real time while it's open.
+
+On Android, push needs Google Play services. Builds without them sync as without a relay.
 
 Browser extensions and desktop apps don't need the relay. They keep their own connection to your server.
 

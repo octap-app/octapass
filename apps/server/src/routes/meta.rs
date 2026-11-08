@@ -42,7 +42,8 @@ pub async fn server_info(State(state): State<AppState>) -> Json<ServerInfo> {
         version: env!("CARGO_PKG_VERSION").into(),
         api_version: API_VERSION,
         signups: state.config.signups,
-        push_relay: false,
+        // True once the server is registered with its relay, so a phone's token can be used.
+        push_relay: state.push.as_ref().is_some_and(|push| push.ready()),
         masked_email_relay: state.relay.is_some(),
         email_breach_checks: state.breach_client.is_some(),
     })

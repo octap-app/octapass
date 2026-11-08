@@ -12,6 +12,7 @@ import app.octap.android.BuildConfig
 import app.octap.android.platform.AndroidPlatform
 import app.octap.android.platform.Clipboard
 import app.octap.android.platform.SafeDrives
+import app.octap.android.platform.PushLink
 import app.octap.android.platform.WatchCodesLink
 import app.octap.android.ui.vault.VaultNavigator
 import app.octap.android.vault.Container
@@ -135,6 +136,9 @@ class AppModel(val app: Application) : VaultObserver {
 
     /** A Wear OS watch's codes. What it gets is decided in the vault. */
     val watch = WatchCodesLink(app, vault)
+
+    /** Push sync: the FCM token to the vault, and a sync when a push comes. Started by [OctaPassApp]. */
+    val push = PushLink(app, vault)
 
     /** Accounts offered device unlock during this unlock, so recreating the window doesn't ask again. */
     val offeredDeviceUnlock: MutableSet<String> = java.util.Collections.synchronizedSet(mutableSetOf())

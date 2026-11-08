@@ -9,6 +9,7 @@ mod import_review;
 mod inbox;
 mod local;
 mod master_password;
+mod push;
 mod shared_vaults;
 mod stay_unlocked;
 mod two_step;

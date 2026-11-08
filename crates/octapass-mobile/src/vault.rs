@@ -539,7 +539,7 @@ impl OctaPassVault {
         saved
     }
 
-    fn is_unlocked(&self) -> bool {
+    pub(crate) fn is_unlocked(&self) -> bool {
         self.vault.snapshot().session.status == VaultStatus::Unlocked
     }
 
@@ -579,7 +579,7 @@ impl OctaPassVault {
     }
 
     /// Uploads what was saved here and pulls what changed elsewhere.
-    fn sync_now(&self) -> Result<()> {
+    pub(crate) fn sync_now(&self) -> Result<()> {
         self.sync.update(|state| state.status = SyncStatus::Syncing);
         let result = self.vault.sync();
         if let Ok(access) = self.vault.access() {

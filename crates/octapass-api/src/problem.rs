@@ -26,6 +26,8 @@ pub mod types {
     pub const ICONS_OFF: &str = "https://octap.app/problems/icons-off";
     /// A `/v1/masked-email` route on a server without a masked email service.
     pub const MASKED_EMAIL_OFF: &str = "https://octap.app/problems/masked-email-off";
+    /// `/v1/devices/current/push` on a server that doesn't send pushes (`OCTAPASS_PUSH_RELAY` off).
+    pub const PUSH_OFF: &str = "https://octap.app/problems/push-off";
     /// The account has as many masked email aliases as the server allows.
     pub const MASKED_EMAIL_LIMIT: &str = "https://octap.app/problems/masked-email-limit";
     pub const METHOD_NOT_ALLOWED: &str = "https://octap.app/problems/method-not-allowed";

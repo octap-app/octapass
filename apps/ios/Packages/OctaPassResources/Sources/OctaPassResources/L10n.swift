@@ -659,7 +659,7 @@ public enum L10n {
     public enum errors {
         /// The sign-in page hasn’t finished yet. Finish there first, then type the code.
         public static var ssoPending: String { L10n.string("errors.ssoPending") }
-        /// Those identity provider settings don’t work. Check the issuer URL and client ID, or finish a test sign-in first.
+        /// Those identity provider settings don’t work. Check the issuer URL and client ID, or the SAML metadata and certificate, or finish a test sign-in first.
         public static var ssoConfig: String { L10n.string("errors.ssoConfig") }
         /// Your organisation doesn’t allow this.
         public static var orgPolicy: String { L10n.string("errors.orgPolicy") }
@@ -2713,6 +2713,8 @@ public enum L10n {
         public static var tabPolicies: String { L10n.string("organisation.tabPolicies") }
         /// Single sign-on
         public static var tabSso: String { L10n.string("organisation.tabSso") }
+        /// Provisioning
+        public static var tabScim: String { L10n.string("organisation.tabScim") }
         /// Activity
         public static var tabActivity: String { L10n.string("organisation.tabActivity") }
         /// Your role: {role}
@@ -2895,7 +2897,7 @@ public enum L10n {
         public static var savePolicies: String { L10n.string("organisation.savePolicies") }
         /// Policies saved
         public static var policiesSaved: String { L10n.string("organisation.policiesSaved") }
-        /// Connect an OpenID Connect provider such as Okta, Microsoft Entra ID, Google Workspace or Keycloak.
+        /// Connect an identity provider such as Okta, Microsoft Entra ID, Google Workspace or Keycloak, by OpenID Connect or SAML 2.0.
         public static var ssoHelp: String { L10n.string("organisation.ssoHelp") }
         /// Sign-in only
         public static var ssoSignInOnly: String { L10n.string("organisation.ssoSignInOnly") }
@@ -2931,6 +2933,34 @@ public enum L10n {
         public static func ssoTested(date: String) -> String { L10n.format("organisation.ssoTested", date) }
         /// Not tested with these settings yet.
         public static var ssoNotTested: String { L10n.string("organisation.ssoNotTested") }
+        /// Protocol
+        public static var ssoProtocol: String { L10n.string("organisation.ssoProtocol") }
+        /// OpenID Connect
+        public static var ssoOidc: String { L10n.string("organisation.ssoOidc") }
+        /// SAML 2.0
+        public static var ssoSaml: String { L10n.string("organisation.ssoSaml") }
+        /// Saving these replaces the settings saved now, and every member signs in through the new provider once to link again.
+        public static var ssoReplaces: String { L10n.string("organisation.ssoReplaces") }
+        /// Entity ID and metadata URL to register at your provider
+        public static var samlSpEntity: String { L10n.string("organisation.samlSpEntity") }
+        /// Assertion consumer service URL (HTTP-POST)
+        public static var samlAcs: String { L10n.string("organisation.samlAcs") }
+        /// Saved: {entity}
+        public static func samlSaved(entity: String) -> String { L10n.format("organisation.samlSaved", entity) }
+        /// Certificate SHA-256 {sha256}
+        public static func samlCertificate(sha256: String) -> String { L10n.format("organisation.samlCertificate", sha256) }
+        /// Identity provider metadata (XML)
+        public static var samlMetadata: String { L10n.string("organisation.samlMetadata") }
+        /// Paste the metadata your provider exports. Or leave this empty and fill in the three fields below.
+        public static var samlMetadataHelp: String { L10n.string("organisation.samlMetadataHelp") }
+        /// Identity provider entity ID
+        public static var samlEntityId: String { L10n.string("organisation.samlEntityId") }
+        /// Single sign-on URL (HTTP-Redirect)
+        public static var samlSsoUrl: String { L10n.string("organisation.samlSsoUrl") }
+        /// Signing certificate (PEM)
+        public static var samlCertificateField: String { L10n.string("organisation.samlCertificateField") }
+        /// Only this key is trusted, never one sent with a sign-in. Assertions must be signed with SHA-256 or stronger.
+        public static var samlCertificateHelp: String { L10n.string("organisation.samlCertificateHelp") }
         /// What members and admins did, newest first, kept for a year. It never holds vault contents.
         public static var activityHelp: String { L10n.string("organisation.activityHelp") }
         /// Nothing yet.
@@ -2979,6 +3009,62 @@ public enum L10n {
         public static var eventSsoChanged: String { L10n.string("organisation.eventSsoChanged") }
         /// SSO settings removed
         public static var eventSsoRemoved: String { L10n.string("organisation.eventSsoRemoved") }
+        /// SCIM token made
+        public static var eventScimTokenCreated: String { L10n.string("organisation.eventScimTokenCreated") }
+        /// SCIM token revoked
+        public static var eventScimTokenRevoked: String { L10n.string("organisation.eventScimTokenRevoked") }
+        /// Provisioned by the identity provider
+        public static var eventScimProvisioned: String { L10n.string("organisation.eventScimProvisioned") }
+        /// Invited by the identity provider
+        public static var eventScimInvited: String { L10n.string("organisation.eventScimInvited") }
+        /// Removed by the identity provider
+        public static var eventScimDeprovisioned: String { L10n.string("organisation.eventScimDeprovisioned") }
+        /// Owner kept: the identity provider can’t remove owners
+        public static var eventScimOwnerKept: String { L10n.string("organisation.eventScimOwnerKept") }
+        /// Group made by the identity provider
+        public static var eventScimGroupCreated: String { L10n.string("organisation.eventScimGroupCreated") }
+        /// Group changed by the identity provider
+        public static var eventScimGroupChanged: String { L10n.string("organisation.eventScimGroupChanged") }
+        /// Group deleted by the identity provider
+        public static var eventScimGroupDeleted: String { L10n.string("organisation.eventScimGroupDeleted") }
+        /// Vault left with nobody to manage it
+        public static var eventScimVaultOrphaned: String { L10n.string("organisation.eventScimVaultOrphaned") }
+        /// Identity provider
+        public static var byIdentityProvider: String { L10n.string("organisation.byIdentityProvider") }
+        /// Let your identity provider (Microsoft Entra ID, Okta, OneLogin, JumpCloud and others) add and remove members and groups with SCIM 2.0.
+        public static var scimHelp: String { L10n.string("organisation.scimHelp") }
+        /// What it can do
+        public static var scimWhatItDoes: String { L10n.string("organisation.scimWhatItDoes") }
+        /// Adding someone sends them an invitation, which they accept themselves. Removing someone takes organisation vaults away at once. It never removes an owner, and it can’t open a vault: a key holder still reviews who gets each one.
+        public static var scimWhatItDoesHelp: String { L10n.string("organisation.scimWhatItDoesHelp") }
+        /// SCIM base URL
+        public static var scimBaseUrl: String { L10n.string("organisation.scimBaseUrl") }
+        /// Copy
+        public static var scimCopy: String { L10n.string("organisation.scimCopy") }
+        /// New token
+        public static var scimNewToken: String { L10n.string("organisation.scimNewToken") }
+        /// Give this to your identity provider now. It’s shown only once.
+        public static var scimNewTokenHelp: String { L10n.string("organisation.scimNewTokenHelp") }
+        /// Done
+        public static var scimDone: String { L10n.string("organisation.scimDone") }
+        /// No tokens yet.
+        public static var scimNoTokens: String { L10n.string("organisation.scimNoTokens") }
+        /// Made {date}
+        public static func scimCreated(date: String) -> String { L10n.format("organisation.scimCreated", date) }
+        /// Last used {date}
+        public static func scimLastUsed(date: String) -> String { L10n.format("organisation.scimLastUsed", date) }
+        /// Not used yet
+        public static var scimNeverUsed: String { L10n.string("organisation.scimNeverUsed") }
+        /// Revoke
+        public static var scimRevoke: String { L10n.string("organisation.scimRevoke") }
+        /// Token revoked
+        public static var scimRevoked: String { L10n.string("organisation.scimRevoked") }
+        /// Token name
+        public static var scimTokenName: String { L10n.string("organisation.scimTokenName") }
+        /// For telling tokens apart, such as the provider’s name.
+        public static var scimTokenNameHelp: String { L10n.string("organisation.scimTokenNameHelp") }
+        /// Make a token
+        public static var scimCreate: String { L10n.string("organisation.scimCreate") }
         /// Leave or delete
         public static var danger: String { L10n.string("organisation.danger") }
         /// Leave organisation
@@ -5350,6 +5436,14 @@ public enum L10n {
             public static var settingsUnlockFirst: String { L10n.string("phone.native.settingsUnlockFirst") }
             /// Turn on {method}
             public static func deviceUnlockTurnOn(method: String) -> String { L10n.format("phone.native.deviceUnlockTurnOn", method) }
+            /// Octa Pass
+            public static var pushAlertTitle: String { L10n.string("phone.native.pushAlertTitle") }
+            /// Something changed in your sharing or emergency access. Open the app to see it.
+            public static var pushAlertBody: String { L10n.string("phone.native.pushAlertBody") }
+            /// Sharing and emergency access
+            public static var pushChannelName: String { L10n.string("phone.native.pushChannelName") }
+            /// When someone shares with you, invites you to a family, or asks for emergency access.
+            public static var pushChannelHelp: String { L10n.string("phone.native.pushChannelHelp") }
         }
         public enum mac {
             /// Show Octa Pass

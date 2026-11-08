@@ -33,6 +33,7 @@ use crate::routes::{
         batch::batch, ws::ws,
         attachments::upload, attachments::download, attachments::delete, attachments::list,
         devices::list_devices, devices::rename_current_device, devices::delete_device,
+        devices::put_push_token, devices::delete_push_token,
         sharing::lookup, sharing::create_vault, sharing::list_members, sharing::add_member,
         sharing::remove_member, sharing::rotate_vault,
         transparency::head, transparency::label, transparency::proof, transparency::entries,

@@ -66,6 +66,17 @@ Off unless both are set; see [the masked email relay](/docs/self-hosting/relay/)
 | `OCTAPASS_RELAY_API_URL` | unset | The relay's internal API. Unset, `/v1/masked-email` answers 404. |
 | `OCTAPASS_RELAY_API_TOKEN` | required with the URL | The token the relay expects. |
 
+## Push sync
+
+Off by default. With it on, your server wakes your users' iPhones and Android phones through a [push relay](/docs/self-hosting/push-relay/) when something they can see changes, so they sync in the background instead of waiting to be opened. Apple and Google only deliver pushes from the app's publisher, which is why a relay sits between your server and them. A push says only `sync` or `alert`: no account, email, vault, item or name.
+
+| Variable | Default | Description |
+|---|---|---|
+| `OCTAPASS_PUSH_RELAY` | `false` | `true` turns push sync on. Your server registers with the relay on its own the first time, keeps the installation in its database, and from then on sends the relay each woken phone's push token and one word. |
+| `OCTAPASS_PUSH_RELAY_URL` | `https://push.octap.app` | The relay to use. The Octa Pass relay isn't running yet, so for now this has to be one you run. Only allowed with `OCTAPASS_PUSH_RELAY=true`. |
+
+`GET /v1/server-info` reports `pushRelay: true` once the server is registered, and the apps then hand it their push tokens. A server that can't reach the relay keeps working: phones sync when they're opened and while they're open, as without push. If the relay loses track of your server, it registers again at the next maintenance round, every 5 minutes. If the relay's operator revokes it, your server stops sending pushes until it restarts.
+
 ## Key log witnesses
 
 Off unless set. Independent [witnesses](/docs/self-hosting/key-log-witnesses/) cosign your server's [key log](/docs/security/post-quantum-and-key-log/#the-key-log), so it can't show different people different logs. `octapass-server admin key-log` prints the verifier key their operators need.

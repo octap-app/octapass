@@ -22,6 +22,7 @@ The generated files are committed. Run `--check` in CI, and the generator after 
 |---|---|
 | `apps/ios/Packages/OctaPassResources/Sources/OctaPassResources/Resources/Localizable.xcstrings` | String Catalog, `en` and `ar` |
 | `…/OctaPassResources/L10n.swift` | Typed accessors: `L10n.common.back`, `L10n.list.searchPlaceholder(count: 3)` |
+| `apps/ios/OctaPass/Resources/Localizable.xcstrings` | The app's own String Catalog: only the push alert's title and body, which APNs alerts name by key and iOS looks up in the app's bundle |
 | `…/OctaPassResources/Tokens.swift` | `Tokens.Colors.trust.color` (follows light/dark), `Tokens.TypeScale.md`, … |
 | `…/Tests/OctaPassResourcesTests/Resources/expected.json` | What the web vault shows for a sample of messages; the Swift tests compare `L10n` with it |
 | `apps/android/resources/src/main/res/values/strings.xml`, `values-ar/strings.xml` | `<string>` and `<plurals>` |

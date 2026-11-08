@@ -1140,6 +1140,12 @@ internal object IntegrityCheckingUniffiLib {
     ): Int
     external fun uniffi_octapass_mobile_checksum_method_octapassvault_switch_local_vault(
     ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_clear_push_token(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_set_push_token(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_sync_on_push(
+    ): Int
     external fun uniffi_octapass_mobile_checksum_method_octapassvault_create_safe(
     ): Int
     external fun uniffi_octapass_mobile_checksum_method_octapassvault_delete_safe(
@@ -1630,6 +1636,12 @@ internal object UniffiLib {
     external fun uniffi_octapass_mobile_fn_method_octapassvault_start_turn_on_sync(`ptr`: Long,`serverUrl`: RustBuffer.ByValue,`email`: RustBuffer.ByValue,`password`: RustBuffer.ByValue,
     ): Long
     external fun uniffi_octapass_mobile_fn_method_octapassvault_switch_local_vault(`ptr`: Long,`tag`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_clear_push_token(`ptr`: Long,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_set_push_token(`ptr`: Long,`platform`: RustBuffer.ByValue,`token`: RustBuffer.ByValue,`sandbox`: Byte,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_sync_on_push(`ptr`: Long,
     ): Long
     external fun uniffi_octapass_mobile_fn_method_octapassvault_create_safe(`ptr`: Long,`name`: RustBuffer.ByValue,`sync`: Byte,
     ): Long
@@ -2534,6 +2546,15 @@ private fun uniffiCheckApiChecksums(lib: IntegrityCheckingUniffiLib) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
     if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_switch_local_vault() and 0xFFFF) != 41750) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_clear_push_token() and 0xFFFF) != 48765) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_set_push_token() and 0xFFFF) != 16851) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_sync_on_push() and 0xFFFF) != 9177) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
     if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_create_safe() and 0xFFFF) != 18929) {
@@ -5047,6 +5068,27 @@ public interface OctaPassVaultInterface {
      */
     suspend fun `switchLocalVault`(`tag`: kotlin.String)
     
+    /**
+     * The app can't be reached any more (notifications turned off, the token revoked): tells
+     * the server to stop sending.
+     */
+    suspend fun `clearPushToken`()
+    
+    /**
+     * Call at every launch with the token the system gave the app, and again when it changes.
+     * It's sent to the signed-in account's server when that server has a push relay, now or
+     * after the next sync (sign-in and unlock included). Returns whether the server has it.
+     * `sandbox` is for development iPhone builds (Apple's sandbox); always false on Android.
+     */
+    suspend fun `setPushToken`(`platform`: PushPlatform, `token`: kotlin.String, `sandbox`: kotlin.Boolean): kotlin.Boolean
+    
+    /**
+     * A push arrived (or a background refresh ran). Unlocked, a full sync as `sync` does.
+     * Locked, the changes come down as ciphertext into the store, so AutoFill and the next unlock
+     * have them; nothing is decrypted. Signed out or a local vault: nothing happens.
+     */
+    suspend fun `syncOnPush`()
+    
     suspend fun `createSafe`(`name`: kotlin.String, `sync`: kotlin.Boolean): SafeItem
     
     /**
@@ -6293,6 +6335,89 @@ open class OctaPassVault: Disposable, AutoCloseable, OctaPassVaultInterface
                 uniffiHandle,
                 
         FfiConverterString.lower(`tag`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_void(future) },
+        // lift function
+        { },
+        
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    /**
+     * The app can't be reached any more (notifications turned off, the token revoked): tells
+     * the server to stop sending.
+     */
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `clearPushToken`() {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_clear_push_token(
+                uniffiHandle,
+                
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_void(future) },
+        // lift function
+        { },
+        
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    /**
+     * Call at every launch with the token the system gave the app, and again when it changes.
+     * It's sent to the signed-in account's server when that server has a push relay, now or
+     * after the next sync (sign-in and unlock included). Returns whether the server has it.
+     * `sandbox` is for development iPhone builds (Apple's sandbox); always false on Android.
+     */
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `setPushToken`(`platform`: PushPlatform, `token`: kotlin.String, `sandbox`: kotlin.Boolean) : kotlin.Boolean {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_set_push_token(
+                uniffiHandle,
+                
+        FfiConverterTypePushPlatform.lower(`platform`),
+        FfiConverterString.lower(`token`),
+        FfiConverterBoolean.lower(`sandbox`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_i8(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_i8(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_i8(future) },
+        // lift function
+        { FfiConverterBoolean.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    /**
+     * A push arrived (or a background refresh ran). Unlocked, a full sync as `sync` does.
+     * Locked, the changes come down as ciphertext into the store, so AutoFill and the next unlock
+     * have them; nothing is decrypted. Signed out or a local vault: nothing happens.
+     */
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `syncOnPush`() {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_sync_on_push(
+                uniffiHandle,
+                
             )
         },
         { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
@@ -20327,6 +20452,49 @@ public object FfiConverterTypePendingTwoStep : FfiConverterRustBuffer<PendingTwo
                 Unit
             }
         }.let { /* this makes the `when` an expression, which ensures it is exhaustive */ }
+    }
+}
+
+
+
+
+
+/**
+ * Which service delivers this phone's pushes.
+ */
+
+enum class PushPlatform {
+    
+    /**
+     * Apple Push Notification service: the device token as lowercase hex.
+     */
+    APNS,
+    /**
+     * Firebase Cloud Messaging: the registration token.
+     */
+    FCM;
+
+    
+
+
+    companion object
+}
+
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypePushPlatform: FfiConverterRustBuffer<PushPlatform> {
+    override fun read(buf: ByteBuffer) = try {
+        PushPlatform.values()[buf.getInt() - 1]
+    } catch (e: IndexOutOfBoundsException) {
+        throw RuntimeException("invalid enum value, something is very wrong!!", e)
+    }
+
+    override fun allocationSize(value: PushPlatform) = 4UL
+
+    override fun write(value: PushPlatform, buf: ByteBuffer) {
+        buf.putInt(value.ordinal + 1)
     }
 }
 

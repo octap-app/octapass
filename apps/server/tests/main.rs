@@ -20,6 +20,7 @@ mod live;
 mod masked_email;
 mod orgs;
 mod password;
+mod push;
 mod quotas;
 mod saml;
 mod scim;

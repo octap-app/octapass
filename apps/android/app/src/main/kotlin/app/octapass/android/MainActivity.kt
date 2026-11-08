@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import app.octap.android.ui.AppRoot
+import app.octap.android.platform.askForNotificationsOnce
 import app.octap.android.vault.SecureWindow
 
 /**
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
         window.decorView.importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS
         model.platform.attach(this)
         takeLinks(intent)
+        askForNotificationsOnce(this, model)
         setContent { AppRoot(model) }
     }
 

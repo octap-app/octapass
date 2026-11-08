@@ -17,6 +17,7 @@ use crate::db::sharing::{self, RotateError};
 use crate::db::{self, Conn, accounts, items, orgs};
 use crate::error::{ApiError, ApiResult};
 use crate::extract::{ApiJson, ApiPath, ApiQuery, Authenticated};
+use crate::push::PushKind;
 use crate::state::AppState;
 use crate::validate;
 
@@ -293,9 +294,12 @@ pub async fn add_member(
     {
         return Err(ApiError::Forbidden);
     }
+    let recipient_id = grant.recipient_account_id.clone();
     sharing::put_member(&mut tx, grant, &sign_key, db::now()).await?;
     tx.commit().await?;
     state.membership_changed(&vault_id, &[]).await;
+    // Someone shared a vault with them: worth a notice, not only a quiet sync.
+    state.wake(&recipient_id, PushKind::Alert);
     Ok(StatusCode::ACCEPTED)
 }
 

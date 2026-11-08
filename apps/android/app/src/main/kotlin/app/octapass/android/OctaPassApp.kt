@@ -34,6 +34,8 @@ class OctaPassApp : Application() {
         PlatformVerifier.init(this)
         model = AppModel(this)
         Locales.apply(model.settings.value.language)
+        // Before any push service runs: Firebase starts here or not at all (no FCM values, no push).
+        model.push.start()
         // Auto-lock and "lock when Octa Pass is in the background" follow the whole app, not one screen.
         ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {
             override fun onStart(owner: LifecycleOwner) {

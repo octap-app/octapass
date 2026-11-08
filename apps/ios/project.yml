@@ -24,6 +24,13 @@ settings:
     OCTAPASS_KEYCHAIN_GROUP: $(AppIdentifierPrefix)app.octap.shared
     # The "Octa Pass" server choice; a development build can name a test server instead.
     OCTAPASS_SERVER_URL: https://vault.octap.app
+  # Push sync (plan 04, "Push relay"): debug builds get Apple's sandbox gateway, release builds
+  # production. PushSync tells the vault which, from the same DEBUG.
+  configs:
+    Debug:
+      OCTAPASS_APS_ENVIRONMENT: development
+    Release:
+      OCTAPASS_APS_ENVIRONMENT: production
 packages:
   OctaPassVault:
     path: Packages/OctaPassVault
@@ -98,6 +105,8 @@ targets:
         OctaPassAppGroup: $(OCTAPASS_APP_GROUP)
         OctaPassKeychainGroup: $(OCTAPASS_KEYCHAIN_GROUP)
         OctaPassServerURL: $(OCTAPASS_SERVER_URL)
+        # A sync push wakes the app in the background (plan 04, "Push relay").
+        UIBackgroundModes: [remote-notification]
     entitlements:
       path: OctaPass/OctaPass.entitlements
       properties:
@@ -106,6 +115,7 @@ targets:
         com.apple.developer.networking.wifi-info: true
         com.apple.security.application-groups: [$(OCTAPASS_APP_GROUP)]
         keychain-access-groups: [$(OCTAPASS_KEYCHAIN_GROUP)]
+        aps-environment: $(OCTAPASS_APS_ENVIRONMENT)
     dependencies:
       - target: OctaPassAutoFill
         embed: true

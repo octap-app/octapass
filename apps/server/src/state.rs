@@ -16,6 +16,7 @@ use crate::icons::Icons;
 use crate::key_log::KeyLog;
 use crate::login::{PendingLogins, PendingRecovery, SsoBrowser, SsoLogin};
 use crate::mail::{Email, MailConfigError, Mailer};
+use crate::push::{Push, PushKind};
 use crate::rate_limit::RateLimiter;
 use crate::relay::RelayClient;
 use crate::secrets::ServerSecrets;
@@ -50,6 +51,8 @@ pub struct Inner {
     pub icons: Option<Icons>,
     /// The masked email relay; `None` on a server without one.
     pub relay: Option<RelayClient>,
+    /// Pushes through the push relay; `None` unless `OCTAPASS_PUSH_RELAY` is on.
+    pub push: Option<Push>,
     /// Email breach lookups; `None` without an HIBP key.
     pub breach_client: Option<BreachClient>,
     pub breach_email_limiter: RateLimiter,
@@ -133,6 +136,10 @@ impl AppState {
             None
         };
         let relay = config.relay.as_ref().map(RelayClient::new);
+        let push = match &config.push {
+            Some(push) => Some(Push::new(push, &db).await?),
+            None => None,
+        };
         if !config.can_deliver_codes() {
             tracing::warn!("OCTAPASS_SMTP_URL is not set: new accounts can't verify their email");
         }
@@ -144,7 +151,7 @@ impl AppState {
             );
         }
         let key_log = KeyLog::new(&*secrets.hmac_key);
-        Ok(Self(Arc::new(Inner {
+        let state = Self(Arc::new(Inner {
             ip_limiter: RateLimiter::new(config.rate_limits.per_ip),
             login_limiter: RateLimiter::new(config.rate_limits.login_per_email_ip),
             login_email_limiter: RateLimiter::new(config.rate_limits.login_per_email),
@@ -170,6 +177,7 @@ impl AppState {
             icon_limiter: RateLimiter::new(config.rate_limits.icons_per_ip),
             icons,
             relay,
+            push,
             breach_client: config
                 .hibp
                 .as_ref()
@@ -195,7 +203,10 @@ impl AppState {
             db,
             secrets,
             mailer,
-        })))
+        }));
+        // A server turned on for push registers with the relay once, in the background.
+        crate::push::register_soon(&state);
+        Ok(state)
     }
 
     /// Sends over SMTP when configured. Dev mode and `OCTAPASS_EMAIL_TO_LOG` also log the
@@ -251,6 +262,7 @@ impl AppState {
                         revision,
                     };
                     self.events.send(&account_id, event);
+                    self.wake(&account_id, PushKind::Sync);
                 }
             }
             Err(error) => tracing::error!(%error, "couldn't notify vault members"),
@@ -274,10 +286,17 @@ impl AppState {
                         vault_id: vault_id.to_owned(),
                     };
                     self.events.send(&account_id, event);
+                    self.wake(&account_id, PushKind::Sync);
                 }
             }
             Err(error) => tracing::error!(%error, "couldn't notify vault members"),
         }
+    }
+
+    /// Wakes the account's phones with a push that says only `kind`, when this server has a push
+    /// relay. Nothing about what changed goes with it.
+    pub fn wake(&self, account_id: &str, kind: PushKind) {
+        crate::push::wake(self, account_id, kind);
     }
 
     /// Signs a device out and closes its live connections. Returns `false`
@@ -291,6 +310,12 @@ impl AppState {
             db::sessions::revoke_device(&self.db, account_id, device_id, db::now()).await?;
         if revoked {
             self.session_revoked(account_id, device_id);
+            // A signed-out device is never woken again.
+            if self.push.is_some()
+                && let Err(error) = db::push::delete_device_token(&self.db, device_id).await
+            {
+                tracing::error!(%error, "couldn't forget a signed-out device's push token");
+            }
         }
         Ok(revoked)
     }
@@ -349,6 +374,7 @@ impl AppState {
         emergency::send_reminders(self, now).await?;
         storage::clean_spool(&self.uploads_dir);
         crate::relay::drain(self).await;
+        crate::push::register_soon(self);
         storage::drain(self).await
     }
 }

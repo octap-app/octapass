@@ -30,6 +30,9 @@ export async function outputs(root = ROOT) {
     [`${IOS}/Resources/Localizable.xcstrings`, xcstrings(messages)],
     [`${IOS}/L10n.swift`, swiftAccessors(messages)],
     [`${IOS}/Tokens.swift`, swiftTokens(tokens)],
+    // The keys an APNs alert names (`title-loc-key`, `loc-key`): iOS looks them up in the app's own
+    // bundle, never a package's, so the push alert's strings go there too (plan 04, "Push relay").
+    ['apps/ios/OctaPass/Resources/Localizable.xcstrings', xcstrings(messages.filter((m) => m.key.startsWith('phone.native.pushAlert')))],
     // What the web vault shows for a sample of messages, which the package's tests compare L10n with.
     [`${IOS_PACKAGE}/Tests/OctaPassResourcesTests/Resources/expected.json`, casesJson(expectations(messages, { plainSamples: 20 }))],
     [`${ANDROID}/res/values/strings.xml`, stringsXml(messages, 'en')],

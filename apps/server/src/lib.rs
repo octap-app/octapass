@@ -19,6 +19,7 @@ mod login;
 mod mail;
 mod middleware;
 pub mod openapi;
+mod push;
 mod rate_limit;
 mod relay;
 mod routes;

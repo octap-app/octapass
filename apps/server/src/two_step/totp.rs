@@ -141,8 +141,8 @@ mod tests {
         );
         assert_eq!(
             otpauth_uri(b"12345678901234567890", "Octa Pass", "a+b@example.com"),
-            "otpauth://totp/Open%20Pass:a%2Bb@example.com?secret=GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ\
-             &issuer=Open%20Pass&algorithm=SHA1&digits=6&period=30"
+            "otpauth://totp/Octa%20Pass:a%2Bb@example.com?secret=GEZDGNBVGY3TQOJQGEZDGNBVGY3TQOJQ\
+             &issuer=Octa%20Pass&algorithm=SHA1&digits=6&period=30"
         );
     }
 }

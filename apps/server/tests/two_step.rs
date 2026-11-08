@@ -116,7 +116,7 @@ async fn turning_on_needs_reauth_and_a_correct_code() {
     let secret = setup.body["secret"].as_str().unwrap();
     assert_eq!(secret.len(), 32, "160 bits of base32");
     let uri = setup.body["otpauthUri"].as_str().unwrap();
-    assert!(uri.starts_with("otpauth://totp/Open%20Pass:ada@example.com?secret="));
+    assert!(uri.starts_with("otpauth://totp/Octa%20Pass:ada@example.com?secret="));
     assert!(uri.contains(secret));
 
     // The reauth token was used up.

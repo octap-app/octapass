@@ -13,7 +13,8 @@ const PATH: &str = concat!(
 );
 const ID: &str = "0192f0c8-1c2d-7a00-8000-0000000000c1";
 const VAULT: &str = "0192f0c8-1c2d-7a00-8000-0000000000aa";
-const SERVER: &str = "https://octap.app";
+// An example host, part of the vector's inputs: changing it changes every token below.
+const SERVER: &str = "https://openpass.example";
 const CHALLENGE: &str = "c2lnbiBtZSBvbmNl";
 
 fn bytes(seed: u8) -> [u8; 32] {

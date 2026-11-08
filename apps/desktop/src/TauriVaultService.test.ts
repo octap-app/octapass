@@ -121,7 +121,7 @@ describe('TauriVaultService', () => {
     const { transport, service } = await connect(unlocked, (t) =>
       t
         .on('two_step_status', () => status)
-        .on('start_totp_setup', () => ({ secret: 'JBSWY3DPEHPK3PXP', otpauthUri: 'otpauth://totp/Open%20Pass:ada?secret=JBSWY3DPEHPK3PXP' }))
+        .on('start_totp_setup', () => ({ secret: 'JBSWY3DPEHPK3PXP', otpauthUri: 'otpauth://totp/Octa%20Pass:ada?secret=JBSWY3DPEHPK3PXP' }))
         .on('confirm_totp_setup', () => ({ recoveryCodes: ['ABCDE-12345'] }))
         .on('renew_recovery_codes', () => ['FGHIJ-67890'])
         .on('disable_two_step', () => undefined)

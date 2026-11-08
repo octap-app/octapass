@@ -79,8 +79,10 @@ describe('moving a vault to another account', () => {
     const dialog = page.getByRole('dialog', { name: 'Export your vault' });
     await dialog.getByLabel('Password for the file').fill(EXPORT_PASSWORD);
     await dialog.getByLabel('Confirm the password').fill(EXPORT_PASSWORD);
-    await dialog.getByLabel('Master password').fill(PASSWORD);
-    const [download] = await Promise.all([page.waitForEvent('download'), dialog.getByRole('button', { name: 'Export' }).click()]);
+    await dialog.getByRole('button', { name: 'Export' }).click();
+    const gate = page.getByRole('dialog', { name: 'Confirm it’s you' });
+    await gate.getByLabel('Master password').fill(PASSWORD);
+    const [download] = await Promise.all([page.waitForEvent('download'), gate.getByRole('button', { name: 'Confirm' }).click()]);
     expect(download.suggestedFilename()).toMatch(/^octapass-export-\d{4}-\d\d-\d\d\.octapass$/);
     exported = readFileSync(await download.path());
     expect(exported.subarray(0, 4).toString()).toBe('OPEX');

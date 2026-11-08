@@ -19,7 +19,7 @@ pub const HOST_NAME: &str = "app.octap.desktop";
 // (the store assigns it). A placeholder isn't a well-formed ID, so it never matches a caller and never
 // reaches a manifest: until it's filled in, release builds don't accept the Edge store extension.
 /// The Chrome Web Store listing's ID.
-pub const CHROME_WEB_STORE_ID: &str = "lkiohhnnaikciebbdlnnlgagmdjgknoi";
+pub const CHROME_WEB_STORE_ID: &str = "jainmncaocgdhknhcjkdbbbmahllbjol";
 /// The Edge Add-ons listing's ID (Edge gives its store its own IDs).
 pub const EDGE_ADD_ONS_ID: &str = "PLACEHOLDER:edge-add-ons-id";
 /// The `browser_specific_settings.gecko.id` the extension is signed with on addons.mozilla.org.
@@ -461,7 +461,7 @@ mod tests {
         assert_eq!(
             chrome["allowed_origins"],
             json!([
-                "chrome-extension://lkiohhnnaikciebbdlnnlgagmdjgknoi/",
+                "chrome-extension://jainmncaocgdhknhcjkdbbbmahllbjol/",
                 "chrome-extension://oojckfebkmiogiahdggohbdnndbfcjnm/"
             ])
         );
@@ -485,9 +485,7 @@ mod tests {
 
     #[test]
     fn placeholders_are_never_allowed() {
-        for placeholder in [EDGE_ADD_ONS_ID] {
-            assert!(!is_chrome_id(placeholder) && !is_firefox_id(placeholder));
-        }
+        assert!(!is_chrome_id(EDGE_ADD_ONS_ID) && !is_firefox_id(EDGE_ADD_ONS_ID));
         let built_in = |id: &&str| !listed(EXTRA_EXTENSION_IDS).any(|extra| extra == *id);
         assert_eq!(
             chrome_extension_ids().filter(built_in).collect::<Vec<_>>(),

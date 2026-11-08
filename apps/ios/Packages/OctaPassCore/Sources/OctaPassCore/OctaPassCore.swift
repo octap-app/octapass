@@ -7640,250 +7640,250 @@ private let initializationResult: InitializationResult = {
     if bindings_contract_version != scaffolding_contract_version {
         return InitializationResult.contractVersionMismatch
     }
-    if (uniffi_octapass_ffi_checksum_func_passkey_assertion_request_from_json() != 11528) {
+    if (uniffi_octapass_ffi_checksum_func_passkey_assertion_request_from_json() != 55647) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_func_passkey_creation_request_from_json() != 22491) {
+    if (uniffi_octapass_ffi_checksum_func_passkey_creation_request_from_json() != 64550) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_func_estimate_strength() != 62457) {
+    if (uniffi_octapass_ffi_checksum_func_estimate_strength() != 55823) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_func_generate_password() != 33339) {
+    if (uniffi_octapass_ffi_checksum_func_generate_password() != 7639) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_func_normalize_secret_key() != 57782) {
+    if (uniffi_octapass_ffi_checksum_func_normalize_secret_key() != 64835) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_func_read_qr_image() != 5811) {
+    if (uniffi_octapass_ffi_checksum_func_read_qr_image() != 42447) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_func_suggested_password() != 61887) {
+    if (uniffi_octapass_ffi_checksum_func_suggested_password() != 40543) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_func_summarize_qr_scans() != 19372) {
+    if (uniffi_octapass_ffi_checksum_func_summarize_qr_scans() != 842) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_func_totp_code() != 1278) {
+    if (uniffi_octapass_ffi_checksum_func_totp_code() != 27567) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_func_website_for_page() != 49322) {
+    if (uniffi_octapass_ffi_checksum_func_website_for_page() != 58378) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_httpclient_send() != 26082) {
+    if (uniffi_octapass_ffi_checksum_method_httpclient_send() != 62785) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_passwordreset_finish() != 12622) {
+    if (uniffi_octapass_ffi_checksum_method_passwordreset_finish() != 61438) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_change_master_password() != 31362) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_change_master_password() != 32482) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_start_password_reset() != 52837) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_start_password_reset() != 4783) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_verify_password_reset() != 10627) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_verify_password_reset() != 13876) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_base_url() != 61958) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_base_url() != 55243) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_confirm_totp_setup() != 44745) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_confirm_totp_setup() != 50121) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_delete_account() != 38474) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_delete_account() != 26751) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_disable_two_step() != 21967) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_disable_two_step() != 4405) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_log_in() != 65385) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_log_in() != 848) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_log_in_trusted() != 46457) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_log_in_trusted() != 18940) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_log_out() != 52632) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_log_out() != 14945) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_reauth() != 4341) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_reauth() != 25003) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_refresh() != 26993) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_refresh() != 33292) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_remove_security_key() != 20413) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_remove_security_key() != 62857) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_renew_recovery_codes() != 56656) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_renew_recovery_codes() != 44322) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_server_info() != 29186) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_server_info() != 64318) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_start_signup() != 43165) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_start_signup() != 4212) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_start_totp_setup() != 26645) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_start_totp_setup() != 17308) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_sync() != 27899) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_sync() != 32733) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_two_step_status() != 29013) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_two_step_status() != 2721) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_octapassserver_upload_pending() != 62329) {
+    if (uniffi_octapass_ffi_checksum_method_octapassserver_upload_pending() != 28388) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_secondfactorlogin_expires_in() != 29449) {
+    if (uniffi_octapass_ffi_checksum_method_secondfactorlogin_expires_in() != 31454) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_secondfactorlogin_finish_with_recovery_code() != 29051) {
+    if (uniffi_octapass_ffi_checksum_method_secondfactorlogin_finish_with_recovery_code() != 53442) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_secondfactorlogin_finish_with_totp() != 47557) {
+    if (uniffi_octapass_ffi_checksum_method_secondfactorlogin_finish_with_totp() != 3946) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_secondfactorlogin_methods() != 11244) {
+    if (uniffi_octapass_ffi_checksum_method_secondfactorlogin_methods() != 28873) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_signup_dev_verification_code() != 26721) {
+    if (uniffi_octapass_ffi_checksum_method_signup_dev_verification_code() != 8535) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_signup_email() != 65204) {
+    if (uniffi_octapass_ffi_checksum_method_signup_email() != 3955) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_signup_finish() != 59005) {
+    if (uniffi_octapass_ffi_checksum_method_signup_finish() != 37570) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_signup_recovery_code() != 2139) {
+    if (uniffi_octapass_ffi_checksum_method_signup_recovery_code() != 8316) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_signup_secret_key() != 13831) {
+    if (uniffi_octapass_ffi_checksum_method_signup_secret_key() != 49235) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_ssologin_expires_in() != 10815) {
+    if (uniffi_octapass_ffi_checksum_method_ssologin_expires_in() != 13163) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_ssologin_finish() != 1328) {
+    if (uniffi_octapass_ffi_checksum_method_ssologin_finish() != 39278) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_ssologin_org_name() != 3331) {
+    if (uniffi_octapass_ffi_checksum_method_ssologin_org_name() != 10140) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_ssologin_url() != 63323) {
+    if (uniffi_octapass_ffi_checksum_method_ssologin_url() != 33502) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_create_passkey() != 48275) {
+    if (uniffi_octapass_ffi_checksum_method_session_create_passkey() != 59008) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_find_passkeys() != 49444) {
+    if (uniffi_octapass_ffi_checksum_method_session_find_passkeys() != 51946) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_get_passkey_assertion() != 27331) {
+    if (uniffi_octapass_ffi_checksum_method_session_get_passkey_assertion() != 35010) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_account_id() != 50319) {
+    if (uniffi_octapass_ffi_checksum_method_session_account_id() != 55151) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_credential_identities() != 21025) {
+    if (uniffi_octapass_ffi_checksum_method_session_credential_identities() != 12941) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_email() != 25545) {
+    if (uniffi_octapass_ffi_checksum_method_session_email() != 18241) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_get_item() != 9407) {
+    if (uniffi_octapass_ffi_checksum_method_session_get_item() != 58895) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_is_locked() != 62002) {
+    if (uniffi_octapass_ffi_checksum_method_session_is_locked() != 49379) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_list_items() != 57682) {
+    if (uniffi_octapass_ffi_checksum_method_session_list_items() != 57143) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_lock() != 43250) {
+    if (uniffi_octapass_ffi_checksum_method_session_lock() != 41145) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_match_logins() != 17379) {
+    if (uniffi_octapass_ffi_checksum_method_session_match_logins() != 50619) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_other_logins() != 44664) {
+    if (uniffi_octapass_ffi_checksum_method_session_other_logins() != 10931) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_save_login() != 9354) {
+    if (uniffi_octapass_ffi_checksum_method_session_save_login() != 48380) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_totp_code() != 61192) {
+    if (uniffi_octapass_ffi_checksum_method_session_totp_code() != 44827) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_session_export_for_app() != 51179) {
+    if (uniffi_octapass_ffi_checksum_method_session_export_for_app() != 37315) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_update_account() != 60306) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_update_account() != 55992) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_account_id() != 29590) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_account_id() != 23494) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_device_unlock_status() != 58380) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_device_unlock_status() != 19720) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_disable_device_unlock() != 3382) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_disable_device_unlock() != 16976) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_email() != 5545) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_email() != 44695) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_enable_device_unlock() != 7866) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_enable_device_unlock() != 18658) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_has_pending_changes() != 18108) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_has_pending_changes() != 49302) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_reload() != 36902) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_reload() != 57543) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_server_url() != 6729) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_server_url() != 10918) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_unlock_with_device() != 35298) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_unlock_with_device() != 37398) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_unlock_with_password() != 29911) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_unlock_with_password() != 16018) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_add_to_inbox() != 44502) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_add_to_inbox() != 37639) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_inbox_accepts() != 26432) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_inbox_accepts() != 60665) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_merge_inbox() != 51177) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_merge_inbox() != 3767) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_is_local() != 31002) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_is_local() != 56477) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_unlock_local() != 54986) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_unlock_local() != 8464) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_password_required() != 4094) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_password_required() != 25745) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_stay_unlocked_key() != 23748) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_stay_unlocked_key() != 2027) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_method_localstore_unlock_stay_unlocked() != 46045) {
+    if (uniffi_octapass_ffi_checksum_method_localstore_unlock_stay_unlocked() != 63417) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_constructor_octapassserver_new() != 54391) {
+    if (uniffi_octapass_ffi_checksum_constructor_octapassserver_new() != 59691) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_constructor_localstore_create() != 42491) {
+    if (uniffi_octapass_ffi_checksum_constructor_localstore_create() != 59173) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_ffi_checksum_constructor_localstore_open() != 26798) {
+    if (uniffi_octapass_ffi_checksum_constructor_localstore_open() != 65076) {
         return InitializationResult.apiChecksumMismatch
     }
 

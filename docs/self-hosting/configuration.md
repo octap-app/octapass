@@ -66,6 +66,16 @@ Off unless both are set; see [the masked email relay](/docs/self-hosting/relay/)
 | `OCTAPASS_RELAY_API_URL` | unset | The relay's internal API. Unset, `/v1/masked-email` answers 404. |
 | `OCTAPASS_RELAY_API_TOKEN` | required with the URL | The token the relay expects. |
 
+## Key log witnesses
+
+Off unless set. Independent [witnesses](/docs/self-hosting/key-log-witnesses/) cosign your server's [key log](/docs/security/post-quantum-and-key-log/#the-key-log), so it can't show different people different logs. `octapass-server admin key-log` prints the verifier key their operators need.
+
+| Variable | Default | Description |
+|---|---|---|
+| `OCTAPASS_KEY_LOG_WITNESSES` | unset | Witnesses, separated by commas or newlines: each a submission URL and the witness's verifier key, separated by a space. At most 16. |
+| `OCTAPASS_KEY_LOG_WITNESS_QUORUM` | a majority | How many witnesses must cosign. |
+| `OCTAPASS_KEY_LOG_WITNESS_INTERVAL` | `600` | Seconds between checkpoints sent to the witnesses (10 to 86400). |
+
 ## Website icons
 
 Apps show each item's [website icon](/docs/features/website-icons/) by asking your server (`GET /v1/icons/{domain}`), which fetches it from the website itself and keeps it in the `icons` folder of the data directory for a week. Requests carry no account or token. The server only connects to public internet addresses, so a website can't point it at your own network. It needs outgoing HTTPS (and HTTP) access to the internet.
@@ -109,6 +119,8 @@ octapass-server admin delete-account alice@example.com  # delete an account and 
 octapass-server admin reset-two-step alice@example.com  # turn off two-step sign-in for someone who lost every method
 octapass-server admin backup /backups                   # a backup of the database, secrets and attachments (SQLite)
 octapass-server admin restore /backups/octapass-…       # put a backup in place (stop the server first)
+octapass-server admin key-log                           # the key log's verifier key, for witnesses, and how witnessing stands
+octapass-server admin key-log witness                   # send a checkpoint to the witnesses now and report
 octapass-server healthcheck                             # exit 0 when the server answers /healthz
 octapass-server openapi                                 # print the API as OpenAPI 3.1
 ```

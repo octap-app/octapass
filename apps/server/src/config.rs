@@ -48,11 +48,33 @@ pub struct Config {
     pub icons: Icons,
     /// The masked email relay's internal API (`OCTAPASS_RELAY_API_URL`), when this server has one.
     pub relay: Option<Relay>,
+    /// Witnesses the key log sends its checkpoints to (`OCTAPASS_KEY_LOG_WITNESSES`). None: the
+    /// log isn't witnessed.
+    pub key_log_witnesses: Option<KeyLogWitnesses>,
     /// Email breach alerts, off unless `OCTAPASS_HIBP_API_KEY` is set.
     pub hibp: Option<Hibp>,
     /// Lets the server reach an identity provider on a private address, for self-hosters with one
     /// on their own network (`OCTAPASS_SSO_PRIVATE_NETWORK`). Off, only public addresses are used.
     pub sso_private_network: bool,
+}
+
+/// Independent witnesses that cosign the key log's checkpoints (plan 03, "Witnesses").
+#[derive(Clone, Debug)]
+pub struct KeyLogWitnesses {
+    pub witnesses: Vec<KeyLogWitness>,
+    /// How many must cosign before a checkpoint is served (`OCTAPASS_KEY_LOG_WITNESS_QUORUM`,
+    /// a majority by default).
+    pub quorum: u32,
+    /// How often checkpoints go to the witnesses (`OCTAPASS_KEY_LOG_WITNESS_INTERVAL`, seconds).
+    pub interval: Duration,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct KeyLogWitness {
+    /// The submission prefix: checkpoints go to `<url>/add-checkpoint`.
+    pub url: String,
+    /// The witness's C2SP verifier key (`name+id+base64`, an Ed25519 cosignature/v1 key).
+    pub vkey: String,
 }
 
 /// Where the masked email relay's internal API is. Without it, `/v1/masked-email` answers 404 and
@@ -334,6 +356,7 @@ impl Config {
                 limits: crate::icons::Limits::default(),
             },
             relay: relay(&get)?,
+            key_log_witnesses: key_log_witnesses(&get)?,
             hibp: hibp(&get, dev_mode)?,
             sso_private_network: get("OCTAPASS_SSO_PRIVATE_NETWORK")
                 .is_some_and(|value| value.eq_ignore_ascii_case("on") || value == "true"),
@@ -384,6 +407,82 @@ fn relay(get: &impl Fn(&str) -> Option<String>) -> Result<Option<Relay>, ConfigE
             format!("{url:?} is not an http(s) URL"),
         )),
     }
+}
+
+/// `OCTAPASS_KEY_LOG_WITNESSES`: entries separated by commas or newlines, each a submission URL
+/// and the witness's verifier key, separated by a space.
+fn key_log_witnesses(
+    get: &impl Fn(&str) -> Option<String>,
+) -> Result<Option<KeyLogWitnesses>, ConfigError> {
+    use octapass_core::transparency::witness::{MAX_WITNESSES, WitnessPolicy};
+    const NAME: &str = "OCTAPASS_KEY_LOG_WITNESSES";
+    let Some(raw) = get(NAME) else {
+        return Ok(None);
+    };
+    let witnesses: Vec<KeyLogWitness> = raw
+        .split([',', '\n'])
+        .map(str::trim)
+        .filter(|entry| !entry.is_empty())
+        .map(|entry| {
+            let (url, vkey) = entry
+                .split_once(char::is_whitespace)
+                .ok_or_else(|| invalid(NAME, format!("{entry:?} is not \"<url> <vkey>\"")))?;
+            let vkey = vkey.trim();
+            if !(url.starts_with("http://") || url.starts_with("https://")) {
+                return Err(invalid(NAME, format!("{url:?} is not an http(s) URL")));
+            }
+            let policy = WitnessPolicy {
+                witnesses: vec![vkey.to_owned()],
+                quorum: 1,
+            };
+            if policy.verifiers().is_err() {
+                return Err(invalid(
+                    NAME,
+                    format!("{vkey:?} is not an Ed25519 cosignature/v1 verifier key"),
+                ));
+            }
+            Ok(KeyLogWitness {
+                url: url.trim_end_matches('/').to_owned(),
+                vkey: vkey.to_owned(),
+            })
+        })
+        .collect::<Result<_, _>>()?;
+    if witnesses.is_empty() {
+        return Ok(None);
+    }
+    let all = WitnessPolicy {
+        witnesses: witnesses.iter().map(|w| w.vkey.clone()).collect(),
+        quorum: 1,
+    };
+    if witnesses.len() > MAX_WITNESSES || all.verifiers().is_err() {
+        return Err(invalid(
+            NAME,
+            format!("needs at most {MAX_WITNESSES} witnesses, each with its own key"),
+        ));
+    }
+    let majority = WitnessPolicy::majority(witnesses.len()).to_string();
+    let quorum: u32 = parse(get, "OCTAPASS_KEY_LOG_WITNESS_QUORUM", &majority)?;
+    if quorum == 0 || quorum as usize > witnesses.len() {
+        return Err(invalid(
+            "OCTAPASS_KEY_LOG_WITNESS_QUORUM",
+            format!(
+                "must be between 1 and the number of witnesses ({})",
+                witnesses.len()
+            ),
+        ));
+    }
+    let interval: u64 = parse(get, "OCTAPASS_KEY_LOG_WITNESS_INTERVAL", "600")?;
+    if !(10..=86_400).contains(&interval) {
+        return Err(invalid(
+            "OCTAPASS_KEY_LOG_WITNESS_INTERVAL",
+            "must be between 10 and 86400 seconds".into(),
+        ));
+    }
+    Ok(Some(KeyLogWitnesses {
+        witnesses,
+        quorum,
+        interval: Duration::from_secs(interval),
+    }))
 }
 
 /// The host of an `http(s)://host[:port][/…]` URL, lowercased.
@@ -576,6 +675,58 @@ mod tests {
             .map(|(k, v)| (k.to_string(), v.to_string()))
             .collect();
         Config::from_lookup(|name| vars.get(name).cloned())
+    }
+
+    fn witness_vkey(seed: u8) -> String {
+        use octapass_core::transparency::note::{COSIGNATURE_V1, Verifier};
+        let key = ed25519_dalek::SigningKey::from_bytes(&[seed; 32]).verifying_key();
+        Verifier::new(&format!("witness.example/{seed}"), COSIGNATURE_V1, key)
+            .unwrap()
+            .vkey()
+    }
+
+    #[test]
+    fn key_log_witnesses() {
+        assert!(config(&[]).unwrap().key_log_witnesses.is_none());
+        let list = format!(
+            "https://w1.example/ {},\nhttp://127.0.0.1:9000 {}, https://w3.example {}",
+            witness_vkey(1),
+            witness_vkey(2),
+            witness_vkey(3)
+        );
+        let witnesses = config(&[("OCTAPASS_KEY_LOG_WITNESSES", &list)])
+            .unwrap()
+            .key_log_witnesses
+            .unwrap();
+        assert_eq!(witnesses.witnesses.len(), 3);
+        assert_eq!(witnesses.witnesses[0].url, "https://w1.example");
+        assert_eq!(witnesses.quorum, 2);
+        assert_eq!(witnesses.interval, Duration::from_secs(600));
+
+        let quorum = |q: &str| {
+            config(&[
+                ("OCTAPASS_KEY_LOG_WITNESSES", &list),
+                ("OCTAPASS_KEY_LOG_WITNESS_QUORUM", q),
+            ])
+        };
+        assert_eq!(quorum("3").unwrap().key_log_witnesses.unwrap().quorum, 3);
+        assert!(quorum("4").is_err());
+        assert!(quorum("0").is_err());
+
+        let bad = [
+            format!("w1.example {}", witness_vkey(1)),
+            "https://w1.example not-a-key".to_owned(),
+            format!(
+                "https://w1.example {0}, https://w2.example {0}",
+                witness_vkey(1)
+            ),
+        ];
+        for value in &bad {
+            assert!(
+                config(&[("OCTAPASS_KEY_LOG_WITNESSES", value)]).is_err(),
+                "{value}"
+            );
+        }
     }
 
     #[test]

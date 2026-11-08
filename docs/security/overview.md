@@ -55,5 +55,4 @@ These are part of the design and required for 1.0, but they don't exist today:
 - Reproducible, signed builds and an SBOM for every release
 - `cargo deny`, `cargo vet` and two-person release approval
 - Proof-of-work after repeated failed sign-ins (rate limits are built)
-- Independent witnesses for the [key log](/docs/security/post-quantum-and-key-log/), which would catch a server showing different people different logs
 - Encrypted device names

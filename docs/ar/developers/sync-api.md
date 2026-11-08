@@ -437,9 +437,9 @@ Content-Type: application/json
 
 | نقطة النهاية | ما تفعله |
 |---|---|
-| `GET /v1/transparency/head?since=` | المفاتيح العامة للسجل، ورأس موقَّع الآن، وإثبات اتساق RFC 9162 من الحجم `since` |
+| `GET /v1/transparency/head?since=` | المفاتيح العامة للسجل، ورأس موقَّع الآن، وإثبات اتساق RFC 9162 من الحجم `since`. وعلى خادم لديه [شهود](/ar/docs/self-hosting/key-log-witnesses/)، بعد أن يوقّع النصاب، أيضًا `witnesses: { witnesses, quorum }` (مفاتيح تحقق C2SP) و`witnessed: { checkpoint, consistency }`: أحدث نقطة تحقق موقّعة توقيعًا مشتركًا بصيغة ملاحظة C2SP موقّعة، وإثبات اتساق منها إلى الرأس |
 | `POST /v1/transparency/label` | `{ blinded }` ← `{ evaluated, proof }`: خطوة VOPRF التي تعطي تسمية البريد الإلكتروني. تُحتسب على حصة لكل حساب (40، ثم واحدة كل 30 ثانية) |
-| `GET /v1/transparency/proof?label=&since=` | مثل `head`، إضافة إلى `entry: { leafIndex, record, inclusion }` لأحدث سجل للتسمية، إن وُجد |
+| `GET /v1/transparency/proof?label=&since=` | مثل `head` (مع حقول الشهود)، إضافة إلى `entry: { leafIndex, record, inclusion }` لأحدث سجل للتسمية، إن وُجد |
 | `GET /v1/transparency/entries?start=&end=` | `{ start, frontier, leaves }`: حتى 10,000 ورقة بطول 64 بايت، والأشجار الفرعية الكاملة قبل `start`، ليتمكن العميل من إعادة بناء الجذر |
 | `POST /v1/transparency/publish` | `{ record, wrappedPqPrivateKey }` ← `{ leafIndex }`. يخزّن مفتاح ML-KEM للحساب ويضيف سجله. إرسال السجل نفسه مرة أخرى يحصل على الجواب نفسه. وسجل مختلف لهذا السجل هو `409 already-exists`: خذ السجل من `GET /v1/account` |
 

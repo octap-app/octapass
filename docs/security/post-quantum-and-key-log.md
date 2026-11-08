@@ -28,7 +28,7 @@ To share with someone, your device asks the server for their public keys. A mali
 The key log catches it without a call. It's an append-only Merkle log of account public keys, one per server. Your device:
 
 1. **Checks a proof** that the keys it was given are in the log under that person's email, before sealing anything to them. A failed check stops the share.
-2. **Pins the log** and checks that each new version extends the last one, so history can't be rewritten without your device noticing.
+2. **Pins the log** and checks that each new version extends the last one, so history can't be rewritten without your device noticing. When the server has [witnesses](/docs/self-hosting/key-log-witnesses/), your device also checks that enough of them recently cosigned a version this one extends.
 3. **Watches for your own email.** At most hourly, each of your devices reads what's new in the log. A key under your email that you didn't make shows as an alert in **Sharing**.
 
 Each person shows as **In key log**, **Not in key log yet** or **Key log check failed**.
@@ -37,7 +37,7 @@ The log holds no emails and no keys, only hashes. An email is turned into a labe
 
 ### What the key log can't catch
 
-- **Different logs for different people.** A server that shows you one log and your contact another isn't caught by either of you alone. Catching that needs independent witnesses, which don't exist yet. Until then, comparing fingerprints is the only check against a server willing to do this.
+- **Different logs for different people, on a server without witnesses.** A server that shows you one log and your contact another isn't caught by either of you alone. [Witnesses](/docs/self-hosting/key-log-witnesses/) catch it: independent parties who cosign the log only if it extends what they cosigned before. Once your device has pinned a server's witnesses, it refuses any log they haven't cosigned within the last 7 days. A server without witnesses, including the hosted service until its witnesses are chosen, leaves comparing fingerprints as the only check against this.
 - **"Not in key log yet".** Until someone's device publishes, there's nothing to check, and a server could claim that of anyone your device hasn't seen before. That's why it shows as a warning, not a pass.
 - **The newest key.** A proof shows a key was logged, not that it's the latest. This holds up while account keys don't change, and your device refuses to step back to an older entry for someone it has seen.
 - **Keys on incoming shares.** The members screen checks everyone against the log, but opening a vault shared with you doesn't check the sharer's key.

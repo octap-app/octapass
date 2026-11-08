@@ -7,13 +7,18 @@
 //! - [`label`]: the VOPRF that turns an email into a private, verifiable log label.
 //! - [`client`]: what a client pins and checks.
 //! - [`publish`]: publishing this account's record from an unlocked session.
+//! - [`note`]: C2SP signed notes, checkpoints and cosignatures.
+//! - [`witness`]: witnesses that cosign checkpoints, and the policy clients hold them to.
 //!
-//! Not audited. It needs the external review plan 09's risks table calls for, and it doesn't stop
-//! a server that shows different people different logs: see plan 03, "What it doesn't do".
+//! Not audited. It needs the external review plan 09's risks table calls for. Witnesses stop a
+//! server that shows different people different logs only once a device has pinned a witness
+//! policy: see plan 03, "Witnesses".
 
 pub mod client;
 pub mod head;
 pub mod label;
 pub mod merkle;
+pub mod note;
 pub mod publish;
 pub mod record;
+pub mod witness;

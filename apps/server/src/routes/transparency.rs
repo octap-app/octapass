@@ -6,8 +6,8 @@ use axum::extract::State;
 use octapass_api::problem::Problem;
 use octapass_api::{
     KeyLogEntriesResponse, KeyLogEntry, KeyLogHead, KeyLogHeadResponse, KeyLogIdentity,
-    KeyLogLabelRequest, KeyLogLabelResponse, KeyLogProofResponse, KeyRecord, PublishKeysRequest,
-    PublishKeysResponse,
+    KeyLogLabelRequest, KeyLogLabelResponse, KeyLogProofResponse, KeyLogWitnessPolicy,
+    KeyLogWitnessed, KeyRecord, PublishKeysRequest, PublishKeysResponse,
 };
 use octapass_core::encoding::b64_encode;
 use octapass_core::sharing::pq::PqPublicKey;
@@ -38,7 +38,10 @@ fn identity(state: &AppState) -> KeyLogIdentity {
     }
 }
 
-async fn subtree_hash(conn: &mut Conn, range: core::ops::Range<u64>) -> Result<Hash, sqlx::Error> {
+pub(crate) async fn subtree_hash(
+    conn: &mut Conn,
+    range: core::ops::Range<u64>,
+) -> Result<Hash, sqlx::Error> {
     let hashes = key_log::nodes(conn, &range_nodes(range)).await?;
     Ok(merkle::fold_nodes(&hashes).unwrap_or_else(merkle::empty_root))
 }
@@ -80,6 +83,52 @@ async fn head_at(
     ))
 }
 
+/// What clients need to hold the log to its witnesses: which ones, and the newest checkpoint a
+/// quorum of them cosigned with the proof that a head of `size` extends it. Read `witnessed`
+/// before the size: the tree only grows, so the size read afterwards can't be smaller. Nothing
+/// is offered until a quorum has cosigned once.
+struct Witnessing {
+    witnesses: Option<KeyLogWitnessPolicy>,
+    witnessed: Option<(u64, String)>,
+}
+
+async fn witnessing(state: &AppState) -> ApiResult<Witnessing> {
+    let Some(config) = &state.config.key_log_witnesses else {
+        return Ok(Witnessing {
+            witnesses: None,
+            witnessed: None,
+        });
+    };
+    Ok(Witnessing {
+        witnesses: Some(KeyLogWitnessPolicy {
+            witnesses: config.witnesses.iter().map(|w| w.vkey.clone()).collect(),
+            quorum: config.quorum,
+        }),
+        witnessed: key_log::witnessed(&state.db).await?,
+    })
+}
+
+impl Witnessing {
+    async fn at(
+        self,
+        conn: &mut Conn,
+        size: u64,
+    ) -> ApiResult<(Option<KeyLogWitnessPolicy>, Option<KeyLogWitnessed>)> {
+        // The policy is offered only once a quorum has cosigned: devices pin it, and a server
+        // still waiting for its witnesses to add the log mustn't make every device refuse it.
+        match self.witnessed {
+            Some((at, checkpoint)) if at <= size => Ok((
+                self.witnesses,
+                Some(KeyLogWitnessed {
+                    checkpoint,
+                    consistency: proof_hashes(conn, consistency_ranges(at, size)).await?,
+                }),
+            )),
+            _ => Ok((None, None)),
+        }
+    }
+}
+
 #[derive(Deserialize, utoipa::IntoParams)]
 #[into_params(parameter_in = Query)]
 pub struct HeadQuery {
@@ -93,7 +142,7 @@ pub struct HeadQuery {
     security(("bearer" = [])),
     params(HeadQuery),
     responses(
-        (status = 200, body = KeyLogHeadResponse, description = "The newest signed head, with a consistency proof from `since`"),
+        (status = 200, body = KeyLogHeadResponse, description = "The newest signed head, with a consistency proof from `since`, and the log's witnesses and newest witnessed checkpoint when it has witnesses"),
         (status = 401, body = Problem, content_type = "application/problem+json"),
     )
 )]
@@ -102,13 +151,17 @@ pub async fn head(
     Authenticated(_): Authenticated,
     ApiQuery(query): ApiQuery<HeadQuery>,
 ) -> ApiResult<Json<KeyLogHeadResponse>> {
+    let witnessing = witnessing(&state).await?;
     let size = key_log::size(&state.db).await?;
     let mut conn = state.db.acquire().await?;
     let (head, consistency) = head_at(&state, &mut conn, size, query.since.min(size)).await?;
+    let (witnesses, witnessed) = witnessing.at(&mut conn, size).await?;
     Ok(Json(KeyLogHeadResponse {
         log: identity(&state),
         head,
         consistency,
+        witnesses,
+        witnessed,
     }))
 }
 
@@ -169,9 +222,11 @@ pub async fn proof(
     ApiQuery(query): ApiQuery<ProofQuery>,
 ) -> ApiResult<Json<KeyLogProofResponse>> {
     validate::exact_bytes("label", &query.label, LABEL_LEN)?;
+    let witnessing = witnessing(&state).await?;
     let size = key_log::size(&state.db).await?;
     let mut conn = state.db.acquire().await?;
     let (head, consistency) = head_at(&state, &mut conn, size, query.since.min(size)).await?;
+    let (witnesses, witnessed) = witnessing.at(&mut conn, size).await?;
     let entry = match key_log::latest(&mut conn, &query.label, size).await? {
         Some((leaf_index, record)) => Some(KeyLogEntry {
             leaf_index,
@@ -184,6 +239,8 @@ pub async fn proof(
         log: identity(&state),
         head,
         consistency,
+        witnesses,
+        witnessed,
         entry,
     }))
 }

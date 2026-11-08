@@ -437,9 +437,9 @@ An append-only log of account public keys, which clients verify (design: plan 03
 
 | Endpoint | Does |
 |---|---|
-| `GET /v1/transparency/head?since=` | The log's public keys, a head signed now, and an RFC 9162 consistency proof from size `since` |
+| `GET /v1/transparency/head?since=` | The log's public keys, a head signed now, and an RFC 9162 consistency proof from size `since`. On a server with [witnesses](/docs/self-hosting/key-log-witnesses/), once a quorum has cosigned, also `witnesses: { witnesses, quorum }` (C2SP verifier keys) and `witnessed: { checkpoint, consistency }`: the newest cosigned checkpoint as a C2SP signed note, and a consistency proof from it to the head |
 | `POST /v1/transparency/label` | `{ blinded }` → `{ evaluated, proof }`: the VOPRF step that gives an email's label. Charged to a per-account budget (40, then one per 30 s) |
-| `GET /v1/transparency/proof?label=&since=` | The same as `head`, plus `entry: { leafIndex, record, inclusion }` for the label's newest record, if it has one |
+| `GET /v1/transparency/proof?label=&since=` | The same as `head` (witness fields included), plus `entry: { leafIndex, record, inclusion }` for the label's newest record, if it has one |
 | `GET /v1/transparency/entries?start=&end=` | `{ start, frontier, leaves }`: up to 10,000 64-byte leaves, and the perfect subtrees before `start`, so a client can rebuild the root |
 | `POST /v1/transparency/publish` | `{ record, wrappedPqPrivateKey }` → `{ leafIndex }`. Stores the account's ML-KEM key and appends its record. The same record again answers the same. A different one for this log is `409 already-exists`: take the record from `GET /v1/account` |
 

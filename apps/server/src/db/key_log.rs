@@ -197,3 +197,47 @@ pub async fn account_record(
             .await?;
     Ok(record.flatten())
 }
+
+/// The size a witness last cosigned, as far as this server knows.
+pub async fn witness_size(db: &Db, vkey: &str) -> Result<Option<u64>, sqlx::Error> {
+    let size: Option<i64> =
+        sqlx::query_scalar("SELECT tree_size FROM key_log_witness_sizes WHERE vkey = $1")
+            .bind(vkey)
+            .fetch_optional(db)
+            .await?;
+    Ok(size.map(to_u64))
+}
+
+pub async fn set_witness_size(db: &Db, vkey: &str, size: u64) -> Result<(), sqlx::Error> {
+    sqlx::query(
+        "INSERT INTO key_log_witness_sizes (vkey, tree_size) VALUES ($1, $2) \
+         ON CONFLICT (vkey) DO UPDATE SET tree_size = excluded.tree_size",
+    )
+    .bind(vkey)
+    .bind(to_i64(size))
+    .execute(db)
+    .await?;
+    Ok(())
+}
+
+/// The newest checkpoint a quorum of witnesses cosigned: its size and the signed note.
+pub async fn witnessed(db: &Db) -> Result<Option<(u64, String)>, sqlx::Error> {
+    let row: Option<(i64, String)> =
+        sqlx::query_as("SELECT tree_size, checkpoint FROM key_log_witnessed WHERE id = 1")
+            .fetch_optional(db)
+            .await?;
+    Ok(row.map(|(size, checkpoint)| (to_u64(size), checkpoint)))
+}
+
+pub async fn set_witnessed(db: &Db, size: u64, checkpoint: &str) -> Result<(), sqlx::Error> {
+    sqlx::query(
+        "INSERT INTO key_log_witnessed (id, tree_size, checkpoint) VALUES (1, $1, $2) \
+         ON CONFLICT (id) DO UPDATE SET tree_size = excluded.tree_size, \
+         checkpoint = excluded.checkpoint",
+    )
+    .bind(to_i64(size))
+    .bind(checkpoint)
+    .execute(db)
+    .await?;
+    Ok(())
+}

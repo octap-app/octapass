@@ -14,6 +14,7 @@ mod events;
 mod extract;
 pub mod icons;
 mod key_log;
+pub mod key_log_witnesses;
 mod login;
 mod mail;
 mod middleware;
@@ -146,6 +147,7 @@ pub fn spawn_maintenance(state: AppState) {
     if let Some(backups) = state.config.backups.clone() {
         backup::spawn_schedule(state.clone(), backups);
     }
+    key_log_witnesses::spawn(state.clone());
     tokio::spawn(async move {
         let mut interval = tokio::time::interval(std::time::Duration::from_secs(300));
         loop {

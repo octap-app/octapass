@@ -383,3 +383,181 @@ async fn the_log_needs_a_signed_in_account() {
         );
     }
 }
+
+/// Witnesses (plan 03, "Witnesses"): real `octapass-witness` instances on 127.0.0.1, the server
+/// sending them checkpoints, and clients holding the log to what they cosigned.
+mod witnesses {
+    use std::sync::Arc;
+
+    use ed25519_dalek::SigningKey;
+    use octapass_core::transparency::head::LogIdentity;
+    use octapass_core::transparency::note::{COSIGNATURE_V1, Verifier};
+    use octapass_core::transparency::witness;
+    use octapass_server::config::{KeyLogWitness, KeyLogWitnesses};
+    use octapass_server::key_log_witnesses::{WitnessError, round};
+
+    use super::*;
+
+    fn witness_vkey(seed: u8) -> String {
+        let key = SigningKey::from_bytes(&[seed; 32]).verifying_key();
+        Verifier::new(&format!("witness.test/{seed}"), COSIGNATURE_V1, key)
+            .unwrap()
+            .vkey()
+    }
+
+    struct Witnesses {
+        listeners: Vec<tokio::net::TcpListener>,
+        dirs: Vec<tempfile::TempDir>,
+    }
+
+    /// Two live witnesses (seeds 1 and 2) and a third (3) whose port is closed, quorum 2.
+    async fn server_with_witnesses() -> (TestServer, Witnesses) {
+        let mut listeners = Vec::new();
+        for _ in 0..2 {
+            listeners.push(tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap());
+        }
+        let closed = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+        let closed_url = format!("http://{}", closed.local_addr().unwrap());
+        drop(closed);
+        let mut witnesses: Vec<KeyLogWitness> = listeners
+            .iter()
+            .zip([1u8, 2])
+            .map(|(listener, seed)| KeyLogWitness {
+                url: format!("http://{}", listener.local_addr().unwrap()),
+                vkey: witness_vkey(seed),
+            })
+            .collect();
+        witnesses.push(KeyLogWitness {
+            url: closed_url,
+            vkey: witness_vkey(3),
+        });
+        let server = TestServer::with_config(|config| {
+            config.rate_limits.per_ip = Bucket {
+                burst: 10_000,
+                refill: std::time::Duration::from_millis(1),
+            };
+            config.key_log_witnesses = Some(KeyLogWitnesses {
+                witnesses,
+                quorum: 2,
+                interval: std::time::Duration::from_secs(600),
+            });
+        })
+        .await;
+        (
+            server,
+            Witnesses {
+                listeners,
+                dirs: Vec::new(),
+            },
+        )
+    }
+
+    /// Starts the witnesses for this server's log, which they learn the way an operator would:
+    /// from its verifier key.
+    async fn start(server: &TestServer, person: &Person, witnesses: &mut Witnesses) {
+        let head = server.get_as(person, "/v1/transparency/head").await;
+        let log: LogIdentity = from(&head.body["log"]);
+        let log_vkey = witness::log_verifier(&log).unwrap().vkey();
+        for (listener, seed) in witnesses.listeners.drain(..).zip([1u8, 2]) {
+            let dir = tempfile::tempdir().unwrap();
+            let witness = octapass_witness::Witness::open(octapass_witness::Config {
+                name: format!("witness.test/{seed}"),
+                key: SigningKey::from_bytes(&[seed; 32]),
+                logs: vec![log_vkey.clone()],
+                data_dir: dir.path().to_owned(),
+            })
+            .unwrap();
+            witnesses.dirs.push(dir);
+            tokio::spawn(async move {
+                axum::serve(listener, octapass_witness::router(Arc::new(witness)))
+                    .await
+                    .unwrap();
+            });
+        }
+    }
+
+    fn config(server: &TestServer) -> &KeyLogWitnesses {
+        server.state.config.key_log_witnesses.as_ref().unwrap()
+    }
+
+    #[tokio::test]
+    async fn clients_pin_the_witnesses_and_check_every_head_against_them() {
+        let (server, mut witnesses) = server_with_witnesses().await;
+        let mut alice = server.person("alice@example.com").await;
+        let mut bob = server.person("bob@example.com").await;
+
+        // Before any witness has cosigned, clients aren't offered witnesses at all.
+        let head = server.get_as(&alice, "/v1/transparency/head").await;
+        assert!(head.body.get("witnesses").is_none(), "{:?}", head.body);
+        publish(&server, &mut alice).await;
+
+        start(&server, &alice, &mut witnesses).await;
+        let first = round(&server.state, config(&server)).await.unwrap();
+        assert_eq!(
+            (first.size, first.cosigned.len(), first.stored),
+            (1, 2, true)
+        );
+        assert!(
+            matches!(first.failed.as_slice(), [(vkey, WitnessError::Http(_))] if *vkey == witness_vkey(3))
+        );
+
+        let mut state = LogState::default();
+        pin(&server, &alice, &mut state).await;
+        let pinned = state.witnesses.clone().unwrap();
+        assert_eq!(pinned.quorum, 2);
+        assert_eq!(pinned.witnesses.len(), 3);
+
+        // Bob's record goes in after the witnessed checkpoint: the head extends it, with a proof.
+        publish(&server, &mut bob).await;
+        let (_, status) = verify(&server, &alice, &mut state, &bob.email).await;
+        assert_eq!(status, KeyStatus::Verified);
+        let head = server.get_as(&alice, "/v1/transparency/head?since=0").await;
+        assert_eq!(head.body["head"]["treeSize"], 2);
+        assert!(
+            head.body["witnessed"]["checkpoint"]
+                .as_str()
+                .unwrap()
+                .contains("\n1\n")
+        );
+
+        // The next round extends what each witness cosigned.
+        let second = round(&server.state, config(&server)).await.unwrap();
+        assert_eq!((second.size, second.cosigned.len()), (2, 2));
+        pin(&server, &alice, &mut state).await;
+    }
+
+    #[tokio::test]
+    async fn a_server_that_forgot_what_its_witnesses_hold_catches_up() {
+        let (server, mut witnesses) = server_with_witnesses().await;
+        let mut alice = server.person("alice@example.com").await;
+        publish(&server, &mut alice).await;
+        start(&server, &alice, &mut witnesses).await;
+        round(&server.state, config(&server)).await.unwrap();
+        let mut bob = server.person("bob@example.com").await;
+        publish(&server, &mut bob).await;
+
+        // As after restoring a database without this table's rows: the witnesses answer 409 with
+        // the size they hold, and the server sends the right proof from there.
+        sqlx::query("DELETE FROM key_log_witness_sizes")
+            .execute(&server.state.db)
+            .await
+            .unwrap();
+        let caught_up = round(&server.state, config(&server)).await.unwrap();
+        assert_eq!((caught_up.size, caught_up.cosigned.len()), (2, 2));
+    }
+
+    #[tokio::test]
+    async fn without_a_quorum_clients_keep_the_last_witnessed_checkpoint() {
+        let (server, mut witnesses) = server_with_witnesses().await;
+        let mut alice = server.person("alice@example.com").await;
+        publish(&server, &mut alice).await;
+        // Only witness 1 runs; 2 and 3 can't be reached: no quorum, nothing offered.
+        witnesses.listeners.truncate(1);
+        start(&server, &alice, &mut witnesses).await;
+        let lonely = round(&server.state, config(&server)).await.unwrap();
+        assert_eq!((lonely.cosigned.len(), lonely.stored), (1, false));
+        let head = server.get_as(&alice, "/v1/transparency/head").await;
+        assert!(head.body.get("witnesses").is_none());
+        assert!(head.body.get("witnessed").is_none());
+    }
+}

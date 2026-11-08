@@ -15,6 +15,8 @@ Usage:
   octapass-server admin reset-two-step <email>  Turn off two-step sign-in for someone who lost every method
   octapass-server admin backup <folder>         Write a backup of the database, secrets and attachments (SQLite)
   octapass-server admin restore <backup>        Put a backup in place of the data (stop the server first)
+  octapass-server admin key-log                 The key log's origin and verifier key, for witnesses, and how witnessing stands
+  octapass-server admin key-log witness         Send a checkpoint to the witnesses now and report
   octapass-server healthcheck                   Exit 0 when the server on OCTAPASS_BIND answers /healthz
 
 Configuration comes from OCTAPASS_* environment variables; see docs/self-hosting/configuration.md.";
@@ -54,6 +56,25 @@ async fn main() -> ExitCode {
             .await
         }
         ["admin", "restore", dir] => restore(dir),
+        ["admin", "key-log"] => {
+            with_state(|state| async move {
+                let described = octapass_server::key_log_witnesses::describe(&state).await;
+                print!(
+                    "{}",
+                    described.map_err(|e| admin::AdminError::Failed(e.to_string()))?
+                );
+                Ok::<_, admin::AdminError>(())
+            })
+            .await
+        }
+        ["admin", "key-log", "witness"] => {
+            with_state(|state| async move {
+                let report = octapass_server::key_log_witnesses::run_once(&state).await;
+                print!("{}", report.map_err(admin::AdminError::Failed)?);
+                Ok::<_, admin::AdminError>(())
+            })
+            .await
+        }
         ["healthcheck"] => healthcheck(),
         ["--help" | "-h" | "help"] => {
             println!("{USAGE}");

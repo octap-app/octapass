@@ -351,9 +351,12 @@ tree           = RFC 9162: SHA-256(0x00 ‖ leaf), SHA-256(0x01 ‖ left ‖ rig
 logId          = SHA-256("openpass/v1/key-log-id" ‖ 0x00 ‖ log_public_key ‖ oprf_public_key)
 head message   = "openpass/v1/key-log-head" ‖ 0x00 ‖ logId ‖ size (u64 BE) ‖ timestamp ms (u64 BE) ‖ root
 label          = SHA-256("openpass/v1/key-log-label" ‖ 0x00 ‖ VOPRF(oprf_key, normalised email))
+origin         = "octapass-key-log/" ‖ base64url(logId)
+checkpoint     = C2SP tlog-checkpoint "origin\nsize\nbase64(root)\n", signed with the head key (signed-note type 0x01)
+cosignature    = C2SP tlog-cosignature: Ed25519("cosignature/v1\ntime <s>\n" ‖ checkpoint), type 0x04
 ```
 
-The VOPRF is RFC 9497, ristretto255-SHA512. `transparency::client::LogState` is what a device pins: `accept_head`, `verify_account`, `check_own`, `scan_range` and `apply_page` do the checks and record alerts, so callers fetch, and store the state after failures too.
+The VOPRF is RFC 9497, ristretto255-SHA512. `transparency::client::LogState` is what a device pins: `accept_head`, `verify_account`, `check_own`, `scan_range` and `apply_page` do the checks and record alerts, so callers fetch, and store the state after failures too. `accept_head` also holds the log to its witness policy once one is pinned (plan 03, "Witnesses"). `transparency::note` reads and writes C2SP signed notes, checkpoints and cosignatures (checked against the Go reference implementations: `tests/vectors/c2sp-note.json`); `transparency::witness` has the witness's `add-checkpoint` checks and the client's `verify_witnessed`.
 
 ### Fingerprints
 

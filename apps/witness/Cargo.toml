@@ -1,0 +1,26 @@
+[package]
+name = "octapass-witness"
+version = "0.1.0"
+description = "A C2SP tlog-witness for Octa Pass key logs (and any other log with Ed25519 checkpoints): cosigns a checkpoint only if it extends the last one it cosigned."
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+publish = false
+
+[dependencies]
+octapass-core = { path = "../../crates/octapass-core", default-features = false }
+serde.workspace = true
+serde_json.workspace = true
+rand_core.workspace = true
+thiserror.workspace = true
+axum = "0.8"
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "net", "signal", "fs", "sync"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+sha2 = "0.10"
+ed25519-dalek = { version = "2", default-features = false, features = ["std", "zeroize"] }
+zeroize.workspace = true
+
+[dev-dependencies]
+tempfile = "3"
+reqwest = { version = "0.12", default-features = false }

@@ -13,6 +13,7 @@ use crate::transparency::merkle::{
     Frontier, Hash, leaf_hash, verify_consistency, verify_inclusion,
 };
 use crate::transparency::record::{KeyRecord, LEAF_LEN, OfferedKeys};
+use crate::transparency::witness::{self, WitnessFailure, WitnessPolicy, Witnessed};
 
 /// A head older than this isn't accepted: a server could otherwise freeze a client's view.
 pub const MAX_HEAD_AGE_MS: u64 = 7 * 24 * 60 * 60 * 1000;
@@ -26,6 +27,12 @@ pub struct HeadUpdate {
     /// Consistency proof from the size the client asked about, base64url hashes.
     #[serde(default)]
     pub consistency: Vec<String>,
+    /// The witnesses this log submits its checkpoints to. Absent when it has none.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub witnesses: Option<WitnessPolicy>,
+    /// The newest checkpoint those witnesses cosigned, and the proof `head` extends it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub witnessed: Option<Witnessed>,
 }
 
 /// A label's latest record, proven included in `update.head`.
@@ -117,6 +124,10 @@ pub struct LogState {
     pub labels: BTreeMap<String, String>,
     pub contacts: BTreeMap<String, ContactPin>,
     pub monitor: Option<Monitor>,
+    /// The witness policy this device holds the log to, pinned with the log. Once set, a head
+    /// needs a quorum of fresh cosignatures from these witnesses; see [`LogState::accept_head`].
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub witnesses: Option<WitnessPolicy>,
     pub alert: Option<LogAlert>,
     /// Unix milliseconds of the last finished monitoring run.
     pub checked_at: u64,
@@ -176,9 +187,47 @@ impl LogState {
                 return Err(self.alert(AlertKind::LogInconsistent, None, now_ms));
             }
         }
+        let witnesses = self.check_witnesses(update, now_ms)?;
         self.log = Some(update.log.clone());
         self.head = Some(update.head.clone());
+        self.witnesses = witnesses;
         Ok(())
+    }
+
+    /// The witness policy to keep after this head. A device with no policy takes the one the
+    /// server offers (the same trust as pinning the log's keys); one with a policy holds every
+    /// later head to it, and only moves to a policy at least as strong, which the head must
+    /// satisfy too. A server that drops its witnesses can't drop them for this device.
+    fn check_witnesses(
+        &mut self,
+        update: &HeadUpdate,
+        now_ms: u64,
+    ) -> Result<Option<WitnessPolicy>> {
+        let offered = update
+            .witnesses
+            .as_ref()
+            .filter(|policy| !policy.witnesses.is_empty());
+        let (required, next) = match (&self.witnesses, offered) {
+            (None, None) => return Ok(None),
+            (None, Some(offered)) => (offered, offered),
+            (Some(pinned), Some(offered)) if offered.at_least(pinned) => (offered, offered),
+            (Some(pinned), _) => (pinned, pinned),
+        };
+        let witnessed = update.witnessed.as_ref().ok_or(Error::KeyLogMismatch)?;
+        match witness::verify_witnessed(
+            &update.log,
+            required,
+            witnessed,
+            update.head.tree_size,
+            &update.head.root()?,
+            now_ms / 1000,
+        ) {
+            Ok(()) => Ok(Some(next.clone())),
+            Err(WitnessFailure::Unwitnessed) => Err(Error::KeyLogMismatch),
+            Err(WitnessFailure::Inconsistent) => {
+                Err(self.alert(AlertKind::LogInconsistent, None, now_ms))
+            }
+        }
     }
 
     fn check_inclusion(&self, entry: &LogEntry) -> Result<()> {
@@ -358,6 +407,12 @@ mod tests {
         leaves: Vec<[u8; LEAF_LEN]>,
         records: BTreeMap<u64, KeyRecord>,
         now: u64,
+        /// Seeds of the witnesses the log advertises, and of those that cosign.
+        witnesses: Vec<u8>,
+        cosigners: Vec<u8>,
+        quorum: u32,
+        /// The size the witnesses last cosigned; `None` for the current size.
+        witnessed_size: Option<u64>,
     }
 
     impl Log {
@@ -372,6 +427,10 @@ mod tests {
                 leaves: Vec::new(),
                 records: BTreeMap::new(),
                 now: NOW,
+                witnesses: Vec::new(),
+                cosigners: Vec::new(),
+                quorum: 0,
+                witnessed_size: None,
             }
         }
 
@@ -434,10 +493,43 @@ mod tests {
         }
 
         fn update(&self, since: u64) -> HeadUpdate {
+            let size = self.leaves.len() as u64;
             HeadUpdate {
                 log: self.identity.clone(),
                 head: self.head(),
-                consistency: self.proof(consistency_ranges(since, self.leaves.len() as u64)),
+                consistency: self.proof(consistency_ranges(since, size)),
+                witnesses: (!self.witnesses.is_empty()).then(|| WitnessPolicy {
+                    witnesses: self
+                        .witnesses
+                        .iter()
+                        .map(|seed| witness_vkey(*seed))
+                        .collect(),
+                    quorum: self.quorum,
+                }),
+                witnessed: (!self.witnesses.is_empty()).then(|| self.witnessed(size)),
+            }
+        }
+
+        fn witnessed(&self, size: u64) -> Witnessed {
+            use crate::transparency::note::{Checkpoint, Note, cosign, sign_checkpoint};
+            let at = self.witnessed_size.unwrap_or(size);
+            let checkpoint = Checkpoint::new(
+                &witness::origin(&self.identity).unwrap(),
+                at,
+                self.hash(0..at),
+            );
+            let mut note = Note {
+                text: checkpoint.text(),
+                signatures: vec![sign_checkpoint(&self.key, &checkpoint)],
+            };
+            for seed in &self.cosigners {
+                let key = SigningKey::from_bytes(&[*seed; 32]);
+                let name = format!("witness.example/{seed}");
+                note.add([cosign(&key, &name, &note.text, self.now / 1000).unwrap()]);
+            }
+            Witnessed {
+                checkpoint: note.encode(),
+                consistency: self.proof(consistency_ranges(at, size)),
             }
         }
 
@@ -471,6 +563,135 @@ mod tests {
 
     fn signing() -> SigningKey {
         SigningKey::from_bytes(&[9; 32])
+    }
+
+    fn witness_vkey(seed: u8) -> String {
+        use crate::transparency::note::{COSIGNATURE_V1, Verifier};
+        let key = SigningKey::from_bytes(&[seed; 32]).verifying_key();
+        Verifier::new(&format!("witness.example/{seed}"), COSIGNATURE_V1, key)
+            .unwrap()
+            .vkey()
+    }
+
+    fn witnessed_log(witnesses: &[u8], quorum: u32) -> Log {
+        let mut log = Log::new(1);
+        log.filler(5);
+        log.witnesses = witnesses.to_vec();
+        log.cosigners = witnesses.to_vec();
+        log.quorum = quorum;
+        log
+    }
+
+    #[test]
+    fn a_device_pins_the_witness_policy_with_the_log() {
+        let log = witnessed_log(&[10, 11, 12], 2);
+        let mut state = LogState::default();
+        state.accept_head(&log.update(0), NOW).unwrap();
+        assert_eq!(state.witnesses.as_ref().unwrap().quorum, 2);
+        assert_eq!(state.witnesses.as_ref().unwrap().witnesses.len(), 3);
+    }
+
+    #[test]
+    fn a_head_without_enough_cosignatures_is_refused_without_an_alert() {
+        let mut log = witnessed_log(&[10, 11, 12], 2);
+        let mut state = LogState::default();
+        state.accept_head(&log.update(0), NOW).unwrap();
+        log.filler(2);
+        log.cosigners = vec![10];
+        assert_eq!(
+            state
+                .accept_head(&log.update(state.pinned_size()), NOW)
+                .err(),
+            Some(Error::KeyLogMismatch)
+        );
+        assert_eq!(state.alert, None);
+        assert_eq!(state.pinned_size(), 5);
+
+        // An older cosigned checkpoint is fine while it's fresh, with a proof to the head.
+        log.cosigners = vec![10, 11];
+        log.witnessed_size = Some(5);
+        state
+            .accept_head(&log.update(state.pinned_size()), NOW)
+            .unwrap();
+        assert_eq!(state.pinned_size(), 7);
+    }
+
+    #[test]
+    fn a_server_can_t_drop_or_weaken_its_witnesses_for_a_pinned_device() {
+        let mut log = witnessed_log(&[10, 11], 2);
+        let mut state = LogState::default();
+        state.accept_head(&log.update(0), NOW).unwrap();
+
+        log.witnesses.clear();
+        assert_eq!(
+            state.accept_head(&log.update(5), NOW).err(),
+            Some(Error::KeyLogMismatch)
+        );
+        // A weaker policy offered: still held to the pinned one.
+        log.witnesses = vec![10, 11];
+        log.quorum = 1;
+        log.cosigners = vec![10];
+        assert_eq!(
+            state.accept_head(&log.update(5), NOW).err(),
+            Some(Error::KeyLogMismatch)
+        );
+        // A stronger one is taken up once it's met.
+        log.witnesses = vec![10, 11, 12];
+        log.quorum = 2;
+        log.cosigners = vec![10, 12];
+        state.accept_head(&log.update(5), NOW).unwrap();
+        assert_eq!(state.witnesses.as_ref().unwrap().witnesses.len(), 3);
+    }
+
+    #[test]
+    fn a_device_without_witnesses_is_unchanged_until_the_log_has_some() {
+        let mut log = Log::new(1);
+        log.filler(3);
+        let mut state = LogState::default();
+        state.accept_head(&log.update(0), NOW).unwrap();
+        assert_eq!(state.witnesses, None);
+        log.witnesses = vec![10];
+        log.cosigners = vec![10];
+        log.quorum = 1;
+        state.accept_head(&log.update(3), NOW).unwrap();
+        assert!(state.witnesses.is_some());
+    }
+
+    #[test]
+    fn a_head_that_forks_from_the_witnessed_checkpoint_is_an_alert() {
+        let mut log = witnessed_log(&[10], 1);
+        let mut state = LogState::default();
+        state.accept_head(&log.update(0), NOW).unwrap();
+        log.filler(2);
+        // The witnesses cosigned a different tree of size 6 than the one this device is shown.
+        let mut fork = Log::new(1);
+        fork.filler(5);
+        fork.leaves.push([42; LEAF_LEN]);
+        fork.cosigners = vec![10];
+        let mut update = log.update(state.pinned_size());
+        update.witnessed = Some(fork.witnessed(6));
+        assert_eq!(
+            state.accept_head(&update, NOW).err(),
+            Some(Error::KeyLogMismatch)
+        );
+        assert_eq!(
+            state.alert.map(|alert| alert.kind),
+            Some(AlertKind::LogInconsistent)
+        );
+    }
+
+    #[test]
+    fn a_witness_policy_survives_storage_and_reset_forgets_it() {
+        let log = witnessed_log(&[10], 1);
+        let mut state = LogState::default();
+        state.accept_head(&log.update(0), NOW).unwrap();
+        let stored: LogState =
+            serde_json::from_str(&serde_json::to_string(&state).unwrap()).unwrap();
+        assert_eq!(stored, state);
+        let older: LogState = serde_json::from_str("{}").unwrap();
+        assert_eq!(older.witnesses, None);
+        state.reset();
+        assert_eq!(state.witnesses, None);
     }
 
     fn record_for(log: &Log, rng: &mut ChaCha20Rng) -> KeyRecord {

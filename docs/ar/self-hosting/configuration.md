@@ -66,6 +66,16 @@ sidebar:
 | `OCTAPASS_RELAY_API_URL` | غير مضبوط | الواجهة البرمجية الداخلية للمُرحِّل. إن لم يُضبط، يجيب `/v1/masked-email` بـ 404. |
 | `OCTAPASS_RELAY_API_TOKEN` | مطلوب مع الرابط | الرمز الذي يتوقعه المُرحِّل. |
 
+## شهود سجل المفاتيح
+
+متوقف ما لم يُضبط. يوقّع [شهود](/ar/docs/self-hosting/key-log-witnesses/) مستقلون على [سجل المفاتيح](/ar/docs/security/post-quantum-and-key-log/) في خادمك توقيعًا مشتركًا، فلا يستطيع أن يعرض على أشخاص مختلفين سجلات مختلفة. يطبع `octapass-server admin key-log` مفتاح التحقق الذي يحتاجه مشغّلوهم.
+
+| المتغير | الافتراضي | الوصف |
+|---|---|---|
+| `OCTAPASS_KEY_LOG_WITNESSES` | غير مضبوط | الشهود، مفصولين بفواصل أو بأسطر جديدة: لكل شاهد عنوان URL للإرسال ومفتاح التحقق الخاص به، تفصل بينهما مسافة. 16 شاهدًا على الأكثر. |
+| `OCTAPASS_KEY_LOG_WITNESS_QUORUM` | الأغلبية | عدد الشهود الذين يجب أن يوقّعوا. |
+| `OCTAPASS_KEY_LOG_WITNESS_INTERVAL` | `600` | الثواني بين نقاط التحقق المرسلة إلى الشهود (من 10 إلى 86400). |
+
 ## أيقونات المواقع
 
 تعرض التطبيقات [أيقونة موقع](/ar/docs/features/website-icons/) كل عنصر بسؤال خادمك (`GET /v1/icons/{domain}`)، الذي يجلبها من الموقع نفسه ويحتفظ بها في مجلد `icons` ضمن مجلد البيانات لمدة أسبوع. لا تحمل الطلبات حسابًا ولا رمزًا. ولا يتصل الخادم إلا بعناوين الإنترنت العامة، فلا يستطيع موقع توجيهه إلى شبكتك. ويحتاج إلى وصول صادر عبر HTTPS (وHTTP) إلى الإنترنت.
@@ -109,6 +119,8 @@ octapass-server admin delete-account alice@example.com  # delete an account and 
 octapass-server admin reset-two-step alice@example.com  # turn off two-step sign-in for someone who lost every method
 octapass-server admin backup /backups                   # a backup of the database, secrets and attachments (SQLite)
 octapass-server admin restore /backups/octapass-…       # put a backup in place (stop the server first)
+octapass-server admin key-log                           # the key log's verifier key, for witnesses, and how witnessing stands
+octapass-server admin key-log witness                   # send a checkpoint to the witnesses now and report
 octapass-server healthcheck                             # exit 0 when the server answers /healthz
 octapass-server openapi                                 # print the API as OpenAPI 3.1
 ```

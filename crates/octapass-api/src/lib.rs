@@ -1293,6 +1293,28 @@ pub struct KeyLogHead {
     pub signature: String,
 }
 
+/// The witnesses a key log sends its checkpoints to (plan 03, "Witnesses").
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "openapi", derive(utoipa::ToSchema))]
+#[serde(rename_all = "camelCase")]
+pub struct KeyLogWitnessPolicy {
+    /// C2SP verifier keys (`name+id+base64`), Ed25519 cosignature/v1.
+    pub witnesses: Vec<String>,
+    /// How many of them must have cosigned.
+    pub quorum: u32,
+}
+
+/// The newest checkpoint a quorum of witnesses cosigned.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "openapi", derive(utoipa::ToSchema))]
+#[serde(rename_all = "camelCase")]
+pub struct KeyLogWitnessed {
+    /// A C2SP checkpoint as a signed note: the log's signature, then the witnesses'.
+    pub checkpoint: String,
+    /// RFC 9162 consistency proof from the checkpoint's size to `head`, base64url hashes.
+    pub consistency: Vec<String>,
+}
+
 /// `GET /v1/transparency/head?since=`
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[cfg_attr(feature = "openapi", derive(utoipa::ToSchema))]
@@ -1302,6 +1324,12 @@ pub struct KeyLogHeadResponse {
     pub head: KeyLogHead,
     /// RFC 9162 consistency proof from the size in `since` to this head, base64url hashes.
     pub consistency: Vec<String>,
+    /// Absent when the log has no witnesses.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub witnesses: Option<KeyLogWitnessPolicy>,
+    /// Absent until a quorum of witnesses has cosigned a checkpoint.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub witnessed: Option<KeyLogWitnessed>,
 }
 
 /// A label's latest record and its audit path.
@@ -1323,6 +1351,10 @@ pub struct KeyLogProofResponse {
     pub log: KeyLogIdentity,
     pub head: KeyLogHead,
     pub consistency: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub witnesses: Option<KeyLogWitnessPolicy>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub witnessed: Option<KeyLogWitnessed>,
     /// Absent when nothing is logged under the label.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub entry: Option<KeyLogEntry>,

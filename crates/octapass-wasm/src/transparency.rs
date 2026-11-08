@@ -29,8 +29,18 @@ export type KeyRecord = {
 };
 export type KeyLogIdentity = { signKey: string; oprfKey: string };
 export type KeyLogHead = { treeSize: number; rootHash: string; timestamp: number; signature: string };
+/** The witnesses a key log sends its checkpoints to: C2SP verifier keys and a quorum. */
+export type KeyLogWitnessPolicy = { witnesses: string[]; quorum: number };
+/** The newest checkpoint a quorum cosigned (a C2SP signed note), and the proof the head extends it. */
+export type KeyLogWitnessed = { checkpoint: string; consistency: string[] };
 /** `GET /v1/transparency/head`. */
-export type KeyLogHeadUpdate = { log: KeyLogIdentity; head: KeyLogHead; consistency: string[] };
+export type KeyLogHeadUpdate = {
+  log: KeyLogIdentity;
+  head: KeyLogHead;
+  consistency: string[];
+  witnesses?: KeyLogWitnessPolicy;
+  witnessed?: KeyLogWitnessed;
+};
 /** `GET /v1/transparency/proof`. */
 export type KeyLogProof = KeyLogHeadUpdate & {
   entry?: { leafIndex: number; record: KeyRecord; inclusion: string[] };

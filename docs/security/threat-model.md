@@ -33,7 +33,7 @@ This threat model is reviewed at every development phase, and it describes the d
 | **Server rollback or item swapping** | Old versions served as current | Associated data prevents swaps. Signed vault manifests with increasing revision numbers (1.0) let clients detect rollback. |
 | **Supply-chain attack** | A malicious dependency or build | Lockfiles, `cargo vet`, `cargo deny`, npm provenance, minimal dependencies in the core, two-person release approval, reproducible builds, SBOM. |
 | **Quantum computers (harvest now, decrypt later)** | Keys sealed with X25519 alone: older grants, and grants to accounts with no ML-KEM key yet | 256-bit symmetric layers are already safe. New seals are [hybrid X25519 + ML-KEM-768](/docs/security/post-quantum-and-key-log/). Older grants stay classical until the vault's next key rotation. Not yet reviewed by an outside cryptographer. |
-| **Server swaps someone's public key** | A vault key sealed to the server instead of the member | Comparing fingerprints, and the [key log](/docs/security/post-quantum-and-key-log/), which puts a swapped key where its real owner's devices see it. The log can't catch a server showing different people different logs. Not yet reviewed by an outside cryptographer. |
+| **Server swaps someone's public key** | A vault key sealed to the server instead of the member | Comparing fingerprints, and the [key log](/docs/security/post-quantum-and-key-log/), which puts a swapped key where its real owner's devices see it. On a server with [witnesses](/docs/self-hosting/key-log-witnesses/), they catch a server showing different people different logs; without them, the log can't. Not yet reviewed by an outside cryptographer. |
 
 ## Not built yet
 

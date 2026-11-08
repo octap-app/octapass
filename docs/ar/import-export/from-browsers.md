@@ -1,14 +1,12 @@
 ---
 title: الاستيراد من المتصفحات
 description: استورد كلمات المرور المحفوظة إلى Octa Pass من Chrome وEdge وBrave وOpera وVivaldi وArc وFirefox وSafari أو كلمات السر من Apple باستخدام تصدير CSV.
-status: in-progress
+status: beta
 sidebar:
   order: 5
 ---
 
-:::note[قيد التطوير]
 يعمل مستورِد المتصفحات في خزنة الويب وإضافة المتصفح وتطبيقي سطح المكتب والهاتف و[واجهة سطر الأوامر](/ar/docs/platforms/cli/) (`octapass import chrome`). تُقرأ كل البيانات على جهازك.
-:::
 
 ## Chrome والمتصفحات الأخرى المبنية على Chromium
 
@@ -30,7 +28,7 @@ sidebar:
 2. اختر **File ← Export All Passwords**. يشمل ملف CSV الملاحظات ورموز TOTP.
 3. استورد عبر **الاستيراد ← Safari أو تطبيق كلمات السر من Apple**.
 
-على iOS وmacOS 26 وما بعده، يستطيع تطبيق Passwords أيضًا نقل كلمات المرور و**مفاتيح المرور** مباشرة بصيغة تبادل بيانات الاعتماد. يدعم Octa Pass ذلك ابتداءً من الإصدار 1.0.
+على iOS وmacOS 26 وما بعده، يستطيع تطبيق Passwords أيضًا نقل كلمات المرور و**مفاتيح المرور** مباشرة بصيغة تبادل بيانات الاعتماد. يدعم Octa Pass ذلك: راجع [استيراد ملف CXF](/ar/docs/import-export/from-cxf/).
 
 ## ما يُستورد
 

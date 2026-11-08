@@ -1,14 +1,12 @@
 ---
 title: Import from browsers
 description: Import saved passwords into Octa Pass from Chrome, Edge, Brave, Opera, Vivaldi, Arc, Firefox and Safari or Apple Passwords using their CSV exports.
-status: in-progress
+status: beta
 sidebar:
   order: 5
 ---
 
-:::note[In progress]
 The browser importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import chrome`). Everything is read on your device.
-:::
 
 ## Chrome and other Chromium browsers
 
@@ -30,7 +28,7 @@ Chrome, Edge, Brave, Opera, Vivaldi and Arc share one CSV format.
 2. Choose **File → Export All Passwords**. The CSV includes notes and TOTP codes.
 3. Import with **Import → Apple Passwords**.
 
-On iOS and macOS 26 and later, the Passwords app can also transfer passwords and **passkeys** directly using the Credential Exchange Format. Octa Pass supports this from 1.0.
+On iOS and macOS 26 and later, the Passwords app can also transfer passwords and **passkeys** directly using the Credential Exchange Format. Octa Pass supports this: see [importing a CXF file](/docs/import-export/from-cxf/).
 
 ## What's imported
 

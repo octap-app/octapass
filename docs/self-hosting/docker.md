@@ -1,12 +1,12 @@
 ---
 title: Run with Docker
 description: Run the Octa Pass server and web vault in one Docker container behind your own HTTPS proxy, with Docker Compose, invites, backups and health checks.
-status: in-progress
+status: beta
 sidebar:
   order: 3
 ---
 
-:::note[In progress]
+:::note[No published image]
 There's no published image yet: build it from the repository. The settings below work today.
 :::
 

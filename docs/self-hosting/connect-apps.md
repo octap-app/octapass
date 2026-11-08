@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-The apps connect to your own server today. The store listings, push sync and email breach alerts on this page are planned. See the [roadmap](/docs/reference/roadmap/).
+The apps connect to your own server today. The store listings, push sync on phones, switching between several accounts and the F-Droid build on this page are planned. See the [roadmap](/docs/reference/roadmap/).
 :::
 
 There's no separate "self-hosted app". The browser extensions, desktop apps and mobile apps work with the hosted Octa Pass service **and** with your own server. You pick the server when you sign in.
@@ -42,7 +42,7 @@ Everything that happens on your device is identical, because it lives in the app
 |---|---|
 | Verification codes and alert emails | An SMTP account, set in [configuration](/docs/self-hosting/configuration/) |
 | Instant sync on phones (push, planned) | Opt in to the Octa Pass push relay (below) |
-| Email breach alerts (planned) | Your own Have I Been Pwned API key, or leave the feature off |
+| Email breach alerts (off by default) | Your own Have I Been Pwned API key, or leave the feature off |
 | Website icons | Built in. Your server fetches and caches them so the apps don't contact icon services |
 
 ## Push sync on iPhone and Android

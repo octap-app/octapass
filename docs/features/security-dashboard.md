@@ -1,14 +1,11 @@
 ---
 title: Security dashboard
 description: The Octa Pass security dashboard finds breached, reused and weak passwords, missing 2FA and passkeys, insecure URLs and expiring cards, entirely on your device.
-status: in-progress
+status: beta
 sidebar:
   order: 6
 ---
 
-:::note[In progress]
-Every check below works in the web vault, the desktop app, the phone apps and the extension, except the two marked otherwise. The native iPhone and Android screens haven't been run on a device yet.
-:::
 The security dashboard (called **Health** in the apps) reviews your vault and gives it a score out of 100. **Every check runs on your device after unlock**, and its results are never uploaded. The one exception is opt-in [email breach alerts](#email-breach-alerts), which you have to turn on. In the browser extension, open it from **Settings → Security dashboard**; it opens in a tab.
 
 Health opens on your score and a tile for each check, with how many items it found. Choose a tile to open that check's list, where you fix or dismiss each item; **Health** at the top takes you back. Weak, reused and breached passwords, two-step sign-in and recovery emails always have a tile; the other checks get one when they find something. On the phones it's the same: a row per check on Health, each opening its own list.

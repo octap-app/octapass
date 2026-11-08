@@ -1,7 +1,7 @@
 ---
 title: Masked email relay
 description: Run the Octa Pass masked email relay, an optional mail forwarder that passes mail through without storing it. Setup, DNS records, limits and what it can see.
-status: in-progress
+status: beta
 sidebar:
   order: 7
 ---

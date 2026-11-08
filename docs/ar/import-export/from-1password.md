@@ -1,14 +1,12 @@
 ---
 title: الاستيراد من 1Password
 description: انتقل من 1Password إلى Octa Pass بتصدير 1PUX أو CSV مع الاحتفاظ بأنواع العناصر والوسوم وأسرار TOTP والملاحظات، وتعرّف على ما تحفظه كل صيغة.
-status: in-progress
+status: beta
 sidebar:
   order: 2
 ---
 
-:::note[قيد التطوير]
 يعمل مستورِد 1Password في خزنة الويب وإضافة المتصفح وتطبيقي سطح المكتب والهاتف و[واجهة سطر الأوامر](/ar/docs/platforms/cli/) (`octapass import 1password`). تُقرأ كل البيانات على جهازك.
-:::
 
 ## التصدير من 1Password
 

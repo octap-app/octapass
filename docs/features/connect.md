@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-Connect works in the CLI today. In the desktop app, it's built but has only been compiled, not exercised on a real desktop.
+Connect works in the CLI. The Windows and Linux desktop app has it too, but there it has only been compiled, not run on a real desktop. The Mac app doesn't have it yet: on a Mac, use `octapass connect serve`.
 :::
 
 **Octa Pass Connect** is a helper on your own computer. A program asks it for a secret by reference, such as `octapass://Work/Stripe/password`, instead of you pasting the value somewhere. It's one generic interface: there's no integration for any one product. API clients such as Postman, Insomnia or Bruno use it through their scripts or environment variables, and anything with an HTTP client can use the [Connect API](/docs/developers/connect-api/).

@@ -1,14 +1,12 @@
 ---
 title: الاستيراد من Dashlane
 description: انتقل من Dashlane إلى Octa Pass بتصدير CSV (ملف ZIP من ملفات CSV) أو بتصدير JSON أقدم، مع الاحتفاظ ببيانات الدخول والملاحظات والبطاقات والهويات والمعلومات الشخصية.
-status: in-progress
+status: beta
 sidebar:
   order: 9
 ---
 
-:::note[قيد التطوير]
 يعمل مستورِد Dashlane في خزنة الويب وإضافة المتصفح وتطبيقي سطح المكتب والهاتف و[واجهة سطر الأوامر](/ar/docs/platforms/cli/) (`octapass import dashlane`). تُقرأ كل البيانات على جهازك.
-:::
 
 ## التصدير من Dashlane
 

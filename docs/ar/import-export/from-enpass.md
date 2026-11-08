@@ -1,14 +1,12 @@
 ---
 title: الاستيراد من Enpass
 description: انتقل من Enpass إلى Octa Pass بتصدير JSON مع الاحتفاظ ببيانات الدخول والبطاقات والهويات والملاحظات والوسوم وأسرار TOTP وسجل كلمات المرور والحقول المخصصة.
-status: in-progress
+status: beta
 sidebar:
   order: 10
 ---
 
-:::note[قيد التطوير]
 يعمل مستورِد Enpass في خزنة الويب وإضافة المتصفح وتطبيقي سطح المكتب والهاتف و[واجهة سطر الأوامر](/ar/docs/platforms/cli/) (`octapass import enpass`). تُقرأ كل البيانات على جهازك.
-:::
 
 ## التصدير من Enpass
 

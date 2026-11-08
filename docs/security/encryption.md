@@ -1,13 +1,13 @@
 ---
 title: Encryption and keys
 description: The Octa Pass key hierarchy and algorithms in detail, including Argon2id, HKDF, XChaCha20-Poly1305, X25519, Ed25519, the Secret Key and per-item keys.
-status: in-progress
+status: beta
 sidebar:
   order: 2
 ---
 
-:::note[In progress]
-This design is implemented in the Rust core (`crates/octapass-core`) that the web vault runs as WebAssembly. Parameters may still be tuned before 1.0. Changes will be recorded in the [changelog](/changelog/).
+:::note[Not audited yet]
+This design is implemented in the Rust core (`crates/octapass-core`), which every Octa Pass app uses: as WebAssembly in the web vault and the browser extension, and natively in the desktop, phone and command-line apps. It hasn't had its external audit yet, and the post-quantum sealed boxes haven't had the outside cryptographer's review. Parameters may still be tuned before 1.0. Changes will be recorded in the [changelog](/changelog/).
 :::
 
 ## Primitives

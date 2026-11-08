@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-Autofill is built in the browser extension, the desktop app and the iPhone and Android apps, but it isn't released yet. See the [roadmap](/docs/reference/roadmap/).
+Autofill is built in the browser extension, the desktop apps and the iPhone, iPad and Android apps, but it isn't released yet. Still missing: auto-type in the Mac app, the **Ask on every fill** switch in the phone apps (there, with **Stay unlocked** off, AutoFill asks every time), and filling from the newer item types such as bank accounts and ID documents. The Safari extension hasn't been run in Safari itself yet. See the [roadmap](/docs/reference/roadmap/).
 :::
 
 ## Where autofill works

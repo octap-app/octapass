@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-The web vault preview syncs with the sync server. It pulls everything when you unlock, then listens on the WebSocket: another device's change, or a change to who's in a shared vault, arrives within moments. While the WebSocket is down it reconnects with backoff, and the tab falls back to syncing on focus and every 30 seconds while it's visible. Imports go up in batches of up to 1,000 items. If this device is signed out remotely (**Settings → Devices**), it learns at once and removes its copy of your vault. It keeps the encrypted records in this browser, so you can unlock and read your vault offline; saving needs a connection for now. A conflicting edit is kept as a conflict copy; merging edits field by field and the queue for offline changes come later.
+Every app keeps an encrypted copy of your vaults on the device, so you can unlock and read them offline. The web vault and the browser extension hear about changes over the WebSocket within moments; while it's down, the web vault's tab syncs on focus and every 30 seconds. Push to phones isn't built yet, so the phone apps sync when you open them, while they're open and in background refresh. The iPhone, iPad, Mac and Android apps save changes made offline and upload them later. The web vault, the browser extension and the Windows and Linux app need a connection to save. An edit that clashes with another device's is kept as a conflicting copy: merging edits field by field isn't built yet.
 :::
 
 ## Offline first

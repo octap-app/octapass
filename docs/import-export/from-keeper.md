@@ -1,14 +1,12 @@
 ---
 title: Import from Keeper
 description: Move from Keeper to Octa Pass with a JSON or CSV export, including folders, shared folders, one-time codes, payment cards, contacts and other record types.
-status: in-progress
+status: beta
 sidebar:
   order: 11
 ---
 
-:::note[In progress]
 The Keeper importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import keeper`). Everything is read on your device.
-:::
 
 ## Export from Keeper
 

@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-The Apple Watch and Wear OS apps are written and their logic is tested, but they haven't been tried on a real paired watch yet. The Apple Watch app isn't yet bundled with the iPhone app: building it needs Xcode's watchOS platform, which the release setup doesn't have yet.
+The Apple Watch and Wear OS apps are written and their logic is tested, but they haven't been tried on a real paired watch yet. The Apple Watch app builds on its own but isn't bundled with the iPhone app yet, so it can't be installed with it.
 :::
 
 Octa Pass can show your [one-time codes](/docs/features/totp/) on an Apple Watch or a Wear OS watch, for when your phone is in a pocket. It's off until you turn it on.

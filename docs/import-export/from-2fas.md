@@ -1,14 +1,12 @@
 ---
 title: Import from 2FAS
 description: Move two-factor codes from 2FAS Authenticator to Octa Pass with a plain or password-protected .2fas backup, matched to the logins you already have.
-status: in-progress
+status: beta
 sidebar:
   order: 15
 ---
 
-:::note[In progress]
 The 2FAS importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import 2fas`). Everything is read on your device.
-:::
 
 ## Export from 2FAS
 

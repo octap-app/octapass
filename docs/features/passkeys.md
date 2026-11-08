@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-The passkey authenticator in the Octa Pass core is built and tested. The browser extension that puts it in front of websites is in progress for the public alpha. System-wide passkeys on mobile and desktop come with those apps.
+Passkeys work in the browser extension (Chromium browsers and Firefox), in the iPhone, iPad and Mac apps through the system's AutoFill, and on Android 14+ through Credential Manager. The [Windows 11 provider](#windows-11) is built, but it hasn't run on real Windows yet.
 :::
 
 A passkey is a key pair tied to one website (its *relying party ID*). The website stores only the public key. Octa Pass stores the private key encrypted in your vault and syncs it to your devices like any other item.
@@ -26,7 +26,7 @@ A passkey is a key pair tied to one website (its *relying party ID*). The websit
 ## Windows 11
 
 :::note[In progress]
-The provider is built and tested against a stand-in for Windows, but it hasn't run on real Windows yet, and the signed package it needs isn't released. On the installer you can download today the setting doesn't appear, and passkeys work through the browser extension.
+The provider is built and tested against a stand-in for Windows, but it hasn't run on real Windows yet, and the signed package it needs isn't released. On the current installer the setting doesn't appear, and passkeys work through the browser extension.
 :::
 
 With the desktop app installed from its MSIX package, on Windows 11 24H2 (build 26100.6725) or 25H2 (build 26200.6725) or newer, Octa Pass can be a passkey provider for Windows, so sites and apps offer your Octa Pass passkeys in Windows' own dialog and in browser autofill.
@@ -73,7 +73,7 @@ A new passkey is saved in the login for that site, or in a new login named after
 
 ## Unlocking Octa Pass with a passkey
 
-Browsers that support the WebAuthn **PRF** extension can unlock your vault with an Octa Pass account passkey instead of typing your master password. This is planned for 1.0. See [biometric unlock](/docs/features/biometric-unlock/).
+In browsers that support the WebAuthn **PRF** extension, the web vault and the browser extension can unlock your vault with a passkey made for that device instead of your master password. See [biometric unlock](/docs/features/biometric-unlock/).
 
 ## PRF: keys a site derives from its passkey
 
@@ -85,7 +85,7 @@ When you export to CXF, the PRF secret goes with the passkey as `hmacCredentials
 
 ## Moving passkeys between managers
 
-Octa Pass imports and exports passkeys in the FIDO **Credential Exchange Format (CXF)**, as a file, so they keep working in the other app. The Credential Exchange Protocol (moving them app to app on Apple and Android, without a file) comes later. See [CXF](/docs/import-export/from-cxf/) and [export](/docs/import-export/export/). The Octa Pass encrypted export keeps passkeys too.
+Octa Pass imports and exports passkeys in the FIDO **Credential Exchange Format (CXF)**, as a file, so they keep working in the other app. On iOS 26, macOS 26 and Android, the Octa Pass apps can also move them app to app with no file, through the system's Credential Exchange. See [CXF](/docs/import-export/from-cxf/) and [export](/docs/import-export/export/). The Octa Pass encrypted export keeps passkeys too.
 
 ## Security dashboard
 

@@ -1,14 +1,12 @@
 ---
 title: Import from KeePass and KeePassXC
 description: Move from KeePass 2 or KeePassXC to Octa Pass by importing the .kdbx database with its password or key file, or an XML or CSV export.
-status: in-progress
+status: beta
 sidebar:
   order: 7
 ---
 
-:::note[In progress]
 The KeePass importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import keepass`). Everything is read on your device.
-:::
 
 Octa Pass can read your KeePass database file directly. It's decrypted on your device; the file, its password and its key file never leave it.
 

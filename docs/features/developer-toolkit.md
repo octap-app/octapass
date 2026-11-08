@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-The toolkit works in the CLI, the web vault and the browser extension's quick tools. See [Where each tool works](#where-each-tool-works) for the desktop and phone apps.
+The toolkit works in the CLI, the web vault, the browser extension's Octa Pass tab and the Windows and Linux desktop app. The iPhone, iPad, Android and Mac apps have a smaller set so far: see [Where each tool works](#where-each-tool-works).
 :::
 
 The developer toolkit makes and reads the things developers handle every day: certificates, keys, tokens, hashes and encodings. Every tool runs on your device, in the same Rust core everywhere. Nothing you paste is sent to Octa Pass.
@@ -131,7 +131,7 @@ Private keys follow the same rules as [SSH keys](/docs/features/ssh-keys/):
 
 ## Where each tool works
 
-| | CLI | Web vault | Desktop app | Browser extension | Phone apps |
+| | CLI | Web vault | Windows and Linux app | Browser extension | iPhone, Android and Mac apps |
 |---|---|---|---|---|---|
 | Generators, inspectors, converters | Yes | Yes | Yes | Yes, the web vault's tools in the Octa Pass tab | JWT and certificate reader, hashes, encodings, random values, key generation saved to the vault |
 | Read a live `host:443` | Yes | No: a web page can't open a TLS connection | Yes | No | No |

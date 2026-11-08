@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-`octapass encrypt`, `decrypt` and `shred` work in the CLI today, and the desktop app has them under **Tools → Files**. The right-click menus are installed by the CLI and the app, and have not yet been tried in a real Finder, Explorer, Nautilus or Dolphin window.
+`octapass encrypt`, `decrypt` and `shred` work in the CLI, and the Windows and Linux desktop app has them under **Tools → Files**. The Mac app doesn't have them yet: on a Mac, use the CLI. The right-click menus are installed by the CLI and the Windows and Linux app, and have not yet been tried in a real Finder, Explorer, Nautilus or Dolphin window.
 :::
 
 There's no safe way to lock a normal folder with permissions: an administrator, another operating system or a disk tool can still read it. Real protection means encrypting the contents, so that's what Octa Pass does.

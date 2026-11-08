@@ -1,14 +1,12 @@
 ---
 title: Import from Aegis
 description: Move two-factor codes from Aegis Authenticator to Octa Pass with a plain or password-protected vault export, matched to the logins you already have.
-status: in-progress
+status: beta
 sidebar:
   order: 14
 ---
 
-:::note[In progress]
 The Aegis importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import aegis`). Everything is read on your device.
-:::
 
 ## Export from Aegis
 

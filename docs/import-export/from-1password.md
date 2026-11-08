@@ -1,14 +1,12 @@
 ---
 title: Import from 1Password
 description: Move from 1Password to Octa Pass with a 1PUX or CSV export, keeping item types, tags, TOTP secrets and notes, and learn what each format preserves.
-status: in-progress
+status: beta
 sidebar:
   order: 2
 ---
 
-:::note[In progress]
 The 1Password importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import 1password`). Everything is read on your device.
-:::
 
 ## Export from 1Password
 

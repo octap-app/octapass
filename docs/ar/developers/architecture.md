@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[قيد التطوير]
-تصف هذه الصفحة الشيفرة كما هي اليوم. النواة والخادم وخزنة الويب والإضافة وتطبيق سطح المكتب وتطبيقات الهاتف الأصلية وواجهة سطر الأوامر كلها موجودة. وما بقي منتظرًا موجود في [خارطة الطريق](/ar/docs/reference/roadmap/).
+تصف هذه الصفحة الشيفرة كما هي اليوم. النواة والخادم وخزنة الويب والإضافة وتطبيقات سطح المكتب وتطبيقات الهاتف الأصلية وواجهة سطر الأوامر كلها موجودة. وتنتقل تطبيقات سطح المكتب إلى شيفرة أصلية: تطبيق Mac أصلي بالفعل، ويتبعه Windows وLinux ([الخطة 19](https://github.com/octapass/octapass/blob/main/plans/19-native-desktop-apps.md)). وما بقي منتظرًا موجود في [خارطة الطريق](/ar/docs/reference/roadmap/).
 :::
 
 ## نظرة عامة
@@ -56,7 +56,6 @@ apps/
   macos/        Native Mac app (SwiftUI), built from the iPhone app's screens
   ios/          Native iPhone and iPad app (SwiftUI) + AutoFill extension
   android/      Native Android app (Compose) + Autofill and Credential Manager services
-  mobile/       Earlier Tauri 2 phone app, removed when the native apps reach parity
   server/       Sync and auth server (Rust, axum)
   cli/          octapass CLI (Rust)
 crates/

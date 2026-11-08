@@ -1,12 +1,12 @@
 ---
 title: الترجمات
 description: كيف تُترجم Octa Pass، وأين توجد النصوص والتوثيق العربي، ودور Weblate، وقواعد النص من اليمين إلى اليسار، وكيف تضيف لغة جديدة.
-status: in-progress
+status: stable
 sidebar:
   order: 5
 ---
 
-:::note[قيد التطوير]
+:::note[Weblate]
 الإنجليزية والعربية موجودتان في المستودع. مشروع Weblate لم يُفتح بعد: سيُفتح عندما يصبح المستودع عامًا. إلى ذلك الحين، أرسل التصحيحات في طلبات دمج.
 :::
 
@@ -18,13 +18,13 @@ sidebar:
 |---|---|---|
 | خزنة الويب، وتستخدمها كل التطبيقات | `apps/web/src/i18n/en.ts` | `ar.ts`، و`translations/web/<language>.json` |
 | إضافة المتصفح | `apps/extension/src/i18n.ts` | `translations/extension/<language>.json` |
-| تطبيق سطح المكتب | `apps/desktop/src/i18n.ts` | `translations/desktop/<language>.json` |
+| تطبيق سطح المكتب (Windows وLinux) | `apps/desktop/src/i18n.ts` | `translations/desktop/<language>.json` |
 | تطبيقات الهاتف | `apps/web/src/i18n/phone.ts` | `translations/phone/<language>.json` |
 | الموقع | `apps/website/src/i18n/landing/en.json` | `<language>.json` بجانبه |
 | واجهة التوثيق | `apps/website/src/content/i18n/en.json` | `<language>.json` بجانبه |
 | صفحات التوثيق | `docs/<path>.md` | `docs/<language>/<path>.md` |
 
-يبقى سجل التغييرات بالإنجليزية. أما تطبيقا iPhone وAndroid الأصليان فيأخذان نصوصهما من كتالوجي الويب والهاتف عبر `tools/native-resources`، فلا يحتاجان إلى ترجمة خاصة بهما.
+يبقى سجل التغييرات بالإنجليزية. أما تطبيقات iPhone وiPad وMac وAndroid الأصلية فتأخذ نصوصها من كتالوجي الويب والهاتف عبر `tools/native-resources`، فلا تحتاج إلى ترجمة خاصة بها.
 
 ## تصحيح ترجمة
 

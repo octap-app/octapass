@@ -1,14 +1,10 @@
 ---
 title: Recovery info
 description: Record each account's recovery email, recovery phone, backup codes and security questions in Octa Pass, and see your recovery map to spot weak links.
-status: in-progress
+status: beta
 sidebar:
   order: 9
 ---
-
-:::note[In progress]
-Recovery email and phone (with links to identities and masked emails), the two-step method, backup codes, security questions and the recovery map work in the web vault, the extension and the apps.
-:::
 
 Most accounts can be taken over through their recovery path: whoever controls your recovery email or phone can often reset the password. Octa Pass records that path for each login, so you can see and protect it.
 

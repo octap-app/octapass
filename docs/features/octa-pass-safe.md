@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-Safes work in the CLI and in the desktop app's **Tools → Files**, and sync between devices. Each system's file manager integration is built; see [where a Safe appears](#where-a-safe-appears) for what's been tested where.
+Safes work in the CLI, in the Mac, iPhone, iPad and Android apps, and in the Windows and Linux app's **Tools → Files**, and sync between devices. Each system's file manager integration is built, but File Explorer on Windows and the Files app on phones haven't run on those systems yet. See [where a Safe appears](#where-a-safe-appears) for what's been tested where.
 :::
 
 A Safe is a folder whose contents are encrypted on disk, one file at a time. While your vault is unlocked you use it like any other folder. When the vault locks, the keys are gone and what's left on disk is unreadable. "Locking a folder" in Octa Pass is always this encryption, never permissions.
@@ -30,7 +30,7 @@ octapass safe mv Taxes 2026/return.pdf 2026/final.pdf
 octapass safe rm Taxes 2026 --recursive
 ```
 
-In the desktop app, **Tools → Files → Safes** lists them. Open one to browse, drop files on the window to add them, and save decrypted copies. **Lock** closes it straight away.
+In the Windows and Linux app, **Tools → Files → Safes** lists them. Open one to browse, drop files on the window to add them, and save decrypted copies. **Lock** closes it straight away. In the Mac, iPhone, iPad and Android apps, **Safes** is in the sidebar or the tab bar.
 
 ## Sync
 
@@ -50,9 +50,9 @@ Its encrypted blobs then go through your Octa Pass server and count towards your
 | System | How | State |
 |---|---|---|
 | CLI | `octapass safe` commands | Tested against a real server, two devices included |
-| Desktop app | **Tools → Files**: browse, add by dropping files, save copies, sync, delete | Tested with a fake host in the UI tests; the Rust commands are unit tested |
+| Windows and Linux app | **Tools → Files**: browse, add by dropping files, save copies, sync, delete | Tested with a fake host in the UI tests; the Rust commands are unit tested |
 | Linux | A folder, through FUSE: `octapass safe mount Taxes ~/Taxes`, or **Show as a folder** in the app | Tested on real mounts in a container. Needs a build with the `fuse` feature |
-| macOS | Finder's sidebar, under Locations, through a File Provider extension | Built and tested against the app's socket; not yet loaded by macOS, which needs a signed build |
+| macOS | Finder's sidebar, under Locations, through the Mac app's File Provider extension | Runs in development builds of the Mac app; there's no signed download yet |
 | Windows | File Explorer, through the Cloud Files API: **Show as a folder** | Written and type-checked; not yet run on Windows |
 | Android | The Files app and any file picker, through a documents provider | Built and unit tested; not yet run on a phone |
 | iPhone and iPad | The Files app, through a File Provider extension | Built for the simulator; not yet run on a phone |

@@ -1,14 +1,12 @@
 ---
 title: الاستيراد من KeePass وKeePassXC
 description: انتقل من KeePass 2 أو KeePassXC إلى Octa Pass باستيراد قاعدة بيانات ‎.kdbx مع كلمة مرورها أو ملف مفتاحها، أو بتصدير XML أو CSV.
-status: in-progress
+status: beta
 sidebar:
   order: 7
 ---
 
-:::note[قيد التطوير]
 يعمل مستورِد KeePass في خزنة الويب وإضافة المتصفح وتطبيقي سطح المكتب والهاتف و[واجهة سطر الأوامر](/ar/docs/platforms/cli/) (`octapass import keepass`). تُقرأ كل البيانات على جهازك.
-:::
 
 يستطيع Octa Pass قراءة ملف قاعدة بيانات KeePass مباشرة. يُفك تشفيرها على جهازك؛ ولا يغادره الملف ولا كلمة مروره ولا ملف مفتاحه.
 

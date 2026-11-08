@@ -1,14 +1,16 @@
 ---
 title: Import from Kaspersky
 description: Move from Kaspersky Password Manager to Octa Pass with its text export or a CSV, including websites, applications, other accounts and notes.
-status: in-progress
+status: beta
 sidebar:
   order: 26
 ---
 
 :::note[Best effort]
-The Kaspersky importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import kaspersky`). Kaspersky's text export is meant for printing and has no published layout. This importer has been tested on synthetic files, not on a real export. Check a few items after importing. Everything is read on your device.
+Kaspersky's text export is meant for printing and has no published layout. This importer has been tested on synthetic files, not on a real export. Check a few items after importing.
 :::
+
+The Kaspersky importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import kaspersky`). Everything is read on your device.
 
 ## Export from Kaspersky
 

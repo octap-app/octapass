@@ -1,14 +1,16 @@
 ---
 title: Import from McAfee True Key
 description: Move from McAfee True Key to Octa Pass with its CSV export, including logins and, where the file has them, cards and notes. Read on your device.
-status: in-progress
+status: beta
 sidebar:
   order: 25
 ---
 
 :::note[Best effort]
-The McAfee importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import mcafee`). McAfee doesn't publish its export layout, and this importer has been tested on synthetic files, not on a real export. A McAfee Password Manager CSV is read by column name, as a best guess. Check a few items after importing. Everything is read on your device.
+McAfee doesn't publish its export layout, and this importer has been tested on synthetic files, not on a real export. A McAfee Password Manager CSV is read by column name, as a best guess. Check a few items after importing.
 :::
+
+The McAfee importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import mcafee`). Everything is read on your device.
 
 ## Export from True Key
 

@@ -1,14 +1,12 @@
 ---
 title: Import from LastPass
 description: Move from LastPass to Octa Pass with a CSV export, including secure notes in LastPass's special note formats, then rotate passwords affected by the LastPass breach.
-status: in-progress
+status: beta
 sidebar:
   order: 4
 ---
 
-:::note[In progress]
 The LastPass importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import lastpass`). Everything is read on your device.
-:::
 
 ## Export from LastPass
 

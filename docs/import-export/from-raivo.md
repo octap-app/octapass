@@ -1,14 +1,12 @@
 ---
 title: Import from Raivo OTP
 description: Move two-factor codes from Raivo OTP to Octa Pass with its password-protected ZIP export, or the JSON inside it, matched to the logins you already have.
-status: in-progress
+status: beta
 sidebar:
   order: 19
 ---
 
-:::note[In progress]
 The Raivo OTP importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import raivo`). Everything is read on your device.
-:::
 
 ## Export from Raivo OTP
 

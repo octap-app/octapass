@@ -1,12 +1,12 @@
 ---
 title: Translations
 description: How Octa Pass is translated, where the strings and Arabic docs live, how Weblate fits in, the rules for right-to-left text, and how to add a new language.
-status: in-progress
+status: stable
 sidebar:
   order: 5
 ---
 
-:::note[In progress]
+:::note[Weblate]
 English and Arabic are in the repository. The Weblate project isn't open yet: it will open when the repository goes public. Until then, send fixes as pull requests.
 :::
 
@@ -18,13 +18,13 @@ English is the source language. Everything else follows it.
 |---|---|---|
 | Web vault, used by every app | `apps/web/src/i18n/en.ts` | `ar.ts`, and `translations/web/<language>.json` |
 | Browser extension | `apps/extension/src/i18n.ts` | `translations/extension/<language>.json` |
-| Desktop app | `apps/desktop/src/i18n.ts` | `translations/desktop/<language>.json` |
+| Desktop app (Windows, Linux) | `apps/desktop/src/i18n.ts` | `translations/desktop/<language>.json` |
 | Phone apps | `apps/web/src/i18n/phone.ts` | `translations/phone/<language>.json` |
 | Website | `apps/website/src/i18n/landing/en.json` | `<language>.json` beside it |
 | Docs interface | `apps/website/src/content/i18n/en.json` | `<language>.json` beside it |
 | Docs pages | `docs/<path>.md` | `docs/<language>/<path>.md` |
 
-The changelog stays in English. The native iPhone and Android apps take their strings from the web and phone catalogs through `tools/native-resources`, so they need no translation of their own.
+The changelog stays in English. The native iPhone, iPad, Mac and Android apps take their strings from the web and phone catalogs through `tools/native-resources`, so they need no translation of their own.
 
 ## Fixing a translation
 

@@ -1,14 +1,12 @@
 ---
 title: الاستيراد من Raivo OTP
 description: انقل رموز التحقق بخطوتين من Raivo OTP إلى Octa Pass بتصدير ZIP المحمي بكلمة مرور، أو ملف JSON الذي بداخله، وتُطابَق مع بيانات الدخول التي لديك.
-status: in-progress
+status: beta
 sidebar:
   order: 19
 ---
 
-:::note[قيد التطوير]
 يعمل مستورِد Raivo OTP في خزنة الويب وإضافة المتصفح وتطبيقي سطح المكتب والهاتف و[واجهة سطر الأوامر](/ar/docs/platforms/cli/) (`octapass import raivo`). تُقرأ كل البيانات على جهازك.
-:::
 
 ## التصدير من Raivo OTP
 

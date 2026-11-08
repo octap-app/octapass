@@ -1,14 +1,12 @@
 ---
 title: Import from Bitwarden
 description: Move from Bitwarden or Vaultwarden to Octa Pass with a JSON, password-protected JSON or CSV export, including folders, cards, identities and TOTP secrets.
-status: in-progress
+status: beta
 sidebar:
   order: 3
 ---
 
-:::note[In progress]
 The Bitwarden importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import bitwarden`). Everything is read on your device.
-:::
 
 ## Export from Bitwarden
 

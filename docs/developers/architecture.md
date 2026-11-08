@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-This describes the code as it is today. The core, server, web vault, extension, desktop app, native phone apps and CLI all exist. What's still to come is on the [roadmap](/docs/reference/roadmap/).
+This describes the code as it is today. The core, server, web vault, extension, desktop apps, native phone apps and CLI all exist. The desktop apps are moving to native code: the Mac app already is, and Windows and Linux follow ([plan 19](https://github.com/octapass/octapass/blob/main/plans/19-native-desktop-apps.md)). What's still to come is on the [roadmap](/docs/reference/roadmap/).
 :::
 
 ## Overview
@@ -56,7 +56,6 @@ apps/
   macos/        Native Mac app (SwiftUI), built from the iPhone app's screens
   ios/          Native iPhone and iPad app (SwiftUI) + AutoFill extension
   android/      Native Android app (Compose) + Autofill and Credential Manager services
-  mobile/       Earlier Tauri 2 phone app, removed when the native apps reach parity
   server/       Sync and auth server (Rust, axum)
   cli/          octapass CLI (Rust)
 crates/

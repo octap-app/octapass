@@ -1,14 +1,12 @@
 ---
 title: الاستيراد من LastPass
 description: انتقل من LastPass إلى Octa Pass بتصدير CSV، بما فيه الملاحظات الآمنة بصيغ LastPass الخاصة، ثم غيّر كلمات المرور المتأثرة باختراق LastPass.
-status: in-progress
+status: beta
 sidebar:
   order: 4
 ---
 
-:::note[قيد التطوير]
 يعمل مستورِد LastPass في خزنة الويب وإضافة المتصفح وتطبيقي سطح المكتب والهاتف و[واجهة سطر الأوامر](/ar/docs/platforms/cli/) (`octapass import lastpass`). تُقرأ كل البيانات على جهازك.
-:::
 
 ## التصدير من LastPass
 

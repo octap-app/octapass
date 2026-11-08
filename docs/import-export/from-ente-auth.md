@@ -1,14 +1,12 @@
 ---
 title: Import from Ente Auth
 description: Move two-factor codes from Ente Auth to Octa Pass with the plaintext export or the password-encrypted JSON, matched to the logins you already have.
-status: in-progress
+status: beta
 sidebar:
   order: 20
 ---
 
-:::note[In progress]
 The Ente Auth importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import ente-auth`, alias `ente`). Everything is read on your device.
-:::
 
 ## Export from Ente Auth
 

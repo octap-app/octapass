@@ -1,14 +1,12 @@
 ---
 title: Import from RoboForm
 description: Move from RoboForm to Octa Pass with a CSV export, including folders, extra form fields, TOTP keys, bookmarks and safenotes.
-status: in-progress
+status: beta
 sidebar:
   order: 13
 ---
 
-:::note[In progress]
 The RoboForm importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import roboform`). Everything is read on your device.
-:::
 
 ## Export from RoboForm
 

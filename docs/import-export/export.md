@@ -1,14 +1,12 @@
 ---
 title: Export
 description: Export your full Octa Pass vault at any time as an encrypted file with your attachments, plaintext JSON, CSV or the FIDO Credential Exchange Format, with no lock-in and no fees.
-status: in-progress
+status: beta
 sidebar:
   order: 21
 ---
 
-:::note[In progress]
 Every format works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/). Go to **Settings → Export**.
-:::
 
 ## Formats
 

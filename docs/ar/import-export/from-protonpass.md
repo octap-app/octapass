@@ -1,14 +1,12 @@
 ---
 title: الاستيراد من Proton Pass
 description: انتقل من Proton Pass إلى Octa Pass بتصدير ZIP أو JSON أو CSV، مع الاحتفاظ ببيانات الدخول والملاحظات والبطاقات والهويات وأسرار TOTP ومفاتيح المرور وعناوين الأسماء المستعارة.
-status: in-progress
+status: beta
 sidebar:
   order: 8
 ---
 
-:::note[قيد التطوير]
 يعمل مستورِد Proton Pass في خزنة الويب وإضافة المتصفح وتطبيقي سطح المكتب والهاتف و[واجهة سطر الأوامر](/ar/docs/platforms/cli/) (`octapass import protonpass`). تُقرأ كل البيانات على جهازك.
-:::
 
 ## التصدير من Proton Pass
 

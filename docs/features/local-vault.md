@@ -6,6 +6,10 @@ sidebar:
   order: 13
 ---
 
+:::note[In progress]
+Vaults without an account work in the browser extension, the desktop apps and the iPhone, iPad and Android apps. Still missing: device unlock and attached files in a local vault. The desktop apps' local vaults haven't been tried on signed builds yet.
+:::
+
 You don't need an account to use Octa Pass. Choose **Use on this device only** when you first open the extension or app, and your vault lives only on that device. Nothing is sent anywhere, not even an email address.
 
 ## What works
@@ -25,7 +29,7 @@ These need sync, so they're not available in local mode: syncing between devices
 With no server, losing the device means losing the vault, unless you have a backup.
 
 - Octa Pass asks you to save an **encrypted backup file** when you set it up, and reminds you every 30 days.
-- Backing up automatically to a folder you choose, such as iCloud Drive, Dropbox or OneDrive, is planned for the apps.
+- The desktop and phone apps can also back up automatically to a folder you choose, such as iCloud Drive, Dropbox or OneDrive. See [automatic backups](#automatic-backups).
 - Restore a backup on any device with your master password.
 - Your **Recovery Kit** includes a backup recovery code that opens your backups if you forget your master password.
 
@@ -33,7 +37,7 @@ If you lose the device, every backup and the Recovery Kit, the data can't be rec
 
 ## A strong master password matters more here
 
-With an account, your Secret Key protects you if our servers are ever breached. In local mode there's no server, so the risk is someone copying the vault file off your device. In the apps, Octa Pass will tie the vault to your device's security chip where there is one. A browser has no such chip, so the extension asks for a strong master password, which keeps backups safe too.
+With an account, your Secret Key protects you if our servers are ever breached. In local mode there's no server, so the risk is someone copying the vault file off your device. In the apps, Octa Pass ties the vault to your device's security chip where there is one. A browser has no such chip, so the extension asks for a strong master password, which keeps backups safe too.
 
 ## Turn on sync later
 

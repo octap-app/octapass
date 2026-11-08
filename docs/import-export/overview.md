@@ -1,14 +1,12 @@
 ---
 title: Import overview
 description: Import passwords, passkeys and TOTP codes into Octa Pass from 1Password, Bitwarden, LastPass, browsers, KeePass, Proton Pass and 20+ other sources.
-status: in-progress
+status: beta
 sidebar:
   order: 1
 ---
 
-:::note[In progress]
 Every importer below marked *Available* works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/). Go to **Settings → Import**.
-:::
 
 Imports run **entirely on your device**. The export file is read and checked locally, then each item is encrypted before upload. The plaintext file never reaches the server.
 
@@ -39,7 +37,6 @@ Imports run **entirely on your device**. The export file is read and checked loc
 | Kaspersky | Text or CSV. See [Kaspersky](/docs/import-export/from-kaspersky/). | Available, best effort |
 | Authenticator apps | Aegis, 2FAS, andOTP, Raivo OTP, Ente Auth (plain or encrypted), `otpauth://` and Google Authenticator links. See [authenticator apps](/docs/import-export/from-authenticator-apps/). | Available |
 | Any CSV | Columns recognised by name, Bitwarden's CSV export included. See [other apps](#other-apps-csv). | Available |
-| Zoho Vault, Avira, Norton, McAfee, Kaspersky | CSV/TXT, best effort | Planned for 1.0 |
 
 ## How an import works
 

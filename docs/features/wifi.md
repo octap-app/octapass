@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-Wi-Fi items work in the web vault, the desktop app and the phone apps. The marks, importing and the save offer come with the desktop and phone apps, which aren't released yet.
+Wi-Fi items work in the web vault, the browser extension, the desktop apps and the phone apps. The Windows and Linux app and the phone apps show the **Connected** and **In range** marks where the system allows and offer to save networks, and the Windows and Linux app imports the networks the computer saved. The Mac app doesn't have these yet: it keeps and shows networks, without the marks, **Import saved networks** or the save offer. The iPhone, iPad, Android and Mac apps also show [older Wi-Fi items](#older-wi-fi-items) as they are, and don't move them to the Wi-Fi type yet.
 :::
 
 A **Wi-Fi network** is its own item type, with its own category in the sidebar and its own section when a list is grouped by type. Like every item, it's encrypted on your device; network names never reach the server unencrypted.

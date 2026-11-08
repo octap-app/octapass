@@ -1,14 +1,12 @@
 ---
 title: الاستيراد من 2FAS
 description: انقل رموز التحقق بخطوتين من 2FAS Authenticator إلى Octa Pass بنسخة احتياطية ‎.2fas عادية أو محمية بكلمة مرور، وتُطابَق مع بيانات الدخول التي لديك.
-status: in-progress
+status: beta
 sidebar:
   order: 15
 ---
 
-:::note[قيد التطوير]
 يعمل مستورِد 2FAS في خزنة الويب وإضافة المتصفح وتطبيقي سطح المكتب والهاتف و[واجهة سطر الأوامر](/ar/docs/platforms/cli/) (`octapass import 2fas`). تُقرأ كل البيانات على جهازك.
-:::
 
 ## التصدير من 2FAS
 

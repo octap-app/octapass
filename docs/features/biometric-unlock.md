@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-Device unlock works in the web vault preview (milestone 1) in browsers with the WebAuthn PRF extension. The desktop and mobile apps follow for 1.0.
+Device unlock is built in the web vault, the browser extension, the desktop apps and the iPhone, iPad and Android apps. Still missing: the **Ask on every fill** switch in the phone apps (see [two device-auth settings](#two-device-auth-settings)).
 :::
 
 Biometrics **unlock a key stored on that device**. They never replace your master password on a new device, and your fingerprint or face data never reaches Octa Pass.

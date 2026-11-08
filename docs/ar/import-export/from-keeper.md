@@ -1,14 +1,12 @@
 ---
 title: الاستيراد من Keeper
 description: انتقل من Keeper إلى Octa Pass بتصدير JSON أو CSV، بما فيه المجلدات والمجلدات المشتركة والرموز لمرة واحدة وبطاقات الدفع وجهات الاتصال وأنواع السجلات الأخرى.
-status: in-progress
+status: beta
 sidebar:
   order: 11
 ---
 
-:::note[قيد التطوير]
 يعمل مستورِد Keeper في خزنة الويب وإضافة المتصفح وتطبيقي سطح المكتب والهاتف و[واجهة سطر الأوامر](/ar/docs/platforms/cli/) (`octapass import keeper`). تُقرأ كل البيانات على جهازك.
-:::
 
 ## التصدير من Keeper
 

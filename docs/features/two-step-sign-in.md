@@ -1,14 +1,10 @@
 ---
 title: Two-step sign-in
 description: Ask new devices for a code from an authenticator app, a security key or a recovery code after your master password, so a stolen password and Secret Key aren't enough.
-status: in-progress
+status: beta
 sidebar:
   order: 15
 ---
-
-:::note[In progress]
-Two-step sign-in works on the sync server, in the web vault, the browser extension and the desktop and mobile apps. Security keys can be added and used in the web vault only; the other apps use the authenticator app or a recovery code.
-:::
 
 Two-step sign-in adds a second step when you sign in on a **new device**: after your master password and Secret Key, Octa Pass asks for one of:
 

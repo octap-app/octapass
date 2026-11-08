@@ -1,14 +1,16 @@
 ---
 title: Import from Norton
 description: Move from Norton Password Manager to Octa Pass with its CSV export of logins and notes. Everything is read on your device and nothing is uploaded.
-status: in-progress
+status: beta
 sidebar:
   order: 24
 ---
 
 :::note[Best effort]
-The Norton importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import norton`). Norton doesn't publish its export layout. This importer follows what users have reported, and has been tested on synthetic files, not on a real Norton export. Check a few items after importing. Everything is read on your device.
+Norton doesn't publish its export layout. This importer follows what users have reported, and has been tested on synthetic files, not on a real Norton export. Check a few items after importing.
 :::
+
+The Norton importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import norton`). Everything is read on your device.
 
 ## Export from Norton
 

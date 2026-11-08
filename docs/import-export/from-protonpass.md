@@ -1,14 +1,12 @@
 ---
 title: Import from Proton Pass
 description: Move from Proton Pass to Octa Pass with the ZIP, JSON or CSV export, keeping logins, notes, cards, identities, TOTP secrets, passkeys and alias addresses.
-status: in-progress
+status: beta
 sidebar:
   order: 8
 ---
 
-:::note[In progress]
 The Proton Pass importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import protonpass`). Everything is read on your device.
-:::
 
 ## Export from Proton Pass
 

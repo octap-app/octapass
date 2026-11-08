@@ -1,14 +1,10 @@
 ---
 title: Password generator
 description: Generate strong random passwords and memorable passphrases in Octa Pass, with per-site password rules, ambiguity filters and the EFF large wordlist.
-status: in-progress
+status: beta
 sidebar:
   order: 5
 ---
-
-:::note[In progress]
-Passwords and passphrases (EFF large wordlist) work in the web vault preview (milestone 1), which runs on demo data in your browser until the sync server is connected. The [CLI](/docs/platforms/cli/) preview has it too (`octapass generate`). Per-site rules come later.
-:::
 
 The generator is available in every app, in the extension's save prompt, and in the CLI (`octapass generate`). It uses the operating system's secure random number generator.
 

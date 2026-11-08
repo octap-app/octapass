@@ -1,7 +1,7 @@
 ---
 title: Quick start
 description: The first-run flow for Octa Pass, from creating an account and saving your Recovery Kit to installing the browser extension and importing passwords.
-status: in-progress
+status: beta
 sidebar:
   order: 2
 ---
@@ -29,11 +29,11 @@ Octa Pass creates a PDF **Recovery Kit** on your device. It contains your Secret
 | Chrome, Edge, Brave, Firefox… | The [browser extension](/docs/platforms/browser-extension/) |
 | macOS, Windows, Linux | The [desktop app](/docs/platforms/desktop/) |
 | iPhone, iPad, Android | The [mobile app](/docs/platforms/mobile/), then turn on Octa Pass in the system autofill settings |
-| Terminal | The [CLI](/docs/platforms/cli/). Sign up in another app first: the CLI signs in, but doesn't create accounts. |
+| Terminal | The [CLI](/docs/platforms/cli/). It signs in with `octapass login`, or creates an account with `octapass signup`. |
 
 Signing in on a new device needs your email, master password and Secret Key once. Scanning your Recovery Kit's QR code to fill these in is planned; for now, type the key.
 
-You can skip the account altogether in the browser extension: see [use without an account](/docs/features/local-vault/).
+You can skip the account altogether in the browser extension, the desktop app and the phone apps: see [use without an account](/docs/features/local-vault/).
 
 ## 4. Import your passwords
 

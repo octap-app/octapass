@@ -1,12 +1,12 @@
 ---
 title: Account recovery
 description: How to change your Octa Pass master password, or reset a forgotten one with the recovery code from your Recovery Kit, without any backdoor.
-status: in-progress
+status: beta
 sidebar:
   order: 4
 ---
 
-:::note[In progress]
+:::note[Where it works]
 Changing the master password and resetting it with the recovery code work on the sync server, in the web vault, the browser extension (reset only), the desktop app, the native iPhone and Android apps, and the [command-line tool](/docs/platforms/cli/). So do replacing the Secret Key and rotating vault keys, except in the browser extension, which only follows changes made elsewhere. Recovering through an emergency contact or family organiser works in the web vault, the desktop app and the native apps.
 :::
 

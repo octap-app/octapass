@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-The phone apps show Wi-Fi networks and other items as QR codes, the web vault and the desktop app show Wi-Fi codes, and every app can scan one-time codes. Rows marked *planned* below aren't built. See the [roadmap](/docs/reference/roadmap/).
+The iPhone, iPad, Mac and Android apps show items as QR codes. The web vault and the Windows and Linux app show Wi-Fi codes only, and the browser extension shows none. Every app can scan one-time codes. Rows marked *planned* below aren't built. See the [roadmap](/docs/reference/roadmap/).
 :::
 
 Octa Pass can turn items into QR codes that other phones and apps understand, and read QR codes to add items. QR codes are created on your device. Nothing is sent to a QR service.
@@ -49,7 +49,7 @@ Your own phones don't need a QR code. Open the Wi-Fi item and choose **Connect**
 
 ## Scan a QR code to add an item
 
-Use your phone's camera or a photo, or on a computer a QR code on screen (the browser extension reads the page, the Mac app a part of the screen you select), an image file or a pasted screenshot.
+Use your phone's camera or a photo, or on a computer a QR code on screen (the browser extension reads the page), an image file or a pasted screenshot.
 
 - **2FA setup QR code**, or a Google Authenticator export: adds one-time codes to the logins you choose. This works in every app; see [adding a code](/docs/features/totp/#adding-a-code).
 - **Wi-Fi QR code** (on a router sticker, or Android's **Share** for a saved network): creates a Wi-Fi item (phone apps)

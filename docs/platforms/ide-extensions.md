@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-Both extensions are built and tested on their own, but neither has been tried inside a real IDE yet, and there are no published builds. See each one's README to build it.
+Both extensions are built and tested on their own, but neither has been tried inside a real IDE yet, and there are no published builds. Build them with `pnpm build:vscode` (a `.vsix`) and `pnpm build:jetbrains` (a `.zip`); see [building the apps](/docs/contributing/development-setup/#build-the-apps) and each one's README.
 :::
 
 The VS Code extension (`apps/vscode`) and the JetBrains plugin (`apps/jetbrains`, IntelliJ 2024.1 and later) do three things:

@@ -7,12 +7,12 @@ sidebar:
 ---
 
 :::note[In progress]
-The iPhone and Android apps are built but not released (the public beta isn't open yet). They run in the iOS Simulator and the Android emulator; there are no App Store or Google Play builds yet.
+The iPhone and Android apps are built but not released (the public beta isn't open yet). They run in the iOS Simulator and the Android emulator, and you can install development builds on your own phone; there's nothing in the App Store or Google Play yet. Not in the phone apps yet: single sign-on, and the **Ask on every fill** switch, so with **Stay unlocked** off, autofill asks every time.
 :::
 
 ## iPhone app preview
 
-- **The native app:** the iPhone and iPad app is being rebuilt in SwiftUI with the same screens and words as the Android app. On iPad, the vault's lists sit in a sidebar next to the list and the open item.
+- **The native app:** the iPhone and iPad app is built in SwiftUI, with the same screens and words as the Android app. On iPad, the vault's lists sit in a sidebar next to the list and the open item.
 - **Your vault:** sign up or sign in, add and edit every item type, one-time codes, the password generator, the security dashboard and the trash, synced with your server and usable offline.
 - **Unlock with Face ID, Touch ID or your passcode** after you've unlocked once with your master password: Octa Pass offers it right after you sign up or sign in, and AutoFill uses it too. Octa Pass still asks for the master password every 14 days.
 - **Stays unlocked while your iPhone is unlocked** (on by default): the app and AutoFill open without Face ID; revealing and copying don't ask while the app is unlocked. It needs a passcode. See [Stay unlocked](/docs/features/biometric-unlock/#stay-unlocked-while-youre-logged-in).
@@ -117,4 +117,4 @@ The same Rust code reads what comes in on the iPhone and on Android, so both sho
 - Screenshots blocked on sensitive screens (Android), and the app is blurred in the app switcher (iOS)
 - [Face ID, Touch ID and Android biometrics](/docs/features/biometric-unlock/)
 - Safari extension on iOS
-- Apple Watch and Wear OS apps for TOTP codes (planned for 1.0)
+- [Apple Watch and Wear OS apps](/docs/features/watch/) for one-time codes, built but not yet tried on a real watch

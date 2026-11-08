@@ -1,13 +1,13 @@
 ---
 title: Emergency access
 description: Let a trusted person access your Octa Pass vault in an emergency after a waiting period you control, with view-only or takeover access you can deny at any time.
-status: in-progress
+status: beta
 sidebar:
   order: 10
 ---
 
-:::note[In progress]
-The web vault, the desktop app and the native iPhone and Android apps have emergency access, including takeover, on the [sync API](/docs/developers/sync-api/#emergency-access). Push notifications come next; for now the notices are emails.
+:::note[Where it works]
+Emergency access, including takeover, works in the web vault, the browser extension's Octa Pass tab, the desktop apps and the iPhone, iPad and Android apps. Its notices are emails: push notifications aren't built yet.
 :::
 
 Emergency access lets someone you trust reach your vault if something happens to you, without giving them access today.

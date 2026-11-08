@@ -1,14 +1,12 @@
 ---
 title: الاستيراد من Aegis
 description: انقل رموز التحقق بخطوتين من Aegis Authenticator إلى Octa Pass بتصدير خزنة عادي أو محمي بكلمة مرور، وتُطابَق مع بيانات الدخول التي لديك.
-status: in-progress
+status: beta
 sidebar:
   order: 14
 ---
 
-:::note[قيد التطوير]
 يعمل مستورِد Aegis في خزنة الويب وإضافة المتصفح وتطبيقي سطح المكتب والهاتف و[واجهة سطر الأوامر](/ar/docs/platforms/cli/) (`octapass import aegis`). تُقرأ كل البيانات على جهازك.
-:::
 
 ## التصدير من Aegis
 

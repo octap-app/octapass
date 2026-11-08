@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-Password breach checks work in the web vault, the browser extension and the desktop and phone apps. Email breach alerts are built and off by default; they need an HIBP key on the server.
+Password breach checks work in the web vault, the browser extension and the desktop and phone apps. They go straight from your device to Have I Been Pwned: the proxy through your server is planned. Email breach alerts are built and off by default; they need an HIBP key on the server.
 :::
 ## Breached passwords
 

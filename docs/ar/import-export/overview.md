@@ -1,14 +1,12 @@
 ---
 title: نظرة عامة على الاستيراد
 description: استورد كلمات المرور ومفاتيح المرور ورموز TOTP إلى Octa Pass من 1Password وBitwarden وLastPass والمتصفحات وKeePass وProton Pass وأكثر من 20 مصدرًا آخر.
-status: in-progress
+status: beta
 sidebar:
   order: 1
 ---
 
-:::note[قيد التطوير]
 كل مستورِد أدناه موسوم بـ *متاح* يعمل في خزنة الويب وإضافة المتصفح وتطبيقي سطح المكتب والهاتف و[واجهة سطر الأوامر](/ar/docs/platforms/cli/). انتقل إلى **الإعدادات ← الاستيراد**.
-:::
 
 يجري الاستيراد **بالكامل على جهازك**. يُقرأ ملف التصدير ويُفحص محليًا، ثم يُشفَّر كل عنصر قبل رفعه. لا يصل الملف غير المشفّر إلى الخادم أبدًا.
 
@@ -34,7 +32,7 @@ sidebar:
 | RoboForm | CSV. راجع [RoboForm](/ar/docs/import-export/from-roboform/). | متاح |
 | تطبيقات المصادقة | Aegis و2FAS وandOTP وRaivo OTP وEnte Auth (عادي أو مشفّر)، وروابط `otpauth://` وروابط Google Authenticator. راجع [تطبيقات المصادقة](/ar/docs/import-export/from-authenticator-apps/). | متاح |
 | أي ملف CSV | تُتعرَّف الأعمدة بأسمائها، بما في ذلك تصدير CSV من Bitwarden. راجع [تطبيقات أخرى](#تطبيقات-أخرى-csv). | متاح |
-| Zoho Vault وAvira وNorton وMcAfee وKaspersky | CSV/TXT، بأفضل جهد ممكن | مخطط له للإصدار 1.0 |
+| Zoho Vault وAvira وNorton وMcAfee True Key وKaspersky | CSV، ونص أو CSV لـ Kaspersky. راجع [Zoho Vault](/ar/docs/import-export/from-zoho-vault/) و[Avira](/ar/docs/import-export/from-avira/) و[Norton](/ar/docs/import-export/from-norton/) و[McAfee](/ar/docs/import-export/from-mcafee/) و[Kaspersky](/ar/docs/import-export/from-kaspersky/). | متاح، بأفضل جهد ممكن |
 
 ## كيف يعمل الاستيراد
 

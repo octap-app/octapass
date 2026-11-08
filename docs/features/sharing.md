@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-The web vault, the desktop app and the native iPhone and Android apps have shared vaults, families and share links, on the [sync API](/docs/developers/sync-api/#sharing). Vaults shared with you, and your family vault, also open in the browser extension, but sharing and inviting people don't happen there. See the [roadmap](/docs/reference/roadmap/).
+Shared vaults, families and share links work in the web vault, the browser extension's Octa Pass tab, the desktop apps and the iPhone, iPad and Android apps, on the [sync API](/docs/developers/sync-api/#sharing). The iPhone, iPad, Android and Mac apps check people's keys against the [key log](#shared-vaults) but don't show its badges or alerts yet.
 :::
 
 For a team, see [organisations](/docs/features/organisations/): its vaults are shared vaults, and groups say who should have them.
@@ -80,4 +80,4 @@ Your open links are listed under **Sharing → Share links**, with their expiry 
 
 ## Teams and organisations
 
-Groups, policies and SSO for teams are planned for 1.0.
+[Organisations](/docs/features/organisations/) add groups, policies and [single sign-on](/docs/features/single-sign-on/) for teams, on top of shared vaults.

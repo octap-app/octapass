@@ -1,14 +1,12 @@
 ---
 title: Import from Dashlane
 description: Move from Dashlane to Octa Pass with the CSV export (a ZIP of CSV files) or an older JSON export, keeping logins, notes, cards, IDs and personal info.
-status: in-progress
+status: beta
 sidebar:
   order: 9
 ---
 
-:::note[In progress]
 The Dashlane importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import dashlane`). Everything is read on your device.
-:::
 
 ## Export from Dashlane
 

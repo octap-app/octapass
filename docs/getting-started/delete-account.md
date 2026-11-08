@@ -1,13 +1,13 @@
 ---
 title: Delete your account
 description: How to permanently delete your Octa Pass account, every password and item in it, and all your devices, plus what happens to backups and shared vaults.
-status: in-progress
+status: beta
 sidebar:
   order: 4
 ---
 
-:::note[In progress]
-Account deletion works in the web vault preview against the sync server: the steps below, the server-side deletion and the wipe on this and other devices. The device count shows only this browser until the server has a device list, and shared vaults don't exist yet. See the [roadmap](/docs/reference/roadmap/).
+:::note[Not released]
+Account deletion works in the web vault, the desktop apps and the iPhone, iPad and Android apps, on any Octa Pass server, including the hosted service at [vault.octap.app](https://vault.octap.app).
 :::
 
 You can delete your Octa Pass account at any time. This permanently removes **the account and everything in it**: every password, passkey, one-time code, card, identity, note and file, all your vaults, and all your devices. It can't be undone, and no one, including Octa Pass, can recover it afterwards.

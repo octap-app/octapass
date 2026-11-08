@@ -1,14 +1,16 @@
 ---
 title: Import from Avira
 description: Move from Avira Password Manager to Octa Pass with a CSV export, including both of Avira's username columns. Everything is read on your device.
-status: in-progress
+status: beta
 sidebar:
   order: 23
 ---
 
 :::note[Best effort]
-The Avira importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import avira`). Avira doesn't publish its export layout, and this importer has been tested on synthetic files, not on a real Avira export. Check a few items after importing. Everything is read on your device.
+Avira doesn't publish its export layout, and this importer has been tested on synthetic files, not on a real Avira export. Check a few items after importing.
 :::
+
+The Avira importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import avira`). Everything is read on your device.
 
 ## Export from Avira
 

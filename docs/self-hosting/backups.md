@@ -1,14 +1,10 @@
 ---
 title: Backups
 description: Back up and restore a self-hosted Octa Pass server safely, why encrypted backups can be stored anywhere, and how users can keep their own vault exports.
-status: in-progress
+status: beta
 sidebar:
   order: 5
 ---
-
-:::note[In progress]
-Scheduled backups and the backup commands work today with SQLite. With PostgreSQL, use its own tools.
-:::
 
 ## Server backups
 

@@ -1,12 +1,12 @@
 ---
 title: Development setup
 description: Set up the Octa Pass monorepo locally with Node.js, pnpm and Rust, run the documentation website, and learn where each part of the project lives.
-status: in-progress
+status: stable
 sidebar:
   order: 2
 ---
 
-The repository holds the plans, the docs, the website, the Rust crypto core and sync server, and the web vault. This page grows as the apps arrive.
+The repository holds the plans, the docs, the website, the Rust crypto core and sync server, and every app: the web vault, the browser extension, the desktop and phone apps, the CLI and the IDE extensions.
 
 ## Requirements
 
@@ -134,7 +134,7 @@ The builds are unsigned unless the app's own signing settings are set, as each a
 | `apps/server/` | The sync server (axum + SQLite) |
 | `AGENTS.md` | Rules for AI coding agents |
 
-The planned layout for the apps and crates is in [architecture](/docs/developers/architecture/#repository-layout).
+The layout of every app and crate is in [architecture](/docs/developers/architecture/#repository-layout).
 
 ## Building the site for a real domain
 

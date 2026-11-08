@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-SSH keys work in the web vault, the desktop app, the [CLI](/docs/platforms/cli/) and the native iPhone, iPad and Android apps, and the desktop app has the [SSH agent](#ssh-agent) and [`~/.ssh`](#ssh-on-this-computer). The browser extension shows keys but can only copy their public parts. The agent has been tested with the real OpenSSH tools on macOS; its Touch ID prompts, Windows and Linux haven't been tried on real machines yet.
+SSH keys work in the web vault, the desktop apps, the [CLI](/docs/platforms/cli/) and the iPhone, iPad and Android apps. The Mac app and the Windows and Linux app have the [SSH agent](#ssh-agent); only the Windows and Linux app has [`~/.ssh`](#ssh-on-this-computer) so far. The browser extension shows keys but can only copy their public parts. The agent has been tested with the real OpenSSH tools on macOS; its Touch ID prompts, Windows and Linux haven't been tried on real machines yet.
 :::
 
 An **SSH key** is its own item type, with its own category in the sidebar and its own section when a list is grouped by type. Like every item, it's encrypted on your device: the server never sees the private key, the public key, the fingerprint or the comment.
@@ -105,5 +105,4 @@ In the desktop app, the key editor lists the private keys already in `~/.ssh`: c
 
 ## Not yet
 
-- Native iOS and Android screens.
 - Mapping other managers' imports (Bitwarden, Proton Pass, 1PUX, Keeper) to the SSH key type; for now they still arrive as secure notes. CXF is the exception.

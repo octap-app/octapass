@@ -1,13 +1,13 @@
 ---
 title: Recovery Kit
 description: What the Octa Pass Recovery Kit contains, why your Secret Key and recovery code matter, and how to store the kit safely so you never lose your vault.
-status: in-progress
+status: beta
 sidebar:
   order: 3
 ---
 
-:::note[In progress]
-The sign-up flow and Recovery Kit (with QR code and print stylesheet) work in the web vault preview (milestone 1), which runs on demo data in your browser until the sync server is connected. The final recovery code format comes from the crypto core.
+:::note
+Every Octa Pass app makes your Recovery Kit when you sign up. Scanning the kit's QR code on a new device isn't built yet: type the Secret Key instead.
 :::
 
 Octa Pass is [zero-knowledge](/docs/security/overview/): nobody, including the Octa Pass team, can reset your master password or read your vault. The **Recovery Kit** is how you get back in if you forget your password or lose your devices.

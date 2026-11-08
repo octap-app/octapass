@@ -1,14 +1,12 @@
 ---
 title: الاستيراد من RoboForm
 description: انتقل من RoboForm إلى Octa Pass بتصدير CSV، بما فيه المجلدات وحقول النماذج الإضافية ومفاتيح TOTP والإشارات المرجعية والملاحظات الآمنة (safenotes).
-status: in-progress
+status: beta
 sidebar:
   order: 13
 ---
 
-:::note[قيد التطوير]
 يعمل مستورِد RoboForm في خزنة الويب وإضافة المتصفح وتطبيقي سطح المكتب والهاتف و[واجهة سطر الأوامر](/ar/docs/platforms/cli/) (`octapass import roboform`). تُقرأ كل البيانات على جهازك.
-:::
 
 ## التصدير من RoboForm
 

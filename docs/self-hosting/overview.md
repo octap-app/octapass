@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-The server is built and tested on SQLite and PostgreSQL, but no image is published yet: for now you [build it from the repository](/docs/self-hosting/docker/).
+The server is built and tested on SQLite and PostgreSQL, but no image is published yet: for now you [build it from the repository](/docs/self-hosting/docker/). Running several instances behind one address isn't supported yet.
 :::
 
 The Octa Pass server you can self-host is **the same code** that runs the free hosted service, under MIT. Every feature is included.

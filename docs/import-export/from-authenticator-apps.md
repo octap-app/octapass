@@ -1,14 +1,12 @@
 ---
 title: Import from authenticator apps
 description: Move TOTP two-factor codes into Octa Pass from Google Authenticator, Aegis, 2FAS, Raivo, andOTP, Ente Auth and other apps, matched to your existing logins.
-status: in-progress
+status: beta
 sidebar:
   order: 6
 ---
 
-:::note[In progress]
 Authenticator imports work in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/). Everything is read on your device.
-:::
 
 | App | Format | How |
 |---|---|---|

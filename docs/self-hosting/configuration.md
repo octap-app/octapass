@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-The settings in the first four tables work today, with SQLite or PostgreSQL. Option names may still change before the first release.
+Every setting on this page works today, with SQLite or PostgreSQL, except those under [Planned](#planned). Option names may still change before the first release.
 :::
 
 The server reads `OCTAPASS_*` environment variables.

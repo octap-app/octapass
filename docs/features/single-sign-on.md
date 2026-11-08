@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-Single sign-on works in the server and the web vault, and the extension, desktop app and CLI can finish the sign-in step. It has been tested against a small OpenID Connect provider in the test suite, not yet against Okta, Entra ID, Google Workspace or Keycloak themselves. The native iPhone and Android apps have no screen for it yet.
+Single sign-on works in the server and the web vault, and the browser extension, the Windows and Linux app and the CLI can finish the sign-in step. The Mac, iPhone, iPad and Android apps can't yet: they say where to sign in instead. It has been tested against a small OpenID Connect provider in the test suite, not yet against Okta, Entra ID, Google Workspace or Keycloak themselves.
 :::
 
 An [organisation](/docs/features/organisations/) can ask its members to sign in through its identity provider, using OpenID Connect. Okta, Microsoft Entra ID, Google Workspace, Keycloak, Authentik and most others speak it.

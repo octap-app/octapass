@@ -1,14 +1,10 @@
 ---
 title: Masked email
 description: Create a unique forwarding email alias for each account with Octa Pass, using SimpleLogin, addy.io, Firefox Relay, Fastmail, DuckDuckGo or Forward Email.
-status: in-progress
+status: beta
 sidebar:
   order: 8
 ---
-
-:::note[In progress]
-Masked email works with your own alias provider in the web vault, the browser extension and the desktop and mobile apps. Octa Pass also has its own forwarding service for servers that turn it on, but the hosted service doesn't run it.
-:::
 
 A masked email is an alias like `shop.x7k2@alias-provider.com` that forwards to your real inbox. Giving each site its own alias keeps your real address private, makes spam traceable, and lets you turn off one alias without affecting anything else.
 

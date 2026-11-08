@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-The server in `apps/server` implements everything on this page. Details may still change before the first release. The full OpenAPI 3.1 document is served by every server at `GET /v1/openapi.json` and checked in at `apps/server/openapi.json`. The request and response types live in the `octapass-api` Rust crate.
+The server in `apps/server` implements everything on this page except what's [planned](#planned) at the end. Details may still change before the first release. The full OpenAPI 3.1 document is served by every server at `GET /v1/openapi.json` and checked in at `apps/server/openapi.json`. The request and response types live in the `octapass-api` Rust crate.
 :::
 
 The sync API is public and documented so that self-hosters and third-party clients can use it. The server stores ciphertext only: it can't read item titles, URLs, usernames, passwords or notes.
@@ -704,8 +704,5 @@ An alias is `{ id, address, enabled, paused, forwarded, blocked, replied, create
 An unknown address gets `200` with an empty list. `404` means the server has no HIBP key; `GET /v1/server-info` says so ahead of time with `emailBreachChecks`. `429` has a `Retry-After`: an account's budget ran out, or the server reached its HIBP limit. `503` means HIBP didn't answer or refused the key. HIBP's HTML descriptions are never passed on.
 
 ## Planned
-
-| Endpoint | Purpose |
-|---|---|
 
 Planned for 1.0: refresh tokens bound to a per-device Ed25519 key, and signed vault manifests. After each push, the client signs `(vault_id, revision, hash of item revisions)` with its account Ed25519 key, so the server can't hide items or roll them back.

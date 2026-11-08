@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[Design document]
-This section is the security design, and most of it is built. Nothing has had its external audit yet, and the items listed under [not built yet](#not-built-yet) don't exist. Feedback is welcome: see [contributing](/docs/contributing/overview/).
+This section is the security design, and most of it is built. Nothing has had its external audit yet, post-quantum sharing and the key log haven't had the outside cryptographer's review, and the items listed under [not built yet](#not-built-yet) don't exist. Feedback is welcome: see [contributing](/docs/contributing/overview/).
 :::
 
 ## Goals
@@ -55,5 +55,5 @@ These are part of the design and required for 1.0, but they don't exist today:
 - Reproducible, signed builds and an SBOM for every release
 - `cargo deny`, `cargo vet` and two-person release approval
 - Proof-of-work after repeated failed sign-ins (rate limits are built)
-- Post-quantum sharing and a key transparency log
+- Independent witnesses for the [key log](/docs/security/post-quantum-and-key-log/), which would catch a server showing different people different logs
 - Encrypted device names

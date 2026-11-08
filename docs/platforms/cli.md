@@ -1,7 +1,7 @@
 ---
 title: CLI
 description: The octapass command-line tool for reading items, one-time codes and generated passwords, managing SSH keys, keeping .env files and environment variables, passing secrets to scripts with octapass:// references, and importing and exporting, with a session kept in the OS keyring.
-status: in-progress
+status: beta
 sidebar:
   order: 5
 ---

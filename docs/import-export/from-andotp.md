@@ -1,14 +1,12 @@
 ---
 title: Import from andOTP
 description: Move two-factor codes from andOTP to Octa Pass with a plain or password-encrypted JSON backup, matched to the logins you already have.
-status: in-progress
+status: beta
 sidebar:
   order: 16
 ---
 
-:::note[In progress]
 The andOTP importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import andotp`). Everything is read on your device.
-:::
 
 andOTP is no longer developed, but its backups still import.
 

@@ -1,14 +1,12 @@
 ---
 title: Import from NordPass
 description: Move from NordPass to Octa Pass with a CSV export, including folders, extra websites, custom fields, credit cards, personal info and secure notes.
-status: in-progress
+status: beta
 sidebar:
   order: 12
 ---
 
-:::note[In progress]
 The NordPass importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import nordpass`). Everything is read on your device.
-:::
 
 ## Export from NordPass
 

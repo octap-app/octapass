@@ -1,13 +1,13 @@
 ---
 title: Attachments and documents
 description: Keep files with any Octa Pass item, or store them as Document items. Files are encrypted on your device; the server stores ciphertext and its size only.
-status: in-progress
+status: beta
 sidebar:
   order: 1.5
 ---
 
-:::note[In progress]
-Attachments and Document items work in the web vault, the desktop app and the iPhone and Android apps, with an account on an Octa Pass server. The browser extension gets them later. Local vaults, which have no server, don't have attachments.
+:::note[Where it works]
+Attachments and Document items work in the web vault, the browser extension, the desktop apps and the iPhone, iPad and Android apps, with an account on an Octa Pass server. The CLI doesn't handle files, and a [vault without an account](/docs/features/local-vault/) can't hold them.
 :::
 
 You can keep files with any item: a scan of a card with the card, a recovery sheet with a login, a signed lease with your notes about it. A **Document** item is a file plus notes, for files that stand on their own.
@@ -45,7 +45,7 @@ Storage counts the files in vaults you own, including items in the Trash. Files 
 - Copying or moving an item to another vault encrypts its files again for the new item.
 - [Share links](/docs/features/sharing/#one-time-share-links) don't include files.
 - A file is deleted from the server when you remove it, when its item is emptied from the Trash after 30 days, and when you delete your account.
-- Exports list each item's files by name, type and size, but don't include the files themselves yet.
+- The [encrypted export](/docs/import-export/export/) includes the files. The other export formats leave them out.
 
 ## How it's encrypted
 

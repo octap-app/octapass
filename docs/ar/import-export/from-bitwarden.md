@@ -1,14 +1,12 @@
 ---
 title: الاستيراد من Bitwarden
 description: انتقل من Bitwarden أو Vaultwarden إلى Octa Pass بتصدير JSON أو JSON محمي بكلمة مرور أو CSV، بما فيه المجلدات والبطاقات والهويات وأسرار TOTP.
-status: in-progress
+status: beta
 sidebar:
   order: 3
 ---
 
-:::note[قيد التطوير]
 يعمل مستورِد Bitwarden في خزنة الويب وإضافة المتصفح وتطبيقي سطح المكتب والهاتف و[واجهة سطر الأوامر](/ar/docs/platforms/cli/) (`octapass import bitwarden`). تُقرأ كل البيانات على جهازك.
-:::
 
 ## التصدير من Bitwarden
 

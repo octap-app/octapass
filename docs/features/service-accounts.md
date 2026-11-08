@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-Service accounts work through the CLI and the server today, and managers can make and revoke them in the web vault and desktop app. There are no released CLI builds yet, so CI needs one you built.
+Service accounts work through the CLI and the server. Managers can make and revoke them in the web vault, the browser extension's Octa Pass tab and the Windows and Linux app, but not yet in the Mac, iPhone, iPad or Android apps. They can't read files attached to items yet. There are no released CLI builds, so CI needs one you built.
 :::
 
 A **service account** lets software read a vault with no person there: a GitHub Actions job, a GitLab pipeline, a server at startup. It has its own token, bound to **one shared vault**, and it's **read-only** unless you say otherwise.

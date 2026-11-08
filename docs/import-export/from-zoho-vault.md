@@ -1,14 +1,16 @@
 ---
 title: Import from Zoho Vault
 description: Move from Zoho Vault to Octa Pass with a General CSV or Zoho Vault CSV export, including custom fields, folders, tags and one-time codes.
-status: in-progress
+status: beta
 sidebar:
   order: 22
 ---
 
 :::note[Best effort]
-The Zoho Vault importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import zoho-vault`). Zoho doesn't publish its export layout, and this importer has been tested on synthetic files, not on a real Zoho export. Check a few items after importing. Everything is read on your device.
+Zoho doesn't publish its export layout, and this importer has been tested on synthetic files, not on a real Zoho export. Check a few items after importing.
 :::
+
+The Zoho Vault importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import zoho-vault`). Everything is read on your device.
 
 ## Export from Zoho Vault
 

@@ -1,14 +1,12 @@
 ---
 title: Import from Enpass
 description: Move from Enpass to Octa Pass with the JSON export, keeping logins, cards, identities, notes, tags, TOTP secrets, password history and custom fields.
-status: in-progress
+status: beta
 sidebar:
   order: 10
 ---
 
-:::note[In progress]
 The Enpass importer works in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import enpass`). Everything is read on your device.
-:::
 
 ## Export from Enpass
 

@@ -1,7 +1,7 @@
 ---
 title: Overview
 description: What Octa Pass is, who it is for, how the free hosted service and self-hosting relate, and what you can expect before the first public release.
-status: in-progress
+status: beta
 sidebar:
   order: 1
 ---
@@ -24,7 +24,7 @@ Octa Pass is a free, encrypted home for everything sensitive. It's a password ma
 3. Developers who want their SSH keys behind an [SSH agent](/docs/features/ssh-keys/#ssh-agent), secrets out of their repos, and a [CLI](/docs/platforms/cli/); and organisations that need to run their own server.
 4. Anyone who keeps passport scans, tax returns or seed phrases in a folder or a notes app today.
 
-Small teams and organisations are planned for 1.0.
+Teams can use [organisations](/docs/features/organisations/), with groups, policies and single sign-on.
 
 ## How it works
 

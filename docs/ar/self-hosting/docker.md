@@ -1,12 +1,12 @@
 ---
 title: التشغيل باستخدام Docker
 description: شغّل خادم Octa Pass وخزنة الويب في حاوية Docker واحدة خلف وكيل HTTPS خاص بك، مع Docker Compose والدعوات والنسخ الاحتياطية وفحوص السلامة.
-status: in-progress
+status: beta
 sidebar:
   order: 3
 ---
 
-:::note[قيد التطوير]
+:::note[لا صورة منشورة]
 لا توجد صورة منشورة بعد: ابنِها من المستودع. الإعدادات أدناه تعمل اليوم.
 :::
 

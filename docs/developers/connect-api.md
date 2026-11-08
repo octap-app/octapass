@@ -6,9 +6,13 @@ sidebar:
   order: 3
 ---
 
+:::note[In progress]
+Connect works in the CLI (`octapass connect serve`). The Windows and Linux desktop app has it too, but it has only been compiled, not run on a real desktop, and the Mac app doesn't run Connect yet. The API may still change before 1.0.
+:::
+
 Octa Pass Connect is a helper on your own computer. Any program with an HTTP client can ask it for a secret by `octapass://` reference. There's nothing product-specific about it: this page is the whole interface.
 
-Start it with `octapass connect serve`, or turn it on in the desktop app. See [Octa Pass Connect](/docs/features/connect/) for what it does and doesn't protect.
+Start it with `octapass connect serve`, or turn it on in the Windows or Linux desktop app. See [Octa Pass Connect](/docs/features/connect/) for what it does and doesn't protect.
 
 ## Finding it
 

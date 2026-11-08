@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-The server and the web vault have organisations, groups, policies and [single sign-on](/docs/features/single-sign-on/). Organisation vaults open in every app, because they are shared vaults. Running an organisation happens in the web vault for now.
+The server and the web vault have organisations, groups, policies and [single sign-on](/docs/features/single-sign-on/). Organisation vaults open in every app, because they are shared vaults. Running an organisation happens in the web vault for now, and the iPhone, iPad, Mac and Android apps have no single sign-on step yet. SCIM and SAML aren't built. See [not yet](#not-yet).
 :::
 
 An organisation gathers a team's people, shared vaults and rules. It adds no new key, so being an admin opens nothing: nobody can read a vault without a key sealed to them on a device that already holds it.
@@ -75,7 +75,7 @@ These rely on the app following them, and a modified app can ignore them. Don't 
 | Longest auto-lock | Members can't choose a longer auto-lock, or none. |
 | Shortest master password | Checked when a new password is set. The server never sees a master password, so it can't check. |
 
-The web vault applies these today, and so do the screens the desktop and phone apps share with it. See [what's not built yet](#not-yet).
+The web vault applies these today. The other apps don't apply all of them yet. See [what's not built yet](#not-yet).
 
 ## Activity
 
@@ -93,6 +93,6 @@ If the only owner deletes their account, the longest-serving admin (or else memb
 
 ## Not yet
 
-- Running an organisation from the desktop, phone or extension apps. The sign-in step works in the web vault, extension, desktop app and CLI; the native iPhone and Android apps have it in their core but no screen yet.
+- Running an organisation from the desktop, phone or extension apps. The sign-in step works in the web vault, extension, Windows and Linux app and CLI; the iPhone, iPad, Mac and Android apps have it in their core but no screen yet.
 - Provisioning from an identity provider (SCIM), and SAML. Only OpenID Connect is built.
 - Admin account recovery. It would be a path to a member's keys, so it isn't offered.

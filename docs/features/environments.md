@@ -1,13 +1,13 @@
 ---
 title: Environments
 description: Keep .env files and environment variables in the vault, give them to Docker, CI, Node, Python and plain shells, and load them in your shell as you move between projects.
-status: in-progress
+status: beta
 sidebar:
   order: 18
 ---
 
-:::note[In progress]
-Environments work in the web vault, the browser extension, the CLI and the native iPhone, iPad and Android apps. The desktop app reuses the web vault's screens when it ships. On a phone you can read, edit, filter, copy and save environments; running a command with them is the CLI's job.
+:::note[Where it works]
+Environments work in the web vault, the browser extension, the CLI, the desktop apps and the iPhone, iPad and Android apps. The apps read, edit, filter, copy and save environments; running a command with them is the CLI's job.
 :::
 
 An **environment** is one variable (`API_KEY`) or a whole `.env` file kept as an item in your vault. Values are encrypted on your device like passwords, so the server never sees them, and the CLI hands them only to the command you run or the file you ask for. One environment can hold a project's shared settings and another its `production` values, so the same tools work on every stage.

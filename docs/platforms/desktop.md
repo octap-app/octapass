@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-The desktop apps are built for macOS, Windows and Linux, but they aren't released: there are no signed public downloads yet. You can [build them from source](/docs/contributing/development-setup/).
+The desktop apps are built for macOS, Windows and Linux, but they aren't released: there are no signed public downloads yet. You can [build them from source](/docs/contributing/development-setup/#build-the-apps). The native Mac app doesn't have auto-type, Wi-Fi or single sign-on yet, and Windows and Linux will move to native apps too.
 :::
 
 There are two desktop apps on the same Rust core:
@@ -59,10 +59,6 @@ The Mac app keeps its own vault store. If you used the earlier Tauri app on a Ma
 - **[CLI unlock](/docs/platforms/cli/#unlocking-through-the-desktop-app):** a locked `octapass` asks the running app, which confirms with Windows Hello or polkit. Locking the app locks it too.
 
 - **[Windows 11 passkeys](/docs/features/passkeys/#windows-11):** a passkey provider for Windows, off by default. It needs the MSIX package, asks for Windows Hello for every passkey, and hasn't been tried on real Windows yet.
-
-Planned for 1.0:
-
-- **Local vaults:** [use the app without an account](/docs/features/local-vault/)
 
 ## Without an account
 

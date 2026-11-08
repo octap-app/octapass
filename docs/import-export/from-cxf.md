@@ -1,14 +1,12 @@
 ---
 title: Import a CXF file
 description: Move logins, passkeys, one-time codes, notes, cards and identities into Octa Pass from any password manager that exports the FIDO Credential Exchange Format (CXF).
-status: in-progress
+status: beta
 sidebar:
   order: 17
 ---
 
-:::note[In progress]
 CXF import and export work in the web vault, the browser extension, the desktop and phone apps, and the [CLI](/docs/platforms/cli/) (`octapass import cxf`). Everything is read on your device.
-:::
 
 The [Credential Exchange Format](https://fidoalliance.org/specs/cx/cxf-v1.0-ps-errata-20260309.html) (CXF) is the FIDO Alliance's standard for moving passwords and passkeys between apps. Octa Pass reads and writes CXF version 1.0 as a JSON file. Import a CXF file from another app as **Credential Exchange (CXF)**, or [export one](/docs/import-export/export/) to move to another app.
 

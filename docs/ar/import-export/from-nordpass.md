@@ -1,14 +1,12 @@
 ---
 title: الاستيراد من NordPass
 description: انتقل من NordPass إلى Octa Pass بتصدير CSV، بما فيه المجلدات والمواقع الإضافية والحقول المخصصة وبطاقات الائتمان والمعلومات الشخصية والملاحظات الآمنة.
-status: in-progress
+status: beta
 sidebar:
   order: 12
 ---
 
-:::note[قيد التطوير]
 يعمل مستورِد NordPass في خزنة الويب وإضافة المتصفح وتطبيقي سطح المكتب والهاتف و[واجهة سطر الأوامر](/ar/docs/platforms/cli/) (`octapass import nordpass`). تُقرأ كل البيانات على جهازك.
-:::
 
 ## التصدير من NordPass
 

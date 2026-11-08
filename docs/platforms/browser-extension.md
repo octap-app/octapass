@@ -1,12 +1,12 @@
 ---
 title: Browser extension
 description: The Octa Pass browser extension for Chrome, Edge, Firefox and other browsers, covering autofill, passkeys, TOTP, unlocking, building it from source and reproducible builds.
-status: in-progress
+status: beta
 sidebar:
   order: 2
 ---
 
-:::note[In progress]
+:::note[Not released]
 The extension is built in the repository (`apps/extension`) and works against an Octa Pass server, but it isn't in any extension store yet. It ships with Phase 2, the public alpha. Until then you can [build it and load it unpacked](#build-it-yourself).
 :::
 
@@ -90,6 +90,7 @@ When a site asks for a username and password in the browser's own pop-up (HTTP B
 ## Unlocking
 
 - Master password
+- A passkey for this device (Touch ID, Windows Hello), in Chrome and Edge: **Settings → Security → Unlock with Touch ID** (or Windows Hello). See [below](#device-unlock-in-each-browser).
 - Through the [desktop app](/docs/platforms/desktop/) (Touch ID, Windows Hello), when it's running and signed in to the same account. Connect it once: on the Mac in **Settings → Browser extension → Connect browser extension**, on Windows and Linux from the app's **Browser → Connect browser extension**. The app wraps your account key for that one request, under a key only the extension and the app can derive. It only does this for [browsers it recognises](/docs/platforms/desktop/#supported-browsers); in others the lock screen says so.
 
 With **Stay unlocked while you're logged in to this device** on (the default; Settings → Device auth), the extension stays unlocked until the browser closes: no lock timer and no lock when your computer locks or sleeps, and filling doesn't ask. When the desktop app is installed and stays unlocked too, the extension opens through it without a prompt when the browser starts and when its lock screen shows. Revealing or copying a secret doesn't ask while the vault is open; exporting always asks. See [Stay unlocked](/docs/features/biometric-unlock/#stay-unlocked-while-youre-logged-in).
@@ -98,11 +99,11 @@ With it off, the vault locks after the time you choose (15 minutes by default) a
 
 ### Device unlock in each browser
 
-For Touch ID or Windows Hello in the extension, use the desktop app. The extension can't make a device passkey of its own yet. The [web vault](/docs/features/biometric-unlock/#web-vault) can, in these browsers:
+In Chrome and Edge, the extension makes a passkey of its own for this, as the [web vault](/docs/features/biometric-unlock/#web-vault) does. In Firefox it can't, so use the desktop app. In each browser:
 
 | Browser | In the web vault | In the extension |
 |---|---|---|
-| Chrome, Edge | Yes: Touch ID, Windows Hello | Through the desktop app |
+| Chrome, Edge | Yes: Touch ID, Windows Hello | Yes: Touch ID, Windows Hello, or through the desktop app |
 | Safari 18+ (macOS 15+, iOS 18+) | Yes: Touch ID, Face ID, the device passcode | Through the Octa Pass app |
 | Firefox 139+ on macOS 15+ | Yes: Touch ID | Through the desktop app |
 | Firefox 135+ on Windows and Linux | Where the device's authenticator supports PRF (not tested yet) | Through the desktop app |

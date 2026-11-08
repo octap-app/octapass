@@ -7,7 +7,7 @@
 # Repository variables (Settings → Secrets and variables → Actions → Variables), all optional:
 #   OCTAPASS_SERVER_URL            the "Octa Pass" server choice in these builds (e.g. https://vault.octap.app)
 #   OCTAPASS_EXTRA_EXTENSION_IDS   extension IDs the desktop app accepts besides the store IDs
-#                                  (e.g. oojckfebkmiogiahdggohbdnndbfcjnm,extension@octap.app)
+#                                  (e.g. oojckfebkmiogiahdggohbdnndbfcjnm,octa-pass@octap.app)
 name: Release builds
 
 on:

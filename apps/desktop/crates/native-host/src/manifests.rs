@@ -29,7 +29,7 @@ pub const AMO_ID: &str = "PLACEHOLDER:addons-mozilla-org-id";
 /// `apps/desktop/README.md`). Debug builds only.
 pub const DEV_CHROME_ID: &str = "oojckfebkmiogiahdggohbdnndbfcjnm";
 /// The development builds' Firefox ID. Debug builds only.
-pub const DEV_FIREFOX_ID: &str = "extension@octap.app";
+pub const DEV_FIREFOX_ID: &str = "octa-pass@octap.app";
 
 /// The Chromium extension IDs this build allows.
 #[cfg(not(debug_assertions))]
@@ -465,7 +465,7 @@ mod tests {
         let firefox = Browser::Firefox.manifest(host);
         assert_eq!(
             firefox["allowed_extensions"],
-            json!(["extension@octap.app"])
+            json!(["octa-pass@octap.app"])
         );
         assert!(firefox.get("allowed_origins").is_none());
     }

@@ -6,7 +6,7 @@
 export type Target = 'chrome' | 'firefox' | 'safari';
 
 /** Placeholder until the add-on is listed on AMO; it must never change after that. The desktop app's native messaging manifest allows it. */
-export const GECKO_ID = 'extension@octap.app';
+export const GECKO_ID = 'octa-pass@octap.app';
 
 /**
  * The development public key: it pins the unpacked Chrome extension's ID to

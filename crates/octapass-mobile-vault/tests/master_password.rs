@@ -254,3 +254,80 @@ fn a_forgotten_master_password_is_reset_with_the_recovery_code() {
         ErrorCode::ResetExpired
     );
 }
+
+#[test]
+fn a_locked_device_takes_the_password_changed_on_another() {
+    let server = Server::start();
+    let mac = Phone::new(&server);
+    let kit = mac.sign_up(&server);
+    mac.save_login("Bank");
+    let phone = Phone::new(&server);
+    assert_eq!(phone.sign_in(&server, PASSWORD, &kit.secret_key), None);
+    mac.vault.lock();
+
+    phone
+        .vault
+        .change_master_password(secret(PASSWORD), secret(NEW_PASSWORD))
+        .unwrap();
+
+    // The copy on the Mac still opens with the old password, but the server signed the Mac out:
+    // the old password is refused, the new one unlocks without signing out and in again.
+    assert_eq!(
+        mac.vault.unlock(secret(PASSWORD)).unwrap_err().code,
+        ErrorCode::InvalidCredentials
+    );
+    assert_eq!(mac.status(), SessionStatus::Locked);
+    mac.vault.unlock(secret(NEW_PASSWORD)).unwrap();
+    assert_eq!(mac.status(), SessionStatus::Unlocked);
+    assert_eq!(mac.titles(), ["Bank"]);
+    // Signed in again: it syncs, and the phone's new items reach it.
+    phone.save_login("Mail");
+    mac.vault.sync().unwrap();
+    assert_eq!(mac.titles(), ["Bank", "Mail"]);
+
+    // The copy here now has the new password too, and only the new one.
+    mac.vault.lock();
+    assert_eq!(
+        mac.vault.unlock(secret(PASSWORD)).unwrap_err().code,
+        ErrorCode::InvalidCredentials
+    );
+    mac.vault.unlock(secret(NEW_PASSWORD)).unwrap();
+
+    // A wrong password on a device still signed in is just wrong.
+    mac.vault.lock();
+    assert_eq!(
+        mac.vault
+            .unlock(secret("not my password"))
+            .unwrap_err()
+            .code,
+        ErrorCode::InvalidCredentials
+    );
+    mac.vault.unlock(secret(NEW_PASSWORD)).unwrap();
+}
+
+#[test]
+fn a_device_removed_elsewhere_signs_in_again_on_unlock() {
+    let server = Server::start();
+    let mac = Phone::new(&server);
+    let kit = mac.sign_up(&server);
+    mac.save_login("Bank");
+    let phone = Phone::new(&server);
+    assert_eq!(phone.sign_in(&server, PASSWORD, &kit.secret_key), None);
+    mac.vault.lock();
+
+    // Changed and changed back: the Mac is signed out, and its copy's password is current.
+    phone
+        .vault
+        .change_master_password(secret(PASSWORD), secret(NEW_PASSWORD))
+        .unwrap();
+    phone
+        .vault
+        .change_master_password(secret(NEW_PASSWORD), secret(PASSWORD))
+        .unwrap();
+
+    // Same password as the copy here, but the Mac was signed out: it signs in again and syncs.
+    mac.vault.unlock(secret(PASSWORD)).unwrap();
+    phone.save_login("Mail");
+    mac.vault.sync().unwrap();
+    assert_eq!(mac.titles(), ["Bank", "Mail"]);
+}

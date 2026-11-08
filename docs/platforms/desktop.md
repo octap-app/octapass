@@ -160,4 +160,6 @@ There's no automatic update yet: install a new build over the old one. Signed up
 
 **Settings → Security → Master password** changes it: enter the current password and the new one. Your Secret Key and recovery code stay the same, your other devices are signed out, and Touch ID, Windows Hello or polkit unlock has to be turned on again.
 
+Changed it on another device? On the Mac, unlock with the new password: the app signs in again by itself, with nothing to sign out of first. The old password no longer opens it while the Mac is online.
+
 Forgot it? **Forgot your master password?** on the sign-in and lock screens resets it with the recovery code from your [Recovery Kit](/docs/getting-started/recovery-kit/): we email you a code, then you enter your recovery code and a new password and save the new Recovery Kit. See [account recovery](/docs/security/account-recovery/).

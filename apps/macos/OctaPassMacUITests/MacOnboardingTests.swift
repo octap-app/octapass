@@ -140,6 +140,44 @@ final class MacOnboardingTests: XCTestCase {
         waitFor("lock-now", timeout: 60)
     }
 
+    /// Settings → Master password in the Settings window: the fields take typing, the change
+    /// goes through, and the vault unlocks with the new password only.
+    func testChangeMasterPassword() {
+        signUp(shots: false)
+        let newPassword = "a brand new master password 7"
+
+        app.typeKey(",", modifierFlags: .command)
+        click("settings-change-password")
+        waitFor("change-password-current")
+        snap("12-change-password", window: settingsWindow)
+        // Clicked where a person would, near the start of the box, not at the field's own centre.
+        for (field, text) in [("change-password-current", Self.password), ("change-password-new", newPassword), ("change-password-confirm", newPassword)] {
+            waitFor(field).coordinate(withNormalizedOffset: CGVector(dx: 0.1, dy: 0.75)).click()
+            app.typeText(text)
+            let input = waitFor(field).secureTextFields.firstMatch
+            XCTAssertEqual((input.value as? String ?? "").count, text.count, "\(field) has what was typed\n\(app.debugDescription)")
+            // Its text starts at the start of the box, as on the iPhone.
+            XCTAssertLessThan(input.frame.minX - waitFor(field).frame.minX, 40, "\(field) fills its box\n\(app.debugDescription)")
+        }
+        snap("13-change-password-filled", window: settingsWindow)
+        click("change-password-submit")
+        // Done: back on the Settings page.
+        waitFor("settings-export", timeout: 60)
+        app.typeKey("w", modifierFlags: .command)
+
+        app.typeKey("l", modifierFlags: [.command, .control])
+        type(Self.password, into: "master-password")
+        click("unlock")
+        XCTAssertFalse(element("lock-now").waitForExistence(timeout: 10), "the old password doesn't unlock")
+        type(newPassword, into: "master-password")
+        click("unlock")
+        waitFor("lock-now", timeout: 60)
+    }
+
+    var settingsWindow: XCUIElement {
+        app.windows.matching(identifier: "com_apple_SwiftUI_Settings_window").firstMatch
+    }
+
     /// Safes in the vault window: new ones from the list, one opened in the detail column with a
     /// path bar instead of a back button, a folder in it, and another Safe chosen straight from the
     /// list in its place.
@@ -283,8 +321,8 @@ final class MacOnboardingTests: XCTestCase {
         input.typeText(text)
     }
 
-    func snap(_ name: String) {
-        let shot = app.windows.firstMatch.screenshot()
+    func snap(_ name: String, window: XCUIElement? = nil) {
+        let shot = (window ?? app.windows.firstMatch).screenshot()
         let attachment = XCTAttachment(screenshot: shot)
         attachment.name = name
         attachment.lifetime = .keepAlways

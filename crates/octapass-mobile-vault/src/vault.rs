@@ -577,8 +577,112 @@ impl Vault {
             .secret(&account.secret_key_name())?
             .ok_or(ErrorCode::SecretKeyRequired)?;
         let store = self.open_store(&account)?;
-        let session = store.unlock_with_password(password.to_string(), secret_key.to_string())?;
-        self.set_unlocked(account, store, session)
+        let opened = store
+            .unlock_with_password(password.to_string(), secret_key.to_string())
+            .map_err(VaultError::from);
+        // A new master password set on another device signs this one out, and the copy kept here
+        // still opens with the old one. The server says which is current: a device it still
+        // knows has the current password, and one it signed out signs in again with the
+        // password typed. Offline, the copy here decides.
+        let server = self.server(server_of(&account))?;
+        let signed_out = match &opened {
+            Ok(_) => self.signed_out_here(&account, &server),
+            Err(error) if error.code == ErrorCode::InvalidCredentials => {
+                self.signed_out_here(&account, &server)
+            }
+            Err(_) => false,
+        };
+        if !signed_out {
+            return match opened {
+                Ok(session) => self.set_unlocked(account, store, session),
+                Err(error) => {
+                    self.state().access_token = None;
+                    Err(error)
+                }
+            };
+        }
+        let again = self.sign_in_again(&account, &store, &server, &password, &secret_key);
+        match (again, opened) {
+            (Ok(session), Ok(old)) => {
+                old.lock();
+                self.set_unlocked(account, store, session)
+            }
+            (Ok(session), Err(_)) => self.set_unlocked(account, store, session),
+            // The old password: the server no longer takes it.
+            (Err(error), Ok(old)) if error.code == ErrorCode::InvalidCredentials => {
+                old.lock();
+                Err(error)
+            }
+            // The server couldn't say (offline since, or a second step this screen can't show):
+            // the copy here opens as before, and sync says to sign in again.
+            (Err(_), Ok(old)) => self.set_unlocked(account, store, old),
+            (Err(error), Err(_)) => Err(error),
+        }
+    }
+
+    /// Whether the server has signed this device out (a new master password or Secret Key set
+    /// elsewhere, or the device removed). False offline or when it can't tell. Keeps the access
+    /// token it gets, for the sync after unlocking.
+    fn signed_out_here(&self, account: &Account, server: &Arc<OctaPassServer>) -> bool {
+        let _io = self.io();
+        let name = account.refresh_token_name();
+        let Ok(token) = self.native.secret(&name) else {
+            return false;
+        };
+        let Some(token) = token else {
+            return true;
+        };
+        match server.refresh(token.to_string()) {
+            Ok(tokens) => {
+                let _ = self.native.set_secret(&name, &tokens.refresh_token);
+                if let Some(trusted) = &tokens.trusted_device_token {
+                    let _ = self
+                        .native
+                        .set_secret(&account.trusted_device_name(), trusted);
+                }
+                self.state().access_token = Some((account.tag.clone(), tokens.access_token));
+                false
+            }
+            Err(OctaPassError::Unauthorized) => true,
+            Err(_) => false,
+        }
+    }
+
+    /// Signs this device in again with `password` after the server signed it out, keeping the
+    /// store and what waits in it to upload. The store takes the account's current bundle, so
+    /// the next unlock offline takes the new password too, and device unlock starts again.
+    fn sign_in_again(
+        &self,
+        account: &Account,
+        store: &Arc<LocalStore>,
+        server: &Arc<OctaPassServer>,
+        password: &str,
+        secret_key: &str,
+    ) -> Result<Arc<Session>> {
+        let _io = self.io();
+        let trusted = self.native.secret(&account.trusted_device_name())?;
+        let result = server.log_in_trusted(
+            account.email.clone(),
+            password.to_owned(),
+            secret_key.to_owned(),
+            self.config.device.clone(),
+            trusted.map(|token| token.to_string()),
+        )?;
+        let LogInResult::SignedIn { signed_in } = result else {
+            return Err(ErrorCode::SessionExpired.into());
+        };
+        store.update_account(signed_in.session.clone())?;
+        self.delete_device_keys(account)?;
+        self.native.set_secret(
+            &account.refresh_token_name(),
+            &signed_in.tokens.refresh_token,
+        )?;
+        if let Some(token) = &signed_in.tokens.trusted_device_token {
+            self.native
+                .set_secret(&account.trusted_device_name(), token)?;
+        }
+        self.state().access_token = Some((account.tag.clone(), signed_in.tokens.access_token));
+        Ok(signed_in.session)
     }
 
     fn set_unlocked(

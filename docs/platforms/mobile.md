@@ -39,7 +39,7 @@ Passkeys, logins and passwords you save from autofill are stored on your phone f
 
 The apps behave like the other apps on your phone, not like a web page:
 
-- **Your master password:** change it in **Settings → Security → Master password**. If you forget it, **Forgot your master password?** on the sign-in and lock screens resets it with the recovery code from your [Recovery Kit](/docs/getting-started/recovery-kit/) and shows your new kit. Your vault stays as it is, and your other devices are signed out.
+- **Your master password:** change it in **Settings → Security → Master password**. If you forget it, **Forgot your master password?** on the sign-in and lock screens resets it with the recovery code from your [Recovery Kit](/docs/getting-started/recovery-kit/) and shows your new kit. Your vault stays as it is, and your other devices are signed out. A phone signed out this way unlocks with the new password and signs in again by itself; the old password no longer opens it while it's online.
 - **Text size follows your phone's setting** (Dynamic Type on iPhone, Font size on Android) instead of pinch-zooming. The screens never zoom, also not when you tap into a field.
 - **Screens slide** in when you go deeper (an item, its editor, a Settings page) and back out when you go back, unless you've turned on Reduce Motion, which fades them instead. On iPhone, swipe from the left edge (the right in Arabic) to go back; on Android, use the system's back gesture or button.
 - **Menus and dialogs open as sheets** from the bottom of the screen. Tap outside a sheet to close it.

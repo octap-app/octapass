@@ -22,6 +22,13 @@ struct LabeledField<Field: View>: View {
             // of its own (the Mac's fields have one by default).
             field()
                 .textFieldStyle(.plain)
+                #if os(macOS)
+                // In a Mac form a field is a row of its own: its empty title took the left half of
+                // the box, the field sat in the right half with its text at the end, and a click in
+                // the empty half missed it. The label above is the title.
+                .labelsHidden()
+                .multilineTextAlignment(.leading)
+                #endif
                 .padding(.horizontal, 12)
                 .frame(minHeight: 46)
                 .background(Color(Tokens.Colors.field), in: RoundedRectangle(cornerRadius: 10, style: .continuous))

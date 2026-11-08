@@ -20,6 +20,8 @@ COPY crates crates
 # Every workspace member in Cargo.toml, and the app crates they depend on.
 COPY apps/server apps/server
 COPY apps/relay apps/relay
+COPY apps/witness apps/witness
+COPY apps/push-relay apps/push-relay
 COPY apps/cli apps/cli
 COPY apps/desktop/Cargo.toml apps/desktop/Cargo.toml
 COPY apps/desktop/crates apps/desktop/crates
@@ -56,6 +58,8 @@ COPY crates crates
 # Every workspace member in Cargo.toml, and the app crates they depend on.
 COPY apps/server apps/server
 COPY apps/relay apps/relay
+COPY apps/witness apps/witness
+COPY apps/push-relay apps/push-relay
 COPY apps/cli apps/cli
 COPY apps/desktop/Cargo.toml apps/desktop/Cargo.toml
 COPY apps/desktop/crates apps/desktop/crates

@@ -10,7 +10,9 @@ What Octa Pass does, for whom, and in what order. Priorities are:
 
 ## Positioning
 
-**One line:** Octa Pass is a free password manager for every login, passkey and one-time code you own, synced to every browser, phone and computer, and encrypted so only you can read it.
+**One line:** Octa Pass keeps everything sensitive in one place only you can open: every login, passkey and one-time code you own, and the SSH keys, secrets, IDs, cards and files that sit beside them, synced to every browser, phone and computer and encrypted so only you can read it.
+
+**Not just a password manager (maintainer, 2026-11-08).** Octa Pass does everything a password manager does, but the website, README and store listings lead with the wider idea: one encrypted place for everything sensitive. Say "password manager" where people search for one (and where it's simply accurate), never as the whole description. The item types, Safes, file encryption and developer tools are the proof, so show them.
 
 **The product is the free hosted service.** Most people never think about servers: they create an account, install the apps and are done. Open source is a trust feature (anyone can audit the code). Self-hosting is an extra for organisations and enthusiasts, and uses the same apps.
 

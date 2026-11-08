@@ -1,11 +1,11 @@
 ---
 name: octapass-docs
-description: Search and cite the Octa Pass documentation (open-source, end-to-end encrypted password manager). Use when a question involves Octa Pass features, security design (encryption, Secret Key, OPAQUE, recovery), supported platforms and autofill, importing/exporting, self-hosting, the sync API, the roadmap, or contributing, or when writing code or docs in the Octa Pass repository.
+description: Search and cite the Octa Pass documentation (open-source, end-to-end encrypted vault for everything sensitive: passwords and passkeys, SSH keys, secrets, IDs, cards and files). Use when a question involves Octa Pass features, security design (encryption, Secret Key, OPAQUE, recovery), supported platforms and autofill, importing/exporting, self-hosting, the sync API, the roadmap, or contributing, or when writing code or docs in the Octa Pass repository.
 ---
 
 # Octa Pass docs
 
-Octa Pass is a free, open-source (MIT) password manager for passwords, passkeys, TOTP codes, cards, identities, recovery info and masked emails. The project is in its **design phase**: most features are documented designs, not shipped software. Every docs page has a `status` (`planned`, `in-progress`, `beta`, `stable`). Always tell the user when something is only planned.
+Octa Pass is a free, open-source (MIT), end-to-end encrypted vault for everything sensitive: it's a full password manager (passwords, passkeys, TOTP codes, recovery info, masked emails) that also keeps SSH keys (with an SSH agent), API keys and `.env` environments, certificates, cards and bank accounts, crypto wallets, ID documents, Wi-Fi networks, encrypted folders (Safes) and encrypted files. The apps and server are **built but not released**: there's no public service yet and no external security audit. Every docs page has a `status` (`planned`, `in-progress`, `beta`, `stable`). Always tell the user when something is only planned.
 
 ## Where the docs are
 

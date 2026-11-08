@@ -31,6 +31,7 @@ const otherLocale: Locale = locale === 'en' ? 'ar' : 'en';
 const canonical = new URL(Astro.url.pathname, SITE_URL).href;
 const ogImage = new URL(ogPath, SITE_URL).href;
 const nav = [
+  { href: to('/#everything'), label: t.navKeeps },
   { href: to('/#free'), label: t.navFree },
   { href: to('/docs/security/overview/'), label: t.navSecurity },
   { href: to('/docs/platforms/support-matrix/'), label: t.navPlatforms },

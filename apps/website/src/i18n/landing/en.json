@@ -1,7 +1,7 @@
 {
   "meta": {
-    "title": "Octa Pass: the free password manager only you can open",
-    "description": "Octa Pass is a free password manager for passwords, passkeys, one-time codes, cards and identities on every browser, phone and computer. End-to-end encrypted, synced for you, no ads. Open source, so anyone can check it.",
+    "title": "Octa Pass: everything sensitive, in one place only you can open",
+    "description": "Octa Pass keeps everything sensitive in one end-to-end encrypted vault: passwords, passkeys and one-time codes, and also SSH keys, API secrets, .env files, cards, IDs, Wi-Fi, crypto wallets and encrypted folders. Free, synced to every device, no ads. Open source, so anyone can check it.",
     "notFoundTitle": "Page not found | Octa Pass",
     "notFoundDescription": "This page doesn't exist. Search the Octa Pass docs or go back to the home page."
   },
@@ -14,7 +14,7 @@
     "navPlatforms": "Platforms",
     "navHelp": "Help",
     "getUpdates": "Get updates",
-    "footer": "Octa Pass is a free password manager, funded by donations, sponsors and grants. No ads. No trackers. Its code is open source under the <a href=\"https://github.com/octap-app/octapass/blob/main/LICENSE\">MIT License</a>.",
+    "footer": "Octa Pass is a free, encrypted home for everything sensitive, funded by donations, sponsors and grants. No ads. No trackers. Its code is open source under the <a href=\"https://github.com/octap-app/octapass/blob/main/LICENSE\">MIT License</a>.",
     "learn": "Learn",
     "documentation": "Documentation",
     "securityDesign": "Security design",
@@ -30,7 +30,8 @@
     "otherLanguage": "العربية",
     "sourceOnGitHub": "Source code on GitHub",
     "licence": "MIT licence",
-    "contributing": "Contributing"
+    "contributing": "Contributing",
+    "navKeeps": "What it keeps"
   },
   "demo": {
     "search": "Search 248 items",
@@ -44,7 +45,7 @@
     "logins": "Logins",
     "passkeys": "Passkeys",
     "cards": "Cards",
-    "identities": "Identities",
+    "identities": "Identities and IDs",
     "notes": "Secure notes",
     "health": "Health",
     "familyVault": "Family vault",
@@ -69,20 +70,80 @@
     "phoneSignIn": "Sign in to GitHub",
     "phoneQuestion": "Sign in to github.com with your passkey?",
     "continue": "Continue",
-    "shotLabel": "Octa Pass on a Mac, with the iPhone passkey sheet in front"
+    "shotLabel": "Octa Pass on a Mac, with the iPhone passkey sheet in front",
+    "sshKeys": "SSH keys",
+    "documents": "Documents",
+    "deployKey": "Deploy key",
+    "sshSub": "Ed25519 · SSH agent",
+    "envName": "Shop API · production",
+    "envSub": ".env, 6 variables",
+    "apiKeys": "API keys",
+    "environments": "Environments",
+    "bankAccounts": "Bank accounts",
+    "wallets": "Crypto wallets",
+    "wifi": "Wi-Fi",
+    "coldWallet": "Cold wallet",
+    "walletSub": "Crypto wallet · 2 networks",
+    "databaseSub": "Database · production"
   },
   "hero": {
-    "title": "The password manager only you can open.",
-    "sub": "Passwords, passkeys and one-time codes on every device you own. Synced for you, encrypted so only you can read them. Free for everyone, with no ads.",
+    "title": "Everything sensitive, in one place only you can open.",
+    "sub": "Passwords and passkeys, yes. And SSH keys, API secrets, cards, IDs, Wi-Fi, crypto wallets and whole folders of files. Synced to every device, encrypted so only you can read them. Free, with no ads.",
     "primary": "Create a free account",
     "secondary": "How it keeps you safe",
     "status": "Public alpha: sign-ups are open in the web vault. The apps are coming to the stores.",
-    "follow": "Follow along"
+    "follow": "Follow along",
+    "rotate": ["Your passwords", "Your SSH keys", "Your passport", "Your .env files", "Your seed phrase", "Your 2FA codes", "Your tax returns", "Your API keys", "Your Wi-Fi"],
+    "titleRest": "in one place only you can open."
+  },
+  "everything": {
+    "titleLine1": "Not just a password manager.",
+    "titleLine2": "A vault for everything sensitive.",
+    "lede": "If losing it would hurt, or someone reading it would, it belongs here. Every kind of item is encrypted on your device the same way, syncs the same way and shares the same way.",
+    "filterLabel": "Show what Octa Pass keeps for",
+    "groups": [
+      { "id": "all", "label": "Everything", "blurb": "22 kinds of secret, one master password, one Secret Key, one place to look." },
+      { "id": "life", "label": "Everyday", "blurb": "Logins, passkeys and codes, plus the Wi-Fi password, the recovery codes and the note you’d never put in a notes app." },
+      { "id": "money", "label": "Money", "blurb": "Cards and bank accounts with payment QR codes, software licences, and crypto wallets whose seed phrase is never shown as a QR code." },
+      { "id": "identity", "label": "Identity", "blurb": "Passports, driver’s licences and national IDs with their scans, and the identities and addresses that fill sign-up forms." },
+      { "id": "dev", "label": "Developers", "blurb": "SSH keys with an agent, API keys, OAuth tokens, .env files, database logins and certificates, kept out of your repo and your shell history." },
+      { "id": "files", "label": "Files", "blurb": "Documents with any item, Safes that lock whole folders with your vault, and files encrypted for you or anyone else." }
+    ],
+    "items": [
+      { "label": "Passwords", "icon": "login", "group": "life" },
+      { "label": "Passkeys", "icon": "passkey", "group": "life" },
+      { "label": "One-time codes", "icon": "otp", "group": "life" },
+      { "label": "Recovery codes", "icon": "recovery", "group": "life" },
+      { "label": "Masked email", "icon": "alias", "group": "life" },
+      { "label": "Wi-Fi networks", "icon": "wifi", "group": "life" },
+      { "label": "Secure notes", "icon": "note", "group": "life" },
+      { "label": "Payment cards", "icon": "card", "group": "money" },
+      { "label": "Bank accounts", "icon": "bank", "group": "money" },
+      { "label": "Crypto wallets", "icon": "wallet", "group": "money" },
+      { "label": "Licences", "icon": "licence", "group": "money" },
+      { "label": "Identities", "icon": "identity", "group": "identity" },
+      { "label": "Passports and IDs", "icon": "passport", "group": "identity" },
+      { "label": "Documents", "icon": "document", "group": "files" },
+      { "label": "Safes", "icon": "safe", "group": "files" },
+      { "label": "Encrypted files", "icon": "file", "group": "files" },
+      { "label": "SSH keys", "icon": "ssh", "group": "dev" },
+      { "label": "API keys and tokens", "icon": "api", "group": "dev" },
+      { "label": ".env files", "icon": "env", "group": "dev" },
+      { "label": "Databases", "icon": "database", "group": "dev" },
+      { "label": "Certificates", "icon": "cert", "group": "dev" },
+      { "label": "Your own types", "icon": "custom", "group": "life" }
+    ],
+    "stats": [
+      { "value": "22", "label": "kinds of secret" },
+      { "value": "8", "label": "platforms, one vault" },
+      { "value": "1", "label": "key per item, never reused" },
+      { "value": "0", "label": "ads or trackers" }
+    ]
   },
   "statement": {
     "titleLine1": "We store it.",
     "titleLine2": "We can’t read it.",
-    "lead": "Your vault is encrypted on your device before it syncs. Here’s the same login twice: once as you see it, once as our server keeps it.",
+    "lead": "Everything in your vault is encrypted on your device before it syncs. Here’s one login twice: once as you see it, once as our server keeps it. An SSH key, a passport scan or a .env file looks the same to us.",
     "tabsLabel": "Choose a view of the same login",
     "tabDevice": "On your device",
     "tabServer": "On our server",
@@ -92,8 +153,8 @@
     "captionLive": "Real ciphertext, made in your browser just now with a key that was then thrown away. This is all our server would ever hold."
   },
   "bento": {
-    "titleLine1": "Everything you sign in with.",
-    "titleLine2": "In one vault.",
+    "titleLine1": "Signing in, handled.",
+    "titleLine2": "Every login, passkey and code.",
     "passkeysTitle": "Passkeys",
     "passkeysBody": "Create and use passkeys in your browser, and on your phone as its passkey provider. They sync, encrypted, to every device.",
     "otpTitle": "One-time codes",
@@ -116,15 +177,48 @@
     "importAuthenticators": "Authenticator apps",
     "importBody": "And leave whenever you want, passkeys included."
   },
+  "dev": {
+    "eyebrow": "For developers",
+    "titleLine1": "Secrets in your code.",
+    "titleLine2": "Not in your repo.",
+    "points": [
+      { "title": "An SSH agent that asks", "body": "Your keys stay in the vault. ssh and git use them through the desktop app, and every signature asks Touch ID, Windows Hello or your password first." },
+      { "title": ".env files, without the file", "body": "Keep environments in the vault and hand them to one command with octapass run. Values can point at other items, so a password lives in one place." },
+      { "title": "CI that can’t leak your vault", "body": "Service accounts give a pipeline read-only access to one shared vault, with a token our server never sees. There’s a GitHub Action and a GitLab template." },
+      { "title": "A toolkit that stays local", "body": "Make certificates and a local CA, sign and read JWTs, hash and encode. Every tool runs on your device." }
+    ],
+    "terminal": "Terminal",
+    "approval": "Allow “git” to sign with “GitHub signing key”?",
+    "more": "Developer docs"
+  },
+  "files": {
+    "titleLine1": "Whole folders, locked.",
+    "titleLine2": "Not just the password to them.",
+    "lede": "A Safe is a folder that locks with your vault. While you’re unlocked it’s a folder like any other. Lock, and every file and every name on disk is ciphertext.",
+    "safeName": "Taxes",
+    "lock": "Lock",
+    "unlock": "Unlock",
+    "locked": "Locked. This is what’s on the disk.",
+    "unlocked": "Unlocked with your vault.",
+    "points": [
+      "<b>One key per file.</b> Each file is encrypted on its own, and each change gets a new key.",
+      "<b>Names hidden too.</b> On disk a Safe is a flat set of blobs with random names.",
+      "<b>Send files to anyone.</b> Encrypt in the open age format for another Octa Pass user, a passphrase or yourself."
+    ],
+    "more": "How Safes work",
+    "label": "A Safe called Taxes, shown unlocked and locked"
+  },
   "free": {
     "titleLine1": "Free. For everyone.",
     "titleLine2": "Not a trial.",
     "forever": "forever",
     "features": [
-      "Unlimited passwords, passkeys and one-time codes",
+      "Unlimited items of every kind: logins, keys, cards, IDs and more",
       "Unlimited devices, synced in real time",
       "Autofill in browsers, on iPhone, Android, Mac, Windows and Linux",
+      "An SSH agent and secrets for your scripts",
       "Breach, reuse and weak-password checks",
+      "Encrypted Safes and file encryption",
       "Family sharing for up to 6 people",
       "Emergency access and recovery tools",
       "1 GB for files and documents",
@@ -132,7 +226,7 @@
     ],
     "note": "Nothing to set up. Create an account in the web vault today, and the apps sync with it as they reach the stores.",
     "howTitle": "How can it be free?",
-    "howTiny": "<b>Your vault is tiny.</b> A whole vault of 500 logins is about a megabyte of encrypted data, so hosting it costs very little.",
+    "howTiny": "<b>Your vault is tiny.</b> A whole vault of 500 logins, keys and notes is about a megabyte of encrypted data, so hosting it costs very little.",
     "howNoAds": "<b>No ads, and nothing to sell.</b> We can’t read your vault, so there’s no data to profit from even if we wanted to.",
     "howFunded": "<b>Funded in the open.</b> Donations, sponsors and grants will pay for the servers, with the costs published every month."
   },
@@ -147,7 +241,12 @@
     "seesTitle": "Our server can see",
     "sees": ["Your account email", "How many items you have, and their sizes", "When items change", "Which accounts share a vault"],
     "neverTitle": "Our server never sees",
-    "never": ["Titles, websites or usernames", "Passwords, passkeys or one-time codes", "Notes, cards, identities or files", "Your master password or Secret Key"],
+    "never": [
+      "Titles, websites or usernames",
+      "Passwords, passkeys, SSH keys or secrets",
+      "Notes, cards, IDs, files or file names",
+      "Your master password or Secret Key"
+    ],
     "more": "Everything the server stores, in full"
   },
   "platforms": {
@@ -209,13 +308,14 @@
   "faq": {
     "title": "Questions.",
     "items": [
-      { "q": "Is Octa Pass really free?", "a": "Yes. Unlimited passwords, passkeys and devices, family sharing for up to 6 people and 1 GB for files, with no trial period and no ads. It’s funded by donations, sponsors and grants." },
-      { "q": "Can you see my passwords?", "a": "No. Your vault is encrypted on your device before it syncs, and the keys never reach our server. A stolen copy of our database would also need your Secret Key, which we never receive." },
+      { "q": "Is Octa Pass a password manager?", "a": "Yes, and more. It does what you’d expect from a password manager, and keeps the rest of what’s sensitive in the same encrypted vault: SSH keys with an SSH agent, API keys and .env files, certificates, crypto wallets, passports and IDs, Wi-Fi networks, and Safes, folders whose files are encrypted one by one. One master password, one Secret Key, one place to look." },
+      { "q": "Is Octa Pass really free?", "a": "Yes. Unlimited items and devices, family sharing for up to 6 people and 1 GB for files, with no trial period and no ads. It’s funded by donations, sponsors and grants." },
+      { "q": "Can you see what I store?", "a": "No. Your vault is encrypted on your device before it syncs, and the keys never reach our server. That goes for every item and every file, not only passwords. A stolen copy of our database would also need your Secret Key, which we never receive." },
       { "q": "What if I forget my master password?", "a": "You recover with the recovery code in your Recovery Kit, or through an emergency contact you set up. We can’t reset it for you. That’s the price of a server that can’t read your data." },
-      { "q": "Why no ads?", "a": "Ad code next to your passwords would be a security hole, and a password manager has to be trusted completely. Octa Pass is funded by donations, sponsors and grants." },
+      { "q": "Why no ads?", "a": "Ad code next to your secrets would be a security hole, and an app that holds everything sensitive has to be trusted completely. Octa Pass is funded by donations, sponsors and grants." },
       { "q": "Can I use it today?", "a": "Yes, as a public alpha: create a free account in the web vault. The apps are built and coming to the stores. The independent security audit comes before 1.0, so don’t rely on Octa Pass alone for anything important yet." },
       { "q": "Can I run my own server?", "a": "Yes, it’s optional. The server is open source, and the same Octa Pass apps connect to it: choose “Self-hosted” when you sign in and enter your server’s address. Autofill, passkeys and Face ID work the same way." },
-      { "q": "Can I bring my passwords from another app?", "a": "Yes. Octa Pass imports from Chrome, Edge, Firefox, Safari, Bitwarden, 1Password, LastPass, Proton Pass, Dashlane, Keeper, KeePass, authenticator apps and the FIDO Credential Exchange Format." }
+      { "q": "Can I bring my passwords from another app?", "a": "Yes. Octa Pass imports from Chrome, Edge, Firefox, Safari, Bitwarden, 1Password, LastPass, Proton Pass, Dashlane, Keeper, KeePass, authenticator apps and the FIDO Credential Exchange Format. SSH keys come in from ~/.ssh, and .env files from your projects." }
     ]
   },
   "notFound": {

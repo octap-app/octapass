@@ -1,7 +1,7 @@
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="brand/readme-header-dark.png">
-    <img alt="Octa Pass: the password manager only you can open. Free, open source, end-to-end encrypted. No ads, ever." src="brand/readme-header-light.png" width="100%">
+    <img alt="Octa Pass: everything sensitive, one place only you can open. Passwords, passkeys, SSH keys, .env secrets, IDs, cards, crypto and Safes. Free, open source, end-to-end encrypted. No ads, ever." src="brand/readme-header-light.png" width="100%">
   </picture>
 </p>
 
@@ -24,7 +24,11 @@
 
 ---
 
-**Octa Pass** is a free password manager for every login, passkey and one-time code you own. Create an account, install the apps, and your vault syncs to every browser, phone and computer, encrypted on your device so even we can't read it. No trial, no ads.
+**Octa Pass keeps everything sensitive in one place only you can open.** It's a full password manager for every login, passkey and one-time code you own, and it doesn't stop there: your SSH keys, API keys and `.env` files, cards and bank accounts, passports and IDs, crypto wallets, Wi-Fi networks and whole folders of files live in the same vault. Create an account, install the apps, and it syncs to every browser, phone and computer, encrypted on your device so even we can't read it. No trial, no ads.
+
+<p align="center">
+  <img alt="Not just a password manager. One encrypted vault for 22 kinds of secret: passwords, passkeys, 2FA codes, recovery codes, masked email, Wi-Fi, notes, cards, bank accounts, crypto wallets, licences, identities, passports, documents, Safes, sealed files, SSH keys with an agent, API keys, .env files, databases, certificates and your own types. Zero knowledge: we store it, we can't read it." src="brand/readme-showcase.png" width="640">
+</p>
 
 The code is open source, so anyone can check how it protects you, and organisations can run their own server with the same apps.
 
@@ -35,12 +39,20 @@ The code is open source, so anyone can check how it protects you, and organisati
 
 - **Free, with nothing to set up.** Unlimited passwords, passkeys and devices, family sharing for up to 6 people, and 1 GB for files. Funded by donations, sponsors and grants.
 - **Zero-knowledge by design.** Argon2id, a 128-bit Secret Key, XChaCha20-Poly1305 with per-item keys, and OPAQUE login (your password never crosses the network). [How it works](docs/security/encryption.md)
-- **Everything in one vault.** Passwords, passkeys, TOTP codes, cards, bank accounts, identities, addresses, secure notes, documents, SSH and API keys.
+- **Everything sensitive in one vault.** Passwords, passkeys, TOTP codes, cards, bank accounts, crypto wallets, passports and IDs, Wi-Fi networks, secure notes, documents and software licences. [All 22 kinds](docs/features/item-types.md)
+- **Your files, locked.** [Safes](docs/features/octa-pass-safe.md) are folders that lock with your vault, with every file and name encrypted on disk. [Encrypt files](docs/features/file-encryption.md) in the open age format for yourself or anyone else.
+- **Secrets for developers.** [SSH keys with an SSH agent](docs/features/ssh-keys.md) that asks before every signature, [`.env` files](docs/features/environments.md) handed to one command with `octapass run`, [service accounts](docs/features/service-accounts.md) for CI, and a [local toolkit](docs/features/developer-toolkit.md) for certificates and JWTs.
 - **Recovery info and masked email.** Record which email or phone recovers each account and track backup codes. Generate a forwarding alias per site.
 - **Everywhere you sign in.** Browser extensions, desktop and mobile apps with native autofill and passkey support, a web vault and a CLI.
 - **No lock-in.** Full export to CSV, encrypted JSON and the FIDO Credential Exchange Format, passkeys included.
 - **No ads, no trackers.** Not on the website, not in the apps.
 - **Open source, so you don't have to trust us.** MIT, and the service runs exactly this code.
+
+## For developers
+
+<p align="center">
+  <img alt="Secrets in your code, not in your repo. An SSH agent that asks with Touch ID, .env files through octapass run, read-only service accounts for CI, and a local toolkit for certificates and JWTs." src="brand/readme-developers.png" width="100%">
+</p>
 
 ## Platforms
 

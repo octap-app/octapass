@@ -5,6 +5,7 @@ import Logo from './Logo.astro';
 import Site from '../layouts/Site.astro';
 import { localePath, stringsFor, type Locale } from '../i18n/landing';
 import { isPlatformId, platformLink, REPO_URL, repoFile, repoTree, SITE_NAME, SITE_URL, SOURCE_PATHS, VAULT_URL, type PlatformId } from '../site.config';
+import icons from '../lib/vault-icons.json';
 
 interface Props {
   locale: Locale;
@@ -34,6 +35,8 @@ const projectLinks = [
   { href: to('/docs/self-hosting/overview/'), label: t.open.selfHost, icon: 'server' },
 ] as const;
 
+const icon = (name: string) => (icons as Record<string, string>)[name];
+
 const sidebar = [
   { label: d.allItems, count: 248, active: true },
   { label: d.favourites, count: 12 },
@@ -41,21 +44,49 @@ const sidebar = [
   { label: d.family, count: 35, shared: true },
 ];
 const categories = [
-  { label: d.logins, count: 186 },
-  { label: d.passkeys, count: 23 },
-  { label: d.cards, count: 4 },
-  { label: d.identities, count: 3 },
-  { label: d.notes, count: 32 },
+  { label: d.logins, count: 152, icon: 'login' },
+  { label: d.passkeys, count: 23, icon: 'passkey' },
+  { label: d.sshKeys, count: 6, icon: 'ssh' },
+  { label: d.apiKeys, count: 9, icon: 'api' },
+  { label: d.environments, count: 4, icon: 'env' },
+  { label: d.cards, count: 4, icon: 'card' },
+  { label: d.bankAccounts, count: 3, icon: 'bank' },
+  { label: d.wallets, count: 2, icon: 'wallet' },
+  { label: d.identities, count: 5, icon: 'passport' },
+  { label: d.documents, count: 15, icon: 'document' },
+  { label: d.wifi, count: 3, icon: 'wifi' },
+  { label: d.notes, count: 22, icon: 'note' },
 ];
 const items = [
-  { name: 'GitHub', sub: 'maya.rahman@example.com', hue: 222, active: true },
-  { name: 'Figma', sub: 'maya@studio.example', hue: 280 },
-  { name: 'Netflix', sub: d.familyVault, hue: 2 },
-  { name: d.travelCard, sub: d.cardSub, hue: 205 },
-  { name: 'Proton Mail', sub: 'maya.r@proton.example', hue: 258 },
-  { name: d.homeWifi, sub: 'Rahman-5G', hue: 160 },
-  { name: d.passport, sub: d.passportSub, hue: 32 },
-  { name: d.awsRoot, sub: d.apiCredential, hue: 40 },
+  { name: 'GitHub', sub: 'maya.rahman@example.com', hue: 222, icon: 'login', active: true },
+  { name: d.deployKey, sub: d.sshSub, hue: 265, icon: 'ssh' },
+  { name: d.passport, sub: d.passportSub, hue: 32, icon: 'passport' },
+  { name: d.envName, sub: d.envSub, hue: 140, icon: 'env' },
+  { name: d.travelCard, sub: d.cardSub, hue: 205, icon: 'card' },
+  { name: d.coldWallet, sub: d.walletSub, hue: 45, icon: 'wallet' },
+  { name: d.homeWifi, sub: 'Rahman-5G', hue: 160, icon: 'wifi' },
+  { name: 'Postgres', sub: d.databaseSub, hue: 200, icon: 'database' },
+  { name: d.awsRoot, sub: d.apiCredential, hue: 15, icon: 'api' },
+  { name: 'Netflix', sub: d.familyVault, hue: 2, icon: 'login' },
+];
+
+// The "everything" honeycomb: rows of 6 and 5, so centred rows interlock.
+const e = t.everything;
+const honeyRows: (typeof e.items)[] = [];
+for (let i = 0, wide = true; i < e.items.length; wide = !wide) {
+  const n = wide ? 6 : 5;
+  honeyRows.push(e.items.slice(i, i + n));
+  i += n;
+}
+
+// The Safe demo: file paths as you see them unlocked. Locked, each becomes a blob with a random name.
+const safeFiles = [
+  { path: '2026/return.pdf', size: '1.2 MB', kind: 'document' },
+  { path: '2026/payslips-q3.pdf', size: '640 KB', kind: 'document' },
+  { path: 'passport-scan.jpg', size: '3.4 MB', kind: 'passport' },
+  { path: 'lease-agreement.pdf', size: '860 KB', kind: 'document' },
+  { path: 'receipts.zip', size: '18 MB', kind: 'file' },
+  { path: 'accountant.md', size: '4 KB', kind: 'note' },
 ];
 
 // One graph for both language pages: the app, the project behind it and the site, linked by @id.
@@ -82,7 +113,7 @@ const jsonLd = [
     publisher: { '@id': orgId },
     sameAs: [REPO_URL],
     softwareHelp: { '@type': 'CreativeWork', url: new URL(to('/docs/'), SITE_URL).href },
-    featureList: 'Passwords, Passkeys, TOTP codes, Autofill, Cards, Identities, Recovery info, Masked email, Security dashboard, Sharing, Import and export',
+    featureList: 'Passwords, Passkeys, TOTP codes, Autofill, SSH keys and SSH agent, API keys, Environment variables, Certificates, Cards, Bank accounts, Crypto wallets, ID documents, Wi-Fi networks, Encrypted folders (Safes), File encryption, Recovery info, Masked email, Security dashboard, Sharing, Import and export',
   },
   {
     '@context': 'https://schema.org',
@@ -118,7 +149,12 @@ const jsonLd = [
   <section class="hero">
     <div class="hero-copy">
       <Logo id="hero" variant="tile" size={84} class="hero-mark" />
-      <h1>{t.hero.title}</h1>
+      <h1>
+        <span class="sr-only">{t.hero.title}</span>
+        <span class="rot-line" aria-hidden="true"><span class="rot gradient-text" data-rotate={JSON.stringify(t.hero.rotate)}>{t.hero.rotate[0]}</span></span>
+        <span class="rot-rest" aria-hidden="true">{t.hero.titleRest}</span>
+        <span class="rot-static" aria-hidden="true">{t.hero.title}</span>
+      </h1>
       <p class="hero-sub">{t.hero.sub}</p>
       <div class="hero-actions">
         <a class="pill" href={VAULT_URL}>{t.hero.primary}</a>
@@ -146,7 +182,7 @@ const jsonLd = [
               ))}
               <p class="side-h">{d.categoriesHeading}</p>
               {categories.map((c) => (
-                <div class="side-row"><span>{c.label}</span><b>{c.count}</b></div>
+                <div class="side-row cat"><span><svg viewBox="0 0 24 24" set:html={icon(c.icon)} />{c.label}</span><b>{c.count}</b></div>
               ))}
               <div class="health">
                 <svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="15" class="h-track" /><circle cx="18" cy="18" r="15" class="h-fill" pathLength="100" /></svg>
@@ -157,7 +193,7 @@ const jsonLd = [
               <div class="list-h">{d.allItems}</div>
               {items.map((it) => (
                 <div class:list={['row', { on: it.active }]}>
-                  <span class="av" style={`--h:${it.hue}`}>{it.name[0]}</span>
+                  <span class="av" style={`--h:${it.hue}`}><svg viewBox="0 0 24 24" set:html={icon(it.icon)} /></span>
                   <span class="row-t"><b>{it.name}</b><small>{it.sub}</small></span>
                 </div>
               ))}
@@ -202,6 +238,41 @@ const jsonLd = [
         </div>
       </div>
     </figure>
+  </section>
+
+  <!-- Everything: what Octa Pass keeps, beyond passwords -->
+  <section class="everything" id="everything" aria-labelledby="everything-title">
+    <div class="wrap">
+      <h2 id="everything-title" class="section-title center">{e.titleLine1}<br /><span class="gradient-text">{e.titleLine2}</span></h2>
+      <p class="section-lede center-lede">{e.lede}</p>
+      <div class="groups" role="group" aria-label={e.filterLabel}>
+        {e.groups.map((g, i) => (
+          <button type="button" data-group={g.id} data-blurb={g.blurb} aria-pressed={i === 0 ? 'true' : 'false'}>{g.label}</button>
+        ))}
+      </div>
+      <p class="group-blurb" aria-live="polite">{e.groups[0].blurb}</p>
+      <ul class="honey" data-active="all">
+        {honeyRows.map((row, r) => (
+          <li class="honey-row">
+            <ul>
+              {row.map((it, j) => (
+                <li class="hex" data-group={it.group} style={`--i:${r * 6 + j}`}>
+                  <span class="hex-in">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" set:html={icon(it.icon)} />
+                    <span class="hex-t">{it.label}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
+      <dl class="stats">
+        {e.stats.map((st) => (
+          <div><dt>{st.label}</dt><dd>{st.value}</dd></div>
+        ))}
+      </dl>
+    </div>
   </section>
 
   <!-- Statement: the live encryption demo -->
@@ -323,6 +394,73 @@ const jsonLd = [
     </div>
   </section>
 
+  <!-- Developers -->
+  <section class="night dev" aria-labelledby="dev-title">
+    <div class="dev-glow" aria-hidden="true"></div>
+    <div class="wrap dev-grid">
+      <div>
+        <p class="eyebrow">{t.dev.eyebrow}</p>
+        <h2 id="dev-title" class="section-title">{t.dev.titleLine1}<br /><span class="gradient-text">{t.dev.titleLine2}</span></h2>
+        <div class="dev-points">
+          {t.dev.points.map((pt) => (
+            <div>
+              <h3>{pt.title}</h3>
+              <p>{pt.body}</p>
+            </div>
+          ))}
+        </div>
+        <p class="more"><a href={to('/docs/features/ssh-keys/')}>{t.dev.more}</a></p>
+      </div>
+      <figure class="term dev-term" dir="ltr">
+        <div class="term-bar"><span class="lights"><i></i><i></i><i></i></span><span>{t.dev.terminal}</span></div>
+        <pre><code><span class="prompt">$</span> ssh-add -l
+<span class="dim">256 SHA256:Xq3vR8…k9Rw GitHub signing key (ED25519)</span>
+<span class="dim">256 SHA256:p0LmT2…7aZe Deploy key (ED25519)</span>
+<span class="prompt">$</span> octapass run --env "Shop API (production)" -- ./migrate.sh
+<span class="dim">migrate: 3 applied, database is up to date</span>
+<span class="prompt">$</span> git commit -S -m "Rotate the billing key"<span class="caret"></span></code></pre>
+        <div class="ask" aria-hidden="true">
+          <div class="ask-top"><Logo id="dev" variant="tile" size={22} /><span>Octa Pass</span></div>
+          <p>{t.dev.approval}</p>
+          <svg class="touch" viewBox="0 0 48 48"><path d="M24 6a17 17 0 0 0-17 17M41 23A17 17 0 0 0 30 7.2M13 39c3-4 4-8.5 4-16a7 7 0 0 1 14 0c0 3 0 6-.6 9M24 23c0 8-1.6 14-5 19M31 36c-.6 2.4-1.5 4.6-2.6 6.4M12.5 30c.4-2.3.5-4.6.5-7a11 11 0 0 1 22 0c0 1.5 0 3-.1 4.4" /></svg>
+          <span class="ask-hint">Touch ID</span>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <!-- Files: a Safe you can lock -->
+  <section class="files" aria-labelledby="files-title">
+    <div class="wrap files-grid">
+      <div>
+        <h2 id="files-title" class="section-title">{t.files.titleLine1}<br /><span class="soft">{t.files.titleLine2}</span></h2>
+        <p class="files-lede">{t.files.lede}</p>
+        <ul class="files-points">
+          {t.files.points.map((pt) => <li set:html={pt} />)}
+        </ul>
+        <p class="more"><a href={to('/docs/features/octa-pass-safe/')}>{t.files.more}</a></p>
+      </div>
+      <figure class="safe" aria-label={t.files.label}>
+        <div class="safe-bar">
+          <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="safe-title"><svg viewBox="0 0 24 24" aria-hidden="true" set:html={icon('safe')} />{t.files.safeName}</span>
+          <button type="button" class="safe-toggle" data-lock={t.files.lock} data-unlock={t.files.unlock} aria-pressed="false">{t.files.lock}</button>
+        </div>
+        <ul class="safe-list">
+          {safeFiles.map((f) => (
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true" set:html={icon(f.kind)} />
+              <span class="safe-name mono" data-plain={f.path}>{f.path}</span>
+              <span class="safe-size">{f.size}</span>
+            </li>
+          ))}
+        </ul>
+        <figcaption class="safe-state" aria-live="polite" data-locked={t.files.locked} data-unlocked={t.files.unlocked}>
+          <span class="dot" aria-hidden="true"></span><span>{t.files.unlocked}</span>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
 
   <!-- The free hosted service -->
   <section class="free" id="free" aria-labelledby="free-title">
@@ -609,6 +747,79 @@ const jsonLd = [
   fillCiphertext();
   tick();
   setInterval(tick, 1000);
+
+  // Hero: the first line names one sensitive thing after another. Reduced motion shows the plain headline instead (in CSS).
+  const rot = document.querySelector<HTMLElement>('[data-rotate]');
+  if (rot && !reduceMotion) {
+    const words: string[] = JSON.parse(rot.dataset.rotate!);
+    let n = 0;
+    setInterval(() => {
+      if (document.hidden) return;
+      rot.classList.add('out');
+      setTimeout(() => {
+        n = (n + 1) % words.length;
+        rot.textContent = words[n];
+        rot.classList.remove('out');
+      }, 320);
+    }, 2400);
+  }
+
+  // Everything: pick a group to light up its items.
+  const honey = document.querySelector<HTMLElement>('.honey');
+  const blurb = document.querySelector<HTMLElement>('.group-blurb');
+  const groupButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('.groups button'));
+  for (const button of groupButtons) {
+    button.addEventListener('click', () => {
+      for (const b of groupButtons) b.setAttribute('aria-pressed', String(b === button));
+      honey?.setAttribute('data-active', button.dataset.group!);
+      if (blurb) blurb.textContent = button.dataset.blurb!;
+    });
+  }
+  if (honey && !reduceMotion && 'IntersectionObserver' in window) {
+    honey.classList.add('armed');
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((en) => en.isIntersecting)) return;
+        io.disconnect();
+        honey.classList.add('in');
+      },
+      { threshold: 0.25 },
+    );
+    io.observe(honey);
+  }
+
+  // The Safe: locking turns every path into a blob with a random name, as on disk.
+  const safe = document.querySelector<HTMLElement>('.safe');
+  const toggle = safe?.querySelector<HTMLButtonElement>('.safe-toggle');
+  const state = safe?.querySelector<HTMLElement>('.safe-state');
+  const blobName = () => {
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz234567';
+    return Array.from(crypto.getRandomValues(new Uint8Array(26)), (b) => alphabet[b & 31]).join('');
+  };
+  function setLocked(locked: boolean) {
+    if (!safe || !toggle || !state) return;
+    safe.classList.toggle('locked', locked);
+    toggle.setAttribute('aria-pressed', String(locked));
+    toggle.textContent = locked ? toggle.dataset.unlock! : toggle.dataset.lock!;
+    state.lastElementChild!.textContent = locked ? state.dataset.locked! : state.dataset.unlocked!;
+    safe.querySelectorAll<HTMLElement>('.safe-name').forEach((el) => {
+      el.dataset.value = locked ? blobName() : el.dataset.plain!;
+      if (reduceMotion) el.textContent = el.dataset.value;
+      else scramble(el);
+    });
+  }
+  toggle?.addEventListener('click', () => setLocked(!safe!.classList.contains('locked')));
+  if (safe && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((en) => en.isIntersecting)) return;
+        io.disconnect();
+        setTimeout(() => setLocked(true), 1200);
+      },
+      { threshold: 0.6 },
+    );
+    io.observe(safe);
+  }
 </script>
 
 <style>
@@ -692,14 +903,52 @@ const jsonLd = [
     margin-bottom: 1.75rem;
   }
   h1 {
-    font-size: var(--step-4);
+    font-size: clamp(2.6rem, 1.4rem + 5.2vw, 6rem);
     font-weight: 760;
     font-stretch: 112%;
     letter-spacing: -0.05em;
     line-height: 1.02;
     margin: 0 0 1.5rem;
-    max-width: 13ch;
+    max-width: 16ch;
     text-wrap: balance;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  .rot-line {
+    display: block;
+    white-space: nowrap;
+    font-size: min(1em, 9.5vw);
+    padding-bottom: 0.06em;
+  }
+  .rot {
+    display: inline-block;
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.3, 0.7, 0.2, 1), filter 0.3s ease;
+  }
+  .rot.out {
+    opacity: 0;
+    transform: translateY(-0.25em);
+    filter: blur(6px);
+  }
+  .rot-rest {
+    display: block;
+  }
+  .rot-static {
+    display: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rot-line,
+    .rot-rest {
+      display: none;
+    }
+    .rot-static {
+      display: block;
+    }
   }
   .hero-sub {
     font-size: var(--step-1);
@@ -830,7 +1079,7 @@ const jsonLd = [
   }
   .side {
     background: var(--tile);
-    padding: 1.3em 1.1em;
+    padding: 1.1em 1.1em 1em;
     font-size: 1.12em;
     display: flex;
     flex-direction: column;
@@ -840,11 +1089,11 @@ const jsonLd = [
     border-radius: 0.6em;
     padding: 0.55em 0.8em;
     color: var(--mist);
-    margin-bottom: 1.2em;
+    margin-bottom: 0.6em;
     border: 1px solid var(--line);
   }
   .side-h {
-    margin: 0.9em 0 0.35em 0.5em;
+    margin: 0.7em 0 0.3em 0.5em;
     color: var(--mist);
     font-size: 0.85em;
     font-weight: 600;
@@ -852,8 +1101,34 @@ const jsonLd = [
   .side-row {
     display: flex;
     justify-content: space-between;
-    padding: 0.42em 0.6em;
+    padding: 0.36em 0.6em;
     border-radius: 0.5em;
+  }
+  .side-row.cat {
+    padding-block: 0.26em;
+  }
+  .side-row.cat span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+  }
+  .side-row svg,
+  .row .av svg {
+    width: 1.15em;
+    height: 1.15em;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .side-row svg {
+    color: var(--trust);
+  }
+  .row .av svg {
+    width: 1.3em;
+    height: 1.3em;
+    stroke-width: 1.9;
   }
   .side-row b {
     color: var(--mist);
@@ -915,7 +1190,7 @@ const jsonLd = [
     display: flex;
     gap: 0.8em;
     align-items: center;
-    padding: 0.55em 0.6em;
+    padding: 0.4em 0.6em;
     border-radius: 0.7em;
   }
   .row.on {
@@ -1575,6 +1850,474 @@ const jsonLd = [
     .t-recovery {
       grid-column: auto;
       grid-row: auto;
+    }
+  }
+
+  /* ---------- Everything ---------- */
+  .everything {
+    padding: clamp(5rem, 10vw, 8rem) 0 clamp(4rem, 8vw, 6rem);
+  }
+  .everything .section-title {
+    margin-bottom: 1.5rem;
+  }
+  .center-lede {
+    margin: 0 auto 2.5rem;
+    text-align: center;
+    text-wrap: pretty;
+  }
+  .groups {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  .groups button {
+    font: inherit;
+    font-size: var(--step--1);
+    font-weight: 600;
+    min-height: 2.5rem;
+    padding: 0 1.1rem;
+    border-radius: 999px;
+    border: 0;
+    background: var(--tile);
+    color: var(--ink);
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .groups button:hover {
+    background: color-mix(in srgb, var(--trust) 12%, var(--tile));
+  }
+  .groups button[aria-pressed='true'] {
+    background: #2456f0;
+    color: #fff;
+  }
+  .group-blurb {
+    min-height: 3em;
+    max-width: 52ch;
+    margin: 1.25rem auto 2.5rem;
+    text-align: center;
+    color: var(--mist);
+    text-wrap: balance;
+  }
+
+  /* Pointy-top hexagons; centred rows of 6 and 5 interlock. */
+  .honey {
+    --hex: clamp(5.6rem, 9.4vw, 8.4rem);
+    --hgap: clamp(0.35rem, 0.8vw, 0.6rem);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .honey-row > ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: var(--hgap);
+  }
+  .honey-row + .honey-row {
+    margin-top: calc(var(--hex) * -0.27 + var(--hgap));
+  }
+  .hex {
+    --clip: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+    flex: none;
+    width: var(--hex);
+    aspect-ratio: 0.866;
+    clip-path: var(--clip);
+    background: var(--line);
+    padding: 1.5px;
+    transition: opacity 0.35s ease, transform 0.35s ease, background 0.35s ease;
+  }
+  .hex-in {
+    width: 100%;
+    height: 100%;
+    clip-path: var(--clip);
+    background: var(--tile);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0 0.6rem;
+    text-align: center;
+    transition: background 0.35s ease;
+  }
+  .hex svg {
+    width: 34%;
+    height: auto;
+    fill: none;
+    stroke: var(--trust);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .hex-t {
+    font-size: clamp(0.66rem, 0.55rem + 0.25vw, 0.8rem);
+    font-weight: 650;
+    line-height: 1.15;
+    max-width: 9ch;
+    text-wrap: balance;
+  }
+  .honey:not([data-active='all']) .hex {
+    opacity: 0.25;
+    transform: scale(0.92);
+  }
+  .honey[data-active='life'] .hex[data-group='life'],
+  .honey[data-active='money'] .hex[data-group='money'],
+  .honey[data-active='identity'] .hex[data-group='identity'],
+  .honey[data-active='dev'] .hex[data-group='dev'],
+  .honey[data-active='files'] .hex[data-group='files'] {
+    opacity: 1;
+    transform: none;
+    background: var(--gradient);
+  }
+  .honey[data-active='life'] .hex[data-group='life'] .hex-in,
+  .honey[data-active='money'] .hex[data-group='money'] .hex-in,
+  .honey[data-active='identity'] .hex[data-group='identity'] .hex-in,
+  .honey[data-active='dev'] .hex[data-group='dev'] .hex-in,
+  .honey[data-active='files'] .hex[data-group='files'] .hex-in {
+    background: color-mix(in srgb, var(--trust) 9%, var(--surface));
+  }
+  .honey.armed:not(.in) .hex {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  .honey.in .hex {
+    transition-delay: calc(var(--i) * 28ms);
+  }
+  .honey.in[data-active] .hex {
+    transition-delay: 0s;
+  }
+  .stats {
+    margin: clamp(3rem, 6vw, 4.5rem) 0 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .stats > div {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.4rem;
+    padding: 1.25rem 1.4rem;
+    border: 1.5px dashed color-mix(in srgb, var(--mist) 45%, transparent);
+    border-radius: var(--radius-lg);
+  }
+  .stats dd {
+    margin: 0;
+    font-size: var(--step-3);
+    font-weight: 760;
+    font-stretch: 112%;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .stats dt {
+    font-size: 0.78rem;
+    font-weight: 650;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--mist);
+  }
+  @media (max-width: 52rem) {
+    .stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  /* Phones: drop the interlock and let the hexagons wrap. */
+  @media (max-width: 40rem) {
+    .honey {
+      --hex: 6.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+    .honey-row,
+    .honey-row > ul {
+      display: contents;
+    }
+    .honey-row + .honey-row {
+      margin: 0;
+    }
+  }
+
+  /* ---------- Developers ---------- */
+  .dev {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(5rem, 11vw, 9rem) 0;
+  }
+  .dev-glow {
+    position: absolute;
+    width: 60rem;
+    height: 40rem;
+    left: -25rem;
+    bottom: -18rem;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--trust) 40%, transparent), transparent);
+    filter: blur(40px);
+    opacity: 0.55;
+  }
+  .dev-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(2.5rem, 6vw, 5rem);
+    align-items: center;
+  }
+  .eyebrow {
+    margin: 0 0 1rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--free-text);
+  }
+  .dev-points {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.75rem 2rem;
+  }
+  .dev-points h3 {
+    margin: 0 0 0.35rem;
+    font-size: var(--step-0);
+    font-weight: 700;
+  }
+  .dev-points p {
+    margin: 0;
+    color: var(--night-mist);
+    font-size: 0.95rem;
+  }
+  .term.dev-term {
+    position: relative;
+    overflow: visible;
+  }
+  .term.dev-term pre {
+    font-size: 0.78rem;
+    padding-bottom: 10.5rem;
+  }
+  .dev .section-title,
+  .files .section-title {
+    font-size: clamp(2.1rem, 1.3rem + 2.6vw, 3.4rem);
+  }
+  .dim {
+    color: #8b93a6;
+  }
+  .caret {
+    display: inline-block;
+    width: 0.55em;
+    height: 1.1em;
+    margin-inline-start: 0.2em;
+    vertical-align: -0.2em;
+    background: #dfe5f1;
+    animation: blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+  .ask {
+    position: absolute;
+    inset-inline-end: 1.25rem;
+    bottom: -1.5rem;
+    width: min(17rem, 80%);
+    padding: 1rem 1.1rem 1.1rem;
+    border-radius: 1.1rem;
+    background: rgb(28 32 44 / 0.92);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--night-line);
+    box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: var(--night-ink);
+    animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-timeline: view();
+    animation-range: entry 10% cover 40%;
+  }
+  .ask-top {
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.8rem;
+    font-weight: 650;
+  }
+  .ask p {
+    margin: 0.7rem 0 0.6rem;
+    font-size: 0.9rem;
+    font-weight: 650;
+    line-height: 1.3;
+  }
+  .touch {
+    width: 2.8rem;
+    height: 2.8rem;
+    fill: none;
+    stroke: #ff5a7a;
+    stroke-width: 2.4;
+    stroke-linecap: round;
+  }
+  .ask-hint {
+    margin-top: 0.3rem;
+    font-size: 0.75rem;
+    color: var(--night-mist);
+  }
+  @media (max-width: 56rem) {
+    .dev-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 36rem) {
+    .dev-points {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ---------- Files: the Safe ---------- */
+  .files {
+    padding: clamp(5rem, 10vw, 8rem) 0;
+  }
+  .files-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    gap: clamp(2.5rem, 6vw, 5rem);
+    align-items: center;
+  }
+  .files .section-title {
+    margin-bottom: 1.5rem;
+  }
+  .files-lede {
+    margin: 0 0 1.5rem;
+    font-size: var(--step-1);
+    line-height: 1.4;
+    color: var(--mist);
+  }
+  .files-points {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.8rem;
+    color: var(--mist);
+  }
+  .files-points :global(b) {
+    color: var(--ink);
+  }
+  .safe {
+    margin: 0;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .safe-bar {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .safe-bar .lights i {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+  .safe-bar .lights {
+    gap: 0.4rem;
+  }
+  .safe-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-weight: 650;
+    margin-inline-end: auto;
+  }
+  .safe svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex: none;
+    fill: none;
+    stroke: var(--trust);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke 0.3s ease;
+  }
+  .safe-toggle {
+    font: inherit;
+    font-size: var(--step--1);
+    font-weight: 600;
+    min-height: 2.25rem;
+    padding: 0 1rem;
+    border-radius: 999px;
+    border: 0;
+    background: #2456f0;
+    color: #fff;
+    cursor: pointer;
+  }
+  .safe-toggle[aria-pressed='true'] {
+    background: var(--tile);
+    color: var(--ink);
+    box-shadow: inset 0 0 0 1.5px var(--line);
+  }
+  .safe-list {
+    list-style: none;
+    margin: 0;
+    padding: 0.5rem;
+  }
+  .safe-list li {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: 0.8rem;
+    align-items: center;
+    padding: 0.7rem 0.75rem;
+    border-radius: 0.7rem;
+  }
+  .safe-list li:nth-child(odd) {
+    background: var(--tile);
+  }
+  .safe-name {
+    font-size: 0.88rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    direction: ltr;
+    unicode-bidi: isolate;
+    text-align: start;
+    transition: color 0.3s ease;
+  }
+  :global([dir='rtl']) .safe-name {
+    text-align: end;
+  }
+  .safe-size {
+    font-size: 0.8rem;
+    color: var(--mist);
+    font-variant-numeric: tabular-nums;
+  }
+  .safe.locked .safe-name {
+    color: var(--free-text);
+  }
+  .safe.locked .safe-list svg {
+    stroke: var(--mist);
+  }
+  .safe-state {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.8rem 1.25rem 1rem;
+    border-top: 1px solid var(--line);
+    font-size: var(--step--1);
+    color: var(--mist);
+  }
+  .safe:not(.locked) .safe-state .dot {
+    background: var(--trust);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--trust) 22%, transparent);
+  }
+  @media (max-width: 56rem) {
+    .files-grid {
+      grid-template-columns: 1fr;
     }
   }
 

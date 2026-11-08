@@ -31,6 +31,11 @@ test('locale-independent values match', () => {
     assert.equal(ar.platforms.items[i].icon, item.icon);
   });
   en.roadmap.phases.forEach((phase, i) => assert.equal(ar.roadmap.phases[i].step, phase.step));
+  en.everything.items.forEach((item, i) => {
+    assert.equal(ar.everything.items[i].icon, item.icon);
+    assert.equal(ar.everything.items[i].group, item.group);
+  });
+  en.everything.groups.forEach((group, i) => assert.equal(ar.everything.groups[i].id, group.id));
 });
 
 test('placeholders survive translation', () => {

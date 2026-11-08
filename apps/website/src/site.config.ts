@@ -3,9 +3,9 @@
 export const SITE_URL = process.env.PUBLIC_SITE_URL ?? 'https://octap.app';
 export const REPO_URL = process.env.PUBLIC_REPO_URL ?? 'https://github.com/octap-app/octapass';
 export const SITE_NAME = 'Octa Pass';
-export const SITE_TAGLINE = 'The free password manager for every login, passkey and code you own.';
+export const SITE_TAGLINE = 'Everything sensitive, in one place only you can open.';
 export const SITE_DESCRIPTION =
-  'Octa Pass is a free password manager for passwords, passkeys, one-time codes, cards and identities on every browser, phone and computer. End-to-end encrypted, synced for you, no ads. Open source, so anyone can check it.';
+  'Octa Pass keeps everything sensitive in one end-to-end encrypted vault: passwords, passkeys and one-time codes, and also SSH keys, API secrets, .env files, cards, IDs, Wi-Fi, crypto wallets and encrypted folders. Free, synced to every device, no ads. Open source, so anyone can check it.';
 
 // The hosted service: sync server and web vault on one origin. Open for sign-ups as a public alpha.
 export const VAULT_URL = process.env.PUBLIC_VAULT_URL ?? 'https://vault.octap.app';

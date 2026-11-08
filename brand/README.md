@@ -13,6 +13,8 @@ The logo, colours, type and voice for Octa Pass. Everything here is MIT like the
 | `logo-lockup.svg` / `logo-lockup-dark.svg` | Mark + "OctaPass" wordmark (outlined, so no font is needed) |
 | `app-icon-512.png`, `apple-touch-icon.png` | App and home-screen icons |
 | `readme-header-light.png` / `readme-header-dark.png` | GitHub README banner (2560×1280) |
+| `readme-showcase.png` | Tall README image: "Not just a password manager", the 22 kinds of item, zero knowledge (2000×5544) |
+| `readme-developers.png` | README image for developers: SSH agent, `octapass run`, CI, toolkit (2560×1440) |
 | `og.png` | Social preview (1200×630). Also upload it as the GitHub repo's social preview |
 
 **The idea.** An **O** ring, open at the bottom, around a **P** whose stem passes out through that opening, with a keyhole in the P's bowl. *Open*: the ring has a way through, and nothing about how the lock works is hidden. *Pass*: the P and the keyhole that only your key opens. The concept started from a reference sketch and was redrawn as an even-weight monoline with round ends.
@@ -53,6 +55,10 @@ Signature gradient: `linear-gradient(120deg, #2456F0, #1A86C8, #10B77F)`. Use it
 - Real data in demos (live TOTP codes, real ciphertext made in the browser), never lorem ipsum.
 - One orchestrated motion moment per view. Respect `prefers-reduced-motion`.
 
+## What we say Octa Pass is
+
+**Everything sensitive, in one place only you can open.** Octa Pass is a full password manager, but that's never the whole description: lead with the wider idea and prove it with the things people don't expect to find, like SSH keys, `.env` files, passports, seed phrases and Safes. Say "password manager" where people search for one, and where it's simply what you mean. See the positioning in `plans/01-product-spec.md`.
+
 ## Voice
 
 - Plain and specific: "Your vault is encrypted on your device before it syncs", not "military-grade security".
@@ -71,7 +77,8 @@ python3 brand/source/render_headers.py
 CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 "$CHROME" --headless=new --hide-scrollbars --allow-file-access-from-files --force-device-scale-factor=2 \
   --window-size=1280,640 --screenshot=brand/readme-header-light.png "file://$PWD/brand/source/render/header-light.html"
-# same for header-dark (1280×640 @2x), og (1200×630 @1x); icons with --default-background-color=00000000
+# same for header-dark (1280×640 @2x), og (1200×630 @1x), showcase (1000×2772 @2x),
+# developers (1280×720 @2x); icons with --default-background-color=00000000
 # at 512×512 (icon-512) and 180×180 (icon-180 → apple-touch-icon.png)
 ```
 

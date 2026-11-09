@@ -1955,6 +1955,152 @@ public protocol OctaPassVaultProtocol: AnyObject, Sendable {
      */
     func switchLocalVault(tag: String) async throws 
     
+    func acceptOrgInvite(orgId: String, inviteId: String) async throws  -> Organisation
+    
+    func addOrgGroupMember(groupId: String, accountId: String) async throws 
+    
+    /**
+     * Seals the vault's key to the people confirmed on screen, checked again against the
+     * fingerprint each was shown with. Returns how many got access.
+     */
+    func applyOrgAccess(vaultId: String, confirmed: [ConfirmedGrant]) async throws  -> UInt32
+    
+    func cancelOrgInvite(inviteId: String) async throws 
+    
+    /**
+     * The policies this app applies itself, as last seen (no network): cap the auto-lock
+     * choices, check a new master password's length, say exports leave out organisation vaults.
+     */
+    func clientPolicies()  -> ClientPolicies
+    
+    func createOrgGroup(name: String) async throws  -> OrgGroup
+    
+    func createOrgScimToken(name: String) async throws  -> CreatedScimToken
+    
+    /**
+     * A shared vault of the organisation, owned by this account.
+     */
+    func createOrgVault(name: String) async throws  -> Vault
+    
+    /**
+     * Creates an organisation with this account as its owner.
+     */
+    func createOrganisation(name: String) async throws  -> Organisation
+    
+    func declineOrgInvite(orgId: String, inviteId: String) async throws 
+    
+    func deleteOrgGroup(groupId: String) async throws 
+    
+    /**
+     * Deletes an organisation vault and everything in it, for everyone. Asks for the master
+     * password.
+     */
+    func deleteOrgVault(password: String, vaultId: String) async throws 
+    
+    /**
+     * Owner: deletes the organisation and all its vaults, for everyone. `confirm_name` is the
+     * name as typed.
+     */
+    func deleteOrganisation(password: String, confirmName: String) async throws 
+    
+    /**
+     * The organisation this account is in, if any, and the invitations it received. Also
+     * refreshes the client policies.
+     */
+    func getOrganisation() async throws  -> OrgState
+    
+    func inviteOrgMember(email: String, role: OrgRole) async throws 
+    
+    func leaveOrganisation(orphanVaults: Bool) async throws 
+    
+    func linkOrgVaultGroup(vaultId: String, groupId: String, role: VaultRole) async throws 
+    
+    func listOrgGroups() async throws  -> [OrgGroup]
+    
+    func listOrgMembers() async throws  -> OrgMembers
+    
+    func listOrgVaults() async throws  -> [OrgVault]
+    
+    /**
+     * Who should get which vault, with fingerprints computed on this device, to review.
+     */
+    func orgAccess() async throws  -> [OrgAccessReview]
+    
+    func orgEvents() async throws  -> [OrgEvent]
+    
+    func orgScim() async throws  -> OrgScim
+    
+    func orgSso() async throws  -> OrgSso
+    
+    func removeOrgGroupMember(groupId: String, accountId: String) async throws 
+    
+    /**
+     * Fails with `orgVaultOrphaned` when nobody else could manage one of their vaults: ask, then
+     * call again with `orphan_vaults`.
+     */
+    func removeOrgMember(accountId: String, orphanVaults: Bool) async throws 
+    
+    func removeOrgSso() async throws 
+    
+    func renameOrgGroup(groupId: String, name: String) async throws 
+    
+    func renameOrganisation(name: String) async throws 
+    
+    func revokeOrgScimToken(tokenId: String) async throws 
+    
+    func rotateOrgVault(vaultId: String) async throws 
+    
+    func saveOrgSaml(settings: SamlSettings) async throws  -> OrgSso
+    
+    func saveOrgSso(settings: OidcSettings) async throws  -> OrgSso
+    
+    func setOrgMemberRole(accountId: String, role: OrgRole) async throws 
+    
+    /**
+     * Owner: the organisation's policies.
+     */
+    func setOrgPolicies(policies: OrgPolicies) async throws  -> OrgPolicies
+    
+    /**
+     * The address of a test sign-in, to open in the browser.
+     */
+    func testOrgSso() async throws  -> String
+    
+    func unlinkOrgVaultGroup(vaultId: String, groupId: String) async throws 
+    
+    /**
+     * Moves a place to the trash. Its items stay; they just aren't listed under it.
+     */
+    func deletePlace(id: String) async throws 
+    
+    /**
+     * Nearby: every place with its items, the places the phone is at first, then the others
+     * nearest first when the location is known (places without a point after them, by name).
+     */
+    func nearby(here: Here) async throws  -> [NearbyPlace]
+    
+    /**
+     * Every place, by name (the Places manager).
+     */
+    func places() async throws  -> [Place]
+    
+    /**
+     * Saves a new place or an edit of one. A place in a shared or family vault is seen by
+     * everyone in it: apps warn before saving one with a location there.
+     */
+    func savePlace(draft: PlaceDraft) async throws  -> Place
+    
+    /**
+     * Adds the item to a place, or takes it off one ("Add to a place").
+     */
+    func setItemPlace(itemId: String, placeId: String, linked: Bool) async throws  -> Item
+    
+    /**
+     * The place to offer a newly saved item to ("You're at Office. Add this item to it?"): one
+     * the phone is at, that everyone who sees the item can see, and that it isn't at yet.
+     */
+    func suggestedPlace(itemId: String, here: Here) async throws  -> Place?
+    
     /**
      * The app can't be reached any more (notifications turned off, the token revoked): tells
      * the server to stop sending.
@@ -2283,7 +2429,8 @@ public protocol OctaPassVaultProtocol: AnyObject, Sendable {
     func getItem(id: String) async throws  -> Item
     
     /**
-     * The security dashboard and recovery map. Looks passwords up in Pwned Passwords.
+     * The security dashboard and recovery map. Looks passwords up in Pwned Passwords, and asks
+     * the server for newer signed site lists at most once a day.
      */
     func healthReport() async throws  -> HealthReport
     
@@ -2565,6 +2712,13 @@ public protocol OctaPassVaultProtocol: AnyObject, Sendable {
      * Pins or unpins an item: pinned items are listed under Pinned.
      */
     func setPinned(id: String, pinned: Bool) async throws  -> Item
+    
+    /**
+     * The second opt-in, while alerts are on: also send the recovery emails that are neither the
+     * account email nor an alias. The UI says so before this is called. Either way the results
+     * are forgotten; check again afterwards.
+     */
+    func setRecoveryEmailChecks(enabled: Bool) async throws 
     
     func settings()  -> Settings
     
@@ -3088,6 +3242,747 @@ open func switchLocalVault(tag: String)async throws   {
             completeFunc: ffi_octapass_mobile_rust_future_complete_void,
             freeFunc: ffi_octapass_mobile_rust_future_free_void,
             liftFunc: { $0 },
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func acceptOrgInvite(orgId: String, inviteId: String)async throws  -> Organisation  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_accept_org_invite(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(orgId),FfiConverterString.lower(inviteId)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_rust_buffer,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
+            freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
+            liftFunc: FfiConverterTypeOrganisation_lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func addOrgGroupMember(groupId: String, accountId: String)async throws   {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_add_org_group_member(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(groupId),FfiConverterString.lower(accountId)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_void,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_void,
+            freeFunc: ffi_octapass_mobile_rust_future_free_void,
+            liftFunc: { $0 },
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+    /**
+     * Seals the vault's key to the people confirmed on screen, checked again against the
+     * fingerprint each was shown with. Returns how many got access.
+     */
+open func applyOrgAccess(vaultId: String, confirmed: [ConfirmedGrant])async throws  -> UInt32  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_apply_org_access(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(vaultId),FfiConverterSequenceTypeConfirmedGrant.lower(confirmed)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_u32,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_u32,
+            freeFunc: ffi_octapass_mobile_rust_future_free_u32,
+            liftFunc: FfiConverterUInt32.lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func cancelOrgInvite(inviteId: String)async throws   {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_cancel_org_invite(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(inviteId)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_void,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_void,
+            freeFunc: ffi_octapass_mobile_rust_future_free_void,
+            liftFunc: { $0 },
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+    /**
+     * The policies this app applies itself, as last seen (no network): cap the auto-lock
+     * choices, check a new master password's length, say exports leave out organisation vaults.
+     */
+open func clientPolicies() -> ClientPolicies  {
+    return try!  FfiConverterTypeClientPolicies_lift(try! rustCall() {
+        uniffiCallStatus in
+    uniffi_octapass_mobile_fn_method_octapassvault_client_policies(
+            self.uniffiCloneHandle(),uniffiCallStatus
+    )
+})
+}
+    
+open func createOrgGroup(name: String)async throws  -> OrgGroup  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_create_org_group(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(name)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_rust_buffer,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
+            freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
+            liftFunc: FfiConverterTypeOrgGroup_lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func createOrgScimToken(name: String)async throws  -> CreatedScimToken  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_create_org_scim_token(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(name)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_rust_buffer,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
+            freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
+            liftFunc: FfiConverterTypeCreatedScimToken_lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+    /**
+     * A shared vault of the organisation, owned by this account.
+     */
+open func createOrgVault(name: String)async throws  -> Vault  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_create_org_vault(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(name)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_rust_buffer,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
+            freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
+            liftFunc: FfiConverterTypeVault_lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+    /**
+     * Creates an organisation with this account as its owner.
+     */
+open func createOrganisation(name: String)async throws  -> Organisation  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_create_organisation(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(name)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_rust_buffer,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
+            freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
+            liftFunc: FfiConverterTypeOrganisation_lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func declineOrgInvite(orgId: String, inviteId: String)async throws   {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_decline_org_invite(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(orgId),FfiConverterString.lower(inviteId)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_void,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_void,
+            freeFunc: ffi_octapass_mobile_rust_future_free_void,
+            liftFunc: { $0 },
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func deleteOrgGroup(groupId: String)async throws   {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_delete_org_group(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(groupId)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_void,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_void,
+            freeFunc: ffi_octapass_mobile_rust_future_free_void,
+            liftFunc: { $0 },
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+    /**
+     * Deletes an organisation vault and everything in it, for everyone. Asks for the master
+     * password.
+     */
+open func deleteOrgVault(password: String, vaultId: String)async throws   {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_delete_org_vault(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(password),FfiConverterString.lower(vaultId)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_void,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_void,
+            freeFunc: ffi_octapass_mobile_rust_future_free_void,
+            liftFunc: { $0 },
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+    /**
+     * Owner: deletes the organisation and all its vaults, for everyone. `confirm_name` is the
+     * name as typed.
+     */
+open func deleteOrganisation(password: String, confirmName: String)async throws   {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_delete_organisation(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(password),FfiConverterString.lower(confirmName)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_void,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_void,
+            freeFunc: ffi_octapass_mobile_rust_future_free_void,
+            liftFunc: { $0 },
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+    /**
+     * The organisation this account is in, if any, and the invitations it received. Also
+     * refreshes the client policies.
+     */
+open func getOrganisation()async throws  -> OrgState  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_get_organisation(
+                        self.uniffiCloneHandle()
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_rust_buffer,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
+            freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
+            liftFunc: FfiConverterTypeOrgState_lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func inviteOrgMember(email: String, role: OrgRole)async throws   {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_invite_org_member(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(email),FfiConverterTypeOrgRole_lower(role)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_void,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_void,
+            freeFunc: ffi_octapass_mobile_rust_future_free_void,
+            liftFunc: { $0 },
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func leaveOrganisation(orphanVaults: Bool)async throws   {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_leave_organisation(
+                        self.uniffiCloneHandle(),FfiConverterBool.lower(orphanVaults)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_void,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_void,
+            freeFunc: ffi_octapass_mobile_rust_future_free_void,
+            liftFunc: { $0 },
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func linkOrgVaultGroup(vaultId: String, groupId: String, role: VaultRole)async throws   {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_link_org_vault_group(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(vaultId),FfiConverterString.lower(groupId),FfiConverterTypeVaultRole_lower(role)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_void,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_void,
+            freeFunc: ffi_octapass_mobile_rust_future_free_void,
+            liftFunc: { $0 },
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func listOrgGroups()async throws  -> [OrgGroup]  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_list_org_groups(
+                        self.uniffiCloneHandle()
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_rust_buffer,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
+            freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
+            liftFunc: FfiConverterSequenceTypeOrgGroup.lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func listOrgMembers()async throws  -> OrgMembers  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_list_org_members(
+                        self.uniffiCloneHandle()
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_rust_buffer,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
+            freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
+            liftFunc: FfiConverterTypeOrgMembers_lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func listOrgVaults()async throws  -> [OrgVault]  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_list_org_vaults(
+                        self.uniffiCloneHandle()
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_rust_buffer,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
+            freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
+            liftFunc: FfiConverterSequenceTypeOrgVault.lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+    /**
+     * Who should get which vault, with fingerprints computed on this device, to review.
+     */
+open func orgAccess()async throws  -> [OrgAccessReview]  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_org_access(
+                        self.uniffiCloneHandle()
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_rust_buffer,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
+            freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
+            liftFunc: FfiConverterSequenceTypeOrgAccessReview.lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func orgEvents()async throws  -> [OrgEvent]  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_org_events(
+                        self.uniffiCloneHandle()
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_rust_buffer,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
+            freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
+            liftFunc: FfiConverterSequenceTypeOrgEvent.lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func orgScim()async throws  -> OrgScim  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_org_scim(
+                        self.uniffiCloneHandle()
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_rust_buffer,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
+            freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
+            liftFunc: FfiConverterTypeOrgScim_lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func orgSso()async throws  -> OrgSso  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_org_sso(
+                        self.uniffiCloneHandle()
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_rust_buffer,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
+            freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
+            liftFunc: FfiConverterTypeOrgSso_lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func removeOrgGroupMember(groupId: String, accountId: String)async throws   {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_remove_org_group_member(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(groupId),FfiConverterString.lower(accountId)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_void,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_void,
+            freeFunc: ffi_octapass_mobile_rust_future_free_void,
+            liftFunc: { $0 },
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+    /**
+     * Fails with `orgVaultOrphaned` when nobody else could manage one of their vaults: ask, then
+     * call again with `orphan_vaults`.
+     */
+open func removeOrgMember(accountId: String, orphanVaults: Bool)async throws   {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_remove_org_member(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(accountId),FfiConverterBool.lower(orphanVaults)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_void,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_void,
+            freeFunc: ffi_octapass_mobile_rust_future_free_void,
+            liftFunc: { $0 },
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func removeOrgSso()async throws   {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_remove_org_sso(
+                        self.uniffiCloneHandle()
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_void,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_void,
+            freeFunc: ffi_octapass_mobile_rust_future_free_void,
+            liftFunc: { $0 },
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func renameOrgGroup(groupId: String, name: String)async throws   {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_rename_org_group(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(groupId),FfiConverterString.lower(name)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_void,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_void,
+            freeFunc: ffi_octapass_mobile_rust_future_free_void,
+            liftFunc: { $0 },
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func renameOrganisation(name: String)async throws   {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_rename_organisation(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(name)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_void,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_void,
+            freeFunc: ffi_octapass_mobile_rust_future_free_void,
+            liftFunc: { $0 },
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func revokeOrgScimToken(tokenId: String)async throws   {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_revoke_org_scim_token(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(tokenId)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_void,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_void,
+            freeFunc: ffi_octapass_mobile_rust_future_free_void,
+            liftFunc: { $0 },
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func rotateOrgVault(vaultId: String)async throws   {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_rotate_org_vault(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(vaultId)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_void,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_void,
+            freeFunc: ffi_octapass_mobile_rust_future_free_void,
+            liftFunc: { $0 },
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func saveOrgSaml(settings: SamlSettings)async throws  -> OrgSso  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_save_org_saml(
+                        self.uniffiCloneHandle(),FfiConverterTypeSamlSettings_lower(settings)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_rust_buffer,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
+            freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
+            liftFunc: FfiConverterTypeOrgSso_lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func saveOrgSso(settings: OidcSettings)async throws  -> OrgSso  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_save_org_sso(
+                        self.uniffiCloneHandle(),FfiConverterTypeOidcSettings_lower(settings)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_rust_buffer,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
+            freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
+            liftFunc: FfiConverterTypeOrgSso_lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func setOrgMemberRole(accountId: String, role: OrgRole)async throws   {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_set_org_member_role(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(accountId),FfiConverterTypeOrgRole_lower(role)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_void,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_void,
+            freeFunc: ffi_octapass_mobile_rust_future_free_void,
+            liftFunc: { $0 },
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+    /**
+     * Owner: the organisation's policies.
+     */
+open func setOrgPolicies(policies: OrgPolicies)async throws  -> OrgPolicies  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_set_org_policies(
+                        self.uniffiCloneHandle(),FfiConverterTypeOrgPolicies_lower(policies)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_rust_buffer,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
+            freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
+            liftFunc: FfiConverterTypeOrgPolicies_lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+    /**
+     * The address of a test sign-in, to open in the browser.
+     */
+open func testOrgSso()async throws  -> String  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_test_org_sso(
+                        self.uniffiCloneHandle()
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_rust_buffer,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
+            freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
+            liftFunc: FfiConverterString.lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+open func unlinkOrgVaultGroup(vaultId: String, groupId: String)async throws   {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_unlink_org_vault_group(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(vaultId),FfiConverterString.lower(groupId)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_void,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_void,
+            freeFunc: ffi_octapass_mobile_rust_future_free_void,
+            liftFunc: { $0 },
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+    /**
+     * Moves a place to the trash. Its items stay; they just aren't listed under it.
+     */
+open func deletePlace(id: String)async throws   {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_delete_place(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(id)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_void,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_void,
+            freeFunc: ffi_octapass_mobile_rust_future_free_void,
+            liftFunc: { $0 },
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+    /**
+     * Nearby: every place with its items, the places the phone is at first, then the others
+     * nearest first when the location is known (places without a point after them, by name).
+     */
+open func nearby(here: Here)async throws  -> [NearbyPlace]  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_nearby(
+                        self.uniffiCloneHandle(),FfiConverterTypeHere_lower(here)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_rust_buffer,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
+            freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
+            liftFunc: FfiConverterSequenceTypeNearbyPlace.lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+    /**
+     * Every place, by name (the Places manager).
+     */
+open func places()async throws  -> [Place]  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_places(
+                        self.uniffiCloneHandle()
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_rust_buffer,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
+            freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
+            liftFunc: FfiConverterSequenceTypePlace.lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+    /**
+     * Saves a new place or an edit of one. A place in a shared or family vault is seen by
+     * everyone in it: apps warn before saving one with a location there.
+     */
+open func savePlace(draft: PlaceDraft)async throws  -> Place  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_save_place(
+                        self.uniffiCloneHandle(),FfiConverterTypePlaceDraft_lower(draft)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_rust_buffer,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
+            freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
+            liftFunc: FfiConverterTypePlace_lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+    /**
+     * Adds the item to a place, or takes it off one ("Add to a place").
+     */
+open func setItemPlace(itemId: String, placeId: String, linked: Bool)async throws  -> Item  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_set_item_place(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(itemId),FfiConverterString.lower(placeId),FfiConverterBool.lower(linked)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_rust_buffer,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
+            freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
+            liftFunc: FfiConverterTypeItem_lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+    /**
+     * The place to offer a newly saved item to ("You're at Office. Add this item to it?"): one
+     * the phone is at, that everyone who sees the item can see, and that it isn't at yet.
+     */
+open func suggestedPlace(itemId: String, here: Here)async throws  -> Place?  {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_suggested_place(
+                        self.uniffiCloneHandle(),FfiConverterString.lower(itemId),FfiConverterTypeHere_lower(here)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_rust_buffer,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
+            freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
+            liftFunc: FfiConverterOptionTypePlace.lift,
             errorHandler: FfiConverterTypeVaultError_lift
         )
 }
@@ -4278,7 +5173,8 @@ open func getItem(id: String)async throws  -> Item  {
 }
     
     /**
-     * The security dashboard and recovery map. Looks passwords up in Pwned Passwords.
+     * The security dashboard and recovery map. Looks passwords up in Pwned Passwords, and asks
+     * the server for newer signed site lists at most once a day.
      */
 open func healthReport()async throws  -> HealthReport  {
     return
@@ -5384,6 +6280,27 @@ open func setPinned(id: String, pinned: Bool)async throws  -> Item  {
             completeFunc: ffi_octapass_mobile_rust_future_complete_rust_buffer,
             freeFunc: ffi_octapass_mobile_rust_future_free_rust_buffer,
             liftFunc: FfiConverterTypeItem_lift,
+            errorHandler: FfiConverterTypeVaultError_lift
+        )
+}
+    
+    /**
+     * The second opt-in, while alerts are on: also send the recovery emails that are neither the
+     * account email nor an alias. The UI says so before this is called. Either way the results
+     * are forgotten; check again afterwards.
+     */
+open func setRecoveryEmailChecks(enabled: Bool)async throws   {
+    return
+        try  await uniffiRustCallAsync(
+            rustFutureFunc: {
+                uniffi_octapass_mobile_fn_method_octapassvault_set_recovery_email_checks(
+                        self.uniffiCloneHandle(),FfiConverterBool.lower(enabled)
+                )
+            },
+            pollFunc: ffi_octapass_mobile_rust_future_poll_void,
+            completeFunc: ffi_octapass_mobile_rust_future_complete_void,
+            freeFunc: ffi_octapass_mobile_rust_future_free_void,
+            liftFunc: { $0 },
             errorHandler: FfiConverterTypeVaultError_lift
         )
 }
@@ -7402,6 +8319,79 @@ public func FfiConverterTypeBreachedPassword_lower(_ value: BreachedPassword) ->
 }
 
 
+/**
+ * A recovery email that email breach alerts found in a breach: whoever gets into that inbox can
+ * reset `accounts` logins. The entry is the inbox's own login when the vault has it; otherwise
+ * its item id is empty and its title is the address.
+ */
+public struct BreachedRecoveryEmail: Equatable, Hashable {
+    public var entry: HealthEntry
+    public var email: String
+    public var accounts: UInt32
+    /**
+     * The breaches' titles, sorted.
+     */
+    public var breaches: [String]
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(entry: HealthEntry, email: String, accounts: UInt32, 
+        /**
+         * The breaches' titles, sorted.
+         */breaches: [String]) {
+        self.entry = entry
+        self.email = email
+        self.accounts = accounts
+        self.breaches = breaches
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension BreachedRecoveryEmail: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeBreachedRecoveryEmail: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> BreachedRecoveryEmail {
+        return
+            try BreachedRecoveryEmail(
+                entry: FfiConverterTypeHealthEntry.read(from: &buf), 
+                email: FfiConverterString.read(from: &buf), 
+                accounts: FfiConverterUInt32.read(from: &buf), 
+                breaches: FfiConverterSequenceString.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: BreachedRecoveryEmail, into buf: inout [UInt8]) {
+        FfiConverterTypeHealthEntry.write(value.entry, into: &buf)
+        FfiConverterString.write(value.email, into: &buf)
+        FfiConverterUInt32.write(value.accounts, into: &buf)
+        FfiConverterSequenceString.write(value.breaches, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeBreachedRecoveryEmail_lift(_ buf: RustBuffer) throws -> BreachedRecoveryEmail {
+    return try FfiConverterTypeBreachedRecoveryEmail.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeBreachedRecoveryEmail_lower(_ value: BreachedRecoveryEmail) -> RustBuffer {
+    return FfiConverterTypeBreachedRecoveryEmail.lower(value)
+}
+
+
 public struct CardDetails: Equatable, Hashable {
     public var cardholder: String?
     public var number: String?
@@ -7562,6 +8552,87 @@ public func FfiConverterTypeChipKey_lower(_ value: ChipKey) -> RustBuffer {
 
 
 /**
+ * The policies this app applies itself, as the device last saw them.
+ */
+public struct ClientPolicies: Equatable, Hashable {
+    /**
+     * Exports leave out organisation vaults.
+     */
+    public var disableExport: Bool
+    /**
+     * The longest auto-lock, in minutes: "never" and longer choices aren't offered, and stay
+     * unlocked is off.
+     */
+    public var maxAutoLockMinutes: UInt32?
+    /**
+     * A new master password needs at least this many characters.
+     */
+    public var minPasswordLength: UInt32?
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(
+        /**
+         * Exports leave out organisation vaults.
+         */disableExport: Bool, 
+        /**
+         * The longest auto-lock, in minutes: "never" and longer choices aren't offered, and stay
+         * unlocked is off.
+         */maxAutoLockMinutes: UInt32?, 
+        /**
+         * A new master password needs at least this many characters.
+         */minPasswordLength: UInt32?) {
+        self.disableExport = disableExport
+        self.maxAutoLockMinutes = maxAutoLockMinutes
+        self.minPasswordLength = minPasswordLength
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension ClientPolicies: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeClientPolicies: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ClientPolicies {
+        return
+            try ClientPolicies(
+                disableExport: FfiConverterBool.read(from: &buf), 
+                maxAutoLockMinutes: FfiConverterOptionUInt32.read(from: &buf), 
+                minPasswordLength: FfiConverterOptionUInt32.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: ClientPolicies, into buf: inout [UInt8]) {
+        FfiConverterBool.write(value.disableExport, into: &buf)
+        FfiConverterOptionUInt32.write(value.maxAutoLockMinutes, into: &buf)
+        FfiConverterOptionUInt32.write(value.minPasswordLength, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeClientPolicies_lift(_ buf: RustBuffer) throws -> ClientPolicies {
+    return try FfiConverterTypeClientPolicies.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeClientPolicies_lower(_ value: ClientPolicies) -> RustBuffer {
+    return FfiConverterTypeClientPolicies.lower(value)
+}
+
+
+/**
  * The user's choice for one code: a login to join, or none for a login of its own.
  */
 public struct CodeLink: Equatable, Hashable {
@@ -7615,6 +8686,120 @@ public func FfiConverterTypeCodeLink_lift(_ buf: RustBuffer) throws -> CodeLink 
 #endif
 public func FfiConverterTypeCodeLink_lower(_ value: CodeLink) -> RustBuffer {
     return FfiConverterTypeCodeLink.lower(value)
+}
+
+
+/**
+ * A person the user confirmed, with the fingerprint digits that were on screen.
+ */
+public struct ConfirmedGrant: Equatable, Hashable {
+    public var accountId: String
+    public var fingerprintDigits: String
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(accountId: String, fingerprintDigits: String) {
+        self.accountId = accountId
+        self.fingerprintDigits = fingerprintDigits
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension ConfirmedGrant: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeConfirmedGrant: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ConfirmedGrant {
+        return
+            try ConfirmedGrant(
+                accountId: FfiConverterString.read(from: &buf), 
+                fingerprintDigits: FfiConverterString.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: ConfirmedGrant, into buf: inout [UInt8]) {
+        FfiConverterString.write(value.accountId, into: &buf)
+        FfiConverterString.write(value.fingerprintDigits, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeConfirmedGrant_lift(_ buf: RustBuffer) throws -> ConfirmedGrant {
+    return try FfiConverterTypeConfirmedGrant.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeConfirmedGrant_lower(_ value: ConfirmedGrant) -> RustBuffer {
+    return FfiConverterTypeConfirmedGrant.lower(value)
+}
+
+
+/**
+ * A new SCIM token. `secret` is in this answer only.
+ */
+public struct CreatedScimToken: Equatable, Hashable {
+    public var token: ScimToken
+    public var secret: String
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(token: ScimToken, secret: String) {
+        self.token = token
+        self.secret = secret
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension CreatedScimToken: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeCreatedScimToken: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> CreatedScimToken {
+        return
+            try CreatedScimToken(
+                token: FfiConverterTypeScimToken.read(from: &buf), 
+                secret: FfiConverterString.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: CreatedScimToken, into buf: inout [UInt8]) {
+        FfiConverterTypeScimToken.write(value.token, into: &buf)
+        FfiConverterString.write(value.secret, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeCreatedScimToken_lift(_ buf: RustBuffer) throws -> CreatedScimToken {
+    return try FfiConverterTypeCreatedScimToken.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeCreatedScimToken_lower(_ value: CreatedScimToken) -> RustBuffer {
+    return FfiConverterTypeCreatedScimToken.lower(value)
 }
 
 
@@ -7911,7 +9096,7 @@ public struct DismissedWarning: Equatable, Hashable {
     public var warning: String
     /**
      * `weak`, `reused`, `breached`, `old`, `missing2fa`, `passkeyAvailable`, `insecureUrl`,
-     * `expiring`, `backupCodes`, `recoveryNo2fa` or `emailBreach`.
+     * `expiring`, `backupCodes`, `recoveryNo2fa`, `recoveryBreached` or `emailBreach`.
      */
     public var check: String
 
@@ -7920,7 +9105,7 @@ public struct DismissedWarning: Equatable, Hashable {
     public init(entry: HealthEntry, warning: String, 
         /**
          * `weak`, `reused`, `breached`, `old`, `missing2fa`, `passkeyAvailable`, `insecureUrl`,
-         * `expiring`, `backupCodes`, `recoveryNo2fa` or `emailBreach`.
+         * `expiring`, `backupCodes`, `recoveryNo2fa`, `recoveryBreached` or `emailBreach`.
          */check: String) {
         self.entry = entry
         self.warning = warning
@@ -8742,7 +9927,7 @@ public func FfiConverterTypeEquivalentDomains_lower(_ value: EquivalentDomains) 
 
 
 /**
- * A card, ID or passport that expired or expires within 60 days.
+ * A card, ID, passport, software licence or API credential that expired or expires within 60 days.
  */
 public struct ExpiringItem: Equatable, Hashable {
     public var entry: HealthEntry
@@ -9587,6 +10772,10 @@ public struct HealthReport: Equatable, Hashable {
     public var recovery: [RecoveryContact]
     public var recoveryNo2fa: [UnprotectedRecoveryEmail]
     /**
+     * Recovery emails found in a breach, the most used first. Not part of the score.
+     */
+    public var recoveryBreached: [BreachedRecoveryEmail]
+    /**
      * Passwords not changed for a year, the oldest first. Not part of the score.
      */
     public var old: [OldPassword]
@@ -9607,6 +10796,11 @@ public struct HealthReport: Equatable, Hashable {
      * Email breach alerts are on. Off by default.
      */
     public var emailAlertsEnabled: Bool
+    /**
+     * The second opt-in: recovery emails that are neither the account email nor an alias are
+     * looked up too. Off by default, and off whenever alerts are.
+     */
+    public var emailAlertsRecoveryEmails: Bool
     public var emailBreachesCheckedAt: String?
     public var emailBreaches: [EmailBreachFinding]
     /**
@@ -9637,6 +10831,9 @@ public struct HealthReport: Equatable, Hashable {
          * The recovery map, the most used first.
          */recovery: [RecoveryContact], recoveryNo2fa: [UnprotectedRecoveryEmail], 
         /**
+         * Recovery emails found in a breach, the most used first. Not part of the score.
+         */recoveryBreached: [BreachedRecoveryEmail], 
+        /**
          * Passwords not changed for a year, the oldest first. Not part of the score.
          */old: [OldPassword], 
         /**
@@ -9650,7 +10847,11 @@ public struct HealthReport: Equatable, Hashable {
          */lowBackupCodes: [LowBackupCodes], 
         /**
          * Email breach alerts are on. Off by default.
-         */emailAlertsEnabled: Bool, emailBreachesCheckedAt: String?, emailBreaches: [EmailBreachFinding], 
+         */emailAlertsEnabled: Bool, 
+        /**
+         * The second opt-in: recovery emails that are neither the account email nor an alias are
+         * looked up too. Off by default, and off whenever alerts are.
+         */emailAlertsRecoveryEmails: Bool, emailBreachesCheckedAt: String?, emailBreaches: [EmailBreachFinding], 
         /**
          * Left out of the lists above and of the score.
          */dismissed: [DismissedWarning], generatedAt: String) {
@@ -9663,12 +10864,14 @@ public struct HealthReport: Equatable, Hashable {
         self.missing2fa = missing2fa
         self.recovery = recovery
         self.recoveryNo2fa = recoveryNo2fa
+        self.recoveryBreached = recoveryBreached
         self.old = old
         self.passkeyAvailable = passkeyAvailable
         self.insecureUrls = insecureUrls
         self.expiring = expiring
         self.lowBackupCodes = lowBackupCodes
         self.emailAlertsEnabled = emailAlertsEnabled
+        self.emailAlertsRecoveryEmails = emailAlertsRecoveryEmails
         self.emailBreachesCheckedAt = emailBreachesCheckedAt
         self.emailBreaches = emailBreaches
         self.dismissed = dismissed
@@ -9700,12 +10903,14 @@ public struct FfiConverterTypeHealthReport: FfiConverterRustBuffer {
                 missing2fa: FfiConverterSequenceTypeHealthEntry.read(from: &buf), 
                 recovery: FfiConverterSequenceTypeRecoveryContact.read(from: &buf), 
                 recoveryNo2fa: FfiConverterSequenceTypeUnprotectedRecoveryEmail.read(from: &buf), 
+                recoveryBreached: FfiConverterSequenceTypeBreachedRecoveryEmail.read(from: &buf), 
                 old: FfiConverterSequenceTypeOldPassword.read(from: &buf), 
                 passkeyAvailable: FfiConverterSequenceTypeHealthEntry.read(from: &buf), 
                 insecureUrls: FfiConverterSequenceTypeInsecureLogin.read(from: &buf), 
                 expiring: FfiConverterSequenceTypeExpiringItem.read(from: &buf), 
                 lowBackupCodes: FfiConverterSequenceTypeLowBackupCodes.read(from: &buf), 
                 emailAlertsEnabled: FfiConverterBool.read(from: &buf), 
+                emailAlertsRecoveryEmails: FfiConverterBool.read(from: &buf), 
                 emailBreachesCheckedAt: FfiConverterOptionString.read(from: &buf), 
                 emailBreaches: FfiConverterSequenceTypeEmailBreachFinding.read(from: &buf), 
                 dismissed: FfiConverterSequenceTypeDismissedWarning.read(from: &buf), 
@@ -9723,12 +10928,14 @@ public struct FfiConverterTypeHealthReport: FfiConverterRustBuffer {
         FfiConverterSequenceTypeHealthEntry.write(value.missing2fa, into: &buf)
         FfiConverterSequenceTypeRecoveryContact.write(value.recovery, into: &buf)
         FfiConverterSequenceTypeUnprotectedRecoveryEmail.write(value.recoveryNo2fa, into: &buf)
+        FfiConverterSequenceTypeBreachedRecoveryEmail.write(value.recoveryBreached, into: &buf)
         FfiConverterSequenceTypeOldPassword.write(value.old, into: &buf)
         FfiConverterSequenceTypeHealthEntry.write(value.passkeyAvailable, into: &buf)
         FfiConverterSequenceTypeInsecureLogin.write(value.insecureUrls, into: &buf)
         FfiConverterSequenceTypeExpiringItem.write(value.expiring, into: &buf)
         FfiConverterSequenceTypeLowBackupCodes.write(value.lowBackupCodes, into: &buf)
         FfiConverterBool.write(value.emailAlertsEnabled, into: &buf)
+        FfiConverterBool.write(value.emailAlertsRecoveryEmails, into: &buf)
         FfiConverterOptionString.write(value.emailBreachesCheckedAt, into: &buf)
         FfiConverterSequenceTypeEmailBreachFinding.write(value.emailBreaches, into: &buf)
         FfiConverterSequenceTypeDismissedWarning.write(value.dismissed, into: &buf)
@@ -9749,6 +10956,89 @@ public func FfiConverterTypeHealthReport_lift(_ buf: RustBuffer) throws -> Healt
 #endif
 public func FfiConverterTypeHealthReport_lower(_ value: HealthReport) -> RustBuffer {
     return FfiConverterTypeHealthReport.lower(value)
+}
+
+
+/**
+ * Where the phone is, as far as it can tell. Both parts are optional.
+ */
+public struct Here: Equatable, Hashable {
+    /**
+     * The Wi-Fi network the phone is on (where the system says).
+     */
+    public var networks: [String]
+    /**
+     * One reading, taken while the app is open: never in the background.
+     */
+    public var latitude: Double?
+    public var longitude: Double?
+    /**
+     * Metres.
+     */
+    public var accuracy: Double?
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(
+        /**
+         * The Wi-Fi network the phone is on (where the system says).
+         */networks: [String], 
+        /**
+         * One reading, taken while the app is open: never in the background.
+         */latitude: Double?, longitude: Double?, 
+        /**
+         * Metres.
+         */accuracy: Double?) {
+        self.networks = networks
+        self.latitude = latitude
+        self.longitude = longitude
+        self.accuracy = accuracy
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension Here: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeHere: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> Here {
+        return
+            try Here(
+                networks: FfiConverterSequenceString.read(from: &buf), 
+                latitude: FfiConverterOptionDouble.read(from: &buf), 
+                longitude: FfiConverterOptionDouble.read(from: &buf), 
+                accuracy: FfiConverterOptionDouble.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: Here, into buf: inout [UInt8]) {
+        FfiConverterSequenceString.write(value.networks, into: &buf)
+        FfiConverterOptionDouble.write(value.latitude, into: &buf)
+        FfiConverterOptionDouble.write(value.longitude, into: &buf)
+        FfiConverterOptionDouble.write(value.accuracy, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeHere_lift(_ buf: RustBuffer) throws -> Here {
+    return try FfiConverterTypeHere.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeHere_lower(_ value: Here) -> RustBuffer {
+    return FfiConverterTypeHere.lower(value)
 }
 
 
@@ -10165,6 +11455,10 @@ public struct Item: Equatable, Hashable {
      * Listed under Pinned, a list of its own apart from the favourites.
      */
     public var pinned: Bool
+    /**
+     * The ids of the places (Nearby) the item belongs to.
+     */
+    public var places: [String]
 
     // Default memberwise initializers are never public by default, so we
     // declare one manually.
@@ -10195,7 +11489,10 @@ public struct Item: Equatable, Hashable {
          */passwordChangedAt: String? = nil, 
         /**
          * Listed under Pinned, a list of its own apart from the favourites.
-         */pinned: Bool = false) {
+         */pinned: Bool = false, 
+        /**
+         * The ids of the places (Nearby) the item belongs to.
+         */places: [String] = []) {
         self.id = id
         self.vaultId = vaultId
         self.revision = revision
@@ -10217,6 +11514,7 @@ public struct Item: Equatable, Hashable {
         self.lastUsedAt = lastUsedAt
         self.passwordChangedAt = passwordChangedAt
         self.pinned = pinned
+        self.places = places
     }
 
     
@@ -10255,7 +11553,8 @@ public struct FfiConverterTypeItem: FfiConverterRustBuffer {
                 shownUpdatedAt: FfiConverterOptionString.read(from: &buf), 
                 lastUsedAt: FfiConverterOptionString.read(from: &buf), 
                 passwordChangedAt: FfiConverterOptionString.read(from: &buf), 
-                pinned: FfiConverterBool.read(from: &buf)
+                pinned: FfiConverterBool.read(from: &buf), 
+                places: FfiConverterSequenceString.read(from: &buf)
         )
     }
 
@@ -10281,6 +11580,7 @@ public struct FfiConverterTypeItem: FfiConverterRustBuffer {
         FfiConverterOptionString.write(value.lastUsedAt, into: &buf)
         FfiConverterOptionString.write(value.passwordChangedAt, into: &buf)
         FfiConverterBool.write(value.pinned, into: &buf)
+        FfiConverterSequenceString.write(value.places, into: &buf)
     }
 }
 
@@ -10320,6 +11620,11 @@ public struct ItemDraft: Equatable, Hashable {
     public var favorite: Bool
     public var details: ItemDetails
     public var pinned: Bool
+    /**
+     * The places (Nearby) it belongs to; `None` keeps the ones it has. A new item made from a
+     * place in Nearby starts with that place.
+     */
+    public var places: [String]?
 
     // Default memberwise initializers are never public by default, so we
     // declare one manually.
@@ -10327,7 +11632,11 @@ public struct ItemDraft: Equatable, Hashable {
         /**
          * As in `Item`. Modes of URLs no longer in `urls`, and `subdomains` (the default), aren't
          * saved.
-         */urlMatch: [String: String], tags: [String], favorite: Bool, details: ItemDetails, pinned: Bool = false) {
+         */urlMatch: [String: String], tags: [String], favorite: Bool, details: ItemDetails, pinned: Bool = false, 
+        /**
+         * The places (Nearby) it belongs to; `None` keeps the ones it has. A new item made from a
+         * place in Nearby starts with that place.
+         */places: [String]? = nil) {
         self.id = id
         self.vaultId = vaultId
         self.revision = revision
@@ -10339,6 +11648,7 @@ public struct ItemDraft: Equatable, Hashable {
         self.favorite = favorite
         self.details = details
         self.pinned = pinned
+        self.places = places
     }
 
     
@@ -10367,7 +11677,8 @@ public struct FfiConverterTypeItemDraft: FfiConverterRustBuffer {
                 tags: FfiConverterSequenceString.read(from: &buf), 
                 favorite: FfiConverterBool.read(from: &buf), 
                 details: FfiConverterTypeItemDetails.read(from: &buf), 
-                pinned: FfiConverterBool.read(from: &buf)
+                pinned: FfiConverterBool.read(from: &buf), 
+                places: FfiConverterOptionSequenceString.read(from: &buf)
         )
     }
 
@@ -10383,6 +11694,7 @@ public struct FfiConverterTypeItemDraft: FfiConverterRustBuffer {
         FfiConverterBool.write(value.favorite, into: &buf)
         FfiConverterTypeItemDetails.write(value.details, into: &buf)
         FfiConverterBool.write(value.pinned, into: &buf)
+        FfiConverterOptionSequenceString.write(value.places, into: &buf)
     }
 }
 
@@ -10576,6 +11888,10 @@ public struct ItemSummary: Equatable, Hashable {
      */
     public var variableKeys: [String]
     public var pinned: Bool
+    /**
+     * The places (Nearby) it belongs to.
+     */
+    public var places: [String]
 
     // Default memberwise initializers are never public by default, so we
     // declare one manually.
@@ -10593,7 +11909,10 @@ public struct ItemSummary: Equatable, Hashable {
         /**
          * An environment's variable names (never their values): searched, and compared across
          * stages.
-         */variableKeys: [String] = [], pinned: Bool = false) {
+         */variableKeys: [String] = [], pinned: Bool = false, 
+        /**
+         * The places (Nearby) it belongs to.
+         */places: [String] = []) {
         self.id = id
         self.vaultId = vaultId
         self.itemType = itemType
@@ -10614,6 +11933,7 @@ public struct ItemSummary: Equatable, Hashable {
         self.stage = stage
         self.variableKeys = variableKeys
         self.pinned = pinned
+        self.places = places
     }
 
     
@@ -10651,7 +11971,8 @@ public struct FfiConverterTypeItemSummary: FfiConverterRustBuffer {
                 project: FfiConverterOptionString.read(from: &buf), 
                 stage: FfiConverterOptionString.read(from: &buf), 
                 variableKeys: FfiConverterSequenceString.read(from: &buf), 
-                pinned: FfiConverterBool.read(from: &buf)
+                pinned: FfiConverterBool.read(from: &buf), 
+                places: FfiConverterSequenceString.read(from: &buf)
         )
     }
 
@@ -10676,6 +11997,7 @@ public struct FfiConverterTypeItemSummary: FfiConverterRustBuffer {
         FfiConverterOptionString.write(value.stage, into: &buf)
         FfiConverterSequenceString.write(value.variableKeys, into: &buf)
         FfiConverterBool.write(value.pinned, into: &buf)
+        FfiConverterSequenceString.write(value.places, into: &buf)
     }
 }
 
@@ -11531,6 +12853,146 @@ public func FfiConverterTypeMaskedEmailProviderDetails_lower(_ value: MaskedEmai
 
 
 /**
+ * A place in the Nearby list.
+ */
+public struct NearbyPlace: Equatable, Hashable {
+    public var place: Place
+    /**
+     * Set when the phone is at this place: "Now nearby".
+     */
+    public var here: HereBy?
+    /**
+     * Metres from the phone, when both points are known.
+     */
+    public var distance: Double?
+    /**
+     * In the lists' type order.
+     */
+    public var sections: [NearbySection]
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(place: Place, 
+        /**
+         * Set when the phone is at this place: "Now nearby".
+         */here: HereBy?, 
+        /**
+         * Metres from the phone, when both points are known.
+         */distance: Double?, 
+        /**
+         * In the lists' type order.
+         */sections: [NearbySection]) {
+        self.place = place
+        self.here = here
+        self.distance = distance
+        self.sections = sections
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension NearbyPlace: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeNearbyPlace: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> NearbyPlace {
+        return
+            try NearbyPlace(
+                place: FfiConverterTypePlace.read(from: &buf), 
+                here: FfiConverterOptionTypeHereBy.read(from: &buf), 
+                distance: FfiConverterOptionDouble.read(from: &buf), 
+                sections: FfiConverterSequenceTypeNearbySection.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: NearbyPlace, into buf: inout [UInt8]) {
+        FfiConverterTypePlace.write(value.place, into: &buf)
+        FfiConverterOptionTypeHereBy.write(value.here, into: &buf)
+        FfiConverterOptionDouble.write(value.distance, into: &buf)
+        FfiConverterSequenceTypeNearbySection.write(value.sections, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeNearbyPlace_lift(_ buf: RustBuffer) throws -> NearbyPlace {
+    return try FfiConverterTypeNearbyPlace.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeNearbyPlace_lower(_ value: NearbyPlace) -> RustBuffer {
+    return FfiConverterTypeNearbyPlace.lower(value)
+}
+
+
+/**
+ * The items of one type at a place, by name.
+ */
+public struct NearbySection: Equatable, Hashable {
+    public var itemType: ItemType
+    public var items: [ItemSummary]
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(itemType: ItemType, items: [ItemSummary]) {
+        self.itemType = itemType
+        self.items = items
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension NearbySection: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeNearbySection: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> NearbySection {
+        return
+            try NearbySection(
+                itemType: FfiConverterTypeItemType.read(from: &buf), 
+                items: FfiConverterSequenceTypeItemSummary.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: NearbySection, into buf: inout [UInt8]) {
+        FfiConverterTypeItemType.write(value.itemType, into: &buf)
+        FfiConverterSequenceTypeItemSummary.write(value.items, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeNearbySection_lift(_ buf: RustBuffer) throws -> NearbySection {
+    return try FfiConverterTypeNearbySection.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeNearbySection_lower(_ value: NearbySection) -> RustBuffer {
+    return FfiConverterTypeNearbySection.lower(value)
+}
+
+
+/**
  * A kit from a change that may keep the recovery code (`rotateSecretKey`): without one, the old
  * kit's still works. Show it once.
  */
@@ -11601,6 +13063,73 @@ public func FfiConverterTypeNewRecoveryKit_lower(_ value: NewRecoveryKit) -> Rus
 
 
 /**
+ * OpenID Connect settings. The server fetches the issuer's discovery document first.
+ */
+public struct OidcSettings: Equatable, Hashable {
+    public var issuer: String
+    public var clientId: String
+    /**
+     * None for a public client, or to keep the saved one.
+     */
+    public var clientSecret: String?
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(issuer: String, clientId: String, 
+        /**
+         * None for a public client, or to keep the saved one.
+         */clientSecret: String?) {
+        self.issuer = issuer
+        self.clientId = clientId
+        self.clientSecret = clientSecret
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension OidcSettings: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeOidcSettings: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> OidcSettings {
+        return
+            try OidcSettings(
+                issuer: FfiConverterString.read(from: &buf), 
+                clientId: FfiConverterString.read(from: &buf), 
+                clientSecret: FfiConverterOptionString.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: OidcSettings, into buf: inout [UInt8]) {
+        FfiConverterString.write(value.issuer, into: &buf)
+        FfiConverterString.write(value.clientId, into: &buf)
+        FfiConverterOptionString.write(value.clientSecret, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOidcSettings_lift(_ buf: RustBuffer) throws -> OidcSettings {
+    return try FfiConverterTypeOidcSettings.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOidcSettings_lower(_ value: OidcSettings) -> RustBuffer {
+    return FfiConverterTypeOidcSettings.lower(value)
+}
+
+
+/**
  * A password not changed for a year.
  */
 public struct OldPassword: Equatable, Hashable {
@@ -11658,6 +13187,1208 @@ public func FfiConverterTypeOldPassword_lift(_ buf: RustBuffer) throws -> OldPas
 #endif
 public func FfiConverterTypeOldPassword_lower(_ value: OldPassword) -> RustBuffer {
     return FfiConverterTypeOldPassword.lower(value)
+}
+
+
+/**
+ * Someone a vault's key would be sealed to, with a fingerprint computed on this device.
+ */
+public struct OrgAccessGrant: Equatable, Hashable {
+    public var accountId: String
+    public var email: String
+    public var role: VaultRole
+    /**
+     * Replaces a grant with a lower role.
+     */
+    public var upgrade: Bool
+    public var fingerprint: Fingerprint
+    /**
+     * The fingerprint matches one verified on this device.
+     */
+    public var verified: Bool
+    /**
+     * The fingerprint differs from one verified on this device: applying refuses it.
+     */
+    public var keyChanged: Bool
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(accountId: String, email: String, role: VaultRole, 
+        /**
+         * Replaces a grant with a lower role.
+         */upgrade: Bool, fingerprint: Fingerprint, 
+        /**
+         * The fingerprint matches one verified on this device.
+         */verified: Bool, 
+        /**
+         * The fingerprint differs from one verified on this device: applying refuses it.
+         */keyChanged: Bool) {
+        self.accountId = accountId
+        self.email = email
+        self.role = role
+        self.upgrade = upgrade
+        self.fingerprint = fingerprint
+        self.verified = verified
+        self.keyChanged = keyChanged
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension OrgAccessGrant: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeOrgAccessGrant: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> OrgAccessGrant {
+        return
+            try OrgAccessGrant(
+                accountId: FfiConverterString.read(from: &buf), 
+                email: FfiConverterString.read(from: &buf), 
+                role: FfiConverterTypeVaultRole.read(from: &buf), 
+                upgrade: FfiConverterBool.read(from: &buf), 
+                fingerprint: FfiConverterTypeFingerprint.read(from: &buf), 
+                verified: FfiConverterBool.read(from: &buf), 
+                keyChanged: FfiConverterBool.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: OrgAccessGrant, into buf: inout [UInt8]) {
+        FfiConverterString.write(value.accountId, into: &buf)
+        FfiConverterString.write(value.email, into: &buf)
+        FfiConverterTypeVaultRole.write(value.role, into: &buf)
+        FfiConverterBool.write(value.upgrade, into: &buf)
+        FfiConverterTypeFingerprint.write(value.fingerprint, into: &buf)
+        FfiConverterBool.write(value.verified, into: &buf)
+        FfiConverterBool.write(value.keyChanged, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgAccessGrant_lift(_ buf: RustBuffer) throws -> OrgAccessGrant {
+    return try FfiConverterTypeOrgAccessGrant.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgAccessGrant_lower(_ value: OrgAccessGrant) -> RustBuffer {
+    return FfiConverterTypeOrgAccessGrant.lower(value)
+}
+
+
+/**
+ * What a vault waits for from a key holder.
+ */
+public struct OrgAccessReview: Equatable, Hashable {
+    public var vaultId: String
+    public var vaultName: String?
+    public var shortId: String
+    /**
+     * This account holds the key and may manage the vault.
+     */
+    public var canApply: Bool
+    /**
+     * Someone lost access: the key should be rotated.
+     */
+    public var rotate: Bool
+    public var grants: [OrgAccessGrant]
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(vaultId: String, vaultName: String?, shortId: String, 
+        /**
+         * This account holds the key and may manage the vault.
+         */canApply: Bool, 
+        /**
+         * Someone lost access: the key should be rotated.
+         */rotate: Bool, grants: [OrgAccessGrant]) {
+        self.vaultId = vaultId
+        self.vaultName = vaultName
+        self.shortId = shortId
+        self.canApply = canApply
+        self.rotate = rotate
+        self.grants = grants
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension OrgAccessReview: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeOrgAccessReview: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> OrgAccessReview {
+        return
+            try OrgAccessReview(
+                vaultId: FfiConverterString.read(from: &buf), 
+                vaultName: FfiConverterOptionString.read(from: &buf), 
+                shortId: FfiConverterString.read(from: &buf), 
+                canApply: FfiConverterBool.read(from: &buf), 
+                rotate: FfiConverterBool.read(from: &buf), 
+                grants: FfiConverterSequenceTypeOrgAccessGrant.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: OrgAccessReview, into buf: inout [UInt8]) {
+        FfiConverterString.write(value.vaultId, into: &buf)
+        FfiConverterOptionString.write(value.vaultName, into: &buf)
+        FfiConverterString.write(value.shortId, into: &buf)
+        FfiConverterBool.write(value.canApply, into: &buf)
+        FfiConverterBool.write(value.rotate, into: &buf)
+        FfiConverterSequenceTypeOrgAccessGrant.write(value.grants, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgAccessReview_lift(_ buf: RustBuffer) throws -> OrgAccessReview {
+    return try FfiConverterTypeOrgAccessReview.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgAccessReview_lower(_ value: OrgAccessReview) -> RustBuffer {
+    return FfiConverterTypeOrgAccessReview.lower(value)
+}
+
+
+/**
+ * One line of the organisation's activity log. `event_type` is a stable kebab-case name
+ * (`member-removed`); the apps show `organisation.event<Name>`.
+ */
+public struct OrgEvent: Equatable, Hashable {
+    public var id: String
+    public var eventType: String
+    /**
+     * The email of who did it, unless that account is gone.
+     */
+    public var actor: String?
+    /**
+     * What it was done to: an email, a group's name or a vault id.
+     */
+    public var subject: String?
+    public var createdAt: String
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(id: String, eventType: String, 
+        /**
+         * The email of who did it, unless that account is gone.
+         */actor: String?, 
+        /**
+         * What it was done to: an email, a group's name or a vault id.
+         */subject: String?, createdAt: String) {
+        self.id = id
+        self.eventType = eventType
+        self.actor = actor
+        self.subject = subject
+        self.createdAt = createdAt
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension OrgEvent: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeOrgEvent: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> OrgEvent {
+        return
+            try OrgEvent(
+                id: FfiConverterString.read(from: &buf), 
+                eventType: FfiConverterString.read(from: &buf), 
+                actor: FfiConverterOptionString.read(from: &buf), 
+                subject: FfiConverterOptionString.read(from: &buf), 
+                createdAt: FfiConverterString.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: OrgEvent, into buf: inout [UInt8]) {
+        FfiConverterString.write(value.id, into: &buf)
+        FfiConverterString.write(value.eventType, into: &buf)
+        FfiConverterOptionString.write(value.actor, into: &buf)
+        FfiConverterOptionString.write(value.subject, into: &buf)
+        FfiConverterString.write(value.createdAt, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgEvent_lift(_ buf: RustBuffer) throws -> OrgEvent {
+    return try FfiConverterTypeOrgEvent.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgEvent_lower(_ value: OrgEvent) -> RustBuffer {
+    return FfiConverterTypeOrgEvent.lower(value)
+}
+
+
+/**
+ * A list of people; linked to a vault, it entitles them to it.
+ */
+public struct OrgGroup: Equatable, Hashable {
+    public var id: String
+    /**
+     * Plaintext: the server can read it.
+     */
+    public var name: String
+    /**
+     * Account ids.
+     */
+    public var members: [String]
+    public var createdAt: String
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(id: String, 
+        /**
+         * Plaintext: the server can read it.
+         */name: String, 
+        /**
+         * Account ids.
+         */members: [String], createdAt: String) {
+        self.id = id
+        self.name = name
+        self.members = members
+        self.createdAt = createdAt
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension OrgGroup: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeOrgGroup: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> OrgGroup {
+        return
+            try OrgGroup(
+                id: FfiConverterString.read(from: &buf), 
+                name: FfiConverterString.read(from: &buf), 
+                members: FfiConverterSequenceString.read(from: &buf), 
+                createdAt: FfiConverterString.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: OrgGroup, into buf: inout [UInt8]) {
+        FfiConverterString.write(value.id, into: &buf)
+        FfiConverterString.write(value.name, into: &buf)
+        FfiConverterSequenceString.write(value.members, into: &buf)
+        FfiConverterString.write(value.createdAt, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgGroup_lift(_ buf: RustBuffer) throws -> OrgGroup {
+    return try FfiConverterTypeOrgGroup.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgGroup_lower(_ value: OrgGroup) -> RustBuffer {
+    return FfiConverterTypeOrgGroup.lower(value)
+}
+
+
+/**
+ * An invitation this account received. `policies` are what joining agrees to.
+ */
+public struct OrgInvitation: Equatable, Hashable {
+    public var id: String
+    public var orgId: String
+    public var orgName: String
+    public var role: OrgRole
+    public var invitedBy: String?
+    public var policies: OrgPolicies
+    public var invitedAt: String
+    public var expiresAt: String
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(id: String, orgId: String, orgName: String, role: OrgRole, invitedBy: String?, policies: OrgPolicies, invitedAt: String, expiresAt: String) {
+        self.id = id
+        self.orgId = orgId
+        self.orgName = orgName
+        self.role = role
+        self.invitedBy = invitedBy
+        self.policies = policies
+        self.invitedAt = invitedAt
+        self.expiresAt = expiresAt
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension OrgInvitation: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeOrgInvitation: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> OrgInvitation {
+        return
+            try OrgInvitation(
+                id: FfiConverterString.read(from: &buf), 
+                orgId: FfiConverterString.read(from: &buf), 
+                orgName: FfiConverterString.read(from: &buf), 
+                role: FfiConverterTypeOrgRole.read(from: &buf), 
+                invitedBy: FfiConverterOptionString.read(from: &buf), 
+                policies: FfiConverterTypeOrgPolicies.read(from: &buf), 
+                invitedAt: FfiConverterString.read(from: &buf), 
+                expiresAt: FfiConverterString.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: OrgInvitation, into buf: inout [UInt8]) {
+        FfiConverterString.write(value.id, into: &buf)
+        FfiConverterString.write(value.orgId, into: &buf)
+        FfiConverterString.write(value.orgName, into: &buf)
+        FfiConverterTypeOrgRole.write(value.role, into: &buf)
+        FfiConverterOptionString.write(value.invitedBy, into: &buf)
+        FfiConverterTypeOrgPolicies.write(value.policies, into: &buf)
+        FfiConverterString.write(value.invitedAt, into: &buf)
+        FfiConverterString.write(value.expiresAt, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgInvitation_lift(_ buf: RustBuffer) throws -> OrgInvitation {
+    return try FfiConverterTypeOrgInvitation.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgInvitation_lower(_ value: OrgInvitation) -> RustBuffer {
+    return FfiConverterTypeOrgInvitation.lower(value)
+}
+
+
+/**
+ * A pending invite, as admins see it.
+ */
+public struct OrgInvite: Equatable, Hashable {
+    public var id: String
+    public var email: String
+    public var role: OrgRole
+    public var invitedAt: String
+    public var expiresAt: String
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(id: String, email: String, role: OrgRole, invitedAt: String, expiresAt: String) {
+        self.id = id
+        self.email = email
+        self.role = role
+        self.invitedAt = invitedAt
+        self.expiresAt = expiresAt
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension OrgInvite: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeOrgInvite: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> OrgInvite {
+        return
+            try OrgInvite(
+                id: FfiConverterString.read(from: &buf), 
+                email: FfiConverterString.read(from: &buf), 
+                role: FfiConverterTypeOrgRole.read(from: &buf), 
+                invitedAt: FfiConverterString.read(from: &buf), 
+                expiresAt: FfiConverterString.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: OrgInvite, into buf: inout [UInt8]) {
+        FfiConverterString.write(value.id, into: &buf)
+        FfiConverterString.write(value.email, into: &buf)
+        FfiConverterTypeOrgRole.write(value.role, into: &buf)
+        FfiConverterString.write(value.invitedAt, into: &buf)
+        FfiConverterString.write(value.expiresAt, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgInvite_lift(_ buf: RustBuffer) throws -> OrgInvite {
+    return try FfiConverterTypeOrgInvite.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgInvite_lower(_ value: OrgInvite) -> RustBuffer {
+    return FfiConverterTypeOrgInvite.lower(value)
+}
+
+
+/**
+ * A member, as admins see them.
+ */
+public struct OrgMember: Equatable, Hashable {
+    public var accountId: String
+    public var email: String
+    public var role: OrgRole
+    public var twoStep: Bool
+    public var ssoLinked: Bool
+    public var joinedAt: String
+    public var isYou: Bool
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(accountId: String, email: String, role: OrgRole, twoStep: Bool, ssoLinked: Bool, joinedAt: String, isYou: Bool) {
+        self.accountId = accountId
+        self.email = email
+        self.role = role
+        self.twoStep = twoStep
+        self.ssoLinked = ssoLinked
+        self.joinedAt = joinedAt
+        self.isYou = isYou
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension OrgMember: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeOrgMember: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> OrgMember {
+        return
+            try OrgMember(
+                accountId: FfiConverterString.read(from: &buf), 
+                email: FfiConverterString.read(from: &buf), 
+                role: FfiConverterTypeOrgRole.read(from: &buf), 
+                twoStep: FfiConverterBool.read(from: &buf), 
+                ssoLinked: FfiConverterBool.read(from: &buf), 
+                joinedAt: FfiConverterString.read(from: &buf), 
+                isYou: FfiConverterBool.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: OrgMember, into buf: inout [UInt8]) {
+        FfiConverterString.write(value.accountId, into: &buf)
+        FfiConverterString.write(value.email, into: &buf)
+        FfiConverterTypeOrgRole.write(value.role, into: &buf)
+        FfiConverterBool.write(value.twoStep, into: &buf)
+        FfiConverterBool.write(value.ssoLinked, into: &buf)
+        FfiConverterString.write(value.joinedAt, into: &buf)
+        FfiConverterBool.write(value.isYou, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgMember_lift(_ buf: RustBuffer) throws -> OrgMember {
+    return try FfiConverterTypeOrgMember.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgMember_lower(_ value: OrgMember) -> RustBuffer {
+    return FfiConverterTypeOrgMember.lower(value)
+}
+
+
+public struct OrgMembers: Equatable, Hashable {
+    public var members: [OrgMember]
+    public var invites: [OrgInvite]
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(members: [OrgMember], invites: [OrgInvite]) {
+        self.members = members
+        self.invites = invites
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension OrgMembers: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeOrgMembers: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> OrgMembers {
+        return
+            try OrgMembers(
+                members: FfiConverterSequenceTypeOrgMember.read(from: &buf), 
+                invites: FfiConverterSequenceTypeOrgInvite.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: OrgMembers, into buf: inout [UInt8]) {
+        FfiConverterSequenceTypeOrgMember.write(value.members, into: &buf)
+        FfiConverterSequenceTypeOrgInvite.write(value.invites, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgMembers_lift(_ buf: RustBuffer) throws -> OrgMembers {
+    return try FfiConverterTypeOrgMembers.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgMembers_lower(_ value: OrgMembers) -> RustBuffer {
+    return FfiConverterTypeOrgMembers.lower(value)
+}
+
+
+/**
+ * The organisation's rules. The first five are enforced by the server; the last three are the
+ * apps' to apply (`ClientPolicies`), and a modified app can ignore them.
+ */
+public struct OrgPolicies: Equatable, Hashable {
+    public var requireTwoStep: Bool
+    public var requireSso: Bool
+    /**
+     * How many hours a sign-in with SSO lasts, 1 to 8760; 0 checks only at sign-in.
+     */
+    public var ssoMaxAgeHours: UInt32
+    public var disableShareLinks: Bool
+    public var disableEmergencyAccess: Bool
+    public var disableExport: Bool
+    public var maxAutoLockMinutes: UInt32?
+    public var minPasswordLength: UInt32?
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(requireTwoStep: Bool, requireSso: Bool, 
+        /**
+         * How many hours a sign-in with SSO lasts, 1 to 8760; 0 checks only at sign-in.
+         */ssoMaxAgeHours: UInt32, disableShareLinks: Bool, disableEmergencyAccess: Bool, disableExport: Bool, maxAutoLockMinutes: UInt32?, minPasswordLength: UInt32?) {
+        self.requireTwoStep = requireTwoStep
+        self.requireSso = requireSso
+        self.ssoMaxAgeHours = ssoMaxAgeHours
+        self.disableShareLinks = disableShareLinks
+        self.disableEmergencyAccess = disableEmergencyAccess
+        self.disableExport = disableExport
+        self.maxAutoLockMinutes = maxAutoLockMinutes
+        self.minPasswordLength = minPasswordLength
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension OrgPolicies: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeOrgPolicies: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> OrgPolicies {
+        return
+            try OrgPolicies(
+                requireTwoStep: FfiConverterBool.read(from: &buf), 
+                requireSso: FfiConverterBool.read(from: &buf), 
+                ssoMaxAgeHours: FfiConverterUInt32.read(from: &buf), 
+                disableShareLinks: FfiConverterBool.read(from: &buf), 
+                disableEmergencyAccess: FfiConverterBool.read(from: &buf), 
+                disableExport: FfiConverterBool.read(from: &buf), 
+                maxAutoLockMinutes: FfiConverterOptionUInt32.read(from: &buf), 
+                minPasswordLength: FfiConverterOptionUInt32.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: OrgPolicies, into buf: inout [UInt8]) {
+        FfiConverterBool.write(value.requireTwoStep, into: &buf)
+        FfiConverterBool.write(value.requireSso, into: &buf)
+        FfiConverterUInt32.write(value.ssoMaxAgeHours, into: &buf)
+        FfiConverterBool.write(value.disableShareLinks, into: &buf)
+        FfiConverterBool.write(value.disableEmergencyAccess, into: &buf)
+        FfiConverterBool.write(value.disableExport, into: &buf)
+        FfiConverterOptionUInt32.write(value.maxAutoLockMinutes, into: &buf)
+        FfiConverterOptionUInt32.write(value.minPasswordLength, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgPolicies_lift(_ buf: RustBuffer) throws -> OrgPolicies {
+    return try FfiConverterTypeOrgPolicies.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgPolicies_lower(_ value: OrgPolicies) -> RustBuffer {
+    return FfiConverterTypeOrgPolicies.lower(value)
+}
+
+
+public struct OrgScim: Equatable, Hashable {
+    /**
+     * The SCIM 2.0 base URL to give the identity provider.
+     */
+    public var baseUrl: String
+    public var tokens: [ScimToken]
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(
+        /**
+         * The SCIM 2.0 base URL to give the identity provider.
+         */baseUrl: String, tokens: [ScimToken]) {
+        self.baseUrl = baseUrl
+        self.tokens = tokens
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension OrgScim: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeOrgScim: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> OrgScim {
+        return
+            try OrgScim(
+                baseUrl: FfiConverterString.read(from: &buf), 
+                tokens: FfiConverterSequenceTypeScimToken.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: OrgScim, into buf: inout [UInt8]) {
+        FfiConverterString.write(value.baseUrl, into: &buf)
+        FfiConverterSequenceTypeScimToken.write(value.tokens, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgScim_lift(_ buf: RustBuffer) throws -> OrgScim {
+    return try FfiConverterTypeOrgScim.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgScim_lower(_ value: OrgScim) -> RustBuffer {
+    return FfiConverterTypeOrgScim.lower(value)
+}
+
+
+/**
+ * The organisation's single sign-on settings. The client secret never comes back.
+ */
+public struct OrgSso: Equatable, Hashable {
+    /**
+     * Which protocol is saved; none when nothing is.
+     */
+    public var `protocol`: SsoProtocol?
+    public var issuer: String?
+    public var clientId: String?
+    public var hasClientSecret: Bool
+    /**
+     * When a test sign-in last finished with these settings. `requireSso` needs one.
+     */
+    public var testedAt: String?
+    /**
+     * The OpenID Connect redirect URI to register at the provider.
+     */
+    public var callbackUrl: String
+    public var saml: SamlIdentityProvider?
+    /**
+     * What to register at a SAML provider: entity ID, ACS URL and metadata URL.
+     */
+    public var samlEntityId: String
+    public var samlAcsUrl: String
+    public var samlMetadataUrl: String
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(
+        /**
+         * Which protocol is saved; none when nothing is.
+         */`protocol`: SsoProtocol?, issuer: String?, clientId: String?, hasClientSecret: Bool, 
+        /**
+         * When a test sign-in last finished with these settings. `requireSso` needs one.
+         */testedAt: String?, 
+        /**
+         * The OpenID Connect redirect URI to register at the provider.
+         */callbackUrl: String, saml: SamlIdentityProvider?, 
+        /**
+         * What to register at a SAML provider: entity ID, ACS URL and metadata URL.
+         */samlEntityId: String, samlAcsUrl: String, samlMetadataUrl: String) {
+        self.`protocol` = `protocol`
+        self.issuer = issuer
+        self.clientId = clientId
+        self.hasClientSecret = hasClientSecret
+        self.testedAt = testedAt
+        self.callbackUrl = callbackUrl
+        self.saml = saml
+        self.samlEntityId = samlEntityId
+        self.samlAcsUrl = samlAcsUrl
+        self.samlMetadataUrl = samlMetadataUrl
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension OrgSso: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeOrgSso: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> OrgSso {
+        return
+            try OrgSso(
+                protocol: FfiConverterOptionTypeSsoProtocol.read(from: &buf), 
+                issuer: FfiConverterOptionString.read(from: &buf), 
+                clientId: FfiConverterOptionString.read(from: &buf), 
+                hasClientSecret: FfiConverterBool.read(from: &buf), 
+                testedAt: FfiConverterOptionString.read(from: &buf), 
+                callbackUrl: FfiConverterString.read(from: &buf), 
+                saml: FfiConverterOptionTypeSamlIdentityProvider.read(from: &buf), 
+                samlEntityId: FfiConverterString.read(from: &buf), 
+                samlAcsUrl: FfiConverterString.read(from: &buf), 
+                samlMetadataUrl: FfiConverterString.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: OrgSso, into buf: inout [UInt8]) {
+        FfiConverterOptionTypeSsoProtocol.write(value.`protocol`, into: &buf)
+        FfiConverterOptionString.write(value.issuer, into: &buf)
+        FfiConverterOptionString.write(value.clientId, into: &buf)
+        FfiConverterBool.write(value.hasClientSecret, into: &buf)
+        FfiConverterOptionString.write(value.testedAt, into: &buf)
+        FfiConverterString.write(value.callbackUrl, into: &buf)
+        FfiConverterOptionTypeSamlIdentityProvider.write(value.saml, into: &buf)
+        FfiConverterString.write(value.samlEntityId, into: &buf)
+        FfiConverterString.write(value.samlAcsUrl, into: &buf)
+        FfiConverterString.write(value.samlMetadataUrl, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgSso_lift(_ buf: RustBuffer) throws -> OrgSso {
+    return try FfiConverterTypeOrgSso.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgSso_lower(_ value: OrgSso) -> RustBuffer {
+    return FfiConverterTypeOrgSso.lower(value)
+}
+
+
+/**
+ * `getOrganisation`: the organisation this account is in, if any, and its invitations. An
+ * account is in one organisation at a time.
+ */
+public struct OrgState: Equatable, Hashable {
+    public var organisation: Organisation?
+    public var invitations: [OrgInvitation]
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(organisation: Organisation?, invitations: [OrgInvitation]) {
+        self.organisation = organisation
+        self.invitations = invitations
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension OrgState: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeOrgState: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> OrgState {
+        return
+            try OrgState(
+                organisation: FfiConverterOptionTypeOrganisation.read(from: &buf), 
+                invitations: FfiConverterSequenceTypeOrgInvitation.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: OrgState, into buf: inout [UInt8]) {
+        FfiConverterOptionTypeOrganisation.write(value.organisation, into: &buf)
+        FfiConverterSequenceTypeOrgInvitation.write(value.invitations, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgState_lift(_ buf: RustBuffer) throws -> OrgState {
+    return try FfiConverterTypeOrgState.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgState_lower(_ value: OrgState) -> RustBuffer {
+    return FfiConverterTypeOrgState.lower(value)
+}
+
+
+/**
+ * An organisation vault, named if this account can open it.
+ */
+public struct OrgVault: Equatable, Hashable {
+    public var id: String
+    /**
+     * The name inside the vault; none when this account can't open it.
+     */
+    public var name: String?
+    /**
+     * The end of its id, to tell vaults without a name apart.
+     */
+    public var shortId: String
+    public var groups: [OrgVaultGroup]
+    public var memberCount: UInt64
+    /**
+     * Members who can grant access and rotate the key. At 0 nobody can, and it can only be
+     * deleted.
+     */
+    public var managerCount: UInt64
+    /**
+     * This account's role, if it's a member.
+     */
+    public var role: VaultRole?
+    /**
+     * Someone lost access and the key hasn't been rotated yet.
+     */
+    public var rotationPending: Bool
+    public var createdAt: String
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(id: String, 
+        /**
+         * The name inside the vault; none when this account can't open it.
+         */name: String?, 
+        /**
+         * The end of its id, to tell vaults without a name apart.
+         */shortId: String, groups: [OrgVaultGroup], memberCount: UInt64, 
+        /**
+         * Members who can grant access and rotate the key. At 0 nobody can, and it can only be
+         * deleted.
+         */managerCount: UInt64, 
+        /**
+         * This account's role, if it's a member.
+         */role: VaultRole?, 
+        /**
+         * Someone lost access and the key hasn't been rotated yet.
+         */rotationPending: Bool, createdAt: String) {
+        self.id = id
+        self.name = name
+        self.shortId = shortId
+        self.groups = groups
+        self.memberCount = memberCount
+        self.managerCount = managerCount
+        self.role = role
+        self.rotationPending = rotationPending
+        self.createdAt = createdAt
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension OrgVault: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeOrgVault: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> OrgVault {
+        return
+            try OrgVault(
+                id: FfiConverterString.read(from: &buf), 
+                name: FfiConverterOptionString.read(from: &buf), 
+                shortId: FfiConverterString.read(from: &buf), 
+                groups: FfiConverterSequenceTypeOrgVaultGroup.read(from: &buf), 
+                memberCount: FfiConverterUInt64.read(from: &buf), 
+                managerCount: FfiConverterUInt64.read(from: &buf), 
+                role: FfiConverterOptionTypeVaultRole.read(from: &buf), 
+                rotationPending: FfiConverterBool.read(from: &buf), 
+                createdAt: FfiConverterString.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: OrgVault, into buf: inout [UInt8]) {
+        FfiConverterString.write(value.id, into: &buf)
+        FfiConverterOptionString.write(value.name, into: &buf)
+        FfiConverterString.write(value.shortId, into: &buf)
+        FfiConverterSequenceTypeOrgVaultGroup.write(value.groups, into: &buf)
+        FfiConverterUInt64.write(value.memberCount, into: &buf)
+        FfiConverterUInt64.write(value.managerCount, into: &buf)
+        FfiConverterOptionTypeVaultRole.write(value.role, into: &buf)
+        FfiConverterBool.write(value.rotationPending, into: &buf)
+        FfiConverterString.write(value.createdAt, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgVault_lift(_ buf: RustBuffer) throws -> OrgVault {
+    return try FfiConverterTypeOrgVault.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgVault_lower(_ value: OrgVault) -> RustBuffer {
+    return FfiConverterTypeOrgVault.lower(value)
+}
+
+
+public struct OrgVaultGroup: Equatable, Hashable {
+    public var groupId: String
+    /**
+     * `read`, `write` or `manage`.
+     */
+    public var role: VaultRole
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(groupId: String, 
+        /**
+         * `read`, `write` or `manage`.
+         */role: VaultRole) {
+        self.groupId = groupId
+        self.role = role
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension OrgVaultGroup: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeOrgVaultGroup: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> OrgVaultGroup {
+        return
+            try OrgVaultGroup(
+                groupId: FfiConverterString.read(from: &buf), 
+                role: FfiConverterTypeVaultRole.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: OrgVaultGroup, into buf: inout [UInt8]) {
+        FfiConverterString.write(value.groupId, into: &buf)
+        FfiConverterTypeVaultRole.write(value.role, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgVaultGroup_lift(_ buf: RustBuffer) throws -> OrgVaultGroup {
+    return try FfiConverterTypeOrgVaultGroup.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgVaultGroup_lower(_ value: OrgVaultGroup) -> RustBuffer {
+    return FfiConverterTypeOrgVaultGroup.lower(value)
+}
+
+
+public struct Organisation: Equatable, Hashable {
+    public var id: String
+    public var name: String
+    /**
+     * The signed-in account's role.
+     */
+    public var role: OrgRole
+    public var policies: OrgPolicies
+    public var memberCount: UInt64
+    /**
+     * This member breaks a policy (two-step sign-in is off), so organisation vaults are withheld.
+     */
+    public var accessWithheld: Bool
+    public var createdAt: String
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(id: String, name: String, 
+        /**
+         * The signed-in account's role.
+         */role: OrgRole, policies: OrgPolicies, memberCount: UInt64, 
+        /**
+         * This member breaks a policy (two-step sign-in is off), so organisation vaults are withheld.
+         */accessWithheld: Bool, createdAt: String) {
+        self.id = id
+        self.name = name
+        self.role = role
+        self.policies = policies
+        self.memberCount = memberCount
+        self.accessWithheld = accessWithheld
+        self.createdAt = createdAt
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension Organisation: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeOrganisation: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> Organisation {
+        return
+            try Organisation(
+                id: FfiConverterString.read(from: &buf), 
+                name: FfiConverterString.read(from: &buf), 
+                role: FfiConverterTypeOrgRole.read(from: &buf), 
+                policies: FfiConverterTypeOrgPolicies.read(from: &buf), 
+                memberCount: FfiConverterUInt64.read(from: &buf), 
+                accessWithheld: FfiConverterBool.read(from: &buf), 
+                createdAt: FfiConverterString.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: Organisation, into buf: inout [UInt8]) {
+        FfiConverterString.write(value.id, into: &buf)
+        FfiConverterString.write(value.name, into: &buf)
+        FfiConverterTypeOrgRole.write(value.role, into: &buf)
+        FfiConverterTypeOrgPolicies.write(value.policies, into: &buf)
+        FfiConverterUInt64.write(value.memberCount, into: &buf)
+        FfiConverterBool.write(value.accessWithheld, into: &buf)
+        FfiConverterString.write(value.createdAt, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrganisation_lift(_ buf: RustBuffer) throws -> Organisation {
+    return try FfiConverterTypeOrganisation.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrganisation_lower(_ value: Organisation) -> RustBuffer {
+    return FfiConverterTypeOrganisation.lower(value)
 }
 
 
@@ -11899,6 +14630,206 @@ public func FfiConverterTypePasswordResetStarted_lift(_ buf: RustBuffer) throws 
 #endif
 public func FfiConverterTypePasswordResetStarted_lower(_ value: PasswordResetStarted) -> RustBuffer {
     return FfiConverterTypePasswordResetStarted.lower(value)
+}
+
+
+/**
+ * A place: a name, and how to tell the phone is there.
+ */
+public struct Place: Equatable, Hashable {
+    public var id: String
+    public var vaultId: String
+    /**
+     * Pass it back in the draft, like an item's.
+     */
+    public var revision: UInt64
+    public var name: String
+    public var latitude: Double?
+    public var longitude: Double?
+    /**
+     * Metres around the point; the default (150) when none was saved.
+     */
+    public var radius: Double
+    /**
+     * Wi-Fi network names (SSIDs): being on one means being here.
+     */
+    public var networks: [String]
+    public var notes: String?
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(id: String, vaultId: String, 
+        /**
+         * Pass it back in the draft, like an item's.
+         */revision: UInt64, name: String, latitude: Double?, longitude: Double?, 
+        /**
+         * Metres around the point; the default (150) when none was saved.
+         */radius: Double, 
+        /**
+         * Wi-Fi network names (SSIDs): being on one means being here.
+         */networks: [String], notes: String?) {
+        self.id = id
+        self.vaultId = vaultId
+        self.revision = revision
+        self.name = name
+        self.latitude = latitude
+        self.longitude = longitude
+        self.radius = radius
+        self.networks = networks
+        self.notes = notes
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension Place: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypePlace: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> Place {
+        return
+            try Place(
+                id: FfiConverterString.read(from: &buf), 
+                vaultId: FfiConverterString.read(from: &buf), 
+                revision: FfiConverterUInt64.read(from: &buf), 
+                name: FfiConverterString.read(from: &buf), 
+                latitude: FfiConverterOptionDouble.read(from: &buf), 
+                longitude: FfiConverterOptionDouble.read(from: &buf), 
+                radius: FfiConverterDouble.read(from: &buf), 
+                networks: FfiConverterSequenceString.read(from: &buf), 
+                notes: FfiConverterOptionString.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: Place, into buf: inout [UInt8]) {
+        FfiConverterString.write(value.id, into: &buf)
+        FfiConverterString.write(value.vaultId, into: &buf)
+        FfiConverterUInt64.write(value.revision, into: &buf)
+        FfiConverterString.write(value.name, into: &buf)
+        FfiConverterOptionDouble.write(value.latitude, into: &buf)
+        FfiConverterOptionDouble.write(value.longitude, into: &buf)
+        FfiConverterDouble.write(value.radius, into: &buf)
+        FfiConverterSequenceString.write(value.networks, into: &buf)
+        FfiConverterOptionString.write(value.notes, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypePlace_lift(_ buf: RustBuffer) throws -> Place {
+    return try FfiConverterTypePlace.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypePlace_lower(_ value: Place) -> RustBuffer {
+    return FfiConverterTypePlace.lower(value)
+}
+
+
+/**
+ * What `savePlace` takes. No `id` for a new place.
+ */
+public struct PlaceDraft: Equatable, Hashable {
+    public var id: String?
+    public var vaultId: String
+    public var revision: UInt64?
+    public var name: String
+    /**
+     * Both or neither.
+     */
+    public var latitude: Double?
+    public var longitude: Double?
+    /**
+     * Kept within 25 m to 10 km; `None` is the default.
+     */
+    public var radius: Double?
+    public var networks: [String]
+    public var notes: String?
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(id: String?, vaultId: String, revision: UInt64?, name: String, 
+        /**
+         * Both or neither.
+         */latitude: Double?, longitude: Double?, 
+        /**
+         * Kept within 25 m to 10 km; `None` is the default.
+         */radius: Double?, networks: [String], notes: String?) {
+        self.id = id
+        self.vaultId = vaultId
+        self.revision = revision
+        self.name = name
+        self.latitude = latitude
+        self.longitude = longitude
+        self.radius = radius
+        self.networks = networks
+        self.notes = notes
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension PlaceDraft: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypePlaceDraft: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> PlaceDraft {
+        return
+            try PlaceDraft(
+                id: FfiConverterOptionString.read(from: &buf), 
+                vaultId: FfiConverterString.read(from: &buf), 
+                revision: FfiConverterOptionUInt64.read(from: &buf), 
+                name: FfiConverterString.read(from: &buf), 
+                latitude: FfiConverterOptionDouble.read(from: &buf), 
+                longitude: FfiConverterOptionDouble.read(from: &buf), 
+                radius: FfiConverterOptionDouble.read(from: &buf), 
+                networks: FfiConverterSequenceString.read(from: &buf), 
+                notes: FfiConverterOptionString.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: PlaceDraft, into buf: inout [UInt8]) {
+        FfiConverterOptionString.write(value.id, into: &buf)
+        FfiConverterString.write(value.vaultId, into: &buf)
+        FfiConverterOptionUInt64.write(value.revision, into: &buf)
+        FfiConverterString.write(value.name, into: &buf)
+        FfiConverterOptionDouble.write(value.latitude, into: &buf)
+        FfiConverterOptionDouble.write(value.longitude, into: &buf)
+        FfiConverterOptionDouble.write(value.radius, into: &buf)
+        FfiConverterSequenceString.write(value.networks, into: &buf)
+        FfiConverterOptionString.write(value.notes, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypePlaceDraft_lift(_ buf: RustBuffer) throws -> PlaceDraft {
+    return try FfiConverterTypePlaceDraft.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypePlaceDraft_lower(_ value: PlaceDraft) -> RustBuffer {
+    return FfiConverterTypePlaceDraft.lower(value)
 }
 
 
@@ -12992,6 +15923,189 @@ public func FfiConverterTypeSafeSyncSummary_lower(_ value: SafeSyncSummary) -> R
 }
 
 
+public struct SamlCertificate: Equatable, Hashable {
+    /**
+     * SHA-256 of the DER, colon-separated hex.
+     */
+    public var sha256: String
+    public var notAfter: String?
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(
+        /**
+         * SHA-256 of the DER, colon-separated hex.
+         */sha256: String, notAfter: String?) {
+        self.sha256 = sha256
+        self.notAfter = notAfter
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension SamlCertificate: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeSamlCertificate: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> SamlCertificate {
+        return
+            try SamlCertificate(
+                sha256: FfiConverterString.read(from: &buf), 
+                notAfter: FfiConverterOptionString.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: SamlCertificate, into buf: inout [UInt8]) {
+        FfiConverterString.write(value.sha256, into: &buf)
+        FfiConverterOptionString.write(value.notAfter, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeSamlCertificate_lift(_ buf: RustBuffer) throws -> SamlCertificate {
+    return try FfiConverterTypeSamlCertificate.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeSamlCertificate_lower(_ value: SamlCertificate) -> RustBuffer {
+    return FfiConverterTypeSamlCertificate.lower(value)
+}
+
+
+public struct SamlIdentityProvider: Equatable, Hashable {
+    public var entityId: String
+    public var ssoUrl: String
+    public var certificates: [SamlCertificate]
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(entityId: String, ssoUrl: String, certificates: [SamlCertificate]) {
+        self.entityId = entityId
+        self.ssoUrl = ssoUrl
+        self.certificates = certificates
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension SamlIdentityProvider: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeSamlIdentityProvider: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> SamlIdentityProvider {
+        return
+            try SamlIdentityProvider(
+                entityId: FfiConverterString.read(from: &buf), 
+                ssoUrl: FfiConverterString.read(from: &buf), 
+                certificates: FfiConverterSequenceTypeSamlCertificate.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: SamlIdentityProvider, into buf: inout [UInt8]) {
+        FfiConverterString.write(value.entityId, into: &buf)
+        FfiConverterString.write(value.ssoUrl, into: &buf)
+        FfiConverterSequenceTypeSamlCertificate.write(value.certificates, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeSamlIdentityProvider_lift(_ buf: RustBuffer) throws -> SamlIdentityProvider {
+    return try FfiConverterTypeSamlIdentityProvider.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeSamlIdentityProvider_lower(_ value: SamlIdentityProvider) -> RustBuffer {
+    return FfiConverterTypeSamlIdentityProvider.lower(value)
+}
+
+
+/**
+ * SAML settings: the provider's metadata, or its entity id, SSO URL and certificates.
+ */
+public struct SamlSettings: Equatable, Hashable {
+    public var metadataXml: String?
+    public var entityId: String?
+    public var ssoUrl: String?
+    public var certificates: [String]
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(metadataXml: String?, entityId: String?, ssoUrl: String?, certificates: [String]) {
+        self.metadataXml = metadataXml
+        self.entityId = entityId
+        self.ssoUrl = ssoUrl
+        self.certificates = certificates
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension SamlSettings: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeSamlSettings: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> SamlSettings {
+        return
+            try SamlSettings(
+                metadataXml: FfiConverterOptionString.read(from: &buf), 
+                entityId: FfiConverterOptionString.read(from: &buf), 
+                ssoUrl: FfiConverterOptionString.read(from: &buf), 
+                certificates: FfiConverterSequenceString.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: SamlSettings, into buf: inout [UInt8]) {
+        FfiConverterOptionString.write(value.metadataXml, into: &buf)
+        FfiConverterOptionString.write(value.entityId, into: &buf)
+        FfiConverterOptionString.write(value.ssoUrl, into: &buf)
+        FfiConverterSequenceString.write(value.certificates, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeSamlSettings_lift(_ buf: RustBuffer) throws -> SamlSettings {
+    return try FfiConverterTypeSamlSettings.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeSamlSettings_lower(_ value: SamlSettings) -> RustBuffer {
+    return FfiConverterTypeSamlSettings.lower(value)
+}
+
+
 /**
  * One-time codes found in scanned QR codes.
  */
@@ -13066,6 +16180,72 @@ public func FfiConverterTypeScannedCode_lift(_ buf: RustBuffer) throws -> Scanne
 #endif
 public func FfiConverterTypeScannedCode_lower(_ value: ScannedCode) -> RustBuffer {
     return FfiConverterTypeScannedCode.lower(value)
+}
+
+
+public struct ScimToken: Equatable, Hashable {
+    public var id: String
+    public var name: String
+    public var createdBy: String?
+    public var createdAt: String
+    public var lastUsedAt: String?
+
+    // Default memberwise initializers are never public by default, so we
+    // declare one manually.
+    public init(id: String, name: String, createdBy: String?, createdAt: String, lastUsedAt: String?) {
+        self.id = id
+        self.name = name
+        self.createdBy = createdBy
+        self.createdAt = createdAt
+        self.lastUsedAt = lastUsedAt
+    }
+
+    
+
+    
+}
+
+#if compiler(>=6)
+extension ScimToken: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeScimToken: FfiConverterRustBuffer {
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> ScimToken {
+        return
+            try ScimToken(
+                id: FfiConverterString.read(from: &buf), 
+                name: FfiConverterString.read(from: &buf), 
+                createdBy: FfiConverterOptionString.read(from: &buf), 
+                createdAt: FfiConverterString.read(from: &buf), 
+                lastUsedAt: FfiConverterOptionString.read(from: &buf)
+        )
+    }
+
+    public static func write(_ value: ScimToken, into buf: inout [UInt8]) {
+        FfiConverterString.write(value.id, into: &buf)
+        FfiConverterString.write(value.name, into: &buf)
+        FfiConverterOptionString.write(value.createdBy, into: &buf)
+        FfiConverterString.write(value.createdAt, into: &buf)
+        FfiConverterOptionString.write(value.lastUsedAt, into: &buf)
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeScimToken_lift(_ buf: RustBuffer) throws -> ScimToken {
+    return try FfiConverterTypeScimToken.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeScimToken_lower(_ value: ScimToken) -> RustBuffer {
+    return FfiConverterTypeScimToken.lower(value)
 }
 
 
@@ -16583,6 +19763,15 @@ public enum ErrorCode: Equatable, Hashable {
      * An organisation policy forbids this.
      */
     case orgPolicy
+    /**
+     * This would leave organisation vaults with nobody able to manage them: ask, then try again
+     * with `orphanVaults`.
+     */
+    case orgVaultOrphaned
+    /**
+     * The identity provider settings don't work (the server's reason is in `reason`).
+     */
+    case ssoConfig
     case securityKeyCancelled
     case securityKeyUnsupported
     case maskedEmailNotSetUp
@@ -16736,41 +19925,45 @@ public struct FfiConverterTypeErrorCode: FfiConverterRustBuffer {
         
         case 45: return .orgPolicy
         
-        case 46: return .securityKeyCancelled
+        case 46: return .orgVaultOrphaned
         
-        case 47: return .securityKeyUnsupported
+        case 47: return .ssoConfig
         
-        case 48: return .maskedEmailNotSetUp
+        case 48: return .securityKeyCancelled
         
-        case 49: return .maskedEmailBlocked
+        case 49: return .securityKeyUnsupported
         
-        case 50: return .maskedEmailToken
+        case 50: return .maskedEmailNotSetUp
         
-        case 51: return .maskedEmailRateLimited
+        case 51: return .maskedEmailBlocked
         
-        case 52: return .maskedEmailUnreachable
+        case 52: return .maskedEmailToken
         
-        case 53: return .maskedEmailFailed
+        case 53: return .maskedEmailRateLimited
         
-        case 54: return .noFileViewer
+        case 54: return .maskedEmailUnreachable
         
-        case 55: return .cameraUnavailable
+        case 55: return .maskedEmailFailed
         
-        case 56: return .invalidImage
+        case 56: return .noFileViewer
         
-        case 57: return .importReviewExpired
+        case 57: return .cameraUnavailable
         
-        case 58: return .needsSync
+        case 58: return .invalidImage
         
-        case 59: return .weakMasterPassword
+        case 59: return .importReviewExpired
         
-        case 60: return .invalidBackup
+        case 60: return .needsSync
         
-        case 61: return .invalidName
+        case 61: return .weakMasterPassword
         
-        case 62: return .invalidInput
+        case 62: return .invalidBackup
         
-        case 63: return .unexpected
+        case 63: return .invalidName
+        
+        case 64: return .invalidInput
+        
+        case 65: return .unexpected
         
         default: throw UniffiInternalError.unexpectedEnumCase
         }
@@ -16960,76 +20153,84 @@ public struct FfiConverterTypeErrorCode: FfiConverterRustBuffer {
             writeInt(&buf, Int32(45))
         
         
-        case .securityKeyCancelled:
+        case .orgVaultOrphaned:
             writeInt(&buf, Int32(46))
         
         
-        case .securityKeyUnsupported:
+        case .ssoConfig:
             writeInt(&buf, Int32(47))
         
         
-        case .maskedEmailNotSetUp:
+        case .securityKeyCancelled:
             writeInt(&buf, Int32(48))
         
         
-        case .maskedEmailBlocked:
+        case .securityKeyUnsupported:
             writeInt(&buf, Int32(49))
         
         
-        case .maskedEmailToken:
+        case .maskedEmailNotSetUp:
             writeInt(&buf, Int32(50))
         
         
-        case .maskedEmailRateLimited:
+        case .maskedEmailBlocked:
             writeInt(&buf, Int32(51))
         
         
-        case .maskedEmailUnreachable:
+        case .maskedEmailToken:
             writeInt(&buf, Int32(52))
         
         
-        case .maskedEmailFailed:
+        case .maskedEmailRateLimited:
             writeInt(&buf, Int32(53))
         
         
-        case .noFileViewer:
+        case .maskedEmailUnreachable:
             writeInt(&buf, Int32(54))
         
         
-        case .cameraUnavailable:
+        case .maskedEmailFailed:
             writeInt(&buf, Int32(55))
         
         
-        case .invalidImage:
+        case .noFileViewer:
             writeInt(&buf, Int32(56))
         
         
-        case .importReviewExpired:
+        case .cameraUnavailable:
             writeInt(&buf, Int32(57))
         
         
-        case .needsSync:
+        case .invalidImage:
             writeInt(&buf, Int32(58))
         
         
-        case .weakMasterPassword:
+        case .importReviewExpired:
             writeInt(&buf, Int32(59))
         
         
-        case .invalidBackup:
+        case .needsSync:
             writeInt(&buf, Int32(60))
         
         
-        case .invalidName:
+        case .weakMasterPassword:
             writeInt(&buf, Int32(61))
         
         
-        case .invalidInput:
+        case .invalidBackup:
             writeInt(&buf, Int32(62))
         
         
-        case .unexpected:
+        case .invalidName:
             writeInt(&buf, Int32(63))
+        
+        
+        case .invalidInput:
+            writeInt(&buf, Int32(64))
+        
+        
+        case .unexpected:
+            writeInt(&buf, Int32(65))
         
         }
     }
@@ -17424,6 +20625,78 @@ public func FfiConverterTypeGeneratorOptions_lift(_ buf: RustBuffer) throws -> G
 #endif
 public func FfiConverterTypeGeneratorOptions_lower(_ value: GeneratorOptions) -> RustBuffer {
     return FfiConverterTypeGeneratorOptions.lower(value)
+}
+
+
+
+
+public enum HereBy: Equatable, Hashable {
+    
+    /**
+     * The phone is on one of the place's networks.
+     */
+    case wifi
+    /**
+     * The phone's location is within the place's radius.
+     */
+    case location
+
+
+
+
+
+}
+
+#if compiler(>=6)
+extension HereBy: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeHereBy: FfiConverterRustBuffer {
+    typealias SwiftType = HereBy
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> HereBy {
+        let variant: Int32 = try readInt(&buf)
+        switch variant {
+        
+        case 1: return .wifi
+        
+        case 2: return .location
+        
+        default: throw UniffiInternalError.unexpectedEnumCase
+        }
+    }
+
+    public static func write(_ value: HereBy, into buf: inout [UInt8]) {
+        switch value {
+        
+        
+        case .wifi:
+            writeInt(&buf, Int32(1))
+        
+        
+        case .location:
+            writeInt(&buf, Int32(2))
+        
+        }
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeHereBy_lift(_ buf: RustBuffer) throws -> HereBy {
+    return try FfiConverterTypeHereBy.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeHereBy_lower(_ value: HereBy) -> RustBuffer {
+    return FfiConverterTypeHereBy.lower(value)
 }
 
 
@@ -18407,6 +21680,85 @@ public func FfiConverterTypeListSort_lower(_ value: ListSort) -> RustBuffer {
 
 
 
+
+public enum OrgRole: Equatable, Hashable {
+    
+    case member
+    /**
+     * Manages members, invites, groups and vault links.
+     */
+    case admin
+    /**
+     * Also manages policies, SSO and roles. Entitled to every organisation vault.
+     */
+    case owner
+
+
+
+
+
+}
+
+#if compiler(>=6)
+extension OrgRole: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeOrgRole: FfiConverterRustBuffer {
+    typealias SwiftType = OrgRole
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> OrgRole {
+        let variant: Int32 = try readInt(&buf)
+        switch variant {
+        
+        case 1: return .member
+        
+        case 2: return .admin
+        
+        case 3: return .owner
+        
+        default: throw UniffiInternalError.unexpectedEnumCase
+        }
+    }
+
+    public static func write(_ value: OrgRole, into buf: inout [UInt8]) {
+        switch value {
+        
+        
+        case .member:
+            writeInt(&buf, Int32(1))
+        
+        
+        case .admin:
+            writeInt(&buf, Int32(2))
+        
+        
+        case .owner:
+            writeInt(&buf, Int32(3))
+        
+        }
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgRole_lift(_ buf: RustBuffer) throws -> OrgRole {
+    return try FfiConverterTypeOrgRole.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeOrgRole_lower(_ value: OrgRole) -> RustBuffer {
+    return FfiConverterTypeOrgRole.lower(value)
+}
+
+
+
 /**
  * A sign-in waiting for its second step, for a screen opened again meanwhile.
  */
@@ -19194,6 +22546,72 @@ public func FfiConverterTypeSshLanguage_lower(_ value: SshLanguage) -> RustBuffe
 
 
 
+
+public enum SsoProtocol: Equatable, Hashable {
+    
+    case oidc
+    case saml
+
+
+
+
+
+}
+
+#if compiler(>=6)
+extension SsoProtocol: Sendable {}
+#endif
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public struct FfiConverterTypeSsoProtocol: FfiConverterRustBuffer {
+    typealias SwiftType = SsoProtocol
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> SsoProtocol {
+        let variant: Int32 = try readInt(&buf)
+        switch variant {
+        
+        case 1: return .oidc
+        
+        case 2: return .saml
+        
+        default: throw UniffiInternalError.unexpectedEnumCase
+        }
+    }
+
+    public static func write(_ value: SsoProtocol, into buf: inout [UInt8]) {
+        switch value {
+        
+        
+        case .oidc:
+            writeInt(&buf, Int32(1))
+        
+        
+        case .saml:
+            writeInt(&buf, Int32(2))
+        
+        }
+    }
+}
+
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeSsoProtocol_lift(_ buf: RustBuffer) throws -> SsoProtocol {
+    return try FfiConverterTypeSsoProtocol.lift(buf)
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+public func FfiConverterTypeSsoProtocol_lower(_ value: SsoProtocol) -> RustBuffer {
+    return FfiConverterTypeSsoProtocol.lower(value)
+}
+
+
+
 /**
  * A code the UI turns into a translated hint (`generator.feedback.<name>`), as the web vault's
  * `StrengthFeedback`.
@@ -19934,6 +23352,30 @@ public func FfiConverterTypeWifiSecurity_lower(_ value: WifiSecurity) -> RustBuf
 #if swift(>=5.8)
 @_documentation(visibility: private)
 #endif
+fileprivate struct FfiConverterOptionUInt32: FfiConverterRustBuffer {
+    typealias SwiftType = UInt32?
+
+    public static func write(_ value: SwiftType, into buf: inout [UInt8]) {
+        guard let value = value else {
+            writeInt(&buf, Int8(0))
+            return
+        }
+        writeInt(&buf, Int8(1))
+        FfiConverterUInt32.write(value, into: &buf)
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> SwiftType {
+        switch try readInt(&buf) as Int8 {
+        case 0: return nil
+        case 1: return try FfiConverterUInt32.read(from: &buf)
+        default: throw UniffiInternalError.unexpectedOptionalTag
+        }
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
 fileprivate struct FfiConverterOptionUInt64: FfiConverterRustBuffer {
     typealias SwiftType = UInt64?
 
@@ -19950,6 +23392,30 @@ fileprivate struct FfiConverterOptionUInt64: FfiConverterRustBuffer {
         switch try readInt(&buf) as Int8 {
         case 0: return nil
         case 1: return try FfiConverterUInt64.read(from: &buf)
+        default: throw UniffiInternalError.unexpectedOptionalTag
+        }
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+fileprivate struct FfiConverterOptionDouble: FfiConverterRustBuffer {
+    typealias SwiftType = Double?
+
+    public static func write(_ value: SwiftType, into buf: inout [UInt8]) {
+        guard let value = value else {
+            writeInt(&buf, Int8(0))
+            return
+        }
+        writeInt(&buf, Int8(1))
+        FfiConverterDouble.write(value, into: &buf)
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> SwiftType {
+        switch try readInt(&buf) as Int8 {
+        case 0: return nil
+        case 1: return try FfiConverterDouble.read(from: &buf)
         default: throw UniffiInternalError.unexpectedOptionalTag
         }
     }
@@ -20150,6 +23616,54 @@ fileprivate struct FfiConverterOptionTypeItemSummary: FfiConverterRustBuffer {
 #if swift(>=5.8)
 @_documentation(visibility: private)
 #endif
+fileprivate struct FfiConverterOptionTypeOrganisation: FfiConverterRustBuffer {
+    typealias SwiftType = Organisation?
+
+    public static func write(_ value: SwiftType, into buf: inout [UInt8]) {
+        guard let value = value else {
+            writeInt(&buf, Int8(0))
+            return
+        }
+        writeInt(&buf, Int8(1))
+        FfiConverterTypeOrganisation.write(value, into: &buf)
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> SwiftType {
+        switch try readInt(&buf) as Int8 {
+        case 0: return nil
+        case 1: return try FfiConverterTypeOrganisation.read(from: &buf)
+        default: throw UniffiInternalError.unexpectedOptionalTag
+        }
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+fileprivate struct FfiConverterOptionTypePlace: FfiConverterRustBuffer {
+    typealias SwiftType = Place?
+
+    public static func write(_ value: SwiftType, into buf: inout [UInt8]) {
+        guard let value = value else {
+            writeInt(&buf, Int8(0))
+            return
+        }
+        writeInt(&buf, Int8(1))
+        FfiConverterTypePlace.write(value, into: &buf)
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> SwiftType {
+        switch try readInt(&buf) as Int8 {
+        case 0: return nil
+        case 1: return try FfiConverterTypePlace.read(from: &buf)
+        default: throw UniffiInternalError.unexpectedOptionalTag
+        }
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
 fileprivate struct FfiConverterOptionTypeRecoveryAccount: FfiConverterRustBuffer {
     typealias SwiftType = RecoveryAccount?
 
@@ -20214,6 +23728,30 @@ fileprivate struct FfiConverterOptionTypeRecoverySource: FfiConverterRustBuffer 
         switch try readInt(&buf) as Int8 {
         case 0: return nil
         case 1: return try FfiConverterTypeRecoverySource.read(from: &buf)
+        default: throw UniffiInternalError.unexpectedOptionalTag
+        }
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+fileprivate struct FfiConverterOptionTypeSamlIdentityProvider: FfiConverterRustBuffer {
+    typealias SwiftType = SamlIdentityProvider?
+
+    public static func write(_ value: SwiftType, into buf: inout [UInt8]) {
+        guard let value = value else {
+            writeInt(&buf, Int8(0))
+            return
+        }
+        writeInt(&buf, Int8(1))
+        FfiConverterTypeSamlIdentityProvider.write(value, into: &buf)
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> SwiftType {
+        switch try readInt(&buf) as Int8 {
+        case 0: return nil
+        case 1: return try FfiConverterTypeSamlIdentityProvider.read(from: &buf)
         default: throw UniffiInternalError.unexpectedOptionalTag
         }
     }
@@ -20318,6 +23856,30 @@ fileprivate struct FfiConverterOptionTypeExportFormat: FfiConverterRustBuffer {
 #if swift(>=5.8)
 @_documentation(visibility: private)
 #endif
+fileprivate struct FfiConverterOptionTypeHereBy: FfiConverterRustBuffer {
+    typealias SwiftType = HereBy?
+
+    public static func write(_ value: SwiftType, into buf: inout [UInt8]) {
+        guard let value = value else {
+            writeInt(&buf, Int8(0))
+            return
+        }
+        writeInt(&buf, Int8(1))
+        FfiConverterTypeHereBy.write(value, into: &buf)
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> SwiftType {
+        switch try readInt(&buf) as Int8 {
+        case 0: return nil
+        case 1: return try FfiConverterTypeHereBy.read(from: &buf)
+        default: throw UniffiInternalError.unexpectedOptionalTag
+        }
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
 fileprivate struct FfiConverterOptionTypeItemType: FfiConverterRustBuffer {
     typealias SwiftType = ItemType?
 
@@ -20390,6 +23952,30 @@ fileprivate struct FfiConverterOptionTypeSignInResult: FfiConverterRustBuffer {
 #if swift(>=5.8)
 @_documentation(visibility: private)
 #endif
+fileprivate struct FfiConverterOptionTypeSsoProtocol: FfiConverterRustBuffer {
+    typealias SwiftType = SsoProtocol?
+
+    public static func write(_ value: SwiftType, into buf: inout [UInt8]) {
+        guard let value = value else {
+            writeInt(&buf, Int8(0))
+            return
+        }
+        writeInt(&buf, Int8(1))
+        FfiConverterTypeSsoProtocol.write(value, into: &buf)
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> SwiftType {
+        switch try readInt(&buf) as Int8 {
+        case 0: return nil
+        case 1: return try FfiConverterTypeSsoProtocol.read(from: &buf)
+        default: throw UniffiInternalError.unexpectedOptionalTag
+        }
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
 fileprivate struct FfiConverterOptionTypeStrengthFeedback: FfiConverterRustBuffer {
     typealias SwiftType = StrengthFeedback?
 
@@ -20406,6 +23992,30 @@ fileprivate struct FfiConverterOptionTypeStrengthFeedback: FfiConverterRustBuffe
         switch try readInt(&buf) as Int8 {
         case 0: return nil
         case 1: return try FfiConverterTypeStrengthFeedback.read(from: &buf)
+        default: throw UniffiInternalError.unexpectedOptionalTag
+        }
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+fileprivate struct FfiConverterOptionTypeVaultRole: FfiConverterRustBuffer {
+    typealias SwiftType = VaultRole?
+
+    public static func write(_ value: SwiftType, into buf: inout [UInt8]) {
+        guard let value = value else {
+            writeInt(&buf, Int8(0))
+            return
+        }
+        writeInt(&buf, Int8(1))
+        FfiConverterTypeVaultRole.write(value, into: &buf)
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> SwiftType {
+        switch try readInt(&buf) as Int8 {
+        case 0: return nil
+        case 1: return try FfiConverterTypeVaultRole.read(from: &buf)
         default: throw UniffiInternalError.unexpectedOptionalTag
         }
     }
@@ -20563,6 +24173,31 @@ fileprivate struct FfiConverterSequenceTypeBreachedPassword: FfiConverterRustBuf
 #if swift(>=5.8)
 @_documentation(visibility: private)
 #endif
+fileprivate struct FfiConverterSequenceTypeBreachedRecoveryEmail: FfiConverterRustBuffer {
+    typealias SwiftType = [BreachedRecoveryEmail]
+
+    public static func write(_ value: [BreachedRecoveryEmail], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeBreachedRecoveryEmail.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [BreachedRecoveryEmail] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [BreachedRecoveryEmail]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            seq.append(try FfiConverterTypeBreachedRecoveryEmail.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
 fileprivate struct FfiConverterSequenceTypeCodeLink: FfiConverterRustBuffer {
     typealias SwiftType = [CodeLink]
 
@@ -20580,6 +24215,31 @@ fileprivate struct FfiConverterSequenceTypeCodeLink: FfiConverterRustBuffer {
         seq.reserveCapacity(Int(len))
         for _ in 0 ..< len {
             seq.append(try FfiConverterTypeCodeLink.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+fileprivate struct FfiConverterSequenceTypeConfirmedGrant: FfiConverterRustBuffer {
+    typealias SwiftType = [ConfirmedGrant]
+
+    public static func write(_ value: [ConfirmedGrant], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeConfirmedGrant.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [ConfirmedGrant] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [ConfirmedGrant]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            seq.append(try FfiConverterTypeConfirmedGrant.read(from: &buf))
         }
         return seq
     }
@@ -21188,6 +24848,56 @@ fileprivate struct FfiConverterSequenceTypeMaskedEmailProvider: FfiConverterRust
 #if swift(>=5.8)
 @_documentation(visibility: private)
 #endif
+fileprivate struct FfiConverterSequenceTypeNearbyPlace: FfiConverterRustBuffer {
+    typealias SwiftType = [NearbyPlace]
+
+    public static func write(_ value: [NearbyPlace], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeNearbyPlace.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [NearbyPlace] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [NearbyPlace]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            seq.append(try FfiConverterTypeNearbyPlace.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+fileprivate struct FfiConverterSequenceTypeNearbySection: FfiConverterRustBuffer {
+    typealias SwiftType = [NearbySection]
+
+    public static func write(_ value: [NearbySection], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeNearbySection.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [NearbySection] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [NearbySection]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            seq.append(try FfiConverterTypeNearbySection.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
 fileprivate struct FfiConverterSequenceTypeOldPassword: FfiConverterRustBuffer {
     typealias SwiftType = [OldPassword]
 
@@ -21205,6 +24915,231 @@ fileprivate struct FfiConverterSequenceTypeOldPassword: FfiConverterRustBuffer {
         seq.reserveCapacity(Int(len))
         for _ in 0 ..< len {
             seq.append(try FfiConverterTypeOldPassword.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+fileprivate struct FfiConverterSequenceTypeOrgAccessGrant: FfiConverterRustBuffer {
+    typealias SwiftType = [OrgAccessGrant]
+
+    public static func write(_ value: [OrgAccessGrant], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeOrgAccessGrant.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [OrgAccessGrant] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [OrgAccessGrant]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            seq.append(try FfiConverterTypeOrgAccessGrant.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+fileprivate struct FfiConverterSequenceTypeOrgAccessReview: FfiConverterRustBuffer {
+    typealias SwiftType = [OrgAccessReview]
+
+    public static func write(_ value: [OrgAccessReview], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeOrgAccessReview.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [OrgAccessReview] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [OrgAccessReview]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            seq.append(try FfiConverterTypeOrgAccessReview.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+fileprivate struct FfiConverterSequenceTypeOrgEvent: FfiConverterRustBuffer {
+    typealias SwiftType = [OrgEvent]
+
+    public static func write(_ value: [OrgEvent], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeOrgEvent.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [OrgEvent] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [OrgEvent]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            seq.append(try FfiConverterTypeOrgEvent.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+fileprivate struct FfiConverterSequenceTypeOrgGroup: FfiConverterRustBuffer {
+    typealias SwiftType = [OrgGroup]
+
+    public static func write(_ value: [OrgGroup], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeOrgGroup.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [OrgGroup] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [OrgGroup]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            seq.append(try FfiConverterTypeOrgGroup.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+fileprivate struct FfiConverterSequenceTypeOrgInvitation: FfiConverterRustBuffer {
+    typealias SwiftType = [OrgInvitation]
+
+    public static func write(_ value: [OrgInvitation], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeOrgInvitation.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [OrgInvitation] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [OrgInvitation]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            seq.append(try FfiConverterTypeOrgInvitation.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+fileprivate struct FfiConverterSequenceTypeOrgInvite: FfiConverterRustBuffer {
+    typealias SwiftType = [OrgInvite]
+
+    public static func write(_ value: [OrgInvite], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeOrgInvite.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [OrgInvite] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [OrgInvite]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            seq.append(try FfiConverterTypeOrgInvite.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+fileprivate struct FfiConverterSequenceTypeOrgMember: FfiConverterRustBuffer {
+    typealias SwiftType = [OrgMember]
+
+    public static func write(_ value: [OrgMember], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeOrgMember.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [OrgMember] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [OrgMember]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            seq.append(try FfiConverterTypeOrgMember.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+fileprivate struct FfiConverterSequenceTypeOrgVault: FfiConverterRustBuffer {
+    typealias SwiftType = [OrgVault]
+
+    public static func write(_ value: [OrgVault], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeOrgVault.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [OrgVault] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [OrgVault]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            seq.append(try FfiConverterTypeOrgVault.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+fileprivate struct FfiConverterSequenceTypeOrgVaultGroup: FfiConverterRustBuffer {
+    typealias SwiftType = [OrgVaultGroup]
+
+    public static func write(_ value: [OrgVaultGroup], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeOrgVaultGroup.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [OrgVaultGroup] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [OrgVaultGroup]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            seq.append(try FfiConverterTypeOrgVaultGroup.read(from: &buf))
         }
         return seq
     }
@@ -21255,6 +25190,31 @@ fileprivate struct FfiConverterSequenceTypePasswordHistoryEntry: FfiConverterRus
         seq.reserveCapacity(Int(len))
         for _ in 0 ..< len {
             seq.append(try FfiConverterTypePasswordHistoryEntry.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+fileprivate struct FfiConverterSequenceTypePlace: FfiConverterRustBuffer {
+    typealias SwiftType = [Place]
+
+    public static func write(_ value: [Place], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypePlace.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [Place] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [Place]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            seq.append(try FfiConverterTypePlace.read(from: &buf))
         }
         return seq
     }
@@ -21438,6 +25398,31 @@ fileprivate struct FfiConverterSequenceTypeSafeItem: FfiConverterRustBuffer {
 #if swift(>=5.8)
 @_documentation(visibility: private)
 #endif
+fileprivate struct FfiConverterSequenceTypeSamlCertificate: FfiConverterRustBuffer {
+    typealias SwiftType = [SamlCertificate]
+
+    public static func write(_ value: [SamlCertificate], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeSamlCertificate.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [SamlCertificate] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [SamlCertificate]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            seq.append(try FfiConverterTypeSamlCertificate.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
 fileprivate struct FfiConverterSequenceTypeScannedCode: FfiConverterRustBuffer {
     typealias SwiftType = [ScannedCode]
 
@@ -21455,6 +25440,31 @@ fileprivate struct FfiConverterSequenceTypeScannedCode: FfiConverterRustBuffer {
         seq.reserveCapacity(Int(len))
         for _ in 0 ..< len {
             seq.append(try FfiConverterTypeScannedCode.read(from: &buf))
+        }
+        return seq
+    }
+}
+
+#if swift(>=5.8)
+@_documentation(visibility: private)
+#endif
+fileprivate struct FfiConverterSequenceTypeScimToken: FfiConverterRustBuffer {
+    typealias SwiftType = [ScimToken]
+
+    public static func write(_ value: [ScimToken], into buf: inout [UInt8]) {
+        let len = Int32(value.count)
+        writeInt(&buf, len)
+        for item in value {
+            FfiConverterTypeScimToken.write(item, into: &buf)
+        }
+    }
+
+    public static func read(from buf: inout (data: Data, offset: Data.Index)) throws -> [ScimToken] {
+        let len: Int32 = try readInt(&buf)
+        var seq = [ScimToken]()
+        seq.reserveCapacity(Int(len))
+        for _ in 0 ..< len {
+            seq.append(try FfiConverterTypeScimToken.read(from: &buf))
         }
         return seq
     }
@@ -22389,6 +26399,18 @@ public func maskedEmailProviders() -> [MaskedEmailProvider]  {
 })
 }
 /**
+ * The catalog key of an activity log line (`organisation.eventMemberJoined`), as the web vault's
+ * `ActivityPanel` names them; none for a type from a newer server, which the apps show as is.
+ */
+public func orgEventMessageKey(eventType: String) -> String?  {
+    return try!  FfiConverterOptionString.lift(try! rustCall() {
+        uniffiCallStatus in
+    uniffi_octapass_mobile_fn_func_org_event_message_key(
+        FfiConverterString.lower(eventType),uniffiCallStatus
+    )
+})
+}
+/**
  * The EPC QR text that asks a banking app to pay this account, with an optional amount in euros
  * (`12.50`) and reference. `None` when the IBAN isn't a SEPA one, the account has no holder's name,
  * or the amount or reference doesn't fit the format.
@@ -22849,6 +26871,9 @@ private let initializationResult: InitializationResult = {
     if (uniffi_octapass_mobile_checksum_func_masked_email_providers() != 48332) {
         return InitializationResult.apiChecksumMismatch
     }
+    if (uniffi_octapass_mobile_checksum_func_org_event_message_key() != 62585) {
+        return InitializationResult.apiChecksumMismatch
+    }
     if (uniffi_octapass_mobile_checksum_func_bank_qr_text() != 14788) {
         return InitializationResult.apiChecksumMismatch
     }
@@ -23140,6 +27165,135 @@ private let initializationResult: InitializationResult = {
     if (uniffi_octapass_mobile_checksum_method_octapassvault_switch_local_vault() != 6948) {
         return InitializationResult.apiChecksumMismatch
     }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_accept_org_invite() != 44405) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_add_org_group_member() != 33338) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_apply_org_access() != 47450) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_cancel_org_invite() != 51231) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_client_policies() != 46897) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_create_org_group() != 58092) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_create_org_scim_token() != 41902) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_create_org_vault() != 18622) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_create_organisation() != 50814) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_decline_org_invite() != 58373) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_delete_org_group() != 60392) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_delete_org_vault() != 38260) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_delete_organisation() != 10976) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_get_organisation() != 46852) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_invite_org_member() != 42374) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_leave_organisation() != 11596) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_link_org_vault_group() != 2982) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_list_org_groups() != 29229) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_list_org_members() != 32446) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_list_org_vaults() != 9822) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_org_access() != 38025) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_org_events() != 25788) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_org_scim() != 13915) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_org_sso() != 13752) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_remove_org_group_member() != 24797) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_remove_org_member() != 11276) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_remove_org_sso() != 48967) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_rename_org_group() != 26575) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_rename_organisation() != 10059) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_revoke_org_scim_token() != 9713) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_rotate_org_vault() != 36781) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_save_org_saml() != 1737) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_save_org_sso() != 50350) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_set_org_member_role() != 1470) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_set_org_policies() != 20082) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_test_org_sso() != 49153) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_unlink_org_vault_group() != 13176) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_delete_place() != 20457) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_nearby() != 56080) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_places() != 25069) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_save_place() != 38625) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_set_item_place() != 22662) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_suggested_place() != 13240) {
+        return InitializationResult.apiChecksumMismatch
+    }
     if (uniffi_octapass_mobile_checksum_method_octapassvault_clear_push_token() != 2831) {
         return InitializationResult.apiChecksumMismatch
     }
@@ -23338,7 +27492,7 @@ private let initializationResult: InitializationResult = {
     if (uniffi_octapass_mobile_checksum_method_octapassvault_get_item() != 64957) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_mobile_checksum_method_octapassvault_health_report() != 46736) {
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_health_report() != 45074) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_octapass_mobile_checksum_method_octapassvault_import_file() != 21922) {
@@ -23522,6 +27676,9 @@ private let initializationResult: InitializationResult = {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_octapass_mobile_checksum_method_octapassvault_set_pinned() != 48317) {
+        return InitializationResult.apiChecksumMismatch
+    }
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_set_recovery_email_checks() != 21712) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_octapass_mobile_checksum_method_octapassvault_settings() != 38336) {

@@ -195,6 +195,8 @@ public enum L10n {
         public static var maskedEmailProvider: String { L10n.string("types.maskedEmailProvider") }
         /// Equivalent domains
         public static var equivalentDomains: String { L10n.string("types.equivalentDomains") }
+        /// Place
+        public static var place: String { L10n.string("types.place") }
         /// Login
         public static var login: String { L10n.string("types.login") }
         /// Password
@@ -1747,7 +1749,7 @@ public enum L10n {
         public static var insecureUrlsHelp: String { L10n.string("health.insecureUrlsHelp") }
         /// Expiring soon
         public static var expiring: String { L10n.string("health.expiring") }
-        /// Cards, IDs and passports that have expired or will within 60 days.
+        /// Cards, IDs, passports, software licences and API keys that have expired or will within 60 days.
         public static var expiringHelp: String { L10n.string("health.expiringHelp") }
         /// Expired
         public static var expired: String { L10n.string("health.expired") }
@@ -1775,6 +1777,12 @@ public enum L10n {
         public static var dismissedTitle: String { L10n.string("health.dismissedTitle") }
         /// They don’t count towards your score.
         public static var dismissedNote: String { L10n.string("health.dismissedNote") }
+        /// Recovery emails in a breach
+        public static var recoveryBreached: String { L10n.string("health.recoveryBreached") }
+        /// These inboxes appeared in a data breach. Whoever gets into one can reset the logins that use it, so change that email account’s password and turn on two-step sign-in for it.
+        public static var recoveryBreachedHelp: String { L10n.string("health.recoveryBreachedHelp") }
+        /// In {breaches}
+        public static func recoveryBreachedIn(breaches: String) -> String { L10n.format("health.recoveryBreachedIn", breaches) }
         /// Recovery emails without two-step sign-in
         public static var recoveryNo2fa: String { L10n.string("health.recoveryNo2fa") }
         /// Whoever gets into these inboxes can reset the logins that use them. Turn on two-step sign-in for the email account.
@@ -1888,6 +1896,36 @@ public enum L10n {
             public static var newAlert: String { L10n.string("health.email.newAlert") }
             /// Breach data from
             public static var source: String { L10n.string("health.email.source") }
+            /// Also check my other recovery emails
+            public static var recoverySwitch: String { L10n.string("health.email.recoverySwitch") }
+            /// Off. Only your account email and aliases are checked.
+            public static var recoveryOffNote: String { L10n.string("health.email.recoveryOffNote") }
+            /// On. The email addresses your logins use for recovery or to sign in are checked too.
+            public static var recoveryOnNote: String { L10n.string("health.email.recoveryOnNote") }
+            /// Send your recovery emails too?
+            public static var recoveryConfirmTitle: String { L10n.string("health.email.recoveryConfirmTitle") }
+            /// The other email addresses your logins use, as their recovery email or to sign in, are sent to your Octa Pass server too, and it asks Have I Been Pwned about each one.
+            public static var recoverySends: String { L10n.string("health.email.recoverySends") }
+            /// Some may not be yours, such as a family member’s address on a login you share. They haven’t agreed to this.
+            public static var recoveryNotYours: String { L10n.string("health.email.recoveryNotYours") }
+            /// Turning this off deletes what was found for them.
+            public static var recoveryForgets: String { L10n.string("health.email.recoveryForgets") }
+            /// Check them too
+            public static var recoveryConfirm: String { L10n.string("health.email.recoveryConfirm") }
+        }
+        public enum backup {
+            /// Last backup {count} days ago
+            public static func daysAgo(count: Int) -> String { L10n.format("health.backup.daysAgo", count) }
+            /// Last backup today
+            public static var today: String { L10n.string("health.backup.today") }
+            /// Not backed up yet
+            public static var never: String { L10n.string("health.backup.never") }
+            /// Backed up automatically to {folder}
+            public static func automatic(folder: String) -> String { L10n.format("health.backup.automatic", folder) }
+            /// Back up this vault so you don’t lose it with this device.
+            public static var due: String { L10n.string("health.backup.due") }
+            /// Back up
+            public static var action: String { L10n.string("health.backup.action") }
         }
         public enum verdict {
             /// Looking great
@@ -5165,6 +5203,144 @@ public enum L10n {
             /// Files (Nautilus)
             public static var nautilus: String { L10n.string("fileTools.surfaces.nautilus") }
         }
+    }
+    public enum nearby {
+        /// Now nearby: {place}
+        public static func nowNearby(place: String) -> String { L10n.format("nearby.nowNearby", place) }
+        /// On its Wi-Fi
+        public static var byWifi: String { L10n.string("nearby.byWifi") }
+        /// By your location
+        public static var byLocation: String { L10n.string("nearby.byLocation") }
+        /// {distance} away
+        public static func away(distance: String) -> String { L10n.format("nearby.away", distance) }
+        /// Your other places
+        public static var otherPlaces: String { L10n.string("nearby.otherPlaces") }
+        /// Nothing saved here yet.
+        public static var noItems: String { L10n.string("nearby.noItems") }
+        /// Add an item here
+        public static var addItemHere: String { L10n.string("nearby.addItemHere") }
+        /// Save your first place
+        public static var emptyTitle: String { L10n.string("nearby.emptyTitle") }
+        /// A place is somewhere you go, like home or the office. Give it its Wi-Fi network or its location, and Nearby lists what belongs there first: the Wi-Fi password, the door code, the printer’s login. Places are encrypted in your vault, and only this device works out where you are.
+        public static var emptyBody: String { L10n.string("nearby.emptyBody") }
+        /// New place
+        public static var newPlace: String { L10n.string("nearby.newPlace") }
+        /// Places
+        public static var places: String { L10n.string("nearby.places") }
+        /// Finding where you are…
+        public static var checking: String { L10n.string("nearby.checking") }
+        /// You’re not at any of your places right now.
+        public static var reasonNoMatch: String { L10n.string("nearby.reasonNoMatch") }
+        /// No place is marked as nearby: Octa Pass doesn’t use your location here.
+        public static var reasonLocationOff: String { L10n.string("nearby.reasonLocationOff") }
+        /// Location is blocked for Octa Pass. Allow it in your browser’s or system’s settings to mark the place you’re at.
+        public static var reasonLocationDenied: String { L10n.string("nearby.reasonLocationDenied") }
+        /// Your location isn’t available right now, so no place is marked as nearby.
+        public static var reasonLocationUnavailable: String { L10n.string("nearby.reasonLocationUnavailable") }
+        /// Wi-Fi networks aren’t visible here.
+        public static var reasonNoWifi: String { L10n.string("nearby.reasonNoWifi") }
+        /// Use my location
+        public static var useLocation: String { L10n.string("nearby.useLocation") }
+        /// Stop using my location
+        public static var stopLocation: String { L10n.string("nearby.stopLocation") }
+        /// Your location is read once, on this device, when you open Nearby or come back to it. It isn’t sent anywhere or kept.
+        public static var locationNote: String { L10n.string("nearby.locationNote") }
+        /// Places
+        public static var managerTitle: String { L10n.string("nearby.managerTitle") }
+        /// Name the places you go and how to recognise them. Everything here is encrypted in your vault.
+        public static var managerBody: String { L10n.string("nearby.managerBody") }
+        /// Edit place
+        public static var editPlace: String { L10n.string("nearby.editPlace") }
+        /// Delete place
+        public static var deletePlace: String { L10n.string("nearby.deletePlace") }
+        /// Delete {place}? Its items stay in your vault; they just aren’t listed under it any more.
+        public static func deleteConfirm(place: String) -> String { L10n.format("nearby.deleteConfirm", place) }
+        /// {place} deleted
+        public static func deleted(place: String) -> String { L10n.format("nearby.deleted", place) }
+        /// {place} saved
+        public static func saved(place: String) -> String { L10n.format("nearby.saved", place) }
+        /// Name
+        public static var name: String { L10n.string("nearby.name") }
+        /// Home, Office, The cabin
+        public static var namePlaceholder: String { L10n.string("nearby.namePlaceholder") }
+        /// Give the place a name.
+        public static var nameRequired: String { L10n.string("nearby.nameRequired") }
+        /// Vault
+        public static var vault: String { L10n.string("nearby.vault") }
+        /// Wi-Fi networks
+        public static var networks: String { L10n.string("nearby.networks") }
+        /// Being on one of these means you’re here. Wi-Fi items added to this place count too.
+        public static var networksHint: String { L10n.string("nearby.networksHint") }
+        /// Network name
+        public static var networkPlaceholder: String { L10n.string("nearby.networkPlaceholder") }
+        /// Add network
+        public static var addNetwork: String { L10n.string("nearby.addNetwork") }
+        /// Add {network}, the network you’re on
+        public static func addConnected(network: String) -> String { L10n.format("nearby.addConnected", network) }
+        /// Remove {network}
+        public static func removeNetwork(network: String) -> String { L10n.format("nearby.removeNetwork", network) }
+        /// Location
+        public static var location: String { L10n.string("nearby.location") }
+        /// Use where you are now, or copy the coordinates from a map app. Octa Pass never looks them up.
+        public static var locationHint: String { L10n.string("nearby.locationHint") }
+        /// Latitude
+        public static var latitude: String { L10n.string("nearby.latitude") }
+        /// Longitude
+        public static var longitude: String { L10n.string("nearby.longitude") }
+        /// Use my current location
+        public static var useCurrent: String { L10n.string("nearby.useCurrent") }
+        /// Getting your location…
+        public static var locating: String { L10n.string("nearby.locating") }
+        /// Couldn’t get your location. Check that location is allowed for Octa Pass, then try again.
+        public static var locationFailed: String { L10n.string("nearby.locationFailed") }
+        /// Clear location
+        public static var clearLocation: String { L10n.string("nearby.clearLocation") }
+        /// Radius in metres
+        public static var radius: String { L10n.string("nearby.radius") }
+        /// How far from the point still counts as here, 25 m to 10 km. 150 m covers most buildings.
+        public static var radiusHint: String { L10n.string("nearby.radiusHint") }
+        /// Enter a latitude from −90 to 90 and a longitude from −180 to 180, or neither.
+        public static var invalidPoint: String { L10n.string("nearby.invalidPoint") }
+        /// Notes
+        public static var notes: String { L10n.string("nearby.notes") }
+        /// Everyone in {vault} will see where this place is.
+        public static func sharedWarning(vault: String) -> String { L10n.format("nearby.sharedWarning", vault) }
+        /// Without a network or a location this place is never marked as nearby, but its items are still listed under it.
+        public static var noWay: String { L10n.string("nearby.noWay") }
+        /// {count} networks
+        public static func summaryNetworks(count: Int) -> String { L10n.format("nearby.summaryNetworks", count) }
+        /// Within {radius} of a point
+        public static func summaryPoint(radius: String) -> String { L10n.format("nearby.summaryPoint", radius) }
+        /// Just a name
+        public static var summaryNothing: String { L10n.string("nearby.summaryNothing") }
+        /// Places
+        public static var itemPlaces: String { L10n.string("nearby.itemPlaces") }
+        /// Add to a place
+        public static var addToPlace: String { L10n.string("nearby.addToPlace") }
+        /// Remove from {place}
+        public static func removeFromPlace(place: String) -> String { L10n.format("nearby.removeFromPlace", place) }
+        /// No places yet. Make one in Nearby.
+        public static var noPlacesYet: String { L10n.string("nearby.noPlacesYet") }
+        /// Added to {place}
+        public static func addedTo(place: String) -> String { L10n.format("nearby.addedTo", place) }
+        /// Removed from {place}
+        public static func removedFrom(place: String) -> String { L10n.format("nearby.removedFrom", place) }
+        /// You’re at {place}. Add this item to it?
+        public static func suggest(place: String) -> String { L10n.format("nearby.suggest", place) }
+        /// Add
+        public static var suggestAdd: String { L10n.string("nearby.suggestAdd") }
+        /// Not now
+        public static var suggestNotNow: String { L10n.string("nearby.suggestNotNow") }
+        /// Suggest a place when saving
+        public static var suggestSetting: String { L10n.string("nearby.suggestSetting") }
+        /// When you save a new item at one of your places, offer to add it there. Worked out on this device with the same Wi-Fi and location check as Nearby.
+        public static var suggestSettingHint: String { L10n.string("nearby.suggestSettingHint") }
+        /// Nearby
+        public static var settingsTitle: String { L10n.string("nearby.settingsTitle") }
+        /// Use my location for Nearby
+        public static var locationSetting: String { L10n.string("nearby.locationSetting") }
+        /// Read once when you open Nearby, on this device only. Off by default. Wi-Fi networks still count where the device can see them.
+        public static var locationSettingHint: String { L10n.string("nearby.locationSettingHint") }
     }
     public enum notFound {
         /// Page not found

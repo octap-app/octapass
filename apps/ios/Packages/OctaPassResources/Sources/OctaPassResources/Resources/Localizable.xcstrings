@@ -13851,6 +13851,156 @@
         }
       }
     },
+    "health.backup.action" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نسخ احتياطي"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back up"
+          }
+        }
+      }
+    },
+    "health.backup.automatic" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تُنسخ احتياطيًا تلقائيًا إلى %1$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Backed up automatically to %1$@"
+          }
+        }
+      }
+    },
+    "health.backup.daysAgo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "آخر نسخة احتياطية قبل %1$lld أيام"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "آخر نسخة احتياطية قبل %1$lld يومًا"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "آخر نسخة احتياطية قبل يوم واحد"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "آخر نسخة احتياطية قبل %1$lld يوم"
+                }
+              },
+              "two" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "آخر نسخة احتياطية قبل يومين"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "آخر نسخة احتياطية اليوم"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Last backup %1$lld day ago"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Last backup %1$lld days ago"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "health.backup.due" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انسخ هذه الخزنة احتياطيًا حتى لا تضيع مع هذا الجهاز."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back up this vault so you don’t lose it with this device."
+          }
+        }
+      }
+    },
+    "health.backup.never" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لم تُنسخ احتياطيًا بعد"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not backed up yet"
+          }
+        }
+      }
+    },
+    "health.backup.today" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "آخر نسخة احتياطية اليوم"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Last backup today"
+          }
+        }
+      }
+    },
     "health.backupCodes" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -14576,6 +14726,142 @@
         }
       }
     },
+    "health.email.recoveryConfirm" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "افحصها أيضًا"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check them too"
+          }
+        }
+      }
+    },
+    "health.email.recoveryConfirmTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هل تريد إرسال عناوين بريد الاسترداد أيضًا؟"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send your recovery emails too?"
+          }
+        }
+      }
+    },
+    "health.email.recoveryForgets" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إيقاف هذا الخيار يحذف ما وُجد لها."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turning this off deletes what was found for them."
+          }
+        }
+      }
+    },
+    "health.email.recoveryNotYours" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قد لا يكون بعضها لك، مثل عنوان أحد أفراد عائلتك في تسجيل دخول تتشاركانه. أصحابها لم يوافقوا على هذا."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Some may not be yours, such as a family member’s address on a login you share. They haven’t agreed to this."
+          }
+        }
+      }
+    },
+    "health.email.recoveryOffNote" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "متوقف. يُفحص بريد حسابك وعناوينك المقنّعة فقط."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Off. Only your account email and aliases are checked."
+          }
+        }
+      }
+    },
+    "health.email.recoveryOnNote" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يعمل. تُفحص أيضًا عناوين البريد التي تستخدمها تسجيلات دخولك للاسترداد أو لتسجيل الدخول."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On. The email addresses your logins use for recovery or to sign in are checked too."
+          }
+        }
+      }
+    },
+    "health.email.recoverySends" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تُرسل أيضًا عناوين البريد الأخرى التي تستخدمها تسجيلات دخولك، بريدًا للاسترداد أو لتسجيل الدخول، إلى خادم Octa Pass الخاص بك، ويسأل موقع Have I Been Pwned عن كل عنوان."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The other email addresses your logins use, as their recovery email or to sign in, are sent to your Octa Pass server too, and it asks Have I Been Pwned about each one."
+          }
+        }
+      }
+    },
+    "health.email.recoverySwitch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "افحص أيضًا عناوين بريد الاسترداد الأخرى"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Also check my other recovery emails"
+          }
+        }
+      }
+    },
     "health.email.sendsAddresses" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -14800,13 +15086,13 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "بطاقات وهويات وجوازات سفر انتهت صلاحيتها أو ستنتهي خلال 60 يومًا."
+            "value" : "بطاقات وهويات وجوازات سفر وتراخيص برامج ومفاتيح API انتهت صلاحيتها أو ستنتهي خلال 60 يومًا."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Cards, IDs and passports that have expired or will within 60 days."
+            "value" : "Cards, IDs, passports, software licences and API keys that have expired or will within 60 days."
           }
         }
       }
@@ -15011,6 +15297,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Check again"
+          }
+        }
+      }
+    },
+    "health.recoveryBreached" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بريد استرداد ظهر في اختراق"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recovery emails in a breach"
+          }
+        }
+      }
+    },
+    "health.recoveryBreachedHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ظهرت هذه الصناديق في اختراق بيانات. من يدخل إلى أحدها يستطيع إعادة تعيين تسجيلات الدخول التي تستخدمه، لذا غيّر كلمة مرور حساب البريد وفعّل له تسجيل الدخول بخطوتين."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "These inboxes appeared in a data breach. Whoever gets into one can reset the logins that use it, so change that email account’s password and turn on two-step sign-in for it."
+          }
+        }
+      }
+    },
+    "health.recoveryBreachedIn" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "في %1$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In %1$@"
           }
         }
       }
@@ -22766,6 +23103,1210 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vaults"
+          }
+        }
+      }
+    },
+    "nearby.addConnected" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إضافة %1$@، الشبكة المتصل بها"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add %1$@, the network you’re on"
+          }
+        }
+      }
+    },
+    "nearby.addItemHere" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إضافة عنصر هنا"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add an item here"
+          }
+        }
+      }
+    },
+    "nearby.addNetwork" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إضافة شبكة"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add network"
+          }
+        }
+      }
+    },
+    "nearby.addToPlace" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إضافة إلى مكان"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add to a place"
+          }
+        }
+      }
+    },
+    "nearby.addedTo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أُضيف إلى %1$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added to %1$@"
+          }
+        }
+      }
+    },
+    "nearby.away" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "على بعد %1$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ away"
+          }
+        }
+      }
+    },
+    "nearby.byLocation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حسب موقعك"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "By your location"
+          }
+        }
+      }
+    },
+    "nearby.byWifi" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "على شبكة Wi-Fi الخاصة به"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "On its Wi-Fi"
+          }
+        }
+      }
+    },
+    "nearby.checking" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جارٍ تحديد مكانك…"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finding where you are…"
+          }
+        }
+      }
+    },
+    "nearby.clearLocation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مسح الموقع"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Clear location"
+          }
+        }
+      }
+    },
+    "nearby.deleteConfirm" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف %1$@؟ تبقى عناصره في خزنتك، لكنها لن تُعرض تحته بعد الآن."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete %1$@? Its items stay in your vault; they just aren’t listed under it any more."
+          }
+        }
+      }
+    },
+    "nearby.deletePlace" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حذف المكان"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete place"
+          }
+        }
+      }
+    },
+    "nearby.deleted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حُذف %1$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ deleted"
+          }
+        }
+      }
+    },
+    "nearby.editPlace" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تعديل المكان"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit place"
+          }
+        }
+      }
+    },
+    "nearby.emptyBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المكان هو موضع تذهب إليه، مثل البيت أو المكتب. أعطه شبكة Wi-Fi أو موقعه، فتعرض «بالقرب منك» ما يخصه أولًا: كلمة مرور Wi-Fi ورمز الباب وحساب الطابعة. الأماكن مشفرة في خزنتك، وهذا الجهاز وحده يعرف أين أنت."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A place is somewhere you go, like home or the office. Give it its Wi-Fi network or its location, and Nearby lists what belongs there first: the Wi-Fi password, the door code, the printer’s login. Places are encrypted in your vault, and only this device works out where you are."
+          }
+        }
+      }
+    },
+    "nearby.emptyTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "احفظ مكانك الأول"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save your first place"
+          }
+        }
+      }
+    },
+    "nearby.invalidPoint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أدخل خط عرض من −90 إلى 90 وخط طول من −180 إلى 180، أو لا تدخل أيًّا منهما."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter a latitude from −90 to 90 and a longitude from −180 to 180, or neither."
+          }
+        }
+      }
+    },
+    "nearby.itemPlaces" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الأماكن"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Places"
+          }
+        }
+      }
+    },
+    "nearby.latitude" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خط العرض"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Latitude"
+          }
+        }
+      }
+    },
+    "nearby.locating" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جارٍ الحصول على موقعك…"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Getting your location…"
+          }
+        }
+      }
+    },
+    "nearby.location" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الموقع"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Location"
+          }
+        }
+      }
+    },
+    "nearby.locationFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تعذّر الحصول على موقعك. تأكد أن الموقع مسموح به لـ Octa Pass، ثم حاول مجددًا."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t get your location. Check that location is allowed for Octa Pass, then try again."
+          }
+        }
+      }
+    },
+    "nearby.locationHint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "استخدم مكانك الحالي، أو انسخ الإحداثيات من تطبيق خرائط. لا يبحث Octa Pass عنها أبدًا."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use where you are now, or copy the coordinates from a map app. Octa Pass never looks them up."
+          }
+        }
+      }
+    },
+    "nearby.locationNote" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يُقرأ موقعك مرة واحدة، على هذا الجهاز، حين تفتح «بالقرب منك» أو تعود إليها. لا يُرسل إلى أي مكان ولا يُحفظ."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your location is read once, on this device, when you open Nearby or come back to it. It isn’t sent anywhere or kept."
+          }
+        }
+      }
+    },
+    "nearby.locationSetting" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "استخدام موقعي في «بالقرب منك»"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use my location for Nearby"
+          }
+        }
+      }
+    },
+    "nearby.locationSettingHint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يُقرأ مرة واحدة حين تفتح «بالقرب منك»، على هذا الجهاز فقط. مُطفأ افتراضيًا. وتُحسب شبكات Wi-Fi حيث يراها الجهاز."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Read once when you open Nearby, on this device only. Off by default. Wi-Fi networks still count where the device can see them."
+          }
+        }
+      }
+    },
+    "nearby.longitude" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خط الطول"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Longitude"
+          }
+        }
+      }
+    },
+    "nearby.managerBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سمِّ الأماكن التي تذهب إليها وكيف تُعرف. كل ما هنا مشفر في خزنتك."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name the places you go and how to recognise them. Everything here is encrypted in your vault."
+          }
+        }
+      }
+    },
+    "nearby.managerTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الأماكن"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Places"
+          }
+        }
+      }
+    },
+    "nearby.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الاسم"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
+          }
+        }
+      }
+    },
+    "nearby.namePlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "البيت، المكتب، الكوخ"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Home, Office, The cabin"
+          }
+        }
+      }
+    },
+    "nearby.nameRequired" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أعطِ المكان اسمًا."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Give the place a name."
+          }
+        }
+      }
+    },
+    "nearby.networkPlaceholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اسم الشبكة"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Network name"
+          }
+        }
+      }
+    },
+    "nearby.networks" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "شبكات Wi-Fi"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wi-Fi networks"
+          }
+        }
+      }
+    },
+    "nearby.networksHint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الاتصال بإحداها يعني أنك هنا. وعناصر Wi-Fi المضافة إلى هذا المكان تُحسب أيضًا."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Being on one of these means you’re here. Wi-Fi items added to this place count too."
+          }
+        }
+      }
+    },
+    "nearby.newPlace" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مكان جديد"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New place"
+          }
+        }
+      }
+    },
+    "nearby.noItems" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لم يُحفظ شيء هنا بعد."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing saved here yet."
+          }
+        }
+      }
+    },
+    "nearby.noPlacesYet" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لا أماكن بعد. أنشئ واحدًا في «بالقرب منك»."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No places yet. Make one in Nearby."
+          }
+        }
+      }
+    },
+    "nearby.noWay" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بلا شبكة أو موقع لن يُعلَّم هذا المكان بأنه قريب أبدًا، لكن عناصره تبقى معروضة تحته."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Without a network or a location this place is never marked as nearby, but its items are still listed under it."
+          }
+        }
+      }
+    },
+    "nearby.notes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ملاحظات"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notes"
+          }
+        }
+      }
+    },
+    "nearby.nowNearby" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بالقرب منك الآن: %1$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Now nearby: %1$@"
+          }
+        }
+      }
+    },
+    "nearby.otherPlaces" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أماكنك الأخرى"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your other places"
+          }
+        }
+      }
+    },
+    "nearby.places" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الأماكن"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Places"
+          }
+        }
+      }
+    },
+    "nearby.radius" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نصف القطر بالأمتار"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Radius in metres"
+          }
+        }
+      }
+    },
+    "nearby.radiusHint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أبعد مسافة عن النقطة تُعد «هنا»، من 25 م إلى 10 كم. 150 م تكفي معظم المباني."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How far from the point still counts as here, 25 m to 10 km. 150 m covers most buildings."
+          }
+        }
+      }
+    },
+    "nearby.reasonLocationDenied" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الموقع محظور على Octa Pass. اسمح به في إعدادات المتصفح أو النظام ليُعلَّم المكان الذي أنت فيه."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Location is blocked for Octa Pass. Allow it in your browser’s or system’s settings to mark the place you’re at."
+          }
+        }
+      }
+    },
+    "nearby.reasonLocationOff" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لا مكان معلَّم بأنه قريب: لا يستخدم Octa Pass موقعك هنا."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No place is marked as nearby: Octa Pass doesn’t use your location here."
+          }
+        }
+      }
+    },
+    "nearby.reasonLocationUnavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "موقعك غير متاح الآن، فلا مكان معلَّم بأنه قريب."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your location isn’t available right now, so no place is marked as nearby."
+          }
+        }
+      }
+    },
+    "nearby.reasonNoMatch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لست في أي من أماكنك الآن."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You’re not at any of your places right now."
+          }
+        }
+      }
+    },
+    "nearby.reasonNoWifi" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "شبكات Wi-Fi غير مرئية هنا."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wi-Fi networks aren’t visible here."
+          }
+        }
+      }
+    },
+    "nearby.removeFromPlace" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إزالة من %1$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove from %1$@"
+          }
+        }
+      }
+    },
+    "nearby.removeNetwork" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إزالة %1$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove %1$@"
+          }
+        }
+      }
+    },
+    "nearby.removedFrom" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أُزيل من %1$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Removed from %1$@"
+          }
+        }
+      }
+    },
+    "nearby.saved" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حُفظ %1$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ saved"
+          }
+        }
+      }
+    },
+    "nearby.settingsTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بالقرب منك"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nearby"
+          }
+        }
+      }
+    },
+    "nearby.sharedWarning" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سيرى كل من في %1$@ أين يقع هذا المكان."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Everyone in %1$@ will see where this place is."
+          }
+        }
+      }
+    },
+    "nearby.stopLocation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "التوقف عن استخدام موقعي"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stop using my location"
+          }
+        }
+      }
+    },
+    "nearby.suggest" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أنت في %1$@. أتضيف هذا العنصر إليه؟"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You’re at %1$@. Add this item to it?"
+          }
+        }
+      }
+    },
+    "nearby.suggestAdd" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إضافة"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add"
+          }
+        }
+      }
+    },
+    "nearby.suggestNotNow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ليس الآن"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not now"
+          }
+        }
+      }
+    },
+    "nearby.suggestSetting" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اقتراح مكان عند الحفظ"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suggest a place when saving"
+          }
+        }
+      }
+    },
+    "nearby.suggestSettingHint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حين تحفظ عنصرًا جديدًا في أحد أماكنك، يُعرض عليك إضافته إليه. يُحسب على هذا الجهاز بنفس فحص Wi-Fi والموقع في «بالقرب منك»."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When you save a new item at one of your places, offer to add it there. Worked out on this device with the same Wi-Fi and location check as Nearby."
+          }
+        }
+      }
+    },
+    "nearby.summaryNetworks" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "variations" : {
+            "plural" : {
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$lld شبكات"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$lld شبكة"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "شبكة واحدة"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$lld شبكة"
+                }
+              },
+              "two" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "شبكتان"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "لا شبكات"
+                }
+              }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$lld network"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%1$lld networks"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "nearby.summaryNothing" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اسم فقط"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Just a name"
+          }
+        }
+      }
+    },
+    "nearby.summaryPoint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ضمن %1$@ من نقطة"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Within %1$@ of a point"
+          }
+        }
+      }
+    },
+    "nearby.useCurrent" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "استخدام موقعي الحالي"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use my current location"
+          }
+        }
+      }
+    },
+    "nearby.useLocation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "استخدام موقعي"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use my location"
+          }
+        }
+      }
+    },
+    "nearby.vault" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الخزنة"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vault"
           }
         }
       }
@@ -43788,6 +45329,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Password"
+          }
+        }
+      }
+    },
+    "types.place" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مكان"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Place"
           }
         }
       }

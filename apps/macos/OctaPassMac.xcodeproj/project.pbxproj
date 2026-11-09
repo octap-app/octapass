@@ -50,6 +50,7 @@
 		6E39FF373298123E19CE4737 /* OrganisationViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AAF5EC26AA5529FBF29C70 /* OrganisationViews.swift */; };
 		70A6E6A0293BEB814903884D /* SafeFileOps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFFF479BE4BBF43BDE8D47F /* SafeFileOps.swift */; };
 		7425E707AA26892D254CF38D /* OctaPassResources in Frameworks */ = {isa = PBXBuildFile; productRef = 4886B531A2CB901D57ECB491 /* OctaPassResources */; };
+		749C18ADF90BC960ED574660 /* NearbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E15E2748A5DA13A369E9CAB /* NearbyView.swift */; };
 		767C49B7CC0BBB2D94A04CE7 /* OneTimeCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F819B9DC19F767CD96CFEF8 /* OneTimeCodes.swift */; };
 		770D0B478D6B735109AA3F33 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EECC1FE70035862BA1056D7B /* InfoPlist.strings */; };
 		7AFA2E75A0462A73B96F8606 /* ItemListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07EB802A7DB3CE1513A5DF6B /* ItemListView.swift */; };
@@ -185,6 +186,7 @@
 		34FBCF6670FA9BFBC1B1E35C /* Wifi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wifi.swift; sourceTree = "<group>"; };
 		372DC312B346B3949829EFE1 /* MacControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacControls.swift; sourceTree = "<group>"; };
 		3764EC29EE603DE7198FA711 /* QrScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrScanner.swift; sourceTree = "<group>"; };
+		3E15E2748A5DA13A369E9CAB /* NearbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyView.swift; sourceTree = "<group>"; };
 		3EFFF479BE4BBF43BDE8D47F /* SafeFileOps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeFileOps.swift; sourceTree = "<group>"; };
 		40B129222B67748C33F267C6 /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = ar.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		41DCCE80DB16BFD03E7C0844 /* MacStandIns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacStandIns.swift; sourceTree = "<group>"; };
@@ -487,6 +489,7 @@
 				26CE0F03D2615050739B0CFC /* LocalVaultViews.swift */,
 				FF6ECA380514C5E3A5D1243A /* MainView.swift */,
 				1DD2A636C87B336F0236416B /* Navigation.swift */,
+				3E15E2748A5DA13A369E9CAB /* NearbyView.swift */,
 			);
 			path = Vault;
 			sourceTree = "<group>";
@@ -870,6 +873,7 @@
 				327D83C22741E413D47114F7 /* MaskedEmailNames.swift in Sources */,
 				43953E2063610BCCD09A3699 /* MaskedEmailView.swift in Sources */,
 				2AE27DC8B7BDEF7C6B60887E /* Navigation.swift in Sources */,
+				749C18ADF90BC960ED574660 /* NearbyView.swift in Sources */,
 				767C49B7CC0BBB2D94A04CE7 /* OneTimeCodes.swift in Sources */,
 				D505DE64188D91BD0D0A066C /* OpenAtLogin.swift in Sources */,
 				A304AE3213E4C437E84072DE /* OctaPassApp.swift in Sources */,

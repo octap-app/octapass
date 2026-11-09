@@ -948,6 +948,8 @@ internal object IntegrityCheckingUniffiLib {
     ): Int
     external fun uniffi_octapass_mobile_checksum_func_masked_email_providers(
     ): Int
+    external fun uniffi_octapass_mobile_checksum_func_org_event_message_key(
+    ): Int
     external fun uniffi_octapass_mobile_checksum_func_bank_qr_text(
     ): Int
     external fun uniffi_octapass_mobile_checksum_func_qr_choices(
@@ -1141,6 +1143,92 @@ internal object IntegrityCheckingUniffiLib {
     external fun uniffi_octapass_mobile_checksum_method_octapassvault_start_turn_on_sync(
     ): Int
     external fun uniffi_octapass_mobile_checksum_method_octapassvault_switch_local_vault(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_accept_org_invite(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_add_org_group_member(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_apply_org_access(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_cancel_org_invite(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_client_policies(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_create_org_group(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_create_org_scim_token(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_create_org_vault(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_create_organisation(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_decline_org_invite(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_delete_org_group(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_delete_org_vault(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_delete_organisation(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_get_organisation(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_invite_org_member(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_leave_organisation(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_link_org_vault_group(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_list_org_groups(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_list_org_members(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_list_org_vaults(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_org_access(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_org_events(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_org_scim(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_org_sso(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_remove_org_group_member(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_remove_org_member(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_remove_org_sso(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_rename_org_group(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_rename_organisation(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_revoke_org_scim_token(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_rotate_org_vault(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_save_org_saml(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_save_org_sso(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_set_org_member_role(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_set_org_policies(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_test_org_sso(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_unlink_org_vault_group(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_delete_place(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_nearby(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_places(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_save_place(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_set_item_place(
+    ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_suggested_place(
     ): Int
     external fun uniffi_octapass_mobile_checksum_method_octapassvault_clear_push_token(
     ): Int
@@ -1398,6 +1486,8 @@ internal object IntegrityCheckingUniffiLib {
     ): Int
     external fun uniffi_octapass_mobile_checksum_method_octapassvault_set_pinned(
     ): Int
+    external fun uniffi_octapass_mobile_checksum_method_octapassvault_set_recovery_email_checks(
+    ): Int
     external fun uniffi_octapass_mobile_checksum_method_octapassvault_settings(
     ): Int
     external fun uniffi_octapass_mobile_checksum_method_octapassvault_sign_in(
@@ -1640,6 +1730,92 @@ internal object UniffiLib {
     external fun uniffi_octapass_mobile_fn_method_octapassvault_start_turn_on_sync(`ptr`: Long,`serverUrl`: RustBuffer.ByValue,`email`: RustBuffer.ByValue,`password`: RustBuffer.ByValue,
     ): Long
     external fun uniffi_octapass_mobile_fn_method_octapassvault_switch_local_vault(`ptr`: Long,`tag`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_accept_org_invite(`ptr`: Long,`orgId`: RustBuffer.ByValue,`inviteId`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_add_org_group_member(`ptr`: Long,`groupId`: RustBuffer.ByValue,`accountId`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_apply_org_access(`ptr`: Long,`vaultId`: RustBuffer.ByValue,`confirmed`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_cancel_org_invite(`ptr`: Long,`inviteId`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_client_policies(`ptr`: Long,uniffi_out_err: UniffiRustCallStatus, 
+    ): RustBuffer.ByValue
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_create_org_group(`ptr`: Long,`name`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_create_org_scim_token(`ptr`: Long,`name`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_create_org_vault(`ptr`: Long,`name`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_create_organisation(`ptr`: Long,`name`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_decline_org_invite(`ptr`: Long,`orgId`: RustBuffer.ByValue,`inviteId`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_delete_org_group(`ptr`: Long,`groupId`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_delete_org_vault(`ptr`: Long,`password`: RustBuffer.ByValue,`vaultId`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_delete_organisation(`ptr`: Long,`password`: RustBuffer.ByValue,`confirmName`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_get_organisation(`ptr`: Long,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_invite_org_member(`ptr`: Long,`email`: RustBuffer.ByValue,`role`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_leave_organisation(`ptr`: Long,`orphanVaults`: Byte,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_link_org_vault_group(`ptr`: Long,`vaultId`: RustBuffer.ByValue,`groupId`: RustBuffer.ByValue,`role`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_list_org_groups(`ptr`: Long,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_list_org_members(`ptr`: Long,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_list_org_vaults(`ptr`: Long,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_org_access(`ptr`: Long,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_org_events(`ptr`: Long,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_org_scim(`ptr`: Long,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_org_sso(`ptr`: Long,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_remove_org_group_member(`ptr`: Long,`groupId`: RustBuffer.ByValue,`accountId`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_remove_org_member(`ptr`: Long,`accountId`: RustBuffer.ByValue,`orphanVaults`: Byte,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_remove_org_sso(`ptr`: Long,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_rename_org_group(`ptr`: Long,`groupId`: RustBuffer.ByValue,`name`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_rename_organisation(`ptr`: Long,`name`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_revoke_org_scim_token(`ptr`: Long,`tokenId`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_rotate_org_vault(`ptr`: Long,`vaultId`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_save_org_saml(`ptr`: Long,`settings`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_save_org_sso(`ptr`: Long,`settings`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_set_org_member_role(`ptr`: Long,`accountId`: RustBuffer.ByValue,`role`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_set_org_policies(`ptr`: Long,`policies`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_test_org_sso(`ptr`: Long,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_unlink_org_vault_group(`ptr`: Long,`vaultId`: RustBuffer.ByValue,`groupId`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_delete_place(`ptr`: Long,`id`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_nearby(`ptr`: Long,`here`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_places(`ptr`: Long,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_save_place(`ptr`: Long,`draft`: RustBuffer.ByValue,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_set_item_place(`ptr`: Long,`itemId`: RustBuffer.ByValue,`placeId`: RustBuffer.ByValue,`linked`: Byte,
+    ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_suggested_place(`ptr`: Long,`itemId`: RustBuffer.ByValue,`here`: RustBuffer.ByValue,
     ): Long
     external fun uniffi_octapass_mobile_fn_method_octapassvault_clear_push_token(`ptr`: Long,
     ): Long
@@ -1897,6 +2073,8 @@ internal object UniffiLib {
     ): Unit
     external fun uniffi_octapass_mobile_fn_method_octapassvault_set_pinned(`ptr`: Long,`id`: RustBuffer.ByValue,`pinned`: Byte,
     ): Long
+    external fun uniffi_octapass_mobile_fn_method_octapassvault_set_recovery_email_checks(`ptr`: Long,`enabled`: Byte,
+    ): Long
     external fun uniffi_octapass_mobile_fn_method_octapassvault_settings(`ptr`: Long,uniffi_out_err: UniffiRustCallStatus, 
     ): RustBuffer.ByValue
     external fun uniffi_octapass_mobile_fn_method_octapassvault_sign_in(`ptr`: Long,`serverUrl`: RustBuffer.ByValue,`email`: RustBuffer.ByValue,`password`: RustBuffer.ByValue,`secretKey`: RustBuffer.ByValue,
@@ -1998,6 +2176,8 @@ internal object UniffiLib {
     external fun uniffi_octapass_mobile_fn_func_can_manage_alias(`provider`: RustBuffer.ByValue,`aliasId`: RustBuffer.ByValue,`email`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, 
     ): Byte
     external fun uniffi_octapass_mobile_fn_func_masked_email_providers(uniffi_out_err: UniffiRustCallStatus, 
+    ): RustBuffer.ByValue
+    external fun uniffi_octapass_mobile_fn_func_org_event_message_key(`eventType`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, 
     ): RustBuffer.ByValue
     external fun uniffi_octapass_mobile_fn_func_bank_qr_text(`bank`: RustBuffer.ByValue,`amount`: RustBuffer.ByValue,`reference`: RustBuffer.ByValue,uniffi_out_err: UniffiRustCallStatus, 
     ): RustBuffer.ByValue
@@ -2262,6 +2442,9 @@ private fun uniffiCheckApiChecksums(lib: IntegrityCheckingUniffiLib) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
     if ((lib.uniffi_octapass_mobile_checksum_func_masked_email_providers() and 0xFFFF) != 48332) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_func_org_event_message_key() and 0xFFFF) != 62585) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
     if ((lib.uniffi_octapass_mobile_checksum_func_bank_qr_text() and 0xFFFF) != 14788) {
@@ -2555,6 +2738,135 @@ private fun uniffiCheckApiChecksums(lib: IntegrityCheckingUniffiLib) {
     if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_switch_local_vault() and 0xFFFF) != 6948) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_accept_org_invite() and 0xFFFF) != 44405) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_add_org_group_member() and 0xFFFF) != 33338) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_apply_org_access() and 0xFFFF) != 47450) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_cancel_org_invite() and 0xFFFF) != 51231) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_client_policies() and 0xFFFF) != 46897) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_create_org_group() and 0xFFFF) != 58092) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_create_org_scim_token() and 0xFFFF) != 41902) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_create_org_vault() and 0xFFFF) != 18622) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_create_organisation() and 0xFFFF) != 50814) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_decline_org_invite() and 0xFFFF) != 58373) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_delete_org_group() and 0xFFFF) != 60392) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_delete_org_vault() and 0xFFFF) != 38260) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_delete_organisation() and 0xFFFF) != 10976) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_get_organisation() and 0xFFFF) != 46852) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_invite_org_member() and 0xFFFF) != 42374) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_leave_organisation() and 0xFFFF) != 11596) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_link_org_vault_group() and 0xFFFF) != 2982) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_list_org_groups() and 0xFFFF) != 29229) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_list_org_members() and 0xFFFF) != 32446) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_list_org_vaults() and 0xFFFF) != 9822) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_org_access() and 0xFFFF) != 38025) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_org_events() and 0xFFFF) != 25788) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_org_scim() and 0xFFFF) != 13915) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_org_sso() and 0xFFFF) != 13752) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_remove_org_group_member() and 0xFFFF) != 24797) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_remove_org_member() and 0xFFFF) != 11276) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_remove_org_sso() and 0xFFFF) != 48967) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_rename_org_group() and 0xFFFF) != 26575) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_rename_organisation() and 0xFFFF) != 10059) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_revoke_org_scim_token() and 0xFFFF) != 9713) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_rotate_org_vault() and 0xFFFF) != 36781) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_save_org_saml() and 0xFFFF) != 1737) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_save_org_sso() and 0xFFFF) != 50350) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_set_org_member_role() and 0xFFFF) != 1470) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_set_org_policies() and 0xFFFF) != 20082) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_test_org_sso() and 0xFFFF) != 49153) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_unlink_org_vault_group() and 0xFFFF) != 13176) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_delete_place() and 0xFFFF) != 20457) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_nearby() and 0xFFFF) != 56080) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_places() and 0xFFFF) != 25069) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_save_place() and 0xFFFF) != 38625) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_set_item_place() and 0xFFFF) != 22662) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_suggested_place() and 0xFFFF) != 13240) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
     if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_clear_push_token() and 0xFFFF) != 2831) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
@@ -2753,7 +3065,7 @@ private fun uniffiCheckApiChecksums(lib: IntegrityCheckingUniffiLib) {
     if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_get_item() and 0xFFFF) != 64957) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
-    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_health_report() and 0xFFFF) != 46736) {
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_health_report() and 0xFFFF) != 45074) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
     if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_import_file() and 0xFFFF) != 21922) {
@@ -2937,6 +3249,9 @@ private fun uniffiCheckApiChecksums(lib: IntegrityCheckingUniffiLib) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
     if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_set_pinned() and 0xFFFF) != 48317) {
+        throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
+    }
+    if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_set_recovery_email_checks() and 0xFFFF) != 21712) {
         throw RuntimeException("UniFFI API checksum mismatch: try cleaning and rebuilding your project")
     }
     if ((lib.uniffi_octapass_mobile_checksum_method_octapassvault_settings() and 0xFFFF) != 38336) {
@@ -5081,6 +5396,152 @@ public interface OctaPassVaultInterface {
      */
     suspend fun `switchLocalVault`(`tag`: kotlin.String)
     
+    suspend fun `acceptOrgInvite`(`orgId`: kotlin.String, `inviteId`: kotlin.String): Organisation
+    
+    suspend fun `addOrgGroupMember`(`groupId`: kotlin.String, `accountId`: kotlin.String)
+    
+    /**
+     * Seals the vault's key to the people confirmed on screen, checked again against the
+     * fingerprint each was shown with. Returns how many got access.
+     */
+    suspend fun `applyOrgAccess`(`vaultId`: kotlin.String, `confirmed`: List<ConfirmedGrant>): kotlin.UInt
+    
+    suspend fun `cancelOrgInvite`(`inviteId`: kotlin.String)
+    
+    /**
+     * The policies this app applies itself, as last seen (no network): cap the auto-lock
+     * choices, check a new master password's length, say exports leave out organisation vaults.
+     */
+    fun `clientPolicies`(): ClientPolicies
+    
+    suspend fun `createOrgGroup`(`name`: kotlin.String): OrgGroup
+    
+    suspend fun `createOrgScimToken`(`name`: kotlin.String): CreatedScimToken
+    
+    /**
+     * A shared vault of the organisation, owned by this account.
+     */
+    suspend fun `createOrgVault`(`name`: kotlin.String): Vault
+    
+    /**
+     * Creates an organisation with this account as its owner.
+     */
+    suspend fun `createOrganisation`(`name`: kotlin.String): Organisation
+    
+    suspend fun `declineOrgInvite`(`orgId`: kotlin.String, `inviteId`: kotlin.String)
+    
+    suspend fun `deleteOrgGroup`(`groupId`: kotlin.String)
+    
+    /**
+     * Deletes an organisation vault and everything in it, for everyone. Asks for the master
+     * password.
+     */
+    suspend fun `deleteOrgVault`(`password`: kotlin.String, `vaultId`: kotlin.String)
+    
+    /**
+     * Owner: deletes the organisation and all its vaults, for everyone. `confirm_name` is the
+     * name as typed.
+     */
+    suspend fun `deleteOrganisation`(`password`: kotlin.String, `confirmName`: kotlin.String)
+    
+    /**
+     * The organisation this account is in, if any, and the invitations it received. Also
+     * refreshes the client policies.
+     */
+    suspend fun `getOrganisation`(): OrgState
+    
+    suspend fun `inviteOrgMember`(`email`: kotlin.String, `role`: OrgRole)
+    
+    suspend fun `leaveOrganisation`(`orphanVaults`: kotlin.Boolean)
+    
+    suspend fun `linkOrgVaultGroup`(`vaultId`: kotlin.String, `groupId`: kotlin.String, `role`: VaultRole)
+    
+    suspend fun `listOrgGroups`(): List<OrgGroup>
+    
+    suspend fun `listOrgMembers`(): OrgMembers
+    
+    suspend fun `listOrgVaults`(): List<OrgVault>
+    
+    /**
+     * Who should get which vault, with fingerprints computed on this device, to review.
+     */
+    suspend fun `orgAccess`(): List<OrgAccessReview>
+    
+    suspend fun `orgEvents`(): List<OrgEvent>
+    
+    suspend fun `orgScim`(): OrgScim
+    
+    suspend fun `orgSso`(): OrgSso
+    
+    suspend fun `removeOrgGroupMember`(`groupId`: kotlin.String, `accountId`: kotlin.String)
+    
+    /**
+     * Fails with `orgVaultOrphaned` when nobody else could manage one of their vaults: ask, then
+     * call again with `orphan_vaults`.
+     */
+    suspend fun `removeOrgMember`(`accountId`: kotlin.String, `orphanVaults`: kotlin.Boolean)
+    
+    suspend fun `removeOrgSso`()
+    
+    suspend fun `renameOrgGroup`(`groupId`: kotlin.String, `name`: kotlin.String)
+    
+    suspend fun `renameOrganisation`(`name`: kotlin.String)
+    
+    suspend fun `revokeOrgScimToken`(`tokenId`: kotlin.String)
+    
+    suspend fun `rotateOrgVault`(`vaultId`: kotlin.String)
+    
+    suspend fun `saveOrgSaml`(`settings`: SamlSettings): OrgSso
+    
+    suspend fun `saveOrgSso`(`settings`: OidcSettings): OrgSso
+    
+    suspend fun `setOrgMemberRole`(`accountId`: kotlin.String, `role`: OrgRole)
+    
+    /**
+     * Owner: the organisation's policies.
+     */
+    suspend fun `setOrgPolicies`(`policies`: OrgPolicies): OrgPolicies
+    
+    /**
+     * The address of a test sign-in, to open in the browser.
+     */
+    suspend fun `testOrgSso`(): kotlin.String
+    
+    suspend fun `unlinkOrgVaultGroup`(`vaultId`: kotlin.String, `groupId`: kotlin.String)
+    
+    /**
+     * Moves a place to the trash. Its items stay; they just aren't listed under it.
+     */
+    suspend fun `deletePlace`(`id`: kotlin.String)
+    
+    /**
+     * Nearby: every place with its items, the places the phone is at first, then the others
+     * nearest first when the location is known (places without a point after them, by name).
+     */
+    suspend fun `nearby`(`here`: Here): List<NearbyPlace>
+    
+    /**
+     * Every place, by name (the Places manager).
+     */
+    suspend fun `places`(): List<Place>
+    
+    /**
+     * Saves a new place or an edit of one. A place in a shared or family vault is seen by
+     * everyone in it: apps warn before saving one with a location there.
+     */
+    suspend fun `savePlace`(`draft`: PlaceDraft): Place
+    
+    /**
+     * Adds the item to a place, or takes it off one ("Add to a place").
+     */
+    suspend fun `setItemPlace`(`itemId`: kotlin.String, `placeId`: kotlin.String, `linked`: kotlin.Boolean): Item
+    
+    /**
+     * The place to offer a newly saved item to ("You're at Office. Add this item to it?"): one
+     * the phone is at, that everyone who sees the item can see, and that it isn't at yet.
+     */
+    suspend fun `suggestedPlace`(`itemId`: kotlin.String, `here`: Here): Place?
+    
     /**
      * The app can't be reached any more (notifications turned off, the token revoked): tells
      * the server to stop sending.
@@ -5409,7 +5870,8 @@ public interface OctaPassVaultInterface {
     suspend fun `getItem`(`id`: kotlin.String): Item
     
     /**
-     * The security dashboard and recovery map. Looks passwords up in Pwned Passwords.
+     * The security dashboard and recovery map. Looks passwords up in Pwned Passwords, and asks
+     * the server for newer signed site lists at most once a day.
      */
     suspend fun `healthReport`(): HealthReport
     
@@ -5691,6 +6153,13 @@ public interface OctaPassVaultInterface {
      * Pins or unpins an item: pinned items are listed under Pinned.
      */
     suspend fun `setPinned`(`id`: kotlin.String, `pinned`: kotlin.Boolean): Item
+    
+    /**
+     * The second opt-in, while alerts are on: also send the recovery emails that are neither the
+     * account email nor an alias. The UI says so before this is called. Either way the results
+     * are forgotten; check again afterwards.
+     */
+    suspend fun `setRecoveryEmailChecks`(`enabled`: kotlin.Boolean)
     
     fun `settings`(): Settings
     
@@ -6376,6 +6845,1028 @@ open class OctaPassVault: Disposable, AutoCloseable, OctaPassVaultInterface
         // lift function
         { },
         
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `acceptOrgInvite`(`orgId`: kotlin.String, `inviteId`: kotlin.String) : Organisation {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_accept_org_invite(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`orgId`),
+        FfiConverterString.lower(`inviteId`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_rust_buffer(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_rust_buffer(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
+        // lift function
+        { FfiConverterTypeOrganisation.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `addOrgGroupMember`(`groupId`: kotlin.String, `accountId`: kotlin.String) {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_add_org_group_member(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`groupId`),
+        FfiConverterString.lower(`accountId`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_void(future) },
+        // lift function
+        { },
+        
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    /**
+     * Seals the vault's key to the people confirmed on screen, checked again against the
+     * fingerprint each was shown with. Returns how many got access.
+     */
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `applyOrgAccess`(`vaultId`: kotlin.String, `confirmed`: List<ConfirmedGrant>) : kotlin.UInt {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_apply_org_access(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`vaultId`),
+        FfiConverterSequenceTypeConfirmedGrant.lower(`confirmed`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_u32(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_u32(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_u32(future) },
+        // lift function
+        { FfiConverterUInt.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `cancelOrgInvite`(`inviteId`: kotlin.String) {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_cancel_org_invite(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`inviteId`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_void(future) },
+        // lift function
+        { },
+        
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    /**
+     * The policies this app applies itself, as last seen (no network): cap the auto-lock
+     * choices, check a new master password's length, say exports leave out organisation vaults.
+     */override fun `clientPolicies`(): ClientPolicies {
+            return FfiConverterTypeClientPolicies.lift(
+    callWithHandle {
+    uniffiRustCall() { _status ->
+    UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_client_policies(
+        it,
+        _status)
+}
+    }
+    )
+    }
+    
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `createOrgGroup`(`name`: kotlin.String) : OrgGroup {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_create_org_group(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`name`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_rust_buffer(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_rust_buffer(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
+        // lift function
+        { FfiConverterTypeOrgGroup.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `createOrgScimToken`(`name`: kotlin.String) : CreatedScimToken {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_create_org_scim_token(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`name`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_rust_buffer(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_rust_buffer(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
+        // lift function
+        { FfiConverterTypeCreatedScimToken.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    /**
+     * A shared vault of the organisation, owned by this account.
+     */
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `createOrgVault`(`name`: kotlin.String) : Vault {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_create_org_vault(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`name`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_rust_buffer(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_rust_buffer(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
+        // lift function
+        { FfiConverterTypeVault.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    /**
+     * Creates an organisation with this account as its owner.
+     */
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `createOrganisation`(`name`: kotlin.String) : Organisation {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_create_organisation(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`name`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_rust_buffer(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_rust_buffer(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
+        // lift function
+        { FfiConverterTypeOrganisation.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `declineOrgInvite`(`orgId`: kotlin.String, `inviteId`: kotlin.String) {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_decline_org_invite(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`orgId`),
+        FfiConverterString.lower(`inviteId`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_void(future) },
+        // lift function
+        { },
+        
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `deleteOrgGroup`(`groupId`: kotlin.String) {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_delete_org_group(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`groupId`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_void(future) },
+        // lift function
+        { },
+        
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    /**
+     * Deletes an organisation vault and everything in it, for everyone. Asks for the master
+     * password.
+     */
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `deleteOrgVault`(`password`: kotlin.String, `vaultId`: kotlin.String) {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_delete_org_vault(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`password`),
+        FfiConverterString.lower(`vaultId`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_void(future) },
+        // lift function
+        { },
+        
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    /**
+     * Owner: deletes the organisation and all its vaults, for everyone. `confirm_name` is the
+     * name as typed.
+     */
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `deleteOrganisation`(`password`: kotlin.String, `confirmName`: kotlin.String) {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_delete_organisation(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`password`),
+        FfiConverterString.lower(`confirmName`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_void(future) },
+        // lift function
+        { },
+        
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    /**
+     * The organisation this account is in, if any, and the invitations it received. Also
+     * refreshes the client policies.
+     */
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `getOrganisation`() : OrgState {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_get_organisation(
+                uniffiHandle,
+                
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_rust_buffer(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_rust_buffer(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
+        // lift function
+        { FfiConverterTypeOrgState.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `inviteOrgMember`(`email`: kotlin.String, `role`: OrgRole) {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_invite_org_member(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`email`),
+        FfiConverterTypeOrgRole.lower(`role`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_void(future) },
+        // lift function
+        { },
+        
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `leaveOrganisation`(`orphanVaults`: kotlin.Boolean) {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_leave_organisation(
+                uniffiHandle,
+                
+        FfiConverterBoolean.lower(`orphanVaults`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_void(future) },
+        // lift function
+        { },
+        
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `linkOrgVaultGroup`(`vaultId`: kotlin.String, `groupId`: kotlin.String, `role`: VaultRole) {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_link_org_vault_group(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`vaultId`),
+        FfiConverterString.lower(`groupId`),
+        FfiConverterTypeVaultRole.lower(`role`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_void(future) },
+        // lift function
+        { },
+        
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `listOrgGroups`() : List<OrgGroup> {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_list_org_groups(
+                uniffiHandle,
+                
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_rust_buffer(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_rust_buffer(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
+        // lift function
+        { FfiConverterSequenceTypeOrgGroup.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `listOrgMembers`() : OrgMembers {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_list_org_members(
+                uniffiHandle,
+                
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_rust_buffer(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_rust_buffer(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
+        // lift function
+        { FfiConverterTypeOrgMembers.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `listOrgVaults`() : List<OrgVault> {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_list_org_vaults(
+                uniffiHandle,
+                
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_rust_buffer(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_rust_buffer(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
+        // lift function
+        { FfiConverterSequenceTypeOrgVault.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    /**
+     * Who should get which vault, with fingerprints computed on this device, to review.
+     */
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `orgAccess`() : List<OrgAccessReview> {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_org_access(
+                uniffiHandle,
+                
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_rust_buffer(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_rust_buffer(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
+        // lift function
+        { FfiConverterSequenceTypeOrgAccessReview.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `orgEvents`() : List<OrgEvent> {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_org_events(
+                uniffiHandle,
+                
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_rust_buffer(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_rust_buffer(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
+        // lift function
+        { FfiConverterSequenceTypeOrgEvent.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `orgScim`() : OrgScim {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_org_scim(
+                uniffiHandle,
+                
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_rust_buffer(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_rust_buffer(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
+        // lift function
+        { FfiConverterTypeOrgScim.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `orgSso`() : OrgSso {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_org_sso(
+                uniffiHandle,
+                
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_rust_buffer(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_rust_buffer(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
+        // lift function
+        { FfiConverterTypeOrgSso.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `removeOrgGroupMember`(`groupId`: kotlin.String, `accountId`: kotlin.String) {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_remove_org_group_member(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`groupId`),
+        FfiConverterString.lower(`accountId`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_void(future) },
+        // lift function
+        { },
+        
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    /**
+     * Fails with `orgVaultOrphaned` when nobody else could manage one of their vaults: ask, then
+     * call again with `orphan_vaults`.
+     */
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `removeOrgMember`(`accountId`: kotlin.String, `orphanVaults`: kotlin.Boolean) {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_remove_org_member(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`accountId`),
+        FfiConverterBoolean.lower(`orphanVaults`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_void(future) },
+        // lift function
+        { },
+        
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `removeOrgSso`() {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_remove_org_sso(
+                uniffiHandle,
+                
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_void(future) },
+        // lift function
+        { },
+        
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `renameOrgGroup`(`groupId`: kotlin.String, `name`: kotlin.String) {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_rename_org_group(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`groupId`),
+        FfiConverterString.lower(`name`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_void(future) },
+        // lift function
+        { },
+        
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `renameOrganisation`(`name`: kotlin.String) {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_rename_organisation(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`name`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_void(future) },
+        // lift function
+        { },
+        
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `revokeOrgScimToken`(`tokenId`: kotlin.String) {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_revoke_org_scim_token(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`tokenId`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_void(future) },
+        // lift function
+        { },
+        
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `rotateOrgVault`(`vaultId`: kotlin.String) {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_rotate_org_vault(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`vaultId`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_void(future) },
+        // lift function
+        { },
+        
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `saveOrgSaml`(`settings`: SamlSettings) : OrgSso {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_save_org_saml(
+                uniffiHandle,
+                
+        FfiConverterTypeSamlSettings.lower(`settings`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_rust_buffer(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_rust_buffer(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
+        // lift function
+        { FfiConverterTypeOrgSso.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `saveOrgSso`(`settings`: OidcSettings) : OrgSso {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_save_org_sso(
+                uniffiHandle,
+                
+        FfiConverterTypeOidcSettings.lower(`settings`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_rust_buffer(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_rust_buffer(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
+        // lift function
+        { FfiConverterTypeOrgSso.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `setOrgMemberRole`(`accountId`: kotlin.String, `role`: OrgRole) {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_set_org_member_role(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`accountId`),
+        FfiConverterTypeOrgRole.lower(`role`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_void(future) },
+        // lift function
+        { },
+        
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    /**
+     * Owner: the organisation's policies.
+     */
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `setOrgPolicies`(`policies`: OrgPolicies) : OrgPolicies {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_set_org_policies(
+                uniffiHandle,
+                
+        FfiConverterTypeOrgPolicies.lower(`policies`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_rust_buffer(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_rust_buffer(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
+        // lift function
+        { FfiConverterTypeOrgPolicies.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    /**
+     * The address of a test sign-in, to open in the browser.
+     */
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `testOrgSso`() : kotlin.String {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_test_org_sso(
+                uniffiHandle,
+                
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_rust_buffer(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_rust_buffer(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
+        // lift function
+        { FfiConverterString.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `unlinkOrgVaultGroup`(`vaultId`: kotlin.String, `groupId`: kotlin.String) {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_unlink_org_vault_group(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`vaultId`),
+        FfiConverterString.lower(`groupId`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_void(future) },
+        // lift function
+        { },
+        
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    /**
+     * Moves a place to the trash. Its items stay; they just aren't listed under it.
+     */
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `deletePlace`(`id`: kotlin.String) {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_delete_place(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`id`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_void(future) },
+        // lift function
+        { },
+        
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    /**
+     * Nearby: every place with its items, the places the phone is at first, then the others
+     * nearest first when the location is known (places without a point after them, by name).
+     */
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `nearby`(`here`: Here) : List<NearbyPlace> {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_nearby(
+                uniffiHandle,
+                
+        FfiConverterTypeHere.lower(`here`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_rust_buffer(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_rust_buffer(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
+        // lift function
+        { FfiConverterSequenceTypeNearbyPlace.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    /**
+     * Every place, by name (the Places manager).
+     */
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `places`() : List<Place> {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_places(
+                uniffiHandle,
+                
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_rust_buffer(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_rust_buffer(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
+        // lift function
+        { FfiConverterSequenceTypePlace.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    /**
+     * Saves a new place or an edit of one. A place in a shared or family vault is seen by
+     * everyone in it: apps warn before saving one with a location there.
+     */
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `savePlace`(`draft`: PlaceDraft) : Place {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_save_place(
+                uniffiHandle,
+                
+        FfiConverterTypePlaceDraft.lower(`draft`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_rust_buffer(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_rust_buffer(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
+        // lift function
+        { FfiConverterTypePlace.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    /**
+     * Adds the item to a place, or takes it off one ("Add to a place").
+     */
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `setItemPlace`(`itemId`: kotlin.String, `placeId`: kotlin.String, `linked`: kotlin.Boolean) : Item {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_set_item_place(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`itemId`),
+        FfiConverterString.lower(`placeId`),
+        FfiConverterBoolean.lower(`linked`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_rust_buffer(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_rust_buffer(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
+        // lift function
+        { FfiConverterTypeItem.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    /**
+     * The place to offer a newly saved item to ("You're at Office. Add this item to it?"): one
+     * the phone is at, that everyone who sees the item can see, and that it isn't at yet.
+     */
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `suggestedPlace`(`itemId`: kotlin.String, `here`: Here) : Place? {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_suggested_place(
+                uniffiHandle,
+                
+        FfiConverterString.lower(`itemId`),
+        FfiConverterTypeHere.lower(`here`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_rust_buffer(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_rust_buffer(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
+        // lift function
+        { FfiConverterOptionalTypePlace.lift(it) },
         // Error FFI converter
         VaultException.ErrorHandler,
     )
@@ -7999,7 +9490,8 @@ open class OctaPassVault: Disposable, AutoCloseable, OctaPassVaultInterface
 
     
     /**
-     * The security dashboard and recovery map. Looks passwords up in Pwned Passwords.
+     * The security dashboard and recovery map. Looks passwords up in Pwned Passwords, and asks
+     * the server for newer signed site lists at most once a day.
      */
     @Throws(VaultException::class)
     @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
@@ -9499,6 +10991,34 @@ open class OctaPassVault: Disposable, AutoCloseable, OctaPassVaultInterface
         { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_rust_buffer(future) },
         // lift function
         { FfiConverterTypeItem.lift(it) },
+        // Error FFI converter
+        VaultException.ErrorHandler,
+    )
+    }
+
+    
+    /**
+     * The second opt-in, while alerts are on: also send the recovery emails that are neither the
+     * account email nor an alias. The UI says so before this is called. Either way the results
+     * are forgotten; check again afterwards.
+     */
+    @Throws(VaultException::class)
+    @Suppress("ASSIGNED_BUT_NEVER_ACCESSED_VARIABLE")
+    override suspend fun `setRecoveryEmailChecks`(`enabled`: kotlin.Boolean) {
+        return uniffiRustCallAsync(
+        callWithHandle { uniffiHandle ->
+            UniffiLib.uniffi_octapass_mobile_fn_method_octapassvault_set_recovery_email_checks(
+                uniffiHandle,
+                
+        FfiConverterBoolean.lower(`enabled`),
+            )
+        },
+        { future, callback, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_poll_void(future, callback, continuation) },
+        { future, continuation -> UniffiLib.ffi_octapass_mobile_rust_future_complete_void(future, continuation) },
+        { future -> UniffiLib.ffi_octapass_mobile_rust_future_free_void(future) },
+        // lift function
+        { },
+        
         // Error FFI converter
         VaultException.ErrorHandler,
     )
@@ -12109,6 +13629,62 @@ public object FfiConverterTypeBreachedPassword: FfiConverterRustBuffer<BreachedP
 
 
 
+/**
+ * A recovery email that email breach alerts found in a breach: whoever gets into that inbox can
+ * reset `accounts` logins. The entry is the inbox's own login when the vault has it; otherwise
+ * its item id is empty and its title is the address.
+ */
+data class BreachedRecoveryEmail (
+    var `entry`: HealthEntry
+    , 
+    var `email`: kotlin.String
+    , 
+    var `accounts`: kotlin.UInt
+    , 
+    /**
+     * The breaches' titles, sorted.
+     */
+    var `breaches`: List<kotlin.String>
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeBreachedRecoveryEmail: FfiConverterRustBuffer<BreachedRecoveryEmail> {
+    override fun read(buf: ByteBuffer): BreachedRecoveryEmail {
+        return BreachedRecoveryEmail(
+            FfiConverterTypeHealthEntry.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterUInt.read(buf),
+            FfiConverterSequenceString.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: BreachedRecoveryEmail) = (
+            FfiConverterTypeHealthEntry.allocationSize(value.`entry`) +
+            FfiConverterString.allocationSize(value.`email`) +
+            FfiConverterUInt.allocationSize(value.`accounts`) +
+            FfiConverterSequenceString.allocationSize(value.`breaches`)
+    )
+
+    override fun write(value: BreachedRecoveryEmail, buf: ByteBuffer) {
+            FfiConverterTypeHealthEntry.write(value.`entry`, buf)
+            FfiConverterString.write(value.`email`, buf)
+            FfiConverterUInt.write(value.`accounts`, buf)
+            FfiConverterSequenceString.write(value.`breaches`, buf)
+    }
+}
+
+
+
 data class CardDetails (
     var `cardholder`: kotlin.String?
     , 
@@ -12228,6 +13804,62 @@ public object FfiConverterTypeChipKey: FfiConverterRustBuffer<ChipKey> {
 
 
 /**
+ * The policies this app applies itself, as the device last saw them.
+ */
+data class ClientPolicies (
+    /**
+     * Exports leave out organisation vaults.
+     */
+    var `disableExport`: kotlin.Boolean
+    , 
+    /**
+     * The longest auto-lock, in minutes: "never" and longer choices aren't offered, and stay
+     * unlocked is off.
+     */
+    var `maxAutoLockMinutes`: kotlin.UInt?
+    , 
+    /**
+     * A new master password needs at least this many characters.
+     */
+    var `minPasswordLength`: kotlin.UInt?
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeClientPolicies: FfiConverterRustBuffer<ClientPolicies> {
+    override fun read(buf: ByteBuffer): ClientPolicies {
+        return ClientPolicies(
+            FfiConverterBoolean.read(buf),
+            FfiConverterOptionalUInt.read(buf),
+            FfiConverterOptionalUInt.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: ClientPolicies) = (
+            FfiConverterBoolean.allocationSize(value.`disableExport`) +
+            FfiConverterOptionalUInt.allocationSize(value.`maxAutoLockMinutes`) +
+            FfiConverterOptionalUInt.allocationSize(value.`minPasswordLength`)
+    )
+
+    override fun write(value: ClientPolicies, buf: ByteBuffer) {
+            FfiConverterBoolean.write(value.`disableExport`, buf)
+            FfiConverterOptionalUInt.write(value.`maxAutoLockMinutes`, buf)
+            FfiConverterOptionalUInt.write(value.`minPasswordLength`, buf)
+    }
+}
+
+
+
+/**
  * The user's choice for one code: a login to join, or none for a login of its own.
  */
 data class CodeLink (
@@ -12263,6 +13895,88 @@ public object FfiConverterTypeCodeLink: FfiConverterRustBuffer<CodeLink> {
     override fun write(value: CodeLink, buf: ByteBuffer) {
             FfiConverterUInt.write(value.`code`, buf)
             FfiConverterOptionalString.write(value.`loginId`, buf)
+    }
+}
+
+
+
+/**
+ * A person the user confirmed, with the fingerprint digits that were on screen.
+ */
+data class ConfirmedGrant (
+    var `accountId`: kotlin.String
+    , 
+    var `fingerprintDigits`: kotlin.String
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeConfirmedGrant: FfiConverterRustBuffer<ConfirmedGrant> {
+    override fun read(buf: ByteBuffer): ConfirmedGrant {
+        return ConfirmedGrant(
+            FfiConverterString.read(buf),
+            FfiConverterString.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: ConfirmedGrant) = (
+            FfiConverterString.allocationSize(value.`accountId`) +
+            FfiConverterString.allocationSize(value.`fingerprintDigits`)
+    )
+
+    override fun write(value: ConfirmedGrant, buf: ByteBuffer) {
+            FfiConverterString.write(value.`accountId`, buf)
+            FfiConverterString.write(value.`fingerprintDigits`, buf)
+    }
+}
+
+
+
+/**
+ * A new SCIM token. `secret` is in this answer only.
+ */
+data class CreatedScimToken (
+    var `token`: ScimToken
+    , 
+    var `secret`: kotlin.String
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeCreatedScimToken: FfiConverterRustBuffer<CreatedScimToken> {
+    override fun read(buf: ByteBuffer): CreatedScimToken {
+        return CreatedScimToken(
+            FfiConverterTypeScimToken.read(buf),
+            FfiConverterString.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: CreatedScimToken) = (
+            FfiConverterTypeScimToken.allocationSize(value.`token`) +
+            FfiConverterString.allocationSize(value.`secret`)
+    )
+
+    override fun write(value: CreatedScimToken, buf: ByteBuffer) {
+            FfiConverterTypeScimToken.write(value.`token`, buf)
+            FfiConverterString.write(value.`secret`, buf)
     }
 }
 
@@ -12490,7 +14204,7 @@ data class DismissedWarning (
     , 
     /**
      * `weak`, `reused`, `breached`, `old`, `missing2fa`, `passkeyAvailable`, `insecureUrl`,
-     * `expiring`, `backupCodes`, `recoveryNo2fa` or `emailBreach`.
+     * `expiring`, `backupCodes`, `recoveryNo2fa`, `recoveryBreached` or `emailBreach`.
      */
     var `check`: kotlin.String
     
@@ -13117,7 +14831,7 @@ public object FfiConverterTypeEquivalentDomains: FfiConverterRustBuffer<Equivale
 
 
 /**
- * A card, ID or passport that expired or expires within 60 days.
+ * A card, ID, passport, software licence or API credential that expired or expires within 60 days.
  */
 data class ExpiringItem (
     var `entry`: HealthEntry
@@ -13759,6 +15473,11 @@ data class HealthReport (
     var `recoveryNo2fa`: List<UnprotectedRecoveryEmail>
     , 
     /**
+     * Recovery emails found in a breach, the most used first. Not part of the score.
+     */
+    var `recoveryBreached`: List<BreachedRecoveryEmail>
+    , 
+    /**
      * Passwords not changed for a year, the oldest first. Not part of the score.
      */
     var `old`: List<OldPassword>
@@ -13784,6 +15503,12 @@ data class HealthReport (
      * Email breach alerts are on. Off by default.
      */
     var `emailAlertsEnabled`: kotlin.Boolean
+    , 
+    /**
+     * The second opt-in: recovery emails that are neither the account email nor an alias are
+     * looked up too. Off by default, and off whenever alerts are.
+     */
+    var `emailAlertsRecoveryEmails`: kotlin.Boolean
     , 
     var `emailBreachesCheckedAt`: kotlin.String?
     , 
@@ -13820,11 +15545,13 @@ public object FfiConverterTypeHealthReport: FfiConverterRustBuffer<HealthReport>
             FfiConverterSequenceTypeHealthEntry.read(buf),
             FfiConverterSequenceTypeRecoveryContact.read(buf),
             FfiConverterSequenceTypeUnprotectedRecoveryEmail.read(buf),
+            FfiConverterSequenceTypeBreachedRecoveryEmail.read(buf),
             FfiConverterSequenceTypeOldPassword.read(buf),
             FfiConverterSequenceTypeHealthEntry.read(buf),
             FfiConverterSequenceTypeInsecureLogin.read(buf),
             FfiConverterSequenceTypeExpiringItem.read(buf),
             FfiConverterSequenceTypeLowBackupCodes.read(buf),
+            FfiConverterBoolean.read(buf),
             FfiConverterBoolean.read(buf),
             FfiConverterOptionalString.read(buf),
             FfiConverterSequenceTypeEmailBreachFinding.read(buf),
@@ -13843,12 +15570,14 @@ public object FfiConverterTypeHealthReport: FfiConverterRustBuffer<HealthReport>
             FfiConverterSequenceTypeHealthEntry.allocationSize(value.`missing2fa`) +
             FfiConverterSequenceTypeRecoveryContact.allocationSize(value.`recovery`) +
             FfiConverterSequenceTypeUnprotectedRecoveryEmail.allocationSize(value.`recoveryNo2fa`) +
+            FfiConverterSequenceTypeBreachedRecoveryEmail.allocationSize(value.`recoveryBreached`) +
             FfiConverterSequenceTypeOldPassword.allocationSize(value.`old`) +
             FfiConverterSequenceTypeHealthEntry.allocationSize(value.`passkeyAvailable`) +
             FfiConverterSequenceTypeInsecureLogin.allocationSize(value.`insecureUrls`) +
             FfiConverterSequenceTypeExpiringItem.allocationSize(value.`expiring`) +
             FfiConverterSequenceTypeLowBackupCodes.allocationSize(value.`lowBackupCodes`) +
             FfiConverterBoolean.allocationSize(value.`emailAlertsEnabled`) +
+            FfiConverterBoolean.allocationSize(value.`emailAlertsRecoveryEmails`) +
             FfiConverterOptionalString.allocationSize(value.`emailBreachesCheckedAt`) +
             FfiConverterSequenceTypeEmailBreachFinding.allocationSize(value.`emailBreaches`) +
             FfiConverterSequenceTypeDismissedWarning.allocationSize(value.`dismissed`) +
@@ -13865,16 +15594,78 @@ public object FfiConverterTypeHealthReport: FfiConverterRustBuffer<HealthReport>
             FfiConverterSequenceTypeHealthEntry.write(value.`missing2fa`, buf)
             FfiConverterSequenceTypeRecoveryContact.write(value.`recovery`, buf)
             FfiConverterSequenceTypeUnprotectedRecoveryEmail.write(value.`recoveryNo2fa`, buf)
+            FfiConverterSequenceTypeBreachedRecoveryEmail.write(value.`recoveryBreached`, buf)
             FfiConverterSequenceTypeOldPassword.write(value.`old`, buf)
             FfiConverterSequenceTypeHealthEntry.write(value.`passkeyAvailable`, buf)
             FfiConverterSequenceTypeInsecureLogin.write(value.`insecureUrls`, buf)
             FfiConverterSequenceTypeExpiringItem.write(value.`expiring`, buf)
             FfiConverterSequenceTypeLowBackupCodes.write(value.`lowBackupCodes`, buf)
             FfiConverterBoolean.write(value.`emailAlertsEnabled`, buf)
+            FfiConverterBoolean.write(value.`emailAlertsRecoveryEmails`, buf)
             FfiConverterOptionalString.write(value.`emailBreachesCheckedAt`, buf)
             FfiConverterSequenceTypeEmailBreachFinding.write(value.`emailBreaches`, buf)
             FfiConverterSequenceTypeDismissedWarning.write(value.`dismissed`, buf)
             FfiConverterString.write(value.`generatedAt`, buf)
+    }
+}
+
+
+
+/**
+ * Where the phone is, as far as it can tell. Both parts are optional.
+ */
+data class Here (
+    /**
+     * The Wi-Fi network the phone is on (where the system says).
+     */
+    var `networks`: List<kotlin.String>
+    , 
+    /**
+     * One reading, taken while the app is open: never in the background.
+     */
+    var `latitude`: kotlin.Double?
+    , 
+    var `longitude`: kotlin.Double?
+    , 
+    /**
+     * Metres.
+     */
+    var `accuracy`: kotlin.Double?
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeHere: FfiConverterRustBuffer<Here> {
+    override fun read(buf: ByteBuffer): Here {
+        return Here(
+            FfiConverterSequenceString.read(buf),
+            FfiConverterOptionalDouble.read(buf),
+            FfiConverterOptionalDouble.read(buf),
+            FfiConverterOptionalDouble.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: Here) = (
+            FfiConverterSequenceString.allocationSize(value.`networks`) +
+            FfiConverterOptionalDouble.allocationSize(value.`latitude`) +
+            FfiConverterOptionalDouble.allocationSize(value.`longitude`) +
+            FfiConverterOptionalDouble.allocationSize(value.`accuracy`)
+    )
+
+    override fun write(value: Here, buf: ByteBuffer) {
+            FfiConverterSequenceString.write(value.`networks`, buf)
+            FfiConverterOptionalDouble.write(value.`latitude`, buf)
+            FfiConverterOptionalDouble.write(value.`longitude`, buf)
+            FfiConverterOptionalDouble.write(value.`accuracy`, buf)
     }
 }
 
@@ -14227,6 +16018,11 @@ data class Item (
      * Listed under Pinned, a list of its own apart from the favourites.
      */
     var `pinned`: kotlin.Boolean = false 
+    , 
+    /**
+     * The ids of the places (Nearby) the item belongs to.
+     */
+    var `places`: List<kotlin.String> = listOf() 
     
 ){
     
@@ -14264,6 +16060,7 @@ public object FfiConverterTypeItem: FfiConverterRustBuffer<Item> {
             FfiConverterOptionalString.read(buf),
             FfiConverterOptionalString.read(buf),
             FfiConverterBoolean.read(buf),
+            FfiConverterSequenceString.read(buf),
         )
     }
 
@@ -14288,7 +16085,8 @@ public object FfiConverterTypeItem: FfiConverterRustBuffer<Item> {
             FfiConverterOptionalString.allocationSize(value.`shownUpdatedAt`) +
             FfiConverterOptionalString.allocationSize(value.`lastUsedAt`) +
             FfiConverterOptionalString.allocationSize(value.`passwordChangedAt`) +
-            FfiConverterBoolean.allocationSize(value.`pinned`)
+            FfiConverterBoolean.allocationSize(value.`pinned`) +
+            FfiConverterSequenceString.allocationSize(value.`places`)
     )
 
     override fun write(value: Item, buf: ByteBuffer) {
@@ -14313,6 +16111,7 @@ public object FfiConverterTypeItem: FfiConverterRustBuffer<Item> {
             FfiConverterOptionalString.write(value.`lastUsedAt`, buf)
             FfiConverterOptionalString.write(value.`passwordChangedAt`, buf)
             FfiConverterBoolean.write(value.`pinned`, buf)
+            FfiConverterSequenceString.write(value.`places`, buf)
     }
 }
 
@@ -14348,6 +16147,12 @@ data class ItemDraft (
     var `details`: ItemDetails
     , 
     var `pinned`: kotlin.Boolean = false 
+    , 
+    /**
+     * The places (Nearby) it belongs to; `None` keeps the ones it has. A new item made from a
+     * place in Nearby starts with that place.
+     */
+    var `places`: List<kotlin.String>? = null 
     
 ){
     
@@ -14375,6 +16180,7 @@ public object FfiConverterTypeItemDraft: FfiConverterRustBuffer<ItemDraft> {
             FfiConverterBoolean.read(buf),
             FfiConverterTypeItemDetails.read(buf),
             FfiConverterBoolean.read(buf),
+            FfiConverterOptionalSequenceString.read(buf),
         )
     }
 
@@ -14389,7 +16195,8 @@ public object FfiConverterTypeItemDraft: FfiConverterRustBuffer<ItemDraft> {
             FfiConverterSequenceString.allocationSize(value.`tags`) +
             FfiConverterBoolean.allocationSize(value.`favorite`) +
             FfiConverterTypeItemDetails.allocationSize(value.`details`) +
-            FfiConverterBoolean.allocationSize(value.`pinned`)
+            FfiConverterBoolean.allocationSize(value.`pinned`) +
+            FfiConverterOptionalSequenceString.allocationSize(value.`places`)
     )
 
     override fun write(value: ItemDraft, buf: ByteBuffer) {
@@ -14404,6 +16211,7 @@ public object FfiConverterTypeItemDraft: FfiConverterRustBuffer<ItemDraft> {
             FfiConverterBoolean.write(value.`favorite`, buf)
             FfiConverterTypeItemDetails.write(value.`details`, buf)
             FfiConverterBoolean.write(value.`pinned`, buf)
+            FfiConverterOptionalSequenceString.write(value.`places`, buf)
     }
 }
 
@@ -14569,6 +16377,11 @@ data class ItemSummary (
     var `variableKeys`: List<kotlin.String> = listOf() 
     , 
     var `pinned`: kotlin.Boolean = false 
+    , 
+    /**
+     * The places (Nearby) it belongs to.
+     */
+    var `places`: List<kotlin.String> = listOf() 
     
 ){
     
@@ -14605,6 +16418,7 @@ public object FfiConverterTypeItemSummary: FfiConverterRustBuffer<ItemSummary> {
             FfiConverterOptionalString.read(buf),
             FfiConverterSequenceString.read(buf),
             FfiConverterBoolean.read(buf),
+            FfiConverterSequenceString.read(buf),
         )
     }
 
@@ -14628,7 +16442,8 @@ public object FfiConverterTypeItemSummary: FfiConverterRustBuffer<ItemSummary> {
             FfiConverterOptionalString.allocationSize(value.`project`) +
             FfiConverterOptionalString.allocationSize(value.`stage`) +
             FfiConverterSequenceString.allocationSize(value.`variableKeys`) +
-            FfiConverterBoolean.allocationSize(value.`pinned`)
+            FfiConverterBoolean.allocationSize(value.`pinned`) +
+            FfiConverterSequenceString.allocationSize(value.`places`)
     )
 
     override fun write(value: ItemSummary, buf: ByteBuffer) {
@@ -14652,6 +16467,7 @@ public object FfiConverterTypeItemSummary: FfiConverterRustBuffer<ItemSummary> {
             FfiConverterOptionalString.write(value.`stage`, buf)
             FfiConverterSequenceString.write(value.`variableKeys`, buf)
             FfiConverterBoolean.write(value.`pinned`, buf)
+            FfiConverterSequenceString.write(value.`places`, buf)
     }
 }
 
@@ -15277,6 +17093,107 @@ public object FfiConverterTypeMaskedEmailProviderDetails: FfiConverterRustBuffer
 
 
 /**
+ * A place in the Nearby list.
+ */
+data class NearbyPlace (
+    var `place`: Place
+    , 
+    /**
+     * Set when the phone is at this place: "Now nearby".
+     */
+    var `here`: HereBy?
+    , 
+    /**
+     * Metres from the phone, when both points are known.
+     */
+    var `distance`: kotlin.Double?
+    , 
+    /**
+     * In the lists' type order.
+     */
+    var `sections`: List<NearbySection>
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeNearbyPlace: FfiConverterRustBuffer<NearbyPlace> {
+    override fun read(buf: ByteBuffer): NearbyPlace {
+        return NearbyPlace(
+            FfiConverterTypePlace.read(buf),
+            FfiConverterOptionalTypeHereBy.read(buf),
+            FfiConverterOptionalDouble.read(buf),
+            FfiConverterSequenceTypeNearbySection.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: NearbyPlace) = (
+            FfiConverterTypePlace.allocationSize(value.`place`) +
+            FfiConverterOptionalTypeHereBy.allocationSize(value.`here`) +
+            FfiConverterOptionalDouble.allocationSize(value.`distance`) +
+            FfiConverterSequenceTypeNearbySection.allocationSize(value.`sections`)
+    )
+
+    override fun write(value: NearbyPlace, buf: ByteBuffer) {
+            FfiConverterTypePlace.write(value.`place`, buf)
+            FfiConverterOptionalTypeHereBy.write(value.`here`, buf)
+            FfiConverterOptionalDouble.write(value.`distance`, buf)
+            FfiConverterSequenceTypeNearbySection.write(value.`sections`, buf)
+    }
+}
+
+
+
+/**
+ * The items of one type at a place, by name.
+ */
+data class NearbySection (
+    var `itemType`: ItemType
+    , 
+    var `items`: List<ItemSummary>
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeNearbySection: FfiConverterRustBuffer<NearbySection> {
+    override fun read(buf: ByteBuffer): NearbySection {
+        return NearbySection(
+            FfiConverterTypeItemType.read(buf),
+            FfiConverterSequenceTypeItemSummary.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: NearbySection) = (
+            FfiConverterTypeItemType.allocationSize(value.`itemType`) +
+            FfiConverterSequenceTypeItemSummary.allocationSize(value.`items`)
+    )
+
+    override fun write(value: NearbySection, buf: ByteBuffer) {
+            FfiConverterTypeItemType.write(value.`itemType`, buf)
+            FfiConverterSequenceTypeItemSummary.write(value.`items`, buf)
+    }
+}
+
+
+
+/**
  * A kit from a change that may keep the recovery code (`rotateSecretKey`): without one, the old
  * kit's still works. Show it once.
  */
@@ -15334,6 +17251,55 @@ public object FfiConverterTypeNewRecoveryKit: FfiConverterRustBuffer<NewRecovery
 
 
 /**
+ * OpenID Connect settings. The server fetches the issuer's discovery document first.
+ */
+data class OidcSettings (
+    var `issuer`: kotlin.String
+    , 
+    var `clientId`: kotlin.String
+    , 
+    /**
+     * None for a public client, or to keep the saved one.
+     */
+    var `clientSecret`: kotlin.String?
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeOidcSettings: FfiConverterRustBuffer<OidcSettings> {
+    override fun read(buf: ByteBuffer): OidcSettings {
+        return OidcSettings(
+            FfiConverterString.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterOptionalString.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: OidcSettings) = (
+            FfiConverterString.allocationSize(value.`issuer`) +
+            FfiConverterString.allocationSize(value.`clientId`) +
+            FfiConverterOptionalString.allocationSize(value.`clientSecret`)
+    )
+
+    override fun write(value: OidcSettings, buf: ByteBuffer) {
+            FfiConverterString.write(value.`issuer`, buf)
+            FfiConverterString.write(value.`clientId`, buf)
+            FfiConverterOptionalString.write(value.`clientSecret`, buf)
+    }
+}
+
+
+
+/**
  * A password not changed for a year.
  */
 data class OldPassword (
@@ -15374,6 +17340,952 @@ public object FfiConverterTypeOldPassword: FfiConverterRustBuffer<OldPassword> {
             FfiConverterTypeHealthEntry.write(value.`entry`, buf)
             FfiConverterString.write(value.`changedAt`, buf)
             FfiConverterUInt.write(value.`ageDays`, buf)
+    }
+}
+
+
+
+/**
+ * Someone a vault's key would be sealed to, with a fingerprint computed on this device.
+ */
+data class OrgAccessGrant (
+    var `accountId`: kotlin.String
+    , 
+    var `email`: kotlin.String
+    , 
+    var `role`: VaultRole
+    , 
+    /**
+     * Replaces a grant with a lower role.
+     */
+    var `upgrade`: kotlin.Boolean
+    , 
+    var `fingerprint`: Fingerprint
+    , 
+    /**
+     * The fingerprint matches one verified on this device.
+     */
+    var `verified`: kotlin.Boolean
+    , 
+    /**
+     * The fingerprint differs from one verified on this device: applying refuses it.
+     */
+    var `keyChanged`: kotlin.Boolean
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeOrgAccessGrant: FfiConverterRustBuffer<OrgAccessGrant> {
+    override fun read(buf: ByteBuffer): OrgAccessGrant {
+        return OrgAccessGrant(
+            FfiConverterString.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterTypeVaultRole.read(buf),
+            FfiConverterBoolean.read(buf),
+            FfiConverterTypeFingerprint.read(buf),
+            FfiConverterBoolean.read(buf),
+            FfiConverterBoolean.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: OrgAccessGrant) = (
+            FfiConverterString.allocationSize(value.`accountId`) +
+            FfiConverterString.allocationSize(value.`email`) +
+            FfiConverterTypeVaultRole.allocationSize(value.`role`) +
+            FfiConverterBoolean.allocationSize(value.`upgrade`) +
+            FfiConverterTypeFingerprint.allocationSize(value.`fingerprint`) +
+            FfiConverterBoolean.allocationSize(value.`verified`) +
+            FfiConverterBoolean.allocationSize(value.`keyChanged`)
+    )
+
+    override fun write(value: OrgAccessGrant, buf: ByteBuffer) {
+            FfiConverterString.write(value.`accountId`, buf)
+            FfiConverterString.write(value.`email`, buf)
+            FfiConverterTypeVaultRole.write(value.`role`, buf)
+            FfiConverterBoolean.write(value.`upgrade`, buf)
+            FfiConverterTypeFingerprint.write(value.`fingerprint`, buf)
+            FfiConverterBoolean.write(value.`verified`, buf)
+            FfiConverterBoolean.write(value.`keyChanged`, buf)
+    }
+}
+
+
+
+/**
+ * What a vault waits for from a key holder.
+ */
+data class OrgAccessReview (
+    var `vaultId`: kotlin.String
+    , 
+    var `vaultName`: kotlin.String?
+    , 
+    var `shortId`: kotlin.String
+    , 
+    /**
+     * This account holds the key and may manage the vault.
+     */
+    var `canApply`: kotlin.Boolean
+    , 
+    /**
+     * Someone lost access: the key should be rotated.
+     */
+    var `rotate`: kotlin.Boolean
+    , 
+    var `grants`: List<OrgAccessGrant>
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeOrgAccessReview: FfiConverterRustBuffer<OrgAccessReview> {
+    override fun read(buf: ByteBuffer): OrgAccessReview {
+        return OrgAccessReview(
+            FfiConverterString.read(buf),
+            FfiConverterOptionalString.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterBoolean.read(buf),
+            FfiConverterBoolean.read(buf),
+            FfiConverterSequenceTypeOrgAccessGrant.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: OrgAccessReview) = (
+            FfiConverterString.allocationSize(value.`vaultId`) +
+            FfiConverterOptionalString.allocationSize(value.`vaultName`) +
+            FfiConverterString.allocationSize(value.`shortId`) +
+            FfiConverterBoolean.allocationSize(value.`canApply`) +
+            FfiConverterBoolean.allocationSize(value.`rotate`) +
+            FfiConverterSequenceTypeOrgAccessGrant.allocationSize(value.`grants`)
+    )
+
+    override fun write(value: OrgAccessReview, buf: ByteBuffer) {
+            FfiConverterString.write(value.`vaultId`, buf)
+            FfiConverterOptionalString.write(value.`vaultName`, buf)
+            FfiConverterString.write(value.`shortId`, buf)
+            FfiConverterBoolean.write(value.`canApply`, buf)
+            FfiConverterBoolean.write(value.`rotate`, buf)
+            FfiConverterSequenceTypeOrgAccessGrant.write(value.`grants`, buf)
+    }
+}
+
+
+
+/**
+ * One line of the organisation's activity log. `event_type` is a stable kebab-case name
+ * (`member-removed`); the apps show `organisation.event<Name>`.
+ */
+data class OrgEvent (
+    var `id`: kotlin.String
+    , 
+    var `eventType`: kotlin.String
+    , 
+    /**
+     * The email of who did it, unless that account is gone.
+     */
+    var `actor`: kotlin.String?
+    , 
+    /**
+     * What it was done to: an email, a group's name or a vault id.
+     */
+    var `subject`: kotlin.String?
+    , 
+    var `createdAt`: kotlin.String
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeOrgEvent: FfiConverterRustBuffer<OrgEvent> {
+    override fun read(buf: ByteBuffer): OrgEvent {
+        return OrgEvent(
+            FfiConverterString.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterOptionalString.read(buf),
+            FfiConverterOptionalString.read(buf),
+            FfiConverterString.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: OrgEvent) = (
+            FfiConverterString.allocationSize(value.`id`) +
+            FfiConverterString.allocationSize(value.`eventType`) +
+            FfiConverterOptionalString.allocationSize(value.`actor`) +
+            FfiConverterOptionalString.allocationSize(value.`subject`) +
+            FfiConverterString.allocationSize(value.`createdAt`)
+    )
+
+    override fun write(value: OrgEvent, buf: ByteBuffer) {
+            FfiConverterString.write(value.`id`, buf)
+            FfiConverterString.write(value.`eventType`, buf)
+            FfiConverterOptionalString.write(value.`actor`, buf)
+            FfiConverterOptionalString.write(value.`subject`, buf)
+            FfiConverterString.write(value.`createdAt`, buf)
+    }
+}
+
+
+
+/**
+ * A list of people; linked to a vault, it entitles them to it.
+ */
+data class OrgGroup (
+    var `id`: kotlin.String
+    , 
+    /**
+     * Plaintext: the server can read it.
+     */
+    var `name`: kotlin.String
+    , 
+    /**
+     * Account ids.
+     */
+    var `members`: List<kotlin.String>
+    , 
+    var `createdAt`: kotlin.String
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeOrgGroup: FfiConverterRustBuffer<OrgGroup> {
+    override fun read(buf: ByteBuffer): OrgGroup {
+        return OrgGroup(
+            FfiConverterString.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterSequenceString.read(buf),
+            FfiConverterString.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: OrgGroup) = (
+            FfiConverterString.allocationSize(value.`id`) +
+            FfiConverterString.allocationSize(value.`name`) +
+            FfiConverterSequenceString.allocationSize(value.`members`) +
+            FfiConverterString.allocationSize(value.`createdAt`)
+    )
+
+    override fun write(value: OrgGroup, buf: ByteBuffer) {
+            FfiConverterString.write(value.`id`, buf)
+            FfiConverterString.write(value.`name`, buf)
+            FfiConverterSequenceString.write(value.`members`, buf)
+            FfiConverterString.write(value.`createdAt`, buf)
+    }
+}
+
+
+
+/**
+ * An invitation this account received. `policies` are what joining agrees to.
+ */
+data class OrgInvitation (
+    var `id`: kotlin.String
+    , 
+    var `orgId`: kotlin.String
+    , 
+    var `orgName`: kotlin.String
+    , 
+    var `role`: OrgRole
+    , 
+    var `invitedBy`: kotlin.String?
+    , 
+    var `policies`: OrgPolicies
+    , 
+    var `invitedAt`: kotlin.String
+    , 
+    var `expiresAt`: kotlin.String
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeOrgInvitation: FfiConverterRustBuffer<OrgInvitation> {
+    override fun read(buf: ByteBuffer): OrgInvitation {
+        return OrgInvitation(
+            FfiConverterString.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterTypeOrgRole.read(buf),
+            FfiConverterOptionalString.read(buf),
+            FfiConverterTypeOrgPolicies.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterString.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: OrgInvitation) = (
+            FfiConverterString.allocationSize(value.`id`) +
+            FfiConverterString.allocationSize(value.`orgId`) +
+            FfiConverterString.allocationSize(value.`orgName`) +
+            FfiConverterTypeOrgRole.allocationSize(value.`role`) +
+            FfiConverterOptionalString.allocationSize(value.`invitedBy`) +
+            FfiConverterTypeOrgPolicies.allocationSize(value.`policies`) +
+            FfiConverterString.allocationSize(value.`invitedAt`) +
+            FfiConverterString.allocationSize(value.`expiresAt`)
+    )
+
+    override fun write(value: OrgInvitation, buf: ByteBuffer) {
+            FfiConverterString.write(value.`id`, buf)
+            FfiConverterString.write(value.`orgId`, buf)
+            FfiConverterString.write(value.`orgName`, buf)
+            FfiConverterTypeOrgRole.write(value.`role`, buf)
+            FfiConverterOptionalString.write(value.`invitedBy`, buf)
+            FfiConverterTypeOrgPolicies.write(value.`policies`, buf)
+            FfiConverterString.write(value.`invitedAt`, buf)
+            FfiConverterString.write(value.`expiresAt`, buf)
+    }
+}
+
+
+
+/**
+ * A pending invite, as admins see it.
+ */
+data class OrgInvite (
+    var `id`: kotlin.String
+    , 
+    var `email`: kotlin.String
+    , 
+    var `role`: OrgRole
+    , 
+    var `invitedAt`: kotlin.String
+    , 
+    var `expiresAt`: kotlin.String
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeOrgInvite: FfiConverterRustBuffer<OrgInvite> {
+    override fun read(buf: ByteBuffer): OrgInvite {
+        return OrgInvite(
+            FfiConverterString.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterTypeOrgRole.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterString.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: OrgInvite) = (
+            FfiConverterString.allocationSize(value.`id`) +
+            FfiConverterString.allocationSize(value.`email`) +
+            FfiConverterTypeOrgRole.allocationSize(value.`role`) +
+            FfiConverterString.allocationSize(value.`invitedAt`) +
+            FfiConverterString.allocationSize(value.`expiresAt`)
+    )
+
+    override fun write(value: OrgInvite, buf: ByteBuffer) {
+            FfiConverterString.write(value.`id`, buf)
+            FfiConverterString.write(value.`email`, buf)
+            FfiConverterTypeOrgRole.write(value.`role`, buf)
+            FfiConverterString.write(value.`invitedAt`, buf)
+            FfiConverterString.write(value.`expiresAt`, buf)
+    }
+}
+
+
+
+/**
+ * A member, as admins see them.
+ */
+data class OrgMember (
+    var `accountId`: kotlin.String
+    , 
+    var `email`: kotlin.String
+    , 
+    var `role`: OrgRole
+    , 
+    var `twoStep`: kotlin.Boolean
+    , 
+    var `ssoLinked`: kotlin.Boolean
+    , 
+    var `joinedAt`: kotlin.String
+    , 
+    var `isYou`: kotlin.Boolean
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeOrgMember: FfiConverterRustBuffer<OrgMember> {
+    override fun read(buf: ByteBuffer): OrgMember {
+        return OrgMember(
+            FfiConverterString.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterTypeOrgRole.read(buf),
+            FfiConverterBoolean.read(buf),
+            FfiConverterBoolean.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterBoolean.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: OrgMember) = (
+            FfiConverterString.allocationSize(value.`accountId`) +
+            FfiConverterString.allocationSize(value.`email`) +
+            FfiConverterTypeOrgRole.allocationSize(value.`role`) +
+            FfiConverterBoolean.allocationSize(value.`twoStep`) +
+            FfiConverterBoolean.allocationSize(value.`ssoLinked`) +
+            FfiConverterString.allocationSize(value.`joinedAt`) +
+            FfiConverterBoolean.allocationSize(value.`isYou`)
+    )
+
+    override fun write(value: OrgMember, buf: ByteBuffer) {
+            FfiConverterString.write(value.`accountId`, buf)
+            FfiConverterString.write(value.`email`, buf)
+            FfiConverterTypeOrgRole.write(value.`role`, buf)
+            FfiConverterBoolean.write(value.`twoStep`, buf)
+            FfiConverterBoolean.write(value.`ssoLinked`, buf)
+            FfiConverterString.write(value.`joinedAt`, buf)
+            FfiConverterBoolean.write(value.`isYou`, buf)
+    }
+}
+
+
+
+data class OrgMembers (
+    var `members`: List<OrgMember>
+    , 
+    var `invites`: List<OrgInvite>
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeOrgMembers: FfiConverterRustBuffer<OrgMembers> {
+    override fun read(buf: ByteBuffer): OrgMembers {
+        return OrgMembers(
+            FfiConverterSequenceTypeOrgMember.read(buf),
+            FfiConverterSequenceTypeOrgInvite.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: OrgMembers) = (
+            FfiConverterSequenceTypeOrgMember.allocationSize(value.`members`) +
+            FfiConverterSequenceTypeOrgInvite.allocationSize(value.`invites`)
+    )
+
+    override fun write(value: OrgMembers, buf: ByteBuffer) {
+            FfiConverterSequenceTypeOrgMember.write(value.`members`, buf)
+            FfiConverterSequenceTypeOrgInvite.write(value.`invites`, buf)
+    }
+}
+
+
+
+/**
+ * The organisation's rules. The first five are enforced by the server; the last three are the
+ * apps' to apply (`ClientPolicies`), and a modified app can ignore them.
+ */
+data class OrgPolicies (
+    var `requireTwoStep`: kotlin.Boolean
+    , 
+    var `requireSso`: kotlin.Boolean
+    , 
+    /**
+     * How many hours a sign-in with SSO lasts, 1 to 8760; 0 checks only at sign-in.
+     */
+    var `ssoMaxAgeHours`: kotlin.UInt
+    , 
+    var `disableShareLinks`: kotlin.Boolean
+    , 
+    var `disableEmergencyAccess`: kotlin.Boolean
+    , 
+    var `disableExport`: kotlin.Boolean
+    , 
+    var `maxAutoLockMinutes`: kotlin.UInt?
+    , 
+    var `minPasswordLength`: kotlin.UInt?
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeOrgPolicies: FfiConverterRustBuffer<OrgPolicies> {
+    override fun read(buf: ByteBuffer): OrgPolicies {
+        return OrgPolicies(
+            FfiConverterBoolean.read(buf),
+            FfiConverterBoolean.read(buf),
+            FfiConverterUInt.read(buf),
+            FfiConverterBoolean.read(buf),
+            FfiConverterBoolean.read(buf),
+            FfiConverterBoolean.read(buf),
+            FfiConverterOptionalUInt.read(buf),
+            FfiConverterOptionalUInt.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: OrgPolicies) = (
+            FfiConverterBoolean.allocationSize(value.`requireTwoStep`) +
+            FfiConverterBoolean.allocationSize(value.`requireSso`) +
+            FfiConverterUInt.allocationSize(value.`ssoMaxAgeHours`) +
+            FfiConverterBoolean.allocationSize(value.`disableShareLinks`) +
+            FfiConverterBoolean.allocationSize(value.`disableEmergencyAccess`) +
+            FfiConverterBoolean.allocationSize(value.`disableExport`) +
+            FfiConverterOptionalUInt.allocationSize(value.`maxAutoLockMinutes`) +
+            FfiConverterOptionalUInt.allocationSize(value.`minPasswordLength`)
+    )
+
+    override fun write(value: OrgPolicies, buf: ByteBuffer) {
+            FfiConverterBoolean.write(value.`requireTwoStep`, buf)
+            FfiConverterBoolean.write(value.`requireSso`, buf)
+            FfiConverterUInt.write(value.`ssoMaxAgeHours`, buf)
+            FfiConverterBoolean.write(value.`disableShareLinks`, buf)
+            FfiConverterBoolean.write(value.`disableEmergencyAccess`, buf)
+            FfiConverterBoolean.write(value.`disableExport`, buf)
+            FfiConverterOptionalUInt.write(value.`maxAutoLockMinutes`, buf)
+            FfiConverterOptionalUInt.write(value.`minPasswordLength`, buf)
+    }
+}
+
+
+
+data class OrgScim (
+    /**
+     * The SCIM 2.0 base URL to give the identity provider.
+     */
+    var `baseUrl`: kotlin.String
+    , 
+    var `tokens`: List<ScimToken>
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeOrgScim: FfiConverterRustBuffer<OrgScim> {
+    override fun read(buf: ByteBuffer): OrgScim {
+        return OrgScim(
+            FfiConverterString.read(buf),
+            FfiConverterSequenceTypeScimToken.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: OrgScim) = (
+            FfiConverterString.allocationSize(value.`baseUrl`) +
+            FfiConverterSequenceTypeScimToken.allocationSize(value.`tokens`)
+    )
+
+    override fun write(value: OrgScim, buf: ByteBuffer) {
+            FfiConverterString.write(value.`baseUrl`, buf)
+            FfiConverterSequenceTypeScimToken.write(value.`tokens`, buf)
+    }
+}
+
+
+
+/**
+ * The organisation's single sign-on settings. The client secret never comes back.
+ */
+data class OrgSso (
+    /**
+     * Which protocol is saved; none when nothing is.
+     */
+    var `protocol`: SsoProtocol?
+    , 
+    var `issuer`: kotlin.String?
+    , 
+    var `clientId`: kotlin.String?
+    , 
+    var `hasClientSecret`: kotlin.Boolean
+    , 
+    /**
+     * When a test sign-in last finished with these settings. `requireSso` needs one.
+     */
+    var `testedAt`: kotlin.String?
+    , 
+    /**
+     * The OpenID Connect redirect URI to register at the provider.
+     */
+    var `callbackUrl`: kotlin.String
+    , 
+    var `saml`: SamlIdentityProvider?
+    , 
+    /**
+     * What to register at a SAML provider: entity ID, ACS URL and metadata URL.
+     */
+    var `samlEntityId`: kotlin.String
+    , 
+    var `samlAcsUrl`: kotlin.String
+    , 
+    var `samlMetadataUrl`: kotlin.String
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeOrgSso: FfiConverterRustBuffer<OrgSso> {
+    override fun read(buf: ByteBuffer): OrgSso {
+        return OrgSso(
+            FfiConverterOptionalTypeSsoProtocol.read(buf),
+            FfiConverterOptionalString.read(buf),
+            FfiConverterOptionalString.read(buf),
+            FfiConverterBoolean.read(buf),
+            FfiConverterOptionalString.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterOptionalTypeSamlIdentityProvider.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterString.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: OrgSso) = (
+            FfiConverterOptionalTypeSsoProtocol.allocationSize(value.`protocol`) +
+            FfiConverterOptionalString.allocationSize(value.`issuer`) +
+            FfiConverterOptionalString.allocationSize(value.`clientId`) +
+            FfiConverterBoolean.allocationSize(value.`hasClientSecret`) +
+            FfiConverterOptionalString.allocationSize(value.`testedAt`) +
+            FfiConverterString.allocationSize(value.`callbackUrl`) +
+            FfiConverterOptionalTypeSamlIdentityProvider.allocationSize(value.`saml`) +
+            FfiConverterString.allocationSize(value.`samlEntityId`) +
+            FfiConverterString.allocationSize(value.`samlAcsUrl`) +
+            FfiConverterString.allocationSize(value.`samlMetadataUrl`)
+    )
+
+    override fun write(value: OrgSso, buf: ByteBuffer) {
+            FfiConverterOptionalTypeSsoProtocol.write(value.`protocol`, buf)
+            FfiConverterOptionalString.write(value.`issuer`, buf)
+            FfiConverterOptionalString.write(value.`clientId`, buf)
+            FfiConverterBoolean.write(value.`hasClientSecret`, buf)
+            FfiConverterOptionalString.write(value.`testedAt`, buf)
+            FfiConverterString.write(value.`callbackUrl`, buf)
+            FfiConverterOptionalTypeSamlIdentityProvider.write(value.`saml`, buf)
+            FfiConverterString.write(value.`samlEntityId`, buf)
+            FfiConverterString.write(value.`samlAcsUrl`, buf)
+            FfiConverterString.write(value.`samlMetadataUrl`, buf)
+    }
+}
+
+
+
+/**
+ * `getOrganisation`: the organisation this account is in, if any, and its invitations. An
+ * account is in one organisation at a time.
+ */
+data class OrgState (
+    var `organisation`: Organisation?
+    , 
+    var `invitations`: List<OrgInvitation>
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeOrgState: FfiConverterRustBuffer<OrgState> {
+    override fun read(buf: ByteBuffer): OrgState {
+        return OrgState(
+            FfiConverterOptionalTypeOrganisation.read(buf),
+            FfiConverterSequenceTypeOrgInvitation.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: OrgState) = (
+            FfiConverterOptionalTypeOrganisation.allocationSize(value.`organisation`) +
+            FfiConverterSequenceTypeOrgInvitation.allocationSize(value.`invitations`)
+    )
+
+    override fun write(value: OrgState, buf: ByteBuffer) {
+            FfiConverterOptionalTypeOrganisation.write(value.`organisation`, buf)
+            FfiConverterSequenceTypeOrgInvitation.write(value.`invitations`, buf)
+    }
+}
+
+
+
+/**
+ * An organisation vault, named if this account can open it.
+ */
+data class OrgVault (
+    var `id`: kotlin.String
+    , 
+    /**
+     * The name inside the vault; none when this account can't open it.
+     */
+    var `name`: kotlin.String?
+    , 
+    /**
+     * The end of its id, to tell vaults without a name apart.
+     */
+    var `shortId`: kotlin.String
+    , 
+    var `groups`: List<OrgVaultGroup>
+    , 
+    var `memberCount`: kotlin.ULong
+    , 
+    /**
+     * Members who can grant access and rotate the key. At 0 nobody can, and it can only be
+     * deleted.
+     */
+    var `managerCount`: kotlin.ULong
+    , 
+    /**
+     * This account's role, if it's a member.
+     */
+    var `role`: VaultRole?
+    , 
+    /**
+     * Someone lost access and the key hasn't been rotated yet.
+     */
+    var `rotationPending`: kotlin.Boolean
+    , 
+    var `createdAt`: kotlin.String
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeOrgVault: FfiConverterRustBuffer<OrgVault> {
+    override fun read(buf: ByteBuffer): OrgVault {
+        return OrgVault(
+            FfiConverterString.read(buf),
+            FfiConverterOptionalString.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterSequenceTypeOrgVaultGroup.read(buf),
+            FfiConverterULong.read(buf),
+            FfiConverterULong.read(buf),
+            FfiConverterOptionalTypeVaultRole.read(buf),
+            FfiConverterBoolean.read(buf),
+            FfiConverterString.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: OrgVault) = (
+            FfiConverterString.allocationSize(value.`id`) +
+            FfiConverterOptionalString.allocationSize(value.`name`) +
+            FfiConverterString.allocationSize(value.`shortId`) +
+            FfiConverterSequenceTypeOrgVaultGroup.allocationSize(value.`groups`) +
+            FfiConverterULong.allocationSize(value.`memberCount`) +
+            FfiConverterULong.allocationSize(value.`managerCount`) +
+            FfiConverterOptionalTypeVaultRole.allocationSize(value.`role`) +
+            FfiConverterBoolean.allocationSize(value.`rotationPending`) +
+            FfiConverterString.allocationSize(value.`createdAt`)
+    )
+
+    override fun write(value: OrgVault, buf: ByteBuffer) {
+            FfiConverterString.write(value.`id`, buf)
+            FfiConverterOptionalString.write(value.`name`, buf)
+            FfiConverterString.write(value.`shortId`, buf)
+            FfiConverterSequenceTypeOrgVaultGroup.write(value.`groups`, buf)
+            FfiConverterULong.write(value.`memberCount`, buf)
+            FfiConverterULong.write(value.`managerCount`, buf)
+            FfiConverterOptionalTypeVaultRole.write(value.`role`, buf)
+            FfiConverterBoolean.write(value.`rotationPending`, buf)
+            FfiConverterString.write(value.`createdAt`, buf)
+    }
+}
+
+
+
+data class OrgVaultGroup (
+    var `groupId`: kotlin.String
+    , 
+    /**
+     * `read`, `write` or `manage`.
+     */
+    var `role`: VaultRole
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeOrgVaultGroup: FfiConverterRustBuffer<OrgVaultGroup> {
+    override fun read(buf: ByteBuffer): OrgVaultGroup {
+        return OrgVaultGroup(
+            FfiConverterString.read(buf),
+            FfiConverterTypeVaultRole.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: OrgVaultGroup) = (
+            FfiConverterString.allocationSize(value.`groupId`) +
+            FfiConverterTypeVaultRole.allocationSize(value.`role`)
+    )
+
+    override fun write(value: OrgVaultGroup, buf: ByteBuffer) {
+            FfiConverterString.write(value.`groupId`, buf)
+            FfiConverterTypeVaultRole.write(value.`role`, buf)
+    }
+}
+
+
+
+data class Organisation (
+    var `id`: kotlin.String
+    , 
+    var `name`: kotlin.String
+    , 
+    /**
+     * The signed-in account's role.
+     */
+    var `role`: OrgRole
+    , 
+    var `policies`: OrgPolicies
+    , 
+    var `memberCount`: kotlin.ULong
+    , 
+    /**
+     * This member breaks a policy (two-step sign-in is off), so organisation vaults are withheld.
+     */
+    var `accessWithheld`: kotlin.Boolean
+    , 
+    var `createdAt`: kotlin.String
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeOrganisation: FfiConverterRustBuffer<Organisation> {
+    override fun read(buf: ByteBuffer): Organisation {
+        return Organisation(
+            FfiConverterString.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterTypeOrgRole.read(buf),
+            FfiConverterTypeOrgPolicies.read(buf),
+            FfiConverterULong.read(buf),
+            FfiConverterBoolean.read(buf),
+            FfiConverterString.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: Organisation) = (
+            FfiConverterString.allocationSize(value.`id`) +
+            FfiConverterString.allocationSize(value.`name`) +
+            FfiConverterTypeOrgRole.allocationSize(value.`role`) +
+            FfiConverterTypeOrgPolicies.allocationSize(value.`policies`) +
+            FfiConverterULong.allocationSize(value.`memberCount`) +
+            FfiConverterBoolean.allocationSize(value.`accessWithheld`) +
+            FfiConverterString.allocationSize(value.`createdAt`)
+    )
+
+    override fun write(value: Organisation, buf: ByteBuffer) {
+            FfiConverterString.write(value.`id`, buf)
+            FfiConverterString.write(value.`name`, buf)
+            FfiConverterTypeOrgRole.write(value.`role`, buf)
+            FfiConverterTypeOrgPolicies.write(value.`policies`, buf)
+            FfiConverterULong.write(value.`memberCount`, buf)
+            FfiConverterBoolean.write(value.`accessWithheld`, buf)
+            FfiConverterString.write(value.`createdAt`, buf)
     }
 }
 
@@ -15546,6 +18458,173 @@ public object FfiConverterTypePasswordResetStarted: FfiConverterRustBuffer<Passw
     override fun write(value: PasswordResetStarted, buf: ByteBuffer) {
             FfiConverterString.write(value.`resetId`, buf)
             FfiConverterOptionalString.write(value.`devVerificationCode`, buf)
+    }
+}
+
+
+
+/**
+ * A place: a name, and how to tell the phone is there.
+ */
+data class Place (
+    var `id`: kotlin.String
+    , 
+    var `vaultId`: kotlin.String
+    , 
+    /**
+     * Pass it back in the draft, like an item's.
+     */
+    var `revision`: kotlin.ULong
+    , 
+    var `name`: kotlin.String
+    , 
+    var `latitude`: kotlin.Double?
+    , 
+    var `longitude`: kotlin.Double?
+    , 
+    /**
+     * Metres around the point; the default (150) when none was saved.
+     */
+    var `radius`: kotlin.Double
+    , 
+    /**
+     * Wi-Fi network names (SSIDs): being on one means being here.
+     */
+    var `networks`: List<kotlin.String>
+    , 
+    var `notes`: kotlin.String?
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypePlace: FfiConverterRustBuffer<Place> {
+    override fun read(buf: ByteBuffer): Place {
+        return Place(
+            FfiConverterString.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterULong.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterOptionalDouble.read(buf),
+            FfiConverterOptionalDouble.read(buf),
+            FfiConverterDouble.read(buf),
+            FfiConverterSequenceString.read(buf),
+            FfiConverterOptionalString.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: Place) = (
+            FfiConverterString.allocationSize(value.`id`) +
+            FfiConverterString.allocationSize(value.`vaultId`) +
+            FfiConverterULong.allocationSize(value.`revision`) +
+            FfiConverterString.allocationSize(value.`name`) +
+            FfiConverterOptionalDouble.allocationSize(value.`latitude`) +
+            FfiConverterOptionalDouble.allocationSize(value.`longitude`) +
+            FfiConverterDouble.allocationSize(value.`radius`) +
+            FfiConverterSequenceString.allocationSize(value.`networks`) +
+            FfiConverterOptionalString.allocationSize(value.`notes`)
+    )
+
+    override fun write(value: Place, buf: ByteBuffer) {
+            FfiConverterString.write(value.`id`, buf)
+            FfiConverterString.write(value.`vaultId`, buf)
+            FfiConverterULong.write(value.`revision`, buf)
+            FfiConverterString.write(value.`name`, buf)
+            FfiConverterOptionalDouble.write(value.`latitude`, buf)
+            FfiConverterOptionalDouble.write(value.`longitude`, buf)
+            FfiConverterDouble.write(value.`radius`, buf)
+            FfiConverterSequenceString.write(value.`networks`, buf)
+            FfiConverterOptionalString.write(value.`notes`, buf)
+    }
+}
+
+
+
+/**
+ * What `savePlace` takes. No `id` for a new place.
+ */
+data class PlaceDraft (
+    var `id`: kotlin.String?
+    , 
+    var `vaultId`: kotlin.String
+    , 
+    var `revision`: kotlin.ULong?
+    , 
+    var `name`: kotlin.String
+    , 
+    /**
+     * Both or neither.
+     */
+    var `latitude`: kotlin.Double?
+    , 
+    var `longitude`: kotlin.Double?
+    , 
+    /**
+     * Kept within 25 m to 10 km; `None` is the default.
+     */
+    var `radius`: kotlin.Double?
+    , 
+    var `networks`: List<kotlin.String>
+    , 
+    var `notes`: kotlin.String?
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypePlaceDraft: FfiConverterRustBuffer<PlaceDraft> {
+    override fun read(buf: ByteBuffer): PlaceDraft {
+        return PlaceDraft(
+            FfiConverterOptionalString.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterOptionalULong.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterOptionalDouble.read(buf),
+            FfiConverterOptionalDouble.read(buf),
+            FfiConverterOptionalDouble.read(buf),
+            FfiConverterSequenceString.read(buf),
+            FfiConverterOptionalString.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: PlaceDraft) = (
+            FfiConverterOptionalString.allocationSize(value.`id`) +
+            FfiConverterString.allocationSize(value.`vaultId`) +
+            FfiConverterOptionalULong.allocationSize(value.`revision`) +
+            FfiConverterString.allocationSize(value.`name`) +
+            FfiConverterOptionalDouble.allocationSize(value.`latitude`) +
+            FfiConverterOptionalDouble.allocationSize(value.`longitude`) +
+            FfiConverterOptionalDouble.allocationSize(value.`radius`) +
+            FfiConverterSequenceString.allocationSize(value.`networks`) +
+            FfiConverterOptionalString.allocationSize(value.`notes`)
+    )
+
+    override fun write(value: PlaceDraft, buf: ByteBuffer) {
+            FfiConverterOptionalString.write(value.`id`, buf)
+            FfiConverterString.write(value.`vaultId`, buf)
+            FfiConverterOptionalULong.write(value.`revision`, buf)
+            FfiConverterString.write(value.`name`, buf)
+            FfiConverterOptionalDouble.write(value.`latitude`, buf)
+            FfiConverterOptionalDouble.write(value.`longitude`, buf)
+            FfiConverterOptionalDouble.write(value.`radius`, buf)
+            FfiConverterSequenceString.write(value.`networks`, buf)
+            FfiConverterOptionalString.write(value.`notes`, buf)
     }
 }
 
@@ -16373,6 +19452,141 @@ public object FfiConverterTypeSafeSyncSummary: FfiConverterRustBuffer<SafeSyncSu
 
 
 
+data class SamlCertificate (
+    /**
+     * SHA-256 of the DER, colon-separated hex.
+     */
+    var `sha256`: kotlin.String
+    , 
+    var `notAfter`: kotlin.String?
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeSamlCertificate: FfiConverterRustBuffer<SamlCertificate> {
+    override fun read(buf: ByteBuffer): SamlCertificate {
+        return SamlCertificate(
+            FfiConverterString.read(buf),
+            FfiConverterOptionalString.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: SamlCertificate) = (
+            FfiConverterString.allocationSize(value.`sha256`) +
+            FfiConverterOptionalString.allocationSize(value.`notAfter`)
+    )
+
+    override fun write(value: SamlCertificate, buf: ByteBuffer) {
+            FfiConverterString.write(value.`sha256`, buf)
+            FfiConverterOptionalString.write(value.`notAfter`, buf)
+    }
+}
+
+
+
+data class SamlIdentityProvider (
+    var `entityId`: kotlin.String
+    , 
+    var `ssoUrl`: kotlin.String
+    , 
+    var `certificates`: List<SamlCertificate>
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeSamlIdentityProvider: FfiConverterRustBuffer<SamlIdentityProvider> {
+    override fun read(buf: ByteBuffer): SamlIdentityProvider {
+        return SamlIdentityProvider(
+            FfiConverterString.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterSequenceTypeSamlCertificate.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: SamlIdentityProvider) = (
+            FfiConverterString.allocationSize(value.`entityId`) +
+            FfiConverterString.allocationSize(value.`ssoUrl`) +
+            FfiConverterSequenceTypeSamlCertificate.allocationSize(value.`certificates`)
+    )
+
+    override fun write(value: SamlIdentityProvider, buf: ByteBuffer) {
+            FfiConverterString.write(value.`entityId`, buf)
+            FfiConverterString.write(value.`ssoUrl`, buf)
+            FfiConverterSequenceTypeSamlCertificate.write(value.`certificates`, buf)
+    }
+}
+
+
+
+/**
+ * SAML settings: the provider's metadata, or its entity id, SSO URL and certificates.
+ */
+data class SamlSettings (
+    var `metadataXml`: kotlin.String?
+    , 
+    var `entityId`: kotlin.String?
+    , 
+    var `ssoUrl`: kotlin.String?
+    , 
+    var `certificates`: List<kotlin.String>
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeSamlSettings: FfiConverterRustBuffer<SamlSettings> {
+    override fun read(buf: ByteBuffer): SamlSettings {
+        return SamlSettings(
+            FfiConverterOptionalString.read(buf),
+            FfiConverterOptionalString.read(buf),
+            FfiConverterOptionalString.read(buf),
+            FfiConverterSequenceString.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: SamlSettings) = (
+            FfiConverterOptionalString.allocationSize(value.`metadataXml`) +
+            FfiConverterOptionalString.allocationSize(value.`entityId`) +
+            FfiConverterOptionalString.allocationSize(value.`ssoUrl`) +
+            FfiConverterSequenceString.allocationSize(value.`certificates`)
+    )
+
+    override fun write(value: SamlSettings, buf: ByteBuffer) {
+            FfiConverterOptionalString.write(value.`metadataXml`, buf)
+            FfiConverterOptionalString.write(value.`entityId`, buf)
+            FfiConverterOptionalString.write(value.`ssoUrl`, buf)
+            FfiConverterSequenceString.write(value.`certificates`, buf)
+    }
+}
+
+
+
 /**
  * One-time codes found in scanned QR codes.
  */
@@ -16425,6 +19639,59 @@ public object FfiConverterTypeScannedCode: FfiConverterRustBuffer<ScannedCode> {
             FfiConverterOptionalString.write(value.`issuer`, buf)
             FfiConverterOptionalString.write(value.`account`, buf)
             FfiConverterBoolean.write(value.`counterBased`, buf)
+    }
+}
+
+
+
+data class ScimToken (
+    var `id`: kotlin.String
+    , 
+    var `name`: kotlin.String
+    , 
+    var `createdBy`: kotlin.String?
+    , 
+    var `createdAt`: kotlin.String
+    , 
+    var `lastUsedAt`: kotlin.String?
+    
+){
+    
+
+    
+
+    
+    companion object
+}
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeScimToken: FfiConverterRustBuffer<ScimToken> {
+    override fun read(buf: ByteBuffer): ScimToken {
+        return ScimToken(
+            FfiConverterString.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterOptionalString.read(buf),
+            FfiConverterString.read(buf),
+            FfiConverterOptionalString.read(buf),
+        )
+    }
+
+    override fun allocationSize(value: ScimToken) = (
+            FfiConverterString.allocationSize(value.`id`) +
+            FfiConverterString.allocationSize(value.`name`) +
+            FfiConverterOptionalString.allocationSize(value.`createdBy`) +
+            FfiConverterString.allocationSize(value.`createdAt`) +
+            FfiConverterOptionalString.allocationSize(value.`lastUsedAt`)
+    )
+
+    override fun write(value: ScimToken, buf: ByteBuffer) {
+            FfiConverterString.write(value.`id`, buf)
+            FfiConverterString.write(value.`name`, buf)
+            FfiConverterOptionalString.write(value.`createdBy`, buf)
+            FfiConverterString.write(value.`createdAt`, buf)
+            FfiConverterOptionalString.write(value.`lastUsedAt`, buf)
     }
 }
 
@@ -19147,6 +22414,15 @@ enum class ErrorCode {
      * An organisation policy forbids this.
      */
     ORG_POLICY,
+    /**
+     * This would leave organisation vaults with nobody able to manage them: ask, then try again
+     * with `orphanVaults`.
+     */
+    ORG_VAULT_ORPHANED,
+    /**
+     * The identity provider settings don't work (the server's reason is in `reason`).
+     */
+    SSO_CONFIG,
     SECURITY_KEY_CANCELLED,
     SECURITY_KEY_UNSUPPORTED,
     MASKED_EMAIL_NOT_SET_UP,
@@ -19478,6 +22754,46 @@ public object FfiConverterTypeGeneratorOptions : FfiConverterRustBuffer<Generato
                 Unit
             }
         }.let { /* this makes the `when` an expression, which ensures it is exhaustive */ }
+    }
+}
+
+
+
+
+
+
+enum class HereBy {
+    
+    /**
+     * The phone is on one of the place's networks.
+     */
+    WIFI,
+    /**
+     * The phone's location is within the place's radius.
+     */
+    LOCATION;
+
+    
+
+
+    companion object
+}
+
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeHereBy: FfiConverterRustBuffer<HereBy> {
+    override fun read(buf: ByteBuffer) = try {
+        HereBy.values()[buf.getInt() - 1]
+    } catch (e: IndexOutOfBoundsException) {
+        throw RuntimeException("invalid enum value, something is very wrong!!", e)
+    }
+
+    override fun allocationSize(value: HereBy) = 4UL
+
+    override fun write(value: HereBy, buf: ByteBuffer) {
+        buf.putInt(value.ordinal + 1)
     }
 }
 
@@ -20426,6 +23742,47 @@ public object FfiConverterTypeListSort: FfiConverterRustBuffer<ListSort> {
 
 
 
+
+enum class OrgRole {
+    
+    MEMBER,
+    /**
+     * Manages members, invites, groups and vault links.
+     */
+    ADMIN,
+    /**
+     * Also manages policies, SSO and roles. Entitled to every organisation vault.
+     */
+    OWNER;
+
+    
+
+
+    companion object
+}
+
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeOrgRole: FfiConverterRustBuffer<OrgRole> {
+    override fun read(buf: ByteBuffer) = try {
+        OrgRole.values()[buf.getInt() - 1]
+    } catch (e: IndexOutOfBoundsException) {
+        throw RuntimeException("invalid enum value, something is very wrong!!", e)
+    }
+
+    override fun allocationSize(value: OrgRole) = 4UL
+
+    override fun write(value: OrgRole, buf: ByteBuffer) {
+        buf.putInt(value.ordinal + 1)
+    }
+}
+
+
+
+
+
 /**
  * A sign-in waiting for its second step, for a screen opened again meanwhile.
  */
@@ -20990,6 +24347,40 @@ public object FfiConverterTypeSshLanguage: FfiConverterRustBuffer<SshLanguage> {
 
 
 
+
+enum class SsoProtocol {
+    
+    OIDC,
+    SAML;
+
+    
+
+
+    companion object
+}
+
+
+/**
+ * @suppress
+ */
+public object FfiConverterTypeSsoProtocol: FfiConverterRustBuffer<SsoProtocol> {
+    override fun read(buf: ByteBuffer) = try {
+        SsoProtocol.values()[buf.getInt() - 1]
+    } catch (e: IndexOutOfBoundsException) {
+        throw RuntimeException("invalid enum value, something is very wrong!!", e)
+    }
+
+    override fun allocationSize(value: SsoProtocol) = 4UL
+
+    override fun write(value: SsoProtocol, buf: ByteBuffer) {
+        buf.putInt(value.ordinal + 1)
+    }
+}
+
+
+
+
+
 /**
  * A code the UI turns into a translated hint (`generator.feedback.<name>`), as the web vault's
  * `StrengthFeedback`.
@@ -21419,6 +24810,38 @@ public object FfiConverterTypeWifiSecurity: FfiConverterRustBuffer<WifiSecurity>
 /**
  * @suppress
  */
+public object FfiConverterOptionalUInt: FfiConverterRustBuffer<kotlin.UInt?> {
+    override fun read(buf: ByteBuffer): kotlin.UInt? {
+        if (buf.get().toInt() == 0) {
+            return null
+        }
+        return FfiConverterUInt.read(buf)
+    }
+
+    override fun allocationSize(value: kotlin.UInt?): ULong {
+        if (value == null) {
+            return 1UL
+        } else {
+            return 1UL + FfiConverterUInt.allocationSize(value)
+        }
+    }
+
+    override fun write(value: kotlin.UInt?, buf: ByteBuffer) {
+        if (value == null) {
+            buf.put(0)
+        } else {
+            buf.put(1)
+            FfiConverterUInt.write(value, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
 public object FfiConverterOptionalULong: FfiConverterRustBuffer<kotlin.ULong?> {
     override fun read(buf: ByteBuffer): kotlin.ULong? {
         if (buf.get().toInt() == 0) {
@@ -21441,6 +24864,38 @@ public object FfiConverterOptionalULong: FfiConverterRustBuffer<kotlin.ULong?> {
         } else {
             buf.put(1)
             FfiConverterULong.write(value, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
+public object FfiConverterOptionalDouble: FfiConverterRustBuffer<kotlin.Double?> {
+    override fun read(buf: ByteBuffer): kotlin.Double? {
+        if (buf.get().toInt() == 0) {
+            return null
+        }
+        return FfiConverterDouble.read(buf)
+    }
+
+    override fun allocationSize(value: kotlin.Double?): ULong {
+        if (value == null) {
+            return 1UL
+        } else {
+            return 1UL + FfiConverterDouble.allocationSize(value)
+        }
+    }
+
+    override fun write(value: kotlin.Double?, buf: ByteBuffer) {
+        if (value == null) {
+            buf.put(0)
+        } else {
+            buf.put(1)
+            FfiConverterDouble.write(value, buf)
         }
     }
 }
@@ -21707,6 +25162,70 @@ public object FfiConverterOptionalTypeItemSummary: FfiConverterRustBuffer<ItemSu
 /**
  * @suppress
  */
+public object FfiConverterOptionalTypeOrganisation: FfiConverterRustBuffer<Organisation?> {
+    override fun read(buf: ByteBuffer): Organisation? {
+        if (buf.get().toInt() == 0) {
+            return null
+        }
+        return FfiConverterTypeOrganisation.read(buf)
+    }
+
+    override fun allocationSize(value: Organisation?): ULong {
+        if (value == null) {
+            return 1UL
+        } else {
+            return 1UL + FfiConverterTypeOrganisation.allocationSize(value)
+        }
+    }
+
+    override fun write(value: Organisation?, buf: ByteBuffer) {
+        if (value == null) {
+            buf.put(0)
+        } else {
+            buf.put(1)
+            FfiConverterTypeOrganisation.write(value, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
+public object FfiConverterOptionalTypePlace: FfiConverterRustBuffer<Place?> {
+    override fun read(buf: ByteBuffer): Place? {
+        if (buf.get().toInt() == 0) {
+            return null
+        }
+        return FfiConverterTypePlace.read(buf)
+    }
+
+    override fun allocationSize(value: Place?): ULong {
+        if (value == null) {
+            return 1UL
+        } else {
+            return 1UL + FfiConverterTypePlace.allocationSize(value)
+        }
+    }
+
+    override fun write(value: Place?, buf: ByteBuffer) {
+        if (value == null) {
+            buf.put(0)
+        } else {
+            buf.put(1)
+            FfiConverterTypePlace.write(value, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
 public object FfiConverterOptionalTypeRecoveryAccount: FfiConverterRustBuffer<RecoveryAccount?> {
     override fun read(buf: ByteBuffer): RecoveryAccount? {
         if (buf.get().toInt() == 0) {
@@ -21793,6 +25312,38 @@ public object FfiConverterOptionalTypeRecoverySource: FfiConverterRustBuffer<Rec
         } else {
             buf.put(1)
             FfiConverterTypeRecoverySource.write(value, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
+public object FfiConverterOptionalTypeSamlIdentityProvider: FfiConverterRustBuffer<SamlIdentityProvider?> {
+    override fun read(buf: ByteBuffer): SamlIdentityProvider? {
+        if (buf.get().toInt() == 0) {
+            return null
+        }
+        return FfiConverterTypeSamlIdentityProvider.read(buf)
+    }
+
+    override fun allocationSize(value: SamlIdentityProvider?): ULong {
+        if (value == null) {
+            return 1UL
+        } else {
+            return 1UL + FfiConverterTypeSamlIdentityProvider.allocationSize(value)
+        }
+    }
+
+    override fun write(value: SamlIdentityProvider?, buf: ByteBuffer) {
+        if (value == null) {
+            buf.put(0)
+        } else {
+            buf.put(1)
+            FfiConverterTypeSamlIdentityProvider.write(value, buf)
         }
     }
 }
@@ -21931,6 +25482,38 @@ public object FfiConverterOptionalTypeExportFormat: FfiConverterRustBuffer<Expor
 /**
  * @suppress
  */
+public object FfiConverterOptionalTypeHereBy: FfiConverterRustBuffer<HereBy?> {
+    override fun read(buf: ByteBuffer): HereBy? {
+        if (buf.get().toInt() == 0) {
+            return null
+        }
+        return FfiConverterTypeHereBy.read(buf)
+    }
+
+    override fun allocationSize(value: HereBy?): ULong {
+        if (value == null) {
+            return 1UL
+        } else {
+            return 1UL + FfiConverterTypeHereBy.allocationSize(value)
+        }
+    }
+
+    override fun write(value: HereBy?, buf: ByteBuffer) {
+        if (value == null) {
+            buf.put(0)
+        } else {
+            buf.put(1)
+            FfiConverterTypeHereBy.write(value, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
 public object FfiConverterOptionalTypeItemType: FfiConverterRustBuffer<ItemType?> {
     override fun read(buf: ByteBuffer): ItemType? {
         if (buf.get().toInt() == 0) {
@@ -22027,6 +25610,38 @@ public object FfiConverterOptionalTypeSignInResult: FfiConverterRustBuffer<SignI
 /**
  * @suppress
  */
+public object FfiConverterOptionalTypeSsoProtocol: FfiConverterRustBuffer<SsoProtocol?> {
+    override fun read(buf: ByteBuffer): SsoProtocol? {
+        if (buf.get().toInt() == 0) {
+            return null
+        }
+        return FfiConverterTypeSsoProtocol.read(buf)
+    }
+
+    override fun allocationSize(value: SsoProtocol?): ULong {
+        if (value == null) {
+            return 1UL
+        } else {
+            return 1UL + FfiConverterTypeSsoProtocol.allocationSize(value)
+        }
+    }
+
+    override fun write(value: SsoProtocol?, buf: ByteBuffer) {
+        if (value == null) {
+            buf.put(0)
+        } else {
+            buf.put(1)
+            FfiConverterTypeSsoProtocol.write(value, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
 public object FfiConverterOptionalTypeStrengthFeedback: FfiConverterRustBuffer<StrengthFeedback?> {
     override fun read(buf: ByteBuffer): StrengthFeedback? {
         if (buf.get().toInt() == 0) {
@@ -22049,6 +25664,38 @@ public object FfiConverterOptionalTypeStrengthFeedback: FfiConverterRustBuffer<S
         } else {
             buf.put(1)
             FfiConverterTypeStrengthFeedback.write(value, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
+public object FfiConverterOptionalTypeVaultRole: FfiConverterRustBuffer<VaultRole?> {
+    override fun read(buf: ByteBuffer): VaultRole? {
+        if (buf.get().toInt() == 0) {
+            return null
+        }
+        return FfiConverterTypeVaultRole.read(buf)
+    }
+
+    override fun allocationSize(value: VaultRole?): ULong {
+        if (value == null) {
+            return 1UL
+        } else {
+            return 1UL + FfiConverterTypeVaultRole.allocationSize(value)
+        }
+    }
+
+    override fun write(value: VaultRole?, buf: ByteBuffer) {
+        if (value == null) {
+            buf.put(0)
+        } else {
+            buf.put(1)
+            FfiConverterTypeVaultRole.write(value, buf)
         }
     }
 }
@@ -22231,6 +25878,34 @@ public object FfiConverterSequenceTypeBreachedPassword: FfiConverterRustBuffer<L
 /**
  * @suppress
  */
+public object FfiConverterSequenceTypeBreachedRecoveryEmail: FfiConverterRustBuffer<List<BreachedRecoveryEmail>> {
+    override fun read(buf: ByteBuffer): List<BreachedRecoveryEmail> {
+        val len = buf.getInt()
+        return List<BreachedRecoveryEmail>(len) {
+            FfiConverterTypeBreachedRecoveryEmail.read(buf)
+        }
+    }
+
+    override fun allocationSize(value: List<BreachedRecoveryEmail>): ULong {
+        val sizeForLength = 4UL
+        val sizeForItems = value.map { FfiConverterTypeBreachedRecoveryEmail.allocationSize(it) }.sum()
+        return sizeForLength + sizeForItems
+    }
+
+    override fun write(value: List<BreachedRecoveryEmail>, buf: ByteBuffer) {
+        buf.putInt(value.size)
+        value.iterator().forEach {
+            FfiConverterTypeBreachedRecoveryEmail.write(it, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
 public object FfiConverterSequenceTypeCodeLink: FfiConverterRustBuffer<List<CodeLink>> {
     override fun read(buf: ByteBuffer): List<CodeLink> {
         val len = buf.getInt()
@@ -22249,6 +25924,34 @@ public object FfiConverterSequenceTypeCodeLink: FfiConverterRustBuffer<List<Code
         buf.putInt(value.size)
         value.iterator().forEach {
             FfiConverterTypeCodeLink.write(it, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
+public object FfiConverterSequenceTypeConfirmedGrant: FfiConverterRustBuffer<List<ConfirmedGrant>> {
+    override fun read(buf: ByteBuffer): List<ConfirmedGrant> {
+        val len = buf.getInt()
+        return List<ConfirmedGrant>(len) {
+            FfiConverterTypeConfirmedGrant.read(buf)
+        }
+    }
+
+    override fun allocationSize(value: List<ConfirmedGrant>): ULong {
+        val sizeForLength = 4UL
+        val sizeForItems = value.map { FfiConverterTypeConfirmedGrant.allocationSize(it) }.sum()
+        return sizeForLength + sizeForItems
+    }
+
+    override fun write(value: List<ConfirmedGrant>, buf: ByteBuffer) {
+        buf.putInt(value.size)
+        value.iterator().forEach {
+            FfiConverterTypeConfirmedGrant.write(it, buf)
         }
     }
 }
@@ -22931,6 +26634,62 @@ public object FfiConverterSequenceTypeMaskedEmailProvider: FfiConverterRustBuffe
 /**
  * @suppress
  */
+public object FfiConverterSequenceTypeNearbyPlace: FfiConverterRustBuffer<List<NearbyPlace>> {
+    override fun read(buf: ByteBuffer): List<NearbyPlace> {
+        val len = buf.getInt()
+        return List<NearbyPlace>(len) {
+            FfiConverterTypeNearbyPlace.read(buf)
+        }
+    }
+
+    override fun allocationSize(value: List<NearbyPlace>): ULong {
+        val sizeForLength = 4UL
+        val sizeForItems = value.map { FfiConverterTypeNearbyPlace.allocationSize(it) }.sum()
+        return sizeForLength + sizeForItems
+    }
+
+    override fun write(value: List<NearbyPlace>, buf: ByteBuffer) {
+        buf.putInt(value.size)
+        value.iterator().forEach {
+            FfiConverterTypeNearbyPlace.write(it, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
+public object FfiConverterSequenceTypeNearbySection: FfiConverterRustBuffer<List<NearbySection>> {
+    override fun read(buf: ByteBuffer): List<NearbySection> {
+        val len = buf.getInt()
+        return List<NearbySection>(len) {
+            FfiConverterTypeNearbySection.read(buf)
+        }
+    }
+
+    override fun allocationSize(value: List<NearbySection>): ULong {
+        val sizeForLength = 4UL
+        val sizeForItems = value.map { FfiConverterTypeNearbySection.allocationSize(it) }.sum()
+        return sizeForLength + sizeForItems
+    }
+
+    override fun write(value: List<NearbySection>, buf: ByteBuffer) {
+        buf.putInt(value.size)
+        value.iterator().forEach {
+            FfiConverterTypeNearbySection.write(it, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
 public object FfiConverterSequenceTypeOldPassword: FfiConverterRustBuffer<List<OldPassword>> {
     override fun read(buf: ByteBuffer): List<OldPassword> {
         val len = buf.getInt()
@@ -22949,6 +26708,258 @@ public object FfiConverterSequenceTypeOldPassword: FfiConverterRustBuffer<List<O
         buf.putInt(value.size)
         value.iterator().forEach {
             FfiConverterTypeOldPassword.write(it, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
+public object FfiConverterSequenceTypeOrgAccessGrant: FfiConverterRustBuffer<List<OrgAccessGrant>> {
+    override fun read(buf: ByteBuffer): List<OrgAccessGrant> {
+        val len = buf.getInt()
+        return List<OrgAccessGrant>(len) {
+            FfiConverterTypeOrgAccessGrant.read(buf)
+        }
+    }
+
+    override fun allocationSize(value: List<OrgAccessGrant>): ULong {
+        val sizeForLength = 4UL
+        val sizeForItems = value.map { FfiConverterTypeOrgAccessGrant.allocationSize(it) }.sum()
+        return sizeForLength + sizeForItems
+    }
+
+    override fun write(value: List<OrgAccessGrant>, buf: ByteBuffer) {
+        buf.putInt(value.size)
+        value.iterator().forEach {
+            FfiConverterTypeOrgAccessGrant.write(it, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
+public object FfiConverterSequenceTypeOrgAccessReview: FfiConverterRustBuffer<List<OrgAccessReview>> {
+    override fun read(buf: ByteBuffer): List<OrgAccessReview> {
+        val len = buf.getInt()
+        return List<OrgAccessReview>(len) {
+            FfiConverterTypeOrgAccessReview.read(buf)
+        }
+    }
+
+    override fun allocationSize(value: List<OrgAccessReview>): ULong {
+        val sizeForLength = 4UL
+        val sizeForItems = value.map { FfiConverterTypeOrgAccessReview.allocationSize(it) }.sum()
+        return sizeForLength + sizeForItems
+    }
+
+    override fun write(value: List<OrgAccessReview>, buf: ByteBuffer) {
+        buf.putInt(value.size)
+        value.iterator().forEach {
+            FfiConverterTypeOrgAccessReview.write(it, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
+public object FfiConverterSequenceTypeOrgEvent: FfiConverterRustBuffer<List<OrgEvent>> {
+    override fun read(buf: ByteBuffer): List<OrgEvent> {
+        val len = buf.getInt()
+        return List<OrgEvent>(len) {
+            FfiConverterTypeOrgEvent.read(buf)
+        }
+    }
+
+    override fun allocationSize(value: List<OrgEvent>): ULong {
+        val sizeForLength = 4UL
+        val sizeForItems = value.map { FfiConverterTypeOrgEvent.allocationSize(it) }.sum()
+        return sizeForLength + sizeForItems
+    }
+
+    override fun write(value: List<OrgEvent>, buf: ByteBuffer) {
+        buf.putInt(value.size)
+        value.iterator().forEach {
+            FfiConverterTypeOrgEvent.write(it, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
+public object FfiConverterSequenceTypeOrgGroup: FfiConverterRustBuffer<List<OrgGroup>> {
+    override fun read(buf: ByteBuffer): List<OrgGroup> {
+        val len = buf.getInt()
+        return List<OrgGroup>(len) {
+            FfiConverterTypeOrgGroup.read(buf)
+        }
+    }
+
+    override fun allocationSize(value: List<OrgGroup>): ULong {
+        val sizeForLength = 4UL
+        val sizeForItems = value.map { FfiConverterTypeOrgGroup.allocationSize(it) }.sum()
+        return sizeForLength + sizeForItems
+    }
+
+    override fun write(value: List<OrgGroup>, buf: ByteBuffer) {
+        buf.putInt(value.size)
+        value.iterator().forEach {
+            FfiConverterTypeOrgGroup.write(it, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
+public object FfiConverterSequenceTypeOrgInvitation: FfiConverterRustBuffer<List<OrgInvitation>> {
+    override fun read(buf: ByteBuffer): List<OrgInvitation> {
+        val len = buf.getInt()
+        return List<OrgInvitation>(len) {
+            FfiConverterTypeOrgInvitation.read(buf)
+        }
+    }
+
+    override fun allocationSize(value: List<OrgInvitation>): ULong {
+        val sizeForLength = 4UL
+        val sizeForItems = value.map { FfiConverterTypeOrgInvitation.allocationSize(it) }.sum()
+        return sizeForLength + sizeForItems
+    }
+
+    override fun write(value: List<OrgInvitation>, buf: ByteBuffer) {
+        buf.putInt(value.size)
+        value.iterator().forEach {
+            FfiConverterTypeOrgInvitation.write(it, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
+public object FfiConverterSequenceTypeOrgInvite: FfiConverterRustBuffer<List<OrgInvite>> {
+    override fun read(buf: ByteBuffer): List<OrgInvite> {
+        val len = buf.getInt()
+        return List<OrgInvite>(len) {
+            FfiConverterTypeOrgInvite.read(buf)
+        }
+    }
+
+    override fun allocationSize(value: List<OrgInvite>): ULong {
+        val sizeForLength = 4UL
+        val sizeForItems = value.map { FfiConverterTypeOrgInvite.allocationSize(it) }.sum()
+        return sizeForLength + sizeForItems
+    }
+
+    override fun write(value: List<OrgInvite>, buf: ByteBuffer) {
+        buf.putInt(value.size)
+        value.iterator().forEach {
+            FfiConverterTypeOrgInvite.write(it, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
+public object FfiConverterSequenceTypeOrgMember: FfiConverterRustBuffer<List<OrgMember>> {
+    override fun read(buf: ByteBuffer): List<OrgMember> {
+        val len = buf.getInt()
+        return List<OrgMember>(len) {
+            FfiConverterTypeOrgMember.read(buf)
+        }
+    }
+
+    override fun allocationSize(value: List<OrgMember>): ULong {
+        val sizeForLength = 4UL
+        val sizeForItems = value.map { FfiConverterTypeOrgMember.allocationSize(it) }.sum()
+        return sizeForLength + sizeForItems
+    }
+
+    override fun write(value: List<OrgMember>, buf: ByteBuffer) {
+        buf.putInt(value.size)
+        value.iterator().forEach {
+            FfiConverterTypeOrgMember.write(it, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
+public object FfiConverterSequenceTypeOrgVault: FfiConverterRustBuffer<List<OrgVault>> {
+    override fun read(buf: ByteBuffer): List<OrgVault> {
+        val len = buf.getInt()
+        return List<OrgVault>(len) {
+            FfiConverterTypeOrgVault.read(buf)
+        }
+    }
+
+    override fun allocationSize(value: List<OrgVault>): ULong {
+        val sizeForLength = 4UL
+        val sizeForItems = value.map { FfiConverterTypeOrgVault.allocationSize(it) }.sum()
+        return sizeForLength + sizeForItems
+    }
+
+    override fun write(value: List<OrgVault>, buf: ByteBuffer) {
+        buf.putInt(value.size)
+        value.iterator().forEach {
+            FfiConverterTypeOrgVault.write(it, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
+public object FfiConverterSequenceTypeOrgVaultGroup: FfiConverterRustBuffer<List<OrgVaultGroup>> {
+    override fun read(buf: ByteBuffer): List<OrgVaultGroup> {
+        val len = buf.getInt()
+        return List<OrgVaultGroup>(len) {
+            FfiConverterTypeOrgVaultGroup.read(buf)
+        }
+    }
+
+    override fun allocationSize(value: List<OrgVaultGroup>): ULong {
+        val sizeForLength = 4UL
+        val sizeForItems = value.map { FfiConverterTypeOrgVaultGroup.allocationSize(it) }.sum()
+        return sizeForLength + sizeForItems
+    }
+
+    override fun write(value: List<OrgVaultGroup>, buf: ByteBuffer) {
+        buf.putInt(value.size)
+        value.iterator().forEach {
+            FfiConverterTypeOrgVaultGroup.write(it, buf)
         }
     }
 }
@@ -23005,6 +27016,34 @@ public object FfiConverterSequenceTypePasswordHistoryEntry: FfiConverterRustBuff
         buf.putInt(value.size)
         value.iterator().forEach {
             FfiConverterTypePasswordHistoryEntry.write(it, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
+public object FfiConverterSequenceTypePlace: FfiConverterRustBuffer<List<Place>> {
+    override fun read(buf: ByteBuffer): List<Place> {
+        val len = buf.getInt()
+        return List<Place>(len) {
+            FfiConverterTypePlace.read(buf)
+        }
+    }
+
+    override fun allocationSize(value: List<Place>): ULong {
+        val sizeForLength = 4UL
+        val sizeForItems = value.map { FfiConverterTypePlace.allocationSize(it) }.sum()
+        return sizeForLength + sizeForItems
+    }
+
+    override fun write(value: List<Place>, buf: ByteBuffer) {
+        buf.putInt(value.size)
+        value.iterator().forEach {
+            FfiConverterTypePlace.write(it, buf)
         }
     }
 }
@@ -23211,6 +27250,34 @@ public object FfiConverterSequenceTypeSafeItem: FfiConverterRustBuffer<List<Safe
 /**
  * @suppress
  */
+public object FfiConverterSequenceTypeSamlCertificate: FfiConverterRustBuffer<List<SamlCertificate>> {
+    override fun read(buf: ByteBuffer): List<SamlCertificate> {
+        val len = buf.getInt()
+        return List<SamlCertificate>(len) {
+            FfiConverterTypeSamlCertificate.read(buf)
+        }
+    }
+
+    override fun allocationSize(value: List<SamlCertificate>): ULong {
+        val sizeForLength = 4UL
+        val sizeForItems = value.map { FfiConverterTypeSamlCertificate.allocationSize(it) }.sum()
+        return sizeForLength + sizeForItems
+    }
+
+    override fun write(value: List<SamlCertificate>, buf: ByteBuffer) {
+        buf.putInt(value.size)
+        value.iterator().forEach {
+            FfiConverterTypeSamlCertificate.write(it, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
 public object FfiConverterSequenceTypeScannedCode: FfiConverterRustBuffer<List<ScannedCode>> {
     override fun read(buf: ByteBuffer): List<ScannedCode> {
         val len = buf.getInt()
@@ -23229,6 +27296,34 @@ public object FfiConverterSequenceTypeScannedCode: FfiConverterRustBuffer<List<S
         buf.putInt(value.size)
         value.iterator().forEach {
             FfiConverterTypeScannedCode.write(it, buf)
+        }
+    }
+}
+
+
+
+
+/**
+ * @suppress
+ */
+public object FfiConverterSequenceTypeScimToken: FfiConverterRustBuffer<List<ScimToken>> {
+    override fun read(buf: ByteBuffer): List<ScimToken> {
+        val len = buf.getInt()
+        return List<ScimToken>(len) {
+            FfiConverterTypeScimToken.read(buf)
+        }
+    }
+
+    override fun allocationSize(value: List<ScimToken>): ULong {
+        val sizeForLength = 4UL
+        val sizeForItems = value.map { FfiConverterTypeScimToken.allocationSize(it) }.sum()
+        return sizeForLength + sizeForItems
+    }
+
+    override fun write(value: List<ScimToken>, buf: ByteBuffer) {
+        buf.putInt(value.size)
+        value.iterator().forEach {
+            FfiConverterTypeScimToken.write(it, buf)
         }
     }
 }
@@ -24300,6 +28395,21 @@ public object FfiConverterMapStringTypeListArrangement: FfiConverterRustBuffer<M
     UniffiLib.uniffi_octapass_mobile_fn_func_masked_email_providers(
     
         _status)
+}
+    )
+    }
+    
+
+        /**
+         * The catalog key of an activity log line (`organisation.eventMemberJoined`), as the web vault's
+         * `ActivityPanel` names them; none for a type from a newer server, which the apps show as is.
+         */ fun `orgEventMessageKey`(`eventType`: kotlin.String): kotlin.String? {
+            return FfiConverterOptionalString.lift(
+    uniffiRustCall() { _status ->
+    UniffiLib.uniffi_octapass_mobile_fn_func_org_event_message_key(
+    
+        
+        FfiConverterString.lower(`eventType`),_status)
 }
     )
     }

@@ -19,6 +19,7 @@ mod inbox;
 mod local;
 mod matching;
 mod passkey;
+mod places;
 mod rules;
 mod sharing;
 #[cfg(feature = "test-server")]

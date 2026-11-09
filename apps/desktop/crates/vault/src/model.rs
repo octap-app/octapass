@@ -392,6 +392,12 @@ pub struct ItemSummary {
     pub updated_at: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub deleted_at: Option<String>,
+    /// The places (Nearby) the item belongs to.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub places: Vec<String>,
+    /// A place's point, radius and networks.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub place: Option<Value>,
 }
 
 impl From<&Item> for ItemSummary {
@@ -421,6 +427,11 @@ impl From<&Item> for ItemSummary {
             created_at: item.created_at.clone(),
             updated_at: item.updated_at.clone(),
             deleted_at: item.deleted_at.clone(),
+            places: strings("places").unwrap_or_default(),
+            place: overview
+                .get("place")
+                .filter(|place| place.is_object())
+                .cloned(),
         }
     }
 }

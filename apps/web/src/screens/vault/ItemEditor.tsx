@@ -61,6 +61,9 @@ function useInitialDraft(original: Item | undefined, vaults: Vault[]): ItemDraft
     const draft = emptyDraft(type, vaultId);
     if (parsed.kind === 'favorites') draft.overview.favorite = true;
     if (parsed.kind === 'pinned') draft.overview.pinned = true;
+    // "Add an item here" in Nearby: the new item starts at that place.
+    const place = search.get('place');
+    if (parsed.kind === 'nearby' && place) draft.overview.places = [place];
     return draft;
     // Only on mount: later URL changes don't reset a form in progress.
   }, []);
@@ -153,7 +156,7 @@ function EditorForm({ original, vaults }: { original: Item | undefined; vaults: 
         for (const failure of await applyFileChanges(attachments, result.id, changes)) toast({ message: failure, tone: 'danger' });
       }
       toast({ message: t('editor.saved', { title: result.overview.title }), tone: 'success' });
-      navigate(`/items/${scope === 'trash' ? 'all' : scope}/${result.id}`, { replace: true });
+      navigate(`/items/${scope === 'trash' ? 'all' : scope}/${result.id}`, { replace: true, ...(!original && { state: { created: result.id } }) });
     } catch (e) {
       setFormError(errorMessage(e));
       setSaving(false);

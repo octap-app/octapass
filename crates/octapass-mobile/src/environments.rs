@@ -251,6 +251,7 @@ mod tests {
             stage: stage.map(str::to_owned),
             variable_keys: keys.iter().map(|k| (*k).to_owned()).collect(),
             pinned: false,
+            places: Vec::new(),
         }
     }
 

@@ -36,6 +36,8 @@ import {
   type FileMenuStatus,
   type FileSource,
   type EquivalentDomains,
+  type Here,
+  type NearbyPlace,
   type FilesService,
   type LocalFile,
   type SafeEntry,
@@ -653,6 +655,14 @@ export class TauriVaultService implements VaultService, AttachmentService {
 
   setHotpCounter(id: string, counter: number): Promise<Item> {
     return this.call('set_hotp_counter', { id, counter });
+  }
+
+  nearby(here: Here): Promise<NearbyPlace[]> {
+    return this.call('nearby', { here });
+  }
+
+  async suggestPlace(itemId: string, here: Here): Promise<string | undefined> {
+    return (await this.call<string | null>('suggest_place', { itemId, here })) ?? undefined;
   }
 
   equivalentDomains(): Promise<EquivalentDomains> {

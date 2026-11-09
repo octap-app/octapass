@@ -18,7 +18,7 @@ import {
   uniqueWebsites,
 } from '@octapass/vault-client';
 import { useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router';
+import { Link, useLocation, useNavigate, useParams } from 'react-router';
 import { useService } from '../../app/ServiceContext';
 import { Alert } from '../../components/Alert';
 import { Menu, type MenuItem } from '../../components/Menu';
@@ -39,6 +39,7 @@ import { EnvironmentFields } from './Environment';
 import { Field, FieldList, SecretField, TotpField } from './Fields';
 import { ItemFiles, useAttachments } from './Files';
 import { ItemHistory } from './ItemHistory';
+import { ItemPlaces, PlaceSuggestion } from './Nearby';
 import { AddCodeDialog } from './otp/AddCodeDialog';
 import { LinkToLoginDialog } from './otp/LinkToLoginDialog';
 import { isCodeOnly } from './otp/useQrScan';
@@ -91,6 +92,8 @@ export function ItemDetail() {
   const [sharingLink, setSharingLink] = useState(false);
   const [moveCopy, setMoveCopy] = useState<'move' | 'copy'>();
   const [codeDialog, setCodeDialog] = useState<'add' | 'link'>();
+  // Set by the editor right after it saves a new item: Nearby may offer it a place.
+  const created = (useLocation().state as { created?: string } | null)?.created;
   const listPath = `/items/${scope}`;
 
   if (error) {
@@ -223,6 +226,7 @@ export function ItemDetail() {
             </Alert>
           )}
           {readOnly && <Alert tone="info">{t('detail.readOnly', { vault: vault?.name ?? '' })}</Alert>}
+          {editable && <PlaceSuggestion item={item} fresh={created === item.id} />}
 
           <header className={styles.head}>
             <ItemAvatar name={item.overview.title} urls={item.overview.urls} size="xl" />
@@ -251,6 +255,7 @@ export function ItemDetail() {
             </ul>
           )}
 
+          {!trashed && <ItemPlaces item={item} editable={editable} />}
           <Meta item={item} vault={vault} />
           {!trashed && <ItemHistory item={item} editable={editable} />}
         </div>

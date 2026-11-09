@@ -776,6 +776,25 @@ pub async fn set_hotp_counter(
     state.vault.set_hotp_counter(&id, counter).await
 }
 
+/// Nearby: every place with its items, the place this computer is at first. `here` (the Wi-Fi
+/// network it's on, a location reading) stays on this computer.
+#[tauri::command]
+pub fn nearby(
+    state: State<'_, AppState>,
+    here: octapass_core::places::Here,
+) -> Result<Vec<octapass_core::places::NearbyPlace>> {
+    state.vault.nearby(&here)
+}
+
+#[tauri::command]
+pub fn suggest_place(
+    state: State<'_, AppState>,
+    item_id: String,
+    here: octapass_core::places::Here,
+) -> Result<Option<String>> {
+    state.vault.suggest_place(&item_id, &here)
+}
+
 #[tauri::command]
 pub fn equivalent_domains(state: State<'_, AppState>) -> Result<EquivalentDomains> {
     state.vault.equivalent_domains()

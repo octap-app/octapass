@@ -47,6 +47,8 @@ None of this touches your vault: the relay has no access to it, and the site an 
 - Tags, folder and vault names
 - Attachment names and contents
 - Your master password, Secret Key, recovery code or any decryption key
+- Your [places](/docs/features/nearby/): their names, locations, radii, Wi-Fi network names and notes, and which items belong to which place. They're encrypted items like any other.
+- Where your device is. [Nearby](/docs/features/nearby/) compares the Wi-Fi network you're on and, if you allow it, one location reading with your places on the device itself. Octa Pass sends neither anywhere and uses no map or geocoding service. Your device's own location service (Apple's, Google's, your browser's) may use nearby Wi-Fi and mobile networks to work the reading out, as it does for any app you allow location.
 
 ## Optional features that send data
 

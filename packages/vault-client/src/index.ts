@@ -9,6 +9,7 @@ export * from './duplicates';
 export * from './listOrder';
 export * from './usage';
 export * from './wifi';
+export * from './places';
 export * from './itemFields';
 export * from './paymentQr';
 export * from './sshKeys';

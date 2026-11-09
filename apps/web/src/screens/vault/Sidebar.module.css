@@ -115,18 +115,6 @@
   color: var(--ink);
 }
 
-/* A list that isn't built yet: dimmed, and not a link. */
-.soon,
-.soon:hover {
-  background: none;
-  color: var(--mist);
-  cursor: default;
-}
-
-.soon .label em {
-  color: var(--mist);
-}
-
 .count {
   font-size: var(--text-sm);
   color: var(--mist);

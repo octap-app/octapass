@@ -324,6 +324,49 @@ fn recovery_links_follow_the_new_ids() {
     assert_eq!(source.item_id.as_deref(), Some("new-1"));
 }
 
+#[test]
+fn places_and_the_links_to_them_come_back_with_the_new_ids() {
+    const PLACE_ID: &str = "0192f0c8-1c2d-7a00-8000-0000000000a1";
+    let doc = ExportDocument::new(
+        "2026-11-08T00:00:00.000Z".into(),
+        vec![vault("v1", "Personal", "personal")],
+        vec![
+            item(
+                PLACE_ID,
+                "v1",
+                json!({ "schemaVersion": 1, "title": "Office", "type": "place", "place": { "latitude": 51.5, "longitude": -0.12, "radius": 200, "networks": ["Office 5G"] } }),
+                json!({ "schemaVersion": 1, "notes": "Third floor" }),
+            ),
+            item(
+                "0192f0c8-1c2d-7a00-8000-0000000000a2",
+                "v1",
+                json!({ "schemaVersion": 1, "title": "Printer", "type": "login", "places": [PLACE_ID, "0192f0c8-1c2d-7a00-8000-0000000000ff"] }),
+                json!({ "schemaVersion": 1, "username": "admin" }),
+            ),
+        ],
+    );
+    let mut result = import_file(
+        ImportSource::OctaPass,
+        doc.to_json().as_bytes(),
+        &ImportOptions::default(),
+    )
+    .unwrap();
+    assert_eq!(result.items.len(), 2);
+    let place = &result.items[0];
+    assert_eq!(place.overview.item_type, ItemType::Other("place".into()));
+    assert_eq!(
+        place.overview.extra["place"],
+        json!({ "latitude": 51.5, "longitude": -0.12, "radius": 200, "networks": ["Office 5G"] })
+    );
+    let new_ids = vec!["new-place".to_owned(), "new-login".to_owned()];
+    relink(&mut result.items, &result.source_ids, &new_ids);
+    // The link to the imported place follows it; one to a place that wasn't in the file stays.
+    assert_eq!(
+        result.items[1].overview.extra["places"],
+        json!(["new-place", "0192f0c8-1c2d-7a00-8000-0000000000ff"])
+    );
+}
+
 // ---------- CXF ----------
 
 fn account() -> CxfAccount {

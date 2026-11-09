@@ -198,6 +198,8 @@ function notesOf(item: Item): string {
     case 'healthSettings':
     case 'equivalentDomains':
     case 'usageStats':
+    // Places are only in the JSON export, like the other settings-like types.
+    case 'place':
       return '';
   }
 }

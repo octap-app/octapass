@@ -582,7 +582,7 @@ impl OctaPassVault {
     }
 
     /// Changes waiting to upload, as the sync status shows them.
-    fn refresh_pending(&self) {
+    pub(crate) fn refresh_pending(&self) {
         let Ok(access) = self.vault.access() else {
             return;
         };
@@ -640,7 +640,7 @@ impl OctaPassVault {
 
     /// Every listable item: not a vault's name record, not in a vault whose grant didn't
     /// verify.
-    fn visible_items(&self) -> Result<Vec<StoredItem>> {
+    pub(crate) fn visible_items(&self) -> Result<Vec<StoredItem>> {
         let access = self.vault.access()?;
         let untrusted = self.shared.open(&access);
         drop(access);
@@ -649,7 +649,7 @@ impl OctaPassVault {
         Ok(items)
     }
 
-    fn vaults(&self) -> Result<Vec<Vault>> {
+    pub(crate) fn vaults(&self) -> Result<Vec<Vault>> {
         let access = self.vault.access()?;
         self.shared.open(&access);
         let items = self.vault.all_items()?;
@@ -708,13 +708,13 @@ impl OctaPassVault {
         Ok(watch::bundle_json(&sources, now_ms))
     }
 
-    fn item(&self, id: &str) -> Result<Item> {
+    pub(crate) fn item(&self, id: &str) -> Result<Item> {
         let item = self.vault.get_item(id)?;
         require(!is_vault_info(&item), ErrorCode::NotFound)?;
         Ok(Item::from(&item))
     }
 
-    fn save(&self, draft: &ItemDraft) -> Result<Item> {
+    pub(crate) fn save(&self, draft: &ItemDraft) -> Result<Item> {
         let stored = match &draft.id {
             Some(id) => Some(self.vault.get_item(id)?),
             None => None,

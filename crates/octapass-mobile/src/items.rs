@@ -21,7 +21,7 @@ pub(crate) use crate::structured::{self, StructuredDetails};
 /// Items of this type hold a shared vault's name. They're never listed as items.
 pub(crate) use octapass_mobile_vault::model::VAULT_INFO_TYPE;
 /// Settings rather than things to list: shown only when a filter asks for the type.
-const HIDDEN_TYPES: [&str; 7] = [
+const HIDDEN_TYPES: [&str; 8] = [
     "maskedEmailProvider",
     octapass_mobile_vault::health::HEALTH_SETTINGS_TYPE,
     "equivalentDomains",
@@ -29,6 +29,8 @@ const HIDDEN_TYPES: [&str; 7] = [
     "customTemplate",
     "fileSafe",
     VAULT_INFO_TYPE,
+    // Places are listed in Nearby and its Places manager (`places.rs`).
+    octapass_core::places::PLACE_TYPE,
 ];
 /// Leading or trailing spaces can be part of a secret, so these are kept exactly as typed.
 const VERBATIM: [&str; 6] = ["password", "value", "cvv", "pin", "answer", "passphrase"];
@@ -472,6 +474,9 @@ pub struct Item {
     /// Listed under Pinned, a list of its own apart from the favourites.
     #[uniffi(default = false)]
     pub pinned: bool,
+    /// The ids of the places (Nearby) the item belongs to.
+    #[uniffi(default)]
+    pub places: Vec<String>,
 }
 
 /// A past version of an item, from its encrypted history. `item` holds what it said then; the
@@ -567,6 +572,9 @@ pub struct ItemSummary {
     pub variable_keys: Vec<String>,
     #[uniffi(default = false)]
     pub pinned: bool,
+    /// The places (Nearby) it belongs to.
+    #[uniffi(default)]
+    pub places: Vec<String>,
 }
 
 /// What `saveItem` takes. No `id` for a new item; `revision` is the one the edit started from.
@@ -587,6 +595,10 @@ pub struct ItemDraft {
     pub details: ItemDetails,
     #[uniffi(default = false)]
     pub pinned: bool,
+    /// The places (Nearby) it belongs to; `None` keeps the ones it has. A new item made from a
+    /// place in Nearby starts with that place.
+    #[uniffi(default)]
+    pub places: Option<Vec<String>>,
 }
 
 /// The website match modes, in the order to offer them: the default (this host, the domains above
@@ -992,6 +1004,7 @@ impl From<&StoredItem> for Item {
             last_used_at: text(&overview, "lastUsedAt"),
             password_changed_at: password_changed_at(&item_type, &item.details),
             pinned: overview.get("pinned") == Some(&Value::Bool(true)),
+            places: texts(&overview, octapass_core::places::PLACES_FIELD),
         }
     }
 }
@@ -1029,6 +1042,7 @@ impl From<&StoredItem> for ItemSummary {
             tags: texts(&overview, "tags"),
             favorite: overview.get("favorite") == Some(&Value::Bool(true)),
             pinned: overview.get("pinned") == Some(&Value::Bool(true)),
+            places: texts(&overview, octapass_core::places::PLACES_FIELD),
             has_totp: login && text(&details, "totp").is_some_and(|t| !t.is_empty()),
             has_passkey: login
                 && details
@@ -1103,6 +1117,7 @@ pub fn new_item_draft(item_type: ItemType, vault_id: String) -> ItemDraft {
         favorite: false,
         details,
         pinned: false,
+        places: None,
     }
 }
 
@@ -1121,6 +1136,7 @@ pub fn item_draft(item: Item) -> ItemDraft {
         favorite: item.favorite,
         details: item.details,
         pinned: item.pinned,
+        places: None,
     }
 }
 
@@ -1880,6 +1896,22 @@ pub(crate) fn draft_json(draft: &ItemDraft, stored: Option<&StoredItem>) -> Resu
         overview.insert("pinned".into(), Value::Bool(true));
     } else {
         overview.remove("pinned");
+    }
+    if let Some(places) = &draft.places {
+        let mut ids: Vec<Value> = Vec::new();
+        for id in places.iter().filter(|id| !id.is_empty()) {
+            if !ids.iter().any(|one| one.as_str() == Some(id)) {
+                ids.push(Value::String(id.clone()));
+            }
+        }
+        if ids.is_empty() {
+            overview.remove(octapass_core::places::PLACES_FIELD);
+        } else {
+            overview.insert(
+                octapass_core::places::PLACES_FIELD.into(),
+                Value::Array(ids),
+            );
+        }
     }
     match subtitle_for(draft, stored, &details) {
         Some(subtitle) => overview.insert("subtitle".into(), Value::String(subtitle)),

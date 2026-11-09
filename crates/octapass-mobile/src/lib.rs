@@ -29,6 +29,7 @@ pub mod list;
 pub mod local;
 pub mod local_vaults;
 pub mod masked_email;
+pub mod places;
 pub mod platform;
 pub mod push;
 pub mod qr;

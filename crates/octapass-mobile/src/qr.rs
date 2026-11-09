@@ -790,6 +790,7 @@ mod payment_tests {
             last_used_at: None,
             password_changed_at: None,
             pinned: false,
+            places: Vec::new(),
         }
     }
 

@@ -28,7 +28,7 @@ async function expectRows(titles: string[]) {
 
 // Each test signs up a fresh account, which derives keys: slower than most component tests.
 describe('the lists above the vaults', { timeout: 20_000 }, () => {
-  it('come in order between All items and the vaults, with Nearby marked as coming soon', async () => {
+  it('come in order between All items and the vaults', async () => {
     renderApp(await withLogins(['GitHub']), '/items/all');
     const nav = await screen.findByRole('navigation', { name: 'Vault' });
     await within(nav).findByRole('link', { name: /Personal/ }, { timeout: 5000 });
@@ -36,8 +36,8 @@ describe('the lists above the vaults', { timeout: 20_000 }, () => {
     // Each row's own label, without its count or badge.
     const labels = Array.from(list.querySelectorAll('li')).map((row) => row.querySelector('svg + span')?.firstChild?.textContent);
     expect(labels).toEqual(['All items', 'Recently created', 'Nearby', 'Pinned', 'Favourites', 'Frequently used', 'Recently used', 'Recently modified', 'Personal', 'New shared vault']);
-    expect(within(nav).queryByRole('link', { name: /Nearby/ })).not.toBeInTheDocument();
-    expect(within(list).getByText('Soon')).toBeInTheDocument();
+    expect(within(nav).getByRole('link', { name: /Nearby/ })).toHaveAttribute('href', '/items/nearby');
+    expect(within(list).queryByText('Soon')).not.toBeInTheDocument();
   });
 
   it('pins from the item, and lists pinned items under Pinned with a count', async () => {

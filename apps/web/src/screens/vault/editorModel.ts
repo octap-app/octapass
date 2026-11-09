@@ -234,6 +234,8 @@ const DETAILS: Record<ItemType, Schema> = {
   // Nor these: Settings → Equivalent domains.
   equivalentDomains: 'keep',
   usageStats: 'keep',
+  // Places are edited in Nearby's Places manager.
+  place: 'keep',
   environment: {
     project: 1,
     projectName: 1,

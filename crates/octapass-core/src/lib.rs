@@ -32,6 +32,8 @@ pub mod local;
 pub mod matching;
 pub mod opaque;
 pub mod passkey;
+// Nearby (plan 01): places, and which one the device is at, worked out on the device.
+pub mod places;
 pub mod recovery;
 pub mod rules;
 // Octa Pass Safe (plan 16): the encrypted drive's format. No I/O, like the rest of the core.

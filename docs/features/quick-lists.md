@@ -12,7 +12,7 @@ The **Vaults** part of the sidebar starts with lists that cut across every vault
 |---|---|
 | **All items** | Everything, sorted and grouped as you choose. |
 | **Recently created** | The 50 items added most recently, newest first. |
-| **Nearby** | Coming soon: items saved with a place, when you're close to it. Shown greyed out, with **Soon**. |
+| **Nearby** | Your places and the items saved with each, the place you're at first. See [Nearby](/docs/features/nearby/). |
 | **Pinned** | The items you pinned, with a count. |
 | **Favourites** | The items you starred, with a count. |
 | **Frequently used** | The 50 items you use most, the most uses first. |

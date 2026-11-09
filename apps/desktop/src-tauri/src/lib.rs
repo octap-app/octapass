@@ -329,6 +329,8 @@ pub fn run() {
             commands::restore_item_version,
             commands::next_hotp_code,
             commands::set_hotp_counter,
+            commands::nearby,
+            commands::suggest_place,
             commands::equivalent_domains,
             commands::save_equivalent_domains,
             commands::generate_password_for_site,

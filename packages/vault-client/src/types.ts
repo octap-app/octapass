@@ -10,7 +10,9 @@ import type { IconAnswer } from './siteIcons';
  * `maskedEmailProvider` holds the token for a masked email service (`MaskedEmailService`). It syncs
  * like any item but is kept out of item lists: lists show it only when filtered by that type.
  * `equivalentDomains` is a setting held the same way (`EquivalentDomainsDetails`), and so is
- * `usageStats`, how often and when each item was used (`UsageStatsDetails`).
+ * `usageStats`, how often and when each item was used (`UsageStatsDetails`). A `place` is a place
+ * saved for Nearby (`PlaceData` in its overview, `PlaceDetails`): kept out of item lists too, and
+ * listed in Nearby and the Places manager.
  */
 export type ItemType =
   | 'login'
@@ -26,6 +28,7 @@ export type ItemType =
   | 'healthSettings'
   | 'equivalentDomains'
   | 'usageStats'
+  | 'place'
   | 'certificate'
   | 'key'
   | TableItemType
@@ -73,6 +76,41 @@ export interface ItemOverview {
   lastUsedAt?: string;
   /** The app and the item's id there, so importing the same file again updates the item. */
   importedFrom?: ImportedFrom;
+  /** The ids of the places (`place` items) the item belongs to, listed under them in Nearby. */
+  places?: string[];
+  /** A `place` item's point, radius and Wi-Fi networks. */
+  place?: PlaceData;
+}
+
+/**
+ * Where a place is: an optional point (degrees, WGS 84), a radius in metres around it (default
+ * `PLACE_DEFAULT_RADIUS`) and the Wi-Fi network names (SSIDs) that mean being there. All inside the
+ * encrypted overview; matching it against where the device is happens on the device (plan 03, *Nearby*).
+ */
+export interface PlaceData {
+  latitude?: number;
+  longitude?: number;
+  radius?: number;
+  networks?: string[];
+}
+
+export const PLACE_DEFAULT_RADIUS = 150;
+export const PLACE_MIN_RADIUS = 25;
+export const PLACE_MAX_RADIUS = 10_000;
+
+/** Where the device is, as far as it can tell: connected Wi-Fi networks and one location reading. */
+export interface Here {
+  networks?: string[];
+  position?: { latitude: number; longitude: number; accuracy?: number };
+}
+
+/** A place in the Nearby list: `here` when the device is at it (and how it knows), `distance` in metres. */
+export interface NearbyPlace {
+  id: string;
+  here?: 'wifi' | 'location';
+  distance?: number;
+  /** The place's items, a section per type in the list's type order, each by name. */
+  sections: { type: ItemType | (string & {}); items: string[] }[];
 }
 
 /** `source` is the `ImportSource` the item came through; `id` is the item's id in that app. */
@@ -533,6 +571,13 @@ export interface EnvironmentDetails {
   attachments?: Attachment[];
 }
 
+/** A `place` item's details: a note. The rest is in the overview's `place`. */
+export interface PlaceDetails {
+  schemaVersion: typeof SCHEMA_VERSION;
+  notes?: string;
+  attachments?: never;
+}
+
 /** The user's own equivalent domains. One hidden item; never edited as an item (`EquivalentDomains`). */
 export interface EquivalentDomainsDetails {
   schemaVersion: typeof SCHEMA_VERSION;
@@ -690,6 +735,7 @@ export interface ItemDetailsByType {
   environment: EnvironmentDetails;
   equivalentDomains: EquivalentDomainsDetails;
   usageStats: UsageStatsDetails;
+  place: PlaceDetails;
   certificate: CertificateDetails;
   key: KeyItemDetails;
   bankAccount: BankAccountDetails;
@@ -740,6 +786,10 @@ export interface ItemSummary {
   favorite: boolean;
   /** Missing from an older native host, which means not pinned. */
   pinned?: boolean;
+  /** The places it belongs to (`ItemOverview.places`). */
+  places?: string[];
+  /** A place's point, radius and networks (`ItemOverview.place`). */
+  place?: PlaceData;
   hasTotp: boolean;
   hasPasskey: boolean;
   /** Environments: the project and stage, and the variable names (never values) for search. */
@@ -2107,6 +2157,17 @@ export interface VaultService {
   nextHotpCode?(id: string): Promise<HotpCode>;
   /** Brings the item's HOTP code back in step with the site. Not an edit: no history entry. */
   setHotpCounter?(id: string, counter: number): Promise<Item>;
+  /**
+   * Nearby: every place with its items, the places the device is at first, then the others nearest
+   * first when its location is known. Worked out on the device by the core; `here` never leaves it.
+   * Missing where the host has no core to ask.
+   */
+  nearby?(here: Here): Promise<NearbyPlace[]>;
+  /**
+   * The place to offer a new item to ("You're at Office. Add this item to it?"), when the device is
+   * at one that everyone who sees the item can see and the item isn't at it yet.
+   */
+  suggestPlace?(itemId: string, here: Here): Promise<string | undefined>;
   /** The user's equivalent domains and the built-in ones. Missing where the host doesn't offer them yet. */
   equivalentDomains?(): Promise<EquivalentDomains>;
   /** Saves the list; the result says what was refused (public suffixes, addresses, anything that isn't a domain). */
@@ -2181,6 +2242,11 @@ export interface VaultService {
   readonly autoType?: AutoTypeService;
   /** The device's Wi-Fi: connected and in-range marks, importing saved networks. Apps only. */
   readonly wifi?: WifiService;
+  /**
+   * The device's location for Nearby, where the host reads it its own way (the desktop app). Without
+   * it, the web vault asks the browser (`navigator.geolocation`).
+   */
+  readonly location?: LocationService;
   /** Octa Pass Connect, in the desktop app. */
   readonly connect?: ConnectService;
   /** Generating, importing and exporting SSH keys. Missing where the host doesn't offer it yet. */
@@ -2444,6 +2510,19 @@ export interface WifiFeatures {
   savedNetworks: boolean;
   /** Notice when the device joins a network, to offer saving it. */
   joins: boolean;
+}
+
+/** Whether Nearby may read the device's location: asked once, by the system's own prompt. */
+export type LocationPermission = 'granted' | 'prompt' | 'denied' | 'unavailable';
+
+/**
+ * One reading of the device's location for Nearby, foreground only: never watched, never kept, and
+ * matched against places on the device (plan 03, *Nearby*).
+ */
+export interface LocationService {
+  permission(): Promise<LocationPermission>;
+  /** Asks for permission first if it hasn't been given. Rejects when refused or unavailable. */
+  current(): Promise<{ latitude: number; longitude: number; accuracy?: number }>;
 }
 
 /**

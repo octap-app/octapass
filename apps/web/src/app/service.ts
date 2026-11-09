@@ -22,14 +22,15 @@ export const DEFAULT_SERVER_URL: string = defaultServerUrl(
 export async function createVaultService(): Promise<VaultService> {
   if (BACKEND === 'mock') {
     const { MockVaultService } = await import('@octapass/vault-client/mock');
-    // SSH keys need the real core, loaded in the page here (the remote build runs it in the worker).
-    return MockVaultService.create({
-      sshCore: async () => {
-        const [core, { default: wasmUrl }] = await Promise.all([import('@octapass/core'), import('@octapass/core/octapass_core_bg.wasm?url')]);
-        await core.default({ module_or_path: wasmUrl });
-        return core;
-      },
-    });
+    // SSH keys and Nearby need the real core, loaded in the page here (the remote build runs it in the worker).
+    let loaded: Promise<typeof import('@octapass/core')> | undefined;
+    const core = () =>
+      (loaded ??= (async () => {
+        const [module, { default: wasmUrl }] = await Promise.all([import('@octapass/core'), import('@octapass/core/octapass_core_bg.wasm?url')]);
+        await module.default({ module_or_path: wasmUrl });
+        return module;
+      })());
+    return MockVaultService.create({ sshCore: core, placesCore: core });
   }
   const { RemoteVaultService, portClient } = await import('@octapass/vault-client/remote');
   const worker = new Worker(new URL('../worker/vault.worker.ts', import.meta.url), { type: 'module', name: 'vault' });

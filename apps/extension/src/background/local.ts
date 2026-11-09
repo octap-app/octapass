@@ -18,16 +18,19 @@ import {
   storeEquivalentDomains,
   importVaultFile,
   matchesFilter,
+  nearbyFrom,
   PendingImports,
   readQrCodes,
   summarizeQrScans,
   summarizeItem,
+  suggestFrom,
   VaultError,
   withPasswordHistory,
   type AccountSummary,
   type CodeLink,
   type EquivalentDomains,
   type EquivalentDomainsDetails,
+  type Here,
   type HotpCode,
   type ImportTarget,
   type ExportFormat,
@@ -295,6 +298,10 @@ export class LocalEngine {
         return this.nextHotpCode(args[0] as string);
       case 'setHotpCounter':
         return this.setHotpCounter(args[0] as string, args[1] as number);
+      case 'nearby':
+        return nearbyFrom(await this.options.loadCore(), [...this.items.values()].map(summarizeItem), args[0] as Here);
+      case 'suggestPlace':
+        return suggestFrom(await this.options.loadCore(), [...this.items.values()].map(summarizeItem), this.vaults(), args[0] as string, args[1] as Here);
       case 'equivalentDomains':
         return this.equivalentDomains();
       case 'saveEquivalentDomains':

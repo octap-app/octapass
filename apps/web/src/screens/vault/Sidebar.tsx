@@ -28,6 +28,7 @@ export const TYPE_ICONS: Record<ItemType, IconName> = {
   healthSettings: 'shield',
   equivalentDomains: 'link',
   usageStats: 'history',
+  place: 'mapPin',
   bankAccount: 'card',
   softwareLicense: 'document',
   idDocument: 'identity',
@@ -66,13 +67,10 @@ function vaultBadge(vault: Vault): string | undefined {
   return vault.type === 'shared' ? t('vault.shared') : vault.type === 'family' ? t('vault.family') : undefined;
 }
 
-/**
- * The lists above the vaults, in this order. Nearby isn't built yet (it needs places saved with
- * items), so it shows as coming soon and goes nowhere.
- */
-const QUICK_LISTS: { scope: string; icon: IconName; label: MessageKey; counted?: boolean; soon?: boolean }[] = [
+/** The lists above the vaults, in this order. */
+const QUICK_LISTS: { scope: string; icon: IconName; label: MessageKey; counted?: boolean }[] = [
   { scope: 'created', icon: 'sparkle', label: 'scopes.created' },
-  { scope: 'nearby', icon: 'mapPin', label: 'scopes.nearby', soon: true },
+  { scope: 'nearby', icon: 'mapPin', label: 'scopes.nearby' },
   { scope: 'pinned', icon: 'pin', label: 'scopes.pinned', counted: true },
   { scope: 'favorites', icon: 'star', label: 'scopes.favorites', counted: true },
   { scope: 'frequent', icon: 'trending', label: 'scopes.frequent' },
@@ -92,21 +90,6 @@ export function SidebarRow({ to, icon, label, count, badge, warn }: { to: string
         </span>
         {count !== undefined && <span className={styles.count}>{count}</span>}
       </NavLink>
-    </li>
-  );
-}
-
-/** A list that isn't built yet: shown, marked as coming soon, and not a link. */
-function SoonRow({ icon, label }: { icon: IconName; label: string }) {
-  return (
-    <li>
-      <span className={[styles.row, styles.soon].join(' ')} aria-disabled="true">
-        <Icon name={icon} size={18} />
-        <span className={styles.label}>
-          {label}
-          <em>{t('nav.soon')}</em>
-        </span>
-      </span>
     </li>
   );
 }
@@ -139,13 +122,9 @@ export function Sidebar({ onLock, onClose, top, bottom }: { onLock: () => void; 
         <h2 className={styles.heading}>{t('nav.vaults')}</h2>
         <ul className={styles.list}>
           <SidebarRow to="/items/all" icon="grid" label={t('scopes.all')} count={counts?.all} />
-          {QUICK_LISTS.map((list) =>
-            list.soon ? (
-              <SoonRow key={list.scope} icon={list.icon} label={t(list.label)} />
-            ) : (
-              <SidebarRow key={list.scope} to={`/items/${list.scope}`} icon={list.icon} label={t(list.label)} count={list.counted ? (counts?.[list.scope] ?? 0) : undefined} />
-            ),
-          )}
+          {QUICK_LISTS.map((list) => (
+            <SidebarRow key={list.scope} to={`/items/${list.scope}`} icon={list.icon} label={t(list.label)} count={list.counted ? (counts?.[list.scope] ?? 0) : undefined} />
+          ))}
           {vaults?.map((vault) => (
             <SidebarRow key={vault.id} to={`/items/v-${vault.id}`} icon={vaultIcon(vault)} label={vault.name} badge={vaultBadge(vault)} warn={vault.untrusted} count={counts?.[`v-${vault.id}`] ?? 0} />
           ))}

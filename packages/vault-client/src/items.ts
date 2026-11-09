@@ -52,6 +52,8 @@ export function summarizeItem(item: Item): ItemSummary {
     tags: item.overview.tags,
     favorite: item.overview.favorite === true,
     pinned: item.overview.pinned === true,
+    ...(item.overview.places?.length && { places: item.overview.places }),
+    ...(item.overview.place && { place: item.overview.place }),
     hasTotp: Boolean(login?.totp),
     hasPasskey: (login?.passkeys?.length ?? 0) > 0,
     project: environment?.project,
@@ -73,7 +75,7 @@ export function matchesQuery(summary: ItemSummary, query: string): boolean {
 }
 
 /** Item types that hold settings rather than things to list: shown only when asked for by type. */
-export const HIDDEN_ITEM_TYPES: ReadonlySet<string> = new Set<string>(['maskedEmailProvider', 'healthSettings', 'equivalentDomains', 'usageStats', 'customTemplate', 'fileSafe']);
+export const HIDDEN_ITEM_TYPES: ReadonlySet<string> = new Set<string>(['maskedEmailProvider', 'healthSettings', 'equivalentDomains', 'usageStats', 'customTemplate', 'fileSafe', 'place']);
 
 export function matchesFilter(summary: ItemSummary, filter: ItemFilter = {}): boolean {
   if (Boolean(filter.trash) !== Boolean(summary.deletedAt)) return false;

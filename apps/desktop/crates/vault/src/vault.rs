@@ -48,6 +48,7 @@ mod key_log;
 mod local;
 mod master_password;
 mod organisations;
+mod places;
 pub mod safes;
 pub(crate) mod service_accounts;
 mod share_links;

@@ -11,6 +11,8 @@ import { estimateStrength } from '../tools/strength';
 import { withConfirmed, type ServiceAccount } from '../types';
 import type {
   EquivalentDomains,
+  Here,
+  NearbyPlace,
   HotpCode,
   ItemVersion,
   AccountLookup,
@@ -422,6 +424,14 @@ export class RemoteVaultService implements VaultService, SharingService, Attachm
 
   setHotpCounter(id: string, counter: number): Promise<Item> {
     return this.engine.call('setHotpCounter', [id, counter]);
+  }
+
+  nearby(here: Here): Promise<NearbyPlace[]> {
+    return this.engine.call('nearby', [here]);
+  }
+
+  suggestPlace(itemId: string, here: Here): Promise<string | undefined> {
+    return this.engine.call('suggestPlace', [itemId, here]);
   }
 
   equivalentDomains(): Promise<EquivalentDomains> {

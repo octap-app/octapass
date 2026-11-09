@@ -21,6 +21,7 @@ import { LiveCode } from './LiveCode';
 import { ScanCodesDialog } from './otp/ScanCodesDialog';
 import { TYPE_ICONS } from './Sidebar';
 import type { LayoutContext } from './VaultLayout';
+import { NearbyPage } from './Nearby';
 import { nearbyFirst, WifiListTools, WifiMark, WifiPermissionNote } from './Wifi';
 import styles from './ItemsPage.module.css';
 
@@ -48,7 +49,12 @@ function daysLeft(deletedAt: string): number {
 /** Certificates and keys are made in the Tools section, not typed into the editor. */
 const TOOL_MADE: ReadonlySet<ItemType> = new Set(['certificate', 'key']);
 
+/** An item list, or Nearby, which lists places with their items instead. */
 export function ItemsPage() {
+  return useParams().scope === 'nearby' ? <NearbyPage /> : <ScopeItemsPage />;
+}
+
+function ScopeItemsPage() {
   const params = useParams();
   const scope = parseScope(params.scope);
   const scopeKey = params.scope ?? 'all';
@@ -256,7 +262,7 @@ export function ItemsPage() {
 }
 
 /** A list row. In the one-time codes list it also shows the current code, which copies when clicked. */
-function ItemRow({ item, scopeKey, trash, codes, vaults, radar }: { item: ItemSummary; scopeKey: string; trash: boolean; codes: boolean; vaults: Vault[] | undefined; radar: WifiRadarState | undefined }) {
+export function ItemRow({ item, scopeKey, trash, codes, vaults, radar }: { item: ItemSummary; scopeKey: string; trash: boolean; codes: boolean; vaults: Vault[] | undefined; radar: WifiRadarState | undefined }) {
   const vault = vaults?.find((v) => v.id === item.vaultId);
   const subtitle = trash ? t('trash.daysLeft', { count: daysLeft(item.deletedAt!) }) : item.subtitle;
   return (
@@ -294,7 +300,7 @@ function ItemRow({ item, scopeKey, trash, codes, vaults, radar }: { item: ItemSu
   );
 }
 
-function ListSkeleton() {
+export function ListSkeleton() {
   return (
     <ul className={styles.list} aria-busy="true" aria-label={t('common.loading')}>
       {Array.from({ length: 7 }, (_, i) => (

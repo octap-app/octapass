@@ -53,6 +53,8 @@ export const ENGINE_METHODS = [
   'restoreItemVersion',
   'nextHotpCode',
   'setHotpCounter',
+  'nearby',
+  'suggestPlace',
   'equivalentDomains',
   'saveEquivalentDomains',
   'generatePasswordForSite',

@@ -3,10 +3,11 @@ import { isSmartList, type ItemFilter, type ItemType, type SmartList } from '@oc
 /**
  * The list a URL shows: /items/all, /items/favorites, /items/pinned, /items/codes, /items/v-<vaultId>,
  * /items/login, /items/trash … The lists with an order of their own (`SmartList`) are
- * /items/created, /items/frequent, /items/used and /items/changed.
+ * /items/created, /items/frequent, /items/used and /items/changed. /items/nearby is Nearby: places and
+ * the items at each, the place the device is at first.
  */
 export type Scope =
-  | { kind: 'all' | 'favorites' | 'pinned' | 'passkeys' | 'codes' | 'trash' }
+  | { kind: 'all' | 'favorites' | 'pinned' | 'passkeys' | 'codes' | 'trash' | 'nearby' }
   | { kind: 'smart'; list: SmartList }
   | { kind: 'vault'; vaultId: string }
   | { kind: 'type'; type: ItemType };
@@ -14,7 +15,7 @@ export type Scope =
 export const ITEM_TYPES: ItemType[] = ['login', 'password', 'card', 'identity', 'secureNote', 'wifi', 'sshKey', 'certificate', 'key', 'document', 'environment', 'bankAccount', 'idDocument', 'cryptoWallet', 'apiCredential', 'database', 'softwareLicense', 'custom', 'customTemplate'];
 
 export function parseScope(param: string | undefined): Scope {
-  if (param === 'favorites' || param === 'pinned' || param === 'passkeys' || param === 'codes' || param === 'trash') return { kind: param };
+  if (param === 'favorites' || param === 'pinned' || param === 'passkeys' || param === 'codes' || param === 'trash' || param === 'nearby') return { kind: param };
   if (isSmartList(param)) return { kind: 'smart', list: param };
   if (param?.startsWith('v-')) return { kind: 'vault', vaultId: param.slice(2) };
   if (ITEM_TYPES.includes(param as ItemType)) return { kind: 'type', type: param as ItemType };

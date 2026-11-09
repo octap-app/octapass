@@ -661,6 +661,7 @@ mod tests {
             stage: None,
             variable_keys: Vec::new(),
             pinned: false,
+            places: Vec::new(),
         }
     }
 

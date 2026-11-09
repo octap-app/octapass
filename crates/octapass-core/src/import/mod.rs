@@ -50,6 +50,7 @@ mod zoho;
 use core::fmt;
 
 use serde::{Deserialize, Serialize};
+use serde_json::Value;
 use zeroize::Zeroizing;
 
 pub use generic::{ColumnMapping, CsvPreview, preview_csv};
@@ -383,9 +384,10 @@ fn note_of(item: &Item) -> Option<Item> {
     ))
 }
 
-/// Points recovery info linked to another imported item (an Identity) at that item's new id.
-/// `source_ids` are [`ImportResult::source_ids`]; `new_ids` are the ids the items were saved with,
-/// in the same order. Links to items that weren't imported are left as they are.
+/// Points links to other imported items at their new ids: recovery info linked to an Identity,
+/// and the places (Nearby) an item belongs to. `source_ids` are [`ImportResult::source_ids`];
+/// `new_ids` are the ids the items were saved with, in the same order. Links to items that weren't
+/// imported are left as they are.
 pub fn relink(items: &mut [Item], source_ids: &[String], new_ids: &[String]) {
     let new_id = |old: &str| {
         source_ids
@@ -394,6 +396,14 @@ pub fn relink(items: &mut [Item], source_ids: &[String], new_ids: &[String]) {
             .and_then(|at| new_ids.get(at))
     };
     for item in items {
+        if let Some(Value::Array(places)) = item.overview.extra.get_mut(crate::places::PLACES_FIELD)
+        {
+            for place in places.iter_mut() {
+                if let Some(id) = place.as_str().and_then(new_id) {
+                    *place = Value::String(id.clone());
+                }
+            }
+        }
         let ItemDetails::Login(details) = &mut item.details else {
             continue;
         };

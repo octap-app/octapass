@@ -28,6 +28,7 @@ import { SshAgentSection } from './SshAgentSection';
 import { TwoStepSection } from './TwoStepSection';
 import { ConnectSection } from './ConnectSection';
 import { WifiSection } from './WifiSection';
+import { NearbySection } from './NearbySection';
 import styles from './SettingsPage.module.css';
 
 export function Section({ id, title, description, children }: { id?: string; title: string; description?: ReactNode; children: ReactNode }) {
@@ -182,6 +183,7 @@ export function SettingsPage({ platformSection }: { platformSection?: ReactNode 
 
         <BackgroundSection />
         <WifiSection />
+        <NearbySection />
         <ConnectSection />
 
         <SshAgentSection />

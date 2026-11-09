@@ -17,7 +17,8 @@ describe('scopes', () => {
       expect(parseScope(list)).toEqual({ kind: 'smart', list });
       expect(scopeFilter(parseScope(list))).toEqual({});
     }
-    // Nearby isn't built yet, so it isn't a list.
-    expect(parseScope('nearby')).toEqual({ kind: 'all' });
+    // Nearby lists places with their items, from every item.
+    expect(parseScope('nearby')).toEqual({ kind: 'nearby' });
+    expect(scopeFilter(parseScope('nearby'))).toEqual({});
   });
 });

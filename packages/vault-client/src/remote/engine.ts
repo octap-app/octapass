@@ -9,6 +9,7 @@ import { isVaultError, VaultError } from '../errors';
 import type { KeyValueStore } from '../idb';
 import { attachmentsOf, compareSummaries, isValidEmail, keepAttachments, loginDetails, matchesFilter, normalizeEmail, restoredVersion, summarizeItem, withAttachments, withPasswordHistory } from '../items';
 import { storeEquivalentDomains } from '../equivalentDomains';
+import { nearbyFrom, suggestFrom } from '../places';
 import { serverOrigin } from '../serverUrl';
 import { createBreachChecker } from '../tools/breach';
 import { buildHealthReport } from '../tools/health';
@@ -25,6 +26,8 @@ import type {
   CreatedShareLink,
   Device,
   EmergencyAccessLevel,
+  Here,
+  NearbyPlace,
   EmergencyContact,
   EmergencyContacts,
   EmergencyScope,
@@ -137,6 +140,8 @@ export type Core = Pick<
   | 'cleanEquivalentGroups'
   | 'defaultEquivalentDomains'
   | 'equivalentMatchOptions'
+  | 'nearbyList'
+  | 'suggestedPlace'
   | 'generateForSite'
 > &
   QrImages &
@@ -1116,6 +1121,19 @@ export class VaultEngine {
   async openInbox(inbox: string): Promise<OpenedInbox> {
     const { session } = this.requireUnlocked();
     return session.inboxOpen(inbox, this.requireAccount().accountId);
+  }
+
+  // ---------- Nearby ----------
+
+  async nearby(here: Here): Promise<NearbyPlace[]> {
+    const core = await this.loadCore();
+    return nearbyFrom(core, this.requireUnlocked().index.items().map(summarizeItem), here);
+  }
+
+  async suggestPlace(itemId: string, here: Here): Promise<string | undefined> {
+    const core = await this.loadCore();
+    const { index } = this.requireUnlocked();
+    return suggestFrom(core, index.items().map(summarizeItem), index.vaults(), itemId, here);
   }
 
   // ---------- Equivalent domains and suggested passwords ----------

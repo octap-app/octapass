@@ -29,8 +29,11 @@ import { randomInt } from '../tools/random';
 import { estimateStrength } from '../tools/strength';
 import { isHotp, nextHotp, totpCode, withHotpCounter } from '../tools/totp';
 import { storeEquivalentDomains } from '../equivalentDomains';
+import { nearbyFrom, suggestFrom, type PlacesCore } from '../places';
 import type {
   AccountSummary,
+  Here,
+  NearbyPlace,
   Attachment,
   AttachmentService,
   GeneratorOptions,
@@ -201,6 +204,8 @@ export interface MockOptions {
   seed?: boolean;
   /** Loads the core's SSH key functions (the WASM core). Without it there's no `sshKeys`. */
   sshCore?: () => Promise<SshCore>;
+  /** Loads the core's Nearby functions (the WASM core). Without it there's no Nearby. */
+  placesCore?: () => Promise<PlacesCore>;
 }
 
 const KEYS = { server: 'server-accounts', device: 'device-accounts', session: 'session', deviceUnlock: 'device-unlock' } as const;
@@ -284,6 +289,7 @@ export class MockVaultService implements VaultService, AttachmentService, TwoSte
     private readonly options: Required<Pick<MockOptions, 'latency' | 'seed'>>,
     fetchImpl: typeof fetch | undefined,
     sshCore: (() => Promise<SshCore>) | undefined,
+    private readonly placesCore?: () => Promise<PlacesCore>,
   ) {
     this.sshKeys = sshCore && createSshKeyService(sshCore, (proof) => this.confirmIdentity(proof), async () => this.currentDeviceUnlock() !== undefined);
     this.checkBreachedImpl = createBreachChecker(fetchImpl ? { fetch: fetchImpl } : undefined);
@@ -299,7 +305,7 @@ export class MockVaultService implements VaultService, AttachmentService, TwoSte
 
   static async create(options: MockOptions = {}): Promise<MockVaultService> {
     const store = await openKeyValueStore(options.dbName ?? 'octapass-mock');
-    const service = new MockVaultService(store, { latency: options.latency ?? [150, 450], seed: options.seed ?? true }, options.fetch, options.sshCore);
+    const service = new MockVaultService(store, { latency: options.latency ?? [150, 450], seed: options.seed ?? true }, options.fetch, options.sshCore, options.placesCore);
     service.server = (await store.get<Record<string, ServerAccount>>(KEYS.server)) ?? {};
     service.device = (await store.get<DeviceAccount[]>(KEYS.device)) ?? [];
     service.deviceUnlock = (await store.get<Record<string, DeviceUnlockRecord>>(KEYS.deviceUnlock)) ?? {};
@@ -820,6 +826,19 @@ export class MockVaultService implements VaultService, AttachmentService, TwoSte
 
   async listVaults(): Promise<Vault[]> {
     return structuredClone(this.vault().vaults);
+  }
+
+  async nearby(here: Here): Promise<NearbyPlace[]> {
+    if (!this.placesCore) return [];
+    const core = await this.placesCore();
+    return nearbyFrom(core, this.vault().items.map(summarizeItem), here);
+  }
+
+  async suggestPlace(itemId: string, here: Here): Promise<string | undefined> {
+    if (!this.placesCore) return undefined;
+    const core = await this.placesCore();
+    const { items, vaults } = this.vault();
+    return suggestFrom(core, items.map(summarizeItem), vaults, itemId, here);
   }
 
   async listItems(filter?: ItemFilter): Promise<ItemSummary[]> {

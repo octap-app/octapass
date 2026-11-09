@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-The server has organisations, groups, policies, [single sign-on](/docs/features/single-sign-on/) (OpenID Connect and SAML) and [SCIM provisioning](/docs/features/scim/). You can run an organisation from the web vault, the Windows and Linux app and the [CLI](#from-the-command-line). Organisation vaults open in every app, because they are shared vaults. The Mac, iPhone, iPad and Android apps have no organisation screens or single sign-on step yet. See [not yet](#not-yet).
+The server has organisations, groups, policies, [single sign-on](/docs/features/single-sign-on/) (OpenID Connect and SAML) and [SCIM provisioning](/docs/features/scim/). You can run an organisation from the web vault, the Windows and Linux app, the [Mac, iPhone, iPad and Android apps](#on-a-phone-or-mac) and the [CLI](#from-the-command-line). Organisation vaults open in every app, because they are shared vaults. The Mac, iPhone, iPad and Android apps have no single sign-on step yet. See [not yet](#not-yet).
 :::
 
 An organisation gathers a team's people, shared vaults and rules. It adds no new key, so being an admin opens nothing: nobody can read a vault without a key sealed to them on a device that already holds it.
@@ -77,11 +77,19 @@ These rely on the app following them, and a modified app can ignore them. Don't 
 | Longest auto-lock | Members can't choose a longer auto-lock, or none. |
 | Shortest master password | Checked when a new password is set. The server never sees a master password, so it can't check. |
 
-The web vault applies these today. The other apps don't apply all of them yet. See [what's not built yet](#not-yet).
+The web vault and the Mac, iPhone, iPad and Android apps apply all three. The phones and the Mac keep the last policies they saw, so they still apply them offline and after a restart, and check again after every sync. The other apps don't apply all of them yet. See [what's not built yet](#not-yet).
 
 ## Activity
 
 Admins can see who did what under **Activity**: invitations, members, roles, groups, vault links, policy changes and what the identity provider did over SCIM, kept for a year. It never holds vault contents.
+
+## On a phone or Mac
+
+The Mac, iPhone, iPad and Android apps have **Organisation** in the sidebar (on Android, in the menu), with the same sections as the web vault: invitations and creating an organisation, **Access to review**, members and invitations, groups, vaults and the groups linked to them, and for owners policies, single sign-on settings, SCIM tokens and the activity log. Leaving and deleting are at the bottom.
+
+**Access to review** works as it does everywhere else: the app shows each person with a fingerprint it worked out on the device, you tick the people you recognise, and only they get the vault's key. If someone's keys no longer give the fingerprint you saw, or one you verified earlier on that device, nothing is sealed to them.
+
+The policies the apps apply show where they apply: the auto-lock choice offers nothing longer than the organisation allows (and stay unlocked turns off), a new master password shorter than the minimum is refused, and exports leave organisation vaults out.
 
 ## From the command line
 
@@ -118,6 +126,7 @@ If the only owner deletes their account, the longest-serving admin (or else memb
 
 ## Not yet
 
-- Running an organisation from the Mac, iPhone, iPad and Android apps, or the browser extension. Use the web vault, the Windows and Linux app or the CLI. The sign-in step works in the web vault, extension, Windows and Linux app and CLI; the iPhone, iPad, Mac and Android apps have it in their core but no screen yet.
+- Running an organisation from the browser extension. Use any other app.
+- The single sign-on step at sign-in on the Mac, iPhone, iPad and Android apps. It works in the web vault, extension, Windows and Linux app and CLI; the native apps have it in their core but no screen yet, so a member whose organisation requires single sign-on signs in elsewhere.
 - SAML and SCIM tried with real identity providers. They're tested against stand-ins.
 - Admin account recovery. It would be a path to a member's keys, so it isn't offered.

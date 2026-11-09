@@ -157,6 +157,16 @@ private fun Screen(route: Route) {
         is Route.ScanCodes -> app.octap.android.ui.tools.ScanCodesScreen(route.fromLink)
         Route.Sharing -> AccountOnly(R.string.nav_sharing) { app.octap.android.ui.sharing.SharingScreen() }
         is Route.VaultMembers -> AccountOnly(R.string.nav_sharing) { app.octap.android.ui.sharing.VaultMembersScreen(route.vaultId) }
+        Route.Organisation -> AccountOnly(R.string.nav_organisation) { app.octap.android.ui.sharing.OrganisationScreen() }
+        is Route.OrgAccess -> AccountOnly(R.string.nav_organisation) { app.octap.android.ui.sharing.OrgAccessScreen(route.vaultId) }
+        is Route.OrgMembers -> AccountOnly(R.string.nav_organisation) { app.octap.android.ui.sharing.OrgMembersScreen(route.owner) }
+        Route.OrgGroups -> AccountOnly(R.string.nav_organisation) { app.octap.android.ui.sharing.OrgGroupsScreen() }
+        Route.OrgVaults -> AccountOnly(R.string.nav_organisation) { app.octap.android.ui.sharing.OrgVaultsScreen() }
+        is Route.OrgVault -> AccountOnly(R.string.nav_organisation) { app.octap.android.ui.sharing.OrgVaultScreen(route.vaultId) }
+        Route.OrgPolicies -> AccountOnly(R.string.nav_organisation) { app.octap.android.ui.sharing.OrgPoliciesScreen() }
+        Route.OrgSso -> AccountOnly(R.string.nav_organisation) { app.octap.android.ui.sharing.OrgSsoScreen() }
+        Route.OrgScim -> AccountOnly(R.string.nav_organisation) { app.octap.android.ui.sharing.OrgScimScreen() }
+        Route.OrgActivity -> AccountOnly(R.string.nav_organisation) { app.octap.android.ui.sharing.OrgActivityScreen() }
         Route.Emergency -> AccountOnly(R.string.nav_emergency) { app.octap.android.ui.sharing.EmergencyScreen() }
         is Route.EmergencyVault -> AccountOnly(R.string.nav_emergency) { app.octap.android.ui.sharing.EmergencyVaultScreen(route.contactId) }
         is Route.Takeover -> AccountOnly(R.string.nav_emergency) { app.octap.android.ui.sharing.TakeoverScreen(route.contactId, route.email) }

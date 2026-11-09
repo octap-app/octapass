@@ -101,6 +101,7 @@ impl Api {
         method: Method,
         url: &str,
         token: Option<&str>,
+        headers: &[(&str, &str)],
         body: Option<Vec<u8>>,
     ) -> std::result::Result<ureq::http::Response<ureq::Body>, OctaPassError> {
         let mut builder = ureq::http::Request::builder()
@@ -109,6 +110,9 @@ impl Api {
             .header("accept", "application/json, application/problem+json");
         if let Some(token) = token {
             builder = builder.header("authorization", format!("Bearer {token}"));
+        }
+        for (name, value) in headers {
+            builder = builder.header(*name, *value);
         }
         let response = match body {
             Some(body) => {
@@ -135,11 +139,23 @@ impl Api {
         token: Option<&str>,
         body: Option<&(impl Serialize + ?Sized)>,
     ) -> std::result::Result<T, OctaPassError> {
+        self.json_with(method, url, token, &[], body)
+    }
+
+    /// `json` with more headers (a reauth token).
+    pub fn json_with<T: DeserializeOwned>(
+        &self,
+        method: Method,
+        url: &str,
+        token: Option<&str>,
+        headers: &[(&str, &str)],
+        body: Option<&(impl Serialize + ?Sized)>,
+    ) -> std::result::Result<T, OctaPassError> {
         let body = body
             .map(serde_json::to_vec)
             .transpose()
             .map_err(|_| OctaPassError::InvalidResponse)?;
-        let response = self.send(method, url, token, body)?;
+        let response = self.send(method, url, token, headers, body)?;
         let status = response.status().as_u16();
         let bytes = response
             .into_body()
@@ -164,7 +180,7 @@ impl Api {
         url: &str,
         token: &str,
     ) -> std::result::Result<impl Read + use<>, OctaPassError> {
-        let response = self.send(Method::Get, url, Some(token), None)?;
+        let response = self.send(Method::Get, url, Some(token), &[], None)?;
         let status = response.status().as_u16();
         let body = response.into_body();
         if !(200..300).contains(&status) {
@@ -202,9 +218,19 @@ impl Server<'_> {
         path: &str,
         body: Option<&(impl Serialize + ?Sized)>,
     ) -> Result<std::result::Result<T, OctaPassError>> {
+        self.exchange_with(method, path, &[], body)
+    }
+
+    fn exchange_with<T: DeserializeOwned>(
+        &self,
+        method: Method,
+        path: &str,
+        headers: &[(&str, &str)],
+        body: Option<&(impl Serialize + ?Sized)>,
+    ) -> Result<std::result::Result<T, OctaPassError>> {
         let url = self.url(path);
         Ok(self.access.authorized(|token| {
-            match self.api.json(method, &url, Some(token), body) {
+            match self.api.json_with(method, &url, Some(token), headers, body) {
                 Err(error @ OctaPassError::Server { .. }) => Ok(Err(error)),
                 other => other.map(Ok),
             }
@@ -236,6 +262,18 @@ impl Server<'_> {
             }
             Err(error) => Err(error.into()),
         }
+    }
+
+    /// A call that needs a reauth token (`Access::reauth`), such as deleting an organisation.
+    pub fn call_reauthed<T: DeserializeOwned>(
+        &self,
+        method: Method,
+        path: &str,
+        reauth_token: &str,
+        body: Option<&(impl Serialize + ?Sized)>,
+    ) -> Result<T> {
+        let headers = [(octapass_api::REAUTH_TOKEN_HEADER, reauth_token)];
+        Ok(self.exchange_with(method, path, &headers, body)??)
     }
 
     pub fn get<T: DeserializeOwned>(&self, path: &str) -> Result<T> {

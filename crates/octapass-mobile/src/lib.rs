@@ -2,7 +2,7 @@
 //! wraps the mobile vault (`crates/octapass-mobile-vault`), which keeps the account in the encrypted
 //! store the autofill extensions share, and adds what the phone's web-view screens did in
 //! TypeScript: typed items for every type, list order, health and the recovery map, QR codes and
-//! Wi-Fi, masked email, sharing, families, share links, emergency access, devices, the security
+//! Wi-Fi, masked email, sharing, families, organisations, share links, emergency access, devices, the security
 //! log, settings and exports. Swift and Kotlin do UI and platform services only.
 //!
 //! The autofill extensions keep using the smaller `octapass-ffi`.
@@ -29,6 +29,7 @@ pub mod list;
 pub mod local;
 pub mod local_vaults;
 pub mod masked_email;
+pub mod organisations;
 pub mod places;
 pub mod platform;
 pub mod push;

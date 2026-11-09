@@ -189,8 +189,10 @@ extension Vault {
 enum Route: Hashable {
     case list(ListScope)
     case item(String)
-    case generator, health, settings, sharing, maskedEmail, emergency, tools, safes
+    case generator, health, settings, sharing, organisation, maskedEmail, emergency, tools, safes
     case vaultMembers(String)
+    /// A screen of the organisation (`OrgSectionView`).
+    case orgSection(OrgSection)
     /// Nearby: places and the items at each (`NearbyView`).
     case nearby
     /// The Mac's item editor in the detail column (`DetailEditor`), by its session.

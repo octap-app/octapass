@@ -60,6 +60,11 @@ pub enum ErrorCode {
     SsoPending,
     /// An organisation policy forbids this.
     OrgPolicy,
+    /// This would leave organisation vaults with nobody able to manage them: ask, then try again
+    /// with `orphanVaults`.
+    OrgVaultOrphaned,
+    /// The identity provider settings don't work (the server's reason is in `reason`).
+    SsoConfig,
     SecurityKeyCancelled,
     SecurityKeyUnsupported,
     MaskedEmailNotSetUp,
@@ -220,6 +225,8 @@ impl From<OctaPassError> for VaultError {
                 let code = match problem_type.as_str() {
                     "already-exists" => Some(ErrorCode::AlreadyExists),
                     "family-full" => Some(ErrorCode::FamilyFull),
+                    "org-vault-orphaned" => Some(ErrorCode::OrgVaultOrphaned),
+                    "sso-config" => Some(ErrorCode::SsoConfig),
                     "account-exists" => Some(ErrorCode::EmailTaken),
                     "login-failed" => Some(ErrorCode::InvalidCredentials),
                     _ if *status >= 500 => Some(ErrorCode::ServerError),
@@ -290,6 +297,11 @@ mod tests {
             ErrorCode::AlreadyExists
         );
         assert_eq!(code(server(409, "family-full")), ErrorCode::FamilyFull);
+        assert_eq!(
+            code(server(409, "org-vault-orphaned")),
+            ErrorCode::OrgVaultOrphaned
+        );
+        assert_eq!(code(server(400, "sso-config")), ErrorCode::SsoConfig);
         assert_eq!(code(server(403, "forbidden")), ErrorCode::ReadOnlyVault);
         assert_eq!(code(server(503, "whatever")), ErrorCode::ServerError);
         assert_eq!(code(OctaPassError::Locked), ErrorCode::Locked);

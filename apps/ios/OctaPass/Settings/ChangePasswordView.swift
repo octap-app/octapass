@@ -60,8 +60,12 @@ struct ChangePasswordView: View {
 
     private func validate() -> Bool {
         currentError = current.isEmpty ? L10n.validation.passwordRequired : nil
+        // The organisation's shortest master password, as last seen on this device.
+        let minimum = model.vault.clientPolicies().minPasswordLength.map(Int.init) ?? 0
         if new.isEmpty {
             newError = L10n.changePassword.newRequired
+        } else if new.count < minimum {
+            newError = L10n.organisation.passwordTooShort(length: String(minimum))
         } else if model.vault.estimateStrength(password: new).score < minimumScore {
             newError = L10n.validation.passwordTooWeak
         } else if new == current {

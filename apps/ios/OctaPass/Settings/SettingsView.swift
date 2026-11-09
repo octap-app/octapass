@@ -45,7 +45,9 @@ struct SettingsView: View {
                     NavigationLink { TwoStepSettingsView() } label: { Label(L10n.settings.twoStep, systemImage: "lock.shield") }
                         .accessibilityIdentifier("settings-two-step")
                     NavigationLink { DevicesView() } label: { Label(L10n.devices.title, systemImage: "iphone") }
+                        .accessibilityIdentifier("settings-devices")
                     NavigationLink { SecurityLogView() } label: { Label(L10n.settings.securityLog, systemImage: "clock.arrow.circlepath") }
+                        .accessibilityIdentifier("settings-security-log")
                 }
             }
             Section {
@@ -97,17 +99,20 @@ struct SettingsView: View {
         Section(L10n.settings.security) {
             // Neither applies while stay unlocked is on (plan 18): there's no timer and no lock in
             // the background. Shown, greyed out, so turning it off brings back what's there.
-            Picker(selection: Binding(get: { model.settings.autoLockMinutes }, set: { minutes in model.update { $0.autoLockMinutes = minutes } })) {
-                ForEach([UInt32(1), 5, 15, 30, 60, 240, 0], id: \.self) { minutes in
+            // An organisation's longest auto-lock leaves out "never" and anything longer, and the
+            // vault applies it whatever was chosen before (`clientPolicies`).
+            let cap = model.vault.clientPolicies().maxAutoLockMinutes
+            Picker(selection: Binding(get: { Self.capped(model.settings.autoLockMinutes, cap) }, set: { minutes in model.update { $0.autoLockMinutes = minutes } })) {
+                ForEach(Self.autoLockChoices(cap), id: \.self) { minutes in
                     Text(Self.autoLock(minutes)).tag(minutes)
                 }
             } label: {
                 VStack(alignment: .leading, spacing: 2) {
                     Text(L10n.settings.autoLock)
-                    Text(L10n.settings.autoLockHelp).font(.footnote).foregroundStyle(Color.mist)
+                    Text(cap.map { L10n.organisation.policyAutoLock(minutes: String($0)) } ?? L10n.settings.autoLockHelp).font(.footnote).foregroundStyle(Color.mist)
                 }
             }
-            .disabled(model.staysUnlocked)
+            .disabled(model.staysUnlocked && cap == nil)
             .accessibilityIdentifier("settings-auto-lock")
             Toggle(isOn: Binding(get: { model.settings.lockOnBackground }, set: { on in model.update { $0.lockOnBackground = on } })) {
                 VStack(alignment: .leading, spacing: 2) {
@@ -178,6 +183,21 @@ struct SettingsView: View {
         .onDisappear { secretKey = nil }
         // A key shown before it was replaced no longer works.
         .onChange(of: model.newKit == nil) { secretKey = nil }
+    }
+
+    /// The auto-lock times offered: with an organisation's cap, none longer and no "never".
+    static func autoLockChoices(_ cap: UInt32?) -> [UInt32] {
+        let all: [UInt32] = [1, 5, 15, 30, 60, 240, 0]
+        guard let cap else { return all }
+        let allowed = all.filter { $0 > 0 && $0 <= cap }
+        return allowed.isEmpty ? [1] : allowed
+    }
+
+    /// The choice shown under a cap: a longer one (or "never") shows the longest allowed. The
+    /// vault locks at the cap itself (`capped_auto_lock`), which the help text names.
+    static func capped(_ chosen: UInt32, _ cap: UInt32?) -> UInt32 {
+        guard let cap, chosen == 0 || chosen > cap else { return chosen }
+        return autoLockChoices(cap).max() ?? 1
     }
 
     static func autoLock(_ minutes: UInt32) -> String {

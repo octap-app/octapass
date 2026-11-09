@@ -47,6 +47,7 @@
 		67D5DE94465EE3AFF12379FD /* ItemEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9F7C72E852C85292AB71B3 /* ItemEditor.swift */; };
 		69D2998CE7AE2F6DE41BBAC9 /* FilePickers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29425081CADAA9406C1A0075 /* FilePickers.swift */; };
 		6D263829105F911F5162C941 /* MacSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DCA611BBC2E7EE4842C6C9C /* MacSettings.swift */; };
+		6E39FF373298123E19CE4737 /* OrganisationViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AAF5EC26AA5529FBF29C70 /* OrganisationViews.swift */; };
 		70A6E6A0293BEB814903884D /* SafeFileOps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFFF479BE4BBF43BDE8D47F /* SafeFileOps.swift */; };
 		7425E707AA26892D254CF38D /* OctaPassResources in Frameworks */ = {isa = PBXBuildFile; productRef = 4886B531A2CB901D57ECB491 /* OctaPassResources */; };
 		767C49B7CC0BBB2D94A04CE7 /* OneTimeCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F819B9DC19F767CD96CFEF8 /* OneTimeCodes.swift */; };
@@ -213,6 +214,7 @@
 		8A0F00A139BA7BE63DA4BCCB /* IOSModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSModifiers.swift; sourceTree = "<group>"; };
 		8B3974508D84EC086BAFB713 /* WifiViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiViews.swift; sourceTree = "<group>"; };
 		8C5DB00CEDD81565C9798773 /* EmergencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyView.swift; sourceTree = "<group>"; };
+		91AAF5EC26AA5529FBF29C70 /* OrganisationViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationViews.swift; sourceTree = "<group>"; };
 		923EB60328BDCD96B7DAEAC2 /* FileProviderUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FileProviderUI.framework; path = System/Library/Frameworks/FileProviderUI.framework; sourceTree = SDKROOT; };
 		93E4BDBD8F7D39134536AA6B /* SshKeyViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SshKeyViews.swift; sourceTree = "<group>"; };
 		9514A18EBAE6186D1C1DBFFD /* ThisDeviceSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThisDeviceSection.swift; sourceTree = "<group>"; };
@@ -505,6 +507,7 @@
 			isa = PBXGroup;
 			children = (
 				8C5DB00CEDD81565C9798773 /* EmergencyView.swift */,
+				91AAF5EC26AA5529FBF29C70 /* OrganisationViews.swift */,
 				19707D942FB010D176F5E53D /* SharingViews.swift */,
 			);
 			path = Sharing;
@@ -872,6 +875,7 @@
 				A304AE3213E4C437E84072DE /* OctaPassApp.swift in Sources */,
 				47081C9840A455C5F33CDC7F /* OctaPassMacApp.swift in Sources */,
 				503F3F85D4F89F4C8B31F449 /* OpenedLinks.swift in Sources */,
+				6E39FF373298123E19CE4737 /* OrganisationViews.swift in Sources */,
 				805D131C060DEA1D4417BA25 /* OtherAppsViews.swift in Sources */,
 				51B3E2548E72B662014CD0FD /* PasswordResetView.swift in Sources */,
 				4D92901E6CFB6E3122BAA9C4 /* QrScanner.swift in Sources */,

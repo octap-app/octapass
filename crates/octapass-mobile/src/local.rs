@@ -181,6 +181,9 @@ pub struct AccountNotes {
     pub verified: BTreeMap<String, String>,
     /// Share link id → the item it was made from.
     pub share_links: BTreeMap<String, String>,
+    /// The organisation's policies this app applies itself, as last seen; none outside one.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub org_policies: Option<crate::organisations::ClientPolicies>,
 }
 
 fn io_error(error: std::io::Error) -> VaultError {

@@ -20,6 +20,7 @@ import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material.icons.outlined.AutoFixHigh
 import androidx.compose.material.icons.outlined.Badge
+import androidx.compose.material.icons.outlined.Business
 import androidx.compose.material.icons.outlined.CreditCard
 import androidx.compose.material.icons.outlined.Code
 import androidx.compose.material.icons.outlined.Delete
@@ -261,6 +262,7 @@ fun Sidebar(onNavigate: () -> Unit) {
             row(stringResource(R.string.nav_devTools), Icons.Outlined.Code, Route.DeveloperTools, tag = "nav.tools")
             row(stringResource(R.string.fileTools_safesTitle), Icons.Outlined.Folder, Route.Safes, tag = "nav.safes")
             row(stringResource(R.string.nav_sharing), Icons.Outlined.Share, Route.Sharing, tag = "nav.sharing")
+            row(stringResource(R.string.nav_organisation), Icons.Outlined.Business, Route.Organisation, tag = "nav.organisation")
             row(stringResource(R.string.nav_emergency), Icons.Outlined.Support, Route.Emergency, tag = "nav.emergency")
             row(stringResource(R.string.scopes_trash), Icons.Outlined.Delete, Route.Items(Scope.Trash), counts?.get("trash"), tag = "nav.trash")
             row(stringResource(R.string.nav_settings), Icons.Outlined.Settings, Route.Settings, tag = "nav.settings")

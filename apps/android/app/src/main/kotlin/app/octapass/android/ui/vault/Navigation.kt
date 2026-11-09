@@ -157,6 +157,17 @@ sealed interface Route {
     data object Import : Route
     data object Sharing : Route
     data class VaultMembers(val vaultId: String) : Route
+    /** The organisation (`OrganisationScreen`) and its sections. */
+    data object Organisation : Route
+    data class OrgAccess(val vaultId: String) : Route
+    data class OrgMembers(val owner: Boolean) : Route
+    data object OrgGroups : Route
+    data object OrgVaults : Route
+    data class OrgVault(val vaultId: String) : Route
+    data object OrgPolicies : Route
+    data object OrgSso : Route
+    data object OrgScim : Route
+    data object OrgActivity : Route
     data object Emergency : Route
     data class EmergencyVault(val contactId: String) : Route
     data class Takeover(val contactId: String, val email: String) : Route

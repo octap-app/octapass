@@ -140,20 +140,25 @@ fun SettingsScreen() {
         SettingsSection(stringResource(R.string.settings_security), tag = "settings.security") {
             StayUnlockedRow(stayUnlocked)
             Column(Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+                // An organisation's longest auto-lock leaves out "never" and anything longer; the
+                // vault applies it whatever was chosen before (`clientPolicies`).
+                val cap = remember(settings) { model.vault.clientPolicies().maxAutoLockMinutes?.toInt() }
+                val choices = if (cap == null) AUTO_LOCK else AUTO_LOCK.filter { it in 1..cap }.ifEmpty { listOf(1) }
+                val shown = settings.autoLockMinutes.toInt().let { if (cap != null && (it == 0 || it > cap)) choices.max() else it }
                 Choice(
                     stringResource(R.string.settings_autoLock),
-                    AUTO_LOCK.map { minutes ->
+                    choices.map { minutes ->
                         minutes.toString() to when {
                             minutes == 0 -> stringResource(R.string.settings_autoLockNever)
                             minutes >= 60 -> pluralStringResource(R.plurals.settings_hours, minutes / 60, minutes / 60)
                             else -> pluralStringResource(R.plurals.settings_minutes, minutes, minutes)
                         }
                     },
-                    settings.autoLockMinutes.toString(),
-                    enabled = !stays,
+                    shown.toString(),
+                    enabled = !stays || cap != null,
                     tag = "settings.autoLock",
                 ) { value -> model.updateSettings { it.copy(autoLockMinutes = (value ?: "15").toUInt()) } }
-                Text(stringResource(R.string.settings_autoLockHelp), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 4.dp))
+                Text(if (cap != null) stringResource(R.string.organisation_policyAutoLock, cap.toString()) else stringResource(R.string.settings_autoLockHelp), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(top = 4.dp))
             }
             SettingsRow(
                 stringResource(R.string.settings_lockOnHide),

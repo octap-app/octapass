@@ -332,6 +332,8 @@ struct RouteView: View {
         case .health: HealthView()
         case .settings: SettingsView()
         case .sharing: AccountOnly(title: L10n.nav.sharing) { SharingView() }
+        case .organisation: AccountOnly(title: L10n.nav.organisation) { OrganisationView() }
+        case let .orgSection(section): AccountOnly(title: L10n.nav.organisation) { OrgSectionView(section: section) }
         case .maskedEmail: AccountOnly(title: L10n.nav.maskedEmail) { MaskedEmailView() }
         case .tools: DeveloperToolsView()
         case .safes: SafesView()
@@ -440,6 +442,7 @@ struct SidebarView: View {
             row(.tools, L10n.nav.devTools, "chevron.left.forwardslash.chevron.right")
             if !compact { row(.safes, L10n.fileTools.safesTitle, "lock.doc") }
             row(.sharing, L10n.nav.sharing, "person.2")
+            row(.organisation, L10n.nav.organisation, "building.2")
             row(.emergency, L10n.nav.emergency, "lifepreserver")
             row(.list(.trash), L10n.scopes.trash, "trash", count: directory.counts["trash"])
             // The Mac's Settings are a window of their own (Octa Pass ▸ Settings…, Cmd+,).
@@ -504,6 +507,8 @@ struct SidebarView: View {
         case .health: return "health"
         case .settings: return "settings"
         case .sharing: return "sharing"
+        case .organisation: return "organisation"
+        case .orgSection: return "organisation-section"
         case .maskedEmail: return "masked-email"
         case .tools: return "tools"
         case .safes: return "safes"

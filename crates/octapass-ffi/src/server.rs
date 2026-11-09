@@ -621,8 +621,9 @@ impl OctaPassServer {
         self.sync(access_token.to_owned(), Arc::clone(store))
     }
 
-    /// `reauth`, for any purpose: some aren't named in the bindings (Rust only).
-    pub(crate) fn reauth_as(
+    /// `reauth`, for any purpose: some aren't named in the bindings (Rust only; the phone apps'
+    /// `octapass-mobile` uses it for deleting an organisation or one of its vaults).
+    pub fn reauth_as(
         &self,
         access_token: String,
         session: Arc<Session>,

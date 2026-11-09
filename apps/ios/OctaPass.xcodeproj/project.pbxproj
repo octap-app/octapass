@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0040FEEB8285C8B8D562840C /* OrganisationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6711A654FC686CC44ADD27E4 /* OrganisationTests.swift */; };
 		0492FDFE6EBE81EEA8BDA07B /* CodesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 535F0B54F2F225C6034D763C /* CodesView.swift */; };
 		0A8E0692A84DD59ABA9FEACD /* FieldRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68F0F27939E4956D76E99E3A /* FieldRows.swift */; };
 		0B3D6C2550ED48FEE3F94766 /* LocalVaultViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80FD4DB838A5AAC4F933248 /* LocalVaultViews.swift */; };
@@ -30,6 +31,7 @@
 		364098680F60668DFC107066 /* VaultPlatform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70924F701E170B23782CDC6D /* VaultPlatform.swift */; };
 		36D300E95EAE11880D286149 /* AuthLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1226F5D0C0594210895206 /* AuthLayout.swift */; };
 		37C02D9635CF231796333A0B /* AutoFillSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6D9B7D9F4F2C66CBE17348C /* AutoFillSettings.swift */; };
+		3B3000D5089F0EE87E211F79 /* OrganisationViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F2A3F25BE0CAE287E54D317 /* OrganisationViews.swift */; };
 		3D6D4BFF07973F6D32EE7DCC /* TurnOnSyncView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7311F2FCFD93514BDD308735 /* TurnOnSyncView.swift */; };
 		3F1DAC1B5BFCFB8EF87FF842 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 0DCB9CEDDD29241F02943A7F /* PrivacyInfo.xcprivacy */; };
 		418ADA3722316CCD5019847E /* OnboardingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA29606BE5DD165FCEE83589 /* OnboardingTests.swift */; };
@@ -52,6 +54,7 @@
 		64CF91667C85C0F4B4F9441D /* OctaPassAutoFillKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4B276DA6168D79866CAD0A66 /* OctaPassAutoFillKit */; };
 		652A59176A05E96C08EF0B66 /* ItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62E2461C964AC8E5DFC7430F /* ItemTests.swift */; };
 		66BDDA2ED1A4322B063ECEF6 /* StayUnlockedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 103B21FC6238EF42106936A3 /* StayUnlockedTests.swift */; };
+		6D675254A3FC4C11AE23A946 /* NearbyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1909F0601161C6FD6D02F656 /* NearbyTests.swift */; };
 		6DA5CE6550BF9CC3E3224CBC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2FE01DE909C59F7A28181876 /* InfoPlist.strings */; };
 		780B575F101FCDFD3DE28D40 /* OctaPassResources in Frameworks */ = {isa = PBXBuildFile; productRef = CDED54E3C95F01B591C9CBB6 /* OctaPassResources */; };
 		7B11894C04354D0CB22C3F24 /* KeyRotationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7159D1D5F7041C077C642B9 /* KeyRotationTests.swift */; };
@@ -110,6 +113,7 @@
 		DCD02B5EDDFE41CF60078FF0 /* SafesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 727EECB040D7407C6D215373 /* SafesView.swift */; };
 		DE15F7FD37253286F1D7E839 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E12A08F1E9E60E94000ADE95 /* Assets.xcassets */; };
 		E07916DDA7F6D89A32D311A1 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214692F5912EB79D90A07DE8 /* Theme.swift */; };
+		E4371C0D5F61813B0870F1B0 /* NearbyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0E2A13B7DF2B3AE3194C3A /* NearbyView.swift */; };
 		E930621FE155549221FC9F73 /* OctaPassResources in Frameworks */ = {isa = PBXBuildFile; productRef = 98437ED83A786CE5C23C6FD6 /* OctaPassResources */; };
 		E95F8703302CCF00CCED1AAE /* PushSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C43F18573087CA3FD2C135 /* PushSync.swift */; };
 		EA03EA60B9C7207B7FEFF1B7 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FADFF79A6818084AB8B01A58 /* SignUpView.swift */; };
@@ -170,6 +174,7 @@
 		011BC5FECD99087FE5435714 /* PasswordResetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetView.swift; sourceTree = "<group>"; };
 		0DCB9CEDDD29241F02943A7F /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		0DE30F756B9DAF0A70738C12 /* ItemEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemEditor.swift; sourceTree = "<group>"; };
+		0F2A3F25BE0CAE287E54D317 /* OrganisationViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationViews.swift; sourceTree = "<group>"; };
 		103B21FC6238EF42106936A3 /* StayUnlockedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StayUnlockedTests.swift; sourceTree = "<group>"; };
 		10DD198E6FAB9DDA2CA503D6 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
 		111371FD946535BF5AD6FB41 /* SharingViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingViews.swift; sourceTree = "<group>"; };
@@ -177,6 +182,7 @@
 		1482D9CCEB81C889C1F3E93D /* OctaPassWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctaPassWatchApp.swift; sourceTree = "<group>"; };
 		17A9036BFD852DB8A71E576B /* OtherAppsViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OtherAppsViews.swift; sourceTree = "<group>"; };
 		18CD72FF0668089A9CFFD1D4 /* FilePickers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePickers.swift; sourceTree = "<group>"; };
+		1909F0601161C6FD6D02F656 /* NearbyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyTests.swift; sourceTree = "<group>"; };
 		193CF213B44E80067AB75FA1 /* AccountViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViews.swift; sourceTree = "<group>"; };
 		19C43F18573087CA3FD2C135 /* PushSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushSync.swift; sourceTree = "<group>"; };
 		19E5A2957CC670B0F37EB47D /* ItemListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListView.swift; sourceTree = "<group>"; };
@@ -214,6 +220,7 @@
 		5D9AC163E113FDB21EA471DA /* OctaPassApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctaPassApp.swift; sourceTree = "<group>"; };
 		62E2461C964AC8E5DFC7430F /* ItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemTests.swift; sourceTree = "<group>"; };
 		65B71E7AE1A06E0AC1C485E3 /* DeveloperItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperItemTests.swift; sourceTree = "<group>"; };
+		6711A654FC686CC44ADD27E4 /* OrganisationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationTests.swift; sourceTree = "<group>"; };
 		68F0F27939E4956D76E99E3A /* FieldRows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldRows.swift; sourceTree = "<group>"; };
 		6D86AE1627ACEF0960AAA74A /* ScanSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanSheet.swift; sourceTree = "<group>"; };
 		70924F701E170B23782CDC6D /* VaultPlatform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultPlatform.swift; sourceTree = "<group>"; };
@@ -252,6 +259,7 @@
 		B534C68A732F6D56A9ABA8D8 /* SafeSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeSession.swift; sourceTree = "<group>"; };
 		B58E89F894B950E9990A0528 /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
 		BB0DDA86768736712DB9A5F3 /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = ar.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		BC0E2A13B7DF2B3AE3194C3A /* NearbyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NearbyView.swift; sourceTree = "<group>"; };
 		C1D9D967523613B3DB82E0D4 /* LocalVaultSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalVaultSetup.swift; sourceTree = "<group>"; };
 		C2A0BDACD1FE6C33B7D00B38 /* SshKeyViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SshKeyViews.swift; sourceTree = "<group>"; };
 		C88655CCD9A4BD662C054A6F /* EnvironmentViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentViews.swift; sourceTree = "<group>"; };
@@ -280,7 +288,7 @@
 		FDD16BB9062418222BEC71EC /* Wifi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wifi.swift; sourceTree = "<group>"; };
 		FF1C19785A2CCB93499889A8 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		FFF6923079321CEE8B89958C /* WifiViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiViews.swift; sourceTree = "<group>"; };
-		"TEMP_83B3428E-833A-46B3-A15D-E322B753C18F" /* Signing.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Signing.xcconfig; sourceTree = "<group>"; };
+		"TEMP_E12C1D3A-37C5-4F9A-8FA0-13ED20404511" /* Signing.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Signing.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -443,6 +451,7 @@
 				D80FD4DB838A5AAC4F933248 /* LocalVaultViews.swift */,
 				FF1C19785A2CCB93499889A8 /* MainView.swift */,
 				AF80A09969FCA6CE98811A2B /* Navigation.swift */,
+				BC0E2A13B7DF2B3AE3194C3A /* NearbyView.swift */,
 			);
 			path = Vault;
 			sourceTree = "<group>";
@@ -490,7 +499,9 @@
 				13DA432B33A79455CCFBD095 /* LocalVaultTests.swift */,
 				E0CB10683CD909D5B6E2EC48 /* MaskedEmailTests.swift */,
 				D6C9CA446C805DB7B20B3A3B /* MasterPasswordTests.swift */,
+				1909F0601161C6FD6D02F656 /* NearbyTests.swift */,
 				DA29606BE5DD165FCEE83589 /* OnboardingTests.swift */,
+				6711A654FC686CC44ADD27E4 /* OrganisationTests.swift */,
 				CC6BC0708A27FC50357BA6ED /* OtherAppsTests.swift */,
 				A7D2458964DE5F522CEEBF87 /* SettingsTests.swift */,
 				5479256543307508035B38D6 /* SharingTests.swift */,
@@ -523,6 +534,7 @@
 			isa = PBXGroup;
 			children = (
 				8B2629754F009CB78BE36ACF /* EmergencyView.swift */,
+				0F2A3F25BE0CAE287E54D317 /* OrganisationViews.swift */,
 				111371FD946535BF5AD6FB41 /* SharingViews.swift */,
 			);
 			path = Sharing;
@@ -597,10 +609,10 @@
 			);
 			sourceTree = "<group>";
 		};
-		"TEMP_EDEABF06-E773-439E-A018-CDE0CAFF613F" /* ios */ = {
+		"TEMP_23C63EE2-1CEA-42CB-BE35-E4EFDCCB875D" /* ios */ = {
 			isa = PBXGroup;
 			children = (
-				"TEMP_83B3428E-833A-46B3-A15D-E322B753C18F" /* Signing.xcconfig */,
+				"TEMP_E12C1D3A-37C5-4F9A-8FA0-13ED20404511" /* Signing.xcconfig */,
 			);
 			path = ios;
 			sourceTree = "<group>";
@@ -867,9 +879,11 @@
 				860F0B247D2E3FC2AAFA45E6 /* MaskedEmailNames.swift in Sources */,
 				F7572D208EED54A4F802EE20 /* MaskedEmailView.swift in Sources */,
 				44A6FAB6E73CF50DDE07E1DB /* Navigation.swift in Sources */,
+				E4371C0D5F61813B0870F1B0 /* NearbyView.swift in Sources */,
 				CE6630A78E08A4EB06175E83 /* OctaPassApp.swift in Sources */,
 				5C1B87E646C0F4090BE687D1 /* OneTimeCodes.swift in Sources */,
 				32816A1DB8AA88C404EBEAF6 /* OpenedLinks.swift in Sources */,
+				3B3000D5089F0EE87E211F79 /* OrganisationViews.swift in Sources */,
 				9C7F203B8D6F5BDE7AA12C2F /* OtherAppsViews.swift in Sources */,
 				BE8426293AFAADC304791FEF /* PasswordResetView.swift in Sources */,
 				E95F8703302CCF00CCED1AAE /* PushSync.swift in Sources */,
@@ -923,7 +937,9 @@
 				CEAFC09EDDBA70D24D68902C /* LocalVaultTests.swift in Sources */,
 				22828175F93442911686F35A /* MaskedEmailTests.swift in Sources */,
 				DC33A0D756316569EF466302 /* MasterPasswordTests.swift in Sources */,
+				6D675254A3FC4C11AE23A946 /* NearbyTests.swift in Sources */,
 				418ADA3722316CCD5019847E /* OnboardingTests.swift in Sources */,
+				0040FEEB8285C8B8D562840C /* OrganisationTests.swift in Sources */,
 				BEA415E30C6DAE2C450EF885 /* OtherAppsTests.swift in Sources */,
 				BF8E92681C71FE7605DF04DB /* SettingsTests.swift in Sources */,
 				18DBC19D4574B0497FE74530 /* SharingTests.swift in Sources */,
@@ -1111,7 +1127,7 @@
 		};
 		667F564EF3F666236FD70550 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = "TEMP_83B3428E-833A-46B3-A15D-E322B753C18F" /* Signing.xcconfig */;
+			baseConfigurationReference = "TEMP_E12C1D3A-37C5-4F9A-8FA0-13ED20404511" /* Signing.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -1232,7 +1248,7 @@
 		};
 		E9D6EF18FEE9BCB2711D5C55 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = "TEMP_83B3428E-833A-46B3-A15D-E322B753C18F" /* Signing.xcconfig */;
+			baseConfigurationReference = "TEMP_E12C1D3A-37C5-4F9A-8FA0-13ED20404511" /* Signing.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;

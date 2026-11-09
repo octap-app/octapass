@@ -126,6 +126,21 @@ impl Access<'_> {
         self.vault.with_token(&self.unlocked, call)
     }
 
+    /// A reauth token for `purpose` (an organisation's deletion, say), from the master password
+    /// and the Secret Key this phone keeps. `invalidCredentials` when the password is wrong.
+    pub fn reauth(&self, password: &str, purpose: octapass_api::ReauthPurpose) -> Result<String> {
+        let secret_key = zeroize::Zeroizing::new(self.vault.secret_key()?);
+        self.authorized(|token| {
+            self.unlocked.server.reauth_as(
+                token.into(),
+                self.unlocked.session.clone(),
+                password.to_owned(),
+                secret_key.to_string(),
+                purpose,
+            )
+        })
+    }
+
     pub fn outbox_status(&self) -> OutboxStatus {
         let outbox = Outbox::new(&self.vault.config.data_dir, &self.unlocked.account);
         let changes = outbox.changes().unwrap_or_default();

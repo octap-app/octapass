@@ -216,7 +216,7 @@ pub(crate) fn fingerprint_of(public_enc_key: &str, public_sign_key: &str) -> Res
     })
 }
 
-fn api_grant(grant: SignedGrant) -> Result<Grant> {
+pub(crate) fn api_grant(grant: SignedGrant) -> Result<Grant> {
     serde_json::from_value(serde_json::to_value(grant).expect("grants serialize"))
         .map_err(|_| VaultError::unexpected("grant"))
 }
@@ -275,7 +275,7 @@ pub(crate) fn list_vaults(ctx: &Ctx, access: &Access, items: &[StoredItem]) -> V
     vaults
 }
 
-fn vault_record(access: &Access, vault_id: &str) -> Result<VaultRecord> {
+pub(crate) fn vault_record(access: &Access, vault_id: &str) -> Result<VaultRecord> {
     access
         .store()
         .vaults()
@@ -284,7 +284,7 @@ fn vault_record(access: &Access, vault_id: &str) -> Result<VaultRecord> {
         .ok_or_else(|| ErrorCode::NotFound.into())
 }
 
-fn account_id(access: &Access) -> Result<String> {
+pub(crate) fn account_id(access: &Access) -> Result<String> {
     access
         .store()
         .account_id()
@@ -292,7 +292,7 @@ fn account_id(access: &Access) -> Result<String> {
 }
 
 impl Ctx<'_> {
-    fn server<'a>(&'a self, access: &'a Access<'a>) -> Server<'a> {
+    pub(crate) fn server<'a>(&'a self, access: &'a Access<'a>) -> Server<'a> {
         Server {
             api: self.api,
             access,
@@ -407,7 +407,7 @@ impl Ctx<'_> {
 
     /// The name lives in the vault as an encrypted record every member can read; the core keeps
     /// its unknown type as it is, so other clients round-trip it.
-    fn write_vault_name(&self, vault_id: &str, name: &str) -> Result<()> {
+    pub(crate) fn write_vault_name(&self, vault_id: &str, name: &str) -> Result<()> {
         let title = match name.trim() {
             "" => default_vault_name(VaultType::Shared),
             name => name,
@@ -498,7 +498,7 @@ impl Ctx<'_> {
 
     /// Who gets a grant, after the key log has had its say. The hybrid box goes to accounts
     /// whose key record checks out against the offered keys.
-    fn recipient_of(
+    pub(crate) fn recipient_of(
         &self,
         access: &Access<'_>,
         keys: Account<'_>,

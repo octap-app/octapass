@@ -365,6 +365,7 @@ pub(crate) struct Ctx<'a> {
     pub shared: &'a SharedVaults,
     pub provider_http: &'a dyn ProviderHttp,
     pub observer: &'a dyn VaultObserver,
+    pub policies: &'a crate::organisations::PolicyCache,
     pub web_vault_url: &'a str,
     pub default_server_url: &'a str,
 }
@@ -475,6 +476,8 @@ pub struct OctaPassVault {
     pub(crate) held: std::sync::atomic::AtomicBool,
     /// The deadline of the fill key this app last kept (plan 03, the autofill gate off), or none.
     fill_key_until: Mutex<Option<u64>>,
+    /// The organisation's policies this app applies itself (`organisations.rs`).
+    policies: crate::organisations::PolicyCache,
 }
 
 #[derive(Default)]
@@ -500,13 +503,14 @@ impl OctaPassVault {
         Ok(path_text(&path))
     }
 
-    fn ctx(&self) -> Ctx<'_> {
+    pub(crate) fn ctx(&self) -> Ctx<'_> {
         Ctx {
             vault: &self.vault,
             api: &self.api,
             shared: &self.shared,
             provider_http: &*self.provider_http,
             observer: &*self.observer,
+            policies: &self.policies,
             web_vault_url: &self.config.web_vault_url,
             default_server_url: &self.config.default_server_url,
         }
@@ -563,9 +567,12 @@ impl OctaPassVault {
         *self.last_activity.lock().unwrap_or_else(|p| p.into_inner()) = Instant::now();
     }
 
-    /// Locks once the vault has been idle for the auto-lock time.
+    /// Locks once the vault has been idle for the auto-lock time, or the organisation's longest
+    /// one, which also turns stay unlocked off.
     fn check_auto_lock(&self) {
-        let minutes = self.settings_guard().auto_lock_minutes;
+        let cap = self.ctx().client_policies().max_auto_lock_minutes;
+        let minutes =
+            crate::organisations::capped_auto_lock(self.settings_guard().auto_lock_minutes, cap);
         let idle = self
             .last_activity
             .lock()
@@ -574,7 +581,7 @@ impl OctaPassVault {
         if minutes > 0
             && idle >= Duration::from_secs(u64::from(minutes) * 60)
             && self.is_unlocked()
-            && !self.stays_unlocked()
+            && (cap.is_some() || !self.stays_unlocked())
         {
             self.vault.lock();
         }
@@ -601,6 +608,10 @@ impl OctaPassVault {
         let result = self.vault.sync();
         if let Ok(access) = self.vault.access() {
             self.shared.open(&access);
+        }
+        if result.is_ok() {
+            // The organisation's client policies, for the next lock or export (best effort).
+            let _ = self.ctx().refresh_client_policies();
         }
         match &result {
             Ok(()) => self.sync.update(|state| {
@@ -848,6 +859,7 @@ impl OctaPassVault {
             uses: Mutex::new(PendingUses::default()),
             held: std::sync::atomic::AtomicBool::new(false),
             fill_key_until: Mutex::new(None),
+            policies: Default::default(),
         });
         // A fill key left by the app's last run: that vault is locked now (plan 03).
         this.vault.delete_fill_key();
@@ -1079,6 +1091,7 @@ impl OctaPassVault {
             Zeroizing::new(new_password),
         );
         self.run(move |this| {
+            this.ctx().check_password_policy(&new_password)?;
             this.vault
                 .change_master_password(current_password, new_password)?;
             this.touch();
@@ -2270,12 +2283,16 @@ impl OctaPassVault {
             if let Some(master) = master {
                 this.vault.confirm_user(Some(master))?;
             }
-            let vaults = this.vaults()?;
+            // An organisation's `disableExport` leaves its vaults out.
+            let kept_out = this.ctx().vaults_kept_from_export();
+            let mut vaults = this.vaults()?;
+            vaults.retain(|vault| !kept_out.contains(&vault.id));
             let mut items = this.visible_items()?;
             // Importing the dashboard's settings would turn email breach alerts on for another
             // account.
             items.retain(|item| {
                 item.deleted_at.is_none()
+                    && !kept_out.contains(&item.vault_id)
                     && !octapass_mobile_vault::health::is_health_settings(item)
             });
             items.sort_by(|a, b| {

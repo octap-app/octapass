@@ -54,8 +54,11 @@ fun ChangePasswordScreen() {
     fun submit() {
         if (busy) return
         currentError = if (current.isEmpty()) context.getString(R.string.validation_passwordRequired) else null
+        // The organisation's shortest master password, as last seen on this phone.
+        val minimum = model.vault.clientPolicies().minPasswordLength?.toInt() ?: 0
         newError = when {
             new.isEmpty() -> context.getString(R.string.changePassword_newRequired)
+            new.length < minimum -> context.getString(R.string.organisation_passwordTooShort, minimum.toString())
             estimate.score.toInt() < minScore -> context.getString(R.string.validation_passwordTooWeak)
             new == current -> context.getString(R.string.changePassword_same)
             else -> null

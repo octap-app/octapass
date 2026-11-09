@@ -60,6 +60,8 @@ fun errorMessageRes(code: ErrorCode): Int = when (code) {
     ErrorCode.MASKED_EMAIL_TOKEN -> R.string.errors_maskedEmailToken
     ErrorCode.SSO_PENDING -> R.string.errors_ssoPending
     ErrorCode.ORG_POLICY -> R.string.errors_orgPolicy
+    ErrorCode.ORG_VAULT_ORPHANED -> R.string.errors_orgVaultOrphaned
+    ErrorCode.SSO_CONFIG -> R.string.errors_ssoConfig
     ErrorCode.MASKED_EMAIL_RATE_LIMITED -> R.string.errors_maskedEmailRateLimited
     ErrorCode.MASKED_EMAIL_UNREACHABLE -> R.string.errors_maskedEmailUnreachable
     ErrorCode.MASKED_EMAIL_FAILED -> R.string.errors_maskedEmailFailed

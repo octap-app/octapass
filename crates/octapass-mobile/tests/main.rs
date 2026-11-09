@@ -5,6 +5,7 @@
 mod flow;
 mod key_rotation;
 mod master_password;
+mod organisations;
 mod stay_unlocked;
 
 /// A file in `tests/` that is neither a module here nor its own `[[test]]` in Cargo.toml would

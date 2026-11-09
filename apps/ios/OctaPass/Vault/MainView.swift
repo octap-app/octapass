@@ -378,6 +378,10 @@ struct SidebarView: View {
     let compact: Bool
     var selection: Binding<Route?>?
     @State private var creatingVault = false
+    #if os(macOS)
+    /// The browser extension card's height, kept clear at the foot of the sidebar's list.
+    @State private var offerHeight: CGFloat = 0
+    #endif
     @State private var health = HealthStore.shared
 
     var body: some View {
@@ -403,12 +407,23 @@ struct SidebarView: View {
 
     @ViewBuilder private var list: some View {
         if let selection {
+            #if os(macOS)
+            // The browser extension, until it has reached the app (OctaPassMac/BrowserExtensionOffer.swift).
+            // An overlay with the list's content kept clear of it, never part of the layout: as a
+            // bottom safe-area inset (or stacked under the list) the card made the split view taller
+            // than the window on macOS 26, pushing both lists under the title bar and the card off
+            // the window.
             List(selection: selection) { rows }
                 .listStyle(.sidebar)
-                #if os(macOS)
-                // The browser extension, until it has reached the app (OctaPassMac/BrowserExtensionOffer.swift).
-                .safeAreaInset(edge: .bottom, spacing: 0) { ExtensionOfferCard() }
-                #endif
+                .contentMargins(.bottom, offerHeight, for: .scrollContent)
+                .overlay(alignment: .bottom) {
+                    VStack(spacing: 0) { ExtensionOfferCard() }
+                        .onGeometryChange(for: CGFloat.self) { $0.size.height } action: { offerHeight = $0 }
+                }
+            #else
+            List(selection: selection) { rows }
+                .listStyle(.sidebar)
+            #endif
         } else {
             List { rows }
                 .listStyle(.platformGrouped)

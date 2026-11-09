@@ -139,6 +139,11 @@ targets:
       - name: Bundle octapass-native-host
         script: '"$SRCROOT/scripts/native-host.sh"'
         basedOnDependencyAnalysis: false
+      # The `octapass` CLI and its helpers, next to the app's executable; Settings → Command-line
+      # tool links it into /usr/local/bin (OctaPassMac/CommandLineTool.swift).
+      - name: Bundle the CLI
+        script: '"$SRCROOT/scripts/cli.sh"'
+        basedOnDependencyAnalysis: false
     dependencies:
       - target: OctaPassMacAutoFill
         embed: true
@@ -146,6 +151,12 @@ targets:
         embed: true
       - target: OctaPassMacSafeUnlock
         embed: true
+      # The watchdog that starts the app again after a force quit or a crash (Watchdog/main.swift).
+      - target: OctaPassMacWatchdog
+        embed: true
+        copy:
+          destination: wrapper
+          subpath: Contents/Library/LoginItems
       - package: OctaPassVault
       - package: OctaPassResources
       - package: OctaPassKeychain
@@ -295,6 +306,47 @@ targets:
       - package: OctaPassKeychain
       - package: OctaPassResources
       - sdk: FileProviderUI.framework
+  # Octa Pass Watchdog: a faceless app in Contents/Library/LoginItems that starts Octa Pass again, in
+  # the background, when it's force quit or crashes (maintainer, 2026-11-09). The app starts it each
+  # time it starts (OctaPassMac/Platform/Watchdog.swift); it stops when the app quits in order. It
+  # isn't a login item: opening at login stays SMAppService.mainApp. Sandboxed, with only the App
+  # Group, for the marker file it shares with the app (WatchdogMarker.swift, compiled into both).
+  OctaPassMacWatchdog:
+    type: application
+    platform: macOS
+    sources:
+      - path: Watchdog
+        excludes: ["Info.plist", "*.entitlements"]
+      - path: OctaPassMac/Platform/WatchdogMarker.swift
+    settings:
+      base:
+        PRODUCT_NAME: Octa Pass Watchdog
+        PRODUCT_MODULE_NAME: OctaPassWatchdog
+        PRODUCT_BUNDLE_IDENTIFIER: app.octap.ios.watchdog
+        CODE_SIGN_ENTITLEMENTS: Watchdog/Watchdog.entitlements
+        ENABLE_HARDENED_RUNTIME: YES
+        SKIP_INSTALL: YES
+      configs:
+        Release:
+          CODE_SIGN_INJECT_BASE_ENTITLEMENTS: NO
+    info:
+      path: Watchdog/Info.plist
+      properties:
+        CFBundleDisplayName: Octa Pass Watchdog
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSMinimumSystemVersion: $(MACOSX_DEPLOYMENT_TARGET)
+        # Faceless: no Dock icon, no menu bar, never in front.
+        LSBackgroundOnly: true
+        NSHumanReadableCopyright: MIT
+        OctaPassAppGroup: $(OCTAPASS_APP_GROUP)
+        # The app it watches (OctaPassMac's PRODUCT_BUNDLE_IDENTIFIER).
+        OctaPassAppBundleIdentifier: app.octap.ios
+    entitlements:
+      path: Watchdog/Watchdog.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        com.apple.security.application-groups: [$(OCTAPASS_APP_GROUP)]
   OctaPassMacUITests:
     type: bundle.ui-testing
     platform: macOS

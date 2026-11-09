@@ -195,17 +195,16 @@ impl OctaPassVault {
         }
     }
 
-    /// Serves the `octapass` CLI (plan 05) on `cli.sock` in `data_dir`: the first request from a
-    /// terminal asks for Touch ID or the Mac's password, naming the program, and the approval lasts
-    /// for that program in that terminal until it's idle for 30 minutes or the vault locks.
+    /// Serves the `octapass` CLI (plan 05) on `cli.sock` in `data_dir`: the CLI uses this app's
+    /// account and is unlocked while the app is, with no prompt; while locked, a request asks
+    /// Touch ID or the Mac's password. A CLI that isn't signed in is linked to the account.
     pub fn start_cli_session(&self, data_dir: String) -> Result<Arc<DesktopService>> {
         #[cfg(target_os = "macos")]
         {
-            use octapass_mobile_vault::desktop::cli_session::{self, CliGrants};
+            use octapass_mobile_vault::desktop::cli_session;
             let endpoint = cli_session::endpoint(std::path::Path::new(&data_dir));
             let service = cli_session::start(
                 Arc::clone(&self.vault),
-                Arc::new(CliGrants::default()),
                 endpoint.clone(),
                 cli_session::cli_peer,
             )
@@ -222,9 +221,9 @@ impl OctaPassVault {
         }
     }
 
-    /// Starts the SSH agent (plans 05 and 16) on `endpoint`: the vault's SSH keys while unlocked,
-    /// each signature asking Touch ID or the Mac's password (or `prompts.approve` on a Mac with
-    /// neither). A request while locked asks to unlock. `None` is `~/.octapass/agent.sock`, which
+    /// Starts the SSH agent (plans 05 and 16) on `endpoint`: the vault's SSH keys, a signature
+    /// asking Touch ID or the Mac's password (or `prompts.approve` on a Mac with neither) once per 15
+    /// minutes per unlock. A request while locked asks to unlock. `None` is `~/.octapass/agent.sock`, which
     /// the sandboxed app can't make: the Mac app passes `agent.sock` in its App Group container.
     pub fn start_ssh_agent(
         &self,

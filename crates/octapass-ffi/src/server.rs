@@ -1109,6 +1109,23 @@ fn signed_in(
 }
 
 /// Between the core's and the API crate's mirror types, which share one JSON form.
+/// Calls only Rust uses, for the Mac app's desktop services: not in the generated bindings.
+impl OctaPassServer {
+    /// `POST /v1/devices/link`: a session of its own for a program this signed-in app vouches
+    /// for (the CLI, plan 05), answered as a sign-in is.
+    pub fn link_device(
+        &self,
+        access_token: &str,
+        device: api::DeviceInfo,
+    ) -> Result<api::LoginFinishResponse> {
+        self.api.post(
+            "v1/devices/link",
+            Some(access_token),
+            &api::LinkDeviceRequest { device },
+        )
+    }
+}
+
 fn convert<T: Serialize, U: DeserializeOwned>(value: &T) -> Result<U> {
     serde_json::to_value(value)
         .and_then(serde_json::from_value)

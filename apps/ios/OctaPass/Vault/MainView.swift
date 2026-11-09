@@ -128,6 +128,12 @@ private struct SplitShell: View {
             editor.path = []
             listPath = []
         }
+        // The Mac's quick access: Open in Octa Pass shows the item here, in whatever list is open.
+        .onChange(of: model.itemToShow, initial: true) {
+            guard let id = model.itemToShow else { return }
+            model.itemToShow = nil
+            editor.navigate([.item(id)])
+        }
         // An alert: a confirmation dialog on the whole split view doesn't show on the Mac.
         .alert(L10n.editor.discardTitle, isPresented: Binding(
             get: { editor.pending != nil }, set: { if !$0 { editor.pending = nil } }
@@ -399,6 +405,10 @@ struct SidebarView: View {
         if let selection {
             List(selection: selection) { rows }
                 .listStyle(.sidebar)
+                #if os(macOS)
+                // The browser extension, until it has reached the app (OctaPassMac/BrowserExtensionOffer.swift).
+                .safeAreaInset(edge: .bottom, spacing: 0) { ExtensionOfferCard() }
+                #endif
         } else {
             List { rows }
                 .listStyle(.platformGrouped)

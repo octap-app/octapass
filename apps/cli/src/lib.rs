@@ -44,7 +44,7 @@ use octapass_core::tools::generator::{
     GeneratorOptions, PassphraseOptions, RandomOptions, generate,
 };
 use octapass_desktop_vault::api::Api;
-use octapass_desktop_vault::cli_session::{self, AppUnlock};
+use octapass_desktop_vault::cli_session::{self, AppLink, AppUnlock};
 use octapass_desktop_vault::model::{
     Item, ItemDraft, ItemSummary, SessionStatus, SignInResult, TwoStepMethod, TwoStepProof, now,
     rfc3339,
@@ -604,7 +604,12 @@ impl App {
             return Ok(());
         }
         match opened.vault.snapshot().session.status {
-            SessionStatus::SignedOut => return Err(CliError::signed_out()),
+            SessionStatus::SignedOut => {
+                return match self.link_to_app(opened).await? {
+                    true => Ok(()),
+                    false => Err(self.signed_out()),
+                };
+            }
             SessionStatus::Unlocked => return Ok(()),
             SessionStatus::Locked => {}
         }
@@ -621,6 +626,48 @@ impl App {
         let password = self.master_password()?;
         opened.vault.unlock(password).await?;
         self.sync(&opened.vault).await
+    }
+
+    /// Signs this CLI, which isn't signed in, in with the running app's account. `false` when
+    /// there's no app to ask, or it can't (saying why).
+    async fn link_to_app(&mut self, opened: &Opened) -> Result<bool> {
+        let Some(endpoint) = self.context.desktop_app.clone() else {
+            return Ok(false);
+        };
+        match cli_session::link_through_app(&opened.vault, &endpoint, device_info()).await? {
+            AppLink::Linked { email } => {
+                self.note(&format!(
+                    "Using {email} from the Octa Pass app. While the app is unlocked, so is the CLI."
+                ));
+                Ok(true)
+            }
+            AppLink::NotRunning => Ok(false),
+            AppLink::Declined { code, .. } if code == "signedOut" => Ok(false),
+            AppLink::Declined { message, .. } => {
+                self.note(&format!("The Octa Pass app didn't link the CLI: {message}"));
+                Ok(false)
+            }
+        }
+    }
+
+    /// Not signed in: how to sign in, or what the app would add when it isn't here.
+    fn signed_out(&self) -> CliError {
+        let app_running = self
+            .context
+            .desktop_app
+            .as_deref()
+            .is_some_and(|endpoint| cli_session::app_status(endpoint, "", "").is_some());
+        if app_running {
+            CliError::new(
+                Exit::SignedOut,
+                "Not signed in. Sign in to the Octa Pass app and the CLI uses its account, or run `octapass login`.",
+            )
+        } else {
+            CliError::new(
+                Exit::SignedOut,
+                "Not signed in. Run `octapass login`, or install the Octa Pass desktop app: the CLI then uses its account and unlocks with it, with Touch ID or Windows Hello when the app is locked.",
+            )
+        }
     }
 
     /// Asks the running desktop app, if there is one. `false` when that doesn't open the vault, so
@@ -689,6 +736,7 @@ impl App {
                 timeout,
             } => self.login(server, email, timeout).await,
             Command::Unlock { timeout } => self.unlock(timeout).await,
+            Command::Link => self.link().await,
             Command::Lock => self.lock(),
             Command::Logout => self.logout().await,
             Command::Status => self.status().await,
@@ -997,7 +1045,11 @@ impl App {
         let idle = idle_timeout(timeout)?;
         let opened = self.open(idle)?;
         if opened.vault.snapshot().session.status == SessionStatus::SignedOut {
-            return Err(CliError::signed_out());
+            if self.link_to_app(&opened).await? {
+                self.sync(&opened.vault).await?;
+                return Ok(None);
+            }
+            return Err(self.signed_out());
         }
         if !opened.unlock.available() {
             if self.unlock_through_app(&opened).await? {
@@ -1040,11 +1092,38 @@ impl App {
             return Ok(None);
         }
         opened.vault.disable_device_unlock()?;
-        if let Some(endpoint) = &self.context.desktop_app {
-            cli_session::end_app_session(endpoint);
-        }
-        self.note("Locked.");
+        let app_locked = self
+            .context
+            .desktop_app
+            .as_deref()
+            .is_some_and(cli_session::end_app_session);
+        self.note(if app_locked {
+            "Locked, and the Octa Pass app with it: the CLI follows the app."
+        } else {
+            "Locked."
+        });
         Ok(None)
+    }
+
+    async fn link(&mut self) -> Result<Option<i32>> {
+        let opened = self.open(DEFAULT_IDLE)?;
+        let session = opened.vault.snapshot().session;
+        if session.status != SessionStatus::SignedOut {
+            let email = session.email.unwrap_or_default();
+            return Err(CliError::other(format!(
+                "Already signed in as {email}. Run `octapass logout` first to use the Octa Pass app's account instead."
+            )));
+        }
+        if self.context.desktop_app.is_none() {
+            return Err(CliError::other(
+                "Asking the Octa Pass app is turned off (OCTAPASS_NO_DESKTOP).",
+            ));
+        }
+        if self.link_to_app(&opened).await? {
+            self.sync(&opened.vault).await?;
+            return Ok(None);
+        }
+        Err(self.signed_out())
     }
 
     async fn logout(&mut self) -> Result<Option<i32>> {
@@ -1127,7 +1206,12 @@ impl App {
                 _ => String::new(),
             };
             let text = match exit {
-                Exit::SignedOut => "Not signed in.".to_owned(),
+                Exit::SignedOut => match &self.context.desktop_app {
+                    Some(endpoint) if cli_session::app_status(endpoint, "", "").is_some() => {
+                        "Not signed in. The Octa Pass app is running: any command uses its account, or run `octapass link`.".to_owned()
+                    }
+                    _ => "Not signed in.".to_owned(),
+                },
                 Exit::Ok => match locks_at {
                     Some(at) => {
                         format!("Signed in{account}. Unlocked until {at} (UTC) unless used.")

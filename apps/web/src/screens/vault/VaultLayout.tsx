@@ -13,6 +13,7 @@ import { useMediaQuery } from '../../lib/useMediaQuery';
 import { useShortcuts } from '../../lib/useShortcuts';
 import { useLegacyWifiUpgrade } from '../../lib/wifi';
 import { DeviceUnlockOffer } from './DeviceUnlockOffer';
+import { ExtensionOffer } from './ExtensionOffer';
 import { Sidebar } from './Sidebar';
 import { WifiSaveOffer } from './Wifi';
 import styles from './VaultLayout.module.css';
@@ -23,7 +24,7 @@ export interface VaultLayoutProps {
    * for every page, and a tab in the background has no activity of its own to count.
    */
   lockTimers?: boolean;
-  /** Passed to the sidebar: the host's own links above the vaults, and a card above Health. */
+  /** Passed to the sidebar: the host's own links above the vaults, and a card above Health (by default, the desktop app's offer of the extension). */
   sidebarTop?: ReactNode;
   sidebarBottom?: ReactNode;
 }
@@ -99,7 +100,7 @@ export function VaultLayout({ lockTimers = true, sidebarTop, sidebarBottom }: Va
         </a>
         {/* Off-screen on small screens: inert keeps it out of the tab order and away from screen readers. */}
         <div ref={sidebarRef} className={styles.sidebar} inert={narrow && !drawerOpen}>
-          <Sidebar onLock={lock} onClose={closeDrawer} top={sidebarTop} bottom={sidebarBottom} />
+          <Sidebar onLock={lock} onClose={closeDrawer} top={sidebarTop} bottom={sidebarBottom ?? (service.browserExtension && <ExtensionOffer extension={service.browserExtension} />)} />
         </div>
         <div className={styles.scrim} onClick={closeDrawer} aria-hidden="true" />
         <main id="main" className={styles.main}>

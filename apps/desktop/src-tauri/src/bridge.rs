@@ -5,7 +5,7 @@
 //! bundled with this app, started by a known browser (`octapass_native_host::trust`). The
 //! socket's file permissions only keep other users out; this keeps out the user's other programs.
 
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
 use octapass_desktop_vault::cli_session::CliPeer;
@@ -13,6 +13,7 @@ use octapass_desktop_vault::{Vault, VaultError};
 use octapass_native_host::browsers::KnownBrowser;
 use octapass_native_host::caller::Caller;
 use octapass_native_host::protocol::{BROWSER_NOT_TRUSTED, Forwarded, Reply, Request};
+use octapass_native_host::seen;
 use octapass_native_host::system::{self, OsSystem};
 use octapass_native_host::trust::{HostCheck, Process, Refusal, System, Vouching};
 use serde_json::{Value, json};
@@ -128,11 +129,26 @@ async fn verify(
         .map_err(|error| Refusal::Inspect(error.to_string()))?
 }
 
+/// Notes the browser in `seen_dir` (`octapass_native_host::seen`) when the request is from an
+/// allowed extension: the app stops offering the extension once one has reached it.
+fn note_extension(seen_dir: &Path, browser: &KnownBrowser, forwarded: &Forwarded) {
+    if !Caller::from_origin(&forwarded.origin).is_some_and(|caller| caller.is_allowed()) {
+        return;
+    }
+    if let Err(error) = seen::record(seen_dir, browser.name) {
+        eprintln!(
+            "browser bridge: couldn't note the extension in {}: {error}",
+            browser.name
+        );
+    }
+}
+
 /// One connection: one request line, one reply line.
 async fn handle(
     vault: Arc<Vault>,
     stream: impl AsyncRead + AsyncWrite + Unpin,
     peer: Result<&'static KnownBrowser, Refusal>,
+    seen_dir: Arc<PathBuf>,
 ) {
     let (reader, mut writer) = tokio::io::split(stream);
     let mut line = String::new();
@@ -145,7 +161,10 @@ async fn handle(
             eprintln!("browser bridge: refused a connection: {refusal}");
             refused(&refusal)
         }
-        (Ok(browser), Ok(forwarded)) => dispatch(&vault, browser, forwarded).await,
+        (Ok(browser), Ok(forwarded)) => {
+            note_extension(&seen_dir, browser, &forwarded);
+            dispatch(&vault, browser, forwarded).await
+        }
         (Ok(_), Err(error)) => Reply::error(Value::Null, "invalidRequest", error.to_string()),
     };
     let mut bytes = serde_json::to_vec(&reply).expect("replies serialize");
@@ -154,7 +173,12 @@ async fn handle(
 }
 
 #[cfg(unix)]
-pub async fn serve(vault: Arc<Vault>, endpoint: PathBuf, check: HostCheck) -> std::io::Result<()> {
+pub async fn serve(
+    vault: Arc<Vault>,
+    endpoint: PathBuf,
+    check: HostCheck,
+    seen_dir: PathBuf,
+) -> std::io::Result<()> {
     use std::os::unix::fs::PermissionsExt;
     // A socket left by a previous run (or a crash) would make bind fail.
     match std::fs::remove_file(&endpoint) {
@@ -167,16 +191,28 @@ pub async fn serve(vault: Arc<Vault>, endpoint: PathBuf, check: HostCheck) -> st
     let listener = tokio::net::UnixListener::bind(&endpoint)?;
     std::fs::set_permissions(&endpoint, std::fs::Permissions::from_mode(0o600))?;
     let check = Arc::new(check);
+    let seen_dir = Arc::new(seen_dir);
     loop {
         let (stream, _) = listener.accept().await?;
         let peer = system::peer(&stream);
-        let (vault, check) = (Arc::clone(&vault), Arc::clone(&check));
-        tokio::spawn(async move { handle(vault, stream, verify(check, peer).await).await });
+        let (vault, check, seen_dir) = (
+            Arc::clone(&vault),
+            Arc::clone(&check),
+            Arc::clone(&seen_dir),
+        );
+        tokio::spawn(
+            async move { handle(vault, stream, verify(check, peer).await, seen_dir).await },
+        );
     }
 }
 
 #[cfg(windows)]
-pub async fn serve(vault: Arc<Vault>, endpoint: PathBuf, check: HostCheck) -> std::io::Result<()> {
+pub async fn serve(
+    vault: Arc<Vault>,
+    endpoint: PathBuf,
+    check: HostCheck,
+    seen_dir: PathBuf,
+) -> std::io::Result<()> {
     use tokio::net::windows::named_pipe::ServerOptions;
     let name = endpoint.as_os_str();
     let mut server = ServerOptions::new()
@@ -184,6 +220,7 @@ pub async fn serve(vault: Arc<Vault>, endpoint: PathBuf, check: HostCheck) -> st
         .reject_remote_clients(true)
         .create(name)?;
     let check = Arc::new(check);
+    let seen_dir = Arc::new(seen_dir);
     loop {
         server.connect().await?;
         let connected = server;
@@ -191,8 +228,14 @@ pub async fn serve(vault: Arc<Vault>, endpoint: PathBuf, check: HostCheck) -> st
             .reject_remote_clients(true)
             .create(name)?;
         let peer = system::peer(&connected);
-        let (vault, check) = (Arc::clone(&vault), Arc::clone(&check));
-        tokio::spawn(async move { handle(vault, connected, verify(check, peer).await).await });
+        let (vault, check, seen_dir) = (
+            Arc::clone(&vault),
+            Arc::clone(&check),
+            Arc::clone(&seen_dir),
+        );
+        tokio::spawn(
+            async move { handle(vault, connected, verify(check, peer).await, seen_dir).await },
+        );
     }
 }
 
@@ -336,7 +379,12 @@ mod tests {
             team: None,
             vouching: Vouching::Nothing,
         };
-        tokio::spawn(serve(vault(dir.path()), endpoint.clone(), check));
+        tokio::spawn(serve(
+            vault(dir.path()),
+            endpoint.clone(),
+            check,
+            dir.path().to_owned(),
+        ));
         while !endpoint.exists() {
             tokio::time::sleep(std::time::Duration::from_millis(10)).await;
         }
@@ -390,5 +438,7 @@ mod tests {
         assert_eq!(reply["id"], 7);
         assert_eq!(reply["result"]["appRunning"], true);
         assert_eq!(reply["result"]["status"], "signedOut");
+        // Only the host's connection was noted, under the browser that started it.
+        assert_eq!(seen::read(dir.path()).len(), 1);
     }
 }

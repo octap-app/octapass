@@ -188,7 +188,7 @@ See [07-import-export](07-import-export.md). P0: Chrome/Edge, Firefox, Safari/Ap
 |---|---|
 | CLI: login, unlock, list, get, generate, TOTP, inject secrets into env/run | P0 (dogfooding) |
 | `op://`-style secret references in config files (`octapass://vault/item/field`) | P1 |
-| SSH agent (desktop app serves keys, with per-use approval) | P2, built (branch `m25-cli-ssh-git`); required for 1.0 |
+| SSH agent (desktop app serves keys; an approval lasts 15 minutes, plan 16 History) | P2, built (branch `m25-cli-ssh-git`); required for 1.0 |
 | Public, documented sync API for self-hosters and third-party clients | P1 |
 
 ### Quality

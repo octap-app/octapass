@@ -90,6 +90,13 @@
   gap: 0.25rem;
 }
 
+/* Settings → Browser extension: a "Get it for …" button per browser, wrapping when there are several. */
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
 .secret {
   color: var(--ink);
   font-size: var(--text-md);

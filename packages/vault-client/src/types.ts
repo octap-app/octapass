@@ -530,6 +530,28 @@ export interface BackgroundService {
   setOpenAtLogin(enabled: boolean): Promise<BackgroundStatus>;
 }
 
+/** Where a browser gets the Octa Pass extension. Chrome, Chromium and Brave use the Chrome Web Store. */
+export type ExtensionStore = 'chrome' | 'edge' | 'firefox';
+
+/** The browser extension on this computer, as the desktop app sees it. Per device, never synced. */
+export interface BrowserExtensionStatus {
+  /** The supported browsers on this computer: "Chrome", "Edge", "Brave", "Chromium", "Firefox". */
+  browsers: { name: string; store: ExtensionStore }[];
+  /** Those connected: the extension can reach the app from them (the native messaging manifest is there). */
+  connected: string[];
+  /** The browsers the extension has reached the app from, as the app names them ("Google Chrome"). None: most likely not installed. */
+  seen: string[];
+}
+
+/** Settings → Browser extension and the offer of the extension, in the desktop app. */
+export interface BrowserExtensionService {
+  status(): Promise<BrowserExtensionStatus>;
+  connect(): Promise<BrowserExtensionStatus>;
+  disconnect(): Promise<BrowserExtensionStatus>;
+  /** Opens where `browser` (a name from `browsers`) gets the extension. */
+  get(browser: string): Promise<void>;
+}
+
 /** A masked email service connected with the user's own API token. */
 export interface MaskedEmailProviderDetails {
   schemaVersion: typeof SCHEMA_VERSION;
@@ -2257,6 +2279,8 @@ export interface VaultService {
   readonly sshAgent?: SshAgentService;
   /** The tray icon and opening at login. Only the desktop app has them. */
   readonly background?: BackgroundService;
+  /** Connecting the browser extension, and offering it until it has reached the app. Only the desktop app has it. */
+  readonly browserExtension?: BrowserExtensionService;
   /** The developer toolkit. Missing where the host doesn't offer it. */
   readonly toolkit?: ToolkitService;
   /**

@@ -12,12 +12,16 @@
 //!
 //! The files and values are written and read by plain functions in each module, compiled and tested
 //! everywhere; only the registry calls are behind `cfg(windows)`.
+//!
+//! [`watchdog`] keeps it there for the rest of the session: started again with [`HIDDEN_ARG`]
+//! when it's force quit or crashes, until it's quit on purpose.
 
 use std::io;
 use std::path::{Path, PathBuf};
 
 pub mod linux;
 pub mod macos;
+pub mod watchdog;
 pub mod windows;
 
 /// The argument the system starts the app with at login: stay in the background.

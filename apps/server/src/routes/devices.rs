@@ -4,11 +4,15 @@ use axum::Json;
 use axum::extract::State;
 use axum::http::StatusCode;
 use octapass_api::problem::Problem;
-use octapass_api::{DeviceRecord, PushPlatform, PushTokenRequest, RenameDeviceRequest};
+use octapass_api::{
+    DeviceRecord, LinkDeviceRequest, LoginFinishResponse, PushPlatform, PushTokenRequest,
+    RenameDeviceRequest,
+};
 
-use crate::db::{self, sessions};
+use crate::db::{self, accounts, sessions};
 use crate::error::{ApiError, ApiResult};
-use crate::extract::{ApiJson, ApiPath, Authenticated};
+use crate::extract::{ApiJson, ApiPath, Authenticated, ClientIp};
+use crate::routes::auth::{self, NewDevice};
 use crate::state::AppState;
 use crate::validate;
 
@@ -52,6 +56,60 @@ pub async fn rename_current_device(
     let name = validate::text("name", &request.name, 64)?;
     sessions::rename_device(&state.db, &session.device_id, &name).await?;
     Ok(StatusCode::NO_CONTENT)
+}
+
+#[utoipa::path(
+    post, path = "/v1/devices/link", tag = "devices",
+    security(("bearer" = [])),
+    request_body = LinkDeviceRequest,
+    responses(
+        (status = 200, body = LoginFinishResponse, description = "The new device's session, as a sign-in returns it"),
+        (status = 400, body = Problem, content_type = "application/problem+json"),
+        (status = 401, body = Problem, content_type = "application/problem+json"),
+        (status = 429, body = Problem, content_type = "application/problem+json"),
+    )
+)]
+/// A new device and session made from this one, for a program on the same computer that the
+/// signed-in app vouches for (the CLI, plan 05): no password, no second step, because the session
+/// asking already passed both. It keeps this session's SSO age, appears in the device list as a
+/// device of its own (signed out like any other), and the owner gets the new sign-in email.
+pub async fn link_device(
+    State(state): State<AppState>,
+    ClientIp(ip): ClientIp,
+    Authenticated(session): Authenticated,
+    ApiJson(request): ApiJson<LinkDeviceRequest>,
+) -> ApiResult<Json<LoginFinishResponse>> {
+    auth::charge(&state.ip_limiter, &ip)?;
+    let name = validate::text("device.name", &request.device.name, 64)?;
+    let platform = validate::text("device.platform", &request.device.platform, 32)?;
+    let account = accounts::find_by_id(&state.db, &session.account_id)
+        .await?
+        .ok_or(ApiError::Unauthorized)?;
+    let sso_at =
+        sessions::device_sso_at(&state.db, &session.account_id, &session.device_id).await?;
+    let device = NewDevice {
+        account_id: &session.account_id,
+        name: &name,
+        platform: &platform,
+        sso_at,
+    };
+    let mut tx = state.db.begin().await?;
+    let linked = auth::start_session(&mut tx, &device, None, db::now())
+        .await?
+        .ok_or(ApiError::Unauthorized)?;
+    tx.commit().await?;
+    auth::notify_new_sign_in(
+        &state,
+        &session.account_id,
+        &account.email,
+        &linked,
+        &name,
+        &platform,
+    )
+    .await?;
+    Ok(Json(
+        auth::login_response(&state, &session.account_id, linked).await?,
+    ))
 }
 
 #[utoipa::path(

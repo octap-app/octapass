@@ -335,6 +335,16 @@ pub fn uninstall(locations: &Locations) -> io::Result<Vec<Browser>> {
     Ok(removed)
 }
 
+/// The browsers on this machine, the ones [`install`] would connect, without writing anything:
+/// for the desktop app's offer of the extension. The sandboxed Mac app can't look at the
+/// browsers' folders, so it asks the system for their apps instead.
+pub fn present(locations: &Locations) -> Vec<Browser> {
+    Browser::ALL
+        .into_iter()
+        .filter(|browser| platform::is_present(locations, *browser))
+        .collect()
+}
+
 /// The browsers that currently have the manifest.
 pub fn installed(locations: &Locations) -> Vec<Browser> {
     Browser::ALL
@@ -383,6 +393,11 @@ mod platform {
 
     pub fn is_installed(locations: &Locations, browser: Browser) -> bool {
         locations.manifest_path(browser).is_file()
+    }
+
+    pub fn is_present(locations: &Locations, browser: Browser) -> bool {
+        locations.home.join(browser.profile_dir()).is_dir()
+            || locations.firefox_without_folder(browser)
     }
 }
 
@@ -433,6 +448,13 @@ mod platform {
     pub fn is_installed(_: &Locations, browser: Browser) -> bool {
         RegKey::predef(HKEY_CURRENT_USER)
             .open_subkey_with_flags(host_key(browser), KEY_READ)
+            .is_ok()
+    }
+
+    /// The same test [`install`] makes: the browser's key under `HKCU`.
+    pub fn is_present(_: &Locations, browser: Browser) -> bool {
+        RegKey::predef(HKEY_CURRENT_USER)
+            .open_subkey_with_flags(browser.registry_key(), KEY_READ)
             .is_ok()
     }
 }
@@ -517,10 +539,16 @@ mod tests {
         let (_home, locations) = locations();
         let host = locations.home.join("app/octapass-native-host");
         assert!(install(&locations, &host).unwrap().is_empty());
+        assert!(present(&locations).is_empty());
 
         for browser in [Browser::Chrome, Browser::Firefox] {
             std::fs::create_dir_all(locations.home.join(browser.profile_dir())).unwrap();
         }
+        assert_eq!(present(&locations), [Browser::Chrome, Browser::Firefox]);
+        assert!(
+            installed(&locations).is_empty(),
+            "finding them writes nothing"
+        );
         assert_eq!(
             install(&locations, &host).unwrap(),
             [Browser::Chrome, Browser::Firefox]

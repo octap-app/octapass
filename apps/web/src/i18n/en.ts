@@ -2525,9 +2525,9 @@ export const en = {
 
   sshAgent: {
     title: 'SSH agent',
-    help: 'Lets ssh, Git and your IDE use the SSH keys in your vault without a copy on disk. You approve each use.',
+    help: 'Lets ssh, Git and your IDE use the SSH keys in your vault without a copy on disk. You approve a key’s use once, then it’s used without asking for 15 minutes or until the vault locks.',
     enable: 'Run the SSH agent',
-    enableHelp: 'Keys are offered while your vault is unlocked. This setting is for this computer only.',
+    enableHelp: 'Keys are always offered. While your vault is locked, a request asks you to unlock it with your fingerprint or face if you’ve turned that on, or with your master password. This setting is for this computer only.',
     socket: 'Agent address',
     configConnected: 'SSH uses Octa Pass (set in ~/.ssh/config)',
     configConnect: 'Use it for SSH',
@@ -2540,9 +2540,18 @@ export const en = {
     lockedKeys: 'Unlock your vault to see the keys it offers.',
   },
 
+  cliTool: {
+    title: 'Command-line tool',
+    help: 'The octapass command uses this app’s account, with no sign-in of its own, and is unlocked whenever the app is. Locking the app locks it too.',
+    linuxPackages: 'The .deb and .rpm packages of Octa Pass install it in /usr/bin.',
+    install: 'Install it with',
+    otherwise: 'Otherwise, install it with',
+    command: 'the install command',
+  },
+
   background: {
     title: 'Running in the background',
-    help: 'Closing the window doesn’t quit Octa Pass, so quick access, the browser extension and the SSH agent keep working. These settings are for this computer only.',
+    help: 'Closing the window doesn’t quit Octa Pass, so quick access, the browser extension and the SSH agent keep working. If it’s force quit or crashes, it starts again in the background until you quit it. These settings are for this computer only.',
     menuBar: 'Show in the menu bar',
     tray: 'Show in the system tray',
     trayHelp: 'From the icon you can show your vault, open quick access, lock Octa Pass or quit it.',
@@ -2550,6 +2559,28 @@ export const en = {
     openAtLoginHelp: 'Octa Pass starts in the background, without its window.',
     notInstalled: 'To turn this on, move Octa Pass to your Applications folder and open it from there.',
     failed: 'Octa Pass couldn’t do this: {error}',
+  },
+
+  // The desktop apps: Settings → Browser extension, and the card that offers the extension.
+  browserExtension: {
+    title: 'Browser extension',
+    help: 'The Octa Pass extension fills passwords and passkeys in your browser. Connected, it unlocks through this app, so you don’t type your master password in the browser. These settings are for this computer only.',
+    connected: 'Connected in {browsers}',
+    notConnected: 'Not connected to any browser',
+    seen: 'The extension has reached this app from {browsers}.',
+    notSeen: 'No Octa Pass extension has reached this app yet.',
+    connect: 'Connect browser extension',
+    disconnect: 'Disconnect browser extension',
+    none: 'No supported browser was found. Install Chrome, Edge, Brave or Firefox, then try again.',
+    getFor: 'Get it for {browser}',
+    getHelp: 'Not in the browser stores yet: the link shows how to install it.',
+    failed: 'Couldn’t change the browser integration: {error}',
+    offerTitle: 'Fill passwords in your browser',
+    offerBody: 'Get the Octa Pass extension for {browsers}. It unlocks through this app.',
+    offerConnect: 'Have it already? Connect it',
+    offerConnectTitle: 'Connect the browser extension',
+    offerConnectBody: 'The Octa Pass extension can’t reach this app until you connect it.',
+    offerDismiss: 'Don’t show this again',
   },
 
   itemFields: {

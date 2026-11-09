@@ -614,7 +614,7 @@ pub async fn login_sso(
 }
 
 /// A new session and the device's trusted-device token.
-struct NewSession {
+pub(crate) struct NewSession {
     device_id: String,
     tokens: sessions::Tokens,
     trusted_device_token: String,
@@ -622,7 +622,7 @@ struct NewSession {
 
 /// Emails the owner about a sign-in that didn't come from a trusted device,
 /// except the one that finishes sign-up.
-async fn notify_new_sign_in(
+pub(crate) async fn notify_new_sign_in(
     state: &AppState,
     account_id: &str,
     email: &str,
@@ -644,17 +644,17 @@ async fn notify_new_sign_in(
 }
 
 /// Who a new session is for.
-struct NewDevice<'a> {
-    account_id: &'a str,
-    name: &'a str,
-    platform: &'a str,
-    sso_at: Option<i64>,
+pub(crate) struct NewDevice<'a> {
+    pub(crate) account_id: &'a str,
+    pub(crate) name: &'a str,
+    pub(crate) platform: &'a str,
+    pub(crate) sso_at: Option<i64>,
 }
 
 /// Creates the device, its session and its trust, inside `conn`'s
 /// transaction. A trusted-device token it signs in with is used up first:
 /// `None` (and nothing written) if it's no longer valid.
-async fn start_session(
+pub(crate) async fn start_session(
     conn: &mut db::Conn,
     device: &NewDevice<'_>,
     trusted_token: Option<&str>,
@@ -683,7 +683,7 @@ async fn start_session(
     }))
 }
 
-async fn login_response(
+pub(crate) async fn login_response(
     state: &AppState,
     account_id: &str,
     session: NewSession,

@@ -41,6 +41,7 @@ use crate::model::{
 use crate::store::{AccountKey, DeviceState, Store, StoredAccount, WrappedAsk};
 
 mod attachments;
+pub mod cli_link;
 mod emergency;
 mod gates;
 mod health_data;
@@ -375,9 +376,11 @@ impl Vault {
         run(unlocked)
     }
 
-    /// Bumped by signing in, locking and signing out.
-    pub(crate) fn state_generation(&self) -> u64 {
-        self.state().generation
+    /// The open vault's unlock (a new one after every lock), or `None` while locked: the SSH
+    /// agent's approval lasts for one.
+    pub fn ssh_agent_session(&self) -> Option<u64> {
+        let state = self.state();
+        state.unlocked.as_ref().map(|_| state.generation)
     }
 
     pub(crate) fn current_account(&self) -> Result<StoredAccount> {

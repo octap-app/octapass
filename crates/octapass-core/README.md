@@ -92,6 +92,7 @@ XChaCha20-Poly1305 with a random 192-bit nonce. `key_id = SHA-256("openpass/v1/k
 | `local-vault` | ASK | a local vault's body JSON |
 | `backup-recovery` | backup recovery key | backup key (32 bytes) |
 | `chip-secret` | key from the X25519 exchange with the desktop app | a device chip's secret (32 bytes), on its way to the browser extension |
+| `cli-link` | key from a second X25519 exchange between the desktop app and the CLI (HKDF info `openpass/v1/cli-link`) | the CLI's new server session and the Secret Key, when the app links the CLI to its account |
 | `privkeys` | ASK | `x25519_secret (32) ‖ ed25519_seed (32)` |
 | `vaultkey:<vaultId>` | ASK | vault key (32 bytes) |
 | `itemkey:<vaultId>:<itemId>` | vault key | item key (32 bytes) |

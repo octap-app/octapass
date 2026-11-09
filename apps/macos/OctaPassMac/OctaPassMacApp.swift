@@ -17,6 +17,7 @@ struct OctaPassMacApp: App {
         Window("Octa Pass", id: "vault") {
             RootView()
                 .modifier(SceneRoot(model: model))
+                .commandLineToolOffer()
                 .background(ActivityTracker { model.recordActivity() })
                 .background(OpenWindowKeeper())
                 .onAppear {
@@ -67,9 +68,20 @@ final class MacAppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        // Opened at login (Settings → Running in the background): in the background, without the
-        // vault window. SwiftUI opens the window as the app starts, so it's closed right after.
-        guard MainActor.assumeIsolated({ OpenAtLogin.launchedAtLogin }) else { return }
+        // The menu bar icon stays until the app is quit: the system mustn't end it quietly once
+        // its windows are closed (automatic termination).
+        ProcessInfo.processInfo.disableAutomaticTermination("Octa Pass runs in the menu bar")
+        let background = MainActor.assumeIsolated {
+            // Read first: it's the open-application event the app is handling now.
+            let background = Watchdog.launchedInBackground
+            // Started again if it's force quit or crashes (Platform/Watchdog.swift).
+            Watchdog.start()
+            return background
+        }
+        // Opened at login (Settings → Running in the background), or started again by the
+        // watchdog: in the background, without the vault window. SwiftUI opens the window as the
+        // app starts, so it's closed right after.
+        guard background else { return }
         DispatchQueue.main.async {
             for window in NSApp.windows where window.identifier?.rawValue == "vault" { window.close() }
         }
@@ -77,8 +89,13 @@ final class MacAppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
 
+    /// Every quit in order (the menu bar's Quit Octa Pass, Cmd+Q, the Dock, logging out) is on
+    /// purpose, and stops the watchdog. Only a force quit or a crash skips this.
     func applicationWillTerminate(_ notification: Notification) {
-        MainActor.assumeIsolated { DesktopServices.shared.stop() }
+        MainActor.assumeIsolated {
+            Watchdog.stop()
+            DesktopServices.shared.stop()
+        }
     }
 
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows: Bool) -> Bool {

@@ -11,7 +11,8 @@ The tests in `../tests/` check every command and flag written here against the r
 | `octapass signup` | ⚠ Creates an account and prints its Recovery Kit. The user runs it. `--server`, `--email`, `--code`, `--timeout` |
 | `octapass login` | The user signs in: email, master password, Secret Key the first time, then a two-step code. `--server`, `--email`, `--timeout` |
 | `octapass unlock` | The user unlocks and stays unlocked until idle. `--timeout 2h` |
-| `octapass lock` | Locks now. Always safe |
+| `octapass link` | Uses the account of the Octa Pass app on this computer, without signing in here. Refuses when already signed in |
+| `octapass lock` | Locks now. While the desktop app is running, it locks the app too |
 | `octapass logout` | ⚠ Signs out and removes the account's data from this computer |
 | `octapass status` | Exits 0 when unlocked, 3 when signed out and 4 when locked |
 | `octapass change-master-password` | ⚠ The user changes it, and other devices are signed out |

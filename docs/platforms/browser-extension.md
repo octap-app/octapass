@@ -49,6 +49,8 @@ A small card at the foot of the sidebar offers an Octa Pass app you don't have y
 
 Close a card with × and that app isn't offered again. The link goes to the [desktop app](/docs/platforms/desktop/) or [mobile apps](/docs/platforms/mobile/) page, because the apps aren't in any store yet.
 
+It works the other way round too: the desktop app offers this extension, for the browsers on that computer, until the extension has reached it (see [getting the extension](/docs/platforms/desktop/#getting-the-extension)).
+
 ## API keys
 
 Paste an API key into a form, and the extension offers to save it as an API credential. It works this out on your device: a value counts if it has a known shape (such as `ghp_…` or `sk_live_…`), or if the field is named as a key and the value looks random. It stays in the page's extension script until you choose **Save**, for at most two minutes, and nothing leaves your device.

@@ -82,6 +82,22 @@ pub async fn insert(
 }
 
 /// The account behind a current refresh token, and when SSO last passed for that session.
+/// When SSO last passed for this device's session, so a session made from it ([`insert`]) keeps
+/// the same age.
+pub async fn device_sso_at(
+    db: &Db,
+    account_id: &str,
+    device_id: &str,
+) -> Result<Option<i64>, sqlx::Error> {
+    let row: Option<(Option<i64>,)> =
+        sqlx::query_as("SELECT sso_at FROM sessions WHERE account_id = $1 AND device_id = $2")
+            .bind(account_id)
+            .bind(device_id)
+            .fetch_optional(db)
+            .await?;
+    Ok(row.and_then(|(sso_at,)| sso_at))
+}
+
 pub async fn sso_state(
     db: &Db,
     refresh_token: &str,

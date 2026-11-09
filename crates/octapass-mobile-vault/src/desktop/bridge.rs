@@ -18,6 +18,7 @@ use octapass_native_host::browsers::KnownBrowser;
 use octapass_native_host::caller::Caller;
 use octapass_native_host::manifests::{self, Browser, Locations};
 use octapass_native_host::protocol::{BROWSER_NOT_TRUSTED, Forwarded, Reply, Request};
+use octapass_native_host::seen;
 use octapass_native_host::trust::{HostCheck, Process, Refusal, Vouching};
 use serde::Serialize;
 use serde_json::{Value, json};
@@ -187,12 +188,34 @@ fn verify(check: &HostCheck, peer: io::Result<Process>) -> Result<&'static Known
     check.check(&octapass_native_host::system::OsSystem, &peer?)
 }
 
+/// Notes the browser in `seen_dir` (`octapass_native_host::seen`) when the request is from an
+/// allowed extension: the app stops offering the extension once one has reached it.
+fn note_extension(
+    seen_dir: &Path,
+    browser: &KnownBrowser,
+    forwarded: &Forwarded,
+    development: bool,
+) {
+    if !Caller::from_origin(&forwarded.origin)
+        .is_some_and(|caller| caller.is_allowed_with(development))
+    {
+        return;
+    }
+    if let Err(error) = seen::record(seen_dir, browser.name) {
+        eprintln!(
+            "browser bridge: couldn't note the extension in {}: {error}",
+            browser.name
+        );
+    }
+}
+
 /// One connection: one request line, one reply line.
 fn handle(
     vault: &Vault,
     stream: &UnixStream,
     peer: Result<&'static KnownBrowser, Refusal>,
     development: bool,
+    seen_dir: &Path,
 ) {
     let Some(line) = socket::read_request(stream) else {
         return;
@@ -202,14 +225,18 @@ fn handle(
             eprintln!("browser bridge: refused a connection: {refusal}");
             refused(&refusal)
         }
-        (Ok(browser), Ok(forwarded)) => dispatch_with(vault, browser, forwarded, development),
+        (Ok(browser), Ok(forwarded)) => {
+            note_extension(seen_dir, browser, &forwarded, development);
+            dispatch_with(vault, browser, forwarded, development)
+        }
         (Ok(_), Err(error)) => Reply::error(Value::Null, "invalidRequest", error.to_string()),
     };
     socket::write_reply(stream, &reply);
 }
 
 /// Serves the extension on `endpoint` (`endpoint(data_dir)`, where the host looks) until the
-/// service is stopped or dropped.
+/// service is stopped or dropped. The browsers it answers are noted in the endpoint's folder
+/// (`octapass_native_host::seen`), for the app's offer of the extension.
 pub fn start(vault: Arc<Vault>, endpoint: PathBuf, check: HostCheck) -> io::Result<Service> {
     start_with(vault, endpoint, check, false)
 }
@@ -221,9 +248,10 @@ pub fn start_with(
     check: HostCheck,
     development: bool,
 ) -> io::Result<Service> {
+    let seen_dir = endpoint.parent().map(Path::to_owned).unwrap_or_default();
     Service::start(endpoint, move |stream| {
         let peer = verify(&check, octapass_native_host::system::peer(&stream));
-        handle(&vault, &stream, peer, development);
+        handle(&vault, &stream, peer, development, &seen_dir);
     })
 }
 
@@ -422,6 +450,26 @@ mod tests {
         assert_eq!(check.host.file_name(), Some(HOST_BINARY.as_ref()));
     }
 
+    #[test]
+    fn only_an_allowed_extension_is_noted() {
+        let dir = tempfile::tempdir().unwrap();
+        let other = forwarded(
+            "chrome-extension://abcdefghijklmnopabcdefghijklmnop/".into(),
+            Request::UnlockStatus,
+        );
+        note_extension(dir.path(), browser(), &other, false);
+        assert!(seen::read(dir.path()).is_empty());
+        let ours = forwarded(
+            format!("chrome-extension://{DEV_CHROME_ID}/"),
+            Request::UnlockStatus,
+        );
+        note_extension(dir.path(), browser(), &ours, false);
+        note_extension(dir.path(), browser(), &ours, false);
+        let noted = seen::read(dir.path());
+        assert_eq!(noted.len(), 1);
+        assert_eq!(noted[0].browser, browser().name);
+    }
+
     /// The real socket: this test process isn't the host, so it gets a refusal, even with an
     /// allowed origin, and the vault is never asked.
     #[test]
@@ -450,6 +498,10 @@ mod tests {
             error.message
         );
         assert_eq!(reply.id, Value::Null, "refused before the request is read");
+        assert!(
+            seen::read(dir.path()).is_empty(),
+            "a refused connection isn't noted"
+        );
         service.stop();
     }
 }

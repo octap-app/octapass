@@ -72,6 +72,9 @@ pub enum Context<'a> {
     },
     /// A device chip's secret on its way from the desktop app to the browser extension.
     ChipSecret,
+    /// A new server session and the Secret Key, on their way from the desktop app to the CLI it
+    /// links to its account.
+    CliLink,
     /// One revision of a Safe object's record: its name, place and file key (see [`crate::safe`]).
     SafeRecord {
         safe_id: &'a str,
@@ -133,6 +136,7 @@ impl fmt::Display for Context<'_> {
             } => write!(f, "service-account-name:{vault_id}:{service_account_id}"),
             Context::AuditDetail { account_id } => write!(f, "audit-detail:{account_id}"),
             Context::ChipSecret => f.write_str("chip-secret"),
+            Context::CliLink => f.write_str("cli-link"),
             Context::SafeRecord { safe_id, blob_id } => {
                 write!(f, "saferecord:{safe_id}:{blob_id}")
             }
@@ -316,6 +320,7 @@ mod tests {
         assert_eq!(Context::LocalVault.to_string(), "local-vault");
         assert_eq!(Context::BackupRecovery.to_string(), "backup-recovery");
         assert_eq!(Context::ChipSecret.to_string(), "chip-secret");
+        assert_eq!(Context::CliLink.to_string(), "cli-link");
         assert_eq!(Context::Ask.associated_data(), b"openpass/v1|ask");
     }
 

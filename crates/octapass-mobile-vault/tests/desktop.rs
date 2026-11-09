@@ -15,7 +15,7 @@ use octapass_core::keys::SymmetricKey;
 use octapass_ffi::{DeviceInfo, LocalStore};
 use octapass_mobile_vault::accounts::{Accounts, store_path};
 use octapass_mobile_vault::desktop::bridge::SessionKeyWrap;
-use octapass_mobile_vault::desktop::cli_session::{self, CliGrants, CliPeer};
+use octapass_mobile_vault::desktop::cli_session::{self, CLI_LINK_INFO, CliPeer};
 use octapass_mobile_vault::desktop::wrap::{CHIP_WRAP_INFO, WRAP_INFO, wrap_key};
 use octapass_mobile_vault::model::SessionStatus;
 use octapass_mobile_vault::native::fake::FakeNative;
@@ -426,7 +426,6 @@ impl CliApp {
         let identify = Arc::clone(&peer);
         let service = cli_session::start(
             Arc::clone(&mac.vault),
-            Arc::new(CliGrants::default()),
             endpoint.clone(),
             move |_| {
                 identify
@@ -483,87 +482,62 @@ fn ask(endpoint: &Path, line: &str) -> Value {
     serde_json::from_str(&reply).unwrap()
 }
 
-const CLI_PROMPT: &str = "unlock the Octa Pass command-line tool (/usr/local/bin/octapass)";
-
 #[test]
-fn one_approval_covers_this_terminal() {
+fn the_unlocked_app_opens_the_cli_without_asking() {
     let app = CliApp::new(Mac::with_vault());
     assert_eq!(
         app.status()["result"],
-        json!({ "granted": false, "sameAccount": true })
+        json!({ "granted": true, "sameAccount": true })
     );
-    let (cli, reply) = app.session();
-    assert_eq!(reply["ok"], true, "{reply}");
-    assert!(app.mac.opens(&cli, &reply["result"]));
-    assert_eq!(app.mac.prompts(), [CLI_PROMPT]);
+    for terminal in [42, 43] {
+        app.as_peer(Some(octapass(terminal)));
+        let (cli, reply) = app.session();
+        assert_eq!(reply["ok"], true, "{reply}");
+        assert!(app.mac.opens(&cli, &reply["result"]));
+    }
+    assert!(app.mac.prompts().is_empty(), "{:?}", app.mac.prompts());
 
-    // The next commands from this terminal use the grant.
-    let (cli, reply) = app.session();
-    assert!(app.mac.opens(&cli, &reply["result"]));
-    assert_eq!(app.mac.prompts().len(), 1);
-    assert_eq!(app.status()["result"]["granted"], true);
-
-    // Another terminal, or another program, asks again.
-    app.as_peer(Some(octapass(43)));
-    assert_eq!(app.status()["result"]["granted"], false);
-    app.session();
-    app.as_peer(Some(CliPeer {
-        executable: "/tmp/other".into(),
-        session: Some(42),
-    }));
-    app.session();
-    assert_eq!(app.mac.prompts().len(), 3);
-
-    // `octapass lock` ends its own grant.
-    app.as_peer(Some(octapass(42)));
+    // `octapass lock` locks the app, and the CLI with it.
     assert_eq!(
         app.ask(json!({ "type": "end" })),
         json!({ "ok": true, "result": {} })
     );
+    assert_eq!(
+        app.mac.vault.snapshot().session.status,
+        SessionStatus::Locked
+    );
     assert_eq!(app.status()["result"]["granted"], false);
-    app.session();
-    assert_eq!(app.mac.prompts().len(), 4);
 }
 
 #[test]
-fn locking_the_app_ends_every_grant() {
+fn a_locked_app_asks_touch_id_once_and_a_refusal_gives_nothing() {
     let mac = Mac::with_vault();
     mac.vault.enable_device_unlock().unwrap();
     let app = CliApp::new(mac);
-    app.session();
-    assert_eq!(app.status()["result"]["granted"], true);
     app.mac.vault.lock();
-    assert_eq!(app.status()["result"]["granted"], false);
 
-    // Locked, the device unlock is the approval: one prompt, and the app is open again.
+    // The device unlock opens the app for the CLI: one prompt, then none.
     let (cli, reply) = app.session();
     assert!(app.mac.opens(&cli, &reply["result"]));
-    assert_eq!(app.mac.prompts(), [CLI_PROMPT, UNLOCK]);
+    assert_eq!(app.mac.prompts(), [UNLOCK]);
     assert_eq!(
         app.mac.vault.snapshot().session.status,
         SessionStatus::Unlocked
     );
     app.session();
-    assert_eq!(app.mac.prompts().len(), 2, "the grant is for this unlock");
+    assert_eq!(app.mac.prompts().len(), 1);
 
-    // Unlocked again some other way, the old grant doesn't come back.
     app.mac.vault.lock();
-    app.mac.vault.unlock_with_device().unwrap();
-    app.session();
-    assert_eq!(app.mac.prompts(), [CLI_PROMPT, UNLOCK, UNLOCK, CLI_PROMPT]);
-}
-
-#[test]
-fn a_refused_prompt_gives_nothing() {
-    let app = CliApp::new(Mac::with_vault());
     app.mac.cancel_next_prompt();
     let (_, reply) = app.session();
     assert_eq!(reply["ok"], false);
-    assert_eq!(reply["error"]["code"], "deviceUnlockCancelled");
+    assert_eq!(reply["error"]["code"], "locked");
     assert!(reply.get("result").is_none());
-    assert_eq!(app.status()["result"]["granted"], false);
+}
 
-    // Locked without device unlock: `locked`, and the master password is the CLI's to ask.
+#[test]
+fn locked_without_device_unlock_the_cli_asks_for_the_password() {
+    let app = CliApp::new(Mac::with_vault());
     app.mac.vault.lock();
     let (_, reply) = app.session();
     assert_eq!(reply["error"]["code"], "locked");
@@ -574,6 +548,119 @@ fn a_refused_prompt_gives_nothing() {
             .starts_with("The Octa Pass app is locked: "),
         "{reply}"
     );
+}
+
+#[test]
+fn a_vault_on_this_mac_only_isnt_linked() {
+    let app = CliApp::new(Mac::with_vault());
+    let (_, public) = keypair();
+    let reply = app.ask(json!({
+        "type": "link", "publicKey": public,
+        "device": { "name": "Octa Pass CLI (macos)", "platform": "cli" }
+    }));
+    assert_eq!(reply["error"]["code"], "localVault", "{reply}");
+    assert!(app.mac.prompts().is_empty());
+}
+
+/// The real sync server on a local port, for the CLI's link.
+struct SyncServer {
+    url: String,
+    _data: TempDir,
+    _runtime: tokio::runtime::Runtime,
+}
+
+impl SyncServer {
+    fn start() -> Self {
+        let data = tempfile::tempdir().unwrap();
+        let data_dir = data.path().to_str().unwrap().to_owned();
+        let runtime = tokio::runtime::Runtime::new().unwrap();
+        let url = runtime.block_on(async {
+            let config = octapass_server::Config::from_lookup(|name| match name {
+                "OCTAPASS_DATA_DIR" => Some(data_dir.clone()),
+                "OCTAPASS_DEV_MODE" => Some("true".into()),
+                "OCTAPASS_RATE_LIMITS" => Some("off".into()),
+                _ => None,
+            })
+            .unwrap();
+            let state = octapass_server::AppState::new(config).await.unwrap();
+            let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+            let url = format!("http://127.0.0.1:{}", listener.local_addr().unwrap().port());
+            let app = octapass_server::router(state)
+                .into_make_service_with_connect_info::<std::net::SocketAddr>();
+            tokio::spawn(async move { axum::serve(listener, app).await.unwrap() });
+            url
+        });
+        Self {
+            url,
+            _data: data,
+            _runtime: runtime,
+        }
+    }
+}
+
+#[test]
+fn a_cli_that_isnt_signed_in_is_linked_to_the_account() {
+    let server = SyncServer::start();
+    let mac = Mac::new(FakeNative::default());
+    let started = mac
+        .vault
+        .start_signup(&server.url, "ada@example.com", Zeroizing::new(STRONG.into()))
+        .unwrap();
+    let secret_key = mac
+        .vault
+        .finish_signup(&started.signup_id, &started.dev_verification_code.unwrap())
+        .unwrap()
+        .secret_key;
+    let app = CliApp::new(mac);
+
+    let (cli, public) = keypair();
+    let reply = app.ask(json!({
+        "type": "link", "publicKey": public,
+        "device": { "name": "Octa Pass CLI (macos)", "platform": "cli" }
+    }));
+    assert_eq!(reply["ok"], true, "{reply}");
+    let result = &reply["result"];
+    assert!(app.mac.opens(&cli, result), "the account key, as for `session`");
+    assert!(app.mac.prompts().is_empty());
+
+    // The session and the Secret Key, sealed with the second exchange.
+    let app_public: [u8; 32] =
+        b64_decode_array(result["linkPublicKey"].as_str().unwrap()).unwrap();
+    let shared = cli.diffie_hellman(&PublicKey::from(app_public));
+    let key = wrap_key(
+        shared.as_bytes(),
+        &app_public,
+        PublicKey::from(&cli).as_bytes(),
+        CLI_LINK_INFO,
+    );
+    let opened = octapass_core::envelope::open_b64(
+        &SymmetricKey::from_slice(key.as_ref()).unwrap(),
+        &octapass_core::envelope::Context::CliLink,
+        result["sealed"].as_str().unwrap(),
+    )
+    .unwrap();
+    let secrets: Value = serde_json::from_slice(&opened).unwrap();
+    assert_eq!(secrets["secretKey"], secret_key);
+    assert_eq!(secrets["login"]["account"]["email"], "ada@example.com");
+
+    // A device of its own on the server, which the session can list.
+    let token = secrets["login"]["accessToken"].as_str().unwrap();
+    let devices = ureq::get(format!("{}/v1/devices", server.url))
+        .header("Authorization", format!("Bearer {token}"))
+        .call()
+        .unwrap()
+        .body_mut()
+        .read_to_string()
+        .unwrap();
+    let devices: Value = serde_json::from_str(&devices).unwrap();
+    let current: Vec<&Value> = devices
+        .as_array()
+        .unwrap()
+        .iter()
+        .filter(|device| device["current"] == true)
+        .collect();
+    assert_eq!(current.len(), 1, "{devices}");
+    assert_eq!(current[0]["platform"], "cli");
 }
 
 #[test]
@@ -775,7 +862,7 @@ mod ssh_agent {
     }
 
     #[test]
-    fn every_signature_asks_the_device_lock_naming_the_key() {
+    fn a_signature_asks_the_device_lock_once_for_a_while() {
         let mac = Mac::with_vault();
         mac.vault.enable_device_unlock().unwrap();
         let laptop = key();
@@ -785,7 +872,9 @@ mod ssh_agent {
         let (agent, dir) = agent(&mac, Arc::clone(&window));
         let mut client = Client::connect(&agent);
 
+        // Unlocked, the keys are listed without asking; the first signature asks, naming the key.
         assert_eq!(client.identities(), 1);
+        assert!(mac.prompts().is_empty());
         let signature = client.sign(&blob, b"data").expect("approved");
         assert_eq!(&signature[4..15], b"ssh-ed25519");
         let prompts = mac.prompts();
@@ -795,18 +884,31 @@ mod ssh_agent {
             "{prompts:?}"
         );
 
-        mac.cancel_next_prompt();
-        assert_eq!(client.sign(&blob, b"data"), None);
+        // The approval lasts: the next signatures don't ask.
+        assert!(client.sign(&blob, b"more").is_some());
+        assert!(client.sign(&blob, b"again").is_some());
+        assert_eq!(mac.prompts().len(), 1);
         assert!(
             window.asked.lock().unwrap().is_empty(),
             "the Mac has a lock to ask"
         );
 
-        // Locked, the first request opens the device unlock prompt.
+        // Locking ends it, even when the vault is opened again elsewhere: the next one asks, and
+        // cancelling refuses it.
+        mac.vault.lock();
+        mac.vault.unlock(Zeroizing::new(STRONG.into())).unwrap();
+        mac.cancel_next_prompt();
+        assert_eq!(client.sign(&blob, b"data"), None);
+        assert_eq!(mac.prompts().len(), 2);
+
+        // Locked, a request opens the device unlock prompt, and that unlock is the approval.
         mac.vault.lock();
         assert_eq!(client.identities(), 1);
         assert_eq!(mac.prompts().last().unwrap(), UNLOCK);
         assert_eq!(mac.vault.snapshot().session.status, SessionStatus::Unlocked);
+        let asked = mac.prompts().len();
+        assert!(client.sign(&blob, b"data").is_some());
+        assert_eq!(mac.prompts().len(), asked);
 
         // Cancelled, the agent stays quiet instead of asking again at once.
         mac.vault.lock();
@@ -814,6 +916,7 @@ mod ssh_agent {
         let asked = mac.prompts().len();
         assert_eq!(client.identities(), 0);
         assert_eq!(client.identities(), 0);
+        assert_eq!(client.sign(&blob, b"data"), None);
         assert_eq!(mac.prompts().len(), asked + 1);
         assert_eq!(window.shown.load(Ordering::SeqCst), 0);
 
@@ -844,18 +947,31 @@ mod ssh_agent {
         let (agent, _dir) = agent(&mac, Arc::clone(&window));
         let mut client = Client::connect(&agent);
         assert!(client.sign(&blob, b"data").is_some());
+        assert!(client.sign(&blob, b"more").is_some());
         let asked = window.asked.lock().unwrap().clone();
-        assert_eq!(asked.len(), 1);
+        assert_eq!(asked.len(), 1, "the approval lasts");
         assert!(
             asked[0].starts_with("use the SSH key “Laptop”"),
             "{asked:?}"
         );
         assert!(mac.prompts().is_empty());
 
-        // Locked with no device unlock: only the window can open it, so it's brought forward.
+        // Locked with no device unlock: the window comes forward and the request waits for the
+        // master password, which also approves it.
         mac.vault.lock();
-        assert_eq!(client.identities(), 0);
+        let unlocker = {
+            let (vault, window) = (Arc::clone(&mac.vault), Arc::clone(&window));
+            std::thread::spawn(move || {
+                while window.shown.load(Ordering::SeqCst) == 0 {
+                    std::thread::sleep(std::time::Duration::from_millis(10));
+                }
+                vault.unlock(Zeroizing::new(STRONG.into())).unwrap();
+            })
+        };
+        assert!(client.sign(&blob, b"data").is_some());
+        unlocker.join().unwrap();
         assert_eq!(window.shown.load(Ordering::SeqCst), 1);
+        assert_eq!(window.asked.lock().unwrap().len(), 1);
         drop(agent);
 
         let refusing = Arc::new(Window::default());

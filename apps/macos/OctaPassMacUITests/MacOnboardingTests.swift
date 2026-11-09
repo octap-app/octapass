@@ -102,6 +102,78 @@ final class MacOnboardingTests: XCTestCase {
         XCTAssertTrue(element("item-GitHub").waitForExistence(timeout: 20), "the login is still there")
     }
 
+    /// Quick access (Cmd+Shift+Space) lists every type, grouped: Return copies each type's first
+    /// field (a login's password, a Wi-Fi network's name when it has no password), Cmd+K lists the
+    /// rest, Cmd+O opens the item in the vault window.
+    func testQuickAccess() {
+        signUp(shots: false)
+        click("new-item")
+        click("new-login", timeout: 10)
+        type("GitHub", into: "editor-title")
+        type("octocat", into: "editor-username")
+        type("quick-access-42", into: "editor-password")
+        click("editor-save")
+        waitFor("item-GitHub")
+        // The empty Wi-Fi list's Add an item makes a Wi-Fi network (the Add menu is flaky on a busy Mac).
+        click("sidebar-wifi")
+        let add = app.buttons["Add an item"].firstMatch
+        XCTAssertTrue(add.waitForExistence(timeout: 20), app.debugDescription)
+        add.click()
+        type("Home", into: "editor-title")
+        type("HomeNet", into: "editor-ssid")
+        click("editor-save")
+        waitFor("item-Home")
+
+        func copied(_ value: String) {
+            let found = expectation(for: NSPredicate { _, _ in NSPasteboard.general.string(forType: .string) == value }, evaluatedWith: nil)
+            wait(for: [found], timeout: 10)
+        }
+
+        // Another list, so nothing is open in the detail column until Cmd+O opens the item there.
+        click("sidebar-favorites")
+        let cleared = expectation(for: NSPredicate(format: "exists == false"), evaluatedWith: element("edit-item"))
+        wait(for: [cleared], timeout: 10)
+
+        app.typeKey(.space, modifierFlags: [.command, .shift])
+        let search = waitFor("quick-search")
+        waitFor("quick-GitHub")
+        waitFor("quick-Home")
+        snapScreen("20-quick-access")
+
+        // The panel takes the keyboard: typing goes to the search.
+        let focused = expectation(for: NSPredicate(format: "hasKeyboardFocus == true"), evaluatedWith: search)
+        wait(for: [focused], timeout: 10)
+
+        // Return: a login's password.
+        NSPasteboard.general.clearContents()
+        search.typeText("GitHub")
+        waitFor("quick-GitHub")
+        search.typeKey(.return, modifierFlags: [])
+        copied("quick-access-42")
+
+        // Cmd+K, Down, Return: the action after it, the username.
+        search.typeKey("k", modifierFlags: .command)
+        waitFor("quick-action-username")
+        snapScreen("21-quick-actions")
+        search.typeKey(.downArrow, modifierFlags: [])
+        search.typeKey(.return, modifierFlags: [])
+        copied("octocat")
+
+        // Another type: a Wi-Fi network without a password copies its name.
+        search.typeKey("a", modifierFlags: .command)
+        search.typeText("Home")
+        let gone = expectation(for: NSPredicate(format: "exists == false"), evaluatedWith: element("quick-GitHub"))
+        wait(for: [gone], timeout: 10)
+        search.typeKey(.return, modifierFlags: [])
+        copied("HomeNet")
+
+        // Cmd+O: the vault window shows it.
+        search.typeKey("o", modifierFlags: .command)
+        let closed = expectation(for: NSPredicate(format: "exists == false"), evaluatedWith: element("quick-search"))
+        wait(for: [closed], timeout: 10)
+        waitFor("edit-item", timeout: 30)
+    }
+
     /// Two-step sign-in turned on in the Settings window, the test being the authenticator, then
     /// signing out and back in with the Secret Key and a code.
     func testTwoStepSignIn() throws {
@@ -319,6 +391,14 @@ final class MacOnboardingTests: XCTestCase {
         input.click()
         input.typeKey("a", modifierFlags: .command)
         input.typeText(text)
+    }
+
+    /// The whole screen: the quick-access panel is a floating panel over the vault window.
+    func snapScreen(_ name: String) {
+        let attachment = XCTAttachment(screenshot: XCUIScreen.main.screenshot())
+        attachment.name = name
+        attachment.lifetime = .keepAlways
+        add(attachment)
     }
 
     func snap(_ name: String, window: XCUIElement? = nil) {

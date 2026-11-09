@@ -25,6 +25,7 @@ struct SettingsView: View {
             AutoFillSection()
             BrowserExtensionSection()
             SshAgentSection()
+            CommandLineToolSection()
             #endif
             security
             DeviceAuthSection()

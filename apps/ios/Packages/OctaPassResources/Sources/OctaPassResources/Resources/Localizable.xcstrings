@@ -24,13 +24,13 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "إغلاق النافذة لا يُنهي Octa Pass، فيستمر عمل الوصول السريع وإضافة المتصفح ووكيل SSH. هذه الإعدادات لهذا الحاسوب فقط."
+            "value" : "إغلاق النافذة لا يُنهي Octa Pass، فيستمر عمل الوصول السريع وإضافة المتصفح ووكيل SSH. وإذا أُنهي قسرًا أو توقّف فجأة، يعود إلى العمل في الخلفية إلى أن تُنهيه بنفسك. هذه الإعدادات لهذا الحاسوب فقط."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Closing the window doesn’t quit Octa Pass, so quick access, the browser extension and the SSH agent keep working. These settings are for this computer only."
+            "value" : "Closing the window doesn’t quit Octa Pass, so quick access, the browser extension and the SSH agent keep working. If it’s force quit or crashes, it starts again in the background until you quit it. These settings are for this computer only."
           }
         }
       }
@@ -150,6 +150,312 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "From the icon you can show your vault, open quick access, lock Octa Pass or quit it."
+          }
+        }
+      }
+    },
+    "browserExtension.connect" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ربط إضافة المتصفح"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connect browser extension"
+          }
+        }
+      }
+    },
+    "browserExtension.connected" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مربوطة في %1$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connected in %1$@"
+          }
+        }
+      }
+    },
+    "browserExtension.disconnect" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فصل إضافة المتصفح"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disconnect browser extension"
+          }
+        }
+      }
+    },
+    "browserExtension.failed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تعذّر تغيير الربط مع المتصفح: %1$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn’t change the browser integration: %1$@"
+          }
+        }
+      }
+    },
+    "browserExtension.getFor" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "احصل عليها في %1$@"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get it for %1$@"
+          }
+        }
+      }
+    },
+    "browserExtension.getHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ليست في متاجر المتصفحات بعد، والرابط يشرح طريقة تثبيتها."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not in the browser stores yet: the link shows how to install it."
+          }
+        }
+      }
+    },
+    "browserExtension.help" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تملأ إضافة Octa Pass كلمات المرور ومفاتيح المرور في متصفحك. وبعد ربطها تفتح القفل عبر هذا التطبيق، فلا تكتب كلمة المرور الرئيسية في المتصفح. هذه الإعدادات لهذا الحاسوب فقط."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Octa Pass extension fills passwords and passkeys in your browser. Connected, it unlocks through this app, so you don’t type your master password in the browser. These settings are for this computer only."
+          }
+        }
+      }
+    },
+    "browserExtension.none" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لم يُعثر على متصفح مدعوم. ثبّت Chrome أو Edge أو Brave أو Firefox، ثم حاول مرة أخرى."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No supported browser was found. Install Chrome, Edge, Brave or Firefox, then try again."
+          }
+        }
+      }
+    },
+    "browserExtension.notConnected" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "غير مربوطة بأي متصفح"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not connected to any browser"
+          }
+        }
+      }
+    },
+    "browserExtension.notSeen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لم تصل أي إضافة لـ Octa Pass إلى هذا التطبيق بعد."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Octa Pass extension has reached this app yet."
+          }
+        }
+      }
+    },
+    "browserExtension.offerBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ثبّت إضافة Octa Pass في %1$@، وستفتح القفل عبر هذا التطبيق."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get the Octa Pass extension for %1$@. It unlocks through this app."
+          }
+        }
+      }
+    },
+    "browserExtension.offerConnect" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لديك الإضافة؟ اربطها"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Have it already? Connect it"
+          }
+        }
+      }
+    },
+    "browserExtension.offerConnectBody" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لن تصل إضافة Octa Pass إلى هذا التطبيق حتى تربطها."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Octa Pass extension can’t reach this app until you connect it."
+          }
+        }
+      }
+    },
+    "browserExtension.offerConnectTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اربط إضافة المتصفح"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connect the browser extension"
+          }
+        }
+      }
+    },
+    "browserExtension.offerDismiss" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لا تُظهر هذا مرة أخرى"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Don’t show this again"
+          }
+        }
+      }
+    },
+    "browserExtension.offerTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "املأ كلمات المرور في متصفحك"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fill passwords in your browser"
+          }
+        }
+      }
+    },
+    "browserExtension.seen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وصلت الإضافة إلى هذا التطبيق من %1$@."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The extension has reached this app from %1$@."
+          }
+        }
+      }
+    },
+    "browserExtension.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إضافة المتصفح"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Browser extension"
           }
         }
       }
@@ -694,6 +1000,108 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "That isn’t your current master password."
+          }
+        }
+      }
+    },
+    "cliTool.command" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أمر التثبيت"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "the install command"
+          }
+        }
+      }
+    },
+    "cliTool.help" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يستخدم الأمر octapass حساب هذا التطبيق، دون تسجيل دخول خاص به، ويكون مفتوح القفل كلما كان التطبيق مفتوحًا. وقفل التطبيق يقفله أيضًا."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The octapass command uses this app’s account, with no sign-in of its own, and is unlocked whenever the app is. Locking the app locks it too."
+          }
+        }
+      }
+    },
+    "cliTool.install" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ثبّته بالأمر"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Install it with"
+          }
+        }
+      }
+    },
+    "cliTool.linuxPackages" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تثبّته حزم .deb و.rpm الخاصة بـ Octa Pass في ‎/usr/bin."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The .deb and .rpm packages of Octa Pass install it in /usr/bin."
+          }
+        }
+      }
+    },
+    "cliTool.otherwise" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أو ثبّته بالأمر"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Otherwise, install it with"
+          }
+        }
+      }
+    },
+    "cliTool.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أداة سطر الأوامر"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Command-line tool"
           }
         }
       }
@@ -30254,6 +30662,23 @@
         }
       }
     },
+    "phone.mac.actions" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الإجراءات"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actions"
+          }
+        }
+      }
+    },
     "phone.mac.bridgeFailed" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -30390,6 +30815,23 @@
         }
       }
     },
+    "phone.mac.browserSafariNote" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يحصل Safari على الإضافة داخل تطبيق Octa Pass خاص به، ويُفتح قفلها بكلمة المرور الرئيسية."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Safari gets the extension inside an Octa Pass app of its own, and unlocks it with your master password."
+          }
+        }
+      }
+    },
     "phone.mac.browserTitle" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -30407,19 +30849,138 @@
         }
       }
     },
+    "phone.mac.cliCommand" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الأمر"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "the command"
+          }
+        }
+      }
+    },
+    "phone.mac.cliInstall" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لاستخدامه من Terminal، شغّل هذا مرة واحدة. سيطلب كلمة مرور جهاز Mac:"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To use it from Terminal, run this once. It asks for your Mac’s password:"
+          }
+        }
+      }
+    },
+    "phone.mac.cliInstalled" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "octapass مثبّت."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "octapass is installed."
+          }
+        }
+      }
+    },
+    "phone.mac.cliOfferDismiss" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تم"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "phone.mac.cliOfferLater" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تجده في الإعدادات ← أداة سطر الأوامر متى أردت."
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It’s in Settings → Command-line tool whenever you want it."
+          }
+        }
+      }
+    },
+    "phone.mac.cliOfferTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "استخدم Octa Pass من Terminal أيضًا"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use Octa Pass from Terminal too"
+          }
+        }
+      }
+    },
+    "phone.mac.cliRelink" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إنه مثبّت. وإن لم يجده Terminal بعد نقل Octa Pass، فشغّل هذا مجددًا:"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It’s installed. If Terminal can’t find it after you move Octa Pass, run this again:"
+          }
+        }
+      }
+    },
     "phone.mac.empty" : {
       "extractionState" : "manual",
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "لا بيانات دخول بعد."
+            "value" : "لا شيء في خزنتك بعد."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "No logins yet."
+            "value" : "Nothing in your vault yet."
           }
         }
       }
@@ -30475,6 +31036,23 @@
         }
       }
     },
+    "phone.mac.openItem" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فتح في Octa Pass"
+          }
+        },
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open in Octa Pass"
+          }
+        }
+      }
+    },
     "phone.mac.quickAccess" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -30515,13 +31093,13 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "البحث في بيانات الدخول"
+            "value" : "البحث في الخزنة"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Search logins"
+            "value" : "Search your vault"
           }
         }
       }
@@ -37121,13 +37699,13 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "تُعرض المفاتيح ما دامت خزنتك مفتوحة. هذا الإعداد لهذا الحاسوب فقط."
+            "value" : "تُعرض المفاتيح دائمًا. وإن كانت خزنتك مقفلة، يطلب منك الطلب فتحها ببصمتك أو وجهك إن فعّلت ذلك، أو بكلمة المرور الرئيسية. هذا الإعداد لهذا الحاسوب فقط."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Keys are offered while your vault is unlocked. This setting is for this computer only."
+            "value" : "Keys are always offered. While your vault is locked, a request asks you to unlock it with your fingerprint or face if you’ve turned that on, or with your master password. This setting is for this computer only."
           }
         }
       }
@@ -37155,13 +37733,13 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "يتيح لأدوات ssh وGit وبيئة التطوير استخدام مفاتيح SSH في خزنتك دون نسخة على القرص. وتوافق أنت على كل استخدام."
+            "value" : "يتيح لأدوات ssh وGit وبيئة التطوير استخدام مفاتيح SSH في خزنتك دون نسخة على القرص. توافق مرة واحدة، ثم يُستخدم المفتاح دون سؤال مدة 15 دقيقة أو حتى تُقفل الخزنة."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Lets ssh, Git and your IDE use the SSH keys in your vault without a copy on disk. You approve each use."
+            "value" : "Lets ssh, Git and your IDE use the SSH keys in your vault without a copy on disk. You approve a key’s use once, then it’s used without asking for 15 minutes or until the vault locks."
           }
         }
       }

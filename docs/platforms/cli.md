@@ -14,12 +14,34 @@ The CLI works against an Octa Pass server today, but there are no released build
 
 ## Install
 
-You need [Rust](https://rustup.rs). From a checkout of the repository:
+On macOS and Linux, one command:
+
+```bash
+curl -fsSL https://octap.app/install.sh | sh
+```
+
+On Windows, in PowerShell:
+
+```powershell
+irm https://octap.app/install.ps1 | iex
+```
+
+The script downloads the release archive for your computer from GitHub, checks it against the release's `SHA256SUMS`, and copies `octapass`, `git-credential-octapass`, `octapass-git-sign` and `docker-credential-octapass` to `~/.local/bin` (on Windows `%LOCALAPPDATA%\Programs\OctaPass\bin`, added to your user `PATH`). It doesn't need administrator rights. Set `OCTAPASS_VERSION` to a release tag such as `v1.2.3` to pin one, or `OCTAPASS_INSTALL_DIR` to put the programs somewhere else. Read the script first if you like: it's short, and it's in the repository at `apps/website/src/install/`.
+
+Until there's a release build for your computer, the script builds the CLI from source with `cargo install` when [Rust](https://rustup.rs) is installed. From a checkout of the repository you can also run:
 
 ```bash
 cargo install --path apps/cli
 octapass --version
 ```
+
+The desktop apps bring the CLI with them:
+
+- **Mac:** the app has `octapass` inside it. **Settings → Command-line tool** shows the one Terminal command that links it into `/usr/local/bin` (it asks for your Mac's password once), and the app offers it the first time your vault opens. The app is sandboxed, so it can't do this by itself. The link follows the app through updates.
+- **Linux:** the `.deb` and `.rpm` packages install `octapass` and its helpers in `/usr/bin`. The AppImage doesn't: use the script.
+- **Windows:** the installer doesn't add the CLI yet. **Settings → Command-line tool** shows the PowerShell line above.
+
+If the [desktop app](/docs/platforms/desktop/) is on this computer, you don't need to sign in: see [Using the desktop app's account](#using-the-desktop-apps-account).
 
 To stay unlocked between commands, the CLI uses the system keyring: the Keychain on macOS, Credential Manager on Windows, and the Secret Service (GNOME Keyring, KWallet) on Linux. Without one, it still works, but every command asks for your master password.
 
@@ -328,12 +350,14 @@ The keyring entry is named "Octa Pass CLI" and a hash, so it doesn't reveal your
 
 Commands sync with the server first. When it can't be reached, they use the copy on this computer and say so on stderr.
 
-### Unlocking through the desktop app
+### Using the desktop app's account
 
-While the [desktop app](/docs/platforms/desktop/) is running and signed in to the same account, a locked `octapass` asks it instead of asking for your master password. The app asks for Touch ID, Windows Hello or your system password, naming the program, and then hands over your account key encrypted for this one command. Nothing is kept on disk or in the keyring.
+While the [desktop app](/docs/platforms/desktop/) is running, the CLI follows it:
 
-- The approval covers this program in this terminal for 30 idle minutes, in the app's memory. Locking the app ends it, and so does `octapass lock`.
-- A locked app is unlocked by the same prompt, if device unlock is on there. Otherwise, unlock the app first or use your master password.
+- **No sign-in of its own.** When the CLI isn't signed in, any command (or `octapass link`) uses the app's account. The app makes the CLI a session of its own on the server, so it shows in your device list as "Octa Pass CLI" and you can sign it out there, and hands it your Secret Key encrypted for that one command. You get the usual new sign-in email. A CLI that's already signed in keeps its own account: `octapass logout` first to use the app's. A vault on this computer only can't be shared with the CLI.
+- **Unlocked when the app is.** While the app is unlocked, commands open without asking. Your account key is handed over encrypted for each command, and nothing is kept on disk or in the keyring.
+- **Locked when the app is.** While the app is locked, a command asks for Touch ID, Windows Hello or your system password if device unlock is on in the app, which unlocks the app too. Otherwise unlock the app first, or use your master password. `octapass lock` locks the app as well.
+- Anything running as you can use the CLI while the app is unlocked, without a prompt. If that's not what you want, lock the app, or set `OCTAPASS_NO_DESKTOP=1` for that program.
 - A session in the keyring is used first, when you have one. `OCTAPASS_NO_DESKTOP=1` never asks the app.
 - On the Mac the app is sandboxed, so it listens in its own folder, `~/Library/Group Containers/<team>.app.octap/cli.sock`, and `octapass` looks for it there. `OCTAPASS_DESKTOP_DATA_DIR` names another folder (for development).
 - `octapass export` and `octapass ssh export` still ask for the master password.
@@ -380,7 +404,7 @@ printf '%s\n' "$OCTAPASS_PASSWORD" | octapass --password-stdin get GitHub --fiel
 | `OCTAPASS_CONNECT` | Where [Connect](/docs/developers/connect-api/#finding-it) is, for `octapass connect` as a client. |
 | `OCTAPASS_CONNECT_TOKEN` | This client's token, for `octapass connect read`. |
 | `OCTAPASS_OAUTH_CLIENT_SECRET`, `OCTAPASS_OAUTH_REFRESH_TOKEN` | Secrets for `octapass oauth create` without a terminal. |
-| `OCTAPASS_NO_DESKTOP` | `1` to never ask the desktop app. |
+| `OCTAPASS_NO_DESKTOP` | `1` to never ask the desktop app, for its account or to unlock. |
 | `OCTAPASS_NO_MASKING` | `1` for `run` to leave the command's output alone, like `--no-masking`. |
 | `OCTAPASS_CLI_DATA_DIR` | Another data folder (for example, one per test run). |
 

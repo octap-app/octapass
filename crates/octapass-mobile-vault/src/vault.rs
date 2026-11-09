@@ -5,6 +5,7 @@
 
 use std::collections::HashMap;
 use std::path::PathBuf;
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex, MutexGuard};
 use std::time::{Duration, Instant};
 
@@ -127,6 +128,15 @@ pub(crate) struct Unlocked {
     pub(crate) store: Arc<LocalStore>,
     pub(crate) session: Arc<Session>,
     server: Arc<OctaPassServer>,
+    /// This unlock, told apart from the ones before it ([`next_unlock`]): the SSH agent's
+    /// approval lasts for one.
+    pub(crate) id: u64,
+}
+
+/// A number for each unlock, never reused while the app runs.
+fn next_unlock() -> u64 {
+    static UNLOCKS: AtomicU64 = AtomicU64::new(1);
+    UNLOCKS.fetch_add(1, Ordering::Relaxed)
 }
 
 struct PendingTwoStep {
@@ -557,6 +567,7 @@ impl Vault {
                 store,
                 session: signed_in.session,
                 server: server.clone(),
+                id: next_unlock(),
             });
             previous
         };
@@ -731,6 +742,7 @@ impl Vault {
             store,
             session,
             server,
+            id: next_unlock(),
         });
         drop(state);
         if let Some(other) = other {

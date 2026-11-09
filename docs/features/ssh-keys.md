@@ -77,12 +77,13 @@ The desktop app can act as your SSH agent, so `ssh`, Git and IDEs use the keys i
 
 Then `ssh-add -l` lists your keys and `ssh` just works.
 
-- **You approve each use.** Every signature asks Touch ID, Windows Hello or your system password, naming the key, what it's for and the program asking. Cancelling refuses it. A computer with no lock shows an Allow / Deny window instead.
-- **Only while unlocked.** A request to a locked vault opens the device unlock prompt. If you cancel, or device unlock isn't on, the agent offers nothing for a minute, so tools that poll it don't keep asking.
+- **Keys are always offered.** While the vault is unlocked, `ssh-add -l` lists them without asking.
+- **You approve once, for 15 minutes.** The first signature asks Touch ID, Windows Hello or your system password, naming the key, what it's for and the program asking. After that, signatures don't ask for 15 minutes. Then the next one asks again. Locking the vault ends the 15 minutes early. Cancelling refuses the signature. A computer with no lock shows an Allow / Deny window instead.
+- **A locked vault asks to unlock.** A request while the vault is locked asks for your fingerprint or face (or your system password) if device unlock is on. Otherwise the Octa Pass window comes forward and the request waits up to two minutes for your master password. That unlock counts as your approval, so you aren't asked twice. If you cancel, the agent offers nothing for a minute, so tools that poll it don't keep asking.
 - **It only lists and signs.** `ssh-add` can't add or remove keys: the vault owns them.
 - **Fewer keys:** servers stop after about six tries, so with many keys, untick **Offer this key through the SSH agent** in a key's editor.
 - **Git:** `octapass git setup --signing-key <key> --agent` signs commits through the agent, or set `gpg.format = ssh` and `user.signingkey = key::<public key>` yourself. See [the CLI](/docs/platforms/cli/#git).
-- **Forwarding** (`ssh -A`) works and each use still asks you, but the prompt names your local `ssh`, not the remote program.
+- **Forwarding** (`ssh -A`) works. A forwarded use counts toward the same 15 minutes, and when it does ask, the prompt names your local `ssh`, not the remote program.
 
 On the **Mac** the app is sandboxed, so the agent's socket is in the app's own folder, `~/Library/Group Containers/<team>.app.octap/agent.sock`, and Octa Pass doesn't edit `~/.ssh/config` for you. Settings → SSH agent shows the path with a copy button, and the lines to add to `~/.ssh/config` (the path has a space, so keep the quotes):
 

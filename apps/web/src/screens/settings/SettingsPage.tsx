@@ -22,8 +22,10 @@ import { DevicesSection } from './DevicesSection';
 import { EquivalentDomainsSection } from './EquivalentDomainsSection';
 import { DeviceUnlockRow } from './DeviceUnlockRow';
 import { BackgroundSection } from './BackgroundSection';
+import { BrowserExtensionSection } from './BrowserExtensionSection';
 import { ExportDialog } from './ExportDialog';
 import { ImportPanel } from './ImportPanel';
+import { CliSection } from './CliSection';
 import { SshAgentSection } from './SshAgentSection';
 import { TwoStepSection } from './TwoStepSection';
 import { ConnectSection } from './ConnectSection';
@@ -182,11 +184,13 @@ export function SettingsPage({ platformSection }: { platformSection?: ReactNode 
         <EquivalentDomainsSection />
 
         <BackgroundSection />
+        <BrowserExtensionSection />
         <WifiSection />
         <NearbySection />
         <ConnectSection />
 
         <SshAgentSection />
+        <CliSection />
 
         {!local && <TwoStepSection />}
 

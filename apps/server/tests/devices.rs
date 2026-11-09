@@ -207,3 +207,63 @@ async fn the_first_device_is_only_exempt_right_after_sign_up() {
     server.login(EMAIL, "laptop").await;
     assert_eq!(new_sign_in_emails(&server, EMAIL), 1);
 }
+
+#[tokio::test]
+async fn a_signed_in_app_links_a_device_of_its_own() {
+    let server = TestServer::new().await;
+    server.register(EMAIL).await;
+    let laptop = server.login(EMAIL, "Laptop").await;
+    let emails = new_sign_in_emails(&server, EMAIL);
+
+    let link = |token: Option<String>, name: &str| {
+        let body = json!({ "device": { "name": name, "platform": "cli" } });
+        let server = &server;
+        async move {
+            server
+                .call(
+                    Method::POST,
+                    "/v1/devices/link",
+                    token.as_deref(),
+                    &[],
+                    Some(body),
+                )
+                .await
+        }
+    };
+    // Only a signed-in session can link, and the name is checked like a sign-in's.
+    assert_eq!(
+        link(None, "CLI").await.status,
+        StatusCode::UNAUTHORIZED
+    );
+    assert_eq!(
+        link(Some(laptop.access_token.clone()), "").await.status,
+        StatusCode::BAD_REQUEST
+    );
+
+    let linked = link(Some(laptop.access_token.clone()), "Octa Pass CLI").await;
+    assert_eq!(linked.status, StatusCode::OK, "{:?}", linked.body);
+    let cli = Device::from_login(&linked.body);
+    assert_ne!(cli.access_token, laptop.access_token);
+    assert_eq!(cli.account["email"], laptop.account["email"]);
+    assert_eq!(new_sign_in_emails(&server, EMAIL), emails + 1);
+
+    // It's a device of its own: listed, working, and signed out without touching the app.
+    let listed = devices(&server, &cli).await;
+    assert_eq!(listed.len(), 2);
+    let current = listed.iter().find(|d| d["current"] == true).unwrap();
+    assert_eq!(current["name"], "Octa Pass CLI");
+    assert_eq!(current["platform"], "cli");
+    let id = current["id"].as_str().unwrap().to_owned();
+    let refreshed = server
+        .post(
+            "/v1/auth/refresh",
+            json!({ "refreshToken": cli.refresh_token }),
+        )
+        .await;
+    assert_eq!(refreshed.status, StatusCode::OK, "{:?}", refreshed.body);
+    assert_eq!(
+        delete_device(&server, &laptop, &id).await.status,
+        StatusCode::NO_CONTENT
+    );
+    assert_eq!(devices(&server, &laptop).await.len(), 1);
+}

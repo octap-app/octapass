@@ -43,7 +43,7 @@ ureq = { version = "3", default-features = false, features = ["rustls", "platfor
 octapass-native-host = { path = "../../apps/desktop/crates/native-host", optional = true }
 # The SSH agent's protocol and listener (shared with the Tauri app), which run on tokio.
 octapass-ssh-agent = { path = "../../apps/desktop/crates/ssh-agent", optional = true }
-tokio = { version = "1", features = ["rt-multi-thread", "net", "sync", "io-util"], optional = true }
+tokio = { version = "1", features = ["rt-multi-thread", "net", "sync", "io-util", "time"], optional = true }
 x25519-dalek = { version = "2", features = ["static_secrets", "zeroize"], optional = true }
 hkdf = { version = "0.12", optional = true }
 # Waiting on a service's socket and its stop signal at once.

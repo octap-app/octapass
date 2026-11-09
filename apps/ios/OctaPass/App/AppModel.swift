@@ -55,6 +55,9 @@ final class AppModel {
     /// Site rows open in item lists, kept while the vault stays unlocked (never on disk: hosts
     /// are vault data).
     var openSites: Set<String> = []
+    /// An item the Mac's quick access asked the vault window to show: the window's split view
+    /// opens it in the detail column and clears this. Nothing sets it on the iPhone and iPad.
+    var itemToShow: String?
     /// Set when the user signs in or up here, until the vault next locks.
     private var justSignedIn = false
     /// The account whose unlock the user answered here (Face ID / Touch ID, the passcode or the

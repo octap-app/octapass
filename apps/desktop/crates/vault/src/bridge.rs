@@ -80,7 +80,7 @@ pub fn wrap_key(
     derive_wrap_key(shared_secret, app_public, extension_public, WRAP_INFO)
 }
 
-fn derive_wrap_key(
+pub(crate) fn derive_wrap_key(
     shared_secret: &[u8; 32],
     app_public: &[u8; 32],
     extension_public: &[u8; 32],

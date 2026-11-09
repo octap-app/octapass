@@ -47,6 +47,7 @@ Turn AutoFill on in Settings → AutoFill (macOS 15 asks in place), or in System
 - **Credential Exchange** (macOS 26): another app's export opens the app with `ASCredentialExchangeActivity`; Settings → Other apps sends the vault to another app.
 - **A window at launch:** the app always opens with its window (`NSQuitAlwaysKeepsWindows` off), since restoring a window closed at quit started it with none.
 - **Open at login:** Settings → Running in the background, with `SMAppService` (`Platform/OpenAtLogin.swift`). Offered only to the app in an Applications folder.
+- **Back after a force quit or a crash:** `OctaPassMacWatchdog` ("Octa Pass Watchdog", `Watchdog/main.swift`), a faceless sandboxed app in `Contents/Library/LoginItems` with only the App Group. The app starts it every time it starts (`Platform/Watchdog.swift`) and writes its process ID to `app-running.pid` in the App Group container, which it removes in `applicationWillTerminate`, so any quit in order (the menu bar's Quit, Cmd+Q, the Dock, logging out) stops both. When the app ends with the file still naming it, the watchdog opens that copy again without activating it, after leaving a `background-start` note in the container (a sandboxed app's launch arguments don't arrive), and the app starts with its window closed: the menu bar icon, no window. At most three times in two minutes; never under the UI tests (`OCTAPASS_RESET`) or a debugger. It isn't a login item: opening at login stays `SMAppService.mainApp`. The app watches the watchdog too (`isTerminated`: NSWorkspace says nothing when a background-only app ends) and starts it again, once every 30 seconds at most.
 
 ## Desktop services
 
@@ -66,6 +67,7 @@ When you change an iPhone screen, build the Mac app too (`apps/macos/scripts/run
 |---|---|
 | `project.yml` | The XcodeGen spec. `xcodegen generate` writes `OctaPassMac.xcodeproj` (committed). |
 | `OctaPassMac` | Mac-only code, the app icon, Info.plist and entitlements. |
+| `Watchdog` | Octa Pass Watchdog, which starts the app again after a force quit or a crash. |
 | `scripts/run.sh` | Builds the vault library if its Rust sources changed, builds the app and opens it. |
 | `scripts/build.sh` | The release build, `pnpm build:macos`: `build/Release/Octa Pass.app` and `build/Octa Pass.dmg`. |
 | `scripts/ui-tests.sh` | Starts the development server and runs `OctaPassMacUITests`: sign up, adding, editing and copying in the window and from the menus, Search, Settings, lock and unlock; two-step sign-in; and Safes (making two, a folder, the path bar, switching Safes). Screenshots of each step go to `build/screenshots`. |

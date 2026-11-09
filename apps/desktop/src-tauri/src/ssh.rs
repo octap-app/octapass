@@ -1,10 +1,14 @@
 //! SSH in the desktop app: the agent, `~/.ssh`, and the key operations the vault window needs.
 //!
 //! The agent ([`octapass_ssh_agent`]) is off until turned on in Settings, a per-device choice kept
-//! in the app's data folder. It offers the vault's usable keys while unlocked, and every signature
-//! asks the device lock, naming the key and the program. A device with no lock gets the app's own
-//! Allow / Deny window instead. While locked, a request opens the device unlock prompt; if that's
-//! cancelled the agent stays quiet for a minute, so tools that poll it don't nag.
+//! in the app's data folder. It always offers the vault's usable keys. While unlocked they're
+//! listed without asking; the first signature asks the device lock, naming the key and the
+//! program, and that approval lasts [`APPROVAL_LASTS`] for this unlock: signatures in that time
+//! don't ask, and locking ends it. A device with no lock gets the app's own Allow / Deny window
+//! instead. While locked, a request asks to unlock: the device lock when device unlock is on,
+//! otherwise the window comes forward and the request waits for the master password. That unlock
+//! counts as the approval. A cancelled unlock keeps the agent quiet for a minute, so tools that
+//! poll it don't nag.
 
 use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicBool, Ordering};
@@ -12,7 +16,6 @@ use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
 
 use octapass_core::tools::ssh::{self, SshKey, SshKeyKind};
-use octapass_desktop_vault::model::SessionStatus;
 use octapass_desktop_vault::ssh_agent::AgentKey;
 use octapass_desktop_vault::{ErrorCode, Vault, VaultError};
 use octapass_native_host::system::{self, OsSystem};
@@ -33,6 +36,11 @@ type Result<T> = std::result::Result<T, VaultError>;
 
 /// How long a cancelled unlock keeps the agent quiet.
 const QUIET_AFTER_CANCEL: Duration = Duration::from_secs(60);
+/// How long an approval lets the agent sign without asking again (maintainer decision,
+/// 2026-11-09, plan 16 History). The Mac app's agent uses the same.
+const APPROVAL_LASTS: Duration = Duration::from_secs(15 * 60);
+/// How long a request waits for the master password in the window.
+const UNLOCK_WAIT: Duration = Duration::from_secs(120);
 
 #[derive(Default, Serialize, Deserialize)]
 struct Settings {
@@ -84,7 +92,7 @@ impl SshState {
             vault: Arc::clone(&self.vault),
             app: self.app.clone(),
             serving: Arc::clone(&self.serving),
-            prompt: tokio::sync::Mutex::new(None),
+            asked: tokio::sync::Mutex::new(Asked::default()),
         });
         let error = Arc::clone(&self.error);
         *task = Some(tauri::async_runtime::spawn(async move {
@@ -187,47 +195,76 @@ fn dialog_words(language: Language) -> (&'static str, &'static str, &'static str
     }
 }
 
+/// What the agent asked and was told: one prompt at a time.
+#[derive(Default)]
+struct Asked {
+    /// When an unlock was last cancelled.
+    cancelled: Option<Instant>,
+    /// The unlock the user last approved a signature in, and when.
+    approved: Option<(u64, Instant)>,
+}
+
+impl Asked {
+    fn approved_in(&self, session: u64) -> bool {
+        self.approved
+            .is_some_and(|(at, when)| at == session && when.elapsed() < APPROVAL_LASTS)
+    }
+}
+
 struct AppBackend {
     vault: Arc<Vault>,
     app: AppHandle,
     serving: Arc<AtomicBool>,
-    /// One prompt at a time, and when an unlock was last cancelled.
-    prompt: tokio::sync::Mutex<Option<Instant>>,
+    asked: tokio::sync::Mutex<Asked>,
 }
 
 impl AppBackend {
-    /// The vault is open, or the user just opened it.
-    async fn ready(&self) -> bool {
-        if !self.serving.load(Ordering::SeqCst) {
-            return false;
+    fn serving(&self) -> bool {
+        self.serving.load(Ordering::SeqCst)
+    }
+
+    /// The vault's unlock: the open one, or one the user just made for this request, which also
+    /// approves it.
+    async fn open(&self, asked: &mut Asked) -> Option<u64> {
+        if let Some(session) = self.vault.ssh_agent_session() {
+            return Some(session);
         }
-        if self.vault.snapshot().session.status == SessionStatus::Unlocked {
-            return true;
+        if asked
+            .cancelled
+            .is_some_and(|at| at.elapsed() < QUIET_AFTER_CANCEL)
+        {
+            return None;
         }
-        let mut cancelled = self.prompt.lock().await;
-        if self.vault.snapshot().session.status == SessionStatus::Unlocked {
-            return true;
-        }
-        if cancelled.is_some_and(|at| at.elapsed() < QUIET_AFTER_CANCEL) {
-            return false;
-        }
-        match self.vault.ssh_agent_unlock().await {
-            Ok(()) => true,
-            Err(error) => {
-                // The master password, or no device unlock: only the window can do that.
-                if error.code != ErrorCode::DeviceUnlockCancelled {
-                    crate::show_main(&self.app);
-                }
-                *cancelled = Some(Instant::now());
-                false
+        let unlocked = match self.vault.ssh_agent_unlock().await {
+            Ok(()) => self.vault.ssh_agent_session(),
+            Err(error) if error.code == ErrorCode::DeviceUnlockCancelled => None,
+            // The master password, or no device unlock: only the window can do that.
+            Err(_) => {
+                crate::show_main(&self.app);
+                self.wait_for_unlock().await
             }
+        };
+        match unlocked {
+            Some(session) => asked.approved = Some((session, Instant::now())),
+            None => asked.cancelled = Some(Instant::now()),
         }
+        unlocked
+    }
+
+    async fn wait_for_unlock(&self) -> Option<u64> {
+        let started = Instant::now();
+        while self.serving() && started.elapsed() < UNLOCK_WAIT {
+            if let Some(session) = self.vault.ssh_agent_session() {
+                return Some(session);
+            }
+            tokio::time::sleep(Duration::from_millis(250)).await;
+        }
+        None
     }
 
     async fn approve(&self, key: &AgentKey, purpose: &Purpose, peer: &Peer) -> bool {
         let language = menu::current_language(&self.app);
         let text = approval_text(&key.title, purpose, &program(peer, language), language);
-        let _one_at_a_time = self.prompt.lock().await;
         match self.vault.approve_with_device(text.clone()).await {
             Ok(true) => true,
             Ok(false) => self.approve_in_window(text, language).await,
@@ -256,7 +293,12 @@ impl AppBackend {
 
 impl Backend for AppBackend {
     async fn identities(&self, _peer: &Peer) -> Vec<Identity> {
-        if !self.ready().await {
+        if !self.serving() {
+            return Vec::new();
+        }
+        if self.vault.ssh_agent_session().is_none()
+            && self.open(&mut *self.asked.lock().await).await.is_none()
+        {
             return Vec::new();
         }
         self.vault
@@ -275,13 +317,20 @@ impl Backend for AppBackend {
     }
 
     async fn sign(&self, peer: &Peer, blob: Vec<u8>, data: Vec<u8>, flags: u32) -> Option<Vec<u8>> {
-        if !self.ready().await {
+        if !self.serving() {
             return None;
         }
-        let keys = self.vault.ssh_agent_keys().ok()?;
-        let key = keys.into_iter().find(|key| key.blob == blob)?;
-        if !self.approve(&key, &wire::purpose(&data), peer).await {
-            return None;
+        {
+            let mut asked = self.asked.lock().await;
+            let session = self.open(&mut asked).await?;
+            if !asked.approved_in(session) {
+                let keys = self.vault.ssh_agent_keys().ok()?;
+                let key = keys.into_iter().find(|key| key.blob == blob)?;
+                if !self.approve(&key, &wire::purpose(&data), peer).await {
+                    return None;
+                }
+                asked.approved = Some((session, Instant::now()));
+            }
         }
         self.vault.ssh_agent_sign(&blob, data, flags).await.ok()
     }

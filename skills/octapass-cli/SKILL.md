@@ -45,19 +45,20 @@ octapass status --json
   "locksAt": "2026-11-08T12:30:00Z", "keyring": true, "desktopApp": false }
 ```
 
-`status` is `signedOut`, `locked` or `unlocked`. `desktopApp` is true when the desktop app has already approved this program, so commands open without a new prompt. When `OCTAPASS_SERVICE_ACCOUNT_TOKEN` is set there's no sign-in at all: see [CI and servers](#ci-and-servers).
+`status` is `signedOut`, `locked` or `unlocked`. `desktopApp` is true when the desktop app is unlocked with this account, so commands open without a prompt. Signed out with the app running, any command links the CLI to the app's account. When `OCTAPASS_SERVICE_ACCOUNT_TOKEN` is set there's no sign-in at all: see [CI and servers](#ci-and-servers).
 
 ## Install, sign in and unlock
 
-Build it from a checkout of the repository (needs Rust):
+Check `command -v octapass` first. If it's missing, ask the user before installing it: the one-line installer downloads the release for this computer from GitHub and checks it against `SHA256SUMS`, with no administrator rights:
 
 ```bash
-cargo install --path apps/cli
+curl -fsSL https://octap.app/install.sh | sh      # macOS and Linux, into ~/.local/bin
+irm https://octap.app/install.ps1 | iex          # Windows PowerShell
 ```
 
-That also installs `docker-credential-octapass`, `git-credential-octapass` and `octapass-git-sign`.
+From a checkout of the repository, `cargo install --path apps/cli` works too. Both also install `docker-credential-octapass`, `git-credential-octapass` and `octapass-git-sign`.
 
-The user signs in once per computer. These commands ask for the email, master password, Secret Key (the first time) and a two-step code, so **the user runs them in their own terminal, not you**:
+**If the Octa Pass desktop app is on this computer, there's nothing to sign in to:** the CLI uses the app's account (see [The desktop app](#the-desktop-app)). Otherwise the user signs in once per computer. These commands ask for the email, master password, Secret Key (the first time) and a two-step code, so **the user runs them in their own terminal, not you**:
 
 ```bash
 octapass login --server https://vault.example.com
@@ -70,11 +71,14 @@ octapass lock
 - `OCTAPASS_SERVER` and `OCTAPASS_EMAIL` stand in for `--server` and `--email`.
 - Without a keyring, or with `OCTAPASS_NO_KEYRING=1`, nothing is kept and every command needs the master password.
 
-### Unlocking through the desktop app
+### The desktop app
 
-When the Octa Pass desktop app is running and signed in to the same account, a locked `octapass` asks the app instead of asking for the master password. The app shows a Touch ID, Windows Hello or system password prompt that names the program. The approval lasts 30 idle minutes for that program in that terminal, and locking the app or running `octapass lock` ends it.
+While the Octa Pass desktop app is running, the CLI follows it:
 
-So a command you run may make a prompt appear on the user's screen. Tell them before you run it, so they approve only what they expect. `OCTAPASS_NO_DESKTOP=1` never asks the app. `octapass export` and `octapass ssh export` always want the master password anyway.
+- A CLI that isn't signed in uses the app's account on its first command, or with `octapass link`. It becomes a device of its own in the account ("Octa Pass CLI") and the user gets a new sign-in email, so tell them before the first command. A CLI signed in to its own account keeps it.
+- While the app is unlocked, commands run with no prompt. While it's locked, a command makes a Touch ID, Windows Hello or system password prompt appear on the user's screen, which unlocks the app too. Tell them before you run it, so they approve only what they expect. If device unlock is off in the app, the command exits 4 and the user unlocks the app.
+- `octapass lock` locks the app as well. Don't run it unless the user asks: it locks their app too.
+- `OCTAPASS_NO_DESKTOP=1` never asks the app. `octapass export` and `octapass ssh export` always want the master password anyway.
 
 The CLI tries these in order: a service account token, the keyring session, the desktop app, then the master password from a terminal or `--password-stdin`. With none of them it exits 4.
 

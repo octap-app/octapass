@@ -11,7 +11,7 @@ use std::process::{Command, Output, Stdio};
 use std::sync::Arc;
 
 use common::*;
-use octapass_desktop_vault::cli_session::{self, CliGrants, CliPeer};
+use octapass_desktop_vault::cli_session::{self, CliPeer};
 use octapass_device_unlock::fake::FakeDeviceUnlock;
 use serde_json::json;
 
@@ -49,7 +49,7 @@ async fn world() -> World {
     let vault = Arc::clone(&other.vault);
     let socket = endpoint.clone();
     tokio::spawn(async move {
-        cli_session::serve(vault, Arc::new(CliGrants::default()), socket, |_| {
+        cli_session::serve(vault, socket, |_| {
             Ok(CliPeer {
                 executable: "/usr/local/bin/octapass".into(),
                 session: Some(1),

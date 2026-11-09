@@ -38,6 +38,12 @@ impl Vault {
         Ok(self.bridge_status())
     }
 
+    /// The open vault's unlock (a new one after every lock), or `None` while locked: the SSH
+    /// agent's approval lasts for one.
+    pub fn ssh_agent_session(&self) -> Option<u64> {
+        self.state().unlocked.as_ref().map(|unlocked| unlocked.id)
+    }
+
     pub(crate) fn unlock_with_device_if_locked(&self) -> Result<()> {
         if self.state().unlocked.is_some() {
             return Ok(());
@@ -141,12 +147,21 @@ impl Vault {
         ))
     }
 
-    /// The session open now, if any: each unlock has its own.
-    pub(crate) fn open_session(&self) -> Option<Arc<Session>> {
-        self.state()
-            .unlocked
-            .as_ref()
-            .map(|unlocked| unlocked.session.clone())
+    /// A server session of its own for the CLI (`POST /v1/devices/link`), with this account's
+    /// Secret Key: what `link` hands a CLI that isn't signed in (plan 05). Unlocked, signed in
+    /// to a server account: a vault on this Mac only has no server to link through.
+    pub(crate) fn link_device(
+        &self,
+        device: octapass_api::DeviceInfo,
+    ) -> Result<(Zeroizing<String>, octapass_api::LoginFinishResponse)> {
+        let unlocked = self.unlocked()?;
+        // `needsSync` for a vault on this Mac only, as for its Secret Key.
+        let secret_key = Zeroizing::new(self.secret_key()?);
+        let _io = self.io();
+        let login = self.with_token(&unlocked, |token| {
+            unlocked.server.link_device(token, device.clone())
+        })?;
+        Ok((secret_key, login))
     }
 }
 

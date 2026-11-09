@@ -1,6 +1,8 @@
-# Builds the Tauri desktop app (Windows installer, Linux packages) and the browser extension
-# packages when a version tag is pushed, or by hand from the Actions tab. Unsigned: signing needs
-# the publisher's certificates, which stay off GitHub for now. The Mac app is the native one
+# Builds the Tauri desktop app (Windows installer, Linux packages), the browser extension
+# packages and the CLI when a version tag is pushed, or by hand from the Actions tab. Unsigned:
+# signing needs the publisher's certificates, which stay off GitHub for now. A pushed tag also
+# publishes a GitHub release with the CLI archives and their SHA256SUMS only: that's what the
+# site's install.sh and install.ps1 download (docs/platforms/cli.md#install). The Mac app is the native one
 # (apps/macos, plan 19), built with pnpm build:macos; it has no job here until its Developer ID
 # signing and notarization are set up.
 #
@@ -111,3 +113,72 @@ jobs:
           name: extension
           path: packages-out/
           if-no-files-found: error
+
+  cli:
+    name: CLI (${{ matrix.target }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: aarch64-apple-darwin
+            os: macos-14
+          - target: x86_64-apple-darwin
+            os: macos-14
+          - target: x86_64-unknown-linux-gnu
+            os: ubuntu-22.04
+          - target: aarch64-unknown-linux-gnu
+            os: ubuntu-22.04-arm
+          - target: x86_64-pc-windows-msvc
+            os: windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            ~/.cargo/registry
+            target
+          key: release-cli-${{ matrix.target }}-${{ hashFiles('Cargo.lock', 'rust-toolchain.toml') }}
+      - run: rustup target add ${{ matrix.target }}
+      - name: Build
+        run: cargo build --release --locked -p octapass-cli --target ${{ matrix.target }}
+      - name: Pack
+        shell: bash
+        run: |
+          out="$PWD/cli-out"
+          mkdir -p "$out"
+          cd target/${{ matrix.target }}/release
+          programs="octapass git-credential-octapass octapass-git-sign docker-credential-octapass"
+          if [ "${{ runner.os }}" = Windows ]; then
+            7z a -tzip "$out/octapass-cli-${{ matrix.target }}.zip" $(for p in $programs; do echo "$p.exe"; done)
+          else
+            tar -czf "$out/octapass-cli-${{ matrix.target }}.tar.gz" $programs
+          fi
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: cli-${{ matrix.target }}
+          path: cli-out/
+          if-no-files-found: error
+
+  publish:
+    name: Publish the CLI release
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: cli
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          pattern: cli-*
+          merge-multiple: true
+          path: cli-out
+      - name: Checksums and release
+        working-directory: cli-out
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          sha256sum -- octapass-cli-* > SHA256SUMS
+          gh release create "${GITHUB_REF_NAME}" --repo "${GITHUB_REPOSITORY}" \
+            --title "${GITHUB_REF_NAME}" --notes "The Octa Pass CLI. Install it with the one-line command in docs/platforms/cli.md." \
+            octapass-cli-* SHA256SUMS

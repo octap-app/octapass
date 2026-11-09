@@ -4,7 +4,8 @@
 //! Windows Hello prompt).
 //!
 //! The library half is shared with the app: the protocol types, the local channel, the checks on
-//! who is at either end of it ([`trust`]), and the manifests the app installs and removes.
+//! who is at either end of it ([`trust`]), the manifests the app installs and removes, and what
+//! the app needs to offer the extension ([`seen`], [`stores`]).
 
 pub mod browsers;
 pub mod caller;
@@ -12,6 +13,8 @@ pub mod framing;
 pub mod ipc;
 pub mod manifests;
 pub mod protocol;
+pub mod seen;
+pub mod stores;
 pub mod system;
 #[cfg(feature = "testing")]
 pub mod testing;

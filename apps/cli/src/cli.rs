@@ -63,7 +63,10 @@ pub enum Command {
         #[arg(long, value_name = "DURATION")]
         timeout: Option<String>,
     },
-    /// Lock now.
+    /// Use the account of the Octa Pass app running on this computer, without signing in here.
+    /// While the app is unlocked, so is the CLI.
+    Link,
+    /// Lock now. While linked to the Octa Pass app, this locks the app too.
     Lock,
     /// Sign out and remove this account's data from this device.
     Logout,

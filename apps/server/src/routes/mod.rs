@@ -350,6 +350,7 @@ pub fn router(state: AppState) -> Router {
         )
         .route("/v1/devices", get(devices::list_devices))
         .route("/v1/devices/current", patch(devices::rename_current_device))
+        .route("/v1/devices/link", post(devices::link_device))
         .route(
             "/v1/devices/current/push",
             put(devices::put_push_token).delete(devices::delete_push_token),

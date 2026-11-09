@@ -1,23 +1,28 @@
-//! The desktop app's session, for the CLI (plan 05): while the app runs, `octapass` can unlock
-//! through it instead of asking for the master password or keeping a session in the keyring.
+//! The desktop app's session, for the CLI (plan 05): while the app runs, `octapass` uses its
+//! account and opens with it instead of asking for the master password or keeping a session in
+//! the keyring.
 //!
 //! The app listens on a second socket, separate from the browser's, readable only by the user.
-//! Unlike the browser's it answers any program of this user, since the CLI can live anywhere; what
-//! protects the account key is the device lock. The first request from a terminal asks for Touch
-//! ID, Windows Hello or the system password, naming the program; the key then travels exactly as
-//! it does to the extension (`bridge`), wrapped for a fresh X25519 key of the CLI's.
+//! Unlike the browser's it answers any program of this user, since the CLI can live anywhere.
+//! **The CLI follows the app** (maintainer decision, 2026-11-09, plan 03 History): while the app is
+//! unlocked, `session` hands the account key over without a prompt; while it's locked, the request
+//! asks the device lock, which unlocks the app. Locking the app locks every CLI with it, and
+//! `octapass lock` (`end`) locks the app. The key travels exactly as it does to the extension
+//! (`bridge`), wrapped for a fresh X25519 key of the CLI's.
 //!
-//! An approval is a **grant** for that program in that terminal session, kept in the app's memory
-//! with an idle timeout, so each command doesn't prompt. Locking the app ends every grant, and the
-//! CLI keeps nothing on disk: this makes one lock cover both. `octapass lock` ends its own grant.
+//! A CLI that isn't signed in sends `link`: the app makes it a server session of its own
+//! (`POST /v1/devices/link`) and seals that session and the Secret Key for the CLI with a second
+//! exchange ([`CLI_LINK_INFO`], context `cli-link`), next to the wrapped account key.
 
-use std::collections::HashMap;
 use std::io;
 use std::path::{Path, PathBuf};
-use std::sync::{Arc, Mutex};
-use std::time::{Duration, Instant};
+use std::sync::Arc;
+use std::time::Duration;
 
+use octapass_api::{DeviceInfo, LoginFinishResponse};
 use octapass_core::encoding::{b64_decode, b64_decode_array, b64_encode};
+use octapass_core::envelope::{Context, open_b64, seal_b64};
+use octapass_core::keys::SymmetricKey;
 use octapass_core::session::Session;
 use rand_core::OsRng;
 use serde::{Deserialize, Serialize};
@@ -25,13 +30,15 @@ use serde_json::{Value, json};
 use x25519_dalek::{PublicKey, StaticSecret};
 use zeroize::Zeroizing;
 
-use crate::bridge::wrap_key;
+use crate::bridge::{derive_wrap_key, wrap_key};
 use crate::error::{ErrorCode, Result, VaultError};
 use crate::model::SessionStatus;
+use crate::store::AccountKey;
+use crate::vault::cli_link::{LinkWrap, LinkedAccount};
 use crate::vault::{Vault, blocking};
 
-/// How long a grant lasts without a command: the CLI's default session.
-pub const GRANT_IDLE: Duration = Duration::from_secs(30 * 60);
+/// For what `link` seals besides the account key, so the two keys never coincide.
+pub const CLI_LINK_INFO: &[u8] = b"openpass/v1/cli-link";
 /// Requests are a few hundred bytes; a longer line is refused.
 pub const MAX_LINE: u64 = 64 * 1024;
 /// The user may take a while to answer the prompt.
@@ -44,7 +51,7 @@ const REPLY_TIMEOUT: Duration = Duration::from_secs(120);
     rename_all_fields = "camelCase"
 )]
 pub enum CliRequest {
-    /// Whether this program could unlock now, without prompting.
+    /// Whether the CLI could open now, without prompting.
     Status { email: String, server_url: String },
     /// The account key, wrapped for `public_key`.
     Session {
@@ -52,7 +59,13 @@ pub enum CliRequest {
         server_url: String,
         public_key: String,
     },
-    /// Forget this program's grant.
+    /// Sign this CLI in with the app's account: a server session of its own and the Secret Key,
+    /// sealed for `public_key`, with the account key wrapped for it as `session` does.
+    Link {
+        public_key: String,
+        device: DeviceInfo,
+    },
+    /// Lock the app, and every CLI with it.
     End,
 }
 
@@ -67,7 +80,7 @@ pub struct CliReply {
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct CliReplyError {
-    /// `locked`, `otherAccount`, `invalidRequest`, or a vault error code.
+    /// `locked`, `otherAccount`, `localVault`, `invalidRequest`, or a vault error code.
     pub code: String,
     pub message: String,
 }
@@ -96,7 +109,7 @@ impl CliReply {
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CliAppStatus {
-    /// This program can unlock without a prompt.
+    /// The app is unlocked with this account, so the CLI opens without a prompt.
     pub granted: bool,
     pub same_account: bool,
 }
@@ -107,66 +120,6 @@ pub struct CliPeer {
     pub executable: PathBuf,
     /// The Unix session (one terminal window or tab), so an approval doesn't reach other terminals.
     pub session: Option<u32>,
-}
-
-struct Grant {
-    used: Instant,
-    /// Locking bumps the vault's generation, which ends the grant.
-    generation: u64,
-}
-
-/// The approvals the app remembers. Only ever in memory.
-pub struct CliGrants {
-    idle: Duration,
-    live: Mutex<HashMap<CliPeer, Grant>>,
-}
-
-impl Default for CliGrants {
-    fn default() -> Self {
-        Self::new(GRANT_IDLE)
-    }
-}
-
-impl CliGrants {
-    pub fn new(idle: Duration) -> Self {
-        Self {
-            idle,
-            live: Mutex::new(HashMap::new()),
-        }
-    }
-
-    fn live(&self) -> std::sync::MutexGuard<'_, HashMap<CliPeer, Grant>> {
-        self.live.lock().unwrap_or_else(|error| error.into_inner())
-    }
-
-    /// Whether `peer` holds a grant. `touch` counts as using it.
-    fn check(&self, peer: &CliPeer, generation: u64, touch: bool) -> bool {
-        let mut live = self.live();
-        live.retain(|_, grant| grant.generation == generation && grant.used.elapsed() < self.idle);
-        match live.get_mut(peer) {
-            Some(grant) => {
-                if touch {
-                    grant.used = Instant::now();
-                }
-                true
-            }
-            None => false,
-        }
-    }
-
-    fn grant(&self, peer: CliPeer, generation: u64) {
-        self.live().insert(
-            peer,
-            Grant {
-                used: Instant::now(),
-                generation,
-            },
-        );
-    }
-
-    fn end(&self, peer: &CliPeer) {
-        self.live().remove(peer);
-    }
 }
 
 fn reply_for(error: &VaultError) -> CliReply {
@@ -181,42 +134,44 @@ impl Vault {
     }
 
     /// Answers one request from the CLI's socket.
-    pub async fn answer_cli(
-        self: &Arc<Self>,
-        grants: &CliGrants,
-        peer: &CliPeer,
-        request: CliRequest,
-    ) -> CliReply {
-        match request {
+    pub async fn answer_cli(self: &Arc<Self>, request: CliRequest) -> CliReply {
+        let reply = match request {
             CliRequest::Status { email, server_url } => {
                 let same = self.same_account(&email, &server_url);
                 let unlocked = self.snapshot().session.status == SessionStatus::Unlocked;
-                let granted =
-                    same && unlocked && grants.check(peer, self.state_generation(), false);
-                CliReply::ok(json!({ "granted": granted, "sameAccount": same }))
+                Ok(CliReply::ok(
+                    json!({ "granted": same && unlocked, "sameAccount": same }),
+                ))
             }
             CliRequest::Session {
                 email,
                 server_url,
                 public_key,
-            } => match self
-                .session_for_cli(grants, peer, &email, &server_url, &public_key)
-                .await
-            {
-                Ok(reply) => reply,
-                Err(error) => reply_for(&error),
-            },
+            } => self.session_for_cli(&email, &server_url, &public_key).await,
+            CliRequest::Link { public_key, device } => self.link_cli(&public_key, device).await,
             CliRequest::End => {
-                grants.end(peer);
-                CliReply::ok(json!({}))
+                self.lock();
+                Ok(CliReply::ok(json!({})))
             }
+        };
+        reply.unwrap_or_else(|error| reply_for(&error))
+    }
+
+    /// Unlocked, nothing asks. Locked, the device lock unlocks the app for it.
+    async fn open_for_cli(self: &Arc<Self>) -> Result<()> {
+        if self.snapshot().session.status == SessionStatus::Unlocked {
+            return Ok(());
         }
+        self.unlock_with_device().await.map_err(|error| {
+            VaultError::new(
+                ErrorCode::Locked,
+                format!("The Octa Pass app is locked: {}", error.message),
+            )
+        })
     }
 
     async fn session_for_cli(
         self: &Arc<Self>,
-        grants: &CliGrants,
-        peer: &CliPeer,
         email: &str,
         server_url: &str,
         public_key: &str,
@@ -227,28 +182,36 @@ impl Vault {
                 "The Octa Pass app is signed in to another account.",
             ));
         }
-        let program = peer.executable.display().to_string();
-        let mut approved = false;
-        if self.snapshot().session.status != SessionStatus::Unlocked {
-            // Device unlock is the approval: one prompt, not two.
-            self.unlock_with_device().await.map_err(|error| {
-                VaultError::new(
-                    ErrorCode::Locked,
-                    format!("The Octa Pass app is locked: {}", error.message),
-                )
-            })?;
-            approved = true;
-        }
-        if !approved && !grants.check(peer, self.state_generation(), true) {
-            let device_unlock = Arc::clone(&self.device_unlock);
-            let reason = format!("unlock the Octa Pass command-line tool ({program})");
-            blocking(move || Ok(device_unlock.verify_user(&reason)?)).await?;
-        }
+        self.open_for_cli().await?;
         let wrap = self.wrap_for_peer(public_key)?;
-        grants.grant(peer.clone(), self.state_generation());
         Ok(CliReply::ok(
             serde_json::to_value(wrap).expect("serializes"),
         ))
+    }
+
+    async fn link_cli(self: &Arc<Self>, public_key: &str, device: DeviceInfo) -> Result<CliReply> {
+        if self.snapshot().session.status == SessionStatus::SignedOut {
+            return Ok(CliReply::error(
+                "signedOut",
+                "The Octa Pass app isn't signed in.",
+            ));
+        }
+        self.open_for_cli().await?;
+        let linked = match self.link_device(device).await {
+            Err(error) if error.code == ErrorCode::NotAllowed => {
+                return Ok(CliReply::error(
+                    "localVault",
+                    "The Octa Pass app has a vault on this computer only, which the CLI can't share.",
+                ));
+            }
+            other => other?,
+        };
+        let wrap = self.wrap_for_peer(public_key)?;
+        let (link_public, sealed) = seal_link(public_key, &linked)?;
+        let mut reply = serde_json::to_value(wrap).expect("serializes");
+        reply["linkPublicKey"] = json!(link_public);
+        reply["sealed"] = json!(sealed);
+        Ok(CliReply::ok(reply))
     }
 
     /// Unlocks with the account key wrapped by the desktop app (the CLI's half of the above).
@@ -346,6 +309,139 @@ struct WrapFields {
     wrapped_ask: Zeroizing<String>,
 }
 
+/// What `link` seals for the CLI.
+#[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct LinkSecrets {
+    secret_key: Zeroizing<String>,
+    login: LoginFinishResponse,
+}
+
+/// The app's half of the second exchange: a fresh key of its own, and the sealed session.
+fn seal_link(cli_public_key: &str, linked: &LinkedAccount) -> Result<(String, String)> {
+    let cli_public: [u8; 32] = b64_decode_array(cli_public_key)?;
+    let ephemeral = StaticSecret::random_from_rng(OsRng);
+    let app_public = PublicKey::from(&ephemeral);
+    let shared = ephemeral.diffie_hellman(&PublicKey::from(cli_public));
+    if !shared.was_contributory() {
+        return Err(VaultError::unexpected("invalid CLI public key"));
+    }
+    let key = derive_wrap_key(
+        shared.as_bytes(),
+        app_public.as_bytes(),
+        &cli_public,
+        CLI_LINK_INFO,
+    );
+    let secrets = Zeroizing::new(
+        serde_json::to_vec(&LinkSecrets {
+            secret_key: linked.secret_key.clone(),
+            login: linked.login.clone(),
+        })
+        .expect("serializes"),
+    );
+    let sealed = seal_b64(
+        &SymmetricKey::from_slice(key.as_ref())?,
+        &Context::CliLink,
+        &secrets,
+        &mut OsRng,
+    )?;
+    Ok((b64_encode(app_public.as_bytes()), sealed))
+}
+
+/// How asking the app to link ended.
+#[derive(Debug, PartialEq, Eq)]
+pub enum AppLink {
+    /// Signed in with the app's account, and unlocked.
+    Linked { email: String },
+    /// No app is listening.
+    NotRunning,
+    /// It answered no: the reason, for the person.
+    Declined { code: String, message: String },
+}
+
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct LinkFields {
+    email: String,
+    server_url: String,
+    link_public_key: String,
+    sealed: String,
+    #[serde(flatten)]
+    wrap: WrapFields,
+}
+
+/// Signs the CLI's `vault`, which isn't signed in, in with the account of the app listening on
+/// `endpoint`. `device` is how the CLI shows in the account's device list.
+pub async fn link_through_app(
+    vault: &Arc<Vault>,
+    endpoint: &Path,
+    device: DeviceInfo,
+) -> Result<AppLink> {
+    let ephemeral = StaticSecret::random_from_rng(OsRng);
+    let public = PublicKey::from(&ephemeral);
+    let request = CliRequest::Link {
+        public_key: b64_encode(public.as_bytes()),
+        device,
+    };
+    let target = endpoint.to_owned();
+    let Ok(reply) = blocking(move || Ok(ask_app(&target, &request))).await? else {
+        return Ok(AppLink::NotRunning);
+    };
+    let Some(result) = reply.result.filter(|_| reply.ok) else {
+        let error = reply.error.unwrap_or(CliReplyError {
+            code: "unexpected".into(),
+            message: "The Octa Pass app didn't answer.".into(),
+        });
+        return Ok(AppLink::Declined {
+            code: error.code,
+            message: error.message,
+        });
+    };
+    let fields: LinkFields =
+        serde_json::from_value(result).map_err(|_| VaultError::unexpected("bad link reply"))?;
+    let exchange = |app_public: &str, info: &[u8]| -> Result<Zeroizing<[u8; 32]>> {
+        let app_public: [u8; 32] = b64_decode_array(app_public)?;
+        let shared = ephemeral.diffie_hellman(&PublicKey::from(app_public));
+        if !shared.was_contributory() {
+            return Err(VaultError::unexpected("invalid public key from the app"));
+        }
+        Ok(derive_wrap_key(
+            shared.as_bytes(),
+            &app_public,
+            public.as_bytes(),
+            info,
+        ))
+    };
+    let link_key = exchange(&fields.link_public_key, CLI_LINK_INFO)?;
+    let secrets = open_b64(
+        &SymmetricKey::from_slice(link_key.as_ref())?,
+        &Context::CliLink,
+        &fields.sealed,
+    )?;
+    let secrets: LinkSecrets =
+        serde_json::from_slice(&secrets).map_err(|_| VaultError::unexpected("bad link reply"))?;
+    let wrap_key = exchange(&fields.wrap.ephemeral_public_key, crate::bridge::WRAP_INFO)?;
+    let email = fields.email.clone();
+    vault
+        .sign_in_linked(
+            LinkedAccount {
+                key: AccountKey {
+                    server_url: fields.server_url,
+                    email: fields.email,
+                },
+                secret_key: secrets.secret_key,
+                login: secrets.login,
+            },
+            LinkWrap {
+                wrap_key: &wrap_key,
+                device_salt: &fields.wrap.device_salt,
+                wrapped_ask: &fields.wrap.wrapped_ask,
+            },
+        )
+        .await?;
+    Ok(AppLink::Linked { email })
+}
+
 /// What the app says about this program and account, without prompting. `None` when no app runs.
 pub fn app_status(endpoint: &Path, email: &str, server_url: &str) -> Option<CliAppStatus> {
     let reply = ask_app(
@@ -359,9 +455,9 @@ pub fn app_status(endpoint: &Path, email: &str, server_url: &str) -> Option<CliA
     serde_json::from_value(reply.result?).ok()
 }
 
-/// Tells the app to forget this program's approval. Quietly does nothing when no app runs.
-pub fn end_app_session(endpoint: &Path) {
-    let _ = ask_app(endpoint, &CliRequest::End);
+/// Locks the app, which locks the CLI with it. `false` when no app runs.
+pub fn end_app_session(endpoint: &Path) -> bool {
+    ask_app(endpoint, &CliRequest::End).is_ok_and(|reply| reply.ok)
 }
 
 /// Where the app listens for the CLI: `cli.sock` in its data folder, or a temporary path with a
@@ -427,7 +523,6 @@ pub fn ask_app(endpoint: &Path, request: &CliRequest) -> io::Result<CliReply> {
 
 async fn handle(
     vault: Arc<Vault>,
-    grants: Arc<CliGrants>,
     stream: impl tokio::io::AsyncRead + tokio::io::AsyncWrite + Unpin,
     peer: io::Result<CliPeer>,
 ) {
@@ -439,7 +534,8 @@ async fn handle(
         return;
     }
     let reply = match (peer, serde_json::from_str::<CliRequest>(&line)) {
-        (Ok(peer), Ok(request)) => vault.answer_cli(&grants, &peer, request).await,
+        // Any program of this user may ask; one the OS can't name is refused.
+        (Ok(_), Ok(request)) => vault.answer_cli(request).await,
         (Ok(_), Err(error)) => CliReply::error("invalidRequest", error.to_string()),
         (Err(error), _) => CliReply::error(
             "forbidden",
@@ -456,7 +552,6 @@ async fn handle(
 #[cfg(unix)]
 pub async fn serve(
     vault: Arc<Vault>,
-    grants: Arc<CliGrants>,
     endpoint: PathBuf,
     identify: impl Fn(&tokio::net::UnixStream) -> io::Result<CliPeer>,
 ) -> io::Result<()> {
@@ -474,8 +569,7 @@ pub async fn serve(
     loop {
         let (stream, _) = listener.accept().await?;
         let peer = identify(&stream);
-        let (vault, grants) = (Arc::clone(&vault), Arc::clone(&grants));
-        tokio::spawn(handle(vault, grants, stream, peer));
+        tokio::spawn(handle(Arc::clone(&vault), stream, peer));
     }
 }
 
@@ -483,7 +577,6 @@ pub async fn serve(
 #[cfg(windows)]
 pub async fn serve(
     vault: Arc<Vault>,
-    grants: Arc<CliGrants>,
     endpoint: PathBuf,
     identify: impl Fn(&tokio::net::windows::named_pipe::NamedPipeServer) -> io::Result<CliPeer>,
 ) -> io::Result<()> {
@@ -500,47 +593,13 @@ pub async fn serve(
             .reject_remote_clients(true)
             .create(name)?;
         let peer = identify(&connected);
-        let (vault, grants) = (Arc::clone(&vault), Arc::clone(&grants));
-        tokio::spawn(handle(vault, grants, connected, peer));
+        tokio::spawn(handle(Arc::clone(&vault), connected, peer));
     }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    fn peer(name: &str, session: u32) -> CliPeer {
-        CliPeer {
-            executable: name.into(),
-            session: Some(session),
-        }
-    }
-
-    #[test]
-    fn grants_are_per_program_and_terminal() {
-        let grants = CliGrants::default();
-        grants.grant(peer("/bin/octapass", 1), 7);
-        assert!(grants.check(&peer("/bin/octapass", 1), 7, false));
-        assert!(!grants.check(&peer("/bin/octapass", 2), 7, false));
-        assert!(!grants.check(&peer("/tmp/other", 1), 7, false));
-        grants.end(&peer("/bin/octapass", 1));
-        assert!(!grants.check(&peer("/bin/octapass", 1), 7, false));
-    }
-
-    #[test]
-    fn locking_and_idling_end_grants() {
-        let grants = CliGrants::default();
-        grants.grant(peer("a", 1), 7);
-        assert!(!grants.check(&peer("a", 1), 8, false), "the app locked");
-        assert!(
-            !grants.check(&peer("a", 1), 7, false),
-            "and it doesn't return"
-        );
-
-        let grants = CliGrants::new(Duration::ZERO);
-        grants.grant(peer("a", 1), 7);
-        assert!(!grants.check(&peer("a", 1), 7, true));
-    }
 
     #[test]
     fn requests_use_the_documented_json() {
@@ -556,6 +615,21 @@ mod tests {
         assert_eq!(
             serde_json::from_value::<CliRequest>(json!({ "type": "end" })).unwrap(),
             CliRequest::End
+        );
+        assert_eq!(
+            serde_json::to_value(CliRequest::Link {
+                public_key: "k".into(),
+                device: DeviceInfo {
+                    name: "Octa Pass CLI (linux)".into(),
+                    platform: "cli".into()
+                }
+            })
+            .unwrap(),
+            json!({
+                "type": "link",
+                "publicKey": "k",
+                "device": { "name": "Octa Pass CLI (linux)", "platform": "cli" }
+            })
         );
     }
 }

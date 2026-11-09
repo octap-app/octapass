@@ -19,6 +19,7 @@ import {
   type AttachmentService,
   type AutoTypeService,
   type BackgroundService,
+  type BrowserExtensionService,
   type CodeLink,
   type CreatedShareLink,
   type Device,
@@ -198,6 +199,8 @@ export interface TauriOptions {
   wifi?: WifiService | undefined;
   /** The tray icon and opening at login (`desktopBackground`, the desktop app). */
   background?: BackgroundService | undefined;
+  /** Connecting the browser extension and offering it (`desktopBrowserExtension`, the desktop app). */
+  browserExtension?: BrowserExtensionService | undefined;
 }
 
 /** `src-tauri/src/autotype.rs`'s shortcut, as the keyboard shows it. */
@@ -734,6 +737,10 @@ export class TauriVaultService implements VaultService, AttachmentService {
 
   get background(): BackgroundService | undefined {
     return this.options.background;
+  }
+
+  get browserExtension(): BrowserExtensionService | undefined {
+    return this.options.browserExtension;
   }
 
   readonly connect: ConnectService = {

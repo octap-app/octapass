@@ -30,19 +30,27 @@ struct BackgroundSection: View {
 /// Settings → Browser extension, on the Mac: connecting writes the native messaging manifest that
 /// lets each browser start the bundled `octapass-native-host` for the Octa Pass extension (the
 /// Tauri app's Browser menu). Disconnecting removes them. This Mac's choice, not the vault's.
+/// The links to get the extension are always here, also after the vault window's offer
+/// (`ExtensionOfferCard`) was closed: one per supported browser on this Mac, or Chrome, Edge and
+/// Firefox when none was found, and Safari's own app.
 struct BrowserExtensionSection: View {
-    @State private var browsers: [String] = []
+    @State private var state = BrowserExtensionState.shared
     @State private var note: String?
     private let services = DesktopServices.shared
 
     var body: some View {
         Section {
-            Text(browsers.isEmpty ? L10n.phone.mac.browserNotConnected : L10n.phone.mac.browserConnected(browsers: Self.list(browsers)))
-                .accessibilityIdentifier("settings-browser-status")
+            VStack(alignment: .leading, spacing: 2) {
+                Text(state.connected.isEmpty ? L10n.phone.mac.browserNotConnected : L10n.phone.mac.browserConnected(browsers: Self.list(state.connected)))
+                    .accessibilityIdentifier("settings-browser-status")
+                Text(state.seen.isEmpty ? L10n.browserExtension.notSeen : L10n.browserExtension.seen(browsers: Self.list(state.seen)))
+                    .font(.footnote).foregroundStyle(Color.mist)
+                    .accessibilityIdentifier("settings-browser-seen")
+            }
             HStack {
                 Button(L10n.phone.mac.browserConnect, action: connect)
                     .accessibilityIdentifier("settings-browser-connect")
-                if !browsers.isEmpty {
+                if !state.connected.isEmpty {
                     Button(L10n.phone.mac.browserDisconnect, role: .destructive, action: disconnect)
                         .accessibilityIdentifier("settings-browser-disconnect")
                 }
@@ -53,28 +61,39 @@ struct BrowserExtensionSection: View {
             if let error = services.bridgeError {
                 Text(L10n.phone.mac.bridgeFailed(error: error)).font(.footnote).foregroundStyle(Color.red)
             }
+            VStack(alignment: .leading, spacing: 6) {
+                Text(L10n.browserExtension.offerTitle)
+                HStack {
+                    ForEach(linked) { browser in
+                        Button {
+                            state.get(browser)
+                        } label: {
+                            Label(L10n.browserExtension.getFor(browser: browser.name), systemImage: "arrow.up.forward.square")
+                        }
+                        .accessibilityIdentifier("settings-browser-get-\(browser.name)")
+                    }
+                }
+                Text(L10n.browserExtension.getHelp + " " + L10n.phone.mac.browserSafariNote)
+                    .font(.footnote).foregroundStyle(Color.mist)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
         } header: {
             Text(L10n.phone.mac.browserTitle)
         } footer: {
             Text(L10n.phone.mac.browserHelp)
         }
-        .onAppear(perform: refresh)
+        .onAppear { state.refresh() }
     }
 
-    private func refresh() {
-        guard let container = DesktopServices.container else { return }
-        browsers = browserExtensionBrowsers(dataDir: container.path)
+    private var linked: [MacBrowser] {
+        let found = state.present.isEmpty
+            ? MacBrowser.supported.filter { ["Chrome", "Edge", "Firefox"].contains($0.name) }
+            : state.present
+        return found + [MacBrowser.safari]
     }
 
     private func connect() {
-        guard let container = DesktopServices.container, let host = DesktopServices.hostPath else { return }
-        do {
-            let installed = try connectBrowserExtension(dataDir: container.path, hostPath: host, development: DesktopServices.development)
-            note = installed.isEmpty ? L10n.phone.mac.browserNone : nil
-        } catch {
-            note = L10n.phone.mac.browserFailed(error: error.reason)
-        }
-        refresh()
+        note = state.connect()
     }
 
     private func disconnect() {
@@ -85,7 +104,7 @@ struct BrowserExtensionSection: View {
         } catch {
             note = L10n.phone.mac.browserFailed(error: error.reason)
         }
-        refresh()
+        state.refresh()
     }
 
     /// "Chrome and Firefox", in the app's language.
@@ -179,4 +198,8 @@ enum MacPreferences {
     static let showInMenuBar = "showInMenuBar"
     /// The SSH agent, off by default as in the Tauri app (`DesktopServices.sshAgentOn`).
     static let sshAgent = "sshAgent"
+    /// The vault window's offer of the browser extension, closed with × (`BrowserExtensionState`).
+    static let extensionOfferDismissed = "extensionOfferDismissed"
+    /// The CLI was offered the first time the vault opened here (`CommandLineToolOffer`).
+    static let cliOffered = "cliOffered"
 }

@@ -182,7 +182,7 @@
     "titleLine1": "Secrets in your code.",
     "titleLine2": "Not in your repo.",
     "points": [
-      { "title": "An SSH agent that asks", "body": "Your keys stay in the vault. ssh and git use them through the desktop app, and every signature asks Touch ID, Windows Hello or your password first." },
+      { "title": "An SSH agent that asks", "body": "Your keys stay in the vault. ssh and git use them through the desktop app, and the first signature asks Touch ID, Windows Hello or your password, then not again for 15 minutes." },
       { "title": ".env files, without the file", "body": "Keep environments in the vault and hand them to one command with octapass run. Values can point at other items, so a password lives in one place." },
       { "title": "CI that can’t leak your vault", "body": "Service accounts give a pipeline read-only access to one shared vault, with a token our server never sees. There’s a GitHub Action and a GitLab template." },
       { "title": "A toolkit that stays local", "body": "Make certificates and a local CA, sign and read JWTs, hash and encode. Every tool runs on your device." }

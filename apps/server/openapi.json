@@ -1992,6 +1992,72 @@
         ]
       }
     },
+    "/v1/devices/link": {
+      "post": {
+        "tags": [
+          "devices"
+        ],
+        "summary": "A new device and session made from this one, for a program on the same computer that the\nsigned-in app vouches for (the CLI, plan 05): no password, no second step, because the session\nasking already passed both. It keeps this session's SSO age, appears in the device list as a\ndevice of its own (signed out like any other), and the owner gets the new sign-in email.",
+        "operationId": "link_device",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LinkDeviceRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "The new device's session, as a sign-in returns it",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginFinishResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "",
+            "content": {
+              "application/problem+json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
     "/v1/devices/{deviceId}": {
       "delete": {
         "tags": [
@@ -10836,6 +10902,19 @@
           "signature": {
             "type": "string",
             "description": "base64url Ed25519 signature by `publicSignKey`."
+          }
+        }
+      },
+      "LinkDeviceRequest": {
+        "type": "object",
+        "description": "`POST /v1/devices/link`: a session of its own for another program on this device that the\nsigned-in app vouches for (the CLI, plan 05). The answer is a sign-in's\n([`LoginFinishResponse`]).",
+        "required": [
+          "device"
+        ],
+        "properties": {
+          "device": {
+            "$ref": "#/components/schemas/DeviceInfo",
+            "description": "The new device, as the device list shows it."
           }
         }
       },

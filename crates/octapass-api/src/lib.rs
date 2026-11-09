@@ -1896,6 +1896,17 @@ pub struct DeviceRecord {
     pub current: bool,
 }
 
+/// `POST /v1/devices/link`: a session of its own for another program on this device that the
+/// signed-in app vouches for (the CLI, plan 05). The answer is a sign-in's
+/// ([`LoginFinishResponse`]).
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[cfg_attr(feature = "openapi", derive(utoipa::ToSchema))]
+#[serde(rename_all = "camelCase")]
+pub struct LinkDeviceRequest {
+    /// The new device, as the device list shows it.
+    pub device: DeviceInfo,
+}
+
 /// `PATCH /v1/devices/current`
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[cfg_attr(feature = "openapi", derive(utoipa::ToSchema))]

@@ -15,9 +15,11 @@
 		0E81D7CE6E6D60099E123EB8 /* GeneratorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5EE0F0DB0079676DDDBD94 /* GeneratorView.swift */; };
 		0EDC94D49FB55A41AE3E26FA /* OctaPassVault in Frameworks */ = {isa = PBXBuildFile; productRef = 989637B582640B3F025EB7B4 /* OctaPassVault */; };
 		0F583DB2A14878B9568240FC /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1DCFE684D2D04E67B18A6A2 /* Errors.swift */; };
+		1624F445F7C7912528ECDAF0 /* WatchdogMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287E37BC16A99EB6CDD9BD77 /* WatchdogMarker.swift */; };
 		16F219BB8E9889F0CCFCB3D0 /* UnlockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73AD7E00E695C6E76CC149AD /* UnlockView.swift */; };
 		1CED6AC68978470D1990DD32 /* ScanSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4DFEBA5AD3B522E42694F3B /* ScanSheet.swift */; };
 		209C199CA2969A0532FEBB7A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 40B129222B67748C33F267C6 /* InfoPlist.strings */; };
+		2189F7AB925432853995DBC9 /* WatchdogMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287E37BC16A99EB6CDD9BD77 /* WatchdogMarker.swift */; };
 		2AE27DC8B7BDEF7C6B60887E /* Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD2A636C87B336F0236416B /* Navigation.swift */; };
 		2D7DE9A6F4A9B47393235F38 /* CredentialExchange.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D6B148F2874D4CAB944512 /* CredentialExchange.swift */; };
 		2D972A82000D8546B93517AF /* AccountViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFEA5C6825BEB0F4304F12B6 /* AccountViews.swift */; };
@@ -35,8 +37,10 @@
 		4860AF5E8DCD78921BEFBF5B /* SafeSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D64240C964EA6309BCA6089 /* SafeSession.swift */; };
 		4D92901E6CFB6E3122BAA9C4 /* QrScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3764EC29EE603DE7198FA711 /* QrScanner.swift */; };
 		4DD3D277A9A43563FF9BB44C /* ImageCompat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C04FD53F00E438ECC6E2D7 /* ImageCompat.swift */; };
+		4ED7DEFD65FED3B5A5ABB2D7 /* Watchdog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497ED15E4F1014CA10B7AB15 /* Watchdog.swift */; };
 		503F3F85D4F89F4C8B31F449 /* OpenedLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C9D250190372FA46B84AB9 /* OpenedLinks.swift */; };
 		51B3E2548E72B662014CD0FD /* PasswordResetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C128F6979402CF206BF92B54 /* PasswordResetView.swift */; };
+		53D8E72E84F8C64A84EB802F /* CommandLineTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C471C9189593B70593E5B16 /* CommandLineTool.swift */; };
 		555173C9723F6F082292ACDE /* AutoFillView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0281F842514479DDF137519C /* AutoFillView.swift */; };
 		5628BF718FA4BCB3824E2324 /* IdentityGate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2519082FE6BF8AD36E14241C /* IdentityGate.swift */; };
 		5BEF1CB9909364EC205D8034 /* SafeItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC678466CA3D35ACC9BC50E /* SafeItems.swift */; };
@@ -44,6 +48,7 @@
 		61BA6AACCB73DC6CEE492028 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D586C47E25C37AFD796168F9 /* SettingsView.swift */; };
 		63A00C876575DE386C69F7E4 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28F2E14CABDF2C2C3F92CF42 /* SignUpView.swift */; };
 		644E1D9B8AB85FB64F5014C4 /* AutoFillSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68923604D6F877013F62481 /* AutoFillSettings.swift */; };
+		6632930568CE2F9603B5D6DB /* OctaPassMacWatchdog.app in Embed Dependencies */ = {isa = PBXBuildFile; fileRef = EBB874A1C0BE73275C6AE783 /* OctaPassMacWatchdog.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		67D5DE94465EE3AFF12379FD /* ItemEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9F7C72E852C85292AB71B3 /* ItemEditor.swift */; };
 		69D2998CE7AE2F6DE41BBAC9 /* FilePickers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29425081CADAA9406C1A0075 /* FilePickers.swift */; };
 		6D263829105F911F5162C941 /* MacSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DCA611BBC2E7EE4842C6C9C /* MacSettings.swift */; };
@@ -81,6 +86,7 @@
 		AC473A5058604BF82B866A17 /* OctaPassKeychain in Frameworks */ = {isa = PBXBuildFile; productRef = 7FE3063A044EE2A4E0B24183 /* OctaPassKeychain */; };
 		B4CF3622EDDD0A85FC4BA4B3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F01DDAC81AB3ACBC44E628CE /* Localizable.strings */; };
 		B4E8DC959CDB5FC49707D244 /* SshKeyViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93E4BDBD8F7D39134536AA6B /* SshKeyViews.swift */; };
+		B81EAF8711D2321D234EAD21 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69CE8429FC43E31BF36AFFF6 /* main.swift */; };
 		BAF6C362A17671C1C0CCC65D /* VaultTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6583177D6DF10950F1D01FCF /* VaultTypes.swift */; };
 		BE1AF7114D04B91E8E76F810 /* ThisDeviceSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9514A18EBAE6186D1C1DBFFD /* ThisDeviceSection.swift */; };
 		C04184366C122A130A0C69C0 /* EmergencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5DB00CEDD81565C9798773 /* EmergencyView.swift */; };
@@ -88,6 +94,7 @@
 		C5AA7857B65CB96A2B33A4BB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF6ECA380514C5E3A5D1243A /* MainView.swift */; };
 		CDFFB4496963B3DF89EA41E6 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB47CC7F488FBD5F8E23C2B3 /* Theme.swift */; };
 		D10C55845946A7D666C89A31 /* AutoFillModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47B2DFD3BD192FCE8E7B47A1 /* AutoFillModel.swift */; };
+		D40F258158D613DEEB60FE94 /* BrowserExtensionOffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA92490B79E37C7A4BB35278 /* BrowserExtensionOffer.swift */; };
 		D505DE64188D91BD0D0A066C /* OpenAtLogin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75E3C2EBDA14B9A4E65FC789 /* OpenAtLogin.swift */; };
 		D77B3709593441AB5863AF67 /* LocalVaultViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26CE0F03D2615050739B0CFC /* LocalVaultViews.swift */; };
 		DA98A9CE914CDFD531BEAE29 /* MacStandIns.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41DCCE80DB16BFD03E7C0844 /* MacStandIns.swift */; };
@@ -116,6 +123,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = F952A9E9B785CBF5F8611007;
 			remoteInfo = OctaPassMacSafeProvider;
+		};
+		A79C243E469C4EAE37628B37 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EBB6428592BEBD1781DD2345 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0ECE2269119BD45FFEEB5092;
+			remoteInfo = OctaPassMacWatchdog;
 		};
 		B28F919ECFC905DCA2932C4C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -154,6 +168,17 @@
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		90DB1BFEDCC44E222C3DB5C6 /* Embed Dependencies */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/LoginItems;
+			dstSubfolderSpec = 1;
+			files = (
+				6632930568CE2F9603B5D6DB /* OctaPassMacWatchdog.app in Embed Dependencies */,
+			);
+			name = "Embed Dependencies";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -179,6 +204,7 @@
 		2691780453C49A950F38019E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		26CE0F03D2615050739B0CFC /* LocalVaultViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalVaultViews.swift; sourceTree = "<group>"; };
 		282D6F4CC0F1129E3247DD02 /* OctaPassApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OctaPassApp.swift; sourceTree = "<group>"; };
+		287E37BC16A99EB6CDD9BD77 /* WatchdogMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchdogMarker.swift; sourceTree = "<group>"; };
 		28F2E14CABDF2C2C3F92CF42 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		29425081CADAA9406C1A0075 /* FilePickers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilePickers.swift; sourceTree = "<group>"; };
 		294A7548FA608DC60C9E1578 /* SafesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafesView.swift; sourceTree = "<group>"; };
@@ -192,6 +218,7 @@
 		41DCCE80DB16BFD03E7C0844 /* MacStandIns.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacStandIns.swift; sourceTree = "<group>"; };
 		47B2DFD3BD192FCE8E7B47A1 /* AutoFillModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoFillModel.swift; sourceTree = "<group>"; };
 		47F7E1C24F961018B383F194 /* BackupFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupFolder.swift; sourceTree = "<group>"; };
+		497ED15E4F1014CA10B7AB15 /* Watchdog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Watchdog.swift; sourceTree = "<group>"; };
 		4B3FC6302CF24347843F29A6 /* OctaPassMacSafeProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OctaPassMacSafeProvider.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C710591F89AC9D69642B79E /* FileProviderExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileProviderExtension.swift; sourceTree = "<group>"; };
 		4DB17BB2C2067723A767BB31 /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
@@ -202,6 +229,7 @@
 		6583177D6DF10950F1D01FCF /* VaultTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VaultTypes.swift; sourceTree = "<group>"; };
 		663BFD404C0120473E5A88AE /* LocalVaultSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalVaultSetup.swift; sourceTree = "<group>"; };
 		677DEBA802704D0A384B20DE /* TurnOnSyncView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TurnOnSyncView.swift; sourceTree = "<group>"; };
+		69CE8429FC43E31BF36AFFF6 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		6E14570F3AEE72A9103AAACB /* OctaPassMacAutoFill.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OctaPassMacAutoFill.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FBD4A9DA516AB55AD82F727 /* DesktopServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesktopServices.swift; sourceTree = "<group>"; };
 		73AD7E00E695C6E76CC149AD /* UnlockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnlockView.swift; sourceTree = "<group>"; };
@@ -215,6 +243,7 @@
 		885C54E47D2453AE2A6764C3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8A0F00A139BA7BE63DA4BCCB /* IOSModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSModifiers.swift; sourceTree = "<group>"; };
 		8B3974508D84EC086BAFB713 /* WifiViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiViews.swift; sourceTree = "<group>"; };
+		8C471C9189593B70593E5B16 /* CommandLineTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandLineTool.swift; sourceTree = "<group>"; };
 		8C5DB00CEDD81565C9798773 /* EmergencyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyView.swift; sourceTree = "<group>"; };
 		91AAF5EC26AA5529FBF29C70 /* OrganisationViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrganisationViews.swift; sourceTree = "<group>"; };
 		923EB60328BDCD96B7DAEAC2 /* FileProviderUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FileProviderUI.framework; path = System/Library/Frameworks/FileProviderUI.framework; sourceTree = SDKROOT; };
@@ -233,6 +262,7 @@
 		C128F6979402CF206BF92B54 /* PasswordResetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordResetView.swift; sourceTree = "<group>"; };
 		C4CCCFCB13D098507FB0D57B /* MaskedEmailNames.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaskedEmailNames.swift; sourceTree = "<group>"; };
 		C6D5F27021799C8626D62ED8 /* KeyRotationViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyRotationViews.swift; sourceTree = "<group>"; };
+		CA92490B79E37C7A4BB35278 /* BrowserExtensionOffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowserExtensionOffer.swift; sourceTree = "<group>"; };
 		CE9F9D18D995B2F842E0CADA /* StructuredViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StructuredViews.swift; sourceTree = "<group>"; };
 		CFAB94918F44F289D2830B3C /* MacModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MacModal.swift; sourceTree = "<group>"; };
 		D1DCFE684D2D04E67B18A6A2 /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
@@ -248,6 +278,7 @@
 		EA7D35A4065D0ACB43F25870 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EAC9AF4265D9F0EDD4E70734 /* RecoveryKitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryKitView.swift; sourceTree = "<group>"; };
 		EB7677FA43810D087154BA40 /* SafeFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafeFiles.swift; sourceTree = "<group>"; };
+		EBB874A1C0BE73275C6AE783 /* OctaPassMacWatchdog.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OctaPassMacWatchdog.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EECC1FE70035862BA1056D7B /* InfoPlist.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = ar.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F01DDAC81AB3ACBC44E628CE /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Localizable.strings; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F09429C6A6D6BD72E573C328 /* ItemDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemDetailView.swift; sourceTree = "<group>"; };
@@ -311,6 +342,8 @@
 		184896EC9CCE81859B3E0DA3 /* OctaPassMac */ = {
 			isa = PBXGroup;
 			children = (
+				CA92490B79E37C7A4BB35278 /* BrowserExtensionOffer.swift */,
+				8C471C9189593B70593E5B16 /* CommandLineTool.swift */,
 				8A0F00A139BA7BE63DA4BCCB /* IOSModifiers.swift */,
 				372DC312B346B3949829EFE1 /* MacControls.swift */,
 				0DCA611BBC2E7EE4842C6C9C /* MacSettings.swift */,
@@ -405,6 +438,7 @@
 				3D9BD2A9BE345FAA59C28AE8 /* OctaPassMacUITests */,
 				803889417E288081A4D4581D /* Packages */,
 				35BEFF9407711CE6110CFD5D /* SafeUnlock */,
+				E25CF39FFC134CDA9268F540 /* Watchdog */,
 				7FCFDFF529D1E710EA468E22 /* Frameworks */,
 				86A9A1D4657F643CE7D84171 /* Products */,
 			);
@@ -451,6 +485,7 @@
 				4B3FC6302CF24347843F29A6 /* OctaPassMacSafeProvider.appex */,
 				50603028FBF06B3C277FDE8F /* OctaPassMacSafeUnlock.appex */,
 				74AF4D9331FA7DACED27FD1F /* OctaPassMacUITests.xctest */,
+				EBB874A1C0BE73275C6AE783 /* OctaPassMacWatchdog.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -527,6 +562,14 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		E25CF39FFC134CDA9268F540 /* Watchdog */ = {
+			isa = PBXGroup;
+			children = (
+				69CE8429FC43E31BF36AFFF6 /* main.swift */,
+			);
+			path = Watchdog;
+			sourceTree = "<group>";
+		};
 		EB93481DACAB6D0E95AC50D2 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
@@ -549,6 +592,8 @@
 				CFAB94918F44F289D2830B3C /* MacModal.swift */,
 				41DCCE80DB16BFD03E7C0844 /* MacStandIns.swift */,
 				75E3C2EBDA14B9A4E65FC789 /* OpenAtLogin.swift */,
+				497ED15E4F1014CA10B7AB15 /* Watchdog.swift */,
+				287E37BC16A99EB6CDD9BD77 /* WatchdogMarker.swift */,
 			);
 			path = Platform;
 			sourceTree = "<group>";
@@ -591,6 +636,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		0ECE2269119BD45FFEEB5092 /* OctaPassMacWatchdog */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B908E57F9BB08011C9F8FB2E /* Build configuration list for PBXNativeTarget "OctaPassMacWatchdog" */;
+			buildPhases = (
+				EAF9F35F470A9316D507248E /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OctaPassMacWatchdog;
+			packageProductDependencies = (
+			);
+			productName = OctaPassMacWatchdog;
+			productReference = EBB874A1C0BE73275C6AE783 /* OctaPassMacWatchdog.app */;
+			productType = "com.apple.product-type.application";
+		};
 		19D3AC4A40E0B19EC943EE65 /* OctaPassMacSafeUnlock */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 11DCEB598E3CB321A37D0E6E /* Build configuration list for PBXNativeTarget "OctaPassMacSafeUnlock" */;
@@ -637,7 +699,9 @@
 				348F32421B30754219AD4F84 /* Resources */,
 				DFD8D1613EEED8C493D1FBDD /* Frameworks */,
 				8536DB65A1E57D8AEDC008C6 /* Embed Foundation Extensions */,
+				90DB1BFEDCC44E222C3DB5C6 /* Embed Dependencies */,
 				C86B3447E852FA789350C646 /* Bundle octapass-native-host */,
+				0E908D00A7ACDFDA97E45582 /* Bundle the CLI */,
 			);
 			buildRules = (
 			);
@@ -645,6 +709,7 @@
 				792D26FDFCBF7A6C1F5EC6C0 /* PBXTargetDependency */,
 				8854984D8C235D8C61C05A38 /* PBXTargetDependency */,
 				D1E345A7FC46017C4CC700AA /* PBXTargetDependency */,
+				D5FB319AFF0586EDAC8C37C8 /* PBXTargetDependency */,
 			);
 			name = OctaPassMac;
 			packageProductDependencies = (
@@ -737,6 +802,7 @@
 				A762708A70CD9729812C601D /* OctaPassMacAutoFill */,
 				F952A9E9B785CBF5F8611007 /* OctaPassMacSafeProvider */,
 				19D3AC4A40E0B19EC943EE65 /* OctaPassMacSafeUnlock */,
+				0ECE2269119BD45FFEEB5092 /* OctaPassMacWatchdog */,
 				1F48744B5DE9C392184DD76E /* OctaPassMacUITests */,
 			);
 		};
@@ -774,6 +840,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0E908D00A7ACDFDA97E45582 /* Bundle the CLI */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Bundle the CLI";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$SRCROOT/scripts/cli.sh\"";
+		};
 		C86B3447E852FA789350C646 /* Bundle octapass-native-host */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -842,7 +927,9 @@
 				644E1D9B8AB85FB64F5014C4 /* AutoFillSettings.swift in Sources */,
 				F5D90F9E1BB0B13338666C21 /* Avatar.swift in Sources */,
 				3F80392B0124C4F5A22D8C8B /* BackupFolder.swift in Sources */,
+				D40F258158D613DEEB60FE94 /* BrowserExtensionOffer.swift in Sources */,
 				E0D6015EB441303BF01A8B7D /* ChangePasswordView.swift in Sources */,
+				53D8E72E84F8C64A84EB802F /* CommandLineTool.swift in Sources */,
 				2D7DE9A6F4A9B47393235F38 /* CredentialExchange.swift in Sources */,
 				F5876C318D7A76D1E6994B33 /* DesktopServices.swift in Sources */,
 				F885300E67C2BFC323ACB2FA /* DeveloperToolsView.swift in Sources */,
@@ -905,9 +992,20 @@
 				F5145CAEAF9406787243B727 /* VaultPlatform.swift in Sources */,
 				BAF6C362A17671C1C0CCC65D /* VaultTypes.swift in Sources */,
 				90F93124EAD1B170C4EE7B1F /* WatchCodes.swift in Sources */,
+				4ED7DEFD65FED3B5A5ABB2D7 /* Watchdog.swift in Sources */,
+				1624F445F7C7912528ECDAF0 /* WatchdogMarker.swift in Sources */,
 				3F706B59AC3B24562421093D /* Wifi.swift in Sources */,
 				485C26A8416EC4B0DB35358A /* WifiOffer.swift in Sources */,
 				ED71E62729D68FD328CF676D /* WifiViews.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EAF9F35F470A9316D507248E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2189F7AB925432853995DBC9 /* WatchdogMarker.swift in Sources */,
+				B81EAF8711D2321D234EAD21 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -934,9 +1032,34 @@
 			target = 19D3AC4A40E0B19EC943EE65 /* OctaPassMacSafeUnlock */;
 			targetProxy = FADD34130209104DA51FA758 /* PBXContainerItemProxy */;
 		};
+		D5FB319AFF0586EDAC8C37C8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0ECE2269119BD45FFEEB5092 /* OctaPassMacWatchdog */;
+			targetProxy = A79C243E469C4EAE37628B37 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		11BEBC4226B2D29AE3710F8C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Watchdog/Watchdog.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = Watchdog/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.octap.ios.watchdog;
+				PRODUCT_MODULE_NAME = OctaPassWatchdog;
+				PRODUCT_NAME = "Octa Pass Watchdog";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
 		1D2F725CE11AF7AB75E85D5F /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 16EC59AF82433A20896F937C /* Signing.xcconfig */;
@@ -996,6 +1119,27 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		20B005212F0F2E968339B0E7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Watchdog/Watchdog.entitlements;
+				CODE_SIGN_INJECT_BASE_ENTITLEMENTS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = Watchdog/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = app.octap.ios.watchdog;
+				PRODUCT_MODULE_NAME = OctaPassWatchdog;
+				PRODUCT_NAME = "Octa Pass Watchdog";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -1309,6 +1453,15 @@
 			buildConfigurations = (
 				366B34B97EB41242CD49B573 /* Debug */,
 				6BCBAAF78ED28BE407E4A846 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		B908E57F9BB08011C9F8FB2E /* Build configuration list for PBXNativeTarget "OctaPassMacWatchdog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				11BEBC4226B2D29AE3710F8C /* Debug */,
+				20B005212F0F2E968339B0E7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

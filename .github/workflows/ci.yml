@@ -109,6 +109,7 @@ jobs:
           node tools/translations/check-docs.mjs
           node --test "tools/translations/test/*.test.mjs"
           node --test apps/website/src/i18n/landing/landing.test.mjs
+          node --test apps/website/src/install/install.test.mjs
       - name: Native app fonts are the web vault's (plan 17)
         run: node --test "tools/native-fonts/test/*.test.mjs"
       - name: Client tests against a real server

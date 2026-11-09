@@ -86,6 +86,14 @@ async fn the_agent_offers_usable_keys_and_signs_while_unlocked() {
         ErrorCode::NotFound
     );
 
+    // Each unlock is told apart, so an approval doesn't outlive locking.
+    let session = vault.ssh_agent_session().expect("unlocked");
+    vault.lock();
+    assert_eq!(vault.ssh_agent_session(), None);
+    vault.unlock(secret(PASSWORD)).await.unwrap();
+    assert_ne!(vault.ssh_agent_session(), Some(session));
+    assert!(vault.ssh_agent_session().is_some());
+
     vault.lock();
     assert_eq!(vault.ssh_agent_keys().unwrap_err().code, ErrorCode::Locked);
     assert_eq!(

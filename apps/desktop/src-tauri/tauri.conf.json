@@ -52,12 +52,20 @@
       "deb": {
         "files": {
           "/usr/bin/octapass-native-host": "binaries/octapass-native-host",
+          "/usr/bin/octapass": "binaries/octapass",
+          "/usr/bin/git-credential-octapass": "binaries/git-credential-octapass",
+          "/usr/bin/octapass-git-sign": "binaries/octapass-git-sign",
+          "/usr/bin/docker-credential-octapass": "binaries/docker-credential-octapass",
           "/usr/share/polkit-1/actions/app.octap.desktop.policy": "linux/app.octap.desktop.policy"
         }
       },
       "rpm": {
         "files": {
           "/usr/bin/octapass-native-host": "binaries/octapass-native-host",
+          "/usr/bin/octapass": "binaries/octapass",
+          "/usr/bin/git-credential-octapass": "binaries/git-credential-octapass",
+          "/usr/bin/octapass-git-sign": "binaries/octapass-git-sign",
+          "/usr/bin/docker-credential-octapass": "binaries/docker-credential-octapass",
           "/usr/share/polkit-1/actions/app.octap.desktop.policy": "linux/app.octap.desktop.policy"
         }
       }

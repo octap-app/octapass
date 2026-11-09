@@ -4745,11 +4745,11 @@ public enum L10n {
     public enum sshAgent {
         /// SSH agent
         public static var title: String { L10n.string("sshAgent.title") }
-        /// Lets ssh, Git and your IDE use the SSH keys in your vault without a copy on disk. You approve each use.
+        /// Lets ssh, Git and your IDE use the SSH keys in your vault without a copy on disk. You approve a key’s use once, then it’s used without asking for 15 minutes or until the vault locks.
         public static var help: String { L10n.string("sshAgent.help") }
         /// Run the SSH agent
         public static var enable: String { L10n.string("sshAgent.enable") }
-        /// Keys are offered while your vault is unlocked. This setting is for this computer only.
+        /// Keys are always offered. While your vault is locked, a request asks you to unlock it with your fingerprint or face if you’ve turned that on, or with your master password. This setting is for this computer only.
         public static var enableHelp: String { L10n.string("sshAgent.enableHelp") }
         /// Agent address
         public static var socket: String { L10n.string("sshAgent.socket") }
@@ -4772,10 +4772,24 @@ public enum L10n {
         /// Unlock your vault to see the keys it offers.
         public static var lockedKeys: String { L10n.string("sshAgent.lockedKeys") }
     }
+    public enum cliTool {
+        /// Command-line tool
+        public static var title: String { L10n.string("cliTool.title") }
+        /// The octapass command uses this app’s account, with no sign-in of its own, and is unlocked whenever the app is. Locking the app locks it too.
+        public static var help: String { L10n.string("cliTool.help") }
+        /// The .deb and .rpm packages of Octa Pass install it in /usr/bin.
+        public static var linuxPackages: String { L10n.string("cliTool.linuxPackages") }
+        /// Install it with
+        public static var install: String { L10n.string("cliTool.install") }
+        /// Otherwise, install it with
+        public static var otherwise: String { L10n.string("cliTool.otherwise") }
+        /// the install command
+        public static var command: String { L10n.string("cliTool.command") }
+    }
     public enum background {
         /// Running in the background
         public static var title: String { L10n.string("background.title") }
-        /// Closing the window doesn’t quit Octa Pass, so quick access, the browser extension and the SSH agent keep working. These settings are for this computer only.
+        /// Closing the window doesn’t quit Octa Pass, so quick access, the browser extension and the SSH agent keep working. If it’s force quit or crashes, it starts again in the background until you quit it. These settings are for this computer only.
         public static var help: String { L10n.string("background.help") }
         /// Show in the menu bar
         public static var menuBar: String { L10n.string("background.menuBar") }
@@ -4791,6 +4805,44 @@ public enum L10n {
         public static var notInstalled: String { L10n.string("background.notInstalled") }
         /// Octa Pass couldn’t do this: {error}
         public static func failed(error: String) -> String { L10n.format("background.failed", error) }
+    }
+    public enum browserExtension {
+        /// Browser extension
+        public static var title: String { L10n.string("browserExtension.title") }
+        /// The Octa Pass extension fills passwords and passkeys in your browser. Connected, it unlocks through this app, so you don’t type your master password in the browser. These settings are for this computer only.
+        public static var help: String { L10n.string("browserExtension.help") }
+        /// Connected in {browsers}
+        public static func connected(browsers: String) -> String { L10n.format("browserExtension.connected", browsers) }
+        /// Not connected to any browser
+        public static var notConnected: String { L10n.string("browserExtension.notConnected") }
+        /// The extension has reached this app from {browsers}.
+        public static func seen(browsers: String) -> String { L10n.format("browserExtension.seen", browsers) }
+        /// No Octa Pass extension has reached this app yet.
+        public static var notSeen: String { L10n.string("browserExtension.notSeen") }
+        /// Connect browser extension
+        public static var connect: String { L10n.string("browserExtension.connect") }
+        /// Disconnect browser extension
+        public static var disconnect: String { L10n.string("browserExtension.disconnect") }
+        /// No supported browser was found. Install Chrome, Edge, Brave or Firefox, then try again.
+        public static var none: String { L10n.string("browserExtension.none") }
+        /// Get it for {browser}
+        public static func getFor(browser: String) -> String { L10n.format("browserExtension.getFor", browser) }
+        /// Not in the browser stores yet: the link shows how to install it.
+        public static var getHelp: String { L10n.string("browserExtension.getHelp") }
+        /// Couldn’t change the browser integration: {error}
+        public static func failed(error: String) -> String { L10n.format("browserExtension.failed", error) }
+        /// Fill passwords in your browser
+        public static var offerTitle: String { L10n.string("browserExtension.offerTitle") }
+        /// Get the Octa Pass extension for {browsers}. It unlocks through this app.
+        public static func offerBody(browsers: String) -> String { L10n.format("browserExtension.offerBody", browsers) }
+        /// Have it already? Connect it
+        public static var offerConnect: String { L10n.string("browserExtension.offerConnect") }
+        /// Connect the browser extension
+        public static var offerConnectTitle: String { L10n.string("browserExtension.offerConnectTitle") }
+        /// The Octa Pass extension can’t reach this app until you connect it.
+        public static var offerConnectBody: String { L10n.string("browserExtension.offerConnectBody") }
+        /// Don’t show this again
+        public static var offerDismiss: String { L10n.string("browserExtension.offerDismiss") }
     }
     public enum itemFields {
         /// Bank
@@ -5628,9 +5680,9 @@ public enum L10n {
             public static var quickAccess: String { L10n.string("phone.mac.quickAccess") }
             /// Quit Octa Pass
             public static var quit: String { L10n.string("phone.mac.quit") }
-            /// Search logins
+            /// Search your vault
             public static var search: String { L10n.string("phone.mac.search") }
-            /// No logins yet.
+            /// Nothing in your vault yet.
             public static var empty: String { L10n.string("phone.mac.empty") }
             /// Nothing matches “{query}”.
             public static func noMatch(query: String) -> String { L10n.format("phone.mac.noMatch", query) }
@@ -5640,6 +5692,10 @@ public enum L10n {
             public static var openApp: String { L10n.string("phone.mac.openApp") }
             /// Not unlocked. Try again, or open Octa Pass and use your master password.
             public static var unlockFailed: String { L10n.string("phone.mac.unlockFailed") }
+            /// Actions
+            public static var actions: String { L10n.string("phone.mac.actions") }
+            /// Open in Octa Pass
+            public static var openItem: String { L10n.string("phone.mac.openItem") }
             /// Browser extension
             public static var browserTitle: String { L10n.string("phone.mac.browserTitle") }
             /// Lets the Octa Pass extension in Chrome, Edge, Brave and Firefox unlock through this app, so you don’t type your master password in the browser.
@@ -5658,6 +5714,8 @@ public enum L10n {
             public static func browserFailed(error: String) -> String { L10n.format("phone.mac.browserFailed", error) }
             /// The extension can’t reach this app: {error}
             public static func bridgeFailed(error: String) -> String { L10n.format("phone.mac.bridgeFailed", error) }
+            /// Safari gets the extension inside an Octa Pass app of its own, and unlocks it with your master password.
+            public static var browserSafariNote: String { L10n.string("phone.mac.browserSafariNote") }
             /// SSH key request
             public static var sshRequest: String { L10n.string("phone.mac.sshRequest") }
             /// Allow
@@ -5666,6 +5724,20 @@ public enum L10n {
             public static var sshDeny: String { L10n.string("phone.mac.sshDeny") }
             /// To use it for every host, add this to ~/.ssh/config:
             public static var sshConfigHelp: String { L10n.string("phone.mac.sshConfigHelp") }
+            /// the command
+            public static var cliCommand: String { L10n.string("phone.mac.cliCommand") }
+            /// To use it from Terminal, run this once. It asks for your Mac’s password:
+            public static var cliInstall: String { L10n.string("phone.mac.cliInstall") }
+            /// It’s installed. If Terminal can’t find it after you move Octa Pass, run this again:
+            public static var cliRelink: String { L10n.string("phone.mac.cliRelink") }
+            /// octapass is installed.
+            public static var cliInstalled: String { L10n.string("phone.mac.cliInstalled") }
+            /// Use Octa Pass from Terminal too
+            public static var cliOfferTitle: String { L10n.string("phone.mac.cliOfferTitle") }
+            /// It’s in Settings → Command-line tool whenever you want it.
+            public static var cliOfferLater: String { L10n.string("phone.mac.cliOfferLater") }
+            /// Done
+            public static var cliOfferDismiss: String { L10n.string("phone.mac.cliOfferDismiss") }
         }
     }
 }

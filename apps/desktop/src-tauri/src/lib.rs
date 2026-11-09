@@ -14,6 +14,7 @@ compile_error!(
 mod autotype;
 mod background;
 mod bridge;
+mod browser_extension;
 mod clipboard;
 mod commands;
 mod connect;
@@ -33,10 +34,11 @@ use std::sync::Arc;
 use std::time::Duration;
 
 use octapass_api::DeviceInfo;
-use octapass_desktop_vault::cli_session::{self, CliGrants};
+use octapass_desktop_vault::cli_session;
 use octapass_desktop_vault::model::SessionStatus;
 use octapass_desktop_vault::{Config, Event, Vault};
-use octapass_login_item::HIDDEN_ARG;
+use octapass_login_item::watchdog::{self, Watchdog};
+use octapass_login_item::{self as login_item, HIDDEN_ARG};
 use octapass_native_host::ipc;
 use tauri::{AppHandle, Emitter, Manager, WindowEvent};
 
@@ -49,6 +51,14 @@ const BACKUP_CHECK_EVERY: std::time::Duration = std::time::Duration::from_secs(3
 
 pub fn run() {
     let args: Vec<String> = std::env::args().skip(1).collect();
+    // The watchdog the app starts (`start_watchdog`): no window, no Tauri, just waiting.
+    if args.first().map(String::as_str) == Some(watchdog::WATCHDOG_ARG) {
+        let code = match login_item::current_program() {
+            Ok(program) => watchdog::serve(&program),
+            Err(_) => 1,
+        };
+        std::process::exit(code);
+    }
     if let Some(code) = integration::run_cli(&args) {
         std::process::exit(code);
     }
@@ -110,21 +120,24 @@ pub fn run() {
             ));
             ssh::start_if_enabled(app.handle());
             start_in_background(app.handle(), &data_dir);
+            start_watchdog(app.handle());
 
             let cli = Arc::clone(&vault);
             let cli_endpoint = cli_session::endpoint(&data_dir);
             tauri::async_runtime::spawn(async move {
-                let grants = Arc::new(CliGrants::default());
-                if let Err(error) =
-                    cli_session::serve(cli, grants, cli_endpoint, bridge::cli_peer).await
-                {
+                if let Err(error) = cli_session::serve(cli, cli_endpoint, bridge::cli_peer).await {
                     eprintln!("CLI bridge stopped: {error}");
                 }
             });
             let bridge = Arc::clone(&vault);
             tauri::async_runtime::spawn(async move {
-                if let Err(error) =
-                    bridge::serve(bridge, ipc::endpoint(&data_dir), bridge::host_check()).await
+                if let Err(error) = bridge::serve(
+                    bridge,
+                    ipc::endpoint(&data_dir),
+                    bridge::host_check(),
+                    data_dir.clone(),
+                )
+                .await
                 {
                     eprintln!("browser bridge stopped: {error}");
                 }
@@ -342,6 +355,10 @@ pub fn run() {
             background::background_status,
             background::background_set_tray,
             background::background_set_open_at_login,
+            browser_extension::browser_extension_status,
+            browser_extension::browser_extension_connect,
+            browser_extension::browser_extension_disconnect,
+            browser_extension::browser_extension_get,
             autotype::auto_type,
             autotype::auto_type_status,
             autotype::open_accessibility_settings,
@@ -392,7 +409,30 @@ pub fn run() {
         .build(tauri::generate_context!())
         .expect("Octa Pass failed to start");
 
-    app.run(|_, _| {});
+    app.run(|app, event| {
+        // Every exit in order (the tray's Quit Octa Pass, the menu's Quit) is on purpose: the
+        // watchdog ends without starting the app again. A force quit or a crash never gets here.
+        if let tauri::RunEvent::Exit = event
+            && let Some(watchdog) = app.try_state::<Watchdog>()
+        {
+            watchdog.quitting();
+        }
+    });
+}
+
+/// Started again in the tray if it's force quit or crashes (`octapass_login_item::watchdog`).
+/// Only here, in the copy that won the single-instance check, so there's one watchdog. Release
+/// builds only: `tauri dev` stops and starts a development build itself.
+fn start_watchdog(app: &AppHandle) {
+    if cfg!(debug_assertions) {
+        return;
+    }
+    match login_item::current_program().and_then(|program| Watchdog::spawn(&program)) {
+        Ok(watchdog) => {
+            app.manage(watchdog);
+        }
+        Err(error) => eprintln!("no watchdog: {error}"),
+    }
 }
 
 /// The tray icon and opening at login (`background.rs`). The tray library can panic where the

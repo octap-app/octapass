@@ -1,6 +1,6 @@
 [package]
 name = "octapass-login-item"
-description = "Opening the Octa Pass desktop app in the background when the person signs in to the computer: a launch agent on macOS, the Run key on Windows, an XDG autostart entry on Linux."
+description = "Opening the Octa Pass desktop app in the background when the person signs in to the computer: a launch agent on macOS, the Run key on Windows, an XDG autostart entry on Linux; and a watchdog that starts it again after a force quit or a crash."
 version.workspace = true
 edition.workspace = true
 license.workspace = true

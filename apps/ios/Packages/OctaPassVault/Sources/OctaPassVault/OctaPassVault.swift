@@ -1857,16 +1857,16 @@ public protocol OctaPassVaultProtocol: AnyObject, Sendable {
     func startBrowserBridge(dataDir: String, hostPath: String, development: Bool) throws  -> DesktopService
     
     /**
-     * Serves the `octapass` CLI (plan 05) on `cli.sock` in `data_dir`: the first request from a
-     * terminal asks for Touch ID or the Mac's password, naming the program, and the approval lasts
-     * for that program in that terminal until it's idle for 30 minutes or the vault locks.
+     * Serves the `octapass` CLI (plan 05) on `cli.sock` in `data_dir`: the CLI uses this app's
+     * account and is unlocked while the app is, with no prompt; while locked, a request asks
+     * Touch ID or the Mac's password. A CLI that isn't signed in is linked to the account.
      */
     func startCliSession(dataDir: String) throws  -> DesktopService
     
     /**
-     * Starts the SSH agent (plans 05 and 16) on `endpoint`: the vault's SSH keys while unlocked,
-     * each signature asking Touch ID or the Mac's password (or `prompts.approve` on a Mac with
-     * neither). A request while locked asks to unlock. `None` is `~/.octapass/agent.sock`, which
+     * Starts the SSH agent (plans 05 and 16) on `endpoint`: the vault's SSH keys, a signature
+     * asking Touch ID or the Mac's password (or `prompts.approve` on a Mac with neither) once per 15
+     * minutes per unlock. A request while locked asks to unlock. `None` is `~/.octapass/agent.sock`, which
      * the sandboxed app can't make: the Mac app passes `agent.sock` in its App Group container.
      */
     func startSshAgent(prompts: SshPromptsCallback, endpoint: String?) throws  -> SshAgentHandle
@@ -2942,9 +2942,9 @@ open func startBrowserBridge(dataDir: String, hostPath: String, development: Boo
 }
     
     /**
-     * Serves the `octapass` CLI (plan 05) on `cli.sock` in `data_dir`: the first request from a
-     * terminal asks for Touch ID or the Mac's password, naming the program, and the approval lasts
-     * for that program in that terminal until it's idle for 30 minutes or the vault locks.
+     * Serves the `octapass` CLI (plan 05) on `cli.sock` in `data_dir`: the CLI uses this app's
+     * account and is unlocked while the app is, with no prompt; while locked, a request asks
+     * Touch ID or the Mac's password. A CLI that isn't signed in is linked to the account.
      */
 open func startCliSession(dataDir: String)throws  -> DesktopService  {
     return try  FfiConverterTypeDesktopService_lift(try rustCallWithError(FfiConverterTypeVaultError_lift) {
@@ -2957,9 +2957,9 @@ open func startCliSession(dataDir: String)throws  -> DesktopService  {
 }
     
     /**
-     * Starts the SSH agent (plans 05 and 16) on `endpoint`: the vault's SSH keys while unlocked,
-     * each signature asking Touch ID or the Mac's password (or `prompts.approve` on a Mac with
-     * neither). A request while locked asks to unlock. `None` is `~/.octapass/agent.sock`, which
+     * Starts the SSH agent (plans 05 and 16) on `endpoint`: the vault's SSH keys, a signature
+     * asking Touch ID or the Mac's password (or `prompts.approve` on a Mac with neither) once per 15
+     * minutes per unlock. A request while locked asks to unlock. `None` is `~/.octapass/agent.sock`, which
      * the sandboxed app can't make: the Mac app passes `agent.sock` in its App Group container.
      */
 open func startSshAgent(prompts: SshPromptsCallback, endpoint: String?)throws  -> SshAgentHandle  {
@@ -27114,10 +27114,10 @@ private let initializationResult: InitializationResult = {
     if (uniffi_octapass_mobile_checksum_method_octapassvault_start_browser_bridge() != 56975) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_mobile_checksum_method_octapassvault_start_cli_session() != 36670) {
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_start_cli_session() != 24473) {
         return InitializationResult.apiChecksumMismatch
     }
-    if (uniffi_octapass_mobile_checksum_method_octapassvault_start_ssh_agent() != 63382) {
+    if (uniffi_octapass_mobile_checksum_method_octapassvault_start_ssh_agent() != 18193) {
         return InitializationResult.apiChecksumMismatch
     }
     if (uniffi_octapass_mobile_checksum_method_octapassvault_fills_without_prompt() != 44720) {

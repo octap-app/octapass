@@ -20,7 +20,7 @@ Everything that was planned for after 1.0 is now part of 1.0: the Windows passke
 | **3. Desktop apps** | Native desktop and biometrics | Built, not released. Signed downloads, updates and some Linux packages are missing. | macOS, Windows and Linux apps, Touch ID and Windows Hello, auto-type, macOS AutoFill, Safari on macOS |
 | **4. Mobile apps** | Autofill on phones | Built, not released. **Public beta** not opened. | iOS and Android apps with system autofill and passkeys, camera scanning |
 | **5. Sharing and completeness** | Parity with paid managers | Built. Push notifications are built but haven't run with Apple's and Google's real services, and the Octa Pass push relay isn't running yet. | Shared vaults, families, share links, emergency access, masked email, recovery map, more importers + CXF, attachments, two-step sign-in, Arabic interface |
-| **5b. Native phone apps** | Native feel on phones | Built. The last parity work and its UI tests aren't done. The older Tauri phone app was removed. | SwiftUI and Jetpack Compose apps on the same Rust core |
+| **5b. Native phone apps** | Native feel on phones | Built. Every flow has a UI test, and a few of those tests still fail. The older Tauri phone app was removed. | SwiftUI and Jetpack Compose apps on the same Rust core |
 | **7. Growth features** | What was "after 1.0" | Built, not yet reviewed. | Windows passkey provider, SSH agent, teams and organisations, watch apps, post-quantum sharing, key transparency, a docs MCP server and the remaining item types |
 | **8. Developer toolkit and file safe** | Beyond passwords | Built, not yet reviewed: the [developer toolkit](/docs/features/developer-toolkit/), [environments](/docs/features/environments/), [SSH keys](/docs/features/ssh-keys/), [Octa Pass Connect](/docs/features/connect/), [file encryption](/docs/features/file-encryption/) and [Octa Pass Safe](/docs/features/octa-pass-safe/). The Finder, Explorer and phone integrations haven't run on those systems yet. | Certificates, keys, JWT tools, hashes, encodings, Octa Pass Connect, file encryption, the Octa Pass Safe drive |
 | **6. Audit → 1.0** | Trust | Not started. Comes last. | Independent audit with fixes and a published report, bug bounty, verified reproducible builds. **1.0.** |
@@ -29,13 +29,12 @@ Phases keep their numbers, so phases 7 and 8 now come before phase 6.
 
 ## Not built yet
 
-As of 2026-11-05:
+As of 2026-11-09:
 
 - **Push notifications in use.** [Push sync](/docs/self-hosting/push-relay/) is built and tested against stand-ins for Apple and Google, but the Octa Pass push relay isn't running yet, so phones sync when you open the app and while it's open.
-- **Organisations in the Mac and phone apps.** [Organisations](/docs/features/organisations/) run from the web vault, the Windows and Linux app and the CLI. [SAML](/docs/features/single-sign-on/) and [SCIM](/docs/features/scim/) are built but haven't been tried with real identity providers yet.
+- **Single sign-on in the Mac and phone apps.** [Organisations](/docs/features/organisations/) now run from every app except the browser extension, but signing in with your organisation's identity provider still needs the web vault or the desktop app. [SAML](/docs/features/single-sign-on/) and [SCIM](/docs/features/scim/) are built but haven't been tried with real identity providers yet.
 - **Witnesses for the hosted service.** [Key log witnesses](/docs/self-hosting/key-log-witnesses/) are built; nobody has been chosen to witness the hosted service yet.
-- **Nearby**, the quick list of items saved with a place. It shows as "Soon".
-- **More support for the newer [item types](/docs/features/item-types/):** expiry warnings for software licences and API credentials, autofill from them, and creating them from the CLI.
+- **Filling the newer [item types](/docs/features/item-types/) on phones.** The browser extension fills bank accounts, databases, licence keys, ID numbers and wallet addresses; on phones you copy them from the app, because Android and iOS offer other apps only logins to fill.
 - **Our own masked email service.** The forwarding service is written but not running, and whether the hosted service will run it hasn't been decided. [Masked email](/docs/features/masked-email/) works with the services it integrates with today.
 - **Release work:** signed and notarised desktop downloads, automatic updates, Flatpak and AUR packages, app store builds, reproducible builds, and an opt-in crash report.
 - **Testing where it ships:** the Windows passkey provider on real Windows, the file safe in Finder and Explorer and on phones, and the Safari extension in Safari.

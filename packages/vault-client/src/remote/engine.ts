@@ -13,8 +13,8 @@ import { nearbyFrom, suggestFrom } from '../places';
 import { serverOrigin } from '../serverUrl';
 import { createBreachChecker } from '../tools/breach';
 import { buildHealthReport } from '../tools/health';
-import { estimateStrength } from '../tools/strength';
 import { createHealthDataStore, healthDataDownload, type HealthDataStore } from '../tools/healthData';
+import { estimateStrength } from '../tools/strength';
 import { isHotp } from '../tools/totp';
 import { sshCall } from '../sshKeys';
 import { existingLogins, exportVaultFile, importVaultFile, PendingImports, readQrCodes, summarizeQrScans, type ImportTarget, type QrImages } from '../tools/transfer';
@@ -318,13 +318,13 @@ const lockInProcess = <T>(_name: string, fn: () => Promise<T>): Promise<T> => {
 export class VaultEngine {
   private readonly store: LocalStore;
   private readonly checkBreachedImpl: (password: string) => Promise<number>;
+  /** The health report's site lists: the bundled ones, or a newer signed file from the server. */
+  private readonly healthData: HealthDataStore;
   private core?: Promise<Core>;
   private status: SessionStatus = 'signedOut';
   private current: StoredSession | undefined;
   private accounts: DeviceAccount[] = [];
   private unlocked: Unlocked | undefined;
-  /** The health report's site lists: the bundled ones, or a newer signed file from the server. */
-  private readonly healthData: HealthDataStore;
   private accessToken: string | undefined;
   private readonly signups = new Map<string, PendingSignup>();
   private readonly resets = new Map<string, PendingReset>();
@@ -347,12 +347,12 @@ export class VaultEngine {
 
   constructor(private readonly options: EngineOptions) {
     this.store = new LocalStore(options.storage);
+    this.healthData = createHealthDataStore(options.storage);
     this.checkBreachedImpl = createBreachChecker({
       ...(options.fetch ? { fetch: options.fetch } : {}),
       ...(options.breachApiUrl ? { baseUrl: options.breachApiUrl } : {}),
     });
     const changed = () => this.options.emit({ type: 'sharing' });
-    this.healthData = createHealthDataStore(options.storage);
     const accountId = () => this.requireAccount().accountId;
     this.keyLog = new KeyLogEngine({
       core: () => this.loadCore(),
@@ -1221,6 +1221,7 @@ export class VaultEngine {
     return buildHealthReport(items, {
       estimateStrength: (p) => estimateStrength(p, [email, email.split('@')[0]!]),
       checkBreached: (p) => this.checkBreached(p),
+      data: await this.healthData.current(),
     });
   }
 
@@ -1239,7 +1240,6 @@ export class VaultEngine {
     const keptOut = await this.organisations.vaultsKeptFromExport();
     const items = state.index.items().filter((i) => !i.deletedAt && !keptOut.has(i.vaultId));
     const { accountId, email, serverUrl } = this.current!;
-      data: await this.healthData.current(),
     const exported = await exportVaultFile(
       await this.loadCore(),
       format,

@@ -371,7 +371,10 @@ pub fn nearby_list(places: &[PlaceEntry], items: &[PlacedItem], here: &Here) -> 
         .map(|place| networks_of(&place.id, place.place.as_ref(), items))
         .collect();
 
-    for item in items.iter().filter(|item| !HIDDEN_TYPES.contains(&item.item_type.as_str())) {
+    for item in items
+        .iter()
+        .filter(|item| !HIDDEN_TYPES.contains(&item.item_type.as_str()))
+    {
         let mut at: Vec<usize> = item
             .places
             .iter()
@@ -465,7 +468,9 @@ pub fn suggested_place(
     item_vault: &str,
     personal: bool,
 ) -> Option<String> {
-    if HIDDEN_TYPES.contains(&item.item_type.as_str()) || (here.networks.is_empty() && here.position.is_none()) {
+    if HIDDEN_TYPES.contains(&item.item_type.as_str())
+        || (here.networks.is_empty() && here.position.is_none())
+    {
         return None;
     }
     let visible: Vec<PlaceEntry> = places

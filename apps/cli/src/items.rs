@@ -120,6 +120,8 @@ mod tests {
             created_at: "t".into(),
             updated_at: "t".into(),
             deleted_at: None,
+            places: Vec::new(),
+            place: None,
         }
     }
 

@@ -8,18 +8,16 @@ sidebar:
 
 **Nearby** is a list in the sidebar, under **Recently created**. It shows the things that belong to the places you go: the Wi-Fi password and the alarm code at home, the door code, the printer's login and the VPN at the office. The place you're at comes first.
 
-```
-Now nearby: Office                    On its Wi-Fi
-  Logins          Printer, VPN
-  Secure notes    Alarm code, Door code
-  Wi-Fi networks  Office 5G
-Your other places
-  Home                                1.2 km away
-    Secure notes  Alarm code
-    Wi-Fi networks  Home
-  The cabin                           37 km away
-    Documents     Lease
-```
+- **Now nearby: Office** (on its Wi-Fi)
+  - Logins: Printer, VPN
+  - Secure notes: Alarm code, Door code
+  - Wi-Fi networks: Office 5G
+- **Your other places**
+  - **Home**, 1.2 km away
+    - Secure notes: Alarm code
+    - Wi-Fi networks: Home
+  - **The cabin**, 37 km away
+    - Documents: Lease
 
 Each place lists its items in a section per type, in the same type order as your other lists, and each section by name.
 

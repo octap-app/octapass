@@ -65,11 +65,11 @@ pub use sharing::{AccountLookup, Family, FamilyMember, FamilyState, Fingerprint,
 pub use transfer::{FileExport, ImportReview, ImportSummary, ReviewCode, document};
 
 pub use attachments::StorageUsage;
+pub use health_data::HealthDataLists;
 pub use local::{LocalCapabilities, LocalVaultInfo, RestoreSecret};
 pub use organisations::{
     ConfirmedGrant, OrgAccessGrant, OrgAccessReview, OrgMember, OrgMembers, OrgVault,
 };
-pub use health_data::HealthDataLists;
 pub use stay_unlocked::StayUnlockedStatus;
 pub use versions::{EquivalentDomains, EquivalentDomainsInput, ItemVersion};
 

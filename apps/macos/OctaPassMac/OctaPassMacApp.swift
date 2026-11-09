@@ -16,8 +16,10 @@ struct OctaPassMacApp: App {
     var body: some Scene {
         Window("Octa Pass", id: "vault") {
             RootView()
-                .modifier(SceneRoot(model: model))
+                // Inside SceneRoot: the offer reads AppModel from the environment SceneRoot sets,
+                // and outside it SwiftUI stops the app at launch (no AppModel in the environment).
                 .commandLineToolOffer()
+                .modifier(SceneRoot(model: model))
                 .background(ActivityTracker { model.recordActivity() })
                 .background(OpenWindowKeeper())
                 .onAppear {

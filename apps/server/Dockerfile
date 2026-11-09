@@ -25,6 +25,8 @@ COPY apps/push-relay apps/push-relay
 COPY apps/cli apps/cli
 COPY apps/desktop/Cargo.toml apps/desktop/Cargo.toml
 COPY apps/desktop/crates apps/desktop/crates
+# octapass-core bundles the health site lists the web vault ships.
+COPY packages/vault-client/src/data/health-data.json packages/vault-client/src/data/health-data.json
 RUN --mount=type=cache,target=/usr/local/cargo/registry,sharing=locked \
     --mount=type=cache,target=/src/target \
     wasm-pack build crates/octapass-wasm --profile wasm-release --target web \
@@ -63,6 +65,8 @@ COPY apps/push-relay apps/push-relay
 COPY apps/cli apps/cli
 COPY apps/desktop/Cargo.toml apps/desktop/Cargo.toml
 COPY apps/desktop/crates apps/desktop/crates
+# octapass-core bundles the health site lists the web vault ships.
+COPY packages/vault-client/src/data/health-data.json packages/vault-client/src/data/health-data.json
 RUN --mount=type=cache,target=/usr/local/cargo/registry,sharing=locked \
     --mount=type=cache,target=/src/target \
     cargo build --release --locked -p octapass-server \

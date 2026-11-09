@@ -55,6 +55,8 @@ pub struct Config {
     pub key_log_witnesses: Option<KeyLogWitnesses>,
     /// Email breach alerts, off unless `OCTAPASS_HIBP_API_KEY` is set.
     pub hibp: Option<Hibp>,
+    /// Where to fetch newer health data from (plan 06); the bundled file is served either way.
+    pub health_data: HealthDataSource,
     /// Lets the server reach an identity provider on a private address, for self-hosters with one
     /// on their own network (`OCTAPASS_SSO_PRIVATE_NETWORK`). Off, only public addresses are used.
     pub sso_private_network: bool,
@@ -124,6 +126,17 @@ impl std::fmt::Debug for Hibp {
             .field("requests_per_minute", &self.requests_per_minute)
             .finish_non_exhaustive()
     }
+}
+
+/// The health report's signed site lists (plan 06).
+#[derive(Clone, Debug)]
+pub struct HealthDataSource {
+    /// `OCTAPASS_HEALTH_DATA_URL`, the project's published file. None: only the bundled copy.
+    pub url: Option<String>,
+    /// `OCTAPASS_HEALTH_DATA_INTERVAL`, seconds (default a day).
+    pub interval: Duration,
+    /// The key a file must be signed with. Always the pinned one outside tests: there's no setting.
+    pub key: [u8; 32],
 }
 
 /// Scheduled online backups of a SQLite server (`OCTAPASS_BACKUP_DIR`).
@@ -372,6 +385,7 @@ impl Config {
             push: push_relay(&get)?,
             key_log_witnesses: key_log_witnesses(&get)?,
             hibp: hibp(&get, dev_mode)?,
+            health_data: health_data(&get)?,
             sso_private_network: get("OCTAPASS_SSO_PRIVATE_NETWORK")
                 .is_some_and(|value| value.eq_ignore_ascii_case("on") || value == "true"),
         })
@@ -457,6 +471,31 @@ fn relay(get: &impl Fn(&str) -> Option<String>) -> Result<Option<Relay>, ConfigE
             format!("{url:?} is not an http(s) URL"),
         )),
     }
+}
+
+/// Off unless `OCTAPASS_HEALTH_DATA_URL` is set: fetching it tells that site when this server runs.
+fn health_data(get: &impl Fn(&str) -> Option<String>) -> Result<HealthDataSource, ConfigError> {
+    let url = get("OCTAPASS_HEALTH_DATA_URL");
+    if let Some(url) = &url
+        && !(url.starts_with("https://") || url.starts_with("http://"))
+    {
+        return Err(invalid(
+            "OCTAPASS_HEALTH_DATA_URL",
+            format!("{url:?} is not an http(s) URL"),
+        ));
+    }
+    let interval: u64 = parse(get, "OCTAPASS_HEALTH_DATA_INTERVAL", "86400")?;
+    if interval < 60 {
+        return Err(invalid(
+            "OCTAPASS_HEALTH_DATA_INTERVAL",
+            "must be at least 60 seconds".into(),
+        ));
+    }
+    Ok(HealthDataSource {
+        url,
+        interval: Duration::from_secs(interval),
+        key: octapass_core::health_data::PUBLIC_KEY,
+    })
 }
 
 /// `OCTAPASS_KEY_LOG_WITNESSES`: entries separated by commas or newlines, each a submission URL

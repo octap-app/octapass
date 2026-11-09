@@ -198,6 +198,25 @@ describe('TauriVaultService', () => {
     expect(report.expiring).toMatchObject([{ title: 'Visa', expiresOn: '2020-01-31' }]);
   });
 
+  it('uses the site lists the Rust side checked, and the bundled ones without it', async () => {
+    const inputs: HealthInputs = {
+      logins: [{ itemId: 'a', vaultId: 'v', type: 'login', title: 'New', urls: ['https://login.passkeys.example'], hasTotp: false, hasPasskey: false, passwordGroup: 0 }],
+      groups: [{ score: 4, breachCount: 0 }],
+      breachCheckCompleted: true,
+    };
+    const lists = { version: 9, passkeyDomains: ['passkeys.example'], twoFactorDomains: ['passkeys.example'] };
+    const updated = await connect(unlocked, (t) => {
+      t.on('health_inputs', () => inputs);
+      t.on('health_data', () => lists);
+    });
+    const report = await updated.service.getHealthReport();
+    expect(report.passkeyAvailable.map((e) => e.itemId)).toEqual(['a']);
+    expect(report.missing2fa.map((e) => e.itemId)).toEqual(['a']);
+
+    const bundled = await connect(unlocked, (t) => t.on('health_inputs', () => inputs));
+    expect((await bundled.service.getHealthReport()).passkeyAvailable).toEqual([]);
+  });
+
   it('builds the health report from password groups, without passwords', async () => {
     const inputs: HealthInputs = {
       logins: [

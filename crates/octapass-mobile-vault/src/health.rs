@@ -189,6 +189,16 @@ impl Vault {
         })
     }
 
+    /// The logins' rows for the recovery map alone: no passwords, no breach lookups.
+    pub fn recovery_logins(&self) -> Result<Vec<HealthLogin>> {
+        Ok(self
+            .live_items()?
+            .iter()
+            .filter(|item| item.is_login_like())
+            .map(|item| login_row(item, None))
+            .collect())
+    }
+
     /// One range request per distinct SHA-1 prefix. `None` if any lookup failed, so no partial
     /// result is shown.
     fn breach_counts(&self, passwords: &[Zeroizing<String>]) -> Option<Vec<u64>> {

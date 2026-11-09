@@ -11,7 +11,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import app.octap.android.ui.components.Alert
 import app.octap.android.ui.components.AlertTone
-import app.octap.android.ui.util.formatDate
 import app.octap.android.ui.vault.LocalVault
 import app.octap.android.ui.vault.Tab
 import app.octap.resources.R
@@ -41,13 +40,32 @@ fun BackupReminder() {
     }
 }
 
-/** A local vault's health includes its backups (plan 05). */
+/**
+ * Plan 05: Health says "Last backup 34 days ago" for a vault on this phone only, warns when one is
+ * due, and goes to Settings, where the backup is. Read on the phone; nothing is sent.
+ */
 @Composable
 fun LocalBackupLine() {
-    val model = LocalVault.current.model
+    val vault = LocalVault.current
+    val model = vault.model
     if (!model.isLocal) return
     val current = rememberLocalVaults(model).firstOrNull { it.current } ?: return
     val last = current.lastBackupAt
-    val line = if (last != null) stringResource(R.string.localVault_lastBackupHealth, formatDate(last)) else stringResource(R.string.localVault_neverBackedUp)
-    Alert(line, if (current.backupDue) AlertTone.Warn else AlertTone.Info, Modifier.testTag("health.lastBackup"))
+    val days = last?.let(::daysSince)
+    val parts = buildList {
+        add(
+            when {
+                days == null -> stringResource(R.string.health_backup_never)
+                days <= 0 -> stringResource(R.string.health_backup_today)
+                else -> pluralStringResource(R.plurals.health_backup_daysAgo, days, days)
+            },
+        )
+        current.backupFolderName?.let { add(stringResource(R.string.health_backup_automatic, it)) }
+    }
+    val line = parts.joinToString(" · ") + if (current.backupDue) " ${stringResource(R.string.health_backup_due)}" else ""
+    Alert(line, if (current.backupDue) AlertTone.Warn else AlertTone.Info, Modifier.testTag("health.lastBackup")) {
+        TextButton(onClick = { vault.nav.select(Tab.Settings) }, modifier = Modifier.testTag("health.lastBackup.backUp")) {
+            Text(stringResource(R.string.health_backup_action))
+        }
+    }
 }

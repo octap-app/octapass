@@ -53,7 +53,7 @@ None of this touches your vault: the relay has no access to it, and the site an 
 | Feature | What's sent | To whom |
 |---|---|---|
 | [Breached password check](/docs/security/breach-checks/) | The first 5 hex characters of a SHA-1 hash, padded | Have I Been Pwned, directly from your device. A proxy through your server is planned. |
-| [Email breach alerts](/docs/security/breach-checks/#email-breach-alerts-opt-in) (opt-in, off by default) | Your account email and masked email aliases, at most once a day. The server handles them in memory and doesn't store them. | Your Octa Pass server, then Have I Been Pwned |
+| [Email breach alerts](/docs/security/breach-checks/#email-breach-alerts-opt-in) (opt-in, off by default) | Your account email and masked email aliases, at most once a day, and, after a second opt-in, the other email addresses your logins use for recovery or to sign in. The server handles them in memory and doesn't store them. | Your Octa Pass server, then Have I Been Pwned |
 | [Website icons](/docs/features/website-icons/) (on by default, can be turned off on each device) | The domain of each item with a website, without your account or a token | Your Octa Pass server, which fetches the icon from the site itself. No icon service sees your list. |
 | Masked email | The site's domain as the alias description, sent from your device. The token is in your vault, encrypted; our server never sees it. | Your chosen alias provider, with your token |
 | Masked email through [the relay](/docs/self-hosting/relay/) (off by default) | Your account id and email, and the mail sent to your aliases as it passes through. No site name. | The relay on your Octa Pass server, then your mailbox |

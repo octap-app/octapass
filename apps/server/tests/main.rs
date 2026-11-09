@@ -13,6 +13,7 @@ mod breach_email;
 mod devices;
 mod emergency;
 mod families;
+mod health_data;
 mod icons;
 mod item_history;
 mod key_rotation;

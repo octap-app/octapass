@@ -200,6 +200,12 @@ impl Vault {
         )?)
     }
 
+    /// The folder shared with the autofill extensions, for files that belong to the phone, not
+    /// to an account.
+    pub fn data_dir(&self) -> &std::path::Path {
+        &self.config.data_dir
+    }
+
     // ---------- Session ----------
 
     pub fn snapshot(&self) -> SessionSnapshot {

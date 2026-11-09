@@ -25,7 +25,7 @@ Health opens on your score and a tile for each check, with how many items it fou
 | Card, ID or passport expiring | Expired, or expiring within 60 days. A card is valid to the end of its expiry month. | Info | No |
 | Two or fewer backup codes left | Your saved [backup codes](/docs/features/recovery-info/) | Info | No |
 | Account email or alias in a breach (opt-in) | Have I Been Pwned through your server. See below. | Medium | No |
-| Recovery email is breached (not built) | See [recovery info](/docs/features/recovery-info/#dashboard-checks) | Medium | No |
+| Recovery email in a breach (opt-in) | Email breach alerts. Recovery emails that are neither your account email nor an alias need a second switch. See below. | Medium | No |
 
 **Old passwords** are a reminder, not a rule. Changing a strong, unique password on a schedule doesn't make it safer, so these are listed but never lower your score. The age counts from the last time the password changed, not the last time the item was edited.
 
@@ -41,11 +41,23 @@ The switch appears only when your server has an HIBP key: on a [self-hosted serv
 
 There is no email or push notification: a new breach shows at the top of Health in your apps, the next time one of them checks.
 
+### Recovery emails in a breach
+
+When a breached address is the recovery email of other logins, Health lists it under **Recovery emails in a breach**, with the breaches and how many logins it can reset. Whoever gets into that inbox can reset them all, so change the email account's password and turn on two-step sign-in for it. When the email account's own login is in your vault, the row opens it.
+
+Your account email and aliases are covered once alerts are on. Your logins may use other addresses too, as their recovery email or to sign in, and those aren't sent unless you turn on the second switch, **Also check my other recovery emails**, which asks first. Some of them may not be yours (a family member's address on a login you share, say), and their owners haven't agreed to this. Turning it off, or turning alerts off, deletes what was found for them. Like the first switch, it's set for the account, on all your devices.
+
 ## Datasets without lookups
 
 Lists of sites that support two-step sign-in and passkeys ship with each release. Octa Pass never looks up your sites one by one, so nobody learns which sites you use.
 
+Newer lists can arrive between releases as a **signed data update**. Once a day at most, your app asks your Octa Pass server for the file (`GET /v1/health/data`), which is the same for everyone. The project signs each file with its own Ed25519 key, and the apps carry that public key. An app uses a file only when the signature checks out and its version is newer than the lists it has; anything else is ignored, so a server can delay an update but can't change the lists or bring an older one back. Your server serves the lists from its own release, or newer ones it fetched from the project's site if its operator [turned that on](/docs/self-hosting/configuration/#health-data). Local vaults have no server, so they keep the lists from their release.
+
 Passkey data comes from the [passkeys directory](https://passkeys.2fa.directory/) by 2factorauth, licensed [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), reduced to registrable domains.
+
+## Backups of a local vault
+
+A [vault on this device only](/docs/features/local-vault/) has no server keeping a copy, so Health shows its backups at the top: **Last backup 34 days ago**, or **Not backed up yet**, and the folder when automatic backups are on. When a backup is due (30 days without one, and no folder keeping up) the line turns into a warning, and **Back up** opens the backup settings. This is in the desktop app, the extension's Octa Pass tab, and the phone apps. It's worked out on the device from when the last backup was made; nothing is sent. An account has no reminder: your server keeps its copy.
 
 ## Fixing problems
 

@@ -159,6 +159,20 @@ function CheckList({ slug, label, report }: { slug: CheckSlug; label: string; re
             ))}
           </List>
         );
+      case 'recovery-breached':
+        return (
+          <List label={label} empty={report.recoveryBreached.length === 0}>
+            {report.recoveryBreached.map((e) => (
+              <Row
+                key={e.email}
+                entry={{ ...e, subtitle: `${e.email} · ${t('health.recoveryBreachedIn', { breaches: e.breaches.join(', ') })}` }}
+                tag={t('health.recoveryResets', { count: e.accounts })}
+                tone="danger"
+                {...dismissOnly(e)}
+              />
+            ))}
+          </List>
+        );
       case 'insecure':
         return (
           <List label={label} empty={report.insecureUrls.length === 0}>

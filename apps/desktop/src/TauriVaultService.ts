@@ -792,6 +792,8 @@ export class TauriVaultService implements VaultService, AttachmentService {
    */
   async getHealthReport(): Promise<HealthReport> {
     const inputs = await this.call<HealthInputs>('health_inputs');
+    // Checked in Rust against the pinned key: the bundled lists, or a newer signed file from the server.
+    const lists = await this.call<{ version: number; passkeyDomains: string[]; twoFactorDomains: string[] }>('health_data').catch(() => undefined);
     const token = (group: number) => `#${group}`;
     const group = (password: string) => inputs.groups[Number(password.slice(1))]!;
     const items: Item[] = inputs.logins.map((login) => ({
@@ -831,6 +833,7 @@ export class TauriVaultService implements VaultService, AttachmentService {
     }
     return buildHealthReport(items, {
       ...(inputs.settings ? { settings: inputs.settings } : {}),
+      ...(lists ? { data: { version: lists.version, issuedAt: '', passkeyDomains: new Set(lists.passkeyDomains), twoFactorDomains: new Set(lists.twoFactorDomains) } } : {}),
       estimateStrength: (password) => ({ score: group(password).score, guessesLog10: 0 }),
       checkBreached: async (password) => {
         const count = group(password).breachCount;

@@ -96,6 +96,15 @@ Apps show each item's [website icon](/docs/features/website-icons/) by asking yo
 | `OCTAPASS_SSO_PRIVATE_NETWORK` | `off` | `on` lets the server reach an [identity provider](/docs/features/single-sign-on/) on a private address. Off, it reaches public addresses only. HTTPS is required either way. |
 | `OCTAPASS_ICONS` | `on` | The [website icon](/docs/features/website-icons/) proxy. `off` stops the server fetching icons: apps then show initials and stop asking. Turn it off if your server can't reach the internet, or you don't want it to fetch websites. |
 
+## Health data
+
+The [security dashboard](/docs/features/security-dashboard/#datasets-without-lookups)'s lists of sites that offer two-step sign-in and passkeys come signed by the Octa Pass project. Your server serves them to apps at `GET /v1/health/data`: the copy from its own release, or a newer one from the project's site when you set a URL. The server checks the signature and version before it serves a fetched file, and the apps check them again, so neither the site nor your server can change the lists. Fetching tells that site your server's address once a day; nothing about your users is sent.
+
+| Variable | Default | Description |
+|---|---|---|
+| `OCTAPASS_HEALTH_DATA_URL` | unset | Where to fetch newer lists, such as the project site's `/data/health-data.json`. Unset, the server serves the lists from its release. Redirects aren't followed. |
+| `OCTAPASS_HEALTH_DATA_INTERVAL` | `86400` | Seconds between fetches (at least 60). |
+
 ## Email breach alerts
 
 [Email breach alerts](/docs/security/breach-checks/#email-breach-alerts-opt-in) are off unless you set a Have I Been Pwned API key, which you get from HIBP. Without one, users don't see the switch and the endpoint answers 404. With one, each user still has to turn alerts on, and their addresses then pass through your server on the way to HIBP.

@@ -13,20 +13,29 @@ interface RowProps {
   onDismiss?: () => void;
 }
 
-/** One item in a check's list. It opens the item; its actions sit underneath. */
+/** One item in a check's list. It opens the item; its actions sit underneath. A warning about no item (an address) doesn't open anything. */
 export function Row({ entry, tag, tone, onChange, onDismiss }: RowProps) {
   const actions = onChange || onDismiss;
+  const content = (
+    <>
+      <Avatar name={entry.title} size="sm" />
+      <span className={styles.rowText}>
+        <b>{entry.itemId ? entry.title : <bdi dir="ltr">{entry.title}</bdi>}</b>
+        {entry.subtitle && <small>{entry.subtitle}</small>}
+      </span>
+      {tag && <span className={[styles.tag, tone && styles[tone]].filter(Boolean).join(' ')}>{tag}</span>}
+    </>
+  );
   return (
     <li className={styles.rowLine}>
-      <Link to={`/items/all/${entry.itemId}`} className={styles.row}>
-        <Avatar name={entry.title} size="sm" />
-        <span className={styles.rowText}>
-          <b>{entry.title}</b>
-          {entry.subtitle && <small>{entry.subtitle}</small>}
-        </span>
-        {tag && <span className={[styles.tag, tone && styles[tone]].filter(Boolean).join(' ')}>{tag}</span>}
-        <Icon name="chevronRight" size={16} className={styles.chev} />
-      </Link>
+      {entry.itemId ? (
+        <Link to={`/items/all/${entry.itemId}`} className={styles.row}>
+          {content}
+          <Icon name="chevronRight" size={16} className={styles.chev} />
+        </Link>
+      ) : (
+        <div className={styles.row}>{content}</div>
+      )}
       {actions && (
         <div className={styles.rowActions}>
           {onChange &&

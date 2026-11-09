@@ -143,6 +143,8 @@ export async function connectVault({ scanPage }: { scanPage?: (api: ExtensionApi
     getStayUnlocked: () => api.stayUnlockedStatus(),
     setStayUnlocked: (on: boolean) => api.setStayUnlocked(on),
     unlockStayUnlocked: () => api.unlockStayUnlocked(),
-  } satisfies Pick<VaultService, 'getStayUnlocked' | 'setStayUnlocked' | 'unlockStayUnlocked'>);
+    // Health's backup reminder for the extension's local vault (plan 05).
+    localBackupInfo: () => api.localInfo(),
+  } satisfies Pick<VaultService, 'getStayUnlocked' | 'setStayUnlocked' | 'unlockStayUnlocked' | 'localBackupInfo'>);
   return { service, api };
 }

@@ -128,6 +128,7 @@ enum class HealthCheck(val label: Int, val help: Int, val icon: ImageVector, val
     Breached(R.string.health_breached, R.string.health_breachedHelp, Icons.Outlined.Shield, always = true),
     TwoStep(R.string.health_missing2fa, R.string.health_missing2faHelp, Icons.Outlined.Schedule, always = true),
     RecoveryEmails(R.string.health_recoveryNo2fa, R.string.health_recoveryNo2faHelp, Icons.Outlined.Mail, always = true),
+    RecoveryBreached(R.string.health_recoveryBreached, R.string.health_recoveryBreachedHelp, Icons.Outlined.ErrorOutline),
     Insecure(R.string.health_insecureUrls, R.string.health_insecureUrlsHelp, Icons.Outlined.LockOpen),
     Old(R.string.health_old, R.string.health_oldHelp, Icons.Outlined.CalendarMonth),
     Passkeys(R.string.health_passkeyAvailable, R.string.health_passkeyAvailableHelp, Icons.Outlined.Key),
@@ -142,6 +143,7 @@ enum class HealthCheck(val label: Int, val help: Int, val icon: ImageVector, val
         Breached -> report.breached.size
         TwoStep -> report.missing2fa.size
         RecoveryEmails -> report.recoveryNo2fa.size
+        RecoveryBreached -> report.recoveryBreached.size
         Insecure -> report.insecureUrls.size
         Old -> report.old.size
         Passkeys -> report.passkeyAvailable.size
@@ -390,6 +392,15 @@ private fun ColumnScope.CheckList(check: HealthCheck, report: HealthReport, relo
                 for (entry in entries) ActionRow(entry.entry.copy(subtitle = entry.email), pluralStringResource(R.plurals.health_recoveryResets, entry.accounts.toInt(), entry.accounts.toInt()), Brand.colors.warnText, actions)
             }
         }
+        HealthCheck.RecoveryBreached -> {
+            val entries = report.recoveryBreached.filter { actions.shown(it.entry) }
+            Rows(entries.isEmpty()) {
+                for (entry in entries) {
+                    val subtitle = "${entry.email} · ${stringResource(R.string.health_recoveryBreachedIn, entry.breaches.joinToString(", "))}"
+                    ActionRow(entry.entry.copy(subtitle = subtitle), pluralStringResource(R.plurals.health_recoveryResets, entry.accounts.toInt(), entry.accounts.toInt()), Brand.colors.dangerText, actions)
+                }
+            }
+        }
         HealthCheck.Insecure -> {
             val entries = report.insecureUrls.filter { actions.shown(it.entry) }
             Rows(entries.isEmpty()) { for (entry in entries) ActionRow(entry.entry.copy(subtitle = entry.url), "http://", Brand.colors.warnText, actions) }
@@ -464,6 +475,7 @@ private fun checkLabel(check: String) = when (check) {
     "expiring" -> R.string.health_expiring
     "backupCodes" -> R.string.health_backupCodes
     "recoveryNo2fa" -> R.string.health_recoveryNo2fa
+    "recoveryBreached" -> R.string.health_recoveryBreached
     else -> R.string.health_email_title
 }
 
@@ -488,6 +500,7 @@ private fun EmailAlerts(report: HealthReport, hidden: Set<String>, reload: () ->
     val model = LocalVault.current.model
     val available = rememberEmailChecksAvailable()
     var confirming by remember { mutableStateOf(false) }
+    var confirmingRecovery by remember { mutableStateOf(false) }
     var check by remember { mutableStateOf<EmailBreachCheck?>(null) }
     val run: (Boolean) -> Unit = { force ->
         model.scope.launch {
@@ -522,6 +535,28 @@ private fun EmailAlerts(report: HealthReport, hidden: Set<String>, reload: () ->
             )
         }
         if (report.emailAlertsEnabled) {
+            // The second opt-in: recovery emails that are neither the account email nor an alias.
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Column(Modifier.weight(1f)) {
+                    Text(stringResource(R.string.health_email_recoverySwitch), style = MaterialTheme.typography.bodyLarge)
+                    Text(stringResource(if (report.emailAlertsRecoveryEmails) R.string.health_email_recoveryOnNote else R.string.health_email_recoveryOffNote), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+                Switch(
+                    checked = report.emailAlertsRecoveryEmails,
+                    modifier = Modifier.testTag("health.emailAlerts.recoveryEmails"),
+                    onCheckedChange = { on ->
+                        if (on) {
+                            confirmingRecovery = true
+                        } else {
+                            model.scope.launch {
+                                runCatching { model.vault.setRecoveryEmailChecks(false) }
+                                run(true)
+                                reload()
+                            }
+                        }
+                    },
+                )
+            }
             if (check == EmailBreachCheck.FAILED) Alert(stringResource(R.string.health_email_failed), AlertTone.Warn)
             TextButton(onClick = { run(true) }) { Text(stringResource(R.string.health_email_checkNow)) }
             val findings = report.emailBreaches.filter { it.warning !in hidden }
@@ -561,6 +596,34 @@ private fun EmailAlerts(report: HealthReport, hidden: Set<String>, reload: () ->
             dismissButton = { TextButton(onClick = { confirming = false }) { Text(stringResource(R.string.common_cancel)) } },
         )
     }
+    if (confirmingRecovery) {
+        AlertDialog(
+            onDismissRequest = { confirmingRecovery = false },
+            title = { Text(stringResource(R.string.health_email_recoveryConfirmTitle)) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text(stringResource(R.string.health_email_recoverySends))
+                    Text(stringResource(R.string.health_email_recoveryNotYours))
+                    Text(stringResource(R.string.health_email_notStored))
+                    Text(stringResource(R.string.health_email_recoveryForgets))
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        confirmingRecovery = false
+                        model.scope.launch {
+                            runCatching { model.vault.setRecoveryEmailChecks(true) }
+                            run(true)
+                            reload()
+                        }
+                    },
+                    modifier = Modifier.testTag("health.emailAlerts.recoveryEmails.confirm"),
+                ) { Text(stringResource(R.string.health_email_recoveryConfirm)) }
+            },
+            dismissButton = { TextButton(onClick = { confirmingRecovery = false }) { Text(stringResource(R.string.common_cancel)) } },
+        )
+    }
 }
 
 @Composable
@@ -591,12 +654,13 @@ private fun Rows(empty: Boolean, rows: @Composable () -> Unit) {
     }
 }
 
-/** A login in a health list; it opens the item (`Row`). */
+/** A login in a health list; it opens the item (`Row`). A warning about an address with no login opens nothing. */
 @Composable
 fun EntryRow(entry: HealthEntry, tag: String? = null, tone: Color? = null) {
     val vault = LocalVault.current
+    val opens = if (entry.itemId.isEmpty()) Modifier else Modifier.clickable { vault.nav.push(Route.Item(entry.itemId)) }
     Row(
-        Modifier.fillMaxWidth().heightIn(min = 56.dp).clickable { vault.nav.push(Route.Item(entry.itemId)) }.padding(horizontal = 16.dp, vertical = 8.dp).testTag("health.entry.${entry.itemId}"),
+        Modifier.fillMaxWidth().heightIn(min = 56.dp).then(opens).padding(horizontal = 16.dp, vertical = 8.dp).testTag("health.entry.${entry.itemId.ifEmpty { entry.title }}"),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
@@ -606,7 +670,7 @@ fun EntryRow(entry: HealthEntry, tag: String? = null, tone: Color? = null) {
             entry.subtitle?.let { Text(it, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant) }
         }
         if (tag != null) Text(tag, style = MaterialTheme.typography.labelSmall, color = tone ?: MaterialTheme.colorScheme.onSurfaceVariant)
-        Icon(Icons.AutoMirrored.Outlined.KeyboardArrowRight, null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+        if (entry.itemId.isNotEmpty()) Icon(Icons.AutoMirrored.Outlined.KeyboardArrowRight, null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
     }
 }
 

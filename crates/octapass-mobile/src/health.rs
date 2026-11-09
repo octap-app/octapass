@@ -1,11 +1,12 @@
 //! The security dashboard: the web vault's `buildHealthReport` and recovery map
 //! (`packages/vault-client/src/tools/health.ts` and `recovery.ts`) over the mobile vault's
 //! health inputs, which replace each password by its group's strength and breach count, so no
-//! password leaves the vault crate. The sites known to offer two-step sign-in are read from the
-//! web vault's own list.
+//! password leaves the vault crate. The sites known to offer two-step sign-in or passkeys are the
+//! signed lists of `octapass_core::health_data`: the bundled ones, or a newer file from the server.
 
-use std::collections::{HashMap, HashSet};
-use std::sync::OnceLock;
+use std::collections::{BTreeSet, HashMap, HashSet};
+
+use octapass_core::health_data::{self, HealthData};
 
 use octapass_mobile_vault::health::{HealthExpiry, HealthInputs, HealthLogin, HealthSettings};
 use octapass_mobile_vault::model::{Item as StoredItem, ItemDraft as StoredDraft};
@@ -34,6 +35,8 @@ const LOW_BACKUP_CODES: u32 = 2;
 const EMAIL_BREACH_CHECK_HOURS: i64 = 24;
 const MAX_EMAIL_BREACH_ADDRESSES: usize = 50;
 const SETTINGS_TITLE: &str = "Health settings";
+/// The newest signed site lists this phone accepted, in the data folder.
+const HEALTH_DATA_FILE: &str = "health-data.json";
 
 #[derive(Debug, Clone, PartialEq, Eq, uniffi::Record)]
 pub struct HealthEntry {
@@ -100,6 +103,18 @@ pub struct UnprotectedRecoveryEmail {
     pub accounts: u32,
 }
 
+/// A recovery email that email breach alerts found in a breach: whoever gets into that inbox can
+/// reset `accounts` logins. The entry is the inbox's own login when the vault has it; otherwise
+/// its item id is empty and its title is the address.
+#[derive(Debug, Clone, PartialEq, Eq, uniffi::Record)]
+pub struct BreachedRecoveryEmail {
+    pub entry: HealthEntry,
+    pub email: String,
+    pub accounts: u32,
+    /// The breaches' titles, sorted.
+    pub breaches: Vec<String>,
+}
+
 /// A password not changed for a year.
 #[derive(Debug, Clone, PartialEq, Eq, uniffi::Record)]
 pub struct OldPassword {
@@ -152,7 +167,7 @@ pub struct DismissedWarning {
     pub entry: HealthEntry,
     pub warning: String,
     /// `weak`, `reused`, `breached`, `old`, `missing2fa`, `passkeyAvailable`, `insecureUrl`,
-    /// `expiring`, `backupCodes`, `recoveryNo2fa` or `emailBreach`.
+    /// `expiring`, `backupCodes`, `recoveryNo2fa`, `recoveryBreached` or `emailBreach`.
     pub check: String,
 }
 
@@ -185,6 +200,8 @@ pub struct HealthReport {
     /// The recovery map, the most used first.
     pub recovery: Vec<RecoveryContact>,
     pub recovery_no_2fa: Vec<UnprotectedRecoveryEmail>,
+    /// Recovery emails found in a breach, the most used first. Not part of the score.
+    pub recovery_breached: Vec<BreachedRecoveryEmail>,
     /// Passwords not changed for a year, the oldest first. Not part of the score.
     pub old: Vec<OldPassword>,
     /// Logins for sites that accept passkeys, without one saved. Not part of the score.
@@ -196,6 +213,9 @@ pub struct HealthReport {
     pub low_backup_codes: Vec<LowBackupCodes>,
     /// Email breach alerts are on. Off by default.
     pub email_alerts_enabled: bool,
+    /// The second opt-in: recovery emails that are neither the account email nor an alias are
+    /// looked up too. Off by default, and off whenever alerts are.
+    pub email_alerts_recovery_emails: bool,
     pub email_breaches_checked_at: Option<String>,
     pub email_breaches: Vec<EmailBreachFinding>,
     /// Left out of the lists above and of the score.
@@ -203,32 +223,16 @@ pub struct HealthReport {
     pub generated_at: String,
 }
 
-/// The web vault's list of registrable domains that offer authenticator codes or passkeys.
-fn two_factor_domains() -> &'static HashSet<String> {
-    static DOMAINS: OnceLock<HashSet<String>> = OnceLock::new();
-    DOMAINS.get_or_init(|| {
-        let source = include_str!("../../../packages/vault-client/src/data/two-factor-domains.ts");
-        let list = source.split_once("new Set([").map_or("", |(_, rest)| rest);
-        list.lines()
-            .filter(|line| !line.trim_start().starts_with("//"))
-            .flat_map(|line| line.split('\'').skip(1).step_by(2))
-            .map(str::to_owned)
-            .collect()
-    })
+/// The bundled registrable domains that offer authenticator codes or passkeys.
+#[cfg(test)]
+fn two_factor_domains() -> &'static BTreeSet<String> {
+    &health_data::bundled().two_factor_domains
 }
 
-/// The passkeys directory snapshot the web vault ships.
-fn passkey_domains() -> &'static HashSet<String> {
-    static DOMAINS: OnceLock<HashSet<String>> = OnceLock::new();
-    DOMAINS.get_or_init(|| {
-        let source = include_str!("../../../packages/vault-client/src/data/passkey-domains.ts");
-        let list = source.split_once("new Set([").map_or("", |(_, rest)| rest);
-        list.lines()
-            .filter(|line| !line.trim_start().starts_with("//"))
-            .flat_map(|line| line.split('\'').skip(1).step_by(2))
-            .map(str::to_owned)
-            .collect()
-    })
+/// The bundled passkeys directory snapshot.
+#[cfg(test)]
+fn passkey_domains() -> &'static BTreeSet<String> {
+    &health_data::bundled().passkey_domains
 }
 
 /// The URL of a website login, tolerating a missing scheme. Only `http` and `https`.
@@ -594,6 +598,64 @@ fn email_breach_findings(settings: &HealthSettings) -> Vec<EmailBreachFinding> {
         .collect()
 }
 
+/// Recovery emails among the findings (not dismissed), with the logins they can reset. The
+/// version is the breaches, so a new one brings a dismissed warning back.
+fn recovery_breaches(
+    recovery: &[RecoveryContact],
+    findings: &[EmailBreachFinding],
+) -> Vec<BreachedRecoveryEmail> {
+    let mut by_address: HashMap<String, BTreeSet<String>> = HashMap::new();
+    for finding in findings {
+        by_address
+            .entry(normalize_email(&finding.address))
+            .or_default()
+            .insert(finding.title.clone());
+    }
+    let mut found: Vec<BreachedRecoveryEmail> = recovery
+        .iter()
+        .filter(|contact| contact.kind == RecoveryKind::Email)
+        .filter_map(|contact| {
+            let breaches: Vec<String> = by_address
+                .get(&normalize_email(&contact.value))?
+                .iter()
+                .cloned()
+                .collect();
+            let warning = warning_key(
+                "recoveryBreached",
+                &contact.value.to_lowercase(),
+                &breaches.join(","),
+            );
+            let entry = match &contact.account {
+                Some(account) => HealthEntry {
+                    warning: Some(warning),
+                    change_password_url: None,
+                    ..account.entry.clone()
+                },
+                None => HealthEntry {
+                    item_id: String::new(),
+                    vault_id: String::new(),
+                    title: contact.value.clone(),
+                    subtitle: None,
+                    warning: Some(warning),
+                    change_password_url: None,
+                },
+            };
+            Some(BreachedRecoveryEmail {
+                entry,
+                email: contact.value.clone(),
+                accounts: contact.logins.len() as u32,
+                breaches,
+            })
+        })
+        .collect();
+    found.sort_by(|a, b| {
+        b.accounts
+            .cmp(&a.accounts)
+            .then_with(|| compare_names(&a.email, &b.email))
+    });
+    found
+}
+
 fn has_two_step(login: &HealthLogin) -> bool {
     login.has_totp
         || login.has_passkey
@@ -619,16 +681,16 @@ fn on_sites(login: &HealthLogin, sites: &dyn Fn(&str) -> bool) -> bool {
         .any(|host| sites(&registrable_domain(&host)))
 }
 
-fn lacks_second_factor(login: &HealthLogin) -> bool {
+fn lacks_second_factor(login: &HealthLogin, data: &HealthData) -> bool {
     login.item_type == "login"
         && !has_two_step(login)
-        && on_sites(login, &|domain| two_factor_domains().contains(domain))
+        && on_sites(login, &|domain| data.two_factor_domains.contains(domain))
 }
 
-fn lacks_passkey(login: &HealthLogin) -> bool {
+fn lacks_passkey(login: &HealthLogin, data: &HealthData) -> bool {
     login.item_type == "login"
         && !login.has_passkey
-        && on_sites(login, &|domain| passkey_domains().contains(domain))
+        && on_sites(login, &|domain| data.passkey_domains.contains(domain))
 }
 
 fn recovery_text(login: &HealthLogin, key: &str) -> Option<String> {
@@ -773,8 +835,19 @@ fn account_for<'a>(email: &str, logins: &[&'a HealthLogin]) -> Option<&'a Health
     })
 }
 
-/// The report from the vault crate's health inputs (logins outside the trash).
+/// The report from the vault crate's health inputs (logins outside the trash), with the bundled
+/// site lists.
+#[cfg(test)]
 pub(crate) fn build_report(inputs: &HealthInputs, now: OffsetDateTime) -> HealthReport {
+    build_report_with(inputs, now, health_data::bundled())
+}
+
+/// The report with these site lists: the newest the phone has.
+pub(crate) fn build_report_with(
+    inputs: &HealthInputs,
+    now: OffsetDateTime,
+    data: &HealthData,
+) -> HealthReport {
     let logins: Vec<&HealthLogin> = inputs.logins.iter().collect();
     let checked: Vec<(&HealthLogin, usize)> = logins
         .iter()
@@ -858,7 +931,7 @@ pub(crate) fn build_report(inputs: &HealthInputs, now: OffsetDateTime) -> Health
     let missing_2fa: Vec<HealthEntry> = logins
         .iter()
         .copied()
-        .filter(|login| lacks_second_factor(login))
+        .filter(|login| lacks_second_factor(login, data))
         .filter_map(|login| warnings.login(login, "missing2fa", ""))
         .collect();
     let insecure_urls: Vec<InsecureLogin> = logins
@@ -966,7 +1039,7 @@ pub(crate) fn build_report(inputs: &HealthInputs, now: OffsetDateTime) -> Health
     let passkey_available: Vec<HealthEntry> = logins
         .iter()
         .copied()
-        .filter(|login| lacks_passkey(login))
+        .filter(|login| lacks_passkey(login, data))
         .filter_map(|login| warnings.login(login, "passkeyAvailable", ""))
         .collect();
 
@@ -1007,7 +1080,23 @@ pub(crate) fn build_report(inputs: &HealthInputs, now: OffsetDateTime) -> Health
             check: "emailBreach".into(),
         });
     }
+    let recovery_breached = recovery_breaches(&recovery, &email_breaches)
+        .into_iter()
+        .filter_map(|item| {
+            let key = item.entry.warning.clone().unwrap_or_default();
+            let mut entry = item.entry.clone();
+            if warnings.is_dismissed(&key) {
+                entry.subtitle = Some(item.email.clone());
+            }
+            warnings.entry(entry, "recoveryBreached", key)?;
+            Some(item)
+        })
+        .collect();
     let alerts = inputs.settings.email_breach_alerts.as_ref();
+    let alerts_on = alerts
+        .and_then(|alerts| alerts.get("enabled"))
+        .and_then(Value::as_bool)
+        .unwrap_or(false);
 
     HealthReport {
         score: if checked.is_empty() {
@@ -1023,15 +1112,18 @@ pub(crate) fn build_report(inputs: &HealthInputs, now: OffsetDateTime) -> Health
         missing_2fa,
         recovery,
         recovery_no_2fa,
+        recovery_breached,
         old,
         passkey_available,
         insecure_urls,
         expiring,
         low_backup_codes,
-        email_alerts_enabled: alerts
-            .and_then(|alerts| alerts.get("enabled"))
-            .and_then(Value::as_bool)
-            .unwrap_or(false),
+        email_alerts_enabled: alerts_on,
+        email_alerts_recovery_emails: alerts_on
+            && alerts
+                .and_then(|alerts| alerts.get("recoveryEmails"))
+                .and_then(Value::as_bool)
+                == Some(true),
         email_breaches_checked_at: alerts
             .and_then(|alerts| alerts.get("checkedAt"))
             .and_then(Value::as_str)
@@ -1107,6 +1199,82 @@ impl Ctx<'_> {
         self.save_settings(personal_vault_id, &items, &settings)
     }
 
+    /// The newest site lists on this phone (plan 06): a newer signed file from the account's
+    /// server, asked for at most once a day, or the bundled lists. The file is public, so it's
+    /// kept as is in the data folder, and checked against the pinned key whenever it's read.
+    /// Local vaults have no server and keep the bundled lists.
+    pub(crate) fn health_data(&self) -> HealthData {
+        let path = self.vault.data_dir().join(HEALTH_DATA_FILE);
+        let mut stored: Value = std::fs::read_to_string(&path)
+            .ok()
+            .and_then(|text| serde_json::from_str(&text).ok())
+            .unwrap_or_else(|| json!({}));
+        let file = |stored: &Value| {
+            stored
+                .get("file")
+                .and_then(Value::as_str)
+                .map(str::to_owned)
+        };
+        let now = OffsetDateTime::now_utc().unix_timestamp();
+        let checked_at = stored.get("checkedAt").and_then(Value::as_i64).unwrap_or(0);
+        let local = self
+            .vault
+            .snapshot()
+            .session
+            .server_url
+            .is_none_or(|url| url.starts_with("local:"));
+        if !local && now - checked_at >= health_data::CHECK_HOURS * 3600 {
+            let answer: Option<Value> = self.vault.access().ok().and_then(|access| {
+                Server {
+                    api: self.api,
+                    access: &access,
+                }
+                .call(Method::Get, health_data::PATH, None::<&Value>)
+                .ok()
+            });
+            if let Some(answer) = answer {
+                // The signature covers the payload's bytes, which stay as they came in base64,
+                // so the envelope's spacing doesn't matter.
+                let text = answer.to_string();
+                let in_use = health_data::newest(file(&stored).as_deref()).version;
+                if health_data::verify(&text, in_use).is_ok() {
+                    stored["file"] = json!(text);
+                }
+                stored["checkedAt"] = json!(now);
+                // Best effort: without the file, the next report asks again.
+                let _ = std::fs::write(&path, stored.to_string());
+            }
+        }
+        health_data::newest(file(&stored).as_deref())
+    }
+
+    /// The second opt-in, while alerts are on: also look up the recovery emails that are neither
+    /// the account email nor an alias. Either way the results are forgotten, so the next check
+    /// holds exactly the addresses the user now agreed to.
+    pub(crate) fn set_recovery_email_checks(
+        &self,
+        personal_vault_id: &str,
+        enabled: bool,
+    ) -> Result<()> {
+        let items = self.settings_items()?;
+        let mut settings = read_settings(&items);
+        let on = settings
+            .email_breach_alerts
+            .as_ref()
+            .and_then(|alerts| alerts.get("enabled"))
+            .and_then(Value::as_bool)
+            == Some(true);
+        if !on {
+            return Ok(());
+        }
+        settings.email_breach_alerts = Some(if enabled {
+            json!({ "enabled": true, "recoveryEmails": true })
+        } else {
+            json!({ "enabled": true })
+        });
+        self.save_settings(personal_vault_id, &items, &settings)
+    }
+
     /// Turning alerts off forgets their results.
     pub(crate) fn set_email_breach_alerts(
         &self,
@@ -1148,7 +1316,22 @@ impl Ctx<'_> {
             return Ok(EmailBreachCheck::NotDue);
         }
 
-        let addresses = breach_addresses(account_email, &self.vault.live_items()?);
+        let recovery_emails = alerts.get("recoveryEmails").and_then(Value::as_bool) == Some(true);
+        let mut addresses = breach_addresses(account_email, &self.vault.live_items()?);
+        if recovery_emails {
+            let logins = self.vault.recovery_logins()?;
+            let (contacts, _) = recovery_map(&logins.iter().collect::<Vec<_>>());
+            let mut seen: HashSet<String> = addresses.iter().map(|a| normalize_email(a)).collect();
+            addresses.extend(
+                contacts
+                    .into_iter()
+                    .filter(|contact| {
+                        contact.kind == RecoveryKind::Email && contact.alias_provider.is_none()
+                    })
+                    .map(|contact| contact.value)
+                    .filter(|address| seen.insert(normalize_email(address))),
+            );
+        }
         let access = self.vault.access()?;
         let server = Server {
             api: self.api,
@@ -1179,18 +1362,26 @@ impl Ctx<'_> {
             "checkedAt": now.format(&Rfc3339).expect("UTC times format as RFC 3339"),
             "found": found,
         });
+        if recovery_emails {
+            next["recoveryEmails"] = json!(true);
+        }
         if let Some(previous) = previous {
             next["previous"] = json!(previous);
         }
         let items = self.settings_items()?;
         let mut settings = read_settings(&items);
-        // Turned off while the check ran: the off wins, and nothing found is kept.
-        let still_on = settings
-            .email_breach_alerts
-            .as_ref()
+        // Turned off while the check ran, or the second opt-in changed: the change wins, and
+        // nothing found is kept.
+        let now_alerts = settings.email_breach_alerts.as_ref();
+        let still_on = now_alerts
             .and_then(|alerts| alerts.get("enabled"))
             .and_then(Value::as_bool)
-            == Some(true);
+            == Some(true)
+            && (now_alerts
+                .and_then(|alerts| alerts.get("recoveryEmails"))
+                .and_then(Value::as_bool)
+                == Some(true))
+                == recovery_emails;
         if still_on {
             settings.email_breach_alerts = Some(next);
             self.save_settings(personal_vault_id, &items, &settings)?;
@@ -1599,5 +1790,117 @@ mod tests {
             breach_addresses(Some("Me@b.example"), &items),
             ["Me@b.example", "alias@relay.example"]
         );
+    }
+    fn recovery_vault() -> HealthInputs {
+        let mut gmail = login("gmail", "https://mail.google.com", Some(0));
+        gmail.username = Some("me@gmail.com".into());
+        let mut shop = login("shop", "https://shop.example", Some(0));
+        shop.recovery = Some(json!({ "email": "me@gmail.com" }));
+        let mut bank = login("bank", "https://bank.example", Some(0));
+        bank.recovery = Some(json!({ "email": "Me@Gmail.com" }));
+        let mut forum = login("forum", "https://forum.example", Some(0));
+        forum.username = Some("old@isp.example".into());
+        inputs(vec![gmail, shop, bank, forum], vec![strong()])
+    }
+
+    fn breach(name: &str) -> Value {
+        json!({ "name": name, "title": name, "dataClasses": ["Passwords"] })
+    }
+
+    #[test]
+    fn breached_recovery_emails_list_the_logins_they_reset() {
+        let mut vault = recovery_vault();
+        vault.settings.email_breach_alerts = Some(json!({
+            "enabled": true,
+            "checkedAt": "2026-10-23T00:00:00.000Z",
+            "found": [
+                { "address": "me@gmail.com", "breaches": [breach("Zeta"), breach("Alpha")] },
+                { "address": "old@isp.example", "breaches": [breach("Isp")] },
+                { "address": "nobody@else.example", "breaches": [breach("Other")] },
+            ],
+        }));
+        let report = build_report(&vault, now());
+        let rows: Vec<(&str, &str, u32, Vec<String>)> = report
+            .recovery_breached
+            .iter()
+            .map(|row| {
+                (
+                    row.entry.item_id.as_str(),
+                    row.email.as_str(),
+                    row.accounts,
+                    row.breaches.clone(),
+                )
+            })
+            .collect();
+        assert_eq!(
+            rows,
+            [
+                (
+                    "gmail",
+                    "me@gmail.com",
+                    2,
+                    vec!["Alpha".to_owned(), "Zeta".to_owned()]
+                ),
+                ("", "old@isp.example", 1, vec!["Isp".to_owned()]),
+            ]
+        );
+        // The same keys as the web vault, so a dismissal holds on every device.
+        assert_eq!(
+            report.recovery_breached[0].entry.warning.as_deref(),
+            Some("recoveryBreached:me@gmail.com:Alpha,Zeta")
+        );
+        assert_eq!(report.recovery_breached[1].entry.title, "old@isp.example");
+        assert!(!report.email_alerts_recovery_emails);
+
+        // Dismissed, it leaves the list; a new breach brings it back.
+        vault.settings.dismissed = vec!["recoveryBreached:old@isp.example:Isp".into()];
+        let report = build_report(&vault, now());
+        assert_eq!(report.recovery_breached.len(), 1);
+        let dismissed = report
+            .dismissed
+            .iter()
+            .find(|d| d.check == "recoveryBreached")
+            .unwrap();
+        assert_eq!(dismissed.entry.subtitle.as_deref(), Some("old@isp.example"));
+
+        // A dismissed breach finding doesn't count.
+        vault.settings.dismissed = vec![
+            "emailBreach:me@gmail.com:Zeta".into(),
+            "emailBreach:me@gmail.com:Alpha".into(),
+        ];
+        let report = build_report(&vault, now());
+        assert_eq!(report.recovery_breached.len(), 1);
+        assert_eq!(report.recovery_breached[0].email, "old@isp.example");
+    }
+
+    #[test]
+    fn the_second_opt_in_shows_only_while_alerts_are_on() {
+        let mut vault = recovery_vault();
+        vault.settings.email_breach_alerts =
+            Some(json!({ "enabled": true, "recoveryEmails": true }));
+        assert!(build_report(&vault, now()).email_alerts_recovery_emails);
+        vault.settings.email_breach_alerts =
+            Some(json!({ "enabled": false, "recoveryEmails": true }));
+        let report = build_report(&vault, now());
+        assert!(!report.email_alerts_recovery_emails && report.recovery_breached.is_empty());
+    }
+
+    #[test]
+    fn the_report_uses_the_site_lists_it_is_given() {
+        let vault = inputs(
+            vec![login("new", "https://login.passkeys.example", Some(0))],
+            vec![strong()],
+        );
+        let before = build_report(&vault, now());
+        assert!(before.passkey_available.is_empty() && before.missing_2fa.is_empty());
+        let data = HealthData {
+            version: 99,
+            issued_at: String::new(),
+            passkey_domains: ["passkeys.example".to_owned()].into(),
+            two_factor_domains: ["passkeys.example".to_owned()].into(),
+        };
+        let after = build_report_with(&vault, now(), &data);
+        assert_eq!(after.passkey_available[0].item_id, "new");
+        assert_eq!(after.missing_2fa[0].item_id, "new");
     }
 }

@@ -69,7 +69,8 @@ export function HealthProvider({ children }: { children: ReactNode }) {
     async (force = false) => {
       if (!report) return;
       asked.current = true;
-      const result = await settings.checkEmailBreaches(emailBreachAddresses(email, report), { force });
+      const { recovery } = report;
+      const result = await settings.checkEmailBreaches((alerts) => emailBreachAddresses(email, { recovery, emailBreaches: { recoveryEmails: alerts.recoveryEmails === true } }), { force });
       setEmailCheck(result);
     },
     [settings, email, report],

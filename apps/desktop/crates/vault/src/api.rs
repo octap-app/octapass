@@ -159,6 +159,24 @@ impl Api {
         Self::send(self.request(Method::GET, "/v1/server-info", None)).await
     }
 
+    /// The health report's signed site lists, as text: the caller checks the signature.
+    pub async fn health_data(&self) -> ApiResult<String> {
+        let mut response =
+            Self::send_raw(self.request(Method::GET, "/v1/health/data", None)).await?;
+        let mut body = Vec::new();
+        while let Some(chunk) = response
+            .chunk()
+            .await
+            .map_err(|error| ApiError::Network(error.without_url().to_string()))?
+        {
+            if body.len() + chunk.len() > octapass_core::health_data::MAX_BYTES {
+                return Err(ApiError::Unexpected { status: 200 });
+            }
+            body.extend_from_slice(&chunk);
+        }
+        String::from_utf8(body).map_err(|_| ApiError::Unexpected { status: 200 })
+    }
+
     pub async fn prelogin(&self, email: &str) -> ApiResult<PreloginResponse> {
         let body = PreloginRequest {
             email: email.into(),

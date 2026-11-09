@@ -1,24 +1,78 @@
 import { Button, Icon, Ring, Spinner, type IconName } from '@octapass/ui';
 import { isLocalServer, type HealthReport } from '@octapass/vault-client';
-import { Link } from 'react-router';
-import { useSession } from '../../app/ServiceContext';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router';
+import { useService, useSession } from '../../app/ServiceContext';
 import { Alert } from '../../components/Alert';
 import { formatDate, t, type MessageKey } from '../../i18n';
 import { errorMessage } from '../../lib/errors';
 import { useHealth } from '../../lib/health';
-import { useLocalVaults } from '../local/useLocalVaults';
+import { daysSince, useLocalVaults } from '../local/useLocalVaults';
 import { PageHeader } from '../PageHeader';
 import { CHECKS } from './checks';
 import { useEmailChecksAvailable } from './EmailBreachSection';
 import styles from './HealthPage.module.css';
 
-/** A local vault's health includes its backups (plan 05). */
-function LocalBackupLine() {
+/** A local vault with no backup for this long gets the reminder (plan 01). */
+export const BACKUP_REMINDER_DAYS = 30;
+
+interface BackupStatus {
+  lastBackupAt?: string;
+  due: boolean;
+  folder?: string;
+}
+
+/**
+ * The open local vault's backups: from `service.local` (desktop) or `localBackupInfo` (the
+ * extension). Undefined for an account, whose server holds its copy.
+ */
+function useBackupStatus(): BackupStatus | undefined {
+  const service = useService();
   const session = useSession();
   const { current } = useLocalVaults();
-  if (!isLocalServer(session.serverUrl) || !current) return null;
-  const line = current.lastBackupAt ? t('localVault.lastBackupHealth', { date: formatDate(current.lastBackupAt) }) : t('localVault.neverBackedUp');
-  return <Alert tone={current.backupDue ? 'warn' : 'info'}>{line}</Alert>;
+  const [info, setInfo] = useState<{ createdAt?: string; lastBackupAt?: string }>();
+  const local = isLocalServer(session.serverUrl);
+  useEffect(() => {
+    if (!local || service.local || !service.localBackupInfo) return;
+    let live = true;
+    service.localBackupInfo().then(
+      (next) => live && setInfo(next),
+      () => undefined,
+    );
+    return () => {
+      live = false;
+    };
+  }, [service, local]);
+  if (!local) return undefined;
+  if (service.local) return current && { lastBackupAt: current.lastBackupAt, due: current.backupDue, folder: current.backupFolder };
+  if (!info) return undefined;
+  const since = info.lastBackupAt ?? info.createdAt;
+  return { lastBackupAt: info.lastBackupAt, due: since !== undefined && daysSince(since) >= BACKUP_REMINDER_DAYS };
+}
+
+/** Plan 05: "Last backup 34 days ago", and a way to back up when one is due. Nothing leaves the device. */
+function BackupReminder() {
+  const status = useBackupStatus();
+  const navigate = useNavigate();
+  if (!status) return null;
+  const days = status.lastBackupAt ? daysSince(status.lastBackupAt) : undefined;
+  const line = days === undefined ? t('health.backup.never') : days <= 0 ? t('health.backup.today') : t('health.backup.daysAgo', { count: days });
+  return (
+    <Alert
+      tone={status.due ? 'warn' : 'info'}
+      action={
+        <Button variant="ghost" size="sm" onClick={() => navigate('/settings#local')}>
+          {t('health.backup.action')}
+        </Button>
+      }
+    >
+      <span data-testid="health-backup">
+        {line}
+        {status.folder ? ` · ${t('health.backup.automatic', { folder: status.folder })}` : ''}
+        {status.due ? ` ${t('health.backup.due')}` : ''}
+      </span>
+    </Alert>
+  );
 }
 
 function verdict(score: number): MessageKey {
@@ -98,7 +152,7 @@ function Overview({ report }: { report: HealthReport }) {
 
       {!report.breachCheckCompleted && <Alert tone="warn">{t('health.breachUnavailable')}</Alert>}
       {report.emailBreaches.found.some((finding) => finding.isNew) && <Alert tone="warn">{t('health.email.newAlert')}</Alert>}
-      <LocalBackupLine />
+      <BackupReminder />
 
       <nav aria-label={t('health.checks')}>
         <ul className={styles.stats}>

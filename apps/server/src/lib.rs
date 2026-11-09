@@ -12,6 +12,7 @@ mod emergency;
 mod error;
 mod events;
 mod extract;
+pub mod health_data;
 pub mod icons;
 mod key_log;
 pub mod key_log_witnesses;
@@ -150,6 +151,7 @@ pub fn spawn_maintenance(state: AppState) {
         backup::spawn_schedule(state.clone(), backups);
     }
     key_log_witnesses::spawn(state.clone());
+    health_data::spawn(state.clone());
     tokio::spawn(async move {
         let mut interval = tokio::time::interval(std::time::Duration::from_secs(300));
         loop {

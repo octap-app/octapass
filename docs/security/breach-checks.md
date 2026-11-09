@@ -40,4 +40,4 @@ While it's on, at most once a day or when you ask:
 
 Each account can make 60 lookups, refilling one every 30 minutes, and one check sends at most 50 addresses. This keeps the feature from being used to look up other people's addresses, though it can't rule that out for a few addresses a day.
 
-Recovery emails that aren't your account email or an alias aren't sent; see [recovery info](/docs/features/recovery-info/#dashboard-checks). Breach data comes from Have I Been Pwned.
+Recovery emails that aren't your account email or an alias are sent only after a **second opt-in**, **Also check my other recovery emails**, which asks first. These are the other addresses your logins use as their recovery email or to sign in, from the [recovery map](/docs/features/recovery-info/#recovery-map). They go the same way as above, and the server sees them the same way. The difference is that some may belong to someone else, who hasn't agreed, and that's why it's a separate choice. Turning it off, or turning alerts off, deletes what was found for them. Breach data comes from Have I Been Pwned.

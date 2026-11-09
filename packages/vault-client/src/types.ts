@@ -978,6 +978,7 @@ export type HealthCheck =
   | 'expiring'
   | 'backupCodes'
   | 'recoveryNo2fa'
+  | 'recoveryBreached'
   | 'emailBreach';
 
 /** One breach, as Have I Been Pwned lists it. Never the breach's HTML description. */
@@ -1025,6 +1026,12 @@ export interface HealthReport {
    * that inbox can reset every login in `accounts`.
    */
   recoveryNo2fa: (HealthEntry & { email: string; accounts: number })[];
+  /**
+   * Recovery emails found in a breach by email breach alerts. Whoever gets into that inbox can reset
+   * every login in `accounts`. The entry is the inbox's own login when the vault has it, else it has
+   * no item and the address as its title. Not part of the score.
+   */
+  recoveryBreached: (HealthEntry & { email: string; accounts: number; breaches: string[] })[];
   /** Passwords not changed for a year, the oldest first. Not part of the score. */
   old: (HealthEntry & { changedAt: string; ageDays: number })[];
   /** Logins for sites that accept passkeys, without one saved. Not part of the score. */
@@ -1036,7 +1043,8 @@ export interface HealthReport {
   /** Logins with saved backup codes and two or fewer unused. Not part of the score. */
   lowBackupCodes: (HealthEntry & { unused: number })[];
   /** Opt-in. Empty when off, and not part of the score. */
-  emailBreaches: { enabled: boolean; checkedAt?: string; found: EmailBreachFinding[] };
+  /** `recoveryEmails`: the second opt-in, which also sends recovery emails that are neither the account email nor an alias. */
+  emailBreaches: { enabled: boolean; recoveryEmails: boolean; checkedAt?: string; found: EmailBreachFinding[] };
   /** Warnings the user dismissed: left out of the lists above and of the score. */
   dismissed: (HealthEntry & { warning: string; check: HealthCheck })[];
   generatedAt: string;
@@ -2154,6 +2162,11 @@ export interface VaultService {
   unlockStayUnlocked?(): Promise<boolean>;
   /** Vaults on this device only. Missing where local mode isn't offered, as in the web vault (plan 05). */
   readonly local?: LocalVaultService;
+  /**
+   * The open local vault's backups, where the host keeps its one local vault outside `local` (the
+   * browser extension), for Health's backup reminder. Read on the device; nothing is sent.
+   */
+  localBackupInfo?(): Promise<{ createdAt?: string; lastBackupAt?: string }>;
   /** Sharing and the other account features. Missing on hosts without a sync server account. */
   readonly sharing?: SharingService;
   /** Organisations; missing where the host has no sync server account. */

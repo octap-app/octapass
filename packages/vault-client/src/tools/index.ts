@@ -4,6 +4,7 @@ export * from './encoding';
 export * from './export';
 export * from './generator';
 export * from './health';
+export * from './healthData';
 export * from './healthSettings';
 export * from './import';
 export * from './random';

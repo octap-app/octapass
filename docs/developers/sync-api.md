@@ -712,6 +712,16 @@ The server's own masked email service, when it has one: `maskedEmailRelay` in `G
 
 An alias is `{ id, address, enabled, paused, forwarded, blocked, replied, createdAt }`. `paused` means the service stopped it, or the whole account, after bounces or spam reports. A route answers 503 when the relay can't be reached.
 
+## Health data
+
+`GET /v1/health/data` needs no token. It returns the security dashboard's signed site lists, the same file for everyone:
+
+```json
+{ "payload": "<base64>", "signature": "<base64>" }
+```
+
+`signature` is Ed25519 by the project's key over `openpass/v1/health-data ‖ 0x00 ‖ payload`, where `payload` is the decoded bytes of a JSON object: `{ "format": 1, "version": 2, "issuedAt": "…", "passkeyDomains": ["…"], "twoFactorDomains": ["…"] }`. Clients pin the public key, check the signature before reading the payload, and use a file only when its `version` is above the one they have, so a server can't change the lists or roll them back. Domains are lowercase registrable names; unknown fields are ignored, and an unknown `format` is refused. Clients ask at most once a day.
+
 ## Email breach check
 
 `POST /v1/health/breach-email` needs an access token. It asks Have I Been Pwned about one address, for clients whose user opted in (see [breach checks](/docs/security/breach-checks/#email-breach-alerts-opt-in)). The address goes in the body so it stays out of URLs and access logs, and the server keeps nothing about it.

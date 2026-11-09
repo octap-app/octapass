@@ -3562,6 +3562,22 @@
         ]
       }
     },
+    "/v1/health/data": {
+      "get": {
+        "tags": [
+          "meta"
+        ],
+        "operationId": "file",
+        "responses": {
+          "200": {
+            "description": "`{ payload, signature }`: the payload in base64, signed with the project's Ed25519 key over `openpass/v1/health-data ‖ 0x00 ‖ payload`. The newest file this server has: its bundled copy, or a newer one from `OCTAPASS_HEALTH_DATA_URL`.",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
     "/v1/icons/{domain}": {
       "get": {
         "tags": [

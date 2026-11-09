@@ -20,4 +20,4 @@ pub mod vault;
 pub mod windows_passkey;
 
 pub use error::{ErrorCode, Result, VaultError};
-pub use vault::{Config, Event, SessionSnapshot, Vault};
+pub use vault::{Config, Event, HealthDataLists, SessionSnapshot, Vault};

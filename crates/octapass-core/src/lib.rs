@@ -16,6 +16,8 @@ pub mod envelope;
 pub mod environment;
 pub mod error;
 pub mod export;
+// The health report's signed site lists (plan 06).
+pub mod health_data;
 pub mod import;
 // Saving while locked (plan 03): entries sealed to the account's own public keys, merged at unlock.
 pub mod inbox;

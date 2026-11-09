@@ -9,6 +9,7 @@ export type CheckSlug =
   | 'breached'
   | 'two-step'
   | 'recovery-emails'
+  | 'recovery-breached'
   | 'insecure'
   | 'old'
   | 'passkeys'
@@ -33,6 +34,8 @@ export const CHECKS: readonly CheckInfo[] = [
   { slug: 'breached', icon: 'shield', label: 'health.breached', help: 'health.breachedHelp', count: (r) => r.breached.length, always: true },
   { slug: 'two-step', icon: 'clock', label: 'health.missing2fa', help: 'health.missing2faHelp', count: (r) => r.missing2fa.length, always: true },
   { slug: 'recovery-emails', icon: 'mail', label: 'health.recoveryNo2fa', help: 'health.recoveryNo2faHelp', count: (r) => r.recoveryNo2fa.length, always: true },
+  // Found by email breach alerts, so it appears once they find something.
+  { slug: 'recovery-breached', icon: 'alert', label: 'health.recoveryBreached', help: 'health.recoveryBreachedHelp', count: (r) => r.recoveryBreached.length },
   { slug: 'insecure', icon: 'lock', label: 'health.insecureUrls', help: 'health.insecureUrlsHelp', count: (r) => r.insecureUrls.length },
   { slug: 'old', icon: 'history', label: 'health.old', help: 'health.oldHelp', count: (r) => r.old.length },
   { slug: 'passkeys', icon: 'passkey', label: 'health.passkeyAvailable', help: 'health.passkeyAvailableHelp', count: (r) => r.passkeyAvailable.length },
@@ -57,5 +60,6 @@ export const CHECK_LABELS: Record<HealthCheck, MessageKey> = {
   expiring: 'health.expiring',
   backupCodes: 'health.backupCodes',
   recoveryNo2fa: 'health.recoveryNo2fa',
+  recoveryBreached: 'health.recoveryBreached',
   emailBreach: 'health.email.title',
 };

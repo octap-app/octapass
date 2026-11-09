@@ -28,7 +28,7 @@ use crate::emergency::{
     EmergencyAccessLevel, EmergencyContact, EmergencyContacts, EmergencyScope, EmergencyVaultView,
 };
 use crate::error::{ErrorCode, Result, VaultError, not_allowed, require};
-use crate::health::{EmailBreachCheck, HealthReport, build_report};
+use crate::health::{EmailBreachCheck, HealthReport, build_report_with};
 use crate::icons::SiteIcons;
 use crate::items::{
     EquivalentDomains, HotpCode, Item, ItemDraft, ItemSummary, ItemVersion, draft_json,
@@ -1714,15 +1714,18 @@ impl OctaPassVault {
             .await
     }
 
-    /// The security dashboard and recovery map. Looks passwords up in Pwned Passwords.
+    /// The security dashboard and recovery map. Looks passwords up in Pwned Passwords, and asks
+    /// the server for newer signed site lists at most once a day.
     pub async fn health_report(self: Arc<Self>) -> Result<HealthReport> {
         self.run(|this| {
             let access = this.vault.access()?;
             this.shared.open(&access);
             drop(access);
-            Ok(build_report(
+            let data = this.ctx().health_data();
+            Ok(build_report_with(
                 &this.vault.health_inputs()?,
                 OffsetDateTime::now_utc(),
+                &data,
             ))
         })
         .await
@@ -1772,6 +1775,17 @@ impl OctaPassVault {
         self.run(move |this| {
             let personal = this.personal_vault_id()?;
             this.ctx().set_email_breach_alerts(&personal, enabled)
+        })
+        .await
+    }
+
+    /// The second opt-in, while alerts are on: also send the recovery emails that are neither the
+    /// account email nor an alias. The UI says so before this is called. Either way the results
+    /// are forgotten; check again afterwards.
+    pub async fn set_recovery_email_checks(self: Arc<Self>, enabled: bool) -> Result<()> {
+        self.run(move |this| {
+            let personal = this.personal_vault_id()?;
+            this.ctx().set_recovery_email_checks(&personal, enabled)
         })
         .await
     }

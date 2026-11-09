@@ -35,7 +35,7 @@ The map is built on your device from your decrypted vault, like the rest of the 
 ## Dashboard checks
 
 - **Recovery email without two-step sign-in.** The email account's own login is in your vault and has no one-time code, passkey or other second step, while other logins can be reset through it. Turn on two-step sign-in for that email account first: it protects every login behind it.
-- **Recovery email in a breach: not built.** There is no public way to check an email address without sending it to someone. Opt-in [email breach alerts](/docs/security/breach-checks/#email-breach-alerts-opt-in) check your account email and your masked email aliases, because those are yours. Other recovery emails aren't sent, so a recovery email that's neither of those isn't checked.
+- **Recovery email in a breach (opt-in).** There is no public way to check an email address without sending it to someone, so this comes from [email breach alerts](/docs/security/breach-checks/#email-breach-alerts-opt-in), which are off until you turn them on. They check your account email and your masked email aliases. A recovery email that's neither is sent only after a second switch, **Also check my other recovery emails**, because it may not be yours. A breached recovery email is listed with the breaches and how many logins it can reset.
 
 ## Tips
 

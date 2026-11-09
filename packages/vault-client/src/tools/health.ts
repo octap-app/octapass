@@ -1,7 +1,6 @@
-import { PASSKEY_DOMAINS } from '../data/passkey-domains';
-import { TWO_FACTOR_DOMAINS } from '../data/two-factor-domains';
-import { itemDates } from '../items';
+import { itemDates, normalizeEmail } from '../items';
 import type { CardDetails, EmailBreachFinding, HealthCheck, HealthEntry, HealthReport, Item, LoginDetails, StrengthEstimate } from '../types';
+import { bundledHealthData, type HealthData } from './healthData';
 import { isHealthSettings, readHealthSettings, warningKey, type HealthSettingsDetails } from './healthSettings';
 import { buildRecoveryMap, entryOf, hasTwoStep } from './recovery';
 import { changePasswordUrl, hostnameOf, insecureUrl, registrableDomain } from './url';
@@ -28,12 +27,12 @@ function isOnSite(item: Item, sites: ReadonlySet<string>): boolean {
   });
 }
 
-function lacksSecondFactor(item: Item): boolean {
-  return item.overview.type === 'login' && !hasTwoStep(item.details as LoginDetails) && isOnSite(item, TWO_FACTOR_DOMAINS);
+function lacksSecondFactor(item: Item, data: HealthData): boolean {
+  return item.overview.type === 'login' && !hasTwoStep(item.details as LoginDetails) && isOnSite(item, data.twoFactorDomains);
 }
 
-function lacksPasskey(item: Item): boolean {
-  return item.overview.type === 'login' && !(item.details as LoginDetails).passkeys?.length && isOnSite(item, PASSKEY_DOMAINS);
+function lacksPasskey(item: Item, data: HealthData): boolean {
+  return item.overview.type === 'login' && !(item.details as LoginDetails).passkeys?.length && isOnSite(item, data.passkeyDomains);
 }
 
 /**
@@ -130,14 +129,21 @@ function emailBreachFindings(settings: HealthSettingsDetails): EmailBreachFindin
 
 /**
  * The caller passes items that are not in the trash. Dismissals and email breach results come from
- * the vault's health settings item when it's among them, or from `deps.settings`.
+ * the vault's health settings item when it's among them, or from `deps.settings`. The site lists
+ * are `deps.data`, the newest signed lists on the device, or the bundled ones.
  */
 export async function buildHealthReport(
   allItems: Item[],
-  deps: { estimateStrength: (p: string) => StrengthEstimate; checkBreached: (p: string) => Promise<number>; settings?: HealthSettingsDetails },
+  deps: {
+    estimateStrength: (p: string) => StrengthEstimate;
+    checkBreached: (p: string) => Promise<number>;
+    settings?: HealthSettingsDetails;
+    data?: HealthData;
+  },
   now: Date = new Date(),
 ): Promise<HealthReport> {
   const settings = deps.settings ?? readHealthSettings(allItems);
+  const data = deps.data ?? bundledHealthData();
   const items = allItems.filter((item) => !isHealthSettings(item));
   const dismissedKeys = new Set(settings.dismissed ?? []);
   const dismissed: HealthReport['dismissed'] = [];
@@ -193,7 +199,7 @@ export async function buildHealthReport(
     reused.push(group.map((item) => passwordWarning(item, 'reused')!));
   }
 
-  const missing2fa = items.filter(lacksSecondFactor).flatMap((item) => warn(item, 'missing2fa') ?? []);
+  const missing2fa = items.filter((item) => lacksSecondFactor(item, data)).flatMap((item) => warn(item, 'missing2fa') ?? []);
   const insecureUrls = items
     .filter((item) => item.overview.type === 'login')
     .flatMap((item) => {
@@ -262,6 +268,11 @@ export async function buildHealthReport(
   for (const finding of emailFindings) {
     if (dismissedKeys.has(finding.warning)) dismissed.push({ itemId: '', vaultId: '', title: finding.title, subtitle: finding.address, warning: finding.warning, check: 'emailBreach' });
   }
+  const recoveryBreached = recoveryBreaches(recovery, emailFindings.filter((finding) => !dismissedKeys.has(finding.warning))).flatMap((entry) => {
+    if (!dismissedKeys.has(entry.warning)) return [entry];
+    dismissed.push({ ...entry, subtitle: entry.email, check: 'recoveryBreached' });
+    return [];
+  });
 
   return {
     score: checked.length === 0 ? 100 : Math.round((total / checked.length) * 100),
@@ -273,13 +284,15 @@ export async function buildHealthReport(
     missing2fa,
     recovery,
     recoveryNo2fa: recoveryWarnings,
+    recoveryBreached,
     old,
-    passkeyAvailable: items.filter(lacksPasskey).flatMap((item) => warn(item, 'passkeyAvailable') ?? []),
+    passkeyAvailable: items.filter((item) => lacksPasskey(item, data)).flatMap((item) => warn(item, 'passkeyAvailable') ?? []),
     insecureUrls,
     expiring,
     lowBackupCodes,
     emailBreaches: {
       enabled: settings.emailBreachAlerts?.enabled === true,
+      recoveryEmails: settings.emailBreachAlerts?.enabled === true && settings.emailBreachAlerts.recoveryEmails === true,
       ...(settings.emailBreachAlerts?.checkedAt ? { checkedAt: settings.emailBreachAlerts.checkedAt } : {}),
       found: emailFindings.filter((finding) => !dismissedKeys.has(finding.warning)),
     },
@@ -288,11 +301,47 @@ export async function buildHealthReport(
   };
 }
 
-/** The account email and the masked email aliases the vault knows, each once. */
-export function emailBreachAddresses(accountEmail: string | undefined, report: Pick<HealthReport, 'recovery'>): string[] {
-  const aliases = report.recovery.filter((contact) => contact.kind === 'email' && contact.aliasProvider).map((contact) => contact.value);
+/**
+ * Recovery emails that appeared in a breach, from the email breach results: whoever got into that
+ * inbox can reset every login it's the recovery email of. The version is the breaches, so a new one
+ * brings a dismissed warning back.
+ */
+function recoveryBreaches(recovery: HealthReport['recovery'], findings: EmailBreachFinding[]): (HealthReport['recoveryBreached'][number] & { warning: string })[] {
+  const byAddress = new Map<string, Set<string>>();
+  for (const finding of findings) {
+    const key = normalizeEmail(finding.address);
+    byAddress.set(key, (byAddress.get(key) ?? new Set()).add(finding.title));
+  }
+  return recovery
+    .flatMap((contact) => {
+      const breaches = contact.kind === 'email' ? byAddress.get(normalizeEmail(contact.value)) : undefined;
+      if (!breaches) return [];
+      const names = [...breaches].sort();
+      // The inbox's own login when the vault has it, so the row opens it.
+      const account = contact.account;
+      const entry: HealthEntry = account
+        ? { itemId: account.itemId, vaultId: account.vaultId, title: account.title, ...(account.subtitle !== undefined && { subtitle: account.subtitle }) }
+        : { itemId: '', vaultId: '', title: contact.value };
+      const warning = warningKey('recoveryBreached', contact.value.toLowerCase(), names.join(','));
+      return [{ ...entry, email: contact.value, accounts: contact.logins.length, breaches: names, warning }];
+    })
+    .sort((a, b) => b.accounts - a.accounts || a.email.localeCompare(b.email));
+}
+
+/**
+ * The addresses email breach alerts look up, each once: the account email and the masked email
+ * aliases the vault knows, then, only after the second opt-in (`recoveryEmails`), the other
+ * addresses the recovery map has: recovery emails and email usernames.
+ */
+export function emailBreachAddresses(
+  accountEmail: string | undefined,
+  report: Pick<HealthReport, 'recovery'> & { emailBreaches?: Pick<HealthReport['emailBreaches'], 'recoveryEmails'> },
+): string[] {
+  const emails = report.recovery.filter((contact) => contact.kind === 'email');
+  const aliases = emails.filter((contact) => contact.aliasProvider).map((contact) => contact.value);
+  const others = report.emailBreaches?.recoveryEmails ? emails.filter((contact) => !contact.aliasProvider).map((contact) => contact.value) : [];
   const seen = new Set<string>();
-  return [...(accountEmail ? [accountEmail] : []), ...aliases].filter((address) => {
+  return [...(accountEmail ? [accountEmail] : []), ...aliases, ...others].filter((address) => {
     const key = address.trim().toLowerCase();
     if (!key || seen.has(key)) return false;
     seen.add(key);
@@ -310,6 +359,7 @@ export function withoutWarnings(report: HealthReport, warnings: ReadonlySet<stri
     breached: keep(report.breached),
     missing2fa: keep(report.missing2fa),
     recoveryNo2fa: keep(report.recoveryNo2fa),
+    recoveryBreached: keep(report.recoveryBreached),
     old: keep(report.old),
     passkeyAvailable: keep(report.passkeyAvailable),
     insecureUrls: keep(report.insecureUrls),

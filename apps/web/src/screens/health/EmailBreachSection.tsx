@@ -39,8 +39,9 @@ export function EmailBreachSection({ report }: { report: HealthReport }) {
   const toast = useToast();
   const available = useEmailChecksAvailable();
   const [confirming, setConfirming] = useState(false);
+  const [confirmingRecovery, setConfirmingRecovery] = useState(false);
   const [busy, setBusy] = useState(false);
-  const { enabled, checkedAt, found } = report.emailBreaches;
+  const { enabled, recoveryEmails, checkedAt, found } = report.emailBreaches;
   if (!enabled && !available) return available === false ? <Alert tone="info">{t('health.email.unavailable')}</Alert> : null;
 
   const change = async (on: boolean) => {
@@ -49,6 +50,21 @@ export function EmailBreachSection({ report }: { report: HealthReport }) {
       await settings.setEmailBreachAlerts(on);
       setConfirming(false);
       if (on) await checkEmails(true);
+      refresh();
+    } catch (e) {
+      toast({ message: errorMessage(e), tone: 'danger' });
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  // The second opt-in: recovery emails that are neither the account email nor an alias.
+  const changeRecovery = async (on: boolean) => {
+    setBusy(true);
+    try {
+      await settings.setRecoveryEmailChecks(on);
+      setConfirmingRecovery(false);
+      await checkEmails(true);
       refresh();
     } catch (e) {
       toast({ message: errorMessage(e), tone: 'danger' });
@@ -76,6 +92,17 @@ export function EmailBreachSection({ report }: { report: HealthReport }) {
             onChange={(on) => (on ? setConfirming(true) : void change(false))}
           />
         </div>
+        {enabled && (
+          <div className={styles.switchRow}>
+            <Switch
+              label={t('health.email.recoverySwitch')}
+              description={recoveryEmails ? t('health.email.recoveryOnNote') : t('health.email.recoveryOffNote')}
+              checked={recoveryEmails}
+              disabled={busy}
+              onChange={(on) => (on ? setConfirmingRecovery(true) : void changeRecovery(false))}
+            />
+          </div>
+        )}
       </div>
 
       {enabled && (
@@ -126,6 +153,30 @@ export function EmailBreachSection({ report }: { report: HealthReport }) {
           <li>{t('health.email.sendsTo')}</li>
           <li>{t('health.email.aliasNote')}</li>
           <li>{t('health.email.notStored')}</li>
+        </ul>
+      </Dialog>
+
+      <Dialog
+        open={confirmingRecovery}
+        onClose={() => setConfirmingRecovery(false)}
+        title={t('health.email.recoveryConfirmTitle')}
+        closeLabel={t('common.close')}
+        footer={
+          <>
+            <Button variant="ghost" onClick={() => setConfirmingRecovery(false)}>
+              {t('common.cancel')}
+            </Button>
+            <Button busy={busy} onClick={() => void changeRecovery(true)}>
+              {t('health.email.recoveryConfirm')}
+            </Button>
+          </>
+        }
+      >
+        <ul className={styles.disclosure}>
+          <li>{t('health.email.recoverySends')}</li>
+          <li>{t('health.email.recoveryNotYours')}</li>
+          <li>{t('health.email.notStored')}</li>
+          <li>{t('health.email.recoveryForgets')}</li>
         </ul>
       </Dialog>
     </div>

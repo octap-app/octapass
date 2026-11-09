@@ -12,6 +12,7 @@ use crate::crypto::{base64url, keyed_hash};
 use crate::db::{self, Db};
 use crate::emergency;
 use crate::events::{Event, Events};
+use crate::health_data::HealthDataMirror;
 use crate::icons::Icons;
 use crate::key_log::KeyLog;
 use crate::login::{PendingLogins, PendingRecovery, SsoBrowser, SsoLogin};
@@ -53,6 +54,8 @@ pub struct Inner {
     pub relay: Option<RelayClient>,
     /// Pushes through the push relay; `None` unless `OCTAPASS_PUSH_RELAY` is on.
     pub push: Option<Push>,
+    /// The signed site lists `GET /v1/health/data` serves.
+    pub health_data: HealthDataMirror,
     /// Email breach lookups; `None` without an HIBP key.
     pub breach_client: Option<BreachClient>,
     pub breach_email_limiter: RateLimiter,
@@ -185,6 +188,7 @@ impl AppState {
                 .transpose()
                 .map_err(|error| StartupError::HibpUrl(error.to_string()))?,
             breach_email_limiter: RateLimiter::new(config.rate_limits.breach_email_per_account),
+            health_data: HealthDataMirror::new(&config.health_data),
             pending_logins: PendingLogins::default(),
             pending_reauths: PendingLogins::default(),
             pending_second_factors: PendingLogins::with_ttl(SECOND_FACTOR_TTL),

@@ -43,6 +43,7 @@ use crate::store::{AccountKey, DeviceState, Store, StoredAccount, WrappedAsk};
 mod attachments;
 mod emergency;
 mod gates;
+mod health_data;
 mod key_log;
 mod local;
 mod master_password;
@@ -67,6 +68,7 @@ pub use local::{LocalCapabilities, LocalVaultInfo, RestoreSecret};
 pub use organisations::{
     ConfirmedGrant, OrgAccessGrant, OrgAccessReview, OrgMember, OrgMembers, OrgVault,
 };
+pub use health_data::HealthDataLists;
 pub use stay_unlocked::StayUnlockedStatus;
 pub use versions::{EquivalentDomains, EquivalentDomainsInput, ItemVersion};
 

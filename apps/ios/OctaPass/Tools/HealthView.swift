@@ -63,6 +63,14 @@ final class HealthStore {
         await load(vault, again: true)
     }
 
+    /// The second opt-in: recovery emails that are neither the account email nor an alias. Either
+    /// way the results are forgotten, so it checks again at once.
+    func setRecoveryEmailChecks(_ enabled: Bool, vault: OctaPassVault) async {
+        try? await vault.setRecoveryEmailChecks(enabled: enabled)
+        await checkEmails(vault, force: true)
+        await load(vault, again: true)
+    }
+
     func checkEmails(_ vault: OctaPassVault, force: Bool) async {
         let result = try? await vault.checkEmailBreaches(force: force)
         emailCheck = result ?? .failed
@@ -121,7 +129,7 @@ struct HealthView: View {
 /// One of Health's checks, with its page. The first five always have a row on Health; the rest get
 /// one when they find something. `dismissed` isn't one of those rows: Health links to it below them.
 enum HealthCheck: String, CaseIterable, Identifiable {
-    case weak, reused, breached, twoStep, recoveryEmails, insecure, old, passkeys, expiring, backupCodes, emailBreaches, dismissed
+    case weak, reused, breached, twoStep, recoveryEmails, recoveryBreached, insecure, old, passkeys, expiring, backupCodes, emailBreaches, dismissed
 
     var id: String { rawValue }
 
@@ -132,6 +140,7 @@ enum HealthCheck: String, CaseIterable, Identifiable {
         case .breached: L10n.health.breached
         case .twoStep: L10n.health.missing2fa
         case .recoveryEmails: L10n.health.recoveryNo2fa
+        case .recoveryBreached: L10n.health.recoveryBreached
         case .insecure: L10n.health.insecureUrls
         case .old: L10n.health.old
         case .passkeys: L10n.health.passkeyAvailable
@@ -149,6 +158,7 @@ enum HealthCheck: String, CaseIterable, Identifiable {
         case .breached: L10n.health.breachedHelp
         case .twoStep: L10n.health.missing2faHelp
         case .recoveryEmails: L10n.health.recoveryNo2faHelp
+        case .recoveryBreached: L10n.health.recoveryBreachedHelp
         case .insecure: L10n.health.insecureUrlsHelp
         case .old: L10n.health.oldHelp
         case .passkeys: L10n.health.passkeyAvailableHelp
@@ -166,6 +176,7 @@ enum HealthCheck: String, CaseIterable, Identifiable {
         case .breached: "shield.lefthalf.filled"
         case .twoStep: "clock"
         case .recoveryEmails: "envelope"
+        case .recoveryBreached: "exclamationmark.shield"
         case .insecure: "lock.open"
         case .old: "calendar"
         case .passkeys: "person.badge.key"
@@ -187,6 +198,7 @@ enum HealthCheck: String, CaseIterable, Identifiable {
         case .breached: report.breached.filter { store.isShown($0.entry) }.count
         case .twoStep: report.missing2fa.filter(store.isShown).count
         case .recoveryEmails: report.recoveryNo2fa.filter { store.isShown($0.entry) }.count
+        case .recoveryBreached: report.recoveryBreached.filter { store.isShown($0.entry) }.count
         case .insecure: report.insecureUrls.filter { store.isShown($0.entry) }.count
         case .old: report.old.filter { store.isShown($0.entry) }.count
         case .passkeys: report.passkeyAvailable.filter(store.isShown).count
@@ -223,12 +235,7 @@ private struct HealthReportList: View {
                     Notice(text: L10n.health.email.newAlert, tone: .warn)
                 }
                 if model.isLocal, let vault = model.currentLocalVault {
-                    Label(
-                        vault.lastBackupAt.map { L10n.localVault.lastBackupHealth(date: Dates.long($0)) } ?? L10n.localVault.neverBackedUp,
-                        systemImage: "clock.arrow.circlepath")
-                        .font(.subheadline)
-                        .foregroundStyle(Color.mist)
-                        .accessibilityIdentifier("health-last-backup")
+                    HealthBackupLine(vault: vault)
                 }
             }
             Section(L10n.health.checks) {
@@ -288,6 +295,7 @@ struct HealthCheckView: View {
     @State private var store = HealthStore.shared
     @State private var changing: HealthEntry?
     @State private var confirmingAlerts = false
+    @State private var confirmingRecoveryEmails = false
     let check: HealthCheck
 
     var body: some View {
@@ -377,6 +385,13 @@ struct HealthCheckView: View {
             Section {
                 MiddleLink(route: .recoveryMap) {
                     Label(L10n.health.viewRecoveryMap, systemImage: "point.3.connected.trianglepath.dotted")
+                }
+            }
+        case .recoveryBreached:
+            let entries = report.recoveryBreached.filter { store.isShown($0.entry) }
+            rows(empty: entries.isEmpty) {
+                ForEach(entries, id: \.email) {
+                    row($0.entry, subtitle: "\($0.email) · \(L10n.health.recoveryBreachedIn(breaches: $0.breaches.joined(separator: ", ")))", tag: L10n.health.recoveryResets(count: Int($0.accounts)), tone: .danger)
                 }
             }
         case .insecure:
@@ -479,6 +494,21 @@ struct HealthCheckView: View {
                 ))
                 .accessibilityIdentifier("email-breach-alerts")
                 if report.emailAlertsEnabled {
+                    Toggle(isOn: Binding(
+                        get: { report.emailAlertsRecoveryEmails },
+                        set: { on in
+                            if on { confirmingRecoveryEmails = true } else { Task { await store.setRecoveryEmailChecks(false, vault: model.vault) } }
+                        }
+                    )) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(L10n.health.email.recoverySwitch)
+                            Text(report.emailAlertsRecoveryEmails ? L10n.health.email.recoveryOnNote : L10n.health.email.recoveryOffNote)
+                                .font(.footnote).foregroundStyle(Color.mist)
+                        }
+                    }
+                    .accessibilityIdentifier("email-breach-recovery-emails")
+                }
+                if report.emailAlertsEnabled {
                     if store.emailCheck == .failed { Notice(text: L10n.health.email.failed, tone: .warn) }
                     Button(L10n.health.email.checkNow) { Task { await store.checkEmails(model.vault, force: true) } }
                     ForEach(report.emailBreaches.filter { !store.hidden.contains($0.warning) }, id: \.warning) { finding in
@@ -516,6 +546,12 @@ struct HealthCheckView: View {
             } message: {
                 Text([L10n.health.email.sendsAddresses, L10n.health.email.sendsTo, L10n.health.email.aliasNote, L10n.health.email.notStored].joined(separator: "\n\n"))
             }
+            .alert(L10n.health.email.recoveryConfirmTitle, isPresented: $confirmingRecoveryEmails) {
+                Button(L10n.common.cancel, role: .cancel) {}
+                Button(L10n.health.email.recoveryConfirm) { Task { await store.setRecoveryEmailChecks(true, vault: model.vault) } }
+            } message: {
+                Text([L10n.health.email.recoverySends, L10n.health.email.recoveryNotYours, L10n.health.email.notStored, L10n.health.email.recoveryForgets].joined(separator: "\n\n"))
+            }
         }
     }
 
@@ -535,12 +571,13 @@ struct HealthCheckView: View {
         case "expiring": L10n.health.expiring
         case "backupCodes": L10n.health.backupCodes
         case "recoveryNo2fa": L10n.health.recoveryNo2fa
+        case "recoveryBreached": L10n.health.recoveryBreached
         default: L10n.health.email.title
         }
     }
 }
 
-/// A login the report names; opens it.
+/// A login the report names; opens it. A warning about an address with no login opens nothing.
 struct HealthRow: View {
     let entry: HealthEntry
     var subtitle: String?
@@ -548,26 +585,58 @@ struct HealthRow: View {
     var tone: Notice.Tone = .info
 
     var body: some View {
-        DetailLink(route: .item(entry.itemId)) {
-            HStack(spacing: 12) {
-                Avatar(name: entry.title)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(entry.title).foregroundStyle(Color.ink).lineLimit(1)
-                    if let subtitle = subtitle ?? entry.subtitle {
-                        Text(subtitle).font(.subheadline).foregroundStyle(Color.mist).lineLimit(1)
-                    }
-                }
-                Spacer()
-                if let tag {
-                    Text(tag)
-                        .font(.caption.weight(.semibold))
-                        .foregroundStyle(tone == .danger ? Color.dangerText : Color.warnText)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 3)
-                        .background((tone == .danger ? Color.danger : Color.warn).opacity(0.12), in: Capsule())
+        if entry.itemId.isEmpty {
+            content
+        } else {
+            DetailLink(route: .item(entry.itemId)) { content }
+        }
+    }
+
+    private var content: some View {
+        HStack(spacing: 12) {
+            Avatar(name: entry.title)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(entry.title).foregroundStyle(Color.ink).lineLimit(1)
+                if let subtitle = subtitle ?? entry.subtitle {
+                    Text(subtitle).font(.subheadline).foregroundStyle(Color.mist).lineLimit(1)
                 }
             }
+            Spacer()
+            if let tag {
+                Text(tag)
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(tone == .danger ? Color.dangerText : Color.warnText)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 3)
+                    .background((tone == .danger ? Color.danger : Color.warn).opacity(0.12), in: Capsule())
+            }
         }
+    }
+}
+
+/// Plan 05: "Last backup 34 days ago" for a vault on this device only, a warning when one is due,
+/// and the way to Settings, where the backup is. Read on the phone; nothing is sent.
+struct HealthBackupLine: View {
+    let vault: LocalVaultInfo
+
+    var body: some View {
+        NavigationLink(value: Route.settings) {
+            Notice(text: Self.text(vault), tone: vault.backupDue ? .warn : .info)
+        }
+        .accessibilityIdentifier("health-last-backup")
+    }
+
+    static func text(_ vault: LocalVaultInfo, now: Date = Date()) -> String {
+        var parts: [String] = []
+        if let last = vault.lastBackupAt, let date = Dates.parse(last) {
+            let days = Int(now.timeIntervalSince(date) / 86_400)
+            parts.append(days <= 0 ? L10n.health.backup.today : L10n.health.backup.daysAgo(count: days))
+        } else {
+            parts.append(L10n.health.backup.never)
+        }
+        if let folder = vault.backupFolderName { parts.append(L10n.health.backup.automatic(folder: folder)) }
+        let line = parts.joined(separator: " · ")
+        return vault.backupDue ? "\(line) \(L10n.health.backup.due)" : line
     }
 }
 

@@ -708,6 +708,14 @@ pub async fn health_inputs(state: State<'_, AppState>) -> Result<HealthInputs> {
     state.vault.health_inputs().await
 }
 
+/// The health report's site lists: bundled, or a newer signed file from the server.
+#[tauri::command]
+pub async fn health_data(
+    state: State<'_, AppState>,
+) -> Result<octapass_desktop_vault::HealthDataLists> {
+    state.vault.health_data().await
+}
+
 #[tauri::command]
 pub async fn lookup_email_breaches(
     state: State<'_, AppState>,

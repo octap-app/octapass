@@ -39,12 +39,13 @@ describe('buildHealthReport', () => {
       missing2fa: [],
       recovery: [],
       recoveryNo2fa: [],
+      recoveryBreached: [],
       old: [],
       passkeyAvailable: [],
       insecureUrls: [],
       expiring: [],
       lowBackupCodes: [],
-      emailBreaches: { enabled: false, found: [] },
+      emailBreaches: { enabled: false, recoveryEmails: false, found: [] },
       dismissed: [],
       generatedAt: NOW.toISOString(),
     });
@@ -335,7 +336,7 @@ describe('email breach results', () => {
   it('shows nothing while alerts are off, even with old results', async () => {
     const settings = { schemaVersion: 1 as const, emailBreachAlerts: { enabled: false, found: [{ address: 'a@b.example', breaches: [breach] }] } };
     const report = await buildHealthReport([], { ...deps, settings }, NOW);
-    expect(report.emailBreaches).toEqual({ enabled: false, found: [] });
+    expect(report.emailBreaches).toEqual({ enabled: false, recoveryEmails: false, found: [] });
   });
 
   it('lists findings, marks what is new, and dismisses per address and breach', async () => {

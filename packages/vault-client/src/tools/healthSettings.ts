@@ -23,6 +23,11 @@ export interface HealthSettingsDetails {
 
 export interface EmailBreachAlerts {
   enabled: boolean;
+  /**
+   * The second opt-in: also look up the recovery map's other addresses (recovery emails and email
+   * usernames that are neither the account email nor an alias). Off unless the user turns it on.
+   */
+  recoveryEmails?: boolean;
   checkedAt?: string;
   found?: EmailBreachResult[];
   /** Warning keys of the check before, so a report can mark what's new. Missing after the first. */
@@ -67,10 +72,16 @@ export interface HealthSettings {
   /** Turning alerts off forgets their results. */
   setEmailBreachAlerts(enabled: boolean): Promise<void>;
   /**
-   * Looks the addresses up, one at a time, when alerts are on and a day has passed (or `force`).
-   * Results replace the last ones only when every address answered.
+   * The second opt-in, while alerts are on. Either way the results are forgotten, so the next check
+   * (which the caller runs at once) holds exactly the addresses the user now agreed to.
    */
-  checkEmailBreaches(addresses: string[], options?: { force?: boolean; now?: Date }): Promise<EmailBreachCheck>;
+  setRecoveryEmailChecks(enabled: boolean): Promise<void>;
+  /**
+   * Looks the addresses up, one at a time, when alerts are on and a day has passed (or `force`).
+   * Results replace the last ones only when every address answered. A function gets the stored
+   * alerts, so the addresses follow the opt-ins as they are now, not as an older report saw them.
+   */
+  checkEmailBreaches(addresses: string[] | ((alerts: EmailBreachAlerts) => string[]), options?: { force?: boolean; now?: Date }): Promise<EmailBreachCheck>;
 }
 
 export function createHealthSettings(vault: HealthSettingsVault): HealthSettings {
@@ -115,14 +126,20 @@ export function createHealthSettings(vault: HealthSettingsVault): HealthSettings
 
     setEmailBreachAlerts: (enabled) => update((details) => ({ ...details, emailBreachAlerts: { enabled } })),
 
+    setRecoveryEmailChecks: (enabled) =>
+      update((details) =>
+        details.emailBreachAlerts?.enabled ? { ...details, emailBreachAlerts: { enabled: true, ...(enabled ? { recoveryEmails: true } : {}) } } : details,
+      ),
+
     async checkEmailBreaches(addresses, { force = false, now = new Date() } = {}) {
       const alerts = readHealthSettings(await stored()).emailBreachAlerts;
       if (!alerts?.enabled) return 'off';
       const checkedAt = alerts.checkedAt ? Date.parse(alerts.checkedAt) : 0;
       if (!force && now.getTime() - checkedAt < EMAIL_BREACH_CHECK_HOURS * 3_600_000) return 'notDue';
       const found: EmailBreachResult[] = [];
+      const list = typeof addresses === 'function' ? addresses(alerts) : addresses;
       try {
-        for (const address of addresses.slice(0, MAX_EMAIL_BREACH_ADDRESSES)) {
+        for (const address of list.slice(0, MAX_EMAIL_BREACH_ADDRESSES)) {
           const breaches: EmailBreach[] = await vault.lookupEmailBreaches(address);
           if (breaches.length > 0) found.push({ address, breaches });
         }
@@ -131,12 +148,15 @@ export function createHealthSettings(vault: HealthSettingsVault): HealthSettings
       }
       await update((details) => {
         const current = details.emailBreachAlerts;
-        // Turned off while the check ran: the off wins, and nothing found is kept.
-        if (!current?.enabled) return details;
+        // Turned off while the check ran, or the second opt-in changed: the change wins, and nothing found is kept.
+        if (!current?.enabled || current.recoveryEmails !== alerts.recoveryEmails) return details;
         const previous = current.checkedAt
           ? (current.found ?? []).flatMap(({ address, breaches }) => breaches.map((b) => warningKey('emailBreach', address.toLowerCase(), b.name)))
           : undefined;
-        return { ...details, emailBreachAlerts: { enabled: true, checkedAt: now.toISOString(), found, ...(previous ? { previous } : {}) } };
+        return {
+          ...details,
+          emailBreachAlerts: { enabled: true, ...(current.recoveryEmails ? { recoveryEmails: true } : {}), checkedAt: now.toISOString(), found, ...(previous ? { previous } : {}) },
+        };
       });
       return 'checked';
     },

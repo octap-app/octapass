@@ -321,6 +321,7 @@ pub fn run() {
             commands::summarize_qr_scans,
             commands::health_inputs,
             commands::lookup_email_breaches,
+            commands::health_data,
             commands::masked_email_request,
             commands::site_icon,
             commands::totp_code,

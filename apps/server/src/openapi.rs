@@ -4,8 +4,8 @@ use utoipa::openapi::security::{HttpAuthScheme, HttpBuilder, SecurityScheme};
 use utoipa::{Modify, OpenApi};
 
 use crate::routes::{
-    account, attachments, auth, batch, breach_email, devices, emergency, families, icons,
-    masked_email, meta, orgs, password, scim, service_accounts, share_links, sharing, sso,
+    account, attachments, auth, batch, breach_email, devices, emergency, families, health_data,
+    icons, masked_email, meta, orgs, password, scim, service_accounts, share_links, sharing, sso,
     transparency, two_step, vaults, ws,
 };
 
@@ -18,7 +18,7 @@ use crate::routes::{
         license(name = "MIT", identifier = "MIT"),
     ),
     paths(
-        meta::healthz, meta::readyz, meta::server_info, meta::openapi, breach_email::lookup,
+        meta::healthz, meta::readyz, meta::server_info, meta::openapi, breach_email::lookup, health_data::file,
         auth::prelogin, auth::register_start, auth::register_finish, auth::login_start, auth::login_finish,
         auth::login_second_factor, auth::login_sso, sso::start, sso::callback, auth::refresh, auth::logout, auth::reauth_start, auth::reauth_finish,
         password::recover_start, password::recover_verify, password::recover_registration,

@@ -8,6 +8,7 @@ pub mod breach_email;
 pub mod devices;
 pub mod emergency;
 pub mod families;
+pub mod health_data;
 pub mod icons;
 pub mod masked_email;
 pub mod meta;
@@ -136,6 +137,7 @@ pub fn router(state: AppState) -> Router {
         .route("/v1/security-log", get(account::security_log))
         .route("/v1/security-log/exports", post(account::vault_exported))
         .route("/v1/health/breach-email", post(breach_email::lookup))
+        .route("/v1/health/data", get(health_data::file))
         .route("/v1/security-log/connect", post(account::connect_events))
         .route(
             "/v1/vaults/{vault_id}/service-accounts",

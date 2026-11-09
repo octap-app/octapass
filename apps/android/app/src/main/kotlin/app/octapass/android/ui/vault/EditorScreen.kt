@@ -286,6 +286,8 @@ private fun EditorForm(route: Route.Edit, original: Item?, vaults: List<Vault>) 
                     for (failure in applyFileChanges(model, saved.id, changes, context)) model.toast(failure, Toast.Tone.Danger)
                     files = FileChanges()
                 }
+                // A new item may be offered the place the phone is at (`PlaceSuggestion`).
+                if (original == null) FreshItems.add(saved.id)
                 model.toast(context.getString(R.string.editor_saved, saved.title), Toast.Tone.Success)
                 if (vault.twoPane && vault.nav.stack.size == 1) vault.nav.detail = Route.Item(saved.id)
                 else if (original != null) vault.nav.pop() else vault.nav.replace(Route.Item(saved.id))

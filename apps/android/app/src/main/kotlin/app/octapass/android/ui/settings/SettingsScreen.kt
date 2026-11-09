@@ -195,6 +195,7 @@ fun SettingsScreen() {
         TransferSection()
         EquivalentDomainsSection()
         WifiSection()
+        app.octap.android.ui.vault.NearbySettingsSection()
         if (!local) {
             TwoStepSection()
             DevicesSection()

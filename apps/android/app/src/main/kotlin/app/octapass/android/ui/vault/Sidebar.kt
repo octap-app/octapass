@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -128,12 +127,12 @@ fun typeIcon(type: ItemType): ImageVector = when (type) {
 private data class Category(val scope: Scope, val icon: ImageVector, val label: Int)
 
 /**
- * The lists above the vaults, in the web vault's order. Nearby comes second and isn't built yet
- * (it needs places saved with items), so the sidebar shows it as coming soon. Pinned and
- * Favourites are filters, with counts; the others keep an order of their own (`smartList`).
+ * The lists above the vaults, in the web vault's order. Pinned and Favourites are filters, with
+ * counts; Nearby lists places with their items; the others keep an order of their own (`smartList`).
  */
 private val QUICK_LISTS = listOf(
     Category(Scope.Smart(SmartList.CREATED), Icons.Outlined.AutoAwesome, R.string.scopes_created),
+    Category(Scope.Nearby, Icons.Outlined.LocationOn, R.string.scopes_nearby),
     Category(Scope.Pinned, Icons.Outlined.PushPin, R.string.scopes_pinned),
     Category(Scope.Favorites, Icons.Outlined.StarOutline, R.string.scopes_favorites),
     Category(Scope.Smart(SmartList.FREQUENT), Icons.AutoMirrored.Outlined.TrendingUp, R.string.scopes_frequent),
@@ -201,28 +200,6 @@ fun Sidebar(onNavigate: () -> Unit) {
         )
     }
 
-    /** A list that isn't built yet: shown, marked as coming soon, and not something to open. */
-    @Composable
-    fun soonRow(label: String, icon: ImageVector, tag: String) {
-        val soon = stringResource(R.string.nav_soon)
-        val dim = MaterialTheme.colorScheme.onSurfaceVariant
-        Row(
-            Modifier
-                .padding(NavigationDrawerItemDefaults.ItemPadding)
-                .fillMaxWidth()
-                .heightIn(min = 56.dp)
-                .padding(start = 16.dp, end = 24.dp)
-                .semantics(mergeDescendants = true) {}
-                .testTag(tag),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            Icon(icon, contentDescription = null, tint = dim)
-            Text(label, color = dim, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f, fill = false))
-            Text(soon, style = MaterialTheme.typography.labelSmall, color = dim)
-        }
-    }
-
     @Composable
     fun heading(text: Int) {
         Text(
@@ -247,7 +224,6 @@ fun Sidebar(onNavigate: () -> Unit) {
             heading(R.string.nav_vaults)
             row(stringResource(R.string.scopes_all), Icons.Outlined.GridView, Route.Items(Scope.All), counts?.get("all"), tag = "nav.all")
             for (list in QUICK_LISTS) {
-                if (list.scope == Scope.Pinned) soonRow(stringResource(R.string.scopes_nearby), Icons.Outlined.LocationOn, tag = "nav.nearby")
                 val counted = list.scope == Scope.Pinned || list.scope == Scope.Favorites
                 row(stringResource(list.label), list.icon, Route.Items(list.scope), if (counted) counts?.get(list.scope.countKey) ?: 0u else null, tag = "nav.${list.scope.view}")
             }

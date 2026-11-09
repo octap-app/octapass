@@ -130,6 +130,7 @@ fun scopeTitle(scope: Scope, vaults: List<Vault>?): String = when (scope) {
     Scope.All -> stringResource(R.string.scopes_all)
     Scope.Favorites -> stringResource(R.string.scopes_favorites)
     Scope.Pinned -> stringResource(R.string.scopes_pinned)
+    Scope.Nearby -> stringResource(R.string.scopes_nearby)
     is Scope.Smart -> stringResource(
         when (scope.list) {
             SmartList.CREATED -> R.string.scopes_created
@@ -152,7 +153,7 @@ fun ItemsScreen(scope: Scope) {
     val nav = vault.nav
     if (vault.twoPane) {
         Row(Modifier.fillMaxSize()) {
-            Box(Modifier.width(400.dp).fillMaxHeight()) { ItemList(scope) }
+            Box(Modifier.width(400.dp).fillMaxHeight()) { if (scope == Scope.Nearby) NearbyList() else ItemList(scope) }
             VerticalDivider()
             Box(Modifier.weight(1f).fillMaxHeight()) {
                 when (val detail = nav.detail) {
@@ -162,6 +163,8 @@ fun ItemsScreen(scope: Scope) {
                 }
             }
         }
+    } else if (scope == Scope.Nearby) {
+        NearbyList()
     } else {
         ItemList(scope)
     }

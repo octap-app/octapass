@@ -306,6 +306,7 @@ private fun ItemBody(item: Item, vaults: List<Vault>?) {
                 Alert(pluralStringResource(R.plurals.trash_itemNotice, left, left), AlertTone.Warn, Modifier.padding(horizontal = 16.dp, vertical = 4.dp))
             }
             if (inVault?.role == VaultRole.READ) Alert(stringResource(R.string.detail_readOnly, vaultName(inVault)), AlertTone.Info, Modifier.padding(horizontal = 16.dp, vertical = 4.dp))
+            if (isEditable(item, inVault)) PlaceSuggestion(item)
 
             Row(Modifier.padding(horizontal = 16.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 ItemIcon(model, item.title, app.octap.vault.iconDomain(item.urls), 64.dp)
@@ -331,6 +332,7 @@ private fun ItemBody(item: Item, vaults: List<Vault>?) {
                     }
                 }
             }
+            if (item.deletedAt == null) ItemPlaces(item, isEditable(item, inVault))
             Meta(item, inVault)
             Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
         }

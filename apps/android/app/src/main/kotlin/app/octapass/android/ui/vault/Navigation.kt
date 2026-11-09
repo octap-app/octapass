@@ -18,6 +18,8 @@ sealed interface Scope {
     data object Pinned : Scope
     /** Recently created, Frequently used, Recently used or Recently modified: every item in an order of its own (`smartList`). */
     data class Smart(val list: SmartList) : Scope
+    /** Nearby: the places, the one the phone is at first, each with its items (`NearbyList`). */
+    data object Nearby : Scope
     data object Passkeys : Scope
     data object Codes : Scope
     data object Trash : Scope
@@ -31,6 +33,7 @@ sealed interface Scope {
             Favorites -> "favorites"
             Pinned -> "pinned"
             is Smart -> smartListName(list)
+            Nearby -> "nearby"
             Passkeys -> "passkeys"
             Codes -> "codes"
             Trash -> "trash"

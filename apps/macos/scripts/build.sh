@@ -61,8 +61,10 @@ ensure_project
 if [[ -n "$store" ]]; then
   archive="$MAC/build/OctaPassMac.xcarchive"
   rm -rf "$archive"
+  # No bundled CLI: the App Store needs every executable sandboxed (scripts/cli.sh).
   xcode archive archive -project "$MAC/OctaPassMac.xcodeproj" -scheme OctaPassMac -configuration Release \
-    -derivedDataPath "$DERIVED" -destination 'generic/platform=macOS' -archivePath "$archive" "${settings[@]}"
+    -derivedDataPath "$DERIVED" -destination 'generic/platform=macOS' -archivePath "$archive" "${settings[@]}" \
+    OCTAPASS_BUNDLE_CLI=NO
   echo "Built $archive"
   options="$MAC/build/AppStoreExportOptions.plist"
   manage=true

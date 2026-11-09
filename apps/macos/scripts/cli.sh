@@ -12,6 +12,15 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 : "${TARGET_BUILD_DIR:?run from Xcode}" "${EXECUTABLE_FOLDER_PATH:?run from Xcode}"
+
+# The Mac App Store refuses an app with an executable that isn't sandboxed, and a sandboxed CLI
+# couldn't read the files and keys it's asked for. So the App Store build (scripts/build.sh
+# --app-store sets OCTAPASS_BUNDLE_CLI=NO) leaves it out: the app then offers no Terminal command,
+# and the CLI comes from the one-line install on the website.
+if [[ "${OCTAPASS_BUNDLE_CLI:-YES}" == "NO" ]]; then
+  echo "note: the CLI is not bundled (App Store build)"
+  exit 0
+fi
 PROGRAMS=(octapass git-credential-octapass octapass-git-sign docker-credential-octapass)
 
 profile=debug

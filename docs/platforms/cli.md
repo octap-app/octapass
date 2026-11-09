@@ -37,7 +37,7 @@ octapass --version
 
 The desktop apps bring the CLI with them:
 
-- **Mac:** the app has `octapass` inside it. **Settings → Command-line tool** shows the one Terminal command that links it into `/usr/local/bin` (it asks for your Mac's password once), and the app offers it the first time your vault opens. The app is sandboxed, so it can't do this by itself. The link follows the app through updates.
+- **Mac:** the app has `octapass` inside it. **Settings → Command-line tool** shows the one Terminal command that links it into `/usr/local/bin` (it asks for your Mac's password once), and the app offers it the first time your vault opens. The app is sandboxed, so it can't do this by itself. The link follows the app through updates. The Mac App Store and TestFlight build doesn't include the CLI, because Apple requires every program in a store app to be sandboxed and the CLI couldn't read your files from there: use the script above.
 - **Linux:** the `.deb` and `.rpm` packages install `octapass` and its helpers in `/usr/bin`. The AppImage doesn't: use the script.
 - **Windows:** the installer doesn't add the CLI yet. **Settings → Command-line tool** shows the PowerShell line above.
 

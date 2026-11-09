@@ -20,7 +20,7 @@ INSTALL_DIR="${OCTAPASS_INSTALL_DIR:-$HOME/.local/bin}"
 PROGRAMS="octapass git-credential-octapass octapass-git-sign docker-credential-octapass"
 
 say() { printf '%s\n' "$*" >&2; }
-fail() { say "open pass: $*"; exit 1; }
+fail() { say "octa pass: $*"; exit 1; }
 
 target() {
   os=$(uname -s)

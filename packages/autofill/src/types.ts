@@ -29,11 +29,36 @@ export const IDENTITY_FIELD_TYPES = [
 
 export const CARD_FIELD_TYPES = ['cc-name', 'cc-number', 'cc-exp', 'cc-exp-month', 'cc-exp-year', 'cc-csc'] as const;
 
+/** A bank account's fields, on payout, direct debit and transfer forms. They count only in a bank form. */
+export const BANK_FIELD_TYPES = ['iban', 'bic', 'bank-account-number', 'bank-routing', 'bank-account-holder', 'bank-name'] as const;
+
+/** A database console's sign-in fields beside the account and password. They count only in a database form. */
+export const DATABASE_FIELD_TYPES = ['db-host', 'db-port', 'db-name'] as const;
+
+/**
+ * Fields that take one value of one item, filled only into the field picked from: a software licence
+ * key, an ID document's number (passport, driver's licence, national ID) and a crypto wallet's
+ * receiving address. A wallet's seed phrase and passphrase are never filled.
+ */
+export const SINGLE_FIELD_TYPES = ['license-key', 'document-number', 'wallet-address'] as const;
+
 export type LoginFieldType = (typeof LOGIN_FIELD_TYPES)[number];
+export type BankFieldType = (typeof BANK_FIELD_TYPES)[number];
+export type DatabaseFieldType = (typeof DATABASE_FIELD_TYPES)[number];
+export type SingleFieldType = (typeof SINGLE_FIELD_TYPES)[number];
 export type IdentityFieldType = (typeof IDENTITY_FIELD_TYPES)[number];
 export type CardFieldType = (typeof CARD_FIELD_TYPES)[number];
 /** `search` and `unknown` fields never get a menu. `api-credential` takes an API key or bearer token. */
-export type FieldType = LoginFieldType | IdentityFieldType | CardFieldType | 'api-credential' | 'search' | 'unknown';
+export type FieldType =
+  | LoginFieldType
+  | IdentityFieldType
+  | CardFieldType
+  | BankFieldType
+  | DatabaseFieldType
+  | SingleFieldType
+  | 'api-credential'
+  | 'search'
+  | 'unknown';
 
 export type FormType =
   | 'login'
@@ -43,6 +68,10 @@ export type FormType =
   | 'one-time-code'
   | 'card'
   | 'identity'
+  /** IBAN, account number, sort or routing code: a payout, direct debit or transfer form. */
+  | 'bank'
+  /** A sign-in with a server or database field beside the password: Adminer, phpMyAdmin and the like. */
+  | 'database'
   | 'unknown';
 
 export type FillableElement = HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
@@ -127,6 +156,12 @@ export type Suggestion =
   | { kind: 'card'; id: string; title: string; subtitle?: string }
   | { kind: 'identity'; id: string; title: string; subtitle?: string }
   | { kind: 'api-credential'; id: string; title: string; subtitle?: string }
+  | { kind: 'bank-account'; id: string; title: string; subtitle?: string }
+  | { kind: 'database'; id: string; title: string; subtitle?: string }
+  | { kind: 'software-license'; id: string; title: string; subtitle?: string }
+  | { kind: 'id-document'; id: string; title: string; subtitle?: string }
+  /** One receiving address of a wallet: the host gives each address its own entry. */
+  | { kind: 'crypto-wallet'; id: string; title: string; subtitle?: string }
   /**
    * Asked first in a frame from another site: `frameHost` is the frame's own host and `site` the
    * page it's inside, both as the browser reports them. Picking it calls `approveFrame`.
@@ -151,7 +186,10 @@ export interface OtherLogin {
 
 export type SuggestionKind = Suggestion['kind'];
 
-/** Values to fill, keyed by field type. `cc-exp` is `MM/YY`; month and year fields are derived from it. */
+/**
+ * Values to fill, keyed by field type. `cc-exp` is `MM/YY`; month and year fields are derived from it.
+ * `db-port` also goes after the host (`host:port`) when the form has no port field of its own.
+ */
 export type FillValues = Partial<Record<Exclude<FieldType, 'search' | 'unknown'>, string>>;
 
 export interface SaveReport {

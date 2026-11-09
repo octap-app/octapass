@@ -1,0 +1,14 @@
+{
+  "description": "A licence activation form with an email and a licence key: picking a licence fills the key only, never the email",
+  "fields": {
+    "#email": "email",
+    "#key": "license-key"
+  },
+  "fills": [
+    {
+      "focus": "#key",
+      "pick": "software-license",
+      "expect": { "#key": "CRPS-7Q2W-9X4K-ZT8M", "#email": "" }
+    }
+  ]
+}

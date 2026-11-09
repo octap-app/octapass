@@ -1088,7 +1088,7 @@ export interface HealthReport {
   passkeyAvailable: HealthEntry[];
   /** Logins with an `http://` website, other than this device or the local network. */
   insecureUrls: (HealthEntry & { url: string })[];
-  /** Cards, IDs and passports that expired or expire within 60 days, the soonest first. Not part of the score. */
+  /** Cards, IDs, passports, software licences and API credentials that expired or expire within 60 days, the soonest first. Not part of the score. */
   expiring: (HealthEntry & { expiresOn: string; daysLeft: number })[];
   /** Logins with saved backup codes and two or fewer unused. Not part of the score. */
   lowBackupCodes: (HealthEntry & { unused: number })[];

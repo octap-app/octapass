@@ -32,7 +32,7 @@ export const octaPassAutofill: AutofillEngine = {
     return () => autofill.stop();
   },
   fillLogin(values) {
-    const forms = scanDocument(document, { shadowRoot: closedShadowRoot }).forms.filter((f) => f.type === 'login' || f.type === 'identifier');
+    const forms = scanDocument(document, { shadowRoot: closedShadowRoot }).forms.filter((f) => f.type === 'login' || f.type === 'identifier' || f.type === 'database');
     const form = forms.find((f) => f.fields.some((field) => field.fillable && field.type === 'current-password')) ?? forms.find((f) => f.fields.some((field) => field.fillable));
     const origin = form?.fields.find((field) => field.fillable && (field.type === 'username' || field.type === 'current-password'));
     return form && origin ? runFill(planFill(form, values), origin.element, () => false) : undefined;

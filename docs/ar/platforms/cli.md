@@ -57,7 +57,7 @@ octapass lock
 | `octapass list [--vault V] [--search Q]` | يعرض العناصر: العنوان واسم المستخدم والخزنة والمعرّف. يبحث البحث في العناوين وأسماء المستخدمين والروابط والوسوم. |
 | `octapass get <item> [--field F] [--vault V] [-n]` | يعرض عنصرًا دون أسراره، أو يطبع حقلًا واحدًا. |
 | `octapass totp <item> [--vault V]` | يطبع الرمز الحالي لمرة واحدة. |
-| `octapass create <type> --title T [FIELD=VALUE…]` | يضيف عنصر بيانات دخول أو كلمة مرور أو ملاحظة أو بطاقة أو هوية أو Wi-Fi. انظر [تغيير العناصر](#تغيير-العناصر). |
+| `octapass create <type> --title T [FIELD=VALUE…]` | يضيف عنصرًا من أي نوع يُكتب: بيانات دخول أو كلمة مرور أو ملاحظة أو بطاقة أو هوية أو شبكة Wi-Fi أو حساب بنكي أو بيانات API أو ترخيص برنامج أو وثيقة هوية أو محفظة عملات رقمية أو قاعدة بيانات أو عنصر مخصص أو قالب. انظر [تغيير العناصر](#تغيير-العناصر). |
 | `octapass edit <item> [FIELD=VALUE…]` | يغيّر حقول عنصر أو عنوانه أو روابطه أو وسومه أو تفضيله. |
 | `octapass delete <item> [--vault V]` | ينقل عنصرًا إلى سلة المهملات. |
 | `octapass restore <item>` | يعيد عنصرًا من سلة المهملات. |
@@ -115,6 +115,12 @@ octapass create login --title GitHub --url https://github.com username=ada passw
 octapass create login --title Mail --generate --words 5
 octapass create card --title Visa number cvv cardholder="Ada Lovelace" expiry=04/29
 octapass create note --title "Router" --stdin notes < router.txt
+octapass create bank-account --title Savings bank-name="Example Bank" iban="DE89 3704 0044 0532 0130 00" swift=COBADEFFXXX pin
+octapass create licence --title "Editor Pro" product="Editor Pro" license-key licensed-to=Ada expiry-date=2027-06-01
+octapass create database --title Warehouse database-type=postgresql host=db.internal port=5432 database=shop username=admin --generate
+octapass create wallet --title Cold address.bitcoin=bc1q… --stdin seed-phrase < seed.txt
+octapass create template --title "Gym locker" Locker Combination=hidden
+octapass create custom --title "North gym" --template "Gym locker" locker=12 combination
 octapass edit GitHub password --add-tag work
 octapass edit GitHub --unset "API key" --title "GitHub (work)"
 octapass delete GitHub
@@ -122,7 +128,22 @@ octapass delete GitHub
 
 اكتب `field=value`، أو `field` وحده لتكتب القيمة دون أن تظهر. **فضّل ذلك للأسرار**: فالبرامج الأخرى تستطيع رؤية وسائط سطر الأوامر، وقد تحتفظ بها صدفتك. يقرأ `--stdin field` قيمة حقل واحد من stdin، بعد سطر `--password-stdin` إن وُجد. وينشئ `--generate` كلمة مرور جديدة.
 
-لكل نوع حقوله: `username` و`password` و`totp` و`notes` لبيانات الدخول؛ و`cardholder` و`number` و`expiry` و`cvv` و`pin` و`brand` و`notes` للبطاقة؛ و`firstName` و`lastName` و`email` و`phone` و`birthDate` و`notes` و`address.line1` و`address.city` وغيرها للهوية؛ و`ssid` و`security` و`password` و`notes` لشبكة Wi-Fi. وفي بيانات الدخول وWi-Fi يصير أي اسم آخر حقلًا مخصصًا، مخفيًا ما لم تضف `--plain`. ولمفاتيح SSH ومفاتيح OpenPGP والبيئات أوامرها الخاصة؛ ويستطيع `edit` تغيير عنوانها وروابطها ووسومها.
+لكل نوع حقوله: `username` و`password` و`totp` و`notes` لبيانات الدخول؛ و`cardholder` و`number` و`expiry` و`cvv` و`pin` و`brand` و`notes` للبطاقة؛ و`firstName` و`lastName` و`email` و`phone` و`birthDate` و`notes` و`address.line1` و`address.city` وغيرها للهوية؛ و`ssid` و`security` و`password` و`notes` لشبكة Wi-Fi. وفي بيانات الدخول وWi-Fi يصير أي اسم آخر حقلًا مخصصًا، مخفيًا ما لم تضف `--plain`. ولمفاتيح SSH ومفاتيح OpenPGP والبيئات أوامرها الخاصة، وكذلك للشهادات والمفاتيح الأخرى (`octapass cert` و`octapass key` مع `--save`)؛ ويستطيع `edit` تغيير عنوانها وروابطها ووسومها.
+
+تأخذ الأنواع الأحدث الحقول التي يعرضها محررها. ويُكتب اسم الحقل `licenseKey` أو `license-key` أو `license_key`:
+
+| النوع (وأسماؤه المختصرة) | الحقول |
+|---|---|
+| `bank-account` (`bank`) | `bankName` و`accountHolder` و`accountType` (`checking` أو `savings` أو `business` أو `other`) و`iban` و`accountNumber` و`routingNumber` و`swift` و`branch` و`pin` و`notes` |
+| `api-credential` (`api`) | `credentialType` (`apiKey` أو `bearerToken` أو `oauth` أو `jwt` أو `basicAuth` أو `other`) و`username` و`key` و`secret` و`host` و`expiryDate` و`notes` |
+| `licence` (`license` و`software-license`) | `product` و`version` و`licenseKey` و`licensedTo` و`email` و`publisher` و`orderNumber` و`purchaseDate` و`expiryDate` و`notes` |
+| `id-document` (`id`) | `documentType` (`passport` أو `driverLicense` أو `nationalId` أو `other`) و`number` و`fullName` و`birthDate` و`issuer` و`country` و`issueDate` و`expiryDate` و`notes` |
+| `wallet` (`crypto-wallet`) | `walletName` و`seedPhrase` و`passphrase` و`notes`، و`address.<network>` لكل عنوان (`address.bitcoin` أو `address.ethereum` أو اسم شبكة أخرى) |
+| `database` (`db`) | `databaseType` (`postgresql` أو `mysql` أو `sqlServer` أو `oracle` أو `mongodb` أو `redis` أو `sqlite` أو `server` أو `other`) و`host` و`port` و`database` و`username` و`password` و`connectionString` و`notes` |
+| `custom` | حقولك أنت، بأسمائها: مخفية ما لم تضف `--plain`. ويبدأ `--template NAME` بحقول قالب. |
+| `template` | أسماء الحقول، وقيمة كل منها نوعه: `text` (الافتراضي) أو `hidden` أو `multiline` أو `url` أو `date` أو `email` أو `phone` أو `totp`. لا يحمل القالب قيمًا. |
+
+تُكتب التواريخ `YYYY-MM-DD`. وتُفحص القيم كما تفحصها التطبيقات: أرقام التحقق في IBAN، وشكل رمز SWIFT، والمنفذ، وعنوان البريد، وعنوان المحفظة في سطر واحد. وتنبّه الحقول المخفية (رمز PIN أو مفتاح أو سر أو عبارة الاسترداد أو كلمة مرور قاعدة البيانات) حين تأتي في سطر الأوامر، فاكتبها أو استعمل `--stdin`. ويعمل `--generate` مع كل نوع له كلمة مرور: بيانات الدخول وWi-Fi وقواعد البيانات. ويحذف `--unset address.bitcoin` عنوانًا، ويحذف `--unset Locker` حقلًا من عنصر مخصص.
 
 تبقى الحقول التي لا يعرفها Octa Pass كما هي. وتذهب كلمة المرور المتغيّرة إلى سجل كلمات المرور في العنصر. وإذا غيّر جهاز آخر العنصر أولًا، تحتفظ الخزنة بالنسختين، كما في كل التطبيقات الأخرى.
 

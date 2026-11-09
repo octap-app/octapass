@@ -1,12 +1,13 @@
 // Answers content scripts. They only learn about logins and one-time codes for the page they run
 // in, as the browser reports it, and only get a secret back for an item that matches that page.
 // Cards and identities aren't tied to a site; they're offered in card and address fields only.
-// API credentials are tied to a site exactly as logins are.
+// API credentials are tied to a site exactly as logins are. Bank accounts, databases, licences, ID
+// documents and wallet addresses are offered like cards, in their own fields only (`itemFills.ts`).
 // A frame from another site than the page gets nothing until the user allows it (`frames.ts`).
 // Logins for other parts of the page's site are listed apart, filled only when the user picks one
 // from that list, and only after checking here that they really are for another part of this site.
 
-import type { FieldType, FillValues, Suggestion } from '@octapass/autofill';
+import { BANK_FIELD_TYPES, DATABASE_FIELD_TYPES, type FieldType, type FillValues, type Suggestion } from '@octapass/autofill';
 import type { PasswordRules, RandomGeneratorOptions } from '@octapass/core/full';
 import {
   DEFAULT_PASSWORD_OPTIONS,
@@ -25,6 +26,7 @@ import { apiCredentialFillValues, credentialValue, type ApiKeySaver } from './ap
 import type { AutofillAuth } from './deviceAuth';
 import type { DetailsSaver } from './detailsSaves';
 import { fillOnLoadEnabled, loginToFill } from './fillOnLoad';
+import { bankSuggestions, databaseSuggestions, itemFillValues, singleValueSuggestions, suggestionItemId, walletSuggestions } from './itemFills';
 import type { FrameApprovals } from './frames';
 import type { MaskedEmailFiller } from './maskedEmail';
 import { webPage, type Matcher } from './matching';
@@ -40,6 +42,8 @@ export const OTHER_LOGINS_SUGGESTION = 'octapass:other-logins';
 
 const LOGIN_FIELDS = new Set<FieldType>(['username', 'current-password']);
 const NEW_PASSWORD_FIELDS = new Set<FieldType>(['new-password', 'confirm-password']);
+const BANK_FIELDS = new Set<FieldType>(BANK_FIELD_TYPES);
+const DATABASE_FIELDS = new Set<FieldType>(DATABASE_FIELD_TYPES);
 const IDENTITY_FIELDS = new Set<FieldType>([
   'email', 'name', 'given-name', 'family-name', 'tel', 'organization', 'bday',
   'address-line1', 'address-line2', 'address-level2', 'address-level1', 'postal-code', 'country',
@@ -176,6 +180,18 @@ async function suggestions({ host, matcher, frames, rules, masked }: ContentCont
         logins: others.map(({ item, host }) => ({ id: item.id, title: item.title, host, ...(item.subtitle ? { username: item.subtitle } : {}) })),
       });
     }
+    // A database console's sign-in: then the databases.
+    if (field.formType === 'database') list.push(...(await databaseSuggestions(host, matcher, items, sender.url)));
+  } else if (DATABASE_FIELDS.has(fieldType)) {
+    list = await databaseSuggestions(host, matcher, items, sender.url);
+  } else if (BANK_FIELDS.has(fieldType)) {
+    list = await bankSuggestions(host, items);
+  } else if (fieldType === 'license-key') {
+    list = await singleValueSuggestions(host, items, 'software-license');
+  } else if (fieldType === 'document-number') {
+    list = await singleValueSuggestions(host, items, 'id-document');
+  } else if (fieldType === 'wallet-address') {
+    list = await walletSuggestions(host, items);
   } else if (fieldType === 'one-time-code') {
     list = matcher
       .logins(items, sender.url)
@@ -224,7 +240,7 @@ async function resolve(context: ContentContext, suggestion: Pick<Suggestion, 'ki
       return { error: isVaultError(error) ? error.code : 'unexpected' };
     }
   }
-  const item = await host.getItem(suggestion.id).catch(() => undefined);
+  const item = await host.getItem(suggestionItemId(suggestion).itemId).catch(() => undefined);
   if (!item || item.deletedAt) return null;
   // The autofill gate: only when actually filling, never for opening the vault or listing suggestions.
   const card = suggestion.kind === 'card' && item.overview.type === 'card' ? (item.details as CardDetails) : undefined;
@@ -252,6 +268,13 @@ async function resolve(context: ContentContext, suggestion: Pick<Suggestion, 'ki
       break;
     case 'identity':
       if (item.overview.type === 'identity') values = identityValues(item.details as IdentityDetails);
+      break;
+    case 'bank-account':
+    case 'database':
+    case 'software-license':
+    case 'id-document':
+    case 'crypto-wallet':
+      values = itemFillValues(suggestion, item);
       break;
   }
   if (values) {

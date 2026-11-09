@@ -15,6 +15,7 @@ const rows: ItemSummary[] = [
   { id: 'gh', vaultId: 'v', type: 'login', title: 'GitHub', subtitle: 'ada', favorite: false, hasTotp: true, hasPasskey: false, createdAt: 't', updatedAt: 't' },
   { id: 'bank', vaultId: 'v', type: 'login', title: 'Bank', subtitle: 'ada.l', favorite: false, hasTotp: false, hasPasskey: false, createdAt: 't', updatedAt: 't' },
   { id: 'note', vaultId: 'v', type: 'secureNote', title: 'Notes', favorite: false, hasTotp: false, hasPasskey: false, createdAt: 't', updatedAt: 't' },
+  { id: 'db', vaultId: 'v', type: 'database', title: 'Warehouse', subtitle: 'db.internal', favorite: false, hasTotp: false, hasPasskey: false, createdAt: 't', updatedAt: 't' },
 ];
 
 async function setup(status: 'locked' | 'unlocked', transport = new FakeTransport()) {
@@ -69,6 +70,21 @@ describe('QuickAccess', () => {
     await waitFor(() => expect(screen.queryByText('Bank')).not.toBeInTheDocument());
     await user.keyboard('{Escape}');
     expect(actions.hide).toHaveBeenCalled();
+  });
+
+  it('lists databases with logins, to copy or type their user name and password', async () => {
+    const user = userEvent.setup();
+    const { actions } = await setup('unlocked');
+    const search = await screen.findByRole('searchbox', { name: 'Search logins' });
+    await user.type(search, 'ware');
+    await waitFor(() => expect(screen.queryByText('Bank')).not.toBeInTheDocument());
+    expect(screen.getByRole('option', { name: /Warehouse/ })).toBeInTheDocument();
+    await user.keyboard('{Enter}');
+    expect(actions.copy).toHaveBeenLastCalledWith('db', 'password');
+    await user.keyboard('{Shift>}{Enter}{/Shift}');
+    expect(actions.copy).toHaveBeenLastCalledWith('db', 'username');
+    await user.keyboard('{Alt>}{Enter}{/Alt}');
+    expect(actions.copy).toHaveBeenCalledTimes(2);
   });
 
   it('offers no code for a login without one', async () => {

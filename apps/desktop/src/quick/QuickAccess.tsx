@@ -52,6 +52,7 @@ const IS_MAC = typeof navigator !== 'undefined' && /Mac/.test(navigator.platform
 
 function fieldsFor(row: ItemSummary): CopyField[] {
   if (row.type === 'password') return ['password'];
+  if (row.type === 'database') return ['username', 'password'];
   return row.hasTotp ? ['username', 'password', 'code'] : ['username', 'password'];
 }
 
@@ -165,7 +166,8 @@ function Search({ service, actions, opening }: { service: VaultService; actions:
         .listItems({ query })
         .then((items) => {
           if (!current) return;
-          let logins = items.filter((item) => item.type === 'login' || item.type === 'password');
+          // Databases too: their user name and password copy and type like a login's.
+          let logins = items.filter((item) => item.type === 'login' || item.type === 'password' || item.type === 'database');
           // The auto-type shortcut lists the logins for the window first, until a search.
           if (picker?.matches.length && !query) {
             const order = new Map(picker.matches.map((id, index) => [id, index]));

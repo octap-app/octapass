@@ -734,7 +734,8 @@ pub struct FieldArgs {
 
 #[derive(Debug, Args)]
 pub struct CreateArgs {
-    /// login, password, note, card, identity or wifi.
+    /// login, password, note, card, identity, wifi, bank-account, api-credential, licence,
+    /// id-document, wallet, database, custom or template.
     #[arg(value_name = "TYPE")]
     pub item_type: String,
     #[arg(long)]
@@ -750,6 +751,9 @@ pub struct CreateArgs {
     pub tags: Vec<String>,
     #[arg(long)]
     pub favorite: bool,
+    /// For a custom item: start with this template's fields (its name or id).
+    #[arg(long, value_name = "TEMPLATE")]
+    pub template: Option<String>,
     #[command(flatten)]
     pub values: FieldArgs,
 }

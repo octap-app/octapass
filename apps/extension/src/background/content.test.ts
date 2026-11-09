@@ -477,3 +477,79 @@ describe('handleContent, fill on page load', () => {
     expect(request).not.toHaveBeenCalled();
   });
 });
+
+describe('handleContent, the newer item types', () => {
+  const item = (id: string, type: string, details: object, overview: object = {}): Item => ({
+    id,
+    vaultId: 'v1',
+    revision: 1,
+    createdAt: '',
+    updatedAt: '',
+    overview: { schemaVersion: 1, title: id, type: type as never, ...overview },
+    details: { schemaVersion: 1, ...details } as never,
+  });
+  const bank = item('savings', 'bankAccount', { accountHolder: 'Maya Orchid', iban: 'DE89 3704 0044 0532 0130 00', swift: 'COBADEFFXXX', bankName: 'Example Bank', pin: '1234' }, { subtitle: 'Example Bank' });
+  const emptyBank = item('empty', 'bankAccount', { bankName: 'Nothing here' });
+  const database = item('prod', 'database', { host: 'db.internal', port: '5432', database: 'shop', username: 'admin', password: 'db-pw', connectionString: 'postgres://admin:db-pw@db.internal/shop' }, { subtitle: 'db.internal' });
+  const onPage = item('console', 'database', { host: 'login.shop.example', username: 'root', password: 'root-pw' });
+  const licence = item('editor', 'softwareLicense', { product: 'Editor', licenseKey: 'AAAA-BBBB-CCCC', licensedTo: 'Maya' }, { subtitle: 'Maya' });
+  const passport = item('passport', 'idDocument', { documentType: 'passport', number: 'X1234567', fullName: 'Maya Orchid' }, { subtitle: 'Maya Orchid' });
+  const wallet = item('wallet', 'cryptoWallet', { walletName: 'Cold', seedPhrase: 'abandon abandon about', passphrase: 'p', addresses: [{ network: 'bitcoin', address: 'bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq' }, { network: 'ethereum', address: '0x52908400098527886E0F7030069857D2E4169EE7' }] });
+  const all = [bank, emptyBank, database, onPage, licence, passport, wallet];
+  const resolve = (kind: string, id: string) => ({ type: 'resolve' as const, suggestion: { kind, id } as never });
+
+  it('offers bank accounts on any page, with no secret in the list, and fills the account', async () => {
+    const { context } = setup(all);
+    expect(await handleContent(context, field('iban', 'bank'), lookalike)).toEqual({ status: 'unlocked', suggestions: [{ kind: 'bank-account', id: 'savings', title: 'savings', subtitle: '•••• 3000' }] });
+    const values = await handleContent(context, resolve('bank-account', 'savings'), lookalike);
+    expect(values).toEqual({ 'bank-account-holder': 'Maya Orchid', iban: 'DE89 3704 0044 0532 0130 00', bic: 'COBADEFFXXX', 'bank-name': 'Example Bank' });
+    expect(JSON.stringify(values)).not.toContain('1234');
+  });
+
+  it('offers databases in a console’s sign-in, the one on the page’s host first, and fills it', async () => {
+    const { context } = setup(all);
+    const inServer = (await handleContent(context, field('db-host', 'database'), shop)) as { suggestions: { id: string }[] };
+    expect(inServer.suggestions.map((s) => s.id)).toEqual(['console', 'prod']);
+    const inUsername = (await handleContent(context, field('username', 'database'), shop)) as { suggestions: { kind: string; id: string }[] };
+    expect(inUsername.suggestions.map((s) => `${s.kind}:${s.id}`)).toEqual(['login:shop', 'database:console', 'database:prod']);
+    expect(await handleContent(context, resolve('database', 'prod'), shop)).toEqual({ 'db-host': 'db.internal', 'db-port': '5432', 'db-name': 'shop', username: 'admin', 'current-password': 'db-pw' });
+    // An ordinary sign-in gets no databases.
+    const plain = (await handleContent(context, field('username', 'login'), shop)) as { suggestions: { kind: string }[] };
+    expect(plain.suggestions.map((s) => s.kind)).toEqual(['login']);
+  });
+
+  it('fills a licence key, an ID number and one wallet address, never the seed phrase', async () => {
+    const { context } = setup(all);
+    expect(await handleContent(context, field('license-key', 'unknown'), shop)).toMatchObject({ suggestions: [{ kind: 'software-license', id: 'editor', subtitle: 'Maya' }] });
+    expect(await handleContent(context, resolve('software-license', 'editor'), shop)).toEqual({ 'license-key': 'AAAA-BBBB-CCCC' });
+    expect(await handleContent(context, field('document-number', 'unknown'), shop)).toMatchObject({ suggestions: [{ kind: 'id-document', id: 'passport' }] });
+    expect(await handleContent(context, resolve('id-document', 'passport'), shop)).toEqual({ 'document-number': 'X1234567' });
+    const addresses = (await handleContent(context, field('wallet-address', 'unknown'), shop)) as { suggestions: { id: string; subtitle: string }[] };
+    expect(addresses.suggestions.map((s) => [s.id, s.subtitle])).toEqual([
+      ['wallet#0', 'bitcoin · bc1qar0s…wf5mdq'],
+      ['wallet#1', 'ethereum · 0x529084…169EE7'],
+    ]);
+    const filled = await handleContent(context, resolve('crypto-wallet', 'wallet#1'), shop);
+    expect(filled).toEqual({ 'wallet-address': '0x52908400098527886E0F7030069857D2E4169EE7' });
+    expect(JSON.stringify(addresses) + JSON.stringify(filled)).not.toContain('abandon');
+  });
+
+  it('fills nothing when the kind and the item don’t agree, or the address isn’t there', async () => {
+    const { context } = setup(all);
+    expect(await handleContent(context, resolve('bank-account', 'editor'), shop)).toBeNull();
+    expect(await handleContent(context, resolve('software-license', 'savings'), shop)).toBeNull();
+    expect(await handleContent(context, resolve('crypto-wallet', 'wallet#7'), shop)).toBeNull();
+    expect(await handleContent(context, resolve('crypto-wallet', 'wallet'), shop)).toBeNull();
+  });
+
+  it('goes through the autofill device-auth gate and counts as a use', async () => {
+    const { context, used } = setup(all);
+    const request = vi.fn(async () => false);
+    context.fillAuth = { request, requestCard: vi.fn() } as unknown as ContentContext['fillAuth'];
+    expect(await handleContent(context, resolve('database', 'prod'), shop)).toBeNull();
+    expect(request).toHaveBeenCalled();
+    request.mockResolvedValue(true);
+    expect(await handleContent(context, resolve('crypto-wallet', 'wallet#0'), shop)).not.toBeNull();
+    expect(used).toEqual(['wallet']);
+  });
+});

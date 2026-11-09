@@ -103,6 +103,8 @@ octapass create login --title GitHub --url https://github.com username=ada --gen
 octapass create login --title Mail --generate --words 5 --tag personal
 octapass create card --title Visa cardholder="Ada Lovelace" expiry=04/29 number cvv
 octapass create note --title Router --stdin notes < router.txt
+octapass create database --title Warehouse host=db.internal port=5432 username=admin --generate
+octapass create licence --title "Editor Pro" product="Editor Pro" license-key expiry-date=2027-06-01
 octapass edit GitHub --add-tag work --remove-tag old
 octapass edit GitHub --generate --length 32
 octapass edit GitHub --unset "API key" --title "GitHub (work)"
@@ -110,13 +112,21 @@ octapass delete GitHub
 octapass restore GitHub
 ```
 
-- `octapass create` makes a `login`, `password`, `note`, `card`, `identity` or `wifi`. SSH keys, OpenPGP keys, environments, certificates and OAuth clients have their own commands below.
+- `octapass create` makes a `login`, `password`, `note`, `card`, `identity`, `wifi`, `bank-account`, `api-credential`, `licence`, `id-document`, `wallet`, `database`, `custom` or `template`. SSH keys, OpenPGP keys, environments, certificates, other keys and OAuth clients have their own commands below.
 - Write `field=value`, or `field` alone for a hidden prompt (the user types it). `--stdin FIELD` reads one field from stdin. `--generate` makes a new password: 20 characters, or `--length` (4–128) or `--words` (3–20).
 - Fields by type:
   - login and password: `username`, `password`, `totp`, `notes`
   - card: `cardholder`, `number`, `expiry`, `cvv`, `pin`, `brand`, `notes`
   - identity: `firstName`, `lastName`, `email`, `phone`, `birthDate`, `notes`, `address.line1`, `address.city`, `address.postalCode`, `address.country`…
   - wifi: `ssid`, `security`, `password`, `notes`
+  - bank-account: `bankName`, `accountHolder`, `accountType`, `iban`, `accountNumber`, `routingNumber`, `swift`, `branch`, `pin`
+  - api-credential: `credentialType`, `username`, `key`, `secret`, `host`, `expiryDate`
+  - licence: `product`, `version`, `licenseKey`, `licensedTo`, `email`, `publisher`, `orderNumber`, `purchaseDate`, `expiryDate`
+  - id-document: `documentType`, `number`, `fullName`, `birthDate`, `issuer`, `country`, `issueDate`, `expiryDate`
+  - wallet: `walletName`, `seedPhrase`, `passphrase`, and `address.bitcoin`, `address.ethereum`… per address
+  - database: `databaseType`, `host`, `port`, `database`, `username`, `password`, `connectionString`
+  - custom: your own labels (hidden unless `--plain`); `--template NAME` starts from a template. template: labels with their kind as the value (`Locker`, `Combination=hidden`).
+  - Every type takes `notes`. Names can be written `licenseKey` or `license-key`. Dates are `YYYY-MM-DD`; IBANs, SWIFT codes, ports and wallet addresses are checked.
   - Any other name becomes a custom field on a login or Wi-Fi item, hidden unless you add `--plain`.
 - `--vault` picks the vault (default Personal). `--url` and `--tag` can repeat, and `--favorite` sets the favourite.
 - `octapass edit` keeps fields it doesn't know about. A changed password goes into the item's history. `--add-url`, `--remove-url`, `--favorite` and `--no-favorite` change the rest.

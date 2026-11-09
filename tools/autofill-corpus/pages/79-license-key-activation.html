@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Activate Quillnote Pro</title>
+<style>
+  body { margin: 0; font: 15px/1.5 -apple-system, system-ui, sans-serif; background: #101418; color: #e8edf2; }
+  main { width: 440px; margin: 60px auto; background: #1b2128; border-radius: 12px; padding: 28px 30px; }
+  h1 { margin: 0 0 6px; font-size: 21px; }
+  p { margin: 0 0 18px; color: #9aa7b4; }
+  label { display: block; font-size: 13px; margin: 12px 0 4px; color: #c2ccd6; }
+  input { box-sizing: border-box; width: 100%; padding: 10px; border: 1px solid #36414d; border-radius: 8px; background: #0f1317; color: inherit; font: 15px ui-monospace, monospace; }
+  button { margin-top: 18px; padding: 10px 24px; border: 0; border-radius: 8px; background: #3b82f6; color: #fff; font: inherit; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Activate Quillnote Pro</h1>
+  <p>Paste the key from your receipt. Your email is used only to send the licence file.</p>
+  <form id="activate">
+    <label for="email">Email address</label><input id="email" type="email" name="email">
+    <label for="key">License key</label><input id="key" name="license_key" placeholder="XXXX-XXXX-XXXX-XXXX" spellcheck="false">
+    <button type="submit">Activate</button>
+  </form>
+</main>
+<script>document.getElementById('activate').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

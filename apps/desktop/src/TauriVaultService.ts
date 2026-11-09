@@ -147,7 +147,7 @@ export interface HealthInputs {
     /** How many backup codes are saved, and how many unused; never the codes. */
     backupCodes?: { total: number; unused: number };
   }[];
-  /** Cards, IDs and passports with an expiry date. */
+  /** Cards, IDs, passports, software licences and API credentials with an expiry date. */
   expiries?: { itemId: string; vaultId: string; type: ItemType; title: string; subtitle?: string; expiry: string }[];
   groups: { score: StrengthEstimate['score']; breachCount?: number }[];
   breachCheckCompleted: boolean;

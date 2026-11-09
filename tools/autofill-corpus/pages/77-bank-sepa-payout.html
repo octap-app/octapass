@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Get paid · Fernhill Makers Market</title>
+<style>
+  body { margin: 0; font: 15px/1.5 system-ui, sans-serif; background: #f3f1ea; color: #23251f; }
+  .card { width: 460px; margin: 48px auto; background: #fff; border-radius: 10px; padding: 26px 30px; box-shadow: 0 2px 10px rgba(0,0,0,.08); }
+  h1 { margin: 0 0 4px; font-size: 22px; }
+  p { margin: 0 0 18px; color: #5d6056; }
+  .row { margin-bottom: 14px; }
+  label { display: block; font-weight: 600; font-size: 13px; margin-bottom: 4px; }
+  input { box-sizing: border-box; width: 100%; padding: 9px 10px; border: 1px solid #c9cbbf; border-radius: 6px; font: inherit; }
+  button { padding: 10px 22px; border: 0; border-radius: 6px; background: #2f6b3a; color: #fff; font: inherit; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Where should we send your earnings?</h1>
+  <p>Payouts go out every Friday by SEPA transfer.</p>
+  <form id="payout" action="/seller/payout" method="post">
+    <div class="row"><label for="holder">Account holder name</label><input id="holder" name="payout[account_holder]"></div>
+    <div class="row"><label for="iban">IBAN</label><input id="iban" name="payout[iban]" maxlength="34" spellcheck="false"></div>
+    <div class="row"><label for="bic">BIC / SWIFT</label><input id="bic" name="payout[bic]" maxlength="11"></div>
+    <div class="row"><label for="bankname">Bank name</label><input id="bankname" name="payout[bank_name]"></div>
+    <div class="row"><label for="ref">Note for your records (optional)</label><input id="ref" name="payout[note]"></div>
+    <button type="submit">Save payout method</button>
+  </form>
+</div>
+<script>document.getElementById('payout').onsubmit = function (e) { e.preventDefault(); };</script>
+</body>
+</html>

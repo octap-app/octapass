@@ -1,0 +1,32 @@
+{
+  "description": "A database console's sign-in: system select, server, username, password and database, in a table. It is a database sign-in, not a sign-up, and with no port box the server takes host:port",
+  "fields": {
+    "#server": "db-host",
+    "#username": "username",
+    "#password": "current-password",
+    "#db": "db-name"
+  },
+  "forms": [{ "field": "#password", "type": "database" }],
+  "fills": [
+    {
+      "focus": "#server",
+      "pick": "database",
+      "expect": {
+        "#server": "db.example.test:5432",
+        "#username": "shop_admin",
+        "#password": "db-pass-77!",
+        "#db": "shop"
+      }
+    },
+    {
+      "focus": "#username",
+      "pick": "login",
+      "expect": {
+        "#server": "",
+        "#username": "alex@example.test",
+        "#password": "correct-horse-42!",
+        "#db": ""
+      }
+    }
+  ]
+}

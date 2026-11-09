@@ -22,9 +22,11 @@ use crate::vault::Vault;
 
 /// Dismissed warnings and email breach results live in one hidden item of this type.
 pub const HEALTH_SETTINGS_TYPE: &str = "healthSettings";
-/// What the expiry check covers. `idDocument` is a passport, driver's licence or national ID.
-const EXPIRING_TYPES: [&str; 2] = ["card", "idDocument"];
-/// Cards keep it in the first, IDs in the second.
+/// What the expiry check covers: every type with an expiry date, as in the web vault
+/// (`packages/vault-client/src/tools/health.ts`). `idDocument` is a passport, driver's licence or
+/// national ID. Certificates have their own renewal reminders.
+const EXPIRING_TYPES: [&str; 4] = ["card", "idDocument", "softwareLicense", "apiCredential"];
+/// Cards keep it in the first, the other types in the second.
 const EXPIRY_FIELDS: [&str; 2] = ["expiry", "expiryDate"];
 
 /// At most this many range requests in flight.
@@ -37,7 +39,7 @@ pub struct HealthInputs {
     pub groups: Vec<PasswordGroup>,
     /// False when a breach lookup failed; then no group has a count.
     pub breach_check_completed: bool,
-    /// Cards, IDs and passports with an expiry date.
+    /// Cards, IDs, passports, software licences and API credentials with an expiry date.
     pub expiries: Vec<HealthExpiry>,
     pub settings: HealthSettings,
 }

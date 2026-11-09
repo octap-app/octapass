@@ -1,13 +1,13 @@
 ---
 title: Autofill
-description: How Octa Pass fills logins, cards and identities in browsers and apps, how domain matching works, and the safety rules that stop phishing and clickjacking.
+description: How Octa Pass fills logins, cards, identities, bank accounts and the other item types in browsers and apps, how domain matching works, and the safety rules that stop phishing and clickjacking.
 status: in-progress
 sidebar:
   order: 2
 ---
 
 :::note[In progress]
-Autofill is built in the browser extension, the desktop apps and the iPhone, iPad and Android apps, but it isn't released yet. Still missing: auto-type in the Mac app, and filling from the newer item types such as bank accounts and ID documents. The Safari extension hasn't been run in Safari itself yet. See the [roadmap](/docs/reference/roadmap/).
+Autofill is built in the browser extension, the desktop apps and the iPhone, iPad and Android apps, but it isn't released yet. Still missing: auto-type in the Mac app, and filling the newer item types on phones and in the Mac and iPhone AutoFill (they fill in the browser extension, and databases through auto-type). The Safari extension hasn't been run in Safari itself yet. See the [roadmap](/docs/reference/roadmap/).
 :::
 
 ## Where autofill works
@@ -34,10 +34,28 @@ On the iPhone, iPad and Android, AutoFill and the autofill services run apart fr
 - Login forms, including multi-step and identifier-first logins
 - TOTP fields, and copying the code after the password is filled
 - Card forms and identity/address forms
+- The [newer item types](#bank-accounts-licences-and-the-other-types) in the browser extension: bank accounts, databases, licence keys, ID document numbers and wallet addresses
 - [Passkeys](/docs/features/passkeys/) through WebAuthn
 - New-account forms, with a [generated password](/docs/features/password-generator/) or a [masked email](/docs/features/masked-email/)
 
 When you sign in or sign up, Octa Pass offers to **save or update** the login. When possible it waits until the page navigates successfully, so a failed login isn't saved.
+
+## Bank accounts, licences and the other types
+
+The browser extension fills the newer [item types](/docs/features/item-types/) into the fields that take them. Like cards, they aren't tied to a website: they're offered only in fields Octa Pass recognises as theirs, and filled only when you pick one, with the same [device auth](#device-auth-on-fills) and [safety rules](#safety-rules) as a login.
+
+| Item | Offered in | What it fills |
+|---|---|---|
+| **Bank account** | A form that takes a bank account and has no password: payouts, direct debits, transfers | Account holder, IBAN (without spaces), SWIFT/BIC, bank name, account number, and routing number, sort code, BSB or IFSC (without dashes when the box is too short for them). Never the PIN. The list shows the last four characters of the IBAN or account number. |
+| **Database** | A database console's sign-in: a server or database field beside one password (Adminer, phpMyAdmin and the like) | Server, port, database, user name and password. A server box with no port box beside it gets `host:port`. The site's own logins are listed first, then databases saved for the page's host, then the rest. |
+| **API credential** | Fields named as a key or token, on the sites the credential is saved for | The key or live token, in the field you picked from only. |
+| **Software licence** | Fields named as a licence key, product key or serial number | The licence key, in that field only. |
+| **ID document** | Passport, ID card, national ID and driver's licence number fields | The document's number, in that field only. |
+| **Crypto wallet** | Wallet, withdrawal and payout address fields | One receiving address: each address is its own entry, with its network. **Never the seed phrase or passphrase.** |
+
+A sign-in that asks for an "account number" and "sort code" next to a password stays a sign-in: bank words count only on a form without a password. An emailed "activation code" isn't a licence key, and a "Server URL" on a self-hosted app's sign-in isn't a database server. Custom items, environments and keys aren't filled.
+
+On the desktop, [auto-type](#auto-type) types a database's user name and password into a database client the way it types a login. Phones and the Mac's and iPhone's AutoFill fill logins, passwords and one-time codes only; the newer types are copied from the app there.
 
 ## Save prompts
 
@@ -192,8 +210,8 @@ The full reasoning is in the [threat model](/docs/security/threat-model/).
 
 ## Auto-type
 
-On desktop, auto-type types `username ⇥ password ↵` (or the item's own sequence) into the focused window after checking that the window belongs to the item: in a browser by the page's address, never its title; in other apps by the window title or app name, or by the windows listed on the item. It uses the platform's input APIs: SendInput on Windows, CGEvent on macOS (needs Accessibility permission), XTest on X11, and the RemoteDesktop portal on Wayland where available. Where none of those work, it falls back to the clipboard with auto-clear. Details in the [desktop app docs](/docs/platforms/desktop/#auto-type).
+On desktop, auto-type types `username ⇥ password ↵` (or the item's own sequence) from a login, or from a database item, into the focused window after checking that the window belongs to the item: in a browser by the page's address, never its title; in other apps by the window title or app name, or by the windows listed on the item. It uses the platform's input APIs: SendInput on Windows, CGEvent on macOS (needs Accessibility permission), XTest on X11, and the RemoteDesktop portal on Wayland where available. Where none of those work, it falls back to the clipboard with auto-clear. Details in the [desktop app docs](/docs/platforms/desktop/#auto-type).
 
 ## Quality
 
-Autofill is tested against a [corpus](https://github.com/octap-app/octapass/tree/main/tools/autofill-corpus) of 76 synthetic pages covering login, sign-up, card and address forms, multi-step sign-ins, frames and shadow DOM. It scores 100% on the pages it was tuned on and 95% on pages written later as a held-out set. Snapshots of real top sites, and an opt-in report for "autofill didn't work here" that contains the form structure only, never values, are planned. Until then, [open an issue](https://github.com/octap-app/octapass/issues/new/choose).
+Autofill is tested against a [corpus](https://github.com/octap-app/octapass/tree/main/tools/autofill-corpus) of 79 synthetic pages covering login, sign-up, card, address, bank account, database console and licence forms, multi-step sign-ins, frames and shadow DOM. It scores 100% on the pages it was tuned on and 95% on pages written later as a held-out set. Snapshots of real top sites, and an opt-in report for "autofill didn't work here" that contains the form structure only, never values, are planned. Until then, [open an issue](https://github.com/octap-app/octapass/issues/new/choose).

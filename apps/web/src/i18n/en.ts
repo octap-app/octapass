@@ -942,7 +942,7 @@ export const en = {
     insecureUrls: 'Insecure websites',
     insecureUrlsHelp: 'These logins use http://, so a password sent there isn’t encrypted on the way. Check whether the site has an https:// address and update the login.',
     expiring: 'Expiring soon',
-    expiringHelp: 'Cards, IDs and passports that have expired or will within 60 days.',
+    expiringHelp: 'Cards, IDs, passports, software licences and API keys that have expired or will within 60 days.',
     expired: 'Expired',
     expiresToday: 'Expires today',
     expiresIn: { one: 'Expires in {count} day', other: 'Expires in {count} days' },

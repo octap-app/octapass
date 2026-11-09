@@ -3,6 +3,7 @@
 //! (`apps/web/src/screens/vault/editorModel.ts`), so a row reads the same in every client.
 
 use octapass_api::VaultRole;
+use octapass_core::item_fields::{self, CUSTOM_FIELD_KINDS, FieldKind, TABLE_TYPES};
 use octapass_core::tools::generator::{
     GeneratorOptions, PassphraseOptions, RandomOptions, generate,
 };
@@ -17,7 +18,26 @@ use crate::session::DEFAULT_IDLE;
 use crate::{App, Opened, input_error, items};
 
 /// Canonical field names per type. `None` for a type this version has no table for: any name goes.
-fn fields_of(item_type: &str) -> Option<&'static [&'static str]> {
+/// The newer types' fields come from the core's table (`octapass_core::item_fields`), the one the
+/// apps build their editors from. A wallet's addresses are `address.<network>`; a custom item's
+/// fields and a template's are named by their labels.
+fn fields_of(item_type: &str) -> Option<Vec<&'static str>> {
+    if TABLE_TYPES.contains(&item_type) {
+        let mut fields: Vec<&'static str> = item_fields::fields_of(item_type)
+            .iter()
+            .map(|field| field.key)
+            .collect();
+        fields.push("notes");
+        return Some(fields);
+    }
+    Some(match item_type {
+        "custom" => vec!["notes"],
+        "customTemplate" => vec![],
+        _ => return fields_of_older(item_type).map(<[&str]>::to_vec),
+    })
+}
+
+fn fields_of_older(item_type: &str) -> Option<&'static [&'static str]> {
     Some(match item_type {
         "login" | "password" => &["username", "password", "totp", "notes", "httpRealm"],
         "secureNote" | "document" => &["notes"],
@@ -57,9 +77,30 @@ fn fields_of(item_type: &str) -> Option<&'static [&'static str]> {
     })
 }
 
+/// Every type `create` makes, as the error and `--help` name them.
+const CREATABLE: &str = "login, password, note, card, identity, wifi, bank-account, api-credential, licence, id-document, wallet, database, custom or template";
+
 /// Values worth a warning when they arrive on the command line.
-fn is_secret_field(name: &str) -> bool {
-    matches!(name, "password" | "totp" | "number" | "cvv" | "pin")
+fn is_secret_field(item_type: &str, name: &str) -> bool {
+    let table = item_fields::fields_of(item_type);
+    if let Some(field) = table.iter().find(|field| same_name(field.key, name)) {
+        return field.kind.is_secret();
+    }
+    matches!(
+        name.to_lowercase().as_str(),
+        "password" | "totp" | "number" | "cvv" | "pin"
+    )
+}
+
+/// `licenseKey`, `license-key`, `license_key` and `LICENSEKEY` are one name.
+fn same_name(field: &str, name: &str) -> bool {
+    let fold = |text: &str| {
+        text.chars()
+            .filter(|c| !matches!(c, '-' | '_' | ' '))
+            .collect::<String>()
+            .to_lowercase()
+    };
+    fold(field) == fold(name)
 }
 
 /// Types made by their own commands, whose details need more than typed values.
@@ -68,6 +109,10 @@ fn own_command(item_type: &str) -> Option<&'static str> {
         "sshKey" => Some("octapass ssh generate or octapass ssh import"),
         "gpgKey" => Some("octapass gpg import"),
         "environment" => Some("octapass env create"),
+        "certificate" => {
+            Some("octapass cert self-signed, cert ca-create or cert issue with --save")
+        }
+        "key" => Some("octapass key generate, key age or key gpg with --save"),
         _ => None,
     }
 }
@@ -77,9 +122,17 @@ fn normalize_type(item_type: &str) -> String {
         "note" | "securenote" | "secure-note" => "secureNote".into(),
         "sshkey" | "ssh-key" => "sshKey".into(),
         "gpgkey" | "gpg-key" => "gpgKey".into(),
-        "login" | "password" | "card" | "identity" | "wifi" | "document" | "environment" => {
-            item_type.to_lowercase()
+        "login" | "password" | "card" | "identity" | "wifi" | "document" | "environment"
+        | "database" | "custom" | "certificate" | "key" => item_type.to_lowercase(),
+        "bank" | "bankaccount" | "bank-account" => "bankAccount".into(),
+        "api" | "apikey" | "api-key" | "apicredential" | "api-credential" => "apiCredential".into(),
+        "licence" | "license" | "softwarelicense" | "software-license" | "software-licence" => {
+            "softwareLicense".into()
         }
+        "id" | "iddocument" | "id-document" => "idDocument".into(),
+        "wallet" | "cryptowallet" | "crypto-wallet" => "cryptoWallet".into(),
+        "db" => "database".into(),
+        "template" | "customtemplate" | "custom-template" => "customTemplate".into(),
         _ => item_type.to_owned(),
     }
 }
@@ -102,27 +155,214 @@ pub fn parse_assignment(text: &str) -> Result<Assignment> {
     }
 }
 
-/// Where a typed name goes: a details field, or a custom field with this label.
+/// Where a typed name goes: a details field, a custom field with this label (a custom item's or a
+/// template's own fields too), or a wallet's address on this network.
 #[derive(Debug, PartialEq, Eq)]
 enum Target {
     Detail(String),
     Custom(String),
+    Address(String),
 }
 
 fn target(item_type: &str, name: &str) -> Result<Target> {
     let Some(fields) = fields_of(item_type) else {
         return Ok(Target::Detail(name.to_owned()));
     };
-    if let Some(field) = fields.iter().find(|field| field.eq_ignore_ascii_case(name)) {
+    if let Some(field) = fields.iter().find(|field| same_name(field, name)) {
         return Ok(Target::Detail((*field).to_owned()));
     }
-    if matches!(item_type, "login" | "password" | "wifi") {
+    if item_type == "cryptoWallet"
+        && let Some((_, network)) = name.split_once('.').filter(|(head, _)| {
+            head.eq_ignore_ascii_case("address") || head.eq_ignore_ascii_case("addresses")
+        })
+        && !network.trim().is_empty()
+    {
+        return Ok(Target::Address(network.trim().to_lowercase()));
+    }
+    if matches!(
+        item_type,
+        "login" | "password" | "wifi" | "custom" | "customTemplate"
+    ) {
         return Ok(Target::Custom(name.to_owned()));
     }
+    let wallet = if item_type == "cryptoWallet" {
+        ", and address.<network> (address.bitcoin, address.ethereum…)"
+    } else {
+        ""
+    };
     Err(CliError::usage(format!(
-        "A {item_type} has no field called \"{name}\". It has: {}.",
+        "A {item_type} has no field called \"{name}\". It has: {}{wallet}.",
         fields.join(", ")
     )))
+}
+
+/// A list field's value as the table writes it, or a usage error naming the choices.
+fn choice_value(item_type: &str, field: &str, value: &str) -> Result<String> {
+    let Some(spec) = item_fields::fields_of(item_type)
+        .iter()
+        .find(|spec| spec.key == field && spec.kind == FieldKind::Choice)
+    else {
+        return Ok(value.to_owned());
+    };
+    if value.is_empty() {
+        return Ok(String::new());
+    }
+    spec.choices
+        .iter()
+        .find(|choice| same_name(choice, value))
+        .map(|choice| (*choice).to_owned())
+        .ok_or_else(|| CliError::usage(format!("{field} is one of: {}.", spec.choices.join(", "))))
+}
+
+/// What the core's checks say about the item's values, in words, or nothing when it can be saved.
+fn check_values(item_type: &str, details: &Value) -> Result<()> {
+    let problems: Vec<String> = item_fields::validate(item_type, details)
+        .into_iter()
+        .map(|(field, problem)| {
+            let what = match problem {
+                "date" => "isn't a date: write YYYY-MM-DD",
+                "port" => "isn't a port: 1 to 65535",
+                "email" => "isn't an email address",
+                "iban" => "isn't a valid IBAN: its check digits don't match",
+                "swift" => "isn't a SWIFT code: 8 or 11 letters and digits",
+                "walletAddress" => "isn't an address: it has a space or isn't one line",
+                _ => "can't be saved",
+            };
+            let field = match field.strip_prefix("addresses.") {
+                Some(index) => details["addresses"][index.parse::<usize>().unwrap_or(0)]["network"]
+                    .as_str()
+                    .map_or(field.clone(), |network| format!("address.{network}")),
+                None => field,
+            };
+            format!("{field} {what}")
+        })
+        .collect();
+    if problems.is_empty() {
+        Ok(())
+    } else {
+        Err(CliError::usage(format!("{}.", problems.join("; "))))
+    }
+}
+
+/// A wallet's address on `network`, added or changed.
+fn set_address(details: &mut Value, network: &str, value: &str) {
+    let list = object(details)
+        .entry("addresses")
+        .or_insert_with(|| json!([]));
+    if !list.is_array() {
+        *list = json!([]);
+    }
+    let list = list.as_array_mut().expect("just made a list");
+    let on = |entry: &&mut Value| {
+        entry
+            .get("network")
+            .and_then(Value::as_str)
+            .is_some_and(|existing| existing.eq_ignore_ascii_case(network))
+    };
+    match list.iter_mut().find(|entry| on(entry)) {
+        Some(entry) => entry["address"] = json!(value),
+        None => list.push(json!({ "network": network, "address": value })),
+    }
+}
+
+fn unset_address(details: &mut Value, network: &str) -> bool {
+    let details = object(details);
+    let Some(list) = details.get_mut("addresses").and_then(Value::as_array_mut) else {
+        return false;
+    };
+    let before = list.len();
+    list.retain(|entry| {
+        entry
+            .get("network")
+            .and_then(Value::as_str)
+            .is_none_or(|existing| !existing.eq_ignore_ascii_case(network))
+    });
+    let removed = list.len() != before;
+    if list.is_empty() {
+        details.remove("addresses");
+    }
+    removed
+}
+
+/// A custom item's field, or a template's (whose "value" is the field's kind), by label.
+fn set_typed_field(
+    details: &mut Value,
+    template: bool,
+    label: &str,
+    value: &str,
+    plain: bool,
+) -> Result<()> {
+    if template && !CUSTOM_FIELD_KINDS.contains(&value) {
+        return Err(CliError::usage(format!(
+            "A template field's value is its kind: {}.",
+            CUSTOM_FIELD_KINDS.join(", ")
+        )));
+    }
+    let list = object(details).entry("fields").or_insert_with(|| json!([]));
+    if !list.is_array() {
+        *list = json!([]);
+    }
+    let list = list.as_array_mut().expect("just made a list");
+    let same = |field: &&mut Value| {
+        field
+            .get("label")
+            .and_then(Value::as_str)
+            .is_some_and(|existing| existing.eq_ignore_ascii_case(label))
+    };
+    match (list.iter_mut().find(|field| same(field)), template) {
+        (Some(field), true) => field["kind"] = json!(value),
+        (Some(field), false) => {
+            field["value"] = json!(value);
+            if plain {
+                field["kind"] = json!("text");
+            }
+        }
+        (None, true) => list.push(json!({ "label": label, "kind": value })),
+        (None, false) => {
+            let kind = if plain { "text" } else { "hidden" };
+            list.push(json!({ "label": label, "value": value, "kind": kind }));
+        }
+    }
+    Ok(())
+}
+
+fn unset_typed_field(details: &mut Value, label: &str) -> bool {
+    let Some(list) = object(details)
+        .get_mut("fields")
+        .and_then(Value::as_array_mut)
+    else {
+        return false;
+    };
+    let before = list.len();
+    list.retain(|field| {
+        field
+            .get("label")
+            .and_then(Value::as_str)
+            .is_none_or(|existing| !existing.eq_ignore_ascii_case(label))
+    });
+    list.len() != before
+}
+
+/// Puts one typed value where it goes on an item of `item_type`.
+fn apply(
+    item_type: &str,
+    details: &mut Value,
+    target: &Target,
+    value: &str,
+    plain: bool,
+) -> Result<()> {
+    match target {
+        Target::Detail(field) => {
+            let value = choice_value(item_type, field, value)?;
+            set_detail(details, field, &value);
+        }
+        Target::Address(network) => set_address(details, network, value),
+        Target::Custom(label) if matches!(item_type, "custom" | "customTemplate") => {
+            set_typed_field(details, item_type == "customTemplate", label, value, plain)?;
+        }
+        Target::Custom(label) => set_custom(details, label, value, plain),
+    }
+    Ok(())
 }
 
 fn object(value: &mut Value) -> &mut Map<String, Value> {
@@ -277,6 +517,10 @@ fn subtitle(overview: &mut Value, details: &Value, before: Option<&Value>) {
             (!name.is_empty()).then(|| name.join(" "))
         }),
         Some("wifi") => text(details, "ssid"),
+        // The newer types take theirs from one field that is never a secret, as the web vault does.
+        Some(kind) if TABLE_TYPES.contains(&kind) || kind == "custom" => {
+            item_fields::subtitle_key(kind).and_then(|key| text(details, key))
+        }
         _ => current,
     };
     match next {
@@ -303,10 +547,15 @@ impl App {
         let mut values = Vec::new();
         for text in &args.fields {
             let (name, value) = match parse_assignment(text)? {
+                // A template's fields are named, not filled: `Locker` alone is a text field.
+                Assignment::Ask(name) if item_type == "customTemplate" => {
+                    target(item_type, &name)?;
+                    (name, Zeroizing::new("text".to_owned()))
+                }
                 Assignment::Set(name, value) => {
-                    let secret = matches!(target(item_type, &name)?, Target::Custom(_))
-                        && !args.plain
-                        || is_secret_field(&name.to_lowercase());
+                    let secret = item_type != "customTemplate"
+                        && (matches!(target(item_type, &name)?, Target::Custom(_)) && !args.plain
+                            || is_secret_field(item_type, &name));
                     if secret && self.context.terminal.interactive() {
                         self.note(&format!(
                             "Warning: other programs can see command-line arguments. Write just `{name}` to type the value instead."
@@ -403,8 +652,13 @@ impl App {
         }
         if fields_of(&item_type).is_none() {
             return Err(CliError::usage(format!(
-                "Octa Pass can't make a {item_type} from the command line. Choose login, password, note, card, identity or wifi."
+                "Octa Pass can't make a {item_type} from the command line. Choose {CREATABLE}."
             )));
+        }
+        if args.template.is_some() && item_type != "custom" {
+            return Err(CliError::usage(
+                "--template is for custom items: octapass create custom --template NAME.",
+            ));
         }
         let opened = self.open(DEFAULT_IDLE)?;
         self.unlocked(&opened).await?;
@@ -419,17 +673,17 @@ impl App {
                 details["ssid"] = json!("");
                 details["security"] = json!("wpa2");
             }
+            "custom" | "customTemplate" => details["fields"] = json!([]),
             _ => {}
+        }
+        if let Some(name) = &args.template {
+            self.copy_template(&opened, name, &mut details)?;
         }
         let mut overview = json!({ "schemaVersion": 1, "type": item_type, "title": "" });
         for (target, value) in &values {
-            match target {
-                Target::Detail(field) => set_detail(&mut details, field, value),
-                Target::Custom(label) => {
-                    set_custom(&mut details, label, value, args.values.plain);
-                }
-            }
+            apply(&item_type, &mut details, target, value, args.values.plain)?;
         }
+        check_values(&item_type, &details)?;
         let title = args
             .title
             .or_else(|| {
@@ -459,6 +713,34 @@ impl App {
             .await?;
         self.report_item("Saved", &item)?;
         Ok(None)
+    }
+
+    /// A custom item starts with its template's fields, empty, as the apps make one (plan 01).
+    fn copy_template(&self, opened: &Opened, name: &str, details: &mut Value) -> Result<()> {
+        let rows = opened.vault.list_items()?;
+        let templates: Vec<_> = rows
+            .into_iter()
+            .filter(|row| row.deleted_at.is_none() && row.item_type == "customTemplate")
+            .collect();
+        let row = items::find_item(&templates, name).map_err(|error| match error.exit {
+            Exit::NotFound => CliError::not_found(format!("No template is called \"{name}\".")),
+            _ => error,
+        })?;
+        let template = opened.vault.get_item(&row.id)?;
+        let fields: Vec<Value> = template.details["fields"]
+            .as_array()
+            .into_iter()
+            .flatten()
+            .filter_map(|field| {
+                let label = field.get("label")?.as_str()?;
+                let kind = field.get("kind").and_then(Value::as_str).unwrap_or("text");
+                Some(json!({ "label": label, "value": "", "kind": kind }))
+            })
+            .collect();
+        details["templateId"] = json!(template.id);
+        details["templateName"] = json!(template.title());
+        details["fields"] = json!(fields);
+        Ok(())
     }
 
     /// The vault to add to: `query`, or Personal.
@@ -504,12 +786,7 @@ impl App {
         let mut overview = item.overview.clone();
         let mut details = item.details.clone();
         for (target, value) in &values {
-            match target {
-                Target::Detail(field) => set_detail(&mut details, field, value),
-                Target::Custom(label) => {
-                    set_custom(&mut details, label, value, args.values.plain);
-                }
-            }
+            apply(&item_type, &mut details, target, value, args.values.plain)?;
         }
         for name in &args.unset {
             match target(&item_type, name)? {
@@ -524,15 +801,29 @@ impl App {
                     }
                 }
                 Target::Custom(label) => {
-                    if !unset_custom(&mut details, &label) {
+                    let removed = if matches!(item_type.as_str(), "custom" | "customTemplate") {
+                        unset_typed_field(&mut details, &label)
+                    } else {
+                        unset_custom(&mut details, &label)
+                    };
+                    if !removed {
                         return Err(CliError::not_found(format!(
                             "“{}” has no field called \"{label}\".",
                             item.title()
                         )));
                     }
                 }
+                Target::Address(network) => {
+                    if !unset_address(&mut details, &network) {
+                        return Err(CliError::not_found(format!(
+                            "“{}” has no {network} address.",
+                            item.title()
+                        )));
+                    }
+                }
             }
         }
+        check_values(&item_type, &details)?;
         if let Some(title) = args.title {
             let title = title.trim().to_owned();
             if title.is_empty() {
@@ -724,5 +1015,148 @@ mod tests {
     fn types_have_friendly_names() {
         assert_eq!(normalize_type("note"), "secureNote");
         assert_eq!(normalize_type("Login"), "login");
+        for (name, item_type) in [
+            ("bank-account", "bankAccount"),
+            ("bank", "bankAccount"),
+            ("api-credential", "apiCredential"),
+            ("licence", "softwareLicense"),
+            ("license", "softwareLicense"),
+            ("id-document", "idDocument"),
+            ("wallet", "cryptoWallet"),
+            ("db", "database"),
+            ("Database", "database"),
+            ("custom", "custom"),
+            ("template", "customTemplate"),
+        ] {
+            assert_eq!(normalize_type(name), item_type, "{name}");
+            assert!(fields_of(item_type).is_some(), "{item_type}");
+        }
+    }
+
+    #[test]
+    fn the_newer_types_take_the_core_tables_fields() {
+        assert_eq!(
+            target("softwareLicense", "license-key").unwrap(),
+            Target::Detail("licenseKey".into())
+        );
+        assert_eq!(
+            target("bankAccount", "IBAN").unwrap(),
+            Target::Detail("iban".into())
+        );
+        assert_eq!(
+            target("database", "connection_string").unwrap(),
+            Target::Detail("connectionString".into())
+        );
+        assert_eq!(
+            target("idDocument", "expiryDate").unwrap(),
+            Target::Detail("expiryDate".into())
+        );
+        assert_eq!(
+            target("cryptoWallet", "address.Bitcoin").unwrap(),
+            Target::Address("bitcoin".into())
+        );
+        assert_eq!(
+            target("custom", "Locker").unwrap(),
+            Target::Custom("Locker".into())
+        );
+        let unknown = target("apiCredential", "colour").unwrap_err();
+        assert!(unknown.message.contains("key, secret, host"), "{unknown:?}");
+        assert!(is_secret_field("cryptoWallet", "seed-phrase"));
+        assert!(is_secret_field("database", "password"));
+        assert!(!is_secret_field("bankAccount", "iban"));
+        assert!(is_secret_field("bankAccount", "pin"));
+    }
+
+    #[test]
+    fn lists_take_their_choices_and_values_are_checked() {
+        assert_eq!(
+            choice_value("bankAccount", "accountType", "Savings").unwrap(),
+            "savings"
+        );
+        assert_eq!(
+            choice_value("idDocument", "documentType", "driver-license").unwrap(),
+            "driverLicense"
+        );
+        assert!(
+            choice_value("database", "databaseType", "excel")
+                .unwrap_err()
+                .message
+                .contains("postgresql")
+        );
+        assert!(
+            check_values(
+                "bankAccount",
+                &json!({ "iban": "DE89 3704 0044 0532 0130 00", "swift": "COBADEFFXXX" })
+            )
+            .is_ok()
+        );
+        let bad = check_values(
+            "bankAccount",
+            &json!({ "iban": "DE00 3704 0044 0532 0130 00", "swift": "x" }),
+        )
+        .unwrap_err();
+        assert!(bad.message.contains("iban isn't a valid IBAN") && bad.message.contains("swift"));
+        assert!(check_values("softwareLicense", &json!({ "expiryDate": "2027-02-30" })).is_err());
+        assert!(check_values("database", &json!({ "port": "70000" })).is_err());
+        let wallet = check_values(
+            "cryptoWallet",
+            &json!({ "addresses": [{ "network": "bitcoin", "address": "two words" }] }),
+        )
+        .unwrap_err();
+        assert!(wallet.message.starts_with("address.bitcoin"), "{wallet:?}");
+    }
+
+    #[test]
+    fn wallet_addresses_and_custom_fields() {
+        let mut wallet = json!({});
+        set_address(&mut wallet, "bitcoin", "bc1one");
+        set_address(&mut wallet, "ethereum", "0xtwo");
+        set_address(&mut wallet, "Bitcoin", "bc1three");
+        assert_eq!(
+            wallet["addresses"],
+            json!([
+                { "network": "bitcoin", "address": "bc1three" },
+                { "network": "ethereum", "address": "0xtwo" }
+            ])
+        );
+        assert!(unset_address(&mut wallet, "ethereum"));
+        assert!(!unset_address(&mut wallet, "ethereum"));
+
+        let mut custom = json!({ "fields": [{ "label": "Locker", "value": "", "kind": "text" }] });
+        set_typed_field(&mut custom, false, "locker", "12", false).unwrap();
+        set_typed_field(&mut custom, false, "Combination", "4-8-15", false).unwrap();
+        set_typed_field(&mut custom, false, "Gym", "North", true).unwrap();
+        assert_eq!(
+            custom["fields"],
+            json!([
+                { "label": "Locker", "value": "12", "kind": "text" },
+                { "label": "Combination", "value": "4-8-15", "kind": "hidden" },
+                { "label": "Gym", "value": "North", "kind": "text" }
+            ])
+        );
+        let mut template = json!({ "fields": [] });
+        set_typed_field(&mut template, true, "Combination", "hidden", false).unwrap();
+        assert_eq!(
+            template["fields"],
+            json!([{ "label": "Combination", "kind": "hidden" }])
+        );
+        assert!(set_typed_field(&mut template, true, "Odd", "colour", false).is_err());
+    }
+
+    #[test]
+    fn the_newer_types_subtitles_come_from_their_field() {
+        let mut bank = json!({ "type": "bankAccount" });
+        subtitle(
+            &mut bank,
+            &json!({ "bankName": "Example Bank", "iban": "DE89" }),
+            None,
+        );
+        assert_eq!(bank["subtitle"], "Example Bank");
+        let mut database = json!({ "type": "database", "subtitle": "old" });
+        subtitle(&mut database, &json!({ "password": "pw" }), None);
+        assert!(database.get("subtitle").is_none());
+        let mut custom = json!({ "type": "custom" });
+        subtitle(&mut custom, &json!({ "templateName": "Gym locker" }), None);
+        assert_eq!(custom["subtitle"], "Gym locker");
     }
 }

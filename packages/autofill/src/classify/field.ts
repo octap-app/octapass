@@ -68,12 +68,40 @@ const FIELD_CONCEPTS: [Concept, FieldType][] = [
   ['postal-code', 'postal-code'],
   ['country', 'country'],
   ['bday', 'bday'],
+  ['iban', 'iban'],
+  ['bic', 'bic'],
+  ['bank-account-number', 'bank-account-number'],
+  ['bank-routing', 'bank-routing'],
+  ['bank-account-holder', 'bank-account-holder'],
+  ['bank-name', 'bank-name'],
+  ['license-key', 'license-key'],
+  ['document-number', 'document-number'],
+  ['wallet-address', 'wallet-address'],
+  ['db-host', 'db-host'],
+  ['db-name', 'db-name'],
+  ['db-port', 'db-port'],
   ['search', 'search'],
 ];
 
 const PASSWORD_TYPES = new Set<FieldType>(['current-password', 'new-password', 'confirm-password']);
-// Sites use type=password for codes and card secrets too.
-const ALLOWED_ON_PASSWORD_INPUT = new Set<FieldType>([...PASSWORD_TYPES, 'one-time-code', 'cc-csc', 'cc-number', 'api-credential']);
+// Sites use type=password for codes, card secrets, account numbers, licence keys and ID numbers too.
+const ALLOWED_ON_PASSWORD_INPUT = new Set<FieldType>([
+  ...PASSWORD_TYPES,
+  'one-time-code',
+  'cc-csc',
+  'cc-number',
+  'api-credential',
+  'iban',
+  'bank-account-number',
+  'license-key',
+  'document-number',
+]);
+
+/**
+ * A server asked for as a web address is a self-hosted app's sign-in (Nextcloud, a password manager),
+ * not a database console's host.
+ */
+const SERVER_URL = /\burl\b|https?|web ?address|website|адрес сайта|网址|عنوان الموقع/;
 
 /** The input types the engine looks at; the rest (checkbox, file, submit…) are never classified. */
 const TEXT_LIKE = new Set(['text', 'email', 'password', 'tel', 'number', 'search', 'url', 'date', 'month', 'hidden', '']);
@@ -213,6 +241,9 @@ export function fieldSignals(element: FillableElement): Signal[] {
   }
 
   signals.push(...credentialSignals(element, hints));
+
+  const serverUrl = inputType === 'url' || [...hints.attribute, ...hints.label, ...hints.placeholder].some((text) => SERVER_URL.test(text));
+  if (serverUrl) signals.splice(0, signals.length, ...signals.filter((s) => s.type !== 'db-host'));
 
   if (isPassword) return signals.filter((s) => ALLOWED_ON_PASSWORD_INPUT.has(s.type));
   // Even when labelled 'Country', a dial-code select isn't an address country.

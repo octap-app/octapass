@@ -11,6 +11,7 @@ import { FieldIcon } from './menu/icon';
 import { DEFAULT_LABELS, entryFor, Menu, type Entry, type MenuLabels, type Theme } from './menu/menu';
 import { SaveDetector } from './save/detector';
 import { explainField, scanDocument, type Explanation } from './scan';
+import { BANK_FIELD_TYPES, DATABASE_FIELD_TYPES } from './types';
 import type {
   AutofillHost,
   BlockReason,
@@ -77,6 +78,20 @@ const IDENTITY_TYPES = new Set<FieldType>([
  */
 const API_KEY_PASTE_TYPES = new Set<FieldType>(['api-credential', 'unknown', 'one-time-code']);
 
+const BANK_TYPES = new Set<FieldType>(BANK_FIELD_TYPES);
+const DATABASE_TYPES = new Set<FieldType>(DATABASE_FIELD_TYPES);
+
+/**
+ * The kinds that fill only the field they were picked from, and the value each one fills there. A
+ * licence key, an ID number or a wallet address never spreads to other fields of the form.
+ */
+const SINGLE_FIELD: Partial<Record<SuggestionKind, Exclude<FieldType, 'search' | 'unknown'>>> = {
+  'api-credential': 'api-credential',
+  'software-license': 'license-key',
+  'id-document': 'document-number',
+  'crypto-wallet': 'wallet-address',
+};
+
 /** What a fill on page load may put in: a login form's account and password, nothing else. */
 const AUTO_FILL_TYPES = new Set<FieldType>(['username', 'current-password']);
 
@@ -108,6 +123,13 @@ function takesEmail(element: FillableElement): boolean {
 /** Which suggestions make sense in a field. */
 function relevantKinds({ type: field, element }: Field, form: FormType): SuggestionKind[] {
   if (field === 'api-credential') return ['api-credential'];
+  if (field === 'license-key') return ['software-license'];
+  if (field === 'document-number') return ['id-document'];
+  if (field === 'wallet-address') return ['crypto-wallet'];
+  if (BANK_TYPES.has(field)) return ['bank-account'];
+  if (DATABASE_TYPES.has(field)) return ['database'];
+  // A database console's sign-in: the site's own logins first, then the databases.
+  if (LOGIN_TYPES.has(field) && form === 'database') return ['login', 'other-logins', 'database'];
   if (field === 'one-time-code') return ['one-time-code'];
   if (NEW_PASSWORD_TYPES.has(field)) return ['generated-password'];
   if (field === 'username' && form === 'signup' && takesEmail(element)) return ['masked-email'];
@@ -322,8 +344,13 @@ class Engine implements Autofill {
       this.mutations.observe(target, { childList: true, subtree: true, attributes: true, attributeFilter });
       // A frame that loads later (or navigates) gets a new document: rescan to pick it up. `load` reaches
       // this capturing listener for every image and script too; those don't change any form.
+      // Its events are listened to at once: a field focused before that rescan would otherwise get no
+      // menu, and the rescan can wait up to RESCAN_MAX_WAIT_MS on a slow page.
       on('load', (event) => {
-        if (isFrame(event.target)) this.markStale(50);
+        if (!isFrame(event.target)) return;
+        const frameDoc = event.target.contentDocument;
+        if (frameDoc) this.listen(frameDoc);
+        this.markStale(50);
       });
     }
   }
@@ -762,9 +789,11 @@ class Engine implements Autofill {
       return;
     }
     const form = this.lookup(field)?.form ?? active.form;
-    // A masked email or a key goes in the field it was asked for, not in every such field of the form.
-    const single = suggestion.kind === 'masked-email' ? values.email : suggestion.kind === 'api-credential' ? values['api-credential'] : undefined;
-    const plan = suggestion.kind === 'masked-email' || suggestion.kind === 'api-credential' ? (single ? [{ field: active.field, value: single, alternatives: [] }] : []) : planFill(form, values);
+    // A masked email, a key, a licence key, an ID number or a wallet address goes in the field it was
+    // asked for, not in every such field of the form.
+    const singleType = suggestion.kind === 'masked-email' ? 'email' : SINGLE_FIELD[suggestion.kind];
+    const single = singleType && values[singleType];
+    const plan = singleType ? (single ? [{ field: active.field, value: single, alternatives: [] }] : []) : planFill(form, values);
     const result = runFill(plan, field, (top) => this.isOwnUi(top));
     for (const element of result.filled) {
       this.autoFilled.delete(element);

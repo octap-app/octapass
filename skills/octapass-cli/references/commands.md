@@ -28,7 +28,7 @@ Variables for a login without a terminal: `OCTAPASS_SERVER`, `OCTAPASS_EMAIL`, `
 | `octapass list` | `--vault`, `--search` (title, username, URLs, tags). No secrets, even with `--json` |
 | `octapass get` | `octapass get GitHub` shows an item without secrets. `--field`, `--vault`, `-n`. ⚠ `--json` without `--field` includes the secrets |
 | `octapass totp` | The current one-time code: `octapass totp GitHub --vault Work` |
-| `octapass create` | `login`, `password`, `note`, `card`, `identity` or `wifi`. `--title`, `--vault`, `--url`, `--tag`, `--favorite`, `--generate`, `--length`, `--words`, `--stdin`, `--plain` |
+| `octapass create` | `login`, `password`, `note`, `card`, `identity`, `wifi`, `bank-account`, `api-credential`, `licence`, `id-document`, `wallet`, `database`, `custom` or `template`. `--title`, `--vault`, `--url`, `--tag`, `--favorite`, `--template`, `--generate`, `--length`, `--words`, `--stdin`, `--plain` |
 | `octapass edit` | ⚠ Overwrites fields. `--title`, `--unset`, `--add-url`, `--remove-url`, `--add-tag`, `--remove-tag`, `--favorite`, `--no-favorite`, `--generate`, `--stdin`, `--plain` |
 | `octapass delete` | ⚠ Moves an item to the trash |
 | `octapass restore` | Brings it back from the trash |

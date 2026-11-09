@@ -130,7 +130,7 @@ pub struct InsecureLogin {
     pub url: String,
 }
 
-/// A card, ID or passport that expired or expires within 60 days.
+/// A card, ID, passport, software licence or API credential that expired or expires within 60 days.
 #[derive(Debug, Clone, PartialEq, Eq, uniffi::Record)]
 pub struct ExpiringItem {
     pub entry: HealthEntry,

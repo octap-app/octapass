@@ -159,6 +159,21 @@ async fn health_inputs_count_backup_codes_and_read_expiries_and_settings() {
     }))
     .unwrap();
     device.vault.save_item(api_key).await.unwrap();
+    let licence: ItemDraft = serde_json::from_value(json!({
+        "vaultId": vault_id,
+        "overview": { "schemaVersion": 1, "type": "softwareLicense", "title": "Editor" },
+        "details": { "schemaVersion": 1, "licenseKey": "AAAA-BBBB", "expiryDate": "2027-03-01" },
+    }))
+    .unwrap();
+    device.vault.save_item(licence).await.unwrap();
+    // A date on a type without an expiry isn't one.
+    let note: ItemDraft = serde_json::from_value(json!({
+        "vaultId": vault_id,
+        "overview": { "schemaVersion": 1, "type": "secureNote", "title": "Note" },
+        "details": { "schemaVersion": 1, "notes": "Renew the lease", "expiryDate": "2020-01-01" },
+    }))
+    .unwrap();
+    device.vault.save_item(note).await.unwrap();
     let settings: ItemDraft = serde_json::from_value(json!({
         "vaultId": vault_id,
         "overview": { "schemaVersion": 1, "type": "healthSettings", "title": "Health settings" },
@@ -186,8 +201,21 @@ async fn health_inputs_count_backup_codes_and_read_expiries_and_settings() {
         row.backup_codes.map(|codes| (codes.total, codes.unused)),
         Some((2, 1))
     );
-    assert_eq!(inputs.expiries.len(), 1);
-    assert_eq!(inputs.expiries[0].expiry, "01/27");
+    let mut expiries: Vec<(&str, &str)> = inputs
+        .expiries
+        .iter()
+        .map(|row| (row.item_type.as_str(), row.expiry.as_str()))
+        .collect();
+    expiries.sort();
+    assert_eq!(
+        expiries,
+        [
+            ("apiCredential", "2020-01-01"),
+            ("card", "01/27"),
+            ("softwareLicense", "2027-03-01")
+        ]
+    );
+    assert!(!text.contains("AAAA-BBBB"), "{text}");
     assert_eq!(inputs.settings.dismissed, ["weak:x:1"]);
     assert_eq!(
         inputs.settings.email_breach_alerts,
@@ -312,6 +340,13 @@ async fn auto_type_reads_the_rules_and_sequence_without_secrets() {
     }))
     .unwrap();
     let note = device.vault.save_item(note).await.unwrap();
+    let database = serde_json::from_value(json!({
+        "vaultId": vault_id,
+        "overview": { "schemaVersion": 1, "type": "database", "title": "Warehouse" },
+        "details": { "schemaVersion": 1, "host": "db.internal", "username": "admin", "password": "db-pw" },
+    }))
+    .unwrap();
+    let database = device.vault.save_item(database).await.unwrap();
 
     let item = device.vault.auto_type_item(&router.id).unwrap();
     assert_eq!(
@@ -341,14 +376,38 @@ async fn auto_type_reads_the_rules_and_sequence_without_secrets() {
         .map(|item| item.title)
         .collect();
     ids.sort();
-    assert_eq!(ids, ["Plain", "Router"]);
+    assert_eq!(ids, ["Plain", "Router", "Warehouse"]);
+
+    // A database types its user name and password like a login, with the default sequence.
+    let typed = device.vault.auto_type_item(&database.id).unwrap();
+    assert_eq!(
+        (typed.item_type.as_str(), typed.sequence.as_deref()),
+        ("database", None)
+    );
+    assert!(!serde_json::to_string(&typed).unwrap().contains("db-pw"));
+    assert_eq!(
+        device
+            .vault
+            .copy_value(&database.id, CopyField::Username)
+            .unwrap()
+            .as_str(),
+        "admin"
+    );
+    assert_eq!(
+        device
+            .vault
+            .copy_value(&database.id, CopyField::Password)
+            .unwrap()
+            .as_str(),
+        "db-pw"
+    );
 
     device.vault.delete_item(&router.id).await.unwrap();
     assert_eq!(
         device.vault.auto_type_item(&router.id).unwrap_err().code,
         ErrorCode::NotFound
     );
-    assert_eq!(device.vault.auto_type_items().unwrap().len(), 1);
+    assert_eq!(device.vault.auto_type_items().unwrap().len(), 2);
 }
 
 #[tokio::test(flavor = "multi_thread")]

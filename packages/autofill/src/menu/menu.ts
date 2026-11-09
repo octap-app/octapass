@@ -78,6 +78,11 @@ export function entryFor(suggestion: Suggestion, labels: MenuLabels): Entry {
     case 'card':
     case 'identity':
     case 'api-credential':
+    case 'bank-account':
+    case 'database':
+    case 'software-license':
+    case 'id-document':
+    case 'crypto-wallet':
       return {
         suggestion,
         title: suggestion.title,

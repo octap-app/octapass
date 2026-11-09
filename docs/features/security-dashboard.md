@@ -1,6 +1,6 @@
 ---
 title: Security dashboard
-description: The Octa Pass security dashboard finds breached, reused and weak passwords, missing 2FA and passkeys, insecure URLs and expiring cards, entirely on your device.
+description: The Octa Pass security dashboard finds breached, reused and weak passwords, missing 2FA and passkeys, insecure URLs and expiring cards, IDs, licences and API keys, entirely on your device.
 status: beta
 sidebar:
   order: 6
@@ -22,7 +22,7 @@ Health opens on your score and a tile for each check, with how many items it fou
 | Recovery email has no 2FA | The [recovery map](/docs/features/recovery-info/#recovery-map) finds the email account's own login in your vault | Medium | No |
 | Old password | Not changed for a year. See below. | Info | No |
 | Site supports passkeys but none is stored | The passkeys directory dataset | Info | No |
-| Card, ID or passport expiring | Expired, or expiring within 60 days. A card is valid to the end of its expiry month. | Info | No |
+| Card, ID, passport, software licence or API key expiring | Expired, or expiring within 60 days. A card is valid to the end of its expiry month. Certificates have their own [renewal reminders](/docs/features/developer-toolkit/). | Info | No |
 | Two or fewer backup codes left | Your saved [backup codes](/docs/features/recovery-info/) | Info | No |
 | Account email or alias in a breach (opt-in) | Have I Been Pwned through your server. See below. | Medium | No |
 | Recovery email in a breach (opt-in) | Email breach alerts. Recovery emails that are neither your account email nor an alias need a second switch. See below. | Medium | No |

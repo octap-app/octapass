@@ -80,7 +80,7 @@ pub fn summarize_qr_scans(texts: &[String]) -> QrScan {
 #[serde(rename_all = "camelCase")]
 pub struct AutoTypeItem {
     pub id: String,
-    /// `login` or `password`.
+    /// `login`, `password` or `database`.
     pub item_type: String,
     pub title: String,
     pub urls: Vec<String>,
@@ -129,14 +129,20 @@ impl AutoTypeItem {
     }
 }
 
+/// Logins and passwords, and databases: a database's user name and password go into a database
+/// client's sign-in like a login's do (plan 05, History 2026-11-08). Its window must still match.
+fn can_auto_type(item: &Item) -> bool {
+    item.is_login_like() || item.overview.get("type").and_then(Value::as_str) == Some("database")
+}
+
 impl Vault {
-    /// Every login and password item outside the trash, for the global auto-type shortcut to
-    /// find the one that belongs to the focused window.
+    /// Every login, password and database item outside the trash, for the global auto-type
+    /// shortcut to find the one that belongs to the focused window.
     pub fn auto_type_items(&self) -> Result<Vec<AutoTypeItem>> {
         Ok(self
             .live_items()?
             .iter()
-            .filter(|item| item.is_login_like())
+            .filter(|item| can_auto_type(item))
             .map(AutoTypeItem::new)
             .collect())
     }
@@ -144,7 +150,7 @@ impl Vault {
     pub fn auto_type_item(&self, id: &str) -> Result<AutoTypeItem> {
         let item = self.get_item(id)?;
         require(
-            item.is_login_like() && item.deleted_at.is_none(),
+            can_auto_type(&item) && item.deleted_at.is_none(),
             ErrorCode::NotFound,
         )?;
         Ok(AutoTypeItem::new(&item))

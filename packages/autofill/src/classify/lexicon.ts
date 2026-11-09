@@ -118,6 +118,72 @@ const TEXT = {
     'geburtsdatum', 'data de nascimento', 'data di nascita', 'дата рождения', '出生日期', '生年月日',
     'تاريخ الميلاد', 'जन्म तिथि',
   ],
+  // A bank account (bank forms only; see classify/form.ts).
+  iban: ['iban', 'international bank account number', 'numero iban', 'код iban', 'ايبان', 'رقم الايبان', 'आईबैन'],
+  bic: [
+    'bic', 'swift', 'swift code', 'bic code', 'swift/bic', 'bic/swift', 'codigo swift', 'code swift', 'code bic',
+    'swift-code', 'codice swift', 'код swift', 'swift 代码', 'swiftコード', 'رمز السويفت', 'سويفت', 'स्विफ्ट कोड',
+  ],
+  'bank-account-number': [
+    'account number', 'bank account number', 'account no', 'acct number', 'acct no', 'numero de cuenta',
+    'numero de compte', 'kontonummer', 'numero da conta', 'numero di conto', 'hesap numarasi', 'номер счета',
+    'номер счёта', '银行账号', '银行帐号', '銀行帳號', '口座番号', 'رقم الحساب', 'رقم الحساب البنكي', 'खाता संख्या', 'खाता नंबर',
+  ],
+  'bank-routing': [
+    'routing number', 'routing', 'aba number', 'sort code', 'bsb', 'ifsc', 'ifsc code', 'transit number',
+    'bank code', 'branch code', 'clearing number', 'bankleitzahl', 'blz', 'codigo bancario', 'code banque',
+    'code guichet', 'numero de ruta', 'codice abi', 'банковский код', 'бик', '银行代码', '支店番号', '金融機関コード',
+    'رمز البنك', 'رمز الفرع', 'आईएफएससी',
+  ],
+  'bank-account-holder': [
+    'account holder', 'account holder name', 'name of account holder', 'account owner', 'beneficiary',
+    'beneficiary name', 'payee name', 'name on account', 'titular de la cuenta', 'titulaire du compte',
+    'kontoinhaber', 'titular da conta', 'intestatario del conto', 'hesap sahibi', 'владелец счета', 'владелец счёта',
+    'получатель', '开户名', '户名', '口座名義', 'اسم صاحب الحساب', 'صاحب الحساب', 'المستفيد', 'खाताधारक',
+  ],
+  'bank-name': [
+    'bank name', 'name of bank', 'bank', 'nombre del banco', 'banco', 'nom de la banque', 'banque', 'name der bank',
+    'nome do banco', 'nome della banca', 'banka adi', 'название банка', 'банк', '银行名称', '開戶銀行', '銀行名',
+    'اسم البنك', 'البنك', 'बैंक का नाम', 'बैंक',
+  ],
+  // A software licence's key. Not 'activation code' (an emailed one-time code) or 'serial' alone.
+  'license-key': [
+    'license key', 'licence key', 'license code', 'licence code', 'product key', 'serial number', 'serial key',
+    'activation key', 'registration key', 'registration code', 'clave de licencia', 'clave de producto',
+    'cle de licence', 'cle de produit', 'lizenzschlussel', 'produktschlussel', 'chave de licenca', 'chave do produto',
+    'chiave di licenza', 'lisans anahtari', 'лицензионный ключ', 'ключ продукта', 'серийный номер', '许可证密钥',
+    '产品密钥', '序列号', 'ライセンスキー', 'プロダクトキー', 'シリアル番号', 'مفتاح الترخيص', 'مفتاح المنتج',
+    'الرقم التسلسلي', 'लाइसेंस कुंजी',
+  ],
+  // An ID document's number: passport, driver's licence, national ID.
+  'document-number': [
+    'passport number', 'passport no', 'document number', 'id number', 'id card number', 'identity card number',
+    'national id', 'national id number', 'identity number', "driver's license number", 'drivers license number',
+    "driver's licence number", 'driving licence number', 'license number', 'licence number', 'numero de pasaporte',
+    'numero de documento', 'numero de passeport', "numero de piece d'identite", 'reisepassnummer', 'passnummer',
+    'ausweisnummer', 'numero do passaporte', 'numero do documento', 'numero di passaporto', 'pasaport numarasi',
+    'kimlik numarasi', 'номер паспорта', 'номер документа', '护照号码', '护照号', '证件号码', '身份证号', '旅券番号',
+    'رقم جواز السفر', 'رقم الهويه', 'رقم الوثيقه', 'الرقم الوطني', 'पासपोर्ट नंबर', 'पासपोर्ट संख्या',
+  ],
+  // A crypto wallet's receiving address. Never the seed phrase.
+  'wallet-address': [
+    'wallet address', 'bitcoin address', 'btc address', 'ethereum address', 'eth address', 'crypto address',
+    'withdrawal address', 'receiving address', 'payout address', 'usdt address', 'direccion de la billetera',
+    'direccion de billetera', 'adresse du portefeuille', 'wallet-adresse', 'endereco da carteira',
+    'indirizzo del portafoglio', 'cuzdan adresi', 'адрес кошелька', '钱包地址', '提币地址', 'ウォレットアドレス',
+    'عنوان المحفظه', 'वॉलेट पता',
+  ],
+  // A database console's sign-in (database forms only).
+  'db-host': [
+    'server', 'host', 'hostname', 'host name', 'server name', 'database host', 'db host', 'database server',
+    'servidor', 'serveur', 'hote', 'nom du serveur', 'servername', 'сервер', 'хост', '服务器', '主机', 'サーバー',
+    'ホスト', 'الخادم', 'المضيف', 'सर्वर',
+  ],
+  'db-name': [
+    'database', 'database name', 'db name', 'dbname', 'base de datos', 'base de donnees', 'datenbank',
+    'banco de dados', 'veritabani', 'база данных', '数据库', 'データベース', 'قاعده البيانات', 'डेटाबेस',
+  ],
+  'db-port': ['port', 'puerto', 'порт', '端口', 'ポート', 'المنفذ', 'पोर्ट'],
   search: [
     'search', 'find', 'buscar', 'busqueda', 'rechercher', 'recherche', 'suche', 'suchen', 'pesquisar', 'cerca',
     'поиск', '搜索', '搜尋', '検索', 'بحث', 'खोज',
@@ -204,5 +270,17 @@ export const ATTRIBUTE: Partial<Record<Concept, RegExp>> = {
   'postal-code': /zip|postal|postcode|^plz$|^cep$/,
   country: /country/,
   bday: /birth|bday|dob/,
+  iban: /iban/,
+  bic: /swift|^bic$|bic ?code/,
+  'bank-account-number': /^acc(oun)?t ?(num|no|nr)$|^acct$|account ?nr/,
+  'bank-routing': /routing|sort ?code|^aba$|^bsb$|^ifsc|^blz$/,
+  'bank-account-holder': /account ?holder|holder ?name|beneficiary|payee/,
+  'bank-name': /^bank$|bank ?name/,
+  'license-key': /licen[cs]e ?(key|code)|product ?key|serial ?(key|number|no)|activation ?key|reg(istration)? ?key/,
+  'document-number': /passport ?(number|num|no)?$|document ?(number|num|no)|id ?card ?(number|no)|national ?id|licen[cs]e ?(number|num|no)$/,
+  'wallet-address': /wallet ?(addr|address)|(btc|eth|bitcoin|ethereum|crypto) ?addr(ess)?|withdraw(al)? ?addr(ess)?/,
+  'db-host': /^(db ?)?host$|server ?name|^server$/,
+  'db-name': /(^| )db$|db ?name|database/,
+  'db-port': /(^| )port$/,
   search: /^q$|^s$|search|query|keyword/,
 };

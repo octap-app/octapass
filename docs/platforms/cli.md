@@ -57,7 +57,7 @@ octapass lock
 | `octapass list [--vault V] [--search Q]` | Lists items: title, username, vault and id. The search looks at titles, usernames, URLs and tags. |
 | `octapass get <item> [--field F] [--vault V] [-n]` | Shows an item without its secrets, or prints one field. |
 | `octapass totp <item> [--vault V]` | Prints the current one-time code. |
-| `octapass create <type> --title T [FIELD=VALUE…]` | Adds a login, password, note, card, identity or Wi-Fi item. See [changing items](#changing-items). |
+| `octapass create <type> --title T [FIELD=VALUE…]` | Adds an item of any type you can type in: a login, password, note, card, identity, Wi-Fi network, bank account, API credential, software licence, ID document, crypto wallet, database, custom item or template. See [changing items](#changing-items). |
 | `octapass edit <item> [FIELD=VALUE…]` | Changes an item's fields, title, URLs, tags or favorite. |
 | `octapass delete <item> [--vault V]` | Moves an item to the trash. |
 | `octapass restore <item>` | Brings an item back from the trash. |
@@ -115,6 +115,12 @@ octapass create login --title GitHub --url https://github.com username=ada passw
 octapass create login --title Mail --generate --words 5
 octapass create card --title Visa number cvv cardholder="Ada Lovelace" expiry=04/29
 octapass create note --title "Router" --stdin notes < router.txt
+octapass create bank-account --title Savings bank-name="Example Bank" iban="DE89 3704 0044 0532 0130 00" swift=COBADEFFXXX pin
+octapass create licence --title "Editor Pro" product="Editor Pro" license-key licensed-to=Ada expiry-date=2027-06-01
+octapass create database --title Warehouse database-type=postgresql host=db.internal port=5432 database=shop username=admin --generate
+octapass create wallet --title Cold address.bitcoin=bc1q… --stdin seed-phrase < seed.txt
+octapass create template --title "Gym locker" Locker Combination=hidden
+octapass create custom --title "North gym" --template "Gym locker" locker=12 combination
 octapass edit GitHub password --add-tag work
 octapass edit GitHub --unset "API key" --title "GitHub (work)"
 octapass delete GitHub
@@ -122,7 +128,22 @@ octapass delete GitHub
 
 Write `field=value`, or just `field` to type the value without it showing. **Prefer that for secrets**: other programs can see command-line arguments, and your shell may keep them. `--stdin field` reads one field's value from stdin, after the `--password-stdin` line if there is one. `--generate` makes a new password.
 
-Each type has its fields: `username`, `password`, `totp`, `notes` for a login; `cardholder`, `number`, `expiry`, `cvv`, `pin`, `brand`, `notes` for a card; `firstName`, `lastName`, `email`, `phone`, `birthDate`, `notes` and `address.line1`, `address.city` and so on for an identity; `ssid`, `security`, `password`, `notes` for Wi-Fi. On logins and Wi-Fi, any other name becomes a custom field, hidden unless you add `--plain`. SSH keys, OpenPGP keys and environments have their own commands; `edit` can change their title, URLs and tags.
+Each type has its fields: `username`, `password`, `totp`, `notes` for a login; `cardholder`, `number`, `expiry`, `cvv`, `pin`, `brand`, `notes` for a card; `firstName`, `lastName`, `email`, `phone`, `birthDate`, `notes` and `address.line1`, `address.city` and so on for an identity; `ssid`, `security`, `password`, `notes` for Wi-Fi. On logins and Wi-Fi, any other name becomes a custom field, hidden unless you add `--plain`. SSH keys, OpenPGP keys and environments have their own commands, and so do certificates and other keys (`octapass cert` and `octapass key` with `--save`); `edit` can change their title, URLs and tags.
+
+The newer types take the fields their editors show. A field's name can be written `licenseKey`, `license-key` or `license_key`:
+
+| Type (and short names) | Fields |
+|---|---|
+| `bank-account` (`bank`) | `bankName`, `accountHolder`, `accountType` (`checking`, `savings`, `business`, `other`), `iban`, `accountNumber`, `routingNumber`, `swift`, `branch`, `pin`, `notes` |
+| `api-credential` (`api`) | `credentialType` (`apiKey`, `bearerToken`, `oauth`, `jwt`, `basicAuth`, `other`), `username`, `key`, `secret`, `host`, `expiryDate`, `notes` |
+| `licence` (`license`, `software-license`) | `product`, `version`, `licenseKey`, `licensedTo`, `email`, `publisher`, `orderNumber`, `purchaseDate`, `expiryDate`, `notes` |
+| `id-document` (`id`) | `documentType` (`passport`, `driverLicense`, `nationalId`, `other`), `number`, `fullName`, `birthDate`, `issuer`, `country`, `issueDate`, `expiryDate`, `notes` |
+| `wallet` (`crypto-wallet`) | `walletName`, `seedPhrase`, `passphrase`, `notes`, and `address.<network>` for each address (`address.bitcoin`, `address.ethereum`, or another chain's name) |
+| `database` (`db`) | `databaseType` (`postgresql`, `mysql`, `sqlServer`, `oracle`, `mongodb`, `redis`, `sqlite`, `server`, `other`), `host`, `port`, `database`, `username`, `password`, `connectionString`, `notes` |
+| `custom` | Your own fields, by label: hidden unless you add `--plain`. `--template NAME` starts with a template's fields. |
+| `template` | Field labels, each with its kind as the value: `text` (the default), `hidden`, `multiline`, `url`, `date`, `email`, `phone` or `totp`. A template holds no values. |
+
+Dates are `YYYY-MM-DD`. Values are checked as the apps check them: an IBAN's check digits, a SWIFT code's shape, a port, an email address, a wallet address on one line. Hidden fields (a PIN, a key, a secret, a seed phrase, a database password) warn when they're given on the command line, so type them or use `--stdin`. `--generate` works on any type with a password: logins, Wi-Fi and databases. `--unset address.bitcoin` removes an address; `--unset Locker` removes a custom item's field.
 
 Fields Octa Pass doesn't know about stay as they are. A changed password goes to the item's password history. If another device changed the item first, the vault keeps both, as in every other client.
 

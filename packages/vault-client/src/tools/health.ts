@@ -76,8 +76,11 @@ export function parseExpiry(text: string | undefined): string | undefined {
   return parsed.getUTCMonth() === month - 1 && parsed.getUTCDate() === day ? `${pad(year, 4)}-${pad(month)}-${pad(day)}` : undefined;
 }
 
-/** What the expiry check covers. `idDocument` is a passport, driver's licence or national ID. */
-const EXPIRING_TYPES: ReadonlySet<string> = new Set(['card', 'idDocument']);
+/**
+ * What the expiry check covers: every type with an expiry date. `idDocument` is a passport,
+ * driver's licence or national ID. Certificates have their own renewal reminders.
+ */
+const EXPIRING_TYPES: ReadonlySet<string> = new Set(['card', 'idDocument', 'softwareLicense', 'apiCredential']);
 
 function expiryOf(item: Item): string | undefined {
   if (!EXPIRING_TYPES.has(item.overview.type)) return undefined;

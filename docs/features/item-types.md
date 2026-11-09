@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-Every type below is built except a separate **Address** type: addresses are kept in Identity items. The types work in the web vault, the browser extension, the desktop apps and the phone apps, and the CLI reads them. The apps differ in places: the extension shows only an SSH key's public key and fingerprint, `octapass create` makes only logins, passwords, notes, cards, identities and Wi-Fi networks, and autofill doesn't fill the newer types yet. See the [support matrix](/docs/platforms/support-matrix/#what-each-app-can-do). **P0**, **P1** and **P2** show the order the work was planned in; all of it is required for 1.0.
+Every type below is built except a separate **Address** type: addresses are kept in Identity items. The types work in the web vault, the browser extension, the desktop apps and the phone apps, and the CLI reads them and [makes them](/docs/platforms/cli/#changing-items) (SSH keys, environments, certificates and keys through their own commands). The apps differ in places: the extension shows only an SSH key's public key and fingerprint, and the newer types [fill](/docs/features/autofill/#bank-accounts-licences-and-the-other-types) in the browser extension (and databases through the desktop's auto-type), not on phones. See the [support matrix](/docs/platforms/support-matrix/#what-each-app-can-do). **P0**, **P1** and **P2** show the order the work was planned in; all of it is required for 1.0.
 :::
 
 ## Fields every item has
@@ -56,6 +56,8 @@ The first address stays, with its match rule. Repeats that are already in an ite
 | **Crypto wallet** | Wallet name, seed phrase (hidden), optional passphrase, addresses by network. Each address shows as a QR code; the seed phrase and passphrase never do. | Built in every app |
 | **Database / server** | Type, host, port, database, username, password (with its history), connection string (hidden, since it usually holds the password) | Built in every app |
 | **Custom item and template** | Fields you define: text, hidden, several lines, web address, date, email, phone or one-time code. Save an item's field names as a template, then choose it for a new item. A template holds names and kinds, never values, and items keep their fields if you change or delete it. | Built in every app |
+
+Cards, ID documents, software licences and API credentials with an expiry date show in the [security dashboard](/docs/features/security-dashboard/) once they've expired or will within 60 days.
 
 Every type from Bank account onwards that's marked "built in every app" can hold more fields of your own and notes. A value another app wrote that doesn't fit a list, like an account type, is kept and shown as written. Lists search titles and subtitles only, never secrets, and a subtitle is never taken from a secret field.
 

@@ -20,9 +20,11 @@ use crate::vault::Vault;
 
 /// Dismissed warnings and email breach results live in one hidden item of this type.
 pub const HEALTH_SETTINGS_TYPE: &str = "healthSettings";
-/// What the expiry check covers. `idDocument` is a passport, driver's licence or national ID.
-const EXPIRING_TYPES: [&str; 2] = ["card", "idDocument"];
-/// Cards keep it in the first, IDs in the second.
+/// What the expiry check covers: every type with an expiry date, as in the web vault
+/// (`packages/vault-client/src/tools/health.ts`). `idDocument` is a passport, driver's licence or
+/// national ID. Certificates have their own renewal reminders.
+const EXPIRING_TYPES: [&str; 4] = ["card", "idDocument", "softwareLicense", "apiCredential"];
+/// Cards keep it in the first, the other types in the second.
 const EXPIRY_FIELDS: [&str; 2] = ["expiry", "expiryDate"];
 
 /// At most this many range requests in flight.
@@ -35,7 +37,7 @@ pub struct HealthInputs {
     pub groups: Vec<PasswordGroup>,
     /// False when a breach lookup failed; then no group has a count.
     pub breach_check_completed: bool,
-    /// Cards, IDs and passports with an expiry date.
+    /// Cards, IDs, passports, software licences and API credentials with an expiry date.
     pub expiries: Vec<HealthExpiry>,
     pub settings: HealthSettings,
 }
@@ -335,4 +337,55 @@ fn recovery_contacts(item: &Item) -> Option<Value> {
         .filter_map(|key| Some((key.to_owned(), recovery.get(key)?.clone())))
         .collect();
     (!kept.is_empty()).then_some(Value::Object(kept))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+
+    fn item(item_type: &str, details: Value) -> Item {
+        Item {
+            id: item_type.into(),
+            vault_id: "v".into(),
+            revision: 1,
+            created_at: String::new(),
+            updated_at: String::new(),
+            deleted_at: None,
+            overview: json!({ "schemaVersion": 1, "type": item_type, "title": item_type }),
+            details,
+        }
+    }
+
+    #[test]
+    fn every_type_with_an_expiry_date_is_read() {
+        let items = [
+            item("card", json!({ "expiry": "01/27", "cvv": "123" })),
+            item("idDocument", json!({ "expiryDate": "2030-01-01" })),
+            item(
+                "softwareLicense",
+                json!({ "licenseKey": "AAAA", "expiryDate": "2027-03-01" }),
+            ),
+            item(
+                "apiCredential",
+                json!({ "secret": "s", "expiryDate": "2026-12-01" }),
+            ),
+            item("softwareLicense", json!({ "licenseKey": "perpetual" })),
+            item("secureNote", json!({ "expiryDate": "2026-12-01" })),
+        ];
+        let rows: Vec<(String, String)> = items
+            .iter()
+            .filter_map(expiry_row)
+            .map(|row| (row.item_type, row.expiry))
+            .collect();
+        assert_eq!(
+            rows,
+            [
+                ("card".into(), "01/27".into()),
+                ("idDocument".into(), "2030-01-01".into()),
+                ("softwareLicense".into(), "2027-03-01".into()),
+                ("apiCredential".into(), "2026-12-01".into()),
+            ]
+        );
+    }
 }

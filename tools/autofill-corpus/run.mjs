@@ -85,6 +85,21 @@ const FIXTURES = {
       'address-level2': 'Springfield', 'address-level1': 'CA', 'postal-code': '90210', country: 'US', bday: '1990-04-12',
     },
   },
+  'bank-account': {
+    suggestion: { kind: 'bank-account', id: 'bank-1', title: 'Corpus Bank', subtitle: '•••• 3000' },
+    values: {
+      'bank-account-holder': 'Alex Doe', iban: 'DE89 3704 0044 0532 0130 00', bic: 'COBADEFFXXX', 'bank-name': 'Example Bank',
+      'bank-account-number': '31926819', 'bank-routing': '12-34-56',
+    },
+  },
+  database: {
+    suggestion: { kind: 'database', id: 'db-1', title: 'Corpus database', subtitle: 'db.example.test' },
+    values: { 'db-host': 'db.example.test', 'db-port': '5432', 'db-name': 'shop', username: 'shop_admin', 'current-password': 'db-pass-77!' },
+  },
+  'software-license': {
+    suggestion: { kind: 'software-license', id: 'lic-1', title: 'Corpus Editor', subtitle: 'Alex Doe' },
+    values: { 'license-key': 'CRPS-7Q2W-9X4K-ZT8M' },
+  },
 };
 
 /** Runs in the page after the engine bundle: a fake host that records everything. */

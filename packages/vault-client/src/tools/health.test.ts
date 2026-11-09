@@ -206,14 +206,21 @@ describe('the checks added for 1.0', () => {
     const idDocument = (title: string, expiryDate: string): Item => ({ ...login(title, {}), overview: { schemaVersion: 1, title, type: 'idDocument' as never }, details: { schemaVersion: 1, expiryDate } as never });
     const passport = idDocument('Passport', '2026-11-05');
     const nationalId = idDocument('ID', '2026-12-22');
-    // Other items can carry a date, but this check is for cards and IDs.
-    const apiKey: Item = { ...login('API key', {}), overview: { schemaVersion: 1, title: 'API key', type: 'apiCredential' as never }, details: { schemaVersion: 1, expiryDate: '2026-10-30' } as never };
-    const items = [card('Later', '01/27'), card('Soon', '10/26'), card('Expired', '09/26'), card('Blank', ''), card('Far', '12/30'), passport, nationalId, apiKey];
+    const typed = (type: string, title: string, details: object): Item => ({ ...login(title, {}), overview: { schemaVersion: 1, title, type: type as never }, details: { schemaVersion: 1, ...details } as never });
+    const apiKey = typed('apiCredential', 'API key', { expiryDate: '2026-10-30' });
+    const licence = typed('softwareLicense', 'Editor', { expiryDate: '2026-11-20' });
+    const lateLicence = typed('softwareLicense', 'IDE', { expiryDate: '2027-06-01' });
+    const forever = typed('softwareLicense', 'Perpetual', {});
+    // A date on a type without an expiry isn't one.
+    const note = typed('secureNote', 'Note', { expiryDate: '2026-10-30' });
+    const items = [card('Later', '01/27'), card('Soon', '10/26'), card('Expired', '09/26'), card('Blank', ''), card('Far', '12/30'), passport, nationalId, apiKey, licence, lateLicence, forever, note];
     const report = await buildHealthReport(items, deps, NOW);
     expect(report.expiring.map((e) => [e.title, e.expiresOn, e.daysLeft])).toEqual([
       ['Expired', '2026-09-30', -23],
+      ['API key', '2026-10-30', 7],
       ['Soon', '2026-10-31', 8],
       ['Passport', '2026-11-05', 13],
+      ['Editor', '2026-11-20', 28],
       ['ID', '2026-12-22', 60],
     ]);
     expect(report.score).toBe(100);

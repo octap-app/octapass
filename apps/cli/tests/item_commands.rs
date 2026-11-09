@@ -118,6 +118,289 @@ async fn typed_values_generated_passwords_and_stdin() {
 }
 
 #[tokio::test(flavor = "multi_thread")]
+async fn every_newer_item_type_from_the_command_line() {
+    let (_server, other, cli) = setup().await;
+    cli.run(&[
+        "create",
+        "bank-account",
+        "--title",
+        "Savings",
+        "bank-name=Example Bank",
+        "account-holder=Ada Lovelace",
+        "account-type=Savings",
+        "iban=DE89 3704 0044 0532 0130 00",
+        "swift=COBADEFFXXX",
+        "pin=4321",
+    ])
+    .await
+    .ok();
+    let bank = on_other_device(&other, "Savings").await;
+    assert_eq!(bank.overview["type"], "bankAccount");
+    assert_eq!(bank.overview["subtitle"], "Example Bank");
+    assert_eq!(bank.details["accountType"], "savings");
+    assert_eq!(bank.details["iban"], "DE89 3704 0044 0532 0130 00");
+    assert_eq!(bank.details["pin"], "4321");
+
+    cli.run(&[
+        "create",
+        "api-credential",
+        "--title",
+        "Stripe",
+        "--url",
+        "https://dashboard.stripe.com",
+        "credential-type=apiKey",
+        "key=sk_test_FAKE",
+        "host=api.stripe.com",
+        "expiry-date=2027-01-31",
+    ])
+    .await
+    .ok();
+    let api = on_other_device(&other, "Stripe").await;
+    assert_eq!(
+        (
+            &api.overview["type"],
+            &api.overview["subtitle"],
+            &api.details["expiryDate"]
+        ),
+        (
+            &json!("apiCredential"),
+            &json!("api.stripe.com"),
+            &json!("2027-01-31")
+        )
+    );
+
+    cli.run(&[
+        "create",
+        "licence",
+        "--title",
+        "Editor",
+        "product=Editor Pro",
+        "licenseKey=AAAA-BBBB-CCCC",
+        "licensed-to=Ada",
+        "email=ada@example.com",
+        "expiryDate=2027-06-01",
+    ])
+    .await
+    .ok();
+    let licence = on_other_device(&other, "Editor").await;
+    assert_eq!(licence.overview["type"], "softwareLicense");
+    assert_eq!(licence.overview["subtitle"], "Ada");
+    assert_eq!(licence.details["licenseKey"], "AAAA-BBBB-CCCC");
+
+    cli.run(&[
+        "create",
+        "id-document",
+        "--title",
+        "Passport",
+        "document-type=passport",
+        "number=X1234567",
+        "full-name=Ada Lovelace",
+        "country=GB",
+        "issue-date=2020-01-02",
+        "expiry-date=2030-01-01",
+    ])
+    .await
+    .ok();
+    let passport = on_other_device(&other, "Passport").await;
+    assert_eq!(passport.overview["subtitle"], "Ada Lovelace");
+    assert_eq!(passport.details["documentType"], "passport");
+
+    cli.run_with(
+        &[
+            "create",
+            "wallet",
+            "--title",
+            "Cold",
+            "wallet-name=Cold storage",
+            "address.bitcoin=bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq",
+            "--stdin",
+            "seed-phrase",
+        ],
+        Run {
+            stdin: "abandon abandon about\n".into(),
+            ..Run::default()
+        },
+    )
+    .await
+    .ok();
+    let wallet = on_other_device(&other, "Cold").await;
+    assert_eq!(wallet.details["seedPhrase"], "abandon abandon about");
+    assert_eq!(
+        wallet.details["addresses"],
+        json!([{ "network": "bitcoin", "address": "bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq" }])
+    );
+
+    cli.run(&[
+        "create",
+        "database",
+        "--title",
+        "Warehouse",
+        "database-type=PostgreSQL",
+        "host=db.internal",
+        "port=5432",
+        "database=shop",
+        "username=admin",
+        "--generate",
+    ])
+    .await
+    .ok();
+    let database = on_other_device(&other, "Warehouse").await;
+    assert_eq!(database.overview["subtitle"], "db.internal");
+    assert_eq!(database.details["databaseType"], "postgresql");
+    assert_eq!(database.details["password"].as_str().unwrap().len(), 20);
+
+    // A template, then a custom item made from it.
+    cli.run(&[
+        "create",
+        "template",
+        "--title",
+        "Gym locker",
+        "Locker",
+        "Combination=hidden",
+    ])
+    .await
+    .ok();
+    cli.run(&[
+        "create",
+        "custom",
+        "--title",
+        "North gym",
+        "--template",
+        "Gym locker",
+        "locker=12",
+        "combination=4-8-15",
+    ])
+    .await
+    .ok();
+    // `--plain` is for the whole command, so a plain field of its own is a second step.
+    cli.run(&["edit", "North gym", "--plain", "Floor=2"])
+        .await
+        .ok();
+    let template = on_other_device(&other, "Gym locker").await;
+    assert_eq!(template.overview["type"], "customTemplate");
+    assert_eq!(
+        template.details["fields"],
+        json!([{ "label": "Locker", "kind": "text" }, { "label": "Combination", "kind": "hidden" }])
+    );
+    let custom = on_other_device(&other, "North gym").await;
+    assert_eq!(custom.overview["subtitle"], "Gym locker");
+    assert_eq!(custom.details["templateId"], json!(template.id));
+    assert_eq!(
+        custom.details["fields"],
+        json!([
+            { "label": "Locker", "value": "12", "kind": "text" },
+            { "label": "Combination", "value": "4-8-15", "kind": "hidden" },
+            { "label": "Floor", "value": "2", "kind": "text" }
+        ])
+    );
+
+    // Edit goes through the same fields and checks.
+    cli.run(&[
+        "edit",
+        "Cold",
+        "address.ethereum=0x52908400098527886E0F7030069857D2E4169EE7",
+        "--unset",
+        "address.bitcoin",
+    ])
+    .await
+    .ok();
+    assert_eq!(
+        on_other_device(&other, "Cold").await.details["addresses"],
+        json!([{ "network": "ethereum", "address": "0x52908400098527886E0F7030069857D2E4169EE7" }])
+    );
+    cli.run(&["edit", "North gym", "--unset", "Floor"])
+        .await
+        .ok();
+    assert_eq!(
+        on_other_device(&other, "North gym").await.details["fields"]
+            .as_array()
+            .unwrap()
+            .len(),
+        2
+    );
+}
+
+#[tokio::test(flavor = "multi_thread")]
+async fn the_newer_types_refuse_what_their_editors_refuse() {
+    let (_server, _other, cli) = setup().await;
+    for (args, says) in [
+        (
+            vec![
+                "create",
+                "bank",
+                "--title",
+                "Bad",
+                "iban=DE00 3704 0044 0532 0130 00",
+            ],
+            "isn't a valid IBAN",
+        ),
+        (
+            vec!["create", "bank", "--title", "Bad", "account-type=crypto"],
+            "checking, savings, business, other",
+        ),
+        (
+            vec![
+                "create",
+                "licence",
+                "--title",
+                "Bad",
+                "expiry-date=31/01/2027",
+            ],
+            "YYYY-MM-DD",
+        ),
+        (
+            vec!["create", "database", "--title", "Bad", "port=99999"],
+            "isn't a port",
+        ),
+        (
+            vec![
+                "create",
+                "wallet",
+                "--title",
+                "Bad",
+                "address.bitcoin=not one",
+            ],
+            "address.bitcoin isn't an address",
+        ),
+        (
+            vec!["create", "api", "--title", "Bad", "colour=blue"],
+            "has no field called",
+        ),
+        (
+            vec!["create", "template", "--title", "Bad", "Locker=colour"],
+            "its kind",
+        ),
+        (
+            vec![
+                "create",
+                "custom",
+                "--title",
+                "Bad",
+                "--template",
+                "Nothing",
+            ],
+            "No template",
+        ),
+        (
+            vec!["create", "licence", "--title", "Bad", "--template", "Gym"],
+            "for custom items",
+        ),
+        (
+            vec!["create", "certificate", "--title", "Bad"],
+            "octapass cert",
+        ),
+    ] {
+        let refused = cli.run(&args).await;
+        assert_ne!(refused.code, 0, "{args:?}");
+        assert!(
+            refused.stderr.contains(says),
+            "{args:?}: {}",
+            refused.stderr
+        );
+    }
+}
+
+#[tokio::test(flavor = "multi_thread")]
 async fn cards_identities_and_wifi() {
     let (_server, other, cli) = setup().await;
     cli.run(&[

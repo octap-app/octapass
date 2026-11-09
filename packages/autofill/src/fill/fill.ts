@@ -51,6 +51,12 @@ function splitName(name: string | undefined): [string, string] | undefined {
   return [parts.slice(0, -1).join(' '), parts[parts.length - 1]!];
 }
 
+/** Spaces and dashes go when a code doesn't fit the field as written: `12-34-56` in a 6-character box. */
+function fitted(value: string | undefined, element: FillableElement): string | undefined {
+  const limit = maxLength(element);
+  return value && limit > 0 && value.length > limit ? value.replace(/[\s-]/g, '') : value;
+}
+
 function valueFor(field: Field, values: FillValues, form: Form): Omit<FillStep, 'field'> | undefined {
   const element = field.element;
   const type = field.type as Exclude<FieldType, 'search' | 'unknown'>;
@@ -109,6 +115,20 @@ function valueFor(field: Field, values: FillValues, form: Form): Omit<FillStep, 
         return one([values['address-line1'], values['address-line2']].filter(Boolean).join('\n'));
       }
       return one(values['address-line1']);
+    case 'iban':
+      // Written without spaces: forms that take spaces take it this way too, and many refuse them.
+      return one(values.iban?.replace(/\s/g, '').toUpperCase());
+    case 'bic':
+    case 'bank-account-number':
+    case 'bank-routing':
+      return one(fitted(values[type], element));
+    case 'db-host': {
+      // Consoles without a port field (Adminer, phpMyAdmin) take `host:port` in the server field.
+      const host = values['db-host'];
+      const port = values['db-port'];
+      const ownPort = form.fields.some((f) => f.type === 'db-port' && f.fillable);
+      return one(host && port && !ownPort ? `${host}:${port}` : host);
+    }
     default:
       return one(values[type]);
   }

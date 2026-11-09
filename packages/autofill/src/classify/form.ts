@@ -2,7 +2,9 @@ import { isButton, isInput, isSelect } from '../dom/is';
 import { contextText, elementText, headingBefore, normalize } from '../dom/text';
 import { composedParent, visibilityProblem } from '../dom/visibility';
 import {
+  BANK_FIELD_TYPES,
   CARD_FIELD_TYPES,
+  DATABASE_FIELD_TYPES,
   IDENTITY_FIELD_TYPES,
   type Field,
   type FieldType,
@@ -16,6 +18,10 @@ import { match } from './lexicon';
 const CARD = new Set<FieldType>(CARD_FIELD_TYPES);
 const MIN_CARD_SCORE = 20;
 const IDENTITY = new Set<FieldType>(IDENTITY_FIELD_TYPES);
+const BANK = new Set<FieldType>(BANK_FIELD_TYPES);
+const DATABASE = new Set<FieldType>(DATABASE_FIELD_TYPES);
+/** What a masked box can hold that isn't a password, once the form has had its say. */
+const MASKED_VALUES = new Set<FieldType>(['api-credential', 'iban', 'bank-account-number', 'license-key', 'document-number']);
 const PASSWORD = new Set<FieldType>(['current-password', 'new-password', 'confirm-password']);
 const IDENTIFIER = new Set<FieldType>(['username', 'email', 'tel']);
 
@@ -191,9 +197,21 @@ function classify(container: Element, drafts: Draft[]): { type: FormType; reason
     return { type: 'card', reasons };
   }
 
+  // Bank fields count only on a form that clearly takes a bank account, and never beside a password:
+  // some sites sign in with an 'Account number' and a 'Sort code'. Database fields count only beside
+  // exactly one password: a console's sign-in with its server or database. Elsewhere both are words.
+  const masked = visible.filter((d) => PASSWORD.has(d.type));
+  const isBank = masked.length === 0 && (visible.some((d) => d.type === 'iban') || visible.filter((d) => BANK.has(d.type)).length >= 2);
+  const isDatabase = masked.length === 1 && visible.some((d) => d.type === 'db-host' || d.type === 'db-name');
+  for (const d of drafts) {
+    if (BANK.has(d.type) && !isBank) note(d, bestType(d.signals, (t) => !CARD.has(t) && !BANK.has(t) && (isDatabase || !DATABASE.has(t))), 'not a bank form');
+    if (DATABASE.has(d.type) && !isDatabase) note(d, bestType(d.signals, (t) => !CARD.has(t) && !DATABASE.has(t) && (isBank || !BANK.has(t))), 'not a database form');
+  }
+  if (isDatabase) reasons.push('a server or database field beside the password');
+
   settleCredentials(visible, says);
 
-  const passwords = visible.filter((d) => PASSWORD.has(d.type) || (isPasswordInput(d) && d.type !== 'api-credential' && !segments.includes(d)));
+  const passwords = visible.filter((d) => PASSWORD.has(d.type) || (isPasswordInput(d) && !MASKED_VALUES.has(d.type) && !segments.includes(d)));
   if (passwords.length >= 2) {
     passwordRoles(passwords, reasons);
     const changing = passwords.some((d) => d.type === 'current-password');
@@ -210,10 +228,10 @@ function classify(container: Element, drafts: Draft[]): { type: FormType; reason
     const others = visible.filter((d) => d !== password && d.type !== 'one-time-code');
     const personal = others.filter((d) => IDENTITY.has(d.type) && d.type !== 'email' && d.type !== 'tel').length;
     const markedCurrent = has(password, 'current-password', (s) => s === 'autocomplete');
+    // A database console's server, user, database and port aren't a sign-up's extra fields.
     const signup =
       saysNew ||
-      says.purpose === 'signup' ||
-      (says.purpose !== 'login' && !markedCurrent && (personal >= 1 || others.length >= 3));
+      (!isDatabase && (says.purpose === 'signup' || (says.purpose !== 'login' && !markedCurrent && (personal >= 1 || others.length >= 3))));
     if (signup) {
       note(password, 'new-password', saysNew ? 'labelled as a new password' : 'the password of a sign-up form');
       if (others.length === 0 && says.change && says.purpose !== 'signup') return { type: 'change-password', reasons };
@@ -227,7 +245,7 @@ function classify(container: Element, drafts: Draft[]): { type: FormType; reason
       const hidden = drafts.find((d) => !d.fillable && IDENTIFIER.has(d.type));
       if (hidden) note(hidden, 'username', 'a hidden account field next to the password');
     }
-    return { type: 'login', reasons };
+    return { type: isDatabase ? 'database' : 'login', reasons };
   }
 
   if (visible.some((d) => d.type === 'one-time-code')) return { type: 'one-time-code', reasons };
@@ -240,10 +258,16 @@ function classify(container: Element, drafts: Draft[]): { type: FormType; reason
     return { type: 'identifier', reasons };
   }
 
+  // An address form with an IBAN (a direct debit checkout) stays an address form, so it's still saved
+  // as one; its bank fields fill all the same.
   const identity = visible.filter((d) => IDENTITY.has(d.type));
   if (identity.length >= 2 || identity.some((d) => d.type.startsWith('address') || d.type === 'postal-code')) {
     reasons.push(`${identity.length} personal details fields`);
     return { type: 'identity', reasons };
+  }
+  if (isBank) {
+    reasons.push('has bank account fields');
+    return { type: 'bank', reasons };
   }
   if (identity.length === 1 && identity[0]!.type === 'email') return { type: 'identity', reasons };
   return { type: 'unknown', reasons };

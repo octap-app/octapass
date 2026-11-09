@@ -1,0 +1,24 @@
+{
+  "description": "A seller payout form with account holder, IBAN, BIC and bank name, and a free-text note the bank fill must leave empty; the IBAN is filled without spaces",
+  "fields": {
+    "#holder": "bank-account-holder",
+    "#iban": "iban",
+    "#bic": "bic",
+    "#bankname": "bank-name",
+    "#ref": "none"
+  },
+  "forms": [{ "field": "#iban", "type": "bank" }],
+  "fills": [
+    {
+      "focus": "#iban",
+      "pick": "bank-account",
+      "expect": {
+        "#holder": "Alex Doe",
+        "#iban": "DE89370400440532013000",
+        "#bic": "COBADEFFXXX",
+        "#bankname": "Example Bank",
+        "#ref": ""
+      }
+    }
+  ]
+}

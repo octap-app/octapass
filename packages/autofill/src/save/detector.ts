@@ -3,7 +3,8 @@ import { visibilityProblem } from '../dom/visibility';
 import type { AddressValues, CardValues, DetailsSaveReport, Form, FormType, SaveReport } from '../types';
 import { addressValues, cardValues } from './details';
 
-const SAVABLE = new Set<FormType>(['login', 'signup', 'change-password']);
+// A database console's sign-in is saved as a login, as it was before it had a form type of its own.
+const SAVABLE = new Set<FormType>(['login', 'signup', 'change-password', 'database']);
 /** How long a click on a sign-in button waits for a request, a navigation or the form going away. */
 const SETTLE_MS = 4000;
 const POLL_MS = 150;

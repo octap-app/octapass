@@ -71,11 +71,14 @@ A selector is a CSS selector, or several joined with ` >>> ` to step into an ope
 | Login | `username` (the account identifier in sign-in forms and identifier steps, even when it is an email input), `current-password`, `new-password`, `confirm-password`, `one-time-code` |
 | Sign-up and identity | `email`, `username`, `name`, `given-name`, `family-name`, `tel`, `organization`, `bday`, `address-line1`, `address-line2`, `address-level2` (city), `address-level1` (state, region), `postal-code`, `country` |
 | Card | `cc-name`, `cc-number`, `cc-exp` (one MM/YY field), `cc-exp-month`, `cc-exp-year`, `cc-csc` |
+| Bank account | `bank-account-holder`, `iban`, `bic`, `bank-name`, `bank-account-number`, `bank-routing` (routing number, sort code, BSB, IFSC) |
+| Database console | `db-host`, `db-port`, `db-name`, with `username` and `current-password` |
+| One value | `license-key`, `document-number` (passport, driver's licence, national ID), `wallet-address` |
 | Other | `none` |
 
 ### Form types
 
-`login` (has a password the user signs in with, with or without an identifier), `identifier` (the first step of a multi-step sign-in: identifier only), `signup`, `change-password`, `one-time-code`, `card`, `identity` (personal details and addresses).
+`login` (has a password the user signs in with, with or without an identifier), `identifier` (the first step of a multi-step sign-in: identifier only), `signup`, `change-password`, `one-time-code`, `card`, `identity` (personal details and addresses), `bank` (a bank account without a password), `database` (a sign-in with a server or database field beside one password).
 
 ### Fixtures
 
@@ -88,5 +91,8 @@ The runner's host matches every page and returns one suggestion of the picked ki
 | `one-time-code` | `123456` |
 | `card` | cardholder `Alex Doe`, number `4111111111111111`, expiry `09/29`, CVV `123` |
 | `identity` | Alex Doe, `alex@example.test`, `+15555550100`, Example Labs, 1 Test Street, Apt 2, Springfield, CA, `90210`, `US`, born `1990-04-12` |
+| `bank-account` | Alex Doe, IBAN `DE89 3704 0044 0532 0130 00` (filled without spaces), BIC `COBADEFFXXX`, Example Bank, account `31926819`, sort code `12-34-56` |
+| `database` | host `db.example.test`, port `5432`, database `shop`, user `shop_admin`, password `db-pass-77!` |
+| `software-license` | `CRPS-7Q2W-9X4K-ZT8M` |
 
 Month and year selects or inputs take the format the field asks for (`09`, `9`, `29` or `2029`); a country select takes the option whose value or text matches `US` / United States.

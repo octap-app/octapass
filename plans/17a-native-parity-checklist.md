@@ -72,7 +72,11 @@ The audit was made by reading code. Rows marked closed were changed afterwards o
 |---|---|---|---|---|
 | Scopes: all, favourites, passkeys, codes, trash, vault, type | lib/scope.ts:11 | Yes | Yes | |
 | Scopes: pinned, and the smart lists (created, frequent, used, changed) | lib/scope.ts:8 | Yes | Yes | Smart lists come from `smartList`; no Sort menu there. Not built or run on a device yet |
-| Sidebar: quick lists above the vaults, with Nearby as coming soon | Sidebar.tsx:73 | Yes | Yes | Counts on Pinned and Favourites only |
+| Sidebar: quick lists above the vaults, Nearby included | Sidebar.tsx:73 | Yes | Yes | Counts on Pinned and Favourites only |
+| Nearby: the place the device is at first, items by type, other places nearest first with distances, why none is here | Nearby.tsx | Yes | Yes | The core orders and groups (`nearby`). The Mac matches by location only (no Wi-Fi reader yet) |
+| Nearby: Places manager and editor (networks, Use my current location, radius, note, shared-vault warning) | Nearby.tsx | Yes | Yes | |
+| Nearby: Places on an item (Add to a place, remove) and Add an item here | Nearby.tsx | Yes | Yes | `setItemPlace`; new item drafts carry `places` |
+| Nearby: offer a new item the place you're at, and the setting to turn it off | Nearby.tsx | Yes | Yes | Per device, on by default. Not offered after autofill saves |
 | Sidebar: vaults with counts and badges | Sidebar.tsx:87 | Yes | Yes | |
 | Sidebar: new shared vault | Sidebar.tsx:92 | Yes | Yes | |
 | Sidebar: categories with counts | Sidebar.tsx:103 | Yes | Yes | SSH and environment rows in progress |

@@ -26,16 +26,17 @@ import org.junit.runner.RunWith
 
 /**
  * Stay unlocked while logged in to this phone (plan 18), on an emulator with a screen lock
- * (scripts/android-ui-tests.sh sets the PIN): the services fill with no prompt from the app's key
+ * (scripts/ui-tests.sh sets the PIN): the services fill with no prompt from the app's key
  * and fall back without it, "Lock now" holds, reveal and copy never ask while the vault is open
  * (maintainer decision, plan 03 History 2026-11-06), and export asks every time.
  */
 @RunWith(AndroidJUnit4::class)
 class StayUnlockedTest {
-    @get:Rule
+    @get:Rule(order = 0)
     val rule = createAndroidComposeRule<MainActivity>()
 
-    @get:Rule
+    // Inside the Compose rule, so the screen is still there when a test fails.
+    @get:Rule(order = 1)
     val failures = ScreenshotOnFailure()
 
     private val context get() = InstrumentationRegistry.getInstrumentation().targetContext

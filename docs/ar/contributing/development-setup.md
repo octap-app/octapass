@@ -70,6 +70,16 @@ pnpm --filter @octapass/web build                   # type-check and production 
 
 تبني حزمة اختبارات e2e (`apps/web/e2e`) الخادم وخزنة الويب، وتشغّلهما على منفذين حرّين بمجلد بيانات جديد، وتقود Chrome المثبّت في النظام عبر `playwright-core`. تنشئ حسابًا، وتتحقق من أن ملفات قاعدة بيانات الخادم لا تحتوي أي نص صريح من الخزنة، وتقفل الخزنة وتفتحها، وتسجّل الدخول من جديد بالمفتاح السري، وتفتحها بمفتاح مرور افتراضي (WebAuthn PRF)، وتزامن تعديلًا من متصفح ثانٍ، وتحذف الحساب مع التحقق من أن أي جدول لا يزال يذكره. اضبط `HEADED=1` لمشاهدة التشغيل، و`CHROME_PATH` إن لم يكن Chrome في `/Applications`.
 
+ولتطبيقَي الهاتف الأصليين اختبارات واجهة تقود شاشاتهما الحقيقية أمام خادم تطوير جديد على منفذ حرّ (الخطة 17، المرحلة 3؛ وما يغطيه كل اختبار مذكور في الخطة 17a):
+
+```bash
+apps/ios/scripts/ui-tests.sh                                   # iPhone Simulator, screenshots in apps/ios/build/screenshots
+DEVICE="iPad Pro 13-inch (M5)" apps/ios/scripts/ui-tests.sh    # iPad
+apps/android/scripts/ui-tests.sh                               # the running emulator, screenshots in apps/android/build/screenshots
+```
+
+يأخذ كل منهما مجلد لقطات الشاشة أولًا ويمرّر الباقي إلى `xcodebuild` أو Gradle، فيشغّل `-only-testing:OctaPassUITests/ScreenshotTests` (iOS) أو `-Pandroid.testInstrumentationRunnerArguments.class=app.octap.android.ScreenshotsTest` (Android) صنفًا واحدًا. تأتي لقطات iOS بكل لغة ومظهر عبر `OCTAPASS_TEST_LANGUAGE=ar` و`APPEARANCE=dark`، أما `ScreenshotsTest` في Android فيلتقط الحالات الأربع بنفسه. ويضبط سكربت Android رمز قفل الشاشة `1111` الذي تكتبه اختبارات فتح القفل بالجهاز، ويفتح قفل محاكٍ بدأ مقفلًا، ويثبّت تطبيق الاختبار الذي يملؤه `OtherAppsTest`. ويعطي `OCTAPASS_DERIVED_DATA` تشغيل iOS مجلد بناء خاصًا به، ويستخدم `OCTAPASS_TEST_SERVER` خادمًا يعمل مسبقًا.
+
 ## تقديم الخادم أو تشغيل التطبيقات الأصلية
 
 يبني `pnpm start` خزنة الويب والخادم ويقدّمهما معًا على منفذ واحد، `127.0.0.1:8380`، لينشرهما نفق أو وكيل. يبقى وضع التطوير معطّلًا. ويسأل التشغيل الأول في الطرفية عن أمرين:

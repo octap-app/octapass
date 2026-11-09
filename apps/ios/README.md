@@ -37,6 +37,8 @@ APPEARANCE=dark apps/ios/scripts/ui-tests.sh build/screenshots-dark
 apps/ios/scripts/test-packages.sh                 # Keychain, Wifi and AutoFillKit
 ```
 
+`OCTAPASS_TEST_LANGUAGE=ar` and `APPEARANCE=dark` suit `-only-testing:OctaPassUITests/ScreenshotTests` best: it finds everything by identifier, while other tests match some English words. `OCTAPASS_DERIVED_DATA` gives a run its own build folder (two runs at once can't share one), and `OCTAPASS_TEST_SERVER` uses a server that's already running. Plan 17a lists which test covers each flow.
+
 `ui-tests.sh` starts the sync server in development mode on a free port (the email code shows on screen), enrols a face on the Simulator and answers every Face ID prompt, and serves a sign-in page for the AutoFill test. The system's sheets can't be driven from a test, so debug builds take what they'd return at launch: `OCTAPASS_PICK_NAME` and `OCTAPASS_PICK_TEXT` stand in for the Files picker (attachments, imports), and `OCTAPASS_RECEIVE_CXF` for what another app sends through Credential Exchange. The app reads the server from `OCTAPASS_SERVER_URL` in development; release builds use the hosted service.
 
 The scripts rebuild `OctaPassVaultFFI.xcframework` and `OctaPassCoreFFI.xcframework` whenever their Rust sources changed since the last build (the hash is in `target/sources-hash/`), since the committed Swift bindings change with them. When `xcodebuild` fails, they print its error lines and the full log's path in `build/`.

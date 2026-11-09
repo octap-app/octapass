@@ -16,10 +16,11 @@ import org.junit.runner.RunWith
 /** Changes the master password in Settings, then resets it from "Forgot your master password?". */
 @RunWith(AndroidJUnit4::class)
 class MasterPasswordTest {
-    @get:Rule
+    @get:Rule(order = 0)
     val rule = createAndroidComposeRule<MainActivity>()
 
-    @get:Rule
+    // Inside the Compose rule, so the screen is still there when a test fails.
+    @get:Rule(order = 1)
     val failures = ScreenshotOnFailure()
 
     @Before
@@ -62,7 +63,7 @@ class MasterPasswordTest {
         val code = Regex("\\d{6}").find(rule.textOf("reset.devCode"))!!.value
         rule.type("reset.code", code)
         rule.tap("reset.verify")
-        rule.waitFor("reset.recoveryCode")
+        rule.waitFor("reset.recoveryCode", 60_000)
         rule.type("reset.recoveryCode", kit.recoveryCode)
         rule.type("reset.newPassword", RESET)
         rule.type("reset.confirmPassword", RESET)

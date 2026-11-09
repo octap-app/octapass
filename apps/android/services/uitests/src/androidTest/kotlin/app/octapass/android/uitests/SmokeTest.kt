@@ -46,8 +46,13 @@ import java.util.concurrent.TimeUnit
  * unlocking with the device lock, attachments reach the system's own screens (the viewer, the
  * photo picker), and items move between Octa Pass and another password manager (this app)
  * through credential transfer. They never tap the web view: button clicks there come from the debug hook. `scripts/android-ui-tests.sh`
- * signs up the dev account first (the debug hook's "Example" login, saved for this test app)
- * and sets a screen-lock PIN.
+ * signed up the dev account first (the debug hook's "Example" login, saved for this test app)
+ * and set a screen-lock PIN.
+ *
+ * **Stale since the Tauri phone app was removed (plan 17 History, 2026-11-05):** there's no web
+ * view or debug hook in the native app, so these don't run. The native app's
+ * `app/src/androidTest` covers the same flows (`OtherAppsTest`, `AttachmentsTest`), except
+ * credential transfer, which needs Google Play services 25.38 or later.
  */
 @RunWith(AndroidJUnit4::class)
 class SmokeTest {

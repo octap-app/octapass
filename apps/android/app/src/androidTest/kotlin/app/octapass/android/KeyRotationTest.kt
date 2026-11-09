@@ -19,10 +19,11 @@ import org.junit.runner.RunWith
 /** Replaces the Secret Key in Settings, signs in with the new one, and gives a vault a new key. */
 @RunWith(AndroidJUnit4::class)
 class KeyRotationTest {
-    @get:Rule
+    @get:Rule(order = 0)
     val rule = createAndroidComposeRule<MainActivity>()
 
-    @get:Rule
+    // Inside the Compose rule, so the screen is still there when a test fails.
+    @get:Rule(order = 1)
     val failures = ScreenshotOnFailure()
 
     @Before

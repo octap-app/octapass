@@ -20,13 +20,14 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
-/** SSH keys and environments through their real screens (plan 17, phase 3), and "Confirm it's you". */
+/** SSH keys and environments through their real screens (plan 17, phase 3). */
 @RunWith(AndroidJUnit4::class)
 class DeveloperItemsTest {
-    @get:Rule
+    @get:Rule(order = 0)
     val rule = createAndroidComposeRule<MainActivity>()
 
-    @get:Rule
+    // Inside the Compose rule, so the screen is still there when a test fails.
+    @get:Rule(order = 1)
     val failures = ScreenshotOnFailure()
 
     private lateinit var personal: String
@@ -42,14 +43,8 @@ class DeveloperItemsTest {
 
     private fun shows(tag: String) = rule.onAllNodesWithTag(tag, useUnmergedTree = true).fetchSemanticsNodes().isNotEmpty()
 
-    /** Device unlock is off on this account, so the gate is the master password. */
-    private fun confirm() {
-        rule.type("gate.password", TestSupport.PASSWORD)
-        rule.tap("gate.confirm")
-    }
-
     @Test
-    fun generatedKeyIsNamedAfterItsCommentAndItsPrivateKeyIsGated() {
+    fun generatedKeyIsNamedAfterItsCommentAndItsPrivateKeyShowsOnRequest() {
         rule.runOnUiThread { model.nav.open(app.octap.android.ui.vault.Route.Edit(null, ItemType.SshKey), false) }
         rule.tap("ssh.generate")
         rule.waitFor("ssh.fingerprint", 60_000)
@@ -60,15 +55,12 @@ class DeveloperItemsTest {
         assertTrue(rule.textOf("ssh.publicKey").startsWith("ssh-ed25519 "))
         assertTrue(rule.textOf("ssh.fingerprint").startsWith("SHA256:"))
 
+        // Hidden until asked for. The open vault covers showing it: no "Confirm it's you"
+        // (maintainer decision, plan 03 History 2026-11-06).
         assertFalse(shows("ssh.privateKey"))
         rule.tap("ssh.showPrivate")
-        // Cancelling keeps it hidden.
-        rule.tap("gate.cancel")
-        rule.waitUntil(5_000) { !shows("gate.password") }
-        assertFalse(shows("ssh.privateKey"))
-        rule.tap("ssh.showPrivate")
-        confirm()
         rule.waitFor("ssh.privateKey", 30_000)
+        assertFalse(shows("gate.password"))
         assertTrue(rule.textOf("ssh.privateKey").contains("BEGIN OPENSSH PRIVATE KEY"))
     }
 
@@ -118,8 +110,8 @@ class DeveloperItemsTest {
         rule.waitFor("reveal.env.API_KEY")
         rule.waitUntil(10_000) { rule.onAllNodes(hasText("DEBUG", substring = true), useUnmergedTree = true).fetchSemanticsNodes().isNotEmpty() }
         rule.tap("reveal.env.API_KEY")
-        confirm()
         rule.waitFor("env.API_KEY.value")
+        assertFalse(shows("gate.password"))
         assertEquals("value-API_KEY", rule.textOf("env.API_KEY.value"))
     }
 

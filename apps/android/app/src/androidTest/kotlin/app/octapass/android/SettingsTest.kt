@@ -25,10 +25,11 @@ import org.junit.runner.RunWith
 /** Group 5 (plan 17): settings, two-step sign-in, sharing, families and share links. */
 @RunWith(AndroidJUnit4::class)
 class SettingsTest {
-    @get:Rule
+    @get:Rule(order = 0)
     val rule = createAndroidComposeRule<MainActivity>()
 
-    @get:Rule
+    // Inside the Compose rule, so the screen is still there when a test fails.
+    @get:Rule(order = 1)
     val failures = ScreenshotOnFailure()
 
     @Before
@@ -41,7 +42,7 @@ class SettingsTest {
 
     @After
     fun englishAgain() {
-        model.updateSettings { it.copy(language = LanguagePreference.SYSTEM, theme = ThemePreference.SYSTEM) }
+        model.updateSettings { it.copy(language = LanguagePreference.SYSTEM, theme = ThemePreference.SYSTEM, stayUnlocked = true) }
     }
 
     private fun openSettings() {
@@ -55,6 +56,8 @@ class SettingsTest {
         rule.tap("settings.theme.2")
         rule.waitUntil(5_000) { model.settings.value.theme == ThemePreference.DARK }
 
+        // Auto-lock is greyed out under stay unlocked, which is on by default.
+        rule.runOnUiThread { model.updateSettings { it.copy(stayUnlocked = false) } }
         rule.tap("settings.autoLock")
         rule.tap("choice.5")
         rule.waitUntil(5_000) { model.settings.value.autoLockMinutes == 5u }

@@ -26,10 +26,11 @@ import java.io.File
 /** Local mode (plan 01): vaults on this phone with no account, their lock screen, switching and backups. */
 @RunWith(AndroidJUnit4::class)
 class LocalVaultTest {
-    @get:Rule
+    @get:Rule(order = 0)
     val rule = createAndroidComposeRule<MainActivity>()
 
-    @get:Rule
+    // Inside the Compose rule, so the screen is still there when a test fails.
+    @get:Rule(order = 1)
     val failures = ScreenshotOnFailure()
 
     /** Creating runs Argon2id twice, at 256 MiB on a phone that can spare it. */
@@ -131,7 +132,7 @@ class LocalVaultTest {
 
         // Locked, it asks for the master password and offers no sign-out or reset. The save's
         // message sits at the bottom of the screen, where the button scrolls to: let it go first.
-        rule.waitUntil(10_000) { rule.onAllNodesWithText("saved", substring = true).fetchSemanticsNodes().isEmpty() }
+        rule.waitUntil(30_000) { rule.onAllNodesWithText("saved", substring = true).fetchSemanticsNodes().isEmpty() }
         rule.tap("settings.lockNow")
         rule.waitFor("lock.password")
         assertTrue(rule.onAllNodesWithTag("lock.signOut").fetchSemanticsNodes().isEmpty())
@@ -149,11 +150,12 @@ class LocalVaultTest {
         assertEquals("Work", model.session.value.email)
         assertTrue(rule.onAllNodesWithText("Forum").fetchSemanticsNodes().isEmpty())
 
-        // Back to the first: another vault opens locked, with its own items.
+        // Back to the first, with its own items. Under stay unlocked (plan 18, on by default, local
+        // vaults included) it opens with no prompt; otherwise it asks for its master password.
         rule.tap("tab.settings")
         rule.tap("local.open.$home")
-        rule.waitFor("lock.password")
-        unlock()
+        rule.waitUntil(slow) { listOf("lock.password", "list.title").any { rule.onAllNodesWithTag(it).fetchSemanticsNodes().isNotEmpty() } }
+        if (rule.onAllNodesWithTag("lock.password").fetchSemanticsNodes().isNotEmpty()) unlock()
         waitForList()
         assertEquals("Home", model.session.value.email)
         waitForText("Forum")

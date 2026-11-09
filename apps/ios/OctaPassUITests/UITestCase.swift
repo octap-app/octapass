@@ -111,15 +111,22 @@ class UITestCase: XCTestCase {
             focus(input, identifier)
             // Keys typed while the keyboard switches to or from a secure field get lost: wait.
             if secure { Thread.sleep(forTimeInterval: 1) }
-            if let value = input.value as? String, !value.isEmpty, value != input.placeholderValue {
-                input.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: value.count))
-            }
+            clear(input)
             input.typeText(text)
             let value = input.value as? String ?? ""
             // A secure field shows one dot per character.
             if value == text || (secure && value.count == text.count) { return }
         }
         XCTFail("couldn't type into \(identifier): \(input.value ?? "")")
+    }
+
+    /// Deletes what the field holds. On a busy Mac some keystrokes get lost, so it deletes again
+    /// until the field is empty (or shows its placeholder).
+    func clear(_ input: XCUIElement) {
+        for _ in 0..<4 {
+            guard let value = input.value as? String, !value.isEmpty, value != input.placeholderValue else { return }
+            input.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: value.count))
+        }
     }
 
     /// A tap during a screen's push animation lands nowhere: tap until the field has focus.
@@ -173,7 +180,8 @@ class UITestCase: XCTestCase {
     /// A login through the editor, from the list's New item menu.
     func addLogin(title: String, username: String, password: String, website: String) {
         tap("new-item")
-        waitFor(app.buttons["Login"].firstMatch).tap()
+        // By identifier, not the type's name: the screenshot runs are in Arabic too.
+        tap("new-login")
         type(title, into: "editor-title")
         type(username, into: "editor-username")
         type(password, into: "editor-password")

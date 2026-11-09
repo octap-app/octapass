@@ -72,6 +72,16 @@ Each Rust crate's integration tests build as one binary, `tests/main.rs`, which 
 
 The e2e suite (`apps/web/e2e`) builds the server and the web vault, starts both on free ports with a fresh data directory, and drives the system Chrome with `playwright-core`. It signs up, checks that the server's database files hold no plaintext from the vault, locks and unlocks, signs in again with the Secret Key, unlocks with a virtual passkey (WebAuthn PRF), syncs an edit from a second browser, and deletes the account, checking that no table still mentions it. Set `HEADED=1` to watch, and `CHROME_PATH` if Chrome isn't in `/Applications`.
 
+The native phone apps have UI tests that drive their real screens against a fresh development server on a free port (plan 17, phase 3; which flow each test covers is in plan 17a):
+
+```bash
+apps/ios/scripts/ui-tests.sh                                   # iPhone Simulator, screenshots in apps/ios/build/screenshots
+DEVICE="iPad Pro 13-inch (M5)" apps/ios/scripts/ui-tests.sh    # iPad
+apps/android/scripts/ui-tests.sh                               # the running emulator, screenshots in apps/android/build/screenshots
+```
+
+Each takes the screenshot folder first and passes the rest to `xcodebuild` or Gradle, so `-only-testing:OctaPassUITests/ScreenshotTests` (iOS) or `-Pandroid.testInstrumentationRunnerArguments.class=app.octap.android.ScreenshotsTest` (Android) runs one class. The iOS screenshots come in each language and appearance from `OCTAPASS_TEST_LANGUAGE=ar` and `APPEARANCE=dark`; Android's `ScreenshotsTest` takes all four itself. The Android script sets the screen-lock PIN `1111` the device-unlock tests type, unlocks an emulator that started locked, and installs the test app that `OtherAppsTest` fills. `OCTAPASS_DERIVED_DATA` gives an iOS run its own build folder, and `OCTAPASS_TEST_SERVER` uses a server that's already running.
+
 ## Serve it, or run the native apps
 
 `pnpm start` builds the web vault and the server and serves both on one port, `127.0.0.1:8380`, for a tunnel or a proxy to publish. Dev mode stays off. The first run in a terminal asks two things:

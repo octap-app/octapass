@@ -1,6 +1,9 @@
-// The native smoke tests (src/androidTest) and the test app they fill (src/main), separate from
-// Octa Pass so it fills them as it would any other app; it's also the other password manager in
-// the credential transfer tests. scripts/android-ui-tests.sh runs them.
+// The test app (src/main, app.octap.android.test): the forms Octa Pass fills in the app's UI
+// tests (app/src/androidTest, OtherAppsTest), a keyboard without inline suggestions, and another
+// password manager for credential transfer. It's separate from Octa Pass so Octa Pass fills it as
+// it would any other app; scripts/ui-tests.sh installs it. The smoke tests in src/androidTest
+// drove the Tauri app's web view through its debug hook and no longer run: OtherAppsTest and
+// AttachmentsTest cover the same flows in the native app, except credential transfer.
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {

@@ -22,7 +22,7 @@ import java.util.UUID
 
 /**
  * What the UI tests share. They run against the development server the app was built for
- * (`-PoctapassServer`, see scripts/android-ui-tests.sh), which shows its email codes on screen.
+ * (`-PoctapassServer`, see scripts/ui-tests.sh), which shows its email codes on screen.
  */
 object TestSupport {
     const val PASSWORD = "correct horse battery staple 42"
@@ -53,13 +53,29 @@ object TestSupport {
         vault.finishSignup(started.signupId, started.devVerificationCode!!)
     }
 
+    /** Runs a shell command and waits for it to end (its output closes then). */
+    private fun shell(command: String) {
+        android.os.ParcelFileDescriptor.AutoCloseInputStream(InstrumentationRegistry.getInstrumentation().uiAutomation.executeShellCommand(command)).use { it.readBytes() }
+    }
+
+    /**
+     * The screen as it is, to /sdcard/octapass-screenshots/[name].png (scripts/ui-tests.sh pulls the
+     * folder). The shell writes it: the app can't write to shared storage.
+     */
+    fun screenshot(name: String) {
+        val file = "/sdcard/octapass-screenshots/$name.png"
+        shell("mkdir -p ${file.substringBeforeLast('/')}")
+        shell("screencap -p $file")
+    }
+
     /** Types the screen-lock PIN into the system's prompt. */
     fun enterPin() {
         val device = device
         val pinField = By.pkg("com.android.systemui").clazz("android.widget.EditText")
         // With a fingerprint enrolled the prompt asks for it first: "Use PIN" switches to the screen lock.
         val usePin = By.pkg("com.android.systemui").text(java.util.regex.Pattern.compile("(?i)use (pin|password|pattern|screen lock)"))
-        val deadline = System.currentTimeMillis() + 20_000
+        // The system's prompt can take a while on a busy emulator.
+        val deadline = System.currentTimeMillis() + 45_000
         while (System.currentTimeMillis() < deadline && !device.hasObject(pinField)) {
             device.findObject(usePin)?.click()
             device.wait(Until.hasObject(pinField), 1_000)
@@ -116,10 +132,13 @@ fun Rule.textOf(tag: String): String {
     return texts.joinToString(" ")
 }
 
-/** Saves a screenshot of a failing test to the app's files (`adb pull` it from /sdcard/Android/data/<app>/files/failures). */
+/**
+ * Saves a screenshot of a failing test to /sdcard/octapass-screenshots/failures, which
+ * scripts/ui-tests.sh pulls. Not the app's own files: the connected test task uninstalls the app,
+ * and its files with it, when the run ends.
+ */
 class ScreenshotOnFailure : org.junit.rules.TestWatcher() {
     override fun failed(e: Throwable?, description: org.junit.runner.Description) {
-        val dir = java.io.File(InstrumentationRegistry.getInstrumentation().targetContext.getExternalFilesDir(null), "failures").apply { mkdirs() }
-        TestSupport.device.takeScreenshot(java.io.File(dir, "${description.methodName}.png"))
+        TestSupport.screenshot("failures/${description.className.substringAfterLast('.')}-${description.methodName}")
     }
 }

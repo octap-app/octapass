@@ -3,7 +3,8 @@ set -euo pipefail
 
 IOS="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ROOT="$(cd "$IOS/../.." && pwd)"
-DERIVED="$IOS/build/DerivedData"
+# OCTAPASS_DERIVED_DATA keeps a second build apart, so two runs at once don't share one build folder.
+DERIVED="${OCTAPASS_DERIVED_DATA:-$IOS/build/DerivedData}"
 # The Simulator the tests run on when DEVICE doesn't name one. DEVICE isn't set here: device.sh
 # reads it as the phone to install on.
 DEFAULT_SIMULATOR="iPhone 17 Pro"

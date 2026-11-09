@@ -22,10 +22,11 @@ import org.junit.runner.RunWith
 /** Group 4 (plan 17): one-time codes from links and QR codes, reviewed before they're saved. */
 @RunWith(AndroidJUnit4::class)
 class ScanTest {
-    @get:Rule
+    @get:Rule(order = 0)
     val rule = createAndroidComposeRule<MainActivity>()
 
-    @get:Rule
+    // Inside the Compose rule, so the screen is still there when a test fails.
+    @get:Rule(order = 1)
     val failures = ScreenshotOnFailure()
 
     private lateinit var personal: String

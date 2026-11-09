@@ -25,10 +25,11 @@ import org.junit.runner.RunWith
 /** Groups 2 and 3 (plan 17): the list with its menu, website rows, search, favourites, the trash, the editor and the item view. */
 @RunWith(AndroidJUnit4::class)
 class VaultTest {
-    @get:Rule
+    @get:Rule(order = 0)
     val rule = createAndroidComposeRule<MainActivity>()
 
-    @get:Rule
+    // Inside the Compose rule, so the screen is still there when a test fails.
+    @get:Rule(order = 1)
     val failures = ScreenshotOnFailure()
 
     private lateinit var personal: String
@@ -116,15 +117,13 @@ class VaultTest {
 
         rule.waitFor("item.title")
         rule.waitFor("reveal.password")
+        // The open vault covers revealing and copying: no "Confirm it's you" (maintainer
+        // decision, plan 03 History 2026-11-06).
         rule.tap("reveal.password")
-        // No device lock on this account: the master password stands in.
-        rule.type("gate.password", TestSupport.PASSWORD)
-        rule.tap("gate.confirm")
         rule.waitFor("password.value")
         assertTrue(rule.textOf("password.value").contains("correct-horse-battery"))
         rule.tap("copy.password")
-        rule.type("gate.password", TestSupport.PASSWORD)
-        rule.tap("gate.confirm")
+        assertTrue(rule.onAllNodesWithTag("gate.password").fetchSemanticsNodes().isEmpty())
         val saved = runBlocking { model.vault.listItems(app.octap.vault.ItemFilter(null, null, "Forum", false, false, false, false)) }
         assertEquals(listOf("Forum"), saved.map { it.title })
     }

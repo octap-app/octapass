@@ -22,10 +22,11 @@ import org.junit.runner.RunWith
 class OnboardingTest {
     // v2: effects run on a standard test dispatcher. The v1 rule's unconfined one resumes a vault
     // call inside the Rust thread's callback, which JNA can't nest on Android.
-    @get:Rule
+    @get:Rule(order = 0)
     val rule = createAndroidComposeRule<MainActivity>()
 
-    @get:Rule
+    // Inside the Compose rule, so the screen is still there when a test fails.
+    @get:Rule(order = 1)
     val failures = ScreenshotOnFailure()
 
     @Before
@@ -123,7 +124,11 @@ class OnboardingTest {
         rule.waitUntil(20_000) { runBlocking { model.vault.unlockMethods().deviceUnlockEnabled } }
         model.vault.lock()
         // The prompt starts on its own (Compose has to run for that); the screen lock answers it.
-        rule.waitUntil(20_000) { TestSupport.device.hasObject(androidx.test.uiautomator.By.pkg("com.android.systemui").textContains("Use")) }
+        // Without a fingerprint, the prompt can open straight on the PIN pad, with no "Use PIN".
+        rule.waitUntil(30_000) {
+            val systemUi = androidx.test.uiautomator.By.pkg("com.android.systemui")
+            TestSupport.device.hasObject(systemUi.textContains("Use")) || TestSupport.device.hasObject(androidx.test.uiautomator.By.pkg("com.android.systemui").clazz("android.widget.EditText"))
+        }
         try {
             TestSupport.enterPin()
         } catch (error: IllegalStateException) {

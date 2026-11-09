@@ -74,6 +74,56 @@ final class SettingsTests: UITestCase {
         snap("45-list-arabic")
     }
 
+    /// Devices, the security log, an encrypted export and deleting the account (groups 5 and 6),
+    /// ending on the goodbye screen. The system's share sheet for the export isn't opened.
+    func testDevicesLogExportAndDeleteAccount() {
+        launchFresh()
+        let email = "ios-\(UUID().uuidString.prefix(8).lowercased())@example.com"
+        signUp(email: email)
+        scrollAndTap("kit-saved")
+        tap("kit-continue")
+        tap("open-vault")
+        // Without device unlock, "Confirm it's you" is the master password sheet a test can see.
+        tap("offer-not-now", timeout: 30)
+        waitForVault()
+
+        tab(3)
+        scrollAndTap("settings-devices")
+        waitFor(text("This device"), timeout: 30, "this phone in the device list")
+        snap("47-devices")
+        tap("BackButton")
+        scrollAndTap("settings-security-log")
+        waitFor(app.navigationBars["Security log"], timeout: 20)
+        // Signing up and signing in are logged.
+        XCTAssertTrue(app.cells.firstMatch.waitForExistence(timeout: 30) || app.staticTexts.count > 2, "entries in the log")
+        snap("48-security-log")
+        tap("BackButton")
+
+        // The encrypted export: a password for the file, then "Confirm it's you", then the file.
+        scrollAndTap("settings-export")
+        type("export-file-pass-77", into: "field-Password for the file")
+        type("export-file-pass-77", into: "field-Confirm the password")
+        tap("export-action")
+        type(Self.password, into: "confirm-password")
+        tap("confirm")
+        waitFor(element("export-share"), timeout: 60, "the exported file, ready to share")
+        snap("49-export-ready")
+        app.buttons["Done"].firstMatch.tap()
+        gone(element("export-share"))
+
+        // Delete the account: the summary, then the email and master password.
+        scrollAndTap("settings-delete-account")
+        tap("delete-continue", timeout: 30)
+        type(email, into: "delete-email")
+        type(Self.password, into: "delete-password")
+        snap("4a-delete-account")
+        tap("delete-confirm")
+        waitFor(text("Your account has been deleted"), timeout: 60, "the goodbye screen")
+        snap("4b-account-deleted")
+        waitFor(app.buttons["Back to the start"].firstMatch).tap()
+        waitFor(element("sign-in"), timeout: 30)
+    }
+
     func tab(_ index: Int) {
         app.tabBars.buttons.element(boundBy: index).tap()
     }

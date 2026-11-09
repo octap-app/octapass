@@ -461,6 +461,65 @@ Built in m25-native-parity. These are the web edges outside the two type screens
 
 ---
 
+## UI tests (phase 3)
+
+Plan 17's phase 3 asks for a native UI test of every flow in phase 2's groups, and screenshots in both languages and themes. Inventory made 2026-11-08 (UITESTS): each flow and the test that drives it through the real screens, against a development server. iPhone and iPad run the same XCUITest target (`apps/ios/OctaPassUITests`); the iPad column names what runs or differs on iPad. Android is the Compose tests in `apps/android/app/src/androidTest`.
+
+**Status values.** **Covered:** a test existed before this inventory. **Added:** written in this inventory. **Not possible:** with the reason. **Not covered:** a gap still open.
+
+**Running them.** `apps/ios/scripts/ui-tests.sh` (`DEVICE=` an iPad for the iPad run) and `apps/android/scripts/ui-tests.sh`, which this inventory added: the script the Android tests named (`scripts/android-ui-tests.sh`) went with the Tauri app.
+
+| Group | Flow | iPhone | iPad | Android |
+|---|---|---|---|---|
+| 1 Onboarding | Sign up, email code, Recovery Kit (save, print, "I saved it") | Covered: `OnboardingTests.testSignUpUnlockAndSignInAgain` | Same test (not run on iPad here) | Covered: `OnboardingTest.signUpShowsTheRecoveryKitThenOpensTheVault` |
+| 1 | Sign-in errors, sign in on a new device with the Secret Key | Covered: `OnboardingTests` (both tests) | Same tests | Covered: `OnboardingTest.wrongPasswordThenUnlockAndSignOut`, `newDeviceAsksForTheSecretKeyAndTheAuthenticatorCode` |
+| 1 | Two-step sign-in: authenticator code | Covered: `SettingsTests.testTwoStepSignInAndArabic` | Same test | Covered: `OnboardingTest.newDeviceAsksForTheSecretKeyAndTheAuthenticatorCode` |
+| 1 | Two-step sign-in: recovery code | Not covered | Not covered | Covered: `OnboardingTest.aRecoveryCodeWorksInsteadOfTheAuthenticator` |
+| 1 | Unlock with the master password, wrong password, lock now | Covered: `OnboardingTests.testSignUpUnlockAndSignInAgain` | Same test | Covered: `OnboardingTest.wrongPasswordThenUnlockAndSignOut` |
+| 1 | Device unlock: the offer, its one reminder, Face ID / screen lock | Covered: `OnboardingTests` (the script answers Face ID) | Same test | Covered: `OnboardingTest.deviceUnlockWithTheScreenLock` (the PIN the script sets) |
+| 1 | Auto-lock after inactivity | Not possible: waiting out the shortest choice (1 minute) idle isn't worth a test run; the setting is covered on Android | Same | Covered (the setting): `SettingsTest.themeLanguageAndAutoLock` |
+| 1 | Master password change, reset with the Recovery Kit | Covered: `MasterPasswordTests.testChangeThenReset` | Same test | Covered: `MasterPasswordTest.changeThenResetTheMasterPassword` |
+| 1 | Replace the Secret Key, new vault keys | Covered: `KeyRotationTests` | Same tests | Covered: `KeyRotationTest` |
+| 1 | Local vaults: create, lock, switch, back up | Covered: `LocalVaultTests.testCreateLockAndSwitch` | Same test | Covered: `LocalVaultTest` |
+| 1 | Stay unlocked, the reveal gate, the autofill gate | Covered: `StayUnlockedTests`, `DeveloperItemTests` | Same tests | Covered: `StayUnlockedTest`, `RevealGateTest`, `AutofillGateTest` |
+| 2 Vault | List: Sort and group, website rows, search | Covered: `VaultTests.testListsSearchFavouritesAndTrash` | Split view: `IPadTests.testSplitView` | Covered: `VaultTest.listGroupsSortsSearchesAndCombinesWebsites` |
+| 2 | Favourites, trash and restore | Covered: `VaultTests` (swipes) | Same test | Covered: `VaultTest.favouriteTrashAndRestore` |
+| 2 | Item view, reveal and copy | Covered: `ItemTests`, `DeveloperItemTests` | `IPadTests` (item beside the list) | Covered: `VaultTest.newLoginThroughTheEditorThenRevealAndCopy` |
+| 2 | Editor: login, card, note, Wi-Fi | Covered: `ItemTests.testEveryTypeThroughTheEditor` | Same test | Covered: `VaultTest.newLoginThroughTheEditorThenRevealAndCopy`, `editorValidatesAndEveryTypeOpens` (card and Wi-Fi made through the API, opened in the app) |
+| 2 | Editor: identity, document (needs its file), password | Added: `ItemTests.testIdentityDocumentAndPasswordItems` | Same test | Not covered: the editor for these types (a password item opens in `ToolsTest`) |
+| 2 | Match rules, version history, counter-based codes, reused passwords | Covered: `VaultTests.testFillOnDefaultsToThisSiteAndItsSubdomains`, `ItemTests` | Same tests | Covered: `VaultTest` |
+| 2 | SSH keys and environments | Covered: `DeveloperItemTests` | Same tests | Covered: `DeveloperItemsTest` |
+| 2 | Pins and the smart lists | Not covered | Not covered | Not covered |
+| 3 Tools | Generator | Covered: `SettingsTests.testTwoStepSignInAndArabic` | Added: `ScreenshotTests` (sidebar); `IPadTests` | Covered: `ToolsTest.generatorMakesPasswordsAndPassphrases` |
+| 3 | One-time codes: pasted setup link, the review, a link opened from outside | Added: `ItemTests.testSetupLinksGoThroughTheReview` | Same test | Covered: `ScanTest` |
+| 3 | QR from the camera | Not possible: the Simulator has no camera | Same | Not possible: the emulator's camera shows a test scene, not a code |
+| 3 | QR from a photo or an image file | Not possible: the photo picker is the system's, and the stand-in picker (`OCTAPASS_PICK_*`) writes text, not an image | Same | Not covered |
+| 3 | Wi-Fi Connect and its QR code | Covered: `ItemTests.testEveryTypeThroughTheEditor` | Same test | Covered: `ToolsTest.wifiShowsConnectAndAQrCode` |
+| 3 | Files: attach, open, remove | Added: `ItemTests.testAFileIsAttachedOpenedAndRemoved` (Files through the stand-in picker; Photos and the camera are the system's) | Same test | Added: `AttachmentsTest` (the document picker and the viewer answered by the test) |
+| 4 | Health and the recovery map | Covered: `SettingsTests.testTwoStepSignInAndArabic` (score and map shown) | Added: `ScreenshotTests` | Covered: `ToolsTest.healthFindsAWeakPasswordAndTheRecoveryMap` |
+| 4 | Masked email | Covered: `MaskedEmailTests` (aliases in use) | Same test | Covered: `ToolsTest.maskedEmailOffersTheProviders` |
+| 5 Sharing | A vault shared between two accounts | Covered: `SharingTests.testSharedVaultBetweenTwoAccounts` | Same test | Covered: `SettingsTest.shareLinkFamilyAndSharedVault` (made, not opened by a second account) |
+| 5 | Families | Added: `SharingTests.testShareLinkFamilyAndEmergencyContact` | Same test | Covered: `SettingsTest.shareLinkFamilyAndSharedVault` |
+| 5 | Share links: create, list, revoke | Added: `SharingTests.testShareLinkFamilyAndEmergencyContact` | Same test | Covered: `SettingsTest.shareLinkFamilyAndSharedVault` (create, listed) |
+| 5 | Emergency access: add a trusted contact | Added: `SharingTests.testShareLinkFamilyAndEmergencyContact` | Same test | Added: `AccountTest.aTrustedContactIsAddedAfterTheFingerprint` |
+| 5 | Emergency access: request, approve, open the released vault | Not covered: needs the wait to pass or the grantor's approval in a second session | Same | Not covered |
+| 6 Settings | Theme, language (Arabic, mirrored) | Covered: `SettingsTests.testTwoStepSignInAndArabic` (Arabic) | `ScreenshotTests` runs in both | Covered: `SettingsTest.themeLanguageAndAutoLock` |
+| 6 | Two-step settings | Covered: `SettingsTests.testTwoStepSignInAndArabic` | Same test | Covered: `SettingsTest.turnOnTwoStepSignIn` |
+| 6 | Devices, security log | Added: `SettingsTests.testDevicesLogExportAndDeleteAccount` | Same test | Covered: `SettingsTest.devicesAndTheSecurityLog` |
+| 6 | Export | Added: `SettingsTests.testDevicesLogExportAndDeleteAccount` (encrypted, to the share button) | Same test | Covered: the gate before it, `RevealGateTest`, `StayUnlockedTest.exportAsksEveryTime` |
+| 6 | Import | Covered: `MaskedEmailTests` (an Octa Pass export) | Same test | Added: `AccountTest.aChromeExportIsImported` |
+| 6 | Delete account, the goodbye screen | Added: `SettingsTests.testDevicesLogExportAndDeleteAccount` | Same test | Added: `AccountTest.deletingTheAccountEndsOnTheGoodbyeScreen` |
+| 6 | Credential Exchange / credential transfer with other apps | Covered: `OtherAppsTests` (what another app sends, through a launch stand-in) | Same test | Not possible here: needs Google Play services 25.38 or later, not on the Google APIs emulator images |
+| 7 AutoFill | Filling another app or a website | Covered: `AutoFillTests.testSafariFillsFromTheExtension` (Safari, after Face ID) | Same test | Added: `OtherAppsTest` (a sign-in form after the device lock, a suggested password, Credential Manager); `ServicesTest`, `SaveLockedTest` |
+| — | Watch codes, push sync, Safes in Files | Not possible: need a paired watch, APNs and a signed File Provider on a device | Same | Not possible: a paired watch, Firebase |
+| — | Screenshots in both languages and themes | Added: `ScreenshotTests` (identifiers only), run with `OCTAPASS_TEST_LANGUAGE=ar` and `APPEARANCE=dark` | Added: the same test with `DEVICE` an iPad | Covered, extended: `ScreenshotsTest` takes the main screens in all four, and a tablet |
+
+**Run 2026-11-08/09** (UITESTS), against a local development server, from a copy of the committed tree plus these tests (the working tree had another agent's half-built organisation screens). The Mac was heavily loaded by four agents at once (load average 300 to 900), so many iOS failures were XCUITest timing out ("main thread busy for 30 s", "kAXErrorServerNotFound"), not the app.
+
+- **Android** (emulator `octapass-test`, Android 16 Google APIs, x86_64): every class run; after the fixes, everything passes except two. `MasterPasswordTest.changeThenResetTheMasterPassword` fails at the reset's code step: tapping Continue never sends `/v1/auth/recover/verify` (the server log shows none in three runs), while the keyboard's Done on the same field does, and the test then passes. Looks like a bug in `PasswordResetScreen`'s code step; not fixed. `OnboardingTest.deviceUnlockWithTheScreenLock` unlocks with the screen lock, then the prompt for showing the Secret Key didn't appear within 45 seconds; not resolved. `OtherAppsTest`, `AttachmentsTest`, `AccountTest`, `ScreenshotsTest` (all four combinations and the tablet), `LocalVaultTest`, `DeveloperItemsTest`, `VaultTest`, `ToolsTest`, `SettingsTest`, `ScanTest`, `KeyRotationTest`, `RevealGateTest`, `StayUnlockedTest`, `AutofillGateTest`, `ServicesTest`, `SaveLockedTest` pass (`SettingsTest.turnOnTwoStepSignIn` failed once, then passed).
+- **iPhone** (Simulator, iOS 26.5): passed `ScreenshotTests` in English and Arabic, light and dark; `SettingsTests.testDevicesLogExportAndDeleteAccount`; `ItemTests.testIdentityDocumentAndPasswordItems`, `testSetupLinksGoThroughTheReview`, `testCounterBasedCode`; `DeveloperItemTests.testAConfirmedUnlockCoversRevealAndCopyButNotExport`, `testGeneratedSshKeyAndItsGatedPrivateKey`. `ItemTests.testAFileIsAttachedOpenedAndRemoved` attaches the file (the Attach menu opens under XCUITest now) but Quick Look didn't come up after the tap; `SharingTests.testShareLinkFamilyAndEmergencyContact` passes share links, revoking and the family, and failed on the trusted contact's fingerprint switch, which it then picked from the screen under the sheet. Both were fixed after their last run and not run again. The rest of the existing iOS suite ran only under the heaviest load and failed there with XCUITest errors (above), so it isn't known to pass or fail; `AutoFillTests` failed typing into Safari's password field ("neither element nor any descendant has keyboard focus").
+- **iPad**: see plan 17 History, 2026-11-08.
+
 ## Native-only, not gaps
 
 Item QR codes for logins and cards, swipe actions (iOS), long-press copy (iOS), Quick Look, Wi-Fi Connect, scanning contacts and networks into items, Credential Exchange, AutoFill and credential services, app-switcher cover (iOS), `FLAG_SECURE` (Android), AutoFill prompt on the list (Android).

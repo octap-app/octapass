@@ -51,12 +51,16 @@ From the repository root, `pnpm dev:android` does the same in one step, and rebu
 
 ## Test
 
-`screenshots/` holds the main screens in both themes and languages, from `ScreenshotsTest`.
-
 ```sh
 cd apps/android
 ./gradlew :app:testDebugUnitTest :octapass-vault:testDebugUnitTest :octapass-autofill:testDebugUnitTest
-./gradlew :app:connectedDebugAndroidTest -PoctapassServer=http://localhost:8097   # an emulator with the screen-lock PIN 1111
+cd ../..
+apps/android/scripts/ui-tests.sh             # UI tests on the running emulator, screenshots in apps/android/build/screenshots
+apps/android/scripts/ui-tests.sh build/shots -Pandroid.testInstrumentationRunnerArguments.class=app.octap.android.ScreenshotsTest
 ```
 
-The Compose UI tests drive the real screens against the development server, which shows its email codes: sign-up with the Recovery Kit, unlock, two-step sign-in with either method, device unlock with the screen lock, the list's menu, website rows and search, favourites and the trash, the editor, the generator, Health, QR codes, settings in Arabic, two-step settings, share links, families and shared vaults. They use Compose's v2 test rule: with the v1 rule's unconfined dispatcher, a vault call resumes inside the Rust thread's callback, which JNA can't nest on Android.
+`scripts/ui-tests.sh` starts the sync server in development mode on a free port (or uses `OCTAPASS_TEST_SERVER`), reaches it through `adb reverse`, rebuilds the library when its Rust sources changed, sets the screen-lock PIN `1111` the device-unlock tests type (and unlocks an emulator that started locked with it), installs the test app (`services/uitests`), runs `:app:connectedDebugAndroidTest` and pulls the screenshots. `ANDROID_SERIAL` picks the emulator when several run.
+
+The Compose UI tests drive the real screens against that server, which shows its email codes: sign-up with the Recovery Kit, unlock, two-step sign-in with either method, device unlock with the screen lock, the list's menu, website rows and search, favourites and the trash, the editor, files, the generator, Health, QR codes, settings in Arabic, two-step settings, share links, families and shared vaults, filling another app through Autofill and Credential Manager (`OtherAppsTest`, with the test app as the other app), and more; plan 17a lists which test covers each flow. `ScreenshotsTest` takes the main screens in English and Arabic, light and dark, and on a tablet-sized display; a failing test leaves a screenshot under `failures/`. They use Compose's v2 test rule: with the v1 rule's unconfined dispatcher, a vault call resumes inside the Rust thread's callback, which JNA can't nest on Android.
+
+The smoke tests in `services/uitests/src/androidTest` drove the Tauri app's web view and no longer run; `OtherAppsTest` and `AttachmentsTest` cover their flows, except credential transfer, which needs Google Play services 25.38 or later (not on the Google APIs emulator images).

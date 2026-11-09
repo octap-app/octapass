@@ -18,25 +18,25 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 /**
- * Screenshots of the main screens in both themes, in English and Arabic, and on a tablet-sized
- * display, into /sdcard/octapass-screenshots (pull them with adb). Run on its own:
- * `-Pandroid.testInstrumentationRunnerArguments.class=app.octap.android.ScreenshotsTest`.
+ * Screenshots of the main screens (list, item, generator, Health, Sharing, Settings, SSH keys and
+ * environments, the lock screen) in both themes and in English and Arabic, and on a tablet-sized
+ * display, into /sdcard/octapass-screenshots; scripts/ui-tests.sh pulls them. On its own:
+ * `scripts/ui-tests.sh build/screenshots -Pandroid.testInstrumentationRunnerArguments.class=app.octap.android.ScreenshotsTest`.
  */
 @RunWith(AndroidJUnit4::class)
 class ScreenshotsTest {
     @get:Rule
     val rule = createAndroidComposeRule<MainActivity>()
 
+    /** Runs a shell command and waits for it to end (its output closes then). */
     private fun shell(command: String) {
-        InstrumentationRegistry.getInstrumentation().uiAutomation.executeShellCommand(command).close()
+        android.os.ParcelFileDescriptor.AutoCloseInputStream(InstrumentationRegistry.getInstrumentation().uiAutomation.executeShellCommand(command)).use { it.readBytes() }
     }
 
     private fun shot(name: String) {
         rule.waitForIdle()
         Thread.sleep(800)
-        shell("mkdir -p /sdcard/octapass-screenshots")
-        shell("screencap -p /sdcard/octapass-screenshots/$name.png")
-        Thread.sleep(500)
+        TestSupport.screenshot(name)
     }
 
     @After
@@ -80,16 +80,7 @@ class ScreenshotsTest {
             model.vault.saveItem(env.copy(title = "Shop staging", details = ItemDetails.Environment(app.octap.vault.EnvironmentDetails("shop-api", null, "staging", vars("API_KEY", "DEBUG"), null))))
             saved.id to model.vault.saveItem(env.copy(title = "Shop production", details = ItemDetails.Environment(app.octap.vault.EnvironmentDetails("shop-api", null, "production", vars("API_KEY"), null)))).id
         }
-        // The two GitHub logins share a row that opens in place.
-        rule.tap("site.github.com")
-        rule.waitFor("row.$github")
-        shot("02-list")
-        rule.tap("row.$github")
-        rule.waitFor("item.title")
-        shot("03-item")
-        rule.tap("item.back")
-
-        // SSH keys and environments, in each language and theme.
+        // SSH keys and environments.
         fun developerScreens(suffix: String) {
             rule.runOnUiThread { model.nav.open(app.octap.android.ui.vault.Route.Item(sshKey), false) }
             rule.waitFor("ssh.publicKey")
@@ -105,22 +96,58 @@ class ScreenshotsTest {
             rule.runOnUiThread { model.nav.showScope(app.octap.android.ui.vault.Scope.All) }
             rule.waitFor("list.title")
         }
-        developerScreens("")
 
-        model.updateSettings { it.copy(theme = ThemePreference.DARK) }
-        shot("04-list-dark")
-        developerScreens("-dark")
-        model.updateSettings { it.copy(language = LanguagePreference.AR) }
-        rule.waitUntil(10_000) { rule.activity.resources.configuration.layoutDirection == android.view.View.LAYOUT_DIRECTION_RTL }
-        shot("05-list-dark-arabic")
-        developerScreens("-dark-arabic")
+        // The main screens in each language and theme: "", "-dark", "-arabic", "-dark-arabic".
+        fun screens(suffix: String) {
+            rule.runOnUiThread { model.nav.showScope(app.octap.android.ui.vault.Scope.All) }
+            rule.waitFor("site.github.com")
+            // The two GitHub logins share a row that opens in place.
+            if (rule.onAllNodesWithTag("row.$github", useUnmergedTree = true).fetchSemanticsNodes().isEmpty()) rule.tap("site.github.com")
+            rule.waitFor("row.$github")
+            shot("02-list$suffix")
+            rule.tap("row.$github")
+            rule.waitFor("item.title")
+            shot("03-item$suffix")
+            rule.runOnUiThread { model.nav.reset(app.octap.android.ui.vault.Route.Generator) }
+            rule.waitFor("generator.value")
+            shot("08-generator$suffix")
+            rule.runOnUiThread { model.nav.reset(app.octap.android.ui.vault.Route.Health) }
+            rule.waitFor("health.score", 60_000)
+            shot("09-health$suffix")
+            rule.runOnUiThread { model.nav.reset(app.octap.android.ui.vault.Route.Sharing) }
+            rule.waitFor("sharing.newVault")
+            shot("13-sharing$suffix")
+            rule.runOnUiThread { model.nav.reset(app.octap.android.ui.vault.Route.Settings) }
+            rule.waitFor("settings.title")
+            shot("06-settings$suffix")
+            rule.runOnUiThread { model.nav.showScope(app.octap.android.ui.vault.Scope.All) }
+            developerScreens(suffix)
+        }
+
+        fun language(language: LanguagePreference, direction: Int) {
+            model.updateSettings { it.copy(language = language) }
+            rule.waitUntil(10_000) { rule.activity.resources.configuration.layoutDirection == direction }
+        }
+
         model.updateSettings { it.copy(theme = ThemePreference.LIGHT) }
-        developerScreens("-arabic")
-        rule.tap("tab.settings")
-        rule.waitFor("settings.title")
-        shot("06-settings-arabic")
-        model.updateSettings { it.copy(language = LanguagePreference.EN) }
-        rule.waitUntil(10_000) { rule.activity.resources.configuration.layoutDirection == android.view.View.LAYOUT_DIRECTION_LTR }
+        screens("")
+        model.updateSettings { it.copy(theme = ThemePreference.DARK) }
+        screens("-dark")
+        language(LanguagePreference.AR, android.view.View.LAYOUT_DIRECTION_RTL)
+        screens("-dark-arabic")
+        model.updateSettings { it.copy(theme = ThemePreference.LIGHT) }
+        screens("-arabic")
+
+        // The lock screen, in Arabic and then English.
+        runBlocking { model.vault.lock() }
+        rule.waitFor("lock.password")
+        shot("14-locked-arabic")
+        language(LanguagePreference.EN, android.view.View.LAYOUT_DIRECTION_LTR)
+        rule.waitFor("lock.password")
+        shot("14-locked")
+        runBlocking { model.vault.unlock(TestSupport.PASSWORD) }
+        rule.waitFor("list.title")
+        if (rule.onAllNodesWithTag("offer.notNow").fetchSemanticsNodes().isNotEmpty()) rule.tap("offer.notNow")
 
         // A large tablet: the sidebar beside the list, the item beside it.
         shell("wm size 2560x1600")

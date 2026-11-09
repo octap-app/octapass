@@ -19,10 +19,11 @@ import org.junit.runner.RunWith
 /** Group 4 (plan 17): the generator, Health with the recovery map, QR codes and masked email. */
 @RunWith(AndroidJUnit4::class)
 class ToolsTest {
-    @get:Rule
+    @get:Rule(order = 0)
     val rule = createAndroidComposeRule<MainActivity>()
 
-    @get:Rule
+    // Inside the Compose rule, so the screen is still there when a test fails.
+    @get:Rule(order = 1)
     val failures = ScreenshotOnFailure()
 
     private lateinit var personal: String
@@ -88,7 +89,7 @@ class ToolsTest {
     }
 
     @Test
-    fun aPasswordQrCodeAsksForTheMasterPasswordFirst() {
+    fun aPasswordQrCodeShowsWhileTheVaultIsOpen() {
         val id = runBlocking {
             val draft = newItemDraft(ItemType.Password, personal)
             model.vault.saveItem(draft.copy(title = "Disk key", details = ItemDetails.Password((draft.details as ItemDetails.Password).login.copy(password = "correct-horse-battery")))).id
@@ -96,9 +97,9 @@ class ToolsTest {
         rule.tap("row.$id")
         rule.tap("item.more")
         rule.tap("item.qr")
-        rule.type("qr.password", TestSupport.PASSWORD)
-        rule.tap("qr.confirm")
+        // The open vault covers it (maintainer decision, plan 03 History 2026-11-06).
         rule.waitFor("qr.code")
+        assertTrue(rule.onAllNodesWithTag("qr.password").fetchSemanticsNodes().isEmpty())
         rule.tap("qr.close")
     }
 

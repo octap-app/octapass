@@ -26,17 +26,18 @@ import org.junit.runner.RunWith
 
 /**
  * The autofill gate on the phone (plan 03, "Ask on every fill"), with stay unlocked off, on an
- * emulator with a screen lock (scripts/android-ui-tests.sh sets the PIN): on by default, so the
+ * emulator with a screen lock (scripts/ui-tests.sh sets the PIN): on by default, so the
  * services find no fill key and ask; off, the switch shows its warning and the services fill with
  * no prompt while the app is unlocked; locking takes that away again. Under stay unlocked the
  * switch is greyed out.
  */
 @RunWith(AndroidJUnit4::class)
 class AutofillGateTest {
-    @get:Rule
+    @get:Rule(order = 0)
     val rule = createAndroidComposeRule<MainActivity>()
 
-    @get:Rule
+    // Inside the Compose rule, so the screen is still there when a test fails.
+    @get:Rule(order = 1)
     val failures = ScreenshotOnFailure()
 
     private val context get() = InstrumentationRegistry.getInstrumentation().targetContext

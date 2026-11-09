@@ -3,4 +3,4 @@
 "NSCameraUsageDescription" = "لمسح رموز QR وإضافة شبكات Wi-Fi والرموز لمرة واحدة وجهات الاتصال، ولالتقاط صور لإرفاقها بالعناصر.";
 "NSFaceIDUsageDescription" = "لفتح قفل Octa Pass باستخدام Face ID.";
 "NSLocalNetworkUsageDescription" = "يستخدم Octa Pass الشبكة المحلية فقط للوصول إلى خادم مزامنة تشغّله عليها.";
-"NSLocationWhenInUseUsageDescription" = "يستخدم Octa Pass هذا فقط لمعرفة اسم شبكة Wi-Fi المتصل بها، ليميّزها في خزنتك. ولا يستخدمه أبدًا لمعرفة مكانك.";
+"NSLocationWhenInUseUsageDescription" = "يستخدم Octa Pass موقعك على هذا الجهاز لمعرفة اسم شبكة Wi-Fi المتصل بها وأيّ أماكنك أنت فيه. ولا يُرسل إلى أي مكان أبدًا.";

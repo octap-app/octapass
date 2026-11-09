@@ -50,7 +50,7 @@
 	<key>NSLocalNetworkUsageDescription</key>
 	<string>Octa Pass uses the local network only to reach a sync server you run on it.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Octa Pass uses this only to see the name of the Wi-Fi network you’re on, to mark it in your vault. It never finds where you are.</string>
+	<string>Octa Pass uses your location on this device to see the name of the Wi-Fi network you’re on and which of your places you’re at. It’s never sent anywhere.</string>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>ASCredentialExchangeActivity</string>

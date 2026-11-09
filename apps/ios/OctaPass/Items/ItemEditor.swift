@@ -258,6 +258,11 @@ struct ItemEditorSheet: View {
             }
             pendingFiles = []
             model.confirm(L10n.editor.saved(title: saved.title))
+            // At one of the user's places? Offer the new item to it (Nearby).
+            if isNew {
+                let vault = model.vault
+                Task { await PlaceOffer.shared.consider(saved.id, vault: vault) }
+            }
             if let onClose { onClose(saved.id) } else { dismiss() }
         } catch {
             formError = error.message

@@ -85,7 +85,7 @@ targets:
         NSCameraUsageDescription: Scan QR codes to add Wi-Fi networks, one-time codes and contacts, and take photos to attach to items.
         # iOS tells apps the Wi-Fi network's name only with location access (and the Access
         # Wi-Fi Information entitlement): asked when the user opens Wi-Fi, never at start.
-        NSLocationWhenInUseUsageDescription: Octa Pass uses this only to see the name of the Wi-Fi network you’re on, to mark it in your vault. It never finds where you are.
+        NSLocationWhenInUseUsageDescription: Octa Pass uses your location on this device to see the name of the Wi-Fi network you’re on and which of your places you’re at. It’s never sent anywhere.
         ITSAppUsesNonExemptEncryption: false
         # One-time code setup links: listing otpauth puts Octa Pass under Settings → General →
         # AutoFill & Passwords → Set Up Codes In; otpauth-migration is a Google Authenticator export.

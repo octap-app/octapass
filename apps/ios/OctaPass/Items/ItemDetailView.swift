@@ -81,6 +81,7 @@ struct ItemDetailView: View {
                     Text(item.tags.joined(separator: " · ")).foregroundStyle(Color.ink)
                 }
             }
+            if !trashed { ItemPlacesSection(item: item, editable: !readOnly) }
             Section {
                 meta(item, vault)
                 // Version history lives on the server; a vault on this device only keeps none.

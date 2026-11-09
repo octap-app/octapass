@@ -85,6 +85,9 @@ targets:
         LSApplicationCategoryType: public.app-category.productivity
         NSHumanReadableCopyright: MIT
         ITSAppUsesNonExemptEncryption: false
+        # Nearby reads the Mac's location once, while it's open, to mark the place it's at.
+        NSLocationWhenInUseUsageDescription: Octa Pass uses your location on this Mac to see which of your places you’re at. It’s never sent anywhere.
+        NSLocationUsageDescription: Octa Pass uses your location on this Mac to see which of your places you’re at. It’s never sent anywhere.
         # One-time code setup links (a website's otpauth:// link, a Google Authenticator export):
         # OctaPassMacApp's onOpenURL keeps them until the vault is unlocked, then asks (OpenedLinks).
         # Listing otpauth also puts Octa Pass under System Settings → AutoFill & Passwords → Set Up
@@ -112,6 +115,8 @@ targets:
         # Writes the suggestions AutoFill shows before the vault is unlocked (ASCredentialIdentityStore).
         com.apple.developer.authentication-services.autofill-credential-provider: true
         com.apple.security.network.client: true
+        # Nearby: one location reading while the app is open (plan 03, "Nearby").
+        com.apple.security.personal-information.location: true
         com.apple.security.files.user-selected.read-write: true
         com.apple.security.application-groups: [$(OCTAPASS_APP_GROUP)]
         keychain-access-groups: [$(OCTAPASS_KEYCHAIN_GROUP)]

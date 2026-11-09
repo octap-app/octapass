@@ -45,6 +45,10 @@
 	<string>public.app-category.productivity</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>MIT</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Octa Pass uses your location on this Mac to see which of your places you’re at. It’s never sent anywhere.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Octa Pass uses your location on this Mac to see which of your places you’re at. It’s never sent anywhere.</string>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>ASCredentialExchangeActivity</string>

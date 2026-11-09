@@ -39,6 +39,7 @@ struct SettingsView: View {
             #if os(iOS)
             WifiOffersSection()
             #endif
+            NearbySettingsSection()
             if !model.isLocal {
                 Section(L10n.settings.twoStep) {
                     NavigationLink { TwoStepSettingsView() } label: { Label(L10n.settings.twoStep, systemImage: "lock.shield") }

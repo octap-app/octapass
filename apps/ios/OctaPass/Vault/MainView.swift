@@ -96,6 +96,7 @@ private struct TabShell: View {
             .tag(Tab.settings)
         }
         .modifier(WifiSaveOffer())
+        .modifier(PlaceSaveOffer())
         .environment(directory)
         .task(id: model.itemsVersion &+ model.sharingVersion) { await directory.load(model.vault) }
     }
@@ -138,6 +139,7 @@ private struct SplitShell: View {
         }
         // Only the Mac edits in the detail column; the iPad keeps its sheets.
         .environment(\.detailEditor, Self.editsInDetail ? editor : nil)
+        .modifier(PlaceSaveOffer())
         .environment(directory)
         .task(id: model.itemsVersion &+ model.sharingVersion) { await directory.load(model.vault) }
     }
@@ -335,6 +337,7 @@ struct RouteView: View {
         case .safes: SafesView()
         case .emergency: AccountOnly(title: L10n.nav.emergency) { EmergencyView() }
         case let .vaultMembers(id): AccountOnly(title: L10n.nav.sharing) { VaultMembersRoute(vaultId: id) }
+        case .nearby: NearbyView()
         case let .editor(id): DetailEditorPage(id: id)
         case .newSafe: NewSafePage()
         // A view of its own per folder: another Safe chosen in its place lists that Safe's files.
@@ -404,7 +407,7 @@ struct SidebarView: View {
         Section(L10n.nav.vaults) {
             row(.list(.all), L10n.scopes.all, "square.grid.2x2", count: directory.counts["all"])
             ForEach(ListScope.quickLists, id: \.self) { scope in
-                if scope == .pinned { soonRow(L10n.scopes.nearby, "location") }
+                if scope == .pinned { row(.nearby, L10n.scopes.nearby, "location") }
                 // Pinned and Favourites are filters, with counts; the others keep an order of their own.
                 row(.list(scope), scope.title(vaults: directory.vaults), scope.icon,
                     count: scope == .pinned || scope == .favorites ? directory.counts[scope.countKey] ?? 0 : nil)
@@ -491,28 +494,6 @@ struct SidebarView: View {
         }
     }
 
-    /// A list that isn't built yet: shown, marked as coming soon, and not something to open.
-    private func soonRow(_ title: String, _ icon: String) -> some View {
-        HStack {
-            Label {
-                HStack(spacing: 6) {
-                    Text(title).lineLimit(1)
-                    Text(L10n.nav.soon)
-                        .font(.caption2.weight(.semibold))
-                        .padding(.horizontal, 6)
-                        .padding(.vertical, 2)
-                        .background(Color.mist.opacity(0.12), in: Capsule())
-                }
-            } icon: {
-                Image(systemName: icon)
-            }
-            Spacer()
-        }
-        .foregroundStyle(Color.mist)
-        .accessibilityElement(children: .combine)
-        .accessibilityIdentifier("sidebar-nearby")
-    }
-
     private func identifier(_ route: Route) -> String {
         switch route {
         case let .list(scope):
@@ -528,6 +509,7 @@ struct SidebarView: View {
         case .safes: return "safes"
         case .emergency: return "emergency"
         case .vaultMembers: return "members"
+        case .nearby: return "nearby"
         case .editor: return "editor"
         case .newSafe: return "new-safe"
         case .safeFolder: return "safe-folder"

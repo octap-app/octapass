@@ -12,7 +12,7 @@ enum ListScope: Hashable {
     case type(ItemType)
 
     /// The lists above the vaults in the sidebar, in the web vault's order. Nearby, which comes
-    /// second, isn't built yet: the sidebar shows it as coming soon.
+    /// second, is a screen of its own (`Route.nearby`), not a list of items.
     static let quickLists: [ListScope] = [.smart(.created), .pinned, .favorites, .smart(.frequent), .smart(.used), .smart(.changed)]
 
     /// The types a new item can be, in the web vault's order (`ITEM_TYPES`).
@@ -191,6 +191,8 @@ enum Route: Hashable {
     case item(String)
     case generator, health, settings, sharing, maskedEmail, emergency, tools, safes
     case vaultMembers(String)
+    /// Nearby: places and the items at each (`NearbyView`).
+    case nearby
     /// The Mac's item editor in the detail column (`DetailEditor`), by its session.
     case editor(UUID)
     /// The Mac's new-Safe form in the detail column.

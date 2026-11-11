@@ -19,17 +19,18 @@ struct MacBrowser: Identifiable, Equatable {
         bundleIds.lazy.compactMap { NSWorkspace.shared.urlForApplication(withBundleIdentifier: $0) }.first
     }
 
-    // PUBLISH: each store's listing once the extension is listed (the same table as
-    // `apps/desktop/crates/native-host/src/stores.rs`). Until then, the website's page for it.
-    static let extensionPage = URL(string: "https://octap.app/docs/platforms/browser-extension/")!
+    // The same table as `apps/desktop/crates/native-host/src/stores.rs`. PUBLISH: Edge gets its
+    // Edge Add-ons listing once the extension is there; until then it installs from the Chrome Web Store.
+    static let chromeWebStore = URL(string: "https://chromewebstore.google.com/detail/octa-pass/jainmncaocgdhknhcjkdbbbmahllbjol")!
+    static let firefoxAddOns = URL(string: "https://addons.mozilla.org/firefox/addon/octa-pass/")!
     static let safariPage = URL(string: "https://octap.app/docs/platforms/browser-extension/#safari")!
 
     static let supported: [MacBrowser] = [
-        MacBrowser(name: "Chrome", bundleIds: ["com.google.Chrome", "com.google.Chrome.beta", "com.google.Chrome.canary"], store: extensionPage),
-        MacBrowser(name: "Edge", bundleIds: ["com.microsoft.edgemac", "com.microsoft.edgemac.Beta"], store: extensionPage),
-        MacBrowser(name: "Brave", bundleIds: ["com.brave.Browser"], store: extensionPage),
-        MacBrowser(name: "Chromium", bundleIds: ["org.chromium.Chromium"], store: extensionPage),
-        MacBrowser(name: "Firefox", bundleIds: ["org.mozilla.firefox", "org.mozilla.firefoxdeveloperedition", "org.mozilla.nightly"], store: extensionPage),
+        MacBrowser(name: "Chrome", bundleIds: ["com.google.Chrome", "com.google.Chrome.beta", "com.google.Chrome.canary"], store: chromeWebStore),
+        MacBrowser(name: "Edge", bundleIds: ["com.microsoft.edgemac", "com.microsoft.edgemac.Beta"], store: chromeWebStore),
+        MacBrowser(name: "Brave", bundleIds: ["com.brave.Browser"], store: chromeWebStore),
+        MacBrowser(name: "Chromium", bundleIds: ["org.chromium.Chromium"], store: chromeWebStore),
+        MacBrowser(name: "Firefox", bundleIds: ["org.mozilla.firefox", "org.mozilla.firefoxdeveloperedition", "org.mozilla.nightly"], store: firefoxAddOns),
     ]
 
     /// Safari's extension comes in an Octa Pass app of its own (`apps/safari`) and can't reach

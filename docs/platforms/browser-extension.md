@@ -6,15 +6,24 @@ sidebar:
   order: 2
 ---
 
-:::note[Not released]
-The extension is built in the repository (`apps/extension`) and works against an Octa Pass server, but it isn't in any extension store yet. It ships with Phase 2, the public alpha. Until then you can [build it and load it unpacked](#build-it-yourself).
+:::note[Public alpha]
+The extension is in the Chrome Web Store and on Firefox Add-ons. It's a public alpha: nothing has had its external security audit yet, so keep a backup of anything important.
 :::
+
+## Install
+
+- **Chrome, Brave, Opera, Vivaldi, Arc:** [Octa Pass in the Chrome Web Store](https://chromewebstore.google.com/detail/octa-pass/jainmncaocgdhknhcjkdbbbmahllbjol)
+- **Edge:** the same [Chrome Web Store listing](https://chromewebstore.google.com/detail/octa-pass/jainmncaocgdhknhcjkdbbbmahllbjol). Edge asks you to allow extensions from other stores first. It isn't in Edge Add-ons yet.
+- **Firefox, desktop and Android:** [Octa Pass on Firefox Add-ons](https://addons.mozilla.org/firefox/addon/octa-pass/)
+- **Safari:** comes inside its own app, which isn't in the App Store yet (see [Safari](#safari)).
+
+You can also [build it yourself](#build-it-yourself) from the same source.
 
 ## Browsers
 
 Chrome, Edge, Brave, Opera, Vivaldi, Arc and Firefox (desktop and Android), all using Manifest V3. Safari 18 and later, on the Mac, iPhone and iPad, gets the same extension inside a small Octa Pass app (see [Safari](#safari)).
 
-Planned stores: Chrome Web Store, Microsoft Edge Add-ons, Firefox Add-ons (with source code uploaded for review) and Opera add-ons.
+Still to come: its own listings in Microsoft Edge Add-ons and Opera add-ons.
 
 ## What it does
 
@@ -155,7 +164,7 @@ pnpm build:extension   # the WebAssembly core when needed, then apps/extension/d
 - **Chrome, Edge, Brave:** open `chrome://extensions`, turn on *Developer mode*, choose *Load unpacked* and pick `apps/extension/dist/chrome`.
 - **Firefox:** open `about:debugging#/runtime/this-firefox`, choose *Load Temporary Add-on* and pick `apps/extension/dist/firefox/manifest.json`. Firefox asks you to allow the extension on websites before it can fill.
 
-Development builds carry a fixed key, so the unpacked Chrome extension's ID is always `oojckfebkmiogiahdggohbdnndbfcjnm`, the one the desktop app's native messaging manifest allows. `node apps/extension/scripts/build.ts --store` leaves the key out for store uploads. It needs Chrome or Edge 133+ or Firefox 130+.
+Development builds carry a fixed key, so the unpacked Chrome extension's ID is always `oojckfebkmiogiahdggohbdnndbfcjnm`, the one the desktop app's native messaging manifest allows. `node apps/extension/scripts/build.ts --store` leaves the key out for store uploads. It needs Chrome or Edge 133+, or Firefox 140+ (142+ on Android).
 
 `pnpm --filter @octapass/extension dev` rebuilds on every change and talks to a local server on `http://localhost:8080` (`pnpm --filter @octapass/web dev:stack` starts one). Reload the extension after a rebuild.
 

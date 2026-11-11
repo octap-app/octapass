@@ -33,7 +33,7 @@
 The code is open source, so anyone can check how it protects you, and organisations can run their own server with the same apps.
 
 > [!IMPORTANT]
-> **Octa Pass is in public alpha.** You can create a free account in the [web vault](https://vault.octap.app) today. The core, server, browser extensions, desktop apps, native phone apps and CLI are all in this repository; the apps are coming to the stores, and nothing has had its external security audit yet, so keep a backup of anything important. **Reviews of the security design and the code are the most useful contribution right now.** Follow the [changelog](changelog/) for progress.
+> **Octa Pass is in public alpha.** You can create a free account in the [web vault](https://vault.octap.app) today, and install the browser extension from the [Chrome Web Store](https://chromewebstore.google.com/detail/octa-pass/jainmncaocgdhknhcjkdbbbmahllbjol) or [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/octa-pass/). The core, server, browser extensions, desktop apps, native phone apps and CLI are all in this repository; the other apps are coming to the stores, and nothing has had its external security audit yet, so keep a backup of anything important. **Reviews of the security design and the code are the most useful contribution right now.** Follow the [changelog](changelog/) for progress.
 
 ## Why Octa Pass
 
@@ -58,7 +58,7 @@ The code is open source, so anyone can check how it protects you, and organisati
 
 | Platform | Autofill | Passkeys | Unlock | State |
 |---|---|---|---|---|
-| Chrome · Edge · Brave · Firefox | In-page fill and save | ✅ | Password, desktop app, passkey (PRF) | Built |
+| Chrome · Edge · Brave · Firefox | In-page fill and save | ✅ | Password, desktop app, passkey (PRF) | [Chrome Web Store](https://chromewebstore.google.com/detail/octa-pass/jainmncaocgdhknhcjkdbbbmahllbjol) · [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/octa-pass/) |
 | macOS (native) | System AutoFill + Safari, Safes in Finder | ✅ | Touch ID / Mac password | Built |
 | Windows (Tauri) | Extension + auto-type | In browser (system-wide planned for 1.0) | Windows Hello | Built |
 | Linux (Tauri) | Extension + auto-type | In browser | polkit / password | Built |
@@ -78,7 +78,7 @@ Most people should just use the free Octa Pass service. If your organisation nee
 |---|---|---|
 | 0. Foundations | Plans, security design, docs website, brand | Mostly done |
 | 1. Core + server + CLI | Rust core (crypto, vault, sync), sync server, CLI | Built |
-| 2. Browser extensions | Autofill, passkeys, imports. **Public alpha** | Built, not released |
+| 2. Browser extensions | Autofill, passkeys, imports. **Public alpha** | Released: Chrome Web Store, Firefox Add-ons |
 | 3. Desktop apps | Native macOS app; Windows and Linux (Tauri) with biometric unlock | Built, not released |
 | 4 and 5b. Phone apps | Native iOS and Android apps with autofill. **Public beta** | Built, not released |
 | 5. Sharing & completeness | Shared vaults, families, emergency access, masked email | Built, with gaps |

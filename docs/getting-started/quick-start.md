@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[In progress]
-The public alpha is open: you can create an account today in the web vault at [vault.octap.app](https://vault.octap.app). The apps in step 3 aren't in the stores yet; they're coming soon. Until then you can [build them from source](/docs/contributing/development-setup/). Follow the [changelog](/changelog/) for store releases.
+The public alpha is open: you can create an account today in the web vault at [vault.octap.app](https://vault.octap.app). The browser extension is in the [Chrome Web Store](https://chromewebstore.google.com/detail/octa-pass/jainmncaocgdhknhcjkdbbbmahllbjol) and on [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/octa-pass/). The other apps in step 3 aren't in the stores yet; they're coming soon. Until then you can [build them from source](/docs/contributing/development-setup/). Follow the [changelog](/changelog/) for store releases.
 :::
 
 ## 1. Create an account

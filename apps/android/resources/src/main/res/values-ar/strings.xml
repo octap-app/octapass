@@ -2724,7 +2724,7 @@
     <string name="browserExtension_disconnect">فصل إضافة المتصفح</string>
     <string name="browserExtension_none">لم يُعثر على متصفح مدعوم. ثبّت Chrome أو Edge أو Brave أو Firefox، ثم حاول مرة أخرى.</string>
     <string name="browserExtension_getFor">احصل عليها في %1$s</string>
-    <string name="browserExtension_getHelp">ليست في متاجر المتصفحات بعد، والرابط يشرح طريقة تثبيتها.</string>
+    <string name="browserExtension_getHelp">يفتح الرابط متجر الإضافات في متصفحك، ويثبّتها Edge من Chrome Web Store.</string>
     <string name="browserExtension_failed">تعذّر تغيير الربط مع المتصفح: %1$s</string>
     <string name="browserExtension_offerTitle">املأ كلمات المرور في متصفحك</string>
     <string name="browserExtension_offerBody">ثبّت إضافة Octa Pass في %1$s، وستفتح القفل عبر هذا التطبيق.</string>

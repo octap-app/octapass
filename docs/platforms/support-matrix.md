@@ -7,15 +7,15 @@ sidebar:
 ---
 
 :::note[In progress]
-This page shows what's built, as of 2026-11-08. Built doesn't mean released: nothing is in a store yet. The web vault is open as a public alpha at [vault.octap.app](https://vault.octap.app). See the [roadmap](/docs/reference/roadmap/).
+This page shows what's built, as of 2026-11-11. Built doesn't mean released: the browser extension is in the [Chrome Web Store](https://chromewebstore.google.com/detail/octa-pass/jainmncaocgdhknhcjkdbbbmahllbjol) and on [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/octa-pass/), and the other apps aren't in a store yet. The web vault is open as a public alpha at [vault.octap.app](https://vault.octap.app). See the [roadmap](/docs/reference/roadmap/).
 :::
 
 ## Platforms
 
 | Platform | App | Password autofill | Passkeys | One-time codes | Unlock | State |
 |---|---|---|---|---|---|---|
-| Chrome, Edge, Brave, Opera, Vivaldi, Arc | [Browser extension](/docs/platforms/browser-extension/) (MV3) | Yes, in the page | Yes, WebAuthn | Fill and copy | Password, device passkey, desktop app | Built, not in stores |
-| Firefox 130+ (desktop and Android) | Browser extension (MV3) | Yes | Yes | Fill and copy | Password, desktop app | Built, not in stores |
+| Chrome, Edge, Brave, Opera, Vivaldi, Arc | [Browser extension](/docs/platforms/browser-extension/) (MV3) | Yes, in the page | Yes, WebAuthn | Fill and copy | Password, device passkey, desktop app | In the Chrome Web Store (Edge installs from it too) |
+| Firefox 140+ (142+ on Android) | Browser extension (MV3) | Yes | Yes | Fill and copy | Password, desktop app | On Firefox Add-ons |
 | Safari 18+ (macOS, iOS, iPadOS) | Safari Web Extension inside its own app | Yes | Yes, with the [system provider](/docs/features/passkeys/) | Yes | Password | Built. Not yet checked in Safari itself, only in WebKit's extension runtime |
 | Web vault | Web app | No (view and copy) | No | View and copy | Password, device passkey | Built |
 | macOS 14+ | Native [Mac app](/docs/platforms/desktop/#the-mac-app) + AutoFill provider | Yes, system-wide | Yes, system provider | Yes (macOS 15+) | Touch ID, Mac password | Built, development builds only, not notarised |

@@ -91,7 +91,7 @@
     "sub": "Passwords and passkeys, yes. And SSH keys, API secrets, cards, IDs, Wi-Fi, crypto wallets and whole folders of files. Synced to every device, encrypted so only you can read them. Free, with no ads.",
     "primary": "Create a free account",
     "secondary": "How it keeps you safe",
-    "status": "Public alpha: sign-ups are open in the web vault. The apps are coming to the stores.",
+    "status": "Public alpha: sign-ups are open in the web vault, and the browser extension is in the Chrome and Firefox stores. The other apps are coming.",
     "follow": "Follow along",
     "rotate": ["Your passwords", "Your SSH keys", "Your passport", "Your .env files", "Your seed phrase", "Your 2FA codes", "Your tax returns", "Your API keys", "Your Wi-Fi"],
     "titleRest": "in one place only you can open."
@@ -224,7 +224,7 @@
       "1 GB for files and documents",
       "Export everything, any time"
     ],
-    "note": "Nothing to set up. Create an account in the web vault today, and the apps sync with it as they reach the stores.",
+    "note": "Nothing to set up. Create an account in the web vault today, and the browser extension and the apps sync with it as they reach the stores.",
     "howTitle": "How can it be free?",
     "howTiny": "<b>Your vault is tiny.</b> A whole vault of 500 logins, keys and notes is about a megabyte of encrypted data, so hosting it costs very little.",
     "howNoAds": "<b>No ads, and nothing to sell.</b> We can’t read your vault, so there’s no data to profit from even if we wanted to.",
@@ -251,7 +251,7 @@
   },
   "platforms": {
     "title": "On every device you own.",
-    "lede": "Where the operating system lets a password manager fill passwords, Octa Pass uses it. Where it doesn’t, the browser extension and an auto-type shortcut fill the gap. The web vault is open now; the apps are built and coming to the stores.",
+    "lede": "Where the operating system lets a password manager fill passwords, Octa Pass uses it. Where it doesn’t, the browser extension and an auto-type shortcut fill the gap. The web vault and the browser extension for Chrome and Firefox are out now; the other apps are built and coming to the stores.",
     "items": [
       { "id": "web", "name": "Web vault", "detail": "Your vault in any browser, with nothing to install.", "icon": "globe" },
       { "id": "chromium", "name": "Chrome, Edge, Brave", "detail": "Fills and saves logins in the page. Passkeys too.", "icon": "browser" },
@@ -313,7 +313,7 @@
       { "q": "Can you see what I store?", "a": "No. Your vault is encrypted on your device before it syncs, and the keys never reach our server. That goes for every item and every file, not only passwords. A stolen copy of our database would also need your Secret Key, which we never receive." },
       { "q": "What if I forget my master password?", "a": "You recover with the recovery code in your Recovery Kit, or through an emergency contact you set up. We can’t reset it for you. That’s the price of a server that can’t read your data." },
       { "q": "Why no ads?", "a": "Ad code next to your secrets would be a security hole, and an app that holds everything sensitive has to be trusted completely. Octa Pass is funded by donations, sponsors and grants." },
-      { "q": "Can I use it today?", "a": "Yes, as a public alpha: create a free account in the web vault. The apps are built and coming to the stores. The independent security audit comes before 1.0, so don’t rely on Octa Pass alone for anything important yet." },
+      { "q": "Can I use it today?", "a": "Yes, as a public alpha: create a free account in the web vault and add the browser extension for Chrome or Firefox. The other apps are built and coming to the stores. The independent security audit comes before 1.0, so don’t rely on Octa Pass alone for anything important yet." },
       { "q": "Can I run my own server?", "a": "Yes, it’s optional. The server is open source, and the same Octa Pass apps connect to it: choose “Self-hosted” when you sign in and enter your server’s address. Autofill, passkeys and Face ID work the same way." },
       { "q": "Can I bring my passwords from another app?", "a": "Yes. Octa Pass imports from Chrome, Edge, Firefox, Safari, Bitwarden, 1Password, LastPass, Proton Pass, Dashlane, Keeper, KeePass, authenticator apps and the FIDO Credential Exchange Format. SSH keys come in from ~/.ssh, and .env files from your projects." }
     ]

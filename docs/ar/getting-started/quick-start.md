@@ -7,7 +7,7 @@ sidebar:
 ---
 
 :::note[قيد التطوير]
-إصدار ألفا العام مفتوح: يمكنك إنشاء حساب اليوم في خزنة الويب على [vault.octap.app](https://vault.octap.app). أما التطبيقات في الخطوة 3 فليست في المتاجر بعد، وستصل قريبًا. وحتى ذلك الحين يمكنك [بناءها من المصدر](/ar/docs/contributing/development-setup/). تابع [سجل التغييرات](/changelog/) لمعرفة موعد وصولها إلى المتاجر.
+إصدار ألفا العام مفتوح: يمكنك إنشاء حساب اليوم في خزنة الويب على [vault.octap.app](https://vault.octap.app). إضافة المتصفح متاحة في [Chrome Web Store](https://chromewebstore.google.com/detail/octa-pass/jainmncaocgdhknhcjkdbbbmahllbjol) و[Firefox Add-ons](https://addons.mozilla.org/firefox/addon/octa-pass/). أما بقية التطبيقات في الخطوة 3 فليست في المتاجر بعد، وستصل قريبًا. وحتى ذلك الحين يمكنك [بناءها من المصدر](/ar/docs/contributing/development-setup/). تابع [سجل التغييرات](/changelog/) لمعرفة موعد وصولها إلى المتاجر.
 :::
 
 ## 1. أنشئ حسابًا

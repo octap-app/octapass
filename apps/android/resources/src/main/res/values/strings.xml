@@ -2464,7 +2464,7 @@
     <string name="browserExtension_disconnect">Disconnect browser extension</string>
     <string name="browserExtension_none">No supported browser was found. Install Chrome, Edge, Brave or Firefox, then try again.</string>
     <string name="browserExtension_getFor">Get it for %1$s</string>
-    <string name="browserExtension_getHelp">Not in the browser stores yet: the link shows how to install it.</string>
+    <string name="browserExtension_getHelp">The link opens your browser’s extension store. Edge installs it from the Chrome Web Store.</string>
     <string name="browserExtension_failed">Couldn’t change the browser integration: %1$s</string>
     <string name="browserExtension_offerTitle">Fill passwords in your browser</string>
     <string name="browserExtension_offerBody">Get the Octa Pass extension for %1$s. It unlocks through this app.</string>

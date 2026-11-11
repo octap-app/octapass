@@ -8,7 +8,7 @@ sidebar:
 
 ## هل Octa Pass متاح بعد؟
 
-نعم، بوصفه إصدار ألفا عامًا: أنشئ حسابًا مجانيًا في خزنة الويب على [vault.octap.app](https://vault.octap.app). التطبيقات مبنية لكنها ليست في متاجر التطبيقات بعد، وستصل قريبًا، وحتى ذلك الحين تستطيع [بناءها بنفسك](/ar/docs/contributing/development-setup/). لم يخضع شيء منه لتدقيقه الخارجي، فلا تعتمد على Octa Pass وحده في أي شيء مهم الآن. تعرض [خارطة الطريق](/ar/docs/reference/roadmap/) الإصدار التجريبي والإصدار 1.0. تابع [سجل التغييرات](/changelog/) لمعرفة الأخبار.
+نعم، بوصفه إصدار ألفا عامًا: أنشئ حسابًا مجانيًا في خزنة الويب على [vault.octap.app](https://vault.octap.app). إضافة المتصفح متاحة في [Chrome Web Store](https://chromewebstore.google.com/detail/octa-pass/jainmncaocgdhknhcjkdbbbmahllbjol) و[Firefox Add-ons](https://addons.mozilla.org/firefox/addon/octa-pass/). أما بقية التطبيقات فمبنية لكنها ليست في متاجر التطبيقات بعد، وستصل قريبًا، وحتى ذلك الحين تستطيع [بناءها بنفسك](/ar/docs/contributing/development-setup/). لم يخضع شيء منه لتدقيقه الخارجي، فلا تعتمد على Octa Pass وحده في أي شيء مهم الآن. تعرض [خارطة الطريق](/ar/docs/reference/roadmap/) الإصدار التجريبي والإصدار 1.0. تابع [سجل التغييرات](/changelog/) لمعرفة الأخبار.
 
 ## هل هو مجاني؟
 

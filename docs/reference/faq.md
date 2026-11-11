@@ -8,7 +8,7 @@ sidebar:
 
 ## Is Octa Pass available yet?
 
-As a public alpha, yes: create a free account in the web vault at [vault.octap.app](https://vault.octap.app). The apps are built but not in the app stores yet; they're coming soon, and until then you can [build them yourself](/docs/contributing/development-setup/). Nothing has had its external audit, so don't rely on Octa Pass alone for anything important yet. The [roadmap](/docs/reference/roadmap/) shows the beta and 1.0. Follow the [changelog](/changelog/) for news.
+As a public alpha, yes: create a free account in the web vault at [vault.octap.app](https://vault.octap.app). The browser extension is in the [Chrome Web Store](https://chromewebstore.google.com/detail/octa-pass/jainmncaocgdhknhcjkdbbbmahllbjol) and on [Firefox Add-ons](https://addons.mozilla.org/firefox/addon/octa-pass/). The other apps are built but not in the app stores yet; they're coming soon, and until then you can [build them yourself](/docs/contributing/development-setup/). Nothing has had its external audit, so don't rely on Octa Pass alone for anything important yet. The [roadmap](/docs/reference/roadmap/) shows the beta and 1.0. Follow the [changelog](/changelog/) for news.
 
 ## Is it free?
 

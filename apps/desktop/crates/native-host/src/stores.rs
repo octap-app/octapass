@@ -1,12 +1,15 @@
 //! Where the desktop app sends someone to get the Octa Pass extension for a browser. Chrome,
-//! Chromium and Brave install from the Chrome Web Store, Edge from Edge Add-ons, Firefox from
-//! addons.mozilla.org. The Mac app keeps the same table in Swift
+//! Chromium and Brave install from the Chrome Web Store, Edge from Edge Add-ons (the Chrome Web
+//! Store until it's listed there), Firefox from addons.mozilla.org. The Mac app keeps the same table in Swift
 //! (`apps/macos/OctaPassMac/BrowserExtensionOffer.swift`).
 
 use crate::manifests::Browser;
 
-/// The extension's page on the website: how to get it while it's in no store.
-pub const EXTENSION_PAGE: &str = "https://octap.app/docs/platforms/browser-extension/";
+/// The Chrome Web Store listing (`manifests::CHROME_WEB_STORE_ID`).
+pub const CHROME_WEB_STORE_PAGE: &str =
+    "https://chromewebstore.google.com/detail/octa-pass/jainmncaocgdhknhcjkdbbbmahllbjol";
+/// The addons.mozilla.org listing (`manifests::AMO_ID`).
+pub const FIREFOX_ADD_ONS_PAGE: &str = "https://addons.mozilla.org/firefox/addon/octa-pass/";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Store {
@@ -25,11 +28,12 @@ impl Store {
         }
     }
 
-    // PUBLISH: replace each with the listing's address once the extension is listed (with the IDs
-    // in `manifests`). Until then every store is the website's page for the extension.
+    // PUBLISH: give Edge Add-ons its own listing once the extension is there (with its ID in
+    // `manifests`). Until then Edge installs from the Chrome Web Store, whose ID the host accepts.
     pub fn page(self) -> &'static str {
         match self {
-            Store::ChromeWebStore | Store::EdgeAddOns | Store::FirefoxAddOns => EXTENSION_PAGE,
+            Store::ChromeWebStore | Store::EdgeAddOns => CHROME_WEB_STORE_PAGE,
+            Store::FirefoxAddOns => FIREFOX_ADD_ONS_PAGE,
         }
     }
 }
@@ -66,10 +70,12 @@ mod tests {
     }
 
     #[test]
-    fn no_listing_is_made_up() {
-        // No store lists the extension yet, so every browser goes to the website's page.
-        for browser in Browser::ALL {
-            assert_eq!(browser.store().page(), EXTENSION_PAGE);
-        }
+    fn each_browser_goes_to_a_listing() {
+        assert_eq!(Browser::Chrome.store().page(), CHROME_WEB_STORE_PAGE);
+        assert_eq!(Browser::Brave.store().page(), CHROME_WEB_STORE_PAGE);
+        // No Edge Add-ons listing yet: Edge installs from the Chrome Web Store.
+        assert_eq!(Browser::Edge.store().page(), CHROME_WEB_STORE_PAGE);
+        assert_eq!(Browser::Firefox.store().page(), FIREFOX_ADD_ONS_PAGE);
+        assert!(CHROME_WEB_STORE_PAGE.ends_with(crate::manifests::CHROME_WEB_STORE_ID));
     }
 }

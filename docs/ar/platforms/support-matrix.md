@@ -7,15 +7,15 @@ sidebar:
 ---
 
 :::note[قيد التطوير]
-تعرض هذه الصفحة ما هو مبني، حتى 8 نوفمبر 2026. المبني لا يعني المُصدَر: لا شيء في أي متجر بعد. وخزنة الويب مفتوحة كإصدار ألفا عام على [vault.octap.app](https://vault.octap.app). انظر [خارطة الطريق](/ar/docs/reference/roadmap/).
+تعرض هذه الصفحة ما هو مبني، حتى 11 نوفمبر 2026. المبني لا يعني المُصدَر: إضافة المتصفح متاحة في [Chrome Web Store](https://chromewebstore.google.com/detail/octa-pass/jainmncaocgdhknhcjkdbbbmahllbjol) و[Firefox Add-ons](https://addons.mozilla.org/firefox/addon/octa-pass/)، وبقية التطبيقات ليست في أي متجر بعد. وخزنة الويب مفتوحة كإصدار ألفا عام على [vault.octap.app](https://vault.octap.app). انظر [خارطة الطريق](/ar/docs/reference/roadmap/).
 :::
 
 ## المنصات
 
 | المنصة | التطبيق | الملء التلقائي لكلمات المرور | مفاتيح المرور | الرموز لمرة واحدة | الفتح | الحالة |
 |---|---|---|---|---|---|---|
-| Chrome وEdge وBrave وOpera وVivaldi وArc | [إضافة المتصفح](/ar/docs/platforms/browser-extension/) (MV3) | نعم، في الصفحة | نعم، WebAuthn | ملء ونسخ | كلمة المرور، مفتاح مرور الجهاز، تطبيق سطح المكتب | مبنية، وليست في المتاجر |
-| Firefox 130+ (سطح المكتب وAndroid) | إضافة المتصفح (MV3) | نعم | نعم | ملء ونسخ | كلمة المرور، تطبيق سطح المكتب | مبنية، وليست في المتاجر |
+| Chrome وEdge وBrave وOpera وVivaldi وArc | [إضافة المتصفح](/ar/docs/platforms/browser-extension/) (MV3) | نعم، في الصفحة | نعم، WebAuthn | ملء ونسخ | كلمة المرور، مفتاح مرور الجهاز، تطبيق سطح المكتب | في Chrome Web Store (ويثبّت Edge منه أيضًا) |
+| Firefox 140+ (142+ على Android) | إضافة المتصفح (MV3) | نعم | نعم | ملء ونسخ | كلمة المرور، تطبيق سطح المكتب | في Firefox Add-ons |
 | Safari 18+ (macOS وiOS وiPadOS) | إضافة ويب لـ Safari داخل تطبيقها الخاص | نعم | نعم، مع [مزوّد النظام](/ar/docs/features/passkeys/) | نعم | كلمة المرور | مبنية. لم تُفحص بعد في Safari نفسه، بل في بيئة تشغيل إضافات WebKit فقط |
 | خزنة الويب | تطبيق ويب | لا (عرض ونسخ) | لا | عرض ونسخ | كلمة المرور، مفتاح مرور الجهاز | مبنية |
 | macOS 14+ | [تطبيق Mac](/ar/docs/platforms/desktop/#تطبيق-mac) الأصلي + مزوّد الملء التلقائي | نعم، على مستوى النظام | نعم، مزوّد النظام | نعم (macOS 15+) | Touch ID وكلمة مرور جهاز Mac | مبنية، بنسخ تطوير فقط، وغير موثَّقة (not notarised) |

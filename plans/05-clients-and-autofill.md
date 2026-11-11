@@ -74,7 +74,7 @@
 
 **The browser's own password manager:** the extension offers to turn it off ("Use Octa Pass instead of <browser>'s password manager") through `chrome.privacy.services`, behind the optional `privacy` permission (see History).
 
-**Store distribution:** Chrome Web Store, Microsoft Edge Add-ons, Firefox Add-ons (AMO, with source upload for review), Opera add-ons. Reproducible build instructions in the docs.
+**Store distribution:** Chrome Web Store ([listed](https://chromewebstore.google.com/detail/octa-pass/jainmncaocgdhknhcjkdbbbmahllbjol) 2026-11-11, ID `jainmncaocgdhknhcjkdbbbmahllbjol`), Firefox Add-ons (AMO, with source upload for review; [listed](https://addons.mozilla.org/firefox/addon/octa-pass/) 2026-11-11, ID `octa-pass@octap.app`), Microsoft Edge Add-ons and Opera add-ons (not yet; Edge installs from the Chrome Web Store meanwhile). Reproducible build instructions in the docs.
 
 ## Passkeys
 

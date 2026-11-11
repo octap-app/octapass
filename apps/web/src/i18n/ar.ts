@@ -2968,7 +2968,7 @@ export const ar: Translation<typeof en> = {
     disconnect: 'فصل إضافة المتصفح',
     none: 'لم يُعثر على متصفح مدعوم. ثبّت Chrome أو Edge أو Brave أو Firefox، ثم حاول مرة أخرى.',
     getFor: 'احصل عليها في {browser}',
-    getHelp: 'ليست في متاجر المتصفحات بعد، والرابط يشرح طريقة تثبيتها.',
+    getHelp: 'يفتح الرابط متجر الإضافات في متصفحك، ويثبّتها Edge من Chrome Web Store.',
     failed: 'تعذّر تغيير الربط مع المتصفح: {error}',
     offerTitle: 'املأ كلمات المرور في متصفحك',
     offerBody: 'ثبّت إضافة Octa Pass في {browsers}، وستفتح القفل عبر هذا التطبيق.',

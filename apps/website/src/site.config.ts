@@ -31,8 +31,8 @@ export type PlatformId =
  * The web vault isn't here: it's VAULT_URL, and it's available now.
  */
 export const STORE_LINKS: Record<Exclude<PlatformId, 'web'>, string | null> = {
-  chromium: null, // Chrome Web Store (Edge and Brave install from it too)
-  firefox: null, // Firefox Add-ons
+  chromium: 'https://chromewebstore.google.com/detail/octa-pass/jainmncaocgdhknhcjkdbbbmahllbjol', // Chrome Web Store (Edge and Brave install from it too)
+  firefox: 'https://addons.mozilla.org/firefox/addon/octa-pass/', // Firefox Add-ons
   safari: null, // App Store / Mac App Store (the Safari extension ships inside its own app)
   mac: null, // Mac App Store
   windows: null, // Microsoft Store, or a download page

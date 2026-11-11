@@ -245,13 +245,13 @@
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "ليست في متاجر المتصفحات بعد، والرابط يشرح طريقة تثبيتها."
+            "value" : "يفتح الرابط متجر الإضافات في متصفحك، ويثبّتها Edge من Chrome Web Store."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Not in the browser stores yet: the link shows how to install it."
+            "value" : "The link opens your browser’s extension store. Edge installs it from the Chrome Web Store."
           }
         }
       }

@@ -10,13 +10,13 @@ sidebar:
 Everything that was planned for after 1.0 is now part of 1.0: the Windows passkey provider, the SSH agent, teams, watch apps, post-quantum sharing, key transparency, the developer toolkit and the file safe. The audit comes last, so it covers what actually ships.
 :::
 
-"Built" means the code exists and its tests pass. It doesn't mean released: nothing is in a store yet and nothing has had its external audit. The hosted service is open as a public alpha at [vault.octap.app](https://vault.octap.app).
+"Built" means the code exists and its tests pass. It doesn't mean released: only the browser extension is in a store so far (Chrome Web Store and Firefox Add-ons), and nothing has had its external audit. The hosted service is open as a public alpha at [vault.octap.app](https://vault.octap.app).
 
 | Phase | Goal | State | Deliverables |
 |---|---|---|---|
 | **0. Foundations** | Decide, design, publish | Mostly done. The name check, domain and public launch of the website and repository are left. | Plans, this docs website, security design, repository and CI |
 | **1. Core, server, CLI** | A working encrypted vault end to end | Built. The CLI is a preview. | Rust core, server (OPAQUE, sync, email), CLI, web vault |
-| **2. Browser extensions + web vault** | Daily use on desktop browsers | Built. **Public alpha** open in the web vault; extensions not in stores yet. | Chrome, Edge and Firefox extensions, full web vault, main importers, security dashboard, local vaults in the extension, self-host image |
+| **2. Browser extensions + web vault** | Daily use on desktop browsers | **Public alpha**: the web vault is open, and the extension is in the Chrome Web Store and on Firefox Add-ons. Edge Add-ons to come. | Chrome, Edge and Firefox extensions, full web vault, main importers, security dashboard, local vaults in the extension, self-host image |
 | **3. Desktop apps** | Native desktop and biometrics | Built, not released. Signed downloads, updates and some Linux packages are missing. | macOS, Windows and Linux apps, Touch ID and Windows Hello, auto-type, macOS AutoFill, Safari on macOS |
 | **4. Mobile apps** | Autofill on phones | Built, not released. **Public beta** not opened. | iOS and Android apps with system autofill and passkeys, camera scanning |
 | **5. Sharing and completeness** | Parity with paid managers | Built. Push notifications are built but haven't run with Apple's and Google's real services, and the Octa Pass push relay isn't running yet. | Shared vaults, families, share links, emergency access, masked email, recovery map, more importers + CXF, attachments, two-step sign-in, Arabic interface |

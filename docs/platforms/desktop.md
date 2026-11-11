@@ -131,6 +131,8 @@ Octa Pass turns opening at login on the first time an installed copy starts. If 
 
 On a Mac, **Settings → Running in the background → Open when I sign in to this computer** is offered once Octa Pass is in Applications. macOS lists it under System Settings → General → Login Items.
 
+On a Mac, the menu bar icon follows **Settings → Running in the background → Show in the menu bar**. If you ⌘-drag it out of the menu bar, it's back the next time Octa Pass starts; turn the setting off to keep it away. macOS 26 can also hide it in System Settings → Menu Bar → Allow in the Menu Bar, where it's listed under Octa Pass, or under the terminal or IDE that started Octa Pass.
+
 The Mac app comes back after a force quit or a crash too, however you opened it: from the menu bar icon with no window, without taking the focus from the app you're in (its Dock icon shows it's running, as when it opens at login). A small helper inside the app, **Octa Pass Watchdog**, does this: it runs while Octa Pass does, has no window, no access to your vault and no network, and you'll see it in Activity Monitor. Any ordinary quit stops both: **Quit Octa Pass** in the menu bar icon's menu, **Cmd+Q**, Quit in the Dock, or logging out. Force Quit (or `kill -9`) and crashes don't count, so Octa Pass starts again, at most three times in two minutes.
 
 ## Auto-type
@@ -200,7 +202,7 @@ Until the Octa Pass extension has reached the app, a small card at the foot of t
 - **Connect instead:** if the extension has come before but no browser is connected now (after **Disconnect browser extension**, for example), the card says **Connect the browser extension** instead.
 - **Closing it:** × hides the card on this computer. **Settings → Browser extension** always has the same links, says which browsers are connected and which the extension has reached the app from, and has **Connect** and **Disconnect** (on Windows and Linux too, besides the Browser menu). On the Mac it also links to [Safari's extension](/docs/platforms/browser-extension/#safari), which comes in an Octa Pass app of its own.
 
-The extension isn't in the browser stores yet, so every link goes to the [browser extension](/docs/platforms/browser-extension/) page, which says how to install it.
+Each link opens the extension's store listing: the Chrome Web Store for Chrome, Brave and Chromium, Firefox Add-ons for Firefox. Edge gets the Chrome Web Store listing too until the extension is in Edge Add-ons. See [browser extension](/docs/platforms/browser-extension/#install).
 
 ## Updates
 

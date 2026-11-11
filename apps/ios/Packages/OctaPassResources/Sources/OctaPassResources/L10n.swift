@@ -4827,7 +4827,7 @@ public enum L10n {
         public static var none: String { L10n.string("browserExtension.none") }
         /// Get it for {browser}
         public static func getFor(browser: String) -> String { L10n.format("browserExtension.getFor", browser) }
-        /// Not in the browser stores yet: the link shows how to install it.
+        /// The link opens your browser’s extension store. Edge installs it from the Chrome Web Store.
         public static var getHelp: String { L10n.string("browserExtension.getHelp") }
         /// Couldn’t change the browser integration: {error}
         public static func failed(error: String) -> String { L10n.format("browserExtension.failed", error) }

@@ -6,15 +6,24 @@ sidebar:
   order: 2
 ---
 
-:::note[لم تصدر بعد]
-الإضافة مبنية في المستودع (`apps/extension`) وتعمل مع خادم Octa Pass، لكنها ليست في أي متجر إضافات بعد. وستصدر مع المرحلة 2، أي الإصدار التجريبي العام. إلى ذلك الحين يمكنك [بناءها وتحميلها غير مُحزَّمة](#ابنِها-بنفسك).
+:::note[إصدار ألفا عام]
+الإضافة متاحة في Chrome Web Store وFirefox Add-ons. وهي إصدار ألفا عام: لم يخضع شيء منها لتدقيقه الأمني الخارجي بعد، فاحتفظ بنسخة احتياطية من كل ما هو مهم.
 :::
+
+## التثبيت
+
+- **Chrome وBrave وOpera وVivaldi وArc:** [Octa Pass في Chrome Web Store](https://chromewebstore.google.com/detail/octa-pass/jainmncaocgdhknhcjkdbbbmahllbjol)
+- **Edge:** من [صفحة Chrome Web Store](https://chromewebstore.google.com/detail/octa-pass/jainmncaocgdhknhcjkdbbbmahllbjol) نفسها. يطلب منك Edge أولًا السماح بالإضافات من متاجر أخرى. وهي ليست في Edge Add-ons بعد.
+- **Firefox على سطح المكتب وAndroid:** [Octa Pass في Firefox Add-ons](https://addons.mozilla.org/firefox/addon/octa-pass/)
+- **Safari:** تأتي داخل تطبيقها الخاص، وهو ليس في App Store بعد (انظر [Safari](#safari)).
+
+ويمكنك أيضًا [بناءها بنفسك](#ابنِها-بنفسك) من الشيفرة نفسها.
 
 ## المتصفحات
 
 Chrome وEdge وBrave وOpera وVivaldi وArc وFirefox (على سطح المكتب وAndroid)، وكلها بـ Manifest V3. أما Safari 18 وما بعده، على Mac وiPhone وiPad، فيحصل على الإضافة نفسها داخل تطبيق Octa Pass صغير (انظر [Safari](#safari)).
 
-المتاجر المخطط لها: Chrome Web Store وMicrosoft Edge Add-ons وFirefox Add-ons (مع رفع الشيفرة المصدرية للمراجعة) وإضافات Opera.
+ما زال قادمًا: صفحتها الخاصة في Microsoft Edge Add-ons وفي إضافات Opera.
 
 ## ما تفعله
 

@@ -15,5 +15,9 @@ app="$DERIVED/Build/Products/Debug/Octa Pass.app"
 echo "Built $app"
 [[ "${1:-}" == "--build-only" ]] && exit 0
 
-# Started directly, not with `open`, so OCTAPASS_SERVER_URL (when set) reaches it.
-"$app/Contents/MacOS/Octa Pass" &
+# Through `open`, not the binary directly: started from a shell, macOS 26 lists the app's menu bar
+# icon under the terminal's app (System Settings → Menu Bar), and keeps it there for later launches
+# too. `--env` still hands OCTAPASS_SERVER_URL (when set) to the app; logs go to this terminal.
+env=()
+[[ -z "${OCTAPASS_SERVER_URL:-}" ]] || env=(--env "OCTAPASS_SERVER_URL=$OCTAPASS_SERVER_URL")
+open -n ${env[@]+"${env[@]}"} --stdout "$(tty 2>/dev/null || echo /dev/null)" --stderr "$(tty 2>/dev/null || echo /dev/null)" "$app"

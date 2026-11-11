@@ -20,6 +20,32 @@ if [[ "${CONFIGURATION:-Debug}" != "Debug" ]]; then
   flags+=(--release)
 fi
 
+# Embedded in the binary (`__TEXT,__info_plist`), naming the identifier it's signed with. The host
+# is sandboxed and a browser starts it, not the app, so the sandbox sets itself up from the
+# binary's own bundle identifier; without one, macOS stops it before main (SIGILL in
+# `_libsecinit_appsandbox`) and the extension never reaches the app.
+identifier="${PRODUCT_BUNDLE_IDENTIFIER:?run from Xcode}.native-host"
+mkdir -p "${DERIVED_FILE_DIR:?run from Xcode}"
+info="$DERIVED_FILE_DIR/octapass-native-host-Info.plist"
+cat >"$info" <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleIdentifier</key>
+	<string>${identifier}</string>
+	<key>CFBundleName</key>
+	<string>octapass-native-host</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleShortVersionString</key>
+	<string>${MARKETING_VERSION:-0.1.0}</string>
+	<key>CFBundleVersion</key>
+	<string>${CURRENT_PROJECT_VERSION:-1}</string>
+</dict>
+</plist>
+EOF
+
 libraries=()
 for arch in ${ARCHS:-$(uname -m)}; do
   case "$arch" in
@@ -31,8 +57,9 @@ for arch in ${ARCHS:-$(uname -m)}; do
   env -i HOME="$HOME" PATH="$HOME/.cargo/bin:/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin" \
     MACOSX_DEPLOYMENT_TARGET="${MACOSX_DEPLOYMENT_TARGET:-14.0}" \
     ${OCTAPASS_EXTRA_EXTENSION_IDS:+OCTAPASS_EXTRA_EXTENSION_IDS="$OCTAPASS_EXTRA_EXTENSION_IDS"} \
-    cargo build --quiet --offline --manifest-path "$ROOT/Cargo.toml" -p octapass-native-host \
-      --bin octapass-native-host --target "$triple" ${flags[@]+"${flags[@]}"}
+    cargo rustc --quiet --offline --manifest-path "$ROOT/Cargo.toml" -p octapass-native-host \
+      --bin octapass-native-host --target "$triple" ${flags[@]+"${flags[@]}"} \
+      -- -C "link-arg=-Wl,-sectcreate,__TEXT,__info_plist,$info"
   libraries+=("$ROOT/target/$triple/$profile/octapass-native-host")
 done
 
@@ -50,7 +77,6 @@ fi
 # container (its socket) as a member of the group: OCTAPASS_APP_GROUP in project.yml, `<team>.app.octap`.
 group="${DEVELOPMENT_TEAM:?no signing team}.app.octap"
 entitlements="$DERIVED_FILE_DIR/octapass-native-host.entitlements"
-mkdir -p "$DERIVED_FILE_DIR"
 cat >"$entitlements" <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -66,4 +92,7 @@ cat >"$entitlements" <<EOF
 </plist>
 EOF
 codesign --force --sign "$EXPANDED_CODE_SIGN_IDENTITY" --options runtime --timestamp=none \
-  --identifier "${PRODUCT_BUNDLE_IDENTIFIER}.native-host" --entitlements "$entitlements" "$host"
+  --identifier "$identifier" --entitlements "$entitlements" "$host"
+# A host the browsers can't start is the whole bridge gone, so check what the sandbox needs.
+signature="$(codesign -dv "$host" 2>&1)"
+[[ "$signature" == *$'\nInfo.plist entries='* ]] || { echo "error: octapass-native-host has no Info.plist" >&2; exit 1; }

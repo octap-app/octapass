@@ -47,7 +47,11 @@ struct OctaPassMacApp: App {
         }
 
         // The menu bar: show the vault, quick access, lock, quit (Settings → Running in the background).
-        MenuBarExtra(isInserted: $showInMenuBar) {
+        // Only that setting puts the icon in or takes it out. SwiftUI writes `false` to the binding
+        // whenever the item stops being visible, and macOS 26 hides it when the app the icon is
+        // credited to isn't allowed in the menu bar (System Settings → Menu Bar), which can be the
+        // terminal or IDE that started Octa Pass. Saving that turned the setting off for good.
+        MenuBarExtra(isInserted: Binding(get: { showInMenuBar }, set: { _ in })) {
             MenuBarMenu()
                 .environment(model)
         } label: {
@@ -67,6 +71,13 @@ final class MacAppDelegate: NSObject, NSApplicationDelegate {
         // it's closed again below). Set in the app's own domain so it wins over the system-wide
         // "Close windows when quitting an application".
         UserDefaults.standard.set(false, forKey: "NSQuitAlwaysKeepsWindows")
+        // AppKit remembers a hidden status item (`NSStatusItem Visible…`) and hides it again at the
+        // next launch, so one hidden by the system once never came back. Settings → Running in
+        // the background decides instead; an icon ⌘-dragged out returns at the next launch.
+        let defaults = UserDefaults.standard
+        for key in defaults.persistentDomain(forName: Bundle.main.bundleIdentifier ?? "")?.keys.filter({ $0.hasPrefix("NSStatusItem Visible") }) ?? [] {
+            defaults.removeObject(forKey: key)
+        }
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
